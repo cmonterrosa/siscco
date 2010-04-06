@@ -1,0 +1,46 @@
+<h3>Cliente</h3>
+
+<table>
+  <tr><th>Cliente: <%=@cliente.nombre_completo%></th></tr>
+  <tr><th>RFC: <%=@cliente.rfc%></th></tr>
+</table>
+
+
+
+
+<h3>Histórico de créditos</h3>
+
+
+Resultados encontrados: <br>
+<%unless @creditos.nil?%>
+<table>
+  <tr>
+    <th>Nombre del cliente</th>
+    <th>Numero de credito</th>
+  </tr>
+
+ 
+    <%@creditos.each do |credito|%>
+      <tr>
+        <td><%=link_to "#{credito.cliente.nombre_completo}", :controller => "informacion", :action => "consulta", :id => credito.id%><br></td>
+        <td><%=link_to "#{credito.id}", :controller => "informacion", :action => "informacion", :id => credito%><br></td>
+   </tr>
+   <%end%>
+
+</table>
+<%end%>
+
+
+<%unless @credito_unico.nil?%>
+<table>
+  <tr>
+    <th>Nombre del cliente</th>
+    <th>Numero de credito</th>
+  </tr>
+
+  <tr>
+    <td><%=link_to "#{@credito_unico.cliente.nombre_completo}", :controller => "informacion", :action => "consulta", :id => @credito_unico%><br></td>
+    <td><%=link_to "#{@credito_unico.id}", :controller => "informacion", :action => "consulta", :id => @credito_unico%><br></td>
+  </tr>
+</table>
+<%end%>

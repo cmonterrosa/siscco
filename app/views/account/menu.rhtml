@@ -1,0 +1,7 @@
+<h2>Control de Usuarios del sistema</h2>
+
+<%if session['usuario'] == "administrador"%>
+  <h3>Bienvenido</h3>
+ <%else%>
+         <h3>Solo el administrador puede manejar usuarios</h3>
+<%end%>

@@ -1,0 +1,8 @@
+<% for column in Promotor.content_columns %>
+<p>
+  <b><%= column.human_name %>:</b> <%=h @promotor.send(column.name) %>
+</p>
+<% end %>
+
+<%= link_to 'Edit', :action => 'edit', :id => @promotor %> |
+<%= link_to 'Back', :action => 'list' %>

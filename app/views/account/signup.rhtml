@@ -1,0 +1,17 @@
+<%= start_form_tag :action=> "signup" %>
+
+
+  <h3>REGISTRO DE USUARIOS</h3>
+  <%= error_messages_for 'user' %><br/>
+  
+  <label for="user_login">Usuario:</label><br/>
+  <%= text_field "user", "login", :size => 30 %><br/>
+  <label for="user_password">contraseña:</label><br/>
+  <%= password_field "user", "password", :size => 30 %><br/>
+  <label for="user_password_confirmation">confirmar contraseña:</label><br/>
+  <%= password_field "user", "password_confirmation", :size => 30 %><br/>
+
+<input type="submit" value="Registrar" class="button" />
+
+<%= end_form_tag %>
+

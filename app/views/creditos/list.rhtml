@@ -1,0 +1,26 @@
+<h1>Créditos</h1>
+
+<table>
+  <tr>
+      <th>Num. de credito</th>
+     
+      <th colspan="3">Acciones</th>
+  </tr>
+  
+<% for credito in @creditos %>
+  <tr>
+    <td><%= credito.id %></td>
+    
+    <td><%= link_to 'Mostrar', :action => 'show', :id => credito %></td>
+    <td><%= link_to 'Editar', :action => 'edit', :id => credito %></td>
+    <td><%= link_to 'Eliminar', { :action => 'destroy', :id => credito }, :confirm => '¿Esta seguro?', :method => :post %></td>
+  </tr>
+<% end %>
+</table>
+
+<%= link_to 'Anterior', { :page => @credito_pages.current.previous } if @credito_pages.current.previous %>
+<%= link_to 'Siguiente', { :page => @credito_pages.current.next } if @credito_pages.current.next %>
+
+<br />
+
+<%= button_to 'Nuevo credito', :action => 'new' %>

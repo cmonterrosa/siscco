@@ -1,0 +1,27 @@
+<h1>Listing sucursals</h1>
+
+<table>
+  <tr>
+  <% for column in Sucursal.content_columns %>
+    <th><%= column.human_name %></th>
+  <% end %>
+  </tr>
+  
+<% for sucursal in @sucursals %>
+  <tr>
+  <% for column in Sucursal.content_columns %>
+    <td><%=h sucursal.send(column.name) %></td>
+  <% end %>
+    <td><%= link_to 'Show', :action => 'show', :id => sucursal %></td>
+    <td><%= link_to 'Edit', :action => 'edit', :id => sucursal %></td>
+    <td><%= link_to 'Destroy', { :action => 'destroy', :id => sucursal }, :confirm => 'Are you sure?', :method => :post %></td>
+  </tr>
+<% end %>
+</table>
+
+<%= link_to 'Previous page', { :page => @sucursal_pages.current.previous } if @sucursal_pages.current.previous %>
+<%= link_to 'Next page', { :page => @sucursal_pages.current.next } if @sucursal_pages.current.next %> 
+
+<br />
+
+<%= link_to 'New sucursal', :action => 'new' %>

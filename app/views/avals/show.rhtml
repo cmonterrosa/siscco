@@ -1,0 +1,8 @@
+<% for column in Aval.content_columns %>
+<p>
+  <b><%= column.human_name %>:</b> <%=h @aval.send(column.name) %>
+</p>
+<% end %>
+
+<%= link_to 'Edit', :action => 'edit', :id => @aval %> |
+<%= link_to 'Back', :action => 'list' %>

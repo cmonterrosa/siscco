@@ -1,0 +1,28 @@
+<h1>Nuevo movimiento</h1>
+
+<!-- Aqui van los datos del cliente y del credito -->
+
+<table>
+  <tr><th>Cliente: <%=@credito.cliente.nombre_completo%></th></tr>
+  <tr><th>RFC: <%=@credito.cliente.rfc%></th></tr>
+  <tr><th>Número de credito: <%=@credito.id%></th></tr>
+  <tr><th>Importe inicial: <%=@credito.importe%></th></tr>
+  <tr><th>Fecha de inicio: <%=@credito.fecha_inicio%></th></tr>
+  <tr><th>Tasa de interés: <%=@credito.tasa_interes%></th></tr>
+  <tr><th>Dia de corte: <%=@credito.dia_corte%></th></tr>
+  <tr><th>Liquido actual: <%=liquido(@credito)%></th></tr>
+</table>
+<!-- end -->
+
+
+<% form_tag :action => 'create' do %>
+  <%= render :partial => 'form' %>
+  <%=hidden_field_tag "credito", "#{@credito.id}"%>
+  <%= submit_tag "Guardar" %>
+<% end %>
+
+
+
+
+
+<%= link_to 'Atras', :action => 'list' %>

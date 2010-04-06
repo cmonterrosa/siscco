@@ -1,0 +1,73 @@
+<!-- Aqui van los datos del cliente y del credito -->
+
+<table>
+  <tr><th>Cliente: <%=@credito.cliente.nombre_completo%></th></tr>
+  <tr><th>RFC: <%=@credito.cliente.rfc%></th></tr>
+  <tr><th>Número de credito: <%=@credito.id%></th></tr>
+  <tr><th>Importe inicial: <%=@credito.importe%></th></tr>
+  <tr><th>Fecha de inicio: <%=@credito.fecha_inicio%></th></tr>
+  <tr><th>Tasa de interés: <%=@credito.tasa_interes%></th></tr>
+  <tr><th>Dia de corte: <%=@credito.dia_corte%></th></tr>
+  <tr><th>Liquido actual: <%=liquido(@credito)%></th></tr>
+</table>
+
+<!-- Movimientos -->
+<!-------- Abonos ------>
+<h3>Abonos</h3>
+<%@abonos = 0%>
+
+<table>
+  <tr>
+    <th>Fecha de pago</th>
+    <th>Importe</th>
+  </tr>
+
+
+<%if abonos(@credito) %>
+
+<%for abono in abonos(@credito)%>
+  <tr>
+    <td><%=abono.fecha_pago%></td>
+    <td><%=abono.importe%></td>
+    <!-- Sumatoria de los importes -->
+    <%@abonos = abono.importe += @abonos%>
+  </tr>
+<%end%>
+<%end%>
+
+
+</table>
+
+
+<!------- Cargos ----->
+
+<h3>cargos</h3>
+<%@cargos = 0%>
+<table>
+  <tr>
+    <th>Fecha de pago</th>
+    <th>Importe</th>
+  </tr>
+
+
+  <%if cargos(@credito) %>
+<%for cargo in cargos(@credito)%>
+  <tr>
+    <td><%=cargo.fecha_pago%></td>
+    <td><%=cargo.importe%></td>
+    <!-- Sumatoria de los importes -->
+    <%@cargos = cargo.importe += @cargos%>
+  </tr>
+<%end%>
+<%end%>
+
+
+
+</table>
+<h3>Importe inicial = <%=@credito.importe%></h3>
+<h3>Total de abonos = <%=@abonos%></h3>
+<h3>Total de cargos = <%=@cargos%></h3>
+<h3>Total adeudado = <%=@credito.importe + (@credito.importe * (@credito.tasa_interes / 100)) + @cargos - @abonos%></h3><br>
+<%=image_tag "pdf.jpg", :size =>"15x15"%>
+<%=link_to 'Imprimir Estado de Cuenta', :action => "pdf", :controller =>"informacion", :id => @credito.id %>
+<!-- end -->

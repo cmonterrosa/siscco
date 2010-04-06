@@ -1,0 +1,41 @@
+<html>
+  <head>
+      
+  </head>
+  <body>
+     
+   
+
+     <% form_tag '/account/login' do -%>
+  
+  
+
+  <div title="Account login">
+        
+        <h2 align="center">REGISTRO</h2>
+        <br>
+        <% if @message %>
+          <div id="message"><%= @message %></div><br>
+        <% end %>
+        <label for="user_login">Usuario:</label><br/>
+              <input type="text" name="user_login" id="user_login" size="30" value=""/><br/>
+
+              <label for="user_password">Contraseña:</label><br/>
+              <input type="password" name="user_password" id="user_password" size="30"/>
+        <br/>
+        <input type="submit" name="login" value="Entrar" class="primary" />
+
+  </div>
+
+     <% end -%>
+
+
+
+
+<%=link_to 'Registrate', :action => "signup", :controller => "account"%>
+
+  
+  </body>
+</html>
+
+

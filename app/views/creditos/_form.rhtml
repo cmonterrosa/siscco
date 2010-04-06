@@ -1,0 +1,34 @@
+<%= error_messages_for 'credito' %>
+
+<!--[form:credito]-->
+
+
+<p><label for="creditocliente">Cliente</label><br/>
+<%=collection_select("credito", "cliente_id", @clientes, :id, :nombre_completo)%></p>
+
+<p><label for="credito_fecha_inicio">Fecha inicio</label><br/>
+<%= date_select 'credito', 'fecha_inicio'  %></p>
+
+
+<p><label for="credito_dia_corte">Dia de corte</label><br/>
+ <%@dias = (1..31)%>
+ <%= select('credito', 'dia_corte', @dias.each{|k| k})%></p>
+
+<p><label for="credito_tipo">Tipo de entrega</label><br/>
+ <%@tipos={'EFECTIVO'=>'EFECTIVO', 'CHEQUE'=>'CHEQUE', 'OTRO MEDIO' => 'OTRO MEDIO'}%>
+ <%= select('credito', 'tipo', @tipos.each_key{|k| k})%></p>
+
+<p><label for="credito_fecha_fin">Fecha fin</label><br/>
+<%= date_select 'credito', 'fecha_fin'  %></p>
+
+<p><label for="credito_importe">Importe</label><br/>
+<%= text_field 'credito', 'importe'  %></p>
+
+<p><label for="credito_tasa_interes">Tasa interes (%)</label><br/>
+<%= text_field 'credito', 'tasa_interes'  %></p>
+
+<p><label for="creditoaval">Aval</label><br/>
+<%=collection_select("credito", "aval_id", @avales, :id, :nombre_completo)%></p>
+
+<!--[eoform:credito]-->
+

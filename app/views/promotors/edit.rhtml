@@ -1,0 +1,9 @@
+<h1>Editing promotor</h1>
+
+<% form_tag :action => 'update', :id => @promotor do %>
+  <%= render :partial => 'form' %>
+  <%= submit_tag 'Edit' %>
+<% end %>
+
+<%= link_to 'Show', :action => 'show', :id => @promotor %> |
+<%= link_to 'Back', :action => 'list' %>

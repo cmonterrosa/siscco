@@ -1,0 +1,9 @@
+<h1>Editing estado</h1>
+
+<% form_tag :action => 'update', :id => @estado do %>
+  <%= render :partial => 'form' %>
+  <%= submit_tag 'Guardar' %>
+<% end %>
+
+<%= link_to 'Show', :action => 'show', :id => @estado %> |
+<%= link_to 'Back', :action => 'list' %>

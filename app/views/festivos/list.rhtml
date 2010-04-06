@@ -1,0 +1,27 @@
+<h1>Listing festivos</h1>
+
+<table>
+  <tr>
+  <% for column in Festivo.content_columns %>
+    <th><%= column.human_name %></th>
+  <% end %>
+  </tr>
+  
+<% for festivo in @festivos %>
+  <tr>
+  <% for column in Festivo.content_columns %>
+    <td><%=h festivo.send(column.name) %></td>
+  <% end %>
+    <td><%= link_to 'Show', :action => 'show', :id => festivo %></td>
+    <td><%= link_to 'Edit', :action => 'edit', :id => festivo %></td>
+    <td><%= link_to 'Destroy', { :action => 'destroy', :id => festivo }, :confirm => 'Are you sure?', :method => :post %></td>
+  </tr>
+<% end %>
+</table>
+
+<%= link_to 'Previous page', { :page => @festivo_pages.current.previous } if @festivo_pages.current.previous %>
+<%= link_to 'Next page', { :page => @festivo_pages.current.next } if @festivo_pages.current.next %> 
+
+<br />
+
+<%= link_to 'New festivo', :action => 'new' %>

@@ -1,0 +1,8 @@
+<% for column in Localidad.content_columns %>
+<p>
+  <b><%= column.human_name %>:</b> <%=h @localidad.send(column.name) %>
+</p>
+<% end %>
+
+<%= link_to 'Edit', :action => 'edit', :id => @localidad %> |
+<%= link_to 'Back', :action => 'list' %>

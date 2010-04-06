@@ -1,0 +1,28 @@
+<%= error_messages_for 'movimiento'%>
+
+<!--[form:movimiento]-->
+
+
+
+
+<p><label for="movimiento_importe">Importe</label><br/>
+<%= text_field 'movimiento', 'importe'  %></p>
+
+
+<p><label for="movimiento_tipo">Transaccion</label><br/>
+ <%@transaccion={'ABONO'=>'ABONO', 'CARGO'=>'CARGO' }%>
+ <%= select('movimiento', 'tipo', @transaccion.each_key{|k| k})%></p>
+
+<!--
+<p><label for="movimiento_abono">Abono</label><br/>
+<= text_field 'movimiento', 'abono'  %></p>
+
+<p><label for="movimiento_cargo">Cargo</label><br/>
+<= text_field 'movimiento', 'cargo'  %></p>
+-->
+
+<p><label for="movimiento_fecha_pago">Fecha pago</label><br/>
+<%= date_select 'movimiento', 'fecha_pago'  %></p>
+
+<!--[eoform:movimiento]-->
+

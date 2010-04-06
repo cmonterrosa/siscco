@@ -1,0 +1,8 @@
+<% for column in Inversionista.content_columns %>
+<p>
+  <b><%= column.human_name %>:</b> <%=h @inversionista.send(column.name) %>
+</p>
+<% end %>
+
+<%= link_to 'Edit', :action => 'edit', :id => @inversionista %> |
+<%= link_to 'Back', :action => 'list' %>

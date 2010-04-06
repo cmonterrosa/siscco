@@ -1,0 +1,27 @@
+<h1>Listing localidads</h1>
+
+<table>
+  <tr>
+  <% for column in Localidad.content_columns %>
+    <th><%= column.human_name %></th>
+  <% end %>
+  </tr>
+  
+<% for localidad in @localidads %>
+  <tr>
+  <% for column in Localidad.content_columns %>
+    <td><%=h localidad.send(column.name) %></td>
+  <% end %>
+    <td><%= link_to 'Show', :action => 'show', :id => localidad %></td>
+    <td><%= link_to 'Edit', :action => 'edit', :id => localidad %></td>
+    <td><%= link_to 'Destroy', { :action => 'destroy', :id => localidad }, :confirm => 'Are you sure?', :method => :post %></td>
+  </tr>
+<% end %>
+</table>
+
+<%= link_to 'Previous page', { :page => @localidad_pages.current.previous } if @localidad_pages.current.previous %>
+<%= link_to 'Next page', { :page => @localidad_pages.current.next } if @localidad_pages.current.next %> 
+
+<br />
+
+<%= link_to 'New localidad', :action => 'new' %>

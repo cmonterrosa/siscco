@@ -1,0 +1,27 @@
+<h1>Listing colonias</h1>
+
+<table>
+  <tr>
+  <% for column in Colonia.content_columns %>
+    <th><%= column.human_name %></th>
+  <% end %>
+  </tr>
+  
+<% for colonia in @colonias %>
+  <tr>
+  <% for column in Colonia.content_columns %>
+    <td><%=h colonia.send(column.name) %></td>
+  <% end %>
+    <td><%= link_to 'Show', :action => 'show', :id => colonia %></td>
+    <td><%= link_to 'Edit', :action => 'edit', :id => colonia %></td>
+    <td><%= link_to 'Destroy', { :action => 'destroy', :id => colonia }, :confirm => 'Are you sure?', :method => :post %></td>
+  </tr>
+<% end %>
+</table>
+
+<%= link_to 'Previous page', { :page => @colonia_pages.current.previous } if @colonia_pages.current.previous %>
+<%= link_to 'Next page', { :page => @colonia_pages.current.next } if @colonia_pages.current.next %> 
+
+<br />
+
+<%= link_to 'New colonia', :action => 'new' %>

@@ -1,0 +1,27 @@
+<h1>Listing promotors</h1>
+
+<table>
+  <tr>
+  <% for column in Promotor.content_columns %>
+    <th><%= column.human_name %></th>
+  <% end %>
+  </tr>
+  
+<% for promotor in @promotors %>
+  <tr>
+  <% for column in Promotor.content_columns %>
+    <td><%=h promotor.send(column.name) %></td>
+  <% end %>
+    <td><%= link_to 'Show', :action => 'show', :id => promotor %></td>
+    <td><%= link_to 'Edit', :action => 'edit', :id => promotor %></td>
+    <td><%= link_to 'Destroy', { :action => 'destroy', :id => promotor }, :confirm => 'Are you sure?', :method => :post %></td>
+  </tr>
+<% end %>
+</table>
+
+<%= link_to 'Previous page', { :page => @promotor_pages.current.previous } if @promotor_pages.current.previous %>
+<%= link_to 'Next page', { :page => @promotor_pages.current.next } if @promotor_pages.current.next %> 
+
+<br />
+
+<%= link_to 'New promotor', :action => 'new' %>

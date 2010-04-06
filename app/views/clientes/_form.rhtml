@@ -1,0 +1,134 @@
+<%= error_messages_for 'cliente' %>
+
+<!--[form:cliente]-->
+<p><label for="cliente_paterno">Paterno</label><br/>
+<%= text_field 'cliente', 'paterno'  %></p>
+
+<p><label for="cliente_materno">Materno</label><br/>
+<%= text_field 'cliente', 'materno'  %></p>
+
+<p><label for="cliente_nombre">Nombre</label><br/>
+<%= text_field 'cliente', 'nombre'  %></p>
+
+<p><label for="cliente_fecha_nac">Fecha nac</label><br/>
+<%= date_select 'cliente', 'fecha_nac'  %></p>
+
+<p><label for="cliente_rfc">Rfc</label><br/>
+<%= text_field 'cliente', 'rfc'  %></p>
+
+<p><label for="cliente_clave_ife">Clave ife</label><br/>
+<%= text_field 'cliente', 'clave_ife'  %></p>
+
+<p><label for="cliente_sexo">Sexo</label><br/>
+<%= text_field 'cliente', 'sexo'  %></p>
+
+<p><label for="cliente_nacionalidad">Nacionalidad</label><br/>
+<%= text_field 'cliente', 'nacionalidad'  %></p>
+
+<p><label for="cliente_tipo_propiedad">Tipo propiedad</label><br/>
+<%= text_field 'cliente', 'tipo_propiedad'  %></p>
+
+<p><label for="cliente_tipo_persona">Tipo persona</label><br/>
+<%= text_field 'cliente', 'tipo_persona'  %></p>
+
+<p><label for="cliente_direccion">Direccion</label><br/>
+<%= text_field 'cliente', 'direccion'  %></p>
+
+<p><label for="cliente_telefono">Telefono</label><br/>
+<%= text_field 'cliente', 'telefono'  %></p>
+
+<p><label for="cliente_email">Email</label><br/>
+<%= text_field 'cliente', 'email'  %></p>
+
+<p><label for="cliente_civil">Estado Civil</label><br/>
+ <%=collection_select("cliente", "civil_id", @civiles, :id, :civil)%>
+</p>
+
+<p><label for="cliente_civil">Escolaridad</label><br/>
+ <%=collection_select("cliente", "escolaridad_id", @escolaridades, :id, :escolaridad)%>
+</p>
+
+<p><label for="cliente_civil">Tipo de Vivienda</label><br/>
+ <%=collection_select("cliente", "vivienda_id", @viviendas, :id, :tipo_vivienda)%>
+</p>
+
+<!--
+<p><label for="cliente_civil">Colonia</label><br/>
+ <=collection_select("cliente", "colonia_id", @colonias, :id, :colonia)%>
+</p>
+-->
+
+<p><label for="cliente_civil">Grupo</label><br/>
+ <%=collection_select("cliente", "grupo_id", @grupos, :id, :grupo)%>
+</p>
+
+
+
+<!-- Combo para conseguir la colonia donde vive -->
+
+  <p align="left">Estado</p>
+  <p align="left">
+    <%=
+	collection_select(:lugar, :estado_id, @estados, :id, :estado, {:prompt => "---- Selecciona el estado ----"})
+    %>
+
+  </p>
+
+   <p align="left">Municipio</p>
+  <p align="left">
+    <%=
+	collection_select(:lugar, :municipio_id, @municipios, :id, :municipio, {:prompt => "---- Selecciona el municipio ----"})
+    %>
+  </p>
+
+     <p align="left">Ejido</p>
+  <p align="left">
+    <%=
+	collection_select(:lugar, :ejido_id, @ejidos, :id, :ejido, {:prompt => "---- Selecciona el ejido ----"})
+    %>
+  </p>
+
+     <p align="left">Colonia</p>
+  <p align="left">
+    <%=
+	collection_select("cliente", "colonia_id", @colonias, :id, :colonia, {:prompt => "---- Selecciona la colonia ----"})
+    %>
+  </p>
+
+
+
+
+
+    
+
+      <%= observe_field 'lugar_estado_id',
+        :url => {:controller => 'clientes',
+        :action => 'get_municipios'},
+        :update => 'lugar_municipio_id',
+        :with => 'lugar_estado_id' %>
+
+
+      <%= observe_field 'lugar_municipio_id',
+        :url => {:controller => 'clientes',
+        :action => 'get_ejidos'},
+        :update => 'lugar_ejido_id',
+        :with => 'lugar_municipio_id' %>
+
+
+      <%= observe_field 'lugar_ejido_id',
+        :url => {:controller => 'clientes',
+        :action => 'get_colonias'},
+        :update => 'cliente_colonia_id',
+        :with => 'lugar_ejido_id' %>
+
+
+
+ 
+
+
+
+
+
+<!--[eoform:cliente]-->
+
+

@@ -1,0 +1,9 @@
+<h1>Editing credito</h1>
+
+<% form_tag :action => 'update', :id => @credito do %>
+  <%= render :partial => 'form' %>
+  <%= submit_tag 'Edit' %>
+<% end %>
+
+<%= link_to 'Show', :action => 'show', :id => @credito %> |
+<%= link_to 'Back', :action => 'list' %>

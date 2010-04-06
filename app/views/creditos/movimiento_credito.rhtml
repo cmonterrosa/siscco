@@ -1,0 +1,5 @@
+<% form_for :credito, @credito, :url => { :controller => "creditos", :action => "resultados" } do |f| %>
+      Numero de credito: <%= f.text_field :id %><br>
+      RFC del cliente: <%= f.text_field :rfc %> <br>
+      <%= submit_tag 'Buscar' %>
+<% end -%>

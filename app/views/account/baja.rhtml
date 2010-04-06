@@ -1,0 +1,12 @@
+<h2>Eliminar Usuario</h2>
+
+<% form_tag :action => 'delete', :id => @user do %>
+
+  <p><label for="rfcs">Selecciona la el usuario a Eliminar:</label><br/>
+ <%=
+	@usuarios = User.find(:all, :order => "login")
+	collection_select("usuario", "id", @usuarios, :id, :login)
+    %>
+</p>
+  <%= submit_tag "Eliminar" %>
+<% end %>
