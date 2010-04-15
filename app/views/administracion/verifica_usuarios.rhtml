@@ -1,0 +1,27 @@
+<h2>Usuarios del perfil: <%=@rol.nombre%></h2>
+
+<table>
+  <tr>
+    <th>Usuario</th>
+    <th>Nombre</th>
+  </tr>
+
+<% for usuario in @usuarios %>
+  <tr>
+    <td><%=usuario.login%></td>
+    <td><%=usuario.nombre%></td>
+    <td><%= button_to 'Detalles', :action => 'show', :controller => "account", :id => usuario %></td>
+    <td><%= button_to 'Editar', :action => 'edit', :controller => "account", :id => usuario %></td>
+    <td><%= button_to 'Eliminar', { :action => 'destroy', :id => usuario, :controller => "user" }, :confirm => 'Are you sure?', :method => :post %></td>
+  </tr>
+<% end %>
+</table>
+
+<h2><%=link_to 'Nuevo Usuario', :action => "signup_perfil", :controller => "account", :rol_id=> @rol%></h2>
+
+<%= link_to 'Pagina Anterior', { :page => @user_pages.current.previous } if @user_pages.current.previous %>
+<%= link_to 'Pagina Siguiente ', { :page => @user_pages.current.next } if @user_pages.current.next %>
+
+<br />
+
+

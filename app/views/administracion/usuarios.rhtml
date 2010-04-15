@@ -1,0 +1,10 @@
+<h2>Control de usuarios</h2>
+
+<h3>Perfiles</h3>
+<%for rol in Rol.find(:all)%>
+  <p><h4><%=link_to "#{rol.nombre}", :action=>"verifica_usuarios", :controller=>"administracion", :id => rol%></h4></p>
+<%end%>
+
+
+<h2><%=link_to 'Nuevo Usuario', :action => "signup", :controller => "account"%></h2>
+

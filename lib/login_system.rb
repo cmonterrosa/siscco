@@ -14,19 +14,20 @@ module LoginSystem
   #  end
   def authorize?(user)
      true
+     #user.login == "administrador"
   end
   
   
   
   #--- Autenticacion por grupos -------
   def autorizado?(user, controller)
+    @usuario= User.find(user)
+    @rol = @usuario.rol.id.to_i
 
-        if User.find(user).rol == 5  # -- es parte del grupo administrador
+        if @rol == 5  # -- es parte del grupo administrador
           return true
         end
 
-    @usuario= User.find(user)
-    @rol = @usuario.rol.id.to_i
       #f = File.new("testfile.txt", "w")
       #f.write("#{@usuario.grupo.id} - #{controller}")
       #f.close

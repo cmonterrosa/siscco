@@ -1,0 +1,25 @@
+
+<!-- Este metodo recibe como parametro el rol donde se creara el usuario -->
+
+<%= start_form_tag :action=> "signup_perfil", :rol => @rol %>
+
+
+  <h3>REGISTRO DE USUARIOS <%=@rol.nombre.upcase%></h3>
+  <%= error_messages_for 'user' %><br/>
+
+  <p><label for="user_password">Nombre:</label><br/></p>
+  <%= text_field "user", "nombre", :size => 40 %><br/>
+  <p><label for="user_login">Usuario:</label><br/></p>
+  <%= text_field "user", "login", :size => 40 %><br/>
+  <p><label for="user_password">contraseña:</label><br/></p>
+  <%= password_field "user", "password", :size => 40 %><br/>
+  <p><label for="user_password_confirmation">confirmar contraseña:</label><br/></p>
+  <%= password_field "user", "password_confirmation", :size => 40 %><br/>
+
+ <!--<input type="hidden" id="rol_rol_id" name="rol[rol_id]" value="@rol.id" />
+ <=hidden_field(:rol, :rol_id, :value => @rol.id)> -->
+
+<input type="submit" value="Registrar" class="button" />
+
+<%= end_form_tag %>
+

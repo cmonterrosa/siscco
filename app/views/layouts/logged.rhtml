@@ -32,8 +32,8 @@ Carlos Monterrosa Lopez
 			
                         <li class="active"><%=link_to 'catalogos', :controller => "catalogos"%></li>
 			<li><%=link_to 'Créditos', :controller => "creditos", :action => "menu"%></li>
-			<li><%=link_to 'Información', :controller => "informacion", :action => "busca_credito"%></li>
-			<li><%=link_to 'Administracion', :controller => "administracion", :action => "index"%></li>
+			<li><%=link_to 'Información', :controller => "informacion", :action => "index"%></li>
+			<li><%=link_to 'Administración', :controller => "administracion", :action => "index"%></li>
 
                         <!-- verificamos si esta loggeado -->
 
@@ -69,7 +69,7 @@ Carlos Monterrosa Lopez
 
                         <!-- contenido -->
 			<div class="entry">
-              <p style="color: green"><%= flash[:notice] %></p>
+                        <p style="color: green"><%= flash[:notice] %></p>
                             <%=yield%>
 			</div>
 
@@ -120,8 +120,8 @@ Carlos Monterrosa Lopez
 	<div id="sidebar">
 		<ul>
 			<li id="search">
-				<h2>Buscar</h2>
-				<form method="get" action="">
+				<h2>Buscar Crédito</h2>
+				<form method="get" action="/buscar">
 					<fieldset>
 					<input type="text" id="s" name="s" value="" />
 					<input type="submit" id="x" value="Search" />
