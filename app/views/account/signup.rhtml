@@ -1,20 +1,10 @@
-<%= start_form_tag :action=> "signup" %>
+<h2>REGISTRO DE USUARIOS</h2>
 
+<% form_tag :action => 'signup', :id => @user do %>
+  <%= render :partial => 'form' %>
+  <%= submit_tag 'Guardar' %>
+<% end %>
 
-  <h3>REGISTRO DE USUARIOS</h3>
-  <%= error_messages_for 'user' %><br/>
-
-  <p><label for="user_password">Nombre:</label><br/></p>
-  <%= text_field "user", "nombre", :size => 40 %><br/>
-  <p><label for="user_login">Usuario:</label><br/></p>
-  <%= text_field "user", "login", :size => 40 %><br/>
-  <p><label for="user_password">contraseña:</label><br/></p>
-  <%= password_field "user", "password", :size => 40 %><br/>
-  <p><label for="user_password_confirmation">confirmar contraseña:</label><br/></p>
-  <%= password_field "user", "password_confirmation", :size => 40 %><br/>
-  <p><label for="creditocliente">Tipo de cuenta:</label><br/>
-  <%=collection_select("rol", "rol_id", @roles, :id, :nombre)%></p>
-  <input type="submit" value="Registrar" class="button" />
-
-<%= end_form_tag %>
-
+<p>
+<%= link_to 'Home', :action => 'index', :controller => "home"%>
+</p>

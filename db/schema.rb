@@ -2,7 +2,7 @@
 # migrations feature of ActiveRecord to incrementally modify your database, and
 # then regenerate this schema definition.
 
-ActiveRecord::Schema.define(:version => 23) do
+ActiveRecord::Schema.define(:version => 27) do
 
   create_table "bancos", :force => true do |t|
     t.column "nombre",     :string
@@ -23,19 +23,21 @@ ActiveRecord::Schema.define(:version => 23) do
     t.column "nombre",         :string
     t.column "fecha_nac",      :date
     t.column "rfc",            :string,  :limit => 13
+    t.column "curp",           :string,  :limit => 18
     t.column "clave_ife",      :string
     t.column "sexo",           :string,  :limit => 1
     t.column "nacionalidad",   :string
     t.column "tipo_propiedad", :string
     t.column "tipo_persona",   :string
     t.column "direccion",      :string
+    t.column "codigo_postal",  :string
     t.column "telefono",       :string,  :limit => 10
     t.column "email",          :string
     t.column "civil_id",       :integer
     t.column "escolaridad_id", :integer
     t.column "vivienda_id",    :integer
     t.column "colonia_id",     :integer
-    t.column "grupo_id",       :integer
+    t.column "grupo_id",       :integer,               :default => 1
   end
 
   create_table "colonias", :force => true do |t|
@@ -47,7 +49,7 @@ ActiveRecord::Schema.define(:version => 23) do
   create_table "creditos", :force => true do |t|
     t.column "fecha_inicio",   :date
     t.column "fecha_fin",      :date
-    t.column "plaza",          :string
+    t.column "plazo",          :string
     t.column "num_referencia", :string
     t.column "linea_id",       :integer
     t.column "banco_id",       :integer
@@ -88,6 +90,11 @@ ActiveRecord::Schema.define(:version => 23) do
     t.column "garantia", :string
   end
 
+  create_table "garantias_referencias", :id => false, :force => true do |t|
+    t.column "referencia_id", :integer
+    t.column "garantia_id",   :integer
+  end
+
   create_table "giros", :force => true do |t|
     t.column "subsector", :string
     t.column "codigo",    :string
@@ -108,10 +115,48 @@ ActiveRecord::Schema.define(:version => 23) do
     t.column "gcnf",               :string
   end
 
+  create_table "movimientos", :force => true do |t|
+    t.column "tipo",       :string
+    t.column "capital",    :float
+    t.column "fecha",      :date
+    t.column "interes",    :float
+    t.column "iva",        :float
+    t.column "concepto",   :string
+    t.column "credito_id", :integer
+  end
+
   create_table "municipios", :force => true do |t|
     t.column "municipio",   :string
     t.column "clave_inegi", :string
     t.column "estado_id",   :integer
+  end
+
+  create_table "negocios", :force => true do |t|
+    t.column "nombre",        :string
+    t.column "puesto",        :string
+    t.column "direccion",     :string
+    t.column "telefono",      :string,  :limit => 10
+    t.column "num_empleados", :integer
+    t.column "cliente_id",    :integer
+    t.column "giro_id",       :integer
+  end
+
+  create_table "periodos", :force => true do |t|
+    t.column "nombre", :string
+    t.column "dias",   :integer
+  end
+
+  create_table "productos", :force => true do |t|
+    t.column "producto",            :string
+    t.column "tipo",                :string
+    t.column "intereses",           :float
+    t.column "iva_intereses",       :float
+    t.column "intereses_moratorio", :float
+    t.column "multa",               :float
+    t.column "iva_multa",           :float
+    t.column "garantia",            :float
+    t.column "periodo_id",          :integer
+    t.column "grupo_id",            :integer
   end
 
   create_table "promotors", :force => true do |t|
@@ -151,13 +196,15 @@ ActiveRecord::Schema.define(:version => 23) do
   end
 
   create_table "systables", :force => true do |t|
-    t.column "controller", :string
-    t.column "rol_id",     :integer
+    t.column "controller",  :string
+    t.column "descripcion", :string
+    t.column "rol_id",      :integer
   end
 
   create_table "users", :force => true do |t|
     t.column "login",    :string
     t.column "password", :string
+    t.column "nombre",   :string
     t.column "rol_id",   :integer, :default => 1
   end
 

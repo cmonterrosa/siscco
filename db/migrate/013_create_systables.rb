@@ -6,10 +6,12 @@ class CreateSystables < ActiveRecord::Migration
       t.column :rol_id, :integer
     end
 
-    #--- Por defecto le creamos los permisos al administrador ---
+    #--- El administrador tiene acceso total ---
 
-    Systable.create(:controller => "home", :descripcion=> "Bienvenida", :rol_id => 5)
-    Systable.create(:controller => "catalogos", :descripcion => "Catalogos", :rol_id => 5)
+    #---- Creamos los permisos para que todos los perfiles puedan iniciar y cerrar sesion ----
+    Rol.find(:all).each do |rol|
+      Systable.create(:controller => "account", :descripcion => "Acceso a Usuarios", :rol_id => rol.id)
+    end
 
   end
 

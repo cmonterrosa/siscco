@@ -25,6 +25,7 @@ class User < ActiveRecord::Base
   end
 
   before_create :crypt_password
+  #before_save :crypt_password
 
   def crypt_password
     write_attribute("password", self.class.sha1(password))

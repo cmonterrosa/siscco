@@ -10,9 +10,15 @@ class CreateReferencias < ActiveRecord::Migration
       t.column :tipo, :string
       t.column :credito_id, :integer
    end
+
+    create_table :garantias_referencias, :id => false do |t|
+      t.column :referencia_id, :integer
+      t.column :garantia_id, :integer
+    end
   end
 
   def self.down
     drop_table :referencias
+    drop_table :garantias_referencias
   end
 end

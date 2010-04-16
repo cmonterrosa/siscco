@@ -34,7 +34,7 @@ class AccountController < ApplicationController
      case request.method
       when :post
         @user = User.new(params['user'])
-        @user.rol = Rol.find(params['rol']['rol_id']) if params['rol']['rol_id']
+        #@user.rol = Rol.find(params['rol']['rol_id']) if params['rol']['rol_id']
         if @user.save
           flash[:notice]  = "ALTA CORRECTA"
           redirect_to(:controller => 'home')
@@ -49,7 +49,7 @@ class AccountController < ApplicationController
      case request.method
       when :post
         @user = User.new(params['user'])
-        @user.rol = Rol.find(params[:rol])
+        #@user.rol = Rol.find(params[:rol])
         if @user.save!
           flash[:notice]  = "ALTA CORRECTA PARA EL USUARIO: #{@user.nombre} con el perfil de #{@user.rol.nombre}"
           redirect_to(:controller => 'home')
@@ -68,7 +68,21 @@ class AccountController < ApplicationController
     
     def edit
        @user = User.find(params[:id])
+       @user.password = ""
+       @roles = Rol.find(:all)
     end
+
+    def update
+      @user = User.find(params[:id])
+      if @user.update_attributes(params[:user])
+        flash[:notice] = 'Usuario actualizado correctamente'
+        redirect_to :action => 'administracion', :controller => "usuarios"
+      else
+        render :action => 'edit'
+      end
+    end
+
+
 
 
    def delete

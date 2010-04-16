@@ -1,5 +1,4 @@
 class AdministracionController < ApplicationController
- 
  before_filter :permiso_requerido
 
   def index
