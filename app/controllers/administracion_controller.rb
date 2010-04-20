@@ -15,7 +15,7 @@ class AdministracionController < ApplicationController
   def verifica_permisos
     @rol = Rol.find(params[:id])
     @usuarios = @rol.users
-    @controladores = @rol.systables
+    #@controladores = todos_controladores
   end
 
   #----- Este control pagina todos los usuarios que tienen acceso al sistema y le muestra opciones

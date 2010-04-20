@@ -162,6 +162,10 @@ end
   end
 end
 
+      #----- Definicion de variables globales ----
+
+ 
+
 
 
 end
