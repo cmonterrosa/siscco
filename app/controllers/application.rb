@@ -10,8 +10,8 @@ class ActiveRecord::RecordInvalid
 end
 
 class ApplicationController < ActionController::Base
-  #protect_from_forgery # See ActionController::RequestForgeryProtection for details
-    # --- Plantilla por defecto ------
+  
+  # --- Plantilla por defecto ------
   layout 'logged'
 
   # ---  Incluimos la libreria para el acceso ---
@@ -19,6 +19,9 @@ class ApplicationController < ActionController::Base
   model :user
   before_filter :configure_charsets
 
+
+  #-- Variables para combos globales ---
+  $estados = Estado.find(:all, :order => "estado")
 
     #----------- Cambio de idioma de las fechas --------------------
   Date::MONTHNAMES = [nil] + %w(Enero Febrero Marzo Abril Mayo Junio Julio Agosto Septiembre Octubre Noviembre Diciembre)

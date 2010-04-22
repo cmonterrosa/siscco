@@ -25,7 +25,7 @@ class ClientesController < ApplicationController
     @colonias = Colonia.find(:all)
     @grupos = Grupo.find(:all)
     #----- Consultas para actualizar dinamicamente los combos --
-    @estados = Estado.find(:all, :order => "estado")
+    #@estados = Estado.find(:all, :order => "estado")
     @municipios = Municipio.find(:all, :order => "municipio")
     @ejidos = Ejido.find(:all, :order => "ejido")
 
