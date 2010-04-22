@@ -8,7 +8,7 @@ class CreateProductos < ActiveRecord::Migration
       t.column :intereses_moratorio, :float
       t.column :multa, :float
       t.column :iva_multa, :float
-      t.column :garantia, :float
+      t.column :garantia, :string
       #--- relacion con otras tablas ---
       t.column :periodo_id, :integer
       t.column :grupo_id, :integer

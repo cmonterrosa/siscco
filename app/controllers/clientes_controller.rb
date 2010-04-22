@@ -33,7 +33,8 @@ class ClientesController < ApplicationController
 
   def create
     @cliente = Cliente.new(params[:cliente])
-    if @cliente.save
+    @negocio = Negocio.new(params[:negocio])
+    if @cliente.save and @negocio.save
       flash[:notice] = 'Cliente was successfully created.'
       redirect_to :action => 'list'
     else

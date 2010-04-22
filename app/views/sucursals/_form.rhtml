@@ -1,16 +1,60 @@
 <%= error_messages_for 'sucursal' %>
 
 <!--[form:sucursal]-->
-<p><label for="sucursal_direccion">Direccion</label><br/>
-<%= text_field 'sucursal', 'direccion'  %></p>
+<p><label for="sucursal_nombre">Nombre</label><br/>
+<%= text_field 'sucursal', 'nombre'  %></p>
 
-<p><label for="sucursal_telefono">Telefono</label><br/>
-<%= text_field 'sucursal', 'telefono'  %></p>
+<p><label for="sucursal_rfc">Rfc</label><br/>
+<%= text_field 'sucursal', 'rfc'  %></p>
 
 <p><label for="sucursal_gerente">Gerente</label><br/>
 <%= text_field 'sucursal', 'gerente'  %></p>
 
-<p><label for="sucursal_newcolumn">Newcolumn</label><br/>
-<%= text_field 'sucursal', 'newcolumn'  %></p>
-<!--[eoform:sucursal]-->
+<p><label for="sucursal_telefono">Telefono</label><br/>
+<%= text_field 'sucursal', 'telefono'  %></p>
 
+<p><label for="sucursal_direccion">Direccion</label><br/>
+<%= text_field 'sucursal', 'direccion'  %></p>
+
+<p><label for="sucursal_codigo_postal">Codigo postal</label><br/>
+<%= text_field 'sucursal', 'codigo_postal'  %></p>
+
+<!-- Combo para conseguir la colonia donde vive -->
+
+Estado<br/>
+<%=  collection_select(:lugar, :estado_id, @estados, :id, :estado, {:prompt => "---- Selecciona el estado ----"})    %>
+
+<br/>
+<br/>Municipio<br/>
+<%=  collection_select(:lugar, :municipio_id, @municipios, :id, :municipio, {:prompt => "---- Selecciona el municipio ----"})    %>
+
+<br/>
+<br/>Ejido<br/>
+<%=  collection_select(:lugar, :ejido_id, @ejidos, :id, :ejido, {:prompt => "---- Selecciona el ejido ----"})    %>
+
+<br/>
+<br/>Colonia<br/>
+<%=  collection_select("sucursal", "colonia_id", @colonias, :id, :colonia, {:prompt => "---- Selecciona la colonia ----"})    %>
+<br/>
+<br/>
+<!--Funciones para ejecutar las acciones cuando cambia la seleccion -->
+
+      <%= observe_field 'lugar_estado_id',
+        :url => {:controller => 'combos',
+        :action => 'get_municipios'},
+        :update => 'lugar_municipio_id',
+        :with => 'lugar_estado_id' %>
+
+      <%= observe_field 'lugar_municipio_id',
+        :url => {:controller => 'combos',
+        :action => 'get_ejidos'},
+        :update => 'lugar_ejido_id',
+        :with => 'lugar_municipio_id' %>
+
+      <%= observe_field 'lugar_ejido_id',
+        :url => {:controller => 'combos',
+        :action => 'get_colonias'},
+        :update => 'sucursal_colonia_id',
+        :with => 'lugar_ejido_id' %>
+
+<!--[eoform:sucursal]-->

@@ -1,6 +1,6 @@
 <h1>Alta de Cliente</h1>
 
-<% form_tag :action => 'create' do %>
+<% form_tag :action => 'new', :controller => 'negocios' do %>
   <%= render :partial => 'form' %>
   <%= submit_tag "Guardar" %>
 <% end %>

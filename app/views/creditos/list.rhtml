@@ -1,27 +1,26 @@
-<h1>Listing creditos</h1>
+<h1>Créditos</h1>
 
 <table>
   <tr>
-  <% for column in Credito.content_columns %>
-    <th><%= column.human_name %></th>
-  <% end %>
+      <th>Num. de credito</th>
+     
+      <th colspan="3">Acciones</th>
   </tr>
   
 <% for credito in @creditos %>
   <tr>
-  <% for column in Credito.content_columns %>
-    <td><%=h credito.send(column.name) %></td>
-  <% end %>
-    <td><%= link_to 'Show', :action => 'show', :id => credito %></td>
-    <td><%= link_to 'Edit', :action => 'edit', :id => credito %></td>
-    <td><%= link_to 'Destroy', { :action => 'destroy', :id => credito }, :confirm => 'Are you sure?', :method => :post %></td>
+    <td><%= credito.id %></td>
+    
+    <td><%= link_to 'Mostrar', :action => 'show', :id => credito %></td>
+    <td><%= link_to 'Editar', :action => 'edit', :id => credito %></td>
+    <td><%= link_to 'Eliminar', { :action => 'destroy', :id => credito }, :confirm => '¿Esta seguro?', :method => :post %></td>
   </tr>
 <% end %>
 </table>
 
-<%= link_to 'Previous page', { :page => @credito_pages.current.previous } if @credito_pages.current.previous %>
-<%= link_to 'Next page', { :page => @credito_pages.current.next } if @credito_pages.current.next %> 
+<%= link_to 'Anterior', { :page => @credito_pages.current.previous } if @credito_pages.current.previous %>
+<%= link_to 'Siguiente', { :page => @credito_pages.current.next } if @credito_pages.current.next %>
 
 <br />
 
-<%= link_to 'New credito', :action => 'new' %>
+<%= button_to 'Nuevo credito', :action => 'new' %>

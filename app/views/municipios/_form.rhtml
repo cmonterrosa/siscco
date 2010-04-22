@@ -3,5 +3,9 @@
 <!--[form:municipio]-->
 <p><label for="municipio_municipio">Municipio</label><br/>
 <%= text_field 'municipio', 'municipio'  %></p>
+Estado<br/>
+<%=  collection_select("municipio", "estado_id", @estados, :id, :estado, {:prompt => "---- Selecciona el estado ----"}) %>
+<br/>
+<br/>
 <!--[eoform:municipio]-->
 

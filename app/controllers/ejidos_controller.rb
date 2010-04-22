@@ -18,6 +18,9 @@ class EjidosController < ApplicationController
 
   def new
     @ejido = Ejido.new
+    #----- Consultas para actualizar dinamicamente los combos --
+    @estados = Estado.find(:all, :order => "estado")
+    @municipios = Municipio.find(:all, :order => "municipio")
   end
 
   def create

@@ -15,5 +15,46 @@
 
 <p><label for="banco_telefono">Telefono</label><br/>
 <%= text_field 'banco', 'telefono'  %></p>
+
+<!-- Combo para conseguir la colonia donde vive -->
+
+Estado<br/>
+<%=  collection_select(:lugar, :estado_id, @estados, :id, :estado, {:prompt => "---- Selecciona el estado ----"})    %>
+
+<br/>
+<br/>Municipio<br/>
+<%=  select(:lugar, :municipio_id, ["-- Selecciona el municipio --"])    %>
+
+<br/>
+<br/>Ejido<br/>
+<%=  select(:lugar, :ejido_id, ["-- Selecciona el ejido --"])    %>
+
+<br/>
+<br/>Colonia<br/>
+<%=  select("banco", "colonia_id", ["-- Selecciona la colonia --"])    %>
+
+<br/>
+<br/>
+
+      <%= observe_field 'lugar_estado_id',
+        :url => {:controller => 'combos',
+        :action => 'get_municipios'},
+        :update => 'lugar_municipio_id',
+        :with => 'lugar_estado_id' %>
+
+
+      <%= observe_field 'lugar_municipio_id',
+        :url => {:controller => 'combos',
+        :action => 'get_ejidos'},
+        :update => 'lugar_ejido_id',
+        :with => 'lugar_municipio_id' %>
+
+
+      <%= observe_field 'lugar_ejido_id',
+        :url => {:controller => 'combos',
+        :action => 'get_colonias'},
+        :update => 'banco_colonia_id',
+        :with => 'lugar_ejido_id' %>
+
 <!--[eoform:banco]-->
 

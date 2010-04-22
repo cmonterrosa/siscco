@@ -1,6 +1,3 @@
-# Filters added to this controller apply to all controllers in the application.
-# Likewise, all the methods added will be available for all controllers.
-
 # ---- Personalizacion de la clase ----
 class ActiveRecord::RecordInvalid
 
@@ -13,9 +10,8 @@ class ActiveRecord::RecordInvalid
 end
 
 class ApplicationController < ActionController::Base
-  # Pick a unique cookie name to distinguish our session data from others'
-  session :session_key => '_5abril2010_session_id'
-
+  #protect_from_forgery # See ActionController::RequestForgeryProtection for details
+    # --- Plantilla por defecto ------
   layout 'logged'
 
   # ---  Incluimos la libreria para el acceso ---
@@ -162,10 +158,8 @@ end
   end
 end
 
-      #----- Definicion de variables globales ----
-
- 
 
 
-
+  # Scrub sensitive parameters from your log
+  # filter_parameter_logging :password
 end

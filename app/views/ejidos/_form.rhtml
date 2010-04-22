@@ -6,5 +6,28 @@
 
 <p><label for="ejido_clave_inegi">Clave inegi</label><br/>
 <%= text_field 'ejido', 'clave_inegi'  %></p>
+
+<p style="font-size: 13pt">Perteneciente a:<p/>
+
+<!-- Combo para conseguir la ejido donde vive -->
+
+Estado<br/>
+<%=  collection_select(:lugar, :estado_id, @estados, :id, :estado, {:prompt => "---- Selecciona el estado ----"})    %>
+
+<br/>
+<br/>Municipio<br/>
+<%=  select("ejido", "municipio_id", ["---- Selecciona el municipio --"])    %>
+
+<br/>
+<br/>
+
+<!--Funciones para ejecutar las acciones cuando cambia la seleccion -->
+
+      <%= observe_field 'lugar_estado_id',
+        :url => {:controller => 'combos',
+        :action => 'get_municipios'},
+        :update => 'ejido_municipio_id',
+        :with => 'lugar_estado_id' %>
+
 <!--[eoform:ejido]-->
 

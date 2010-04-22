@@ -2,7 +2,7 @@
 
 <!--[form:giro]-->
 <p><label for="giro_subsector">Subsector</label><br/>
-<%= text_field 'giro', 'subsector'  %></p>
+<%= collection_select('giro', 'subsector',@subsectores, :subsector, :subsector, {:prompt => "--Selecciona un subsector--"})  %></p>
 
 <p><label for="giro_codigo">Codigo</label><br/>
 <%= text_field 'giro', 'codigo'  %></p>

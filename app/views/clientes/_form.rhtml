@@ -16,6 +16,9 @@
 <p><label for="cliente_rfc">Rfc</label><br/>
 <%= text_field 'cliente', 'rfc'  %></p>
 
+<p><label for="cliente_curp">Curp</label><br/>
+<%= text_field 'cliente', 'curp'  %></p>
+
 <p><label for="cliente_clave_ife">Clave ife</label><br/>
 <%= text_field 'cliente', 'clave_ife'  %></p>
 
@@ -62,72 +65,45 @@
  <%=collection_select("cliente", "grupo_id", @grupos, :id, :nombre)%>
 </p>
 
-
-
 <!-- Combo para conseguir la colonia donde vive -->
 
-  <p align="left">Estado</p>
-  <p align="left">
-    <%=
-	collection_select(:lugar, :estado_id, @estados, :id, :estado, {:prompt => "---- Selecciona el estado ----"})
-    %>
+Estado<br/>
+<%=  collection_select(:lugar, :estado_id, @estados, :id, :estado, {:prompt => "---- Selecciona el estado ----"})    %>
 
-  </p>
+<br/>
+<br/>Municipio<br/>
+<%=  select(:lugar, :municipio_id, ["-- Selecciona el municipio --"])    %>
+  
+<br/>
+<br/>Ejido<br/>
+<%=  select(:lugar, :ejido_id, ["-- Selecciona el ejido --"])    %>
 
-   <p align="left">Municipio</p>
-  <p align="left">
-    <%=
-	collection_select(:lugar, :municipio_id, @municipios, :id, :municipio, {:prompt => "---- Selecciona el municipio ----"})
-    %>
-  </p>
+<br/>
+<br/>Colonia<br/>
+<%=  select("cliente", "colonia_id", ["-- Selecciona la colonia --"])    %>
 
-     <p align="left">Ejido</p>
-  <p align="left">
-    <%=
-	collection_select(:lugar, :ejido_id, @ejidos, :id, :ejido, {:prompt => "---- Selecciona el ejido ----"})
-    %>
-  </p>
-
-     <p align="left">Colonia</p>
-  <p align="left">
-    <%=
-	collection_select("cliente", "colonia_id", @colonias, :id, :colonia, {:prompt => "---- Selecciona la colonia ----"})
-    %>
-  </p>
-
-
-
-
-
-    
+<br/>
+<br/>
 
       <%= observe_field 'lugar_estado_id',
-        :url => {:controller => 'clientes',
+        :url => {:controller => 'combos',
         :action => 'get_municipios'},
         :update => 'lugar_municipio_id',
         :with => 'lugar_estado_id' %>
 
 
       <%= observe_field 'lugar_municipio_id',
-        :url => {:controller => 'clientes',
+        :url => {:controller => 'combos',
         :action => 'get_ejidos'},
         :update => 'lugar_ejido_id',
         :with => 'lugar_municipio_id' %>
 
 
       <%= observe_field 'lugar_ejido_id',
-        :url => {:controller => 'clientes',
+        :url => {:controller => 'combos',
         :action => 'get_colonias'},
         :update => 'cliente_colonia_id',
         :with => 'lugar_ejido_id' %>
-
-
-
- 
-
-
-
-
 
 <!--[eoform:cliente]-->
 
