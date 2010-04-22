@@ -1,0 +1,25 @@
+<%= error_messages_for 'negocio' %>
+
+<!--[form:negocio]-->
+<p><label for="negocio_nombre">Nombre</label><br/>
+<%= text_field 'negocio', 'nombre'  %></p>
+
+<p><label for="negocio_puesto">Puesto</label><br/>
+<%= text_field 'negocio', 'puesto'  %></p>
+
+<p><label for="negocio_direccion">Direccion</label><br/>
+<%= text_field 'negocio', 'direccion'  %></p>
+
+<p><label for="negocio_telefono">Telefono</label><br/>
+<%= text_field 'negocio', 'telefono'  %></p>
+
+<p><label for="negocio_num_empleados">Num empleados</label><br/>
+<%= text_field 'negocio', 'num_empleados'  %></p>
+
+<p><label for="negocio_clinete_id">Num empleados</label><br/>
+  <%= text_field 'negocio', 'cliente_id', :value => 1  %></p>
+
+<p><label for="negocio_giro_id">Giro</label><br/>
+<%= collection_select('negocio', 'giro_id', @giros, :id, :giro, {:prompt => '-- Selecciona un giro --'})  %></p>
+<!--[eoform:negocio]-->
+

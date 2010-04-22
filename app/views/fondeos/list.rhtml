@@ -1,0 +1,27 @@
+<h1>Listing fondeos</h1>
+
+<table>
+  <tr>
+  <% for column in Fondeo.content_columns %>
+    <th><%= column.human_name %></th>
+  <% end %>
+  </tr>
+  
+<% for fondeo in @fondeos %>
+  <tr>
+  <% for column in Fondeo.content_columns %>
+    <td><%=h fondeo.send(column.name) %></td>
+  <% end %>
+    <td><%= link_to 'Show', :action => 'show', :id => fondeo %></td>
+    <td><%= link_to 'Edit', :action => 'edit', :id => fondeo %></td>
+    <td><%= link_to 'Destroy', { :action => 'destroy', :id => fondeo }, :confirm => 'Are you sure?', :method => :post %></td>
+  </tr>
+<% end %>
+</table>
+
+<%= link_to 'Previous page', { :page => @fondeo_pages.current.previous } if @fondeo_pages.current.previous %>
+<%= link_to 'Next page', { :page => @fondeo_pages.current.next } if @fondeo_pages.current.next %> 
+
+<br />
+
+<%= link_to 'New fondeo', :action => 'new' %>

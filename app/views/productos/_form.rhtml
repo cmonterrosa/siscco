@@ -1,0 +1,35 @@
+<%= error_messages_for 'producto' %>
+
+<!--[form:producto]-->
+<p><label for="producto_producto">Producto</label><br/>
+<%= text_field 'producto', 'producto'  %></p>
+
+<p><label for="producto_tipo">Tipo</label><br/>
+<%= text_field 'producto', 'tipo'  %></p>
+
+<p><label for="producto_intereses">Intereses</label><br/>
+<%= text_field 'producto', 'intereses'  %></p>
+
+<p><label for="producto_iva_intereses">Iva intereses</label><br/>
+<%= text_field 'producto', 'iva_intereses'  %></p>
+
+<p><label for="producto_intereses_moratorio">Intereses moratorio</label><br/>
+<%= text_field 'producto', 'intereses_moratorio'  %></p>
+
+<p><label for="producto_multa">Multa</label><br/>
+<%= text_field 'producto', 'multa'  %></p>
+
+<p><label for="producto_iva_multa">Iva multa</label><br/>
+<%= text_field 'producto', 'iva_multa'  %></p>
+
+<p><label for="producto_garantia">Garantia</label><br/>
+<%= text_field 'producto', 'garantia'  %></p>
+
+<p><label for="producto_producto">Periodo</label><br/>
+<%= collection_select('producto', 'periodo_id', @periodos, :id, :nombre, {:prompt => '-- Selecciona un periodo --'})  %></p>
+
+<p><label for="producto_producto">Grupo</label><br/>
+<%= collection_select('producto', 'grupo_id', @grupos, :id, :nombre, {:prompt => '-- Seleciona un grupo --'})  %></p>
+
+<!--[eoform:producto]-->
+

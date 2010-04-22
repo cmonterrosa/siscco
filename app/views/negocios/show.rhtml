@@ -1,0 +1,8 @@
+<% for column in Negocio.content_columns %>
+<p>
+  <b><%= column.human_name %>:</b> <%=h @negocio.send(column.name) %>
+</p>
+<% end %>
+
+<%= link_to 'Edit', :action => 'edit', :id => @negocio %> |
+<%= link_to 'Back', :action => 'list' %>

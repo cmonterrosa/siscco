@@ -1,0 +1,9 @@
+<h1>Editing periodo</h1>
+
+<% form_tag :action => 'update', :id => @periodo do %>
+  <%= render :partial => 'form' %>
+  <%= submit_tag 'Edit' %>
+<% end %>
+
+<%= link_to 'Show', :action => 'show', :id => @periodo %> |
+<%= link_to 'Back', :action => 'list' %>

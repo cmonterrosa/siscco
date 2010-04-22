@@ -1,0 +1,27 @@
+<h1>Listing garantias</h1>
+
+<table>
+  <tr>
+  <% for column in Garantia.content_columns %>
+    <th><%= column.human_name %></th>
+  <% end %>
+  </tr>
+  
+<% for garantia in @garantias %>
+  <tr>
+  <% for column in Garantia.content_columns %>
+    <td><%=h garantia.send(column.name) %></td>
+  <% end %>
+    <td><%= link_to 'Show', :action => 'show', :id => garantia %></td>
+    <td><%= link_to 'Edit', :action => 'edit', :id => garantia %></td>
+    <td><%= link_to 'Destroy', { :action => 'destroy', :id => garantia }, :confirm => 'Are you sure?', :method => :post %></td>
+  </tr>
+<% end %>
+</table>
+
+<%= link_to 'Previous page', { :page => @garantia_pages.current.previous } if @garantia_pages.current.previous %>
+<%= link_to 'Next page', { :page => @garantia_pages.current.next } if @garantia_pages.current.next %> 
+
+<br />
+
+<%= link_to 'New garantia', :action => 'new' %>

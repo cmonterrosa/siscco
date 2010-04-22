@@ -1,0 +1,8 @@
+<% for column in Linea.content_columns %>
+<p>
+  <b><%= column.human_name %>:</b> <%=h @linea.send(column.name) %>
+</p>
+<% end %>
+
+<%= link_to 'Edit', :action => 'edit', :id => @linea %> |
+<%= link_to 'Back', :action => 'list' %>

@@ -1,0 +1,25 @@
+<%= error_messages_for 'linea' %>
+
+<!--[form:linea]-->
+<p><label for="linea_cuenta_cheques">Cuenta cheques</label><br/>
+<%= text_field 'linea', 'cuenta_cheques'  %></p>
+
+<p><label for="linea_fecha_autorizacion">Fecha autorizacion</label><br/>
+<%= date_select 'linea', 'fecha_autorizacion'  %></p>
+
+<p><label for="linea_linea_autorizada">Linea autorizada</label><br/>
+<%= text_field 'linea', 'linea_autorizada'  %></p>
+
+<p><label for="linea_linea_disponible">Linea disponible</label><br/>
+<%= text_field 'linea', 'linea_disponible'  %></p>
+
+<p><label for="linea_estatus">Estatus</label><br/>
+<%= collection_select('linea', 'estatus', @status, :id, :statu, {:prompt =>'-- Status --'})%></p>
+
+<p><label for="linea_gcnf">Gcnf</label><br/>
+<%= text_field 'linea', 'gcnf'  %></p>
+
+<p><label for="linea_fondeo_id">Fondeo</label><br/>
+<%= collection_select('linea', 'fondeo_id', @fondeos, :id, :fuente, {:prompt =>'--Selecciona una fuente--'}) %></p>
+<!--[eoform:linea]-->
+

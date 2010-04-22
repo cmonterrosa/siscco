@@ -1,0 +1,11 @@
+<%= error_messages_for 'subsector' %>
+
+<!--[form:subsector]-->
+
+<p><label for="subsector_sector_id">Sector</label><br/>
+<%= collection_select('subsector','sector_id', @sectores, :id, :sector, {:prompt=>'--Seleciona un Sector--'}) %></p>
+
+<p><label for="subsector_subsector">Subsector</label><br/>
+<%= text_field 'subsector', 'subsector'  %></p>
+<!--[eoform:subsector]-->
+

@@ -1,0 +1,27 @@
+<h1>Listing sectors</h1>
+
+<table>
+  <tr>
+  <% for column in Sector.content_columns %>
+    <th><%= column.human_name %></th>
+  <% end %>
+  </tr>
+  
+<% for sector in @sectors %>
+  <tr>
+  <% for column in Sector.content_columns %>
+    <td><%=h sector.send(column.name) %></td>
+  <% end %>
+    <td><%= link_to 'Show', :action => 'show', :id => sector %></td>
+    <td><%= link_to 'Edit', :action => 'edit', :id => sector %></td>
+    <td><%= link_to 'Destroy', { :action => 'destroy', :id => sector }, :confirm => 'Are you sure?', :method => :post %></td>
+  </tr>
+<% end %>
+</table>
+
+<%= link_to 'Previous page', { :page => @sector_pages.current.previous } if @sector_pages.current.previous %>
+<%= link_to 'Next page', { :page => @sector_pages.current.next } if @sector_pages.current.next %> 
+
+<br />
+
+<%= link_to 'New sector', :action => 'new' %>

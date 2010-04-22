@@ -1,0 +1,27 @@
+<h1>Listing periodos</h1>
+
+<table>
+  <tr>
+  <% for column in Periodo.content_columns %>
+    <th><%= column.human_name %></th>
+  <% end %>
+  </tr>
+  
+<% for periodo in @periodos %>
+  <tr>
+  <% for column in Periodo.content_columns %>
+    <td><%=h periodo.send(column.name) %></td>
+  <% end %>
+    <td><%= link_to 'Show', :action => 'show', :id => periodo %></td>
+    <td><%= link_to 'Edit', :action => 'edit', :id => periodo %></td>
+    <td><%= link_to 'Destroy', { :action => 'destroy', :id => periodo }, :confirm => 'Are you sure?', :method => :post %></td>
+  </tr>
+<% end %>
+</table>
+
+<%= link_to 'Previous page', { :page => @periodo_pages.current.previous } if @periodo_pages.current.previous %>
+<%= link_to 'Next page', { :page => @periodo_pages.current.next } if @periodo_pages.current.next %> 
+
+<br />
+
+<%= link_to 'New periodo', :action => 'new' %>

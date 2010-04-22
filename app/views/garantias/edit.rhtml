@@ -1,0 +1,9 @@
+<h1>Editing garantia</h1>
+
+<% form_tag :action => 'update', :id => @garantia do %>
+  <%= render :partial => 'form' %>
+  <%= submit_tag 'Edit' %>
+<% end %>
+
+<%= link_to 'Show', :action => 'show', :id => @garantia %> |
+<%= link_to 'Back', :action => 'list' %>
