@@ -25,7 +25,7 @@ class NegociosController < ApplicationController
     @cliente = Cliente.new(params[:cliente])
     @negocio = Negocio.new(params[:negocio])
    if @cliente.save and @negocio.save
-      flash[:notice] = 'Cliente was successfully created.-----'
+      flash[:notice] = 'Registro creado satisfactoriamente'
       redirect_to :action => 'list'
     else
       render :action => 'new'
@@ -40,7 +40,7 @@ class NegociosController < ApplicationController
   def update
     @negocio = Negocio.find(params[:id])
     if @negocio.update_attributes(params[:negocio])
-      flash[:notice] = 'Negocio was successfully updated.'
+      flash[:notice] = 'Registro actualizado.'
       redirect_to :action => 'show', :id => @negocio
     else
       render :action => 'edit'

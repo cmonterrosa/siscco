@@ -26,7 +26,7 @@ class ProductosController < ApplicationController
   def create
     @producto = Producto.new(params[:producto])
     if @producto.save
-      flash[:notice] = 'Producto was successfully created.'
+      flash[:notice] = 'Registro creado satisfactoriamente.'
       redirect_to :action => 'list'
     else
       render :action => 'new'
@@ -42,7 +42,7 @@ class ProductosController < ApplicationController
   def update
     @producto = Producto.find(params[:id])
     if @producto.update_attributes(params[:producto])
-      flash[:notice] = 'Producto was successfully updated.'
+      flash[:notice] = 'Registro actualizado.'
       redirect_to :action => 'show', :id => @producto
     else
       render :action => 'edit'

@@ -55,7 +55,7 @@ class MovimientosController < ApplicationController
   def update
     @movimiento = Movimiento.find(params[:id])
     if @movimiento.update_attributes(params[:movimiento])
-      flash[:notice] = 'Movimiento was successfully updated.'
+      flash[:notice] = 'Movimiento actualizado.'
       redirect_to :action => 'show', :id => @movimiento
     else
       render :action => 'edit'

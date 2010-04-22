@@ -26,7 +26,7 @@ class EjidosController < ApplicationController
   def create
     @ejido = Ejido.new(params[:ejido])
     if @ejido.save
-      flash[:notice] = 'Ejido was successfully created.'
+      flash[:notice] = 'Registro creado satisfactoriamente.'
       redirect_to :action => 'list'
     else
       render :action => 'new'
@@ -40,7 +40,7 @@ class EjidosController < ApplicationController
   def update
     @ejido = Ejido.find(params[:id])
     if @ejido.update_attributes(params[:ejido])
-      flash[:notice] = 'Ejido was successfully updated.'
+      flash[:notice] = 'Registro actualizado.'
       redirect_to :action => 'show', :id => @ejido
     else
       render :action => 'edit'

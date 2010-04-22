@@ -15,8 +15,10 @@ development:
   adapter: mysql
   database: ultima
   username: root
-  password: solaris
-  socket: /tmp/mysql.sock
+  password: rajuijui
+  socket:    /var/run/mysqld/mysqld.sock
+#  password: solaris
+#  socket: /tmp/mysql.sock
 
 # Warning: The database defined as 'test' will be erased and
 # re-generated from your development database when you run 'rake'.
@@ -25,8 +27,10 @@ test:
   adapter: mysql
   database: ultima_test
   username: root
-  password: solaris
-  socket: /tmp/mysql.sock
+  password: rajuijui
+  socket: /var/run/mysqld/mysqld.sock
+#  password: solaris
+#  socket: /tmp/mysql.sock
 
 # Warning: The database defined as 'test' will be erased and
 # re-generated from your development database when you run 'rake'.
@@ -35,8 +39,10 @@ production:
   adapter: mysql
   database: ultima_production
   username: root
-  password: solaris
-  socket: /tmp/mysql.sock
+  password: rajuijui
+  socket: /var/run/mysqld/mysqld.sock
+#  password: solaris
+#  socket: /tmp/mysql.sock
 
 # Warning: The database defined as 'test' will be erased and
 # re-generated from your development database when you run 'rake'.

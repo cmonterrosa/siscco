@@ -27,7 +27,7 @@ class ColoniasController < ApplicationController
   def create
     @colonia = Colonia.new(params[:colonia])
     if @colonia.save
-      flash[:notice] = 'Colonia was successfully created.'
+      flash[:notice] = 'Registro creado satisfactoriamente.'
       redirect_to :action => 'list'
     else
       render :action => 'new'
@@ -41,7 +41,7 @@ class ColoniasController < ApplicationController
   def update
     @colonia = Colonia.find(params[:id])
     if @colonia.update_attributes(params[:colonia])
-      flash[:notice] = 'Colonia was successfully updated.'
+      flash[:notice] = 'Registro actualizado.'
       redirect_to :action => 'show', :id => @colonia
     else
       render :action => 'edit'

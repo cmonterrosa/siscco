@@ -23,7 +23,7 @@ class GarantiasController < ApplicationController
   def create
     @garantia = Garantia.new(params[:garantia])
     if @garantia.save
-      flash[:notice] = 'Garantia was successfully created.'
+      flash[:notice] = 'Registro creado satisfactoriamente.'
       redirect_to :action => 'list'
     else
       render :action => 'new'
@@ -37,7 +37,7 @@ class GarantiasController < ApplicationController
   def update
     @garantia = Garantia.find(params[:id])
     if @garantia.update_attributes(params[:garantia])
-      flash[:notice] = 'Garantia was successfully updated.'
+      flash[:notice] = 'Registro actualizado.'
       redirect_to :action => 'show', :id => @garantia
     else
       render :action => 'edit'

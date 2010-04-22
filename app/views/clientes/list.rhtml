@@ -1,6 +1,6 @@
-<h1>Listing clientes</h1>
+<h1>Listado de clientes</h1>
 
-<table>
+<table class="">
   <tr>
   <% for column in Cliente.content_columns %>
     <th><%= column.human_name %></th>
@@ -12,16 +12,16 @@
   <% for column in Cliente.content_columns %>
     <td><%=h cliente.send(column.name) %></td>
   <% end %>
-    <td><%= link_to 'Show', :action => 'show', :id => cliente %></td>
-    <td><%= link_to 'Edit', :action => 'edit', :id => cliente %></td>
-    <td><%= link_to 'Destroy', { :action => 'destroy', :id => cliente }, :confirm => 'Are you sure?', :method => :post %></td>
+    <td><%= link_to 'Detalles', :action => 'show', :id => cliente %></td>
+    <td><%= link_to 'Editar', :action => 'edit', :id => cliente %></td>
+    <td><%= link_to 'Eliminar', { :action => 'destroy', :id => cliente }, :confirm => 'Estas seguro?', :method => :post %></td>
   </tr>
 <% end %>
 </table>
 
-<%= link_to 'Previous page', { :page => @cliente_pages.current.previous } if @cliente_pages.current.previous %>
-<%= link_to 'Next page', { :page => @cliente_pages.current.next } if @cliente_pages.current.next %> 
+<%= link_to 'Pag anterior', { :page => @cliente_pages.current.previous } if @cliente_pages.current.previous %>
+<%= link_to 'Pag siguiente', { :page => @cliente_pages.current.next } if @cliente_pages.current.next %>
 
 <br />
 
-<%= link_to 'New cliente', :action => 'new' %>
+<%= link_to 'Nuevo', :action => 'new' %>
