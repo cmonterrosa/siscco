@@ -8,15 +8,22 @@ module ApplicationHelper
 
     def rol_tiene_permiso?(rol,controlador)
       @rol = Rol.find(rol)
+      @controlador = Systable.find(controlador)
       if @rol.nil?
-        false
+         false
       else
-        @rol.systables.include?(controlador)
+        @rol.systables.include?(@controlador)
+         true
       end
     end
 
        def todos_controladores
-          Systable.find(:all, :select => ["distinct(controller), id, descripcion"])
+          @arreglo_controllers = Array.new
+          @controllers = Systable.find(:all, :select => ["distinct(controller)"])
+          @controllers.each{|x|
+            @arreglo_controllers << Systable.find(:first,
+              :conditions => ["controller = ?", x.controller])}
+          return @arreglo_controllers
        end
 
 

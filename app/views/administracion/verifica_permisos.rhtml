@@ -1,18 +1,18 @@
-<h5>Módulos con permiso:</h5>
-
-<%for usuario in @usuarios%>
-  <p><%=usuario.login%></p>
-<%end%>
+<h2>Perfil: <%=@rol.nombre%></h2>
+<h3>Módulos con permiso:</h3>
 
 
-  <%todos_controladores.each do |controlador| -%>
-     <li><%= check_box_tag "rol[systable_ids][]", controlador.id, rol_tiene_permiso?(@rol,controlador) -%> <%= controlador.descripcion -%></li>
+<!--
+  <todos_controladores.each do |controlador| -%>
+     <li><= check_box_tag "rol[systable_ids][]", controlador.id, rol_tiene_permiso?(@rol,controlador) -%> <= controlador.descripcion -%></li>
+  <end%>
+-->
+
+Total de módulos dispnibles <%=todos_controladores.size%>
+
+<%todos_controladores.each do |controlador| -%>
+     <li><%= check_box_tag "rol[systable_ids][]", controlador.id, @rol.systables.include?(controlador) -%> <%= controlador.descripcion -%></li>
   <%end%>
-
-
-  <%=check_box("puppy", "gooddog", {}, "yes", "no")%>
-
-  iteramos sobre todos los controles disponibles
 
   <!--
   <ul class="checkbox-list">

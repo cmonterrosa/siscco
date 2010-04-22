@@ -1,9 +1,4 @@
 class CreditosController < ApplicationController
-
-#before_filter :login_required
- before_filter :permiso_requerido#, :except =>[ :busca_credito, :historia, :consulta]
-
-
   def index
     list
     render :action => 'list'
@@ -15,70 +10,36 @@ class CreditosController < ApplicationController
 
   def list
     @credito_pages, @creditos = paginate :creditos, :per_page => 10
-    @clientes = Cliente.find(:all, :order => "paterno, materno, nombre")
   end
 
   def show
     @credito = Credito.find(params[:id])
   end
 
-  def menu
-    
-  end
-
-#--- este metodo solo trae el formulario para la busqueda
-  def busca_credito
-    
-  end
-
-
-  def historia #--- este metodos trae todos los creditos del cliente
-    if params["credito"]["id"]=~/\d+/
-      @credito_unico = Credito.find(params["credito"]["id"].to_i)
-    end
-
-    if params["credito"]["rfc"]=~/([a-z]|[A-Z])+/
-      @cliente = Cliente.find(:first, :conditions => ["rfc = ? ", params["credito"]["rfc"]]) if params["credito"]["rfc"]
-      @creditos = @cliente.creditos
-    end
-end
-
-  #----- Este metodo es el que va a traer el historico de los creditos ---
-  def consulta
-   @credito = Credito.find(params[:id]) unless params[:id].nil?
-   @movimientos= @credito.movimientos
-  end
-
-
-  def resultados
-
-    #@credito = Credito.find(params["credito"]["id"]) if params ["credito"]["id"]
-    if params["credito"]["id"]=~/\d+/
-      @credito_unico = Credito.find(params["credito"]["id"].to_i)
-    end
-
-    if params["credito"]["rfc"]=~/([a-z]|[A-Z])+/
-      @cliente = Cliente.find(:first, :conditions => ["rfc = ? ", params["credito"]["rfc"]]) if params["credito"]["rfc"]
-      @creditos = @cliente.creditos
-    end
-  end
-
-#--- este metodo solo trae el formulario para la busqueda
-  def movimiento_credito
-    
-  end
-
-  def new
+  def new_grupal
     @credito = Credito.new
-    @clientes = Cliente.find(:all, :order => "paterno, materno, nombre")
-    @avales = Aval.find(:all, :order => "paterno, materno, nombre")
+    #---- Para rellenar las queries----
+    @lineas = Linea.find(:all)
+    @bancos = Banco.find(:all)
+    @clientes = Cliente.find(:all)
+    @promotores = Promotor.find(:all)
+    @destinos = Destino.find(:all)
+    @grupos = Grupo.find(:all)
+  end
+
+  def new_individual
+    @credito = Credito.new
+    @lineas = Linea.find(:all)
+    @bancos = Banco.find(:all)
+    @clientes = Cliente.find(:all)
+    @promotores = Promotor.find(:all)
+    @destinos = Destino.find(:all)
   end
 
   def create
     @credito = Credito.new(params[:credito])
-    @credito.liquido = (@credito.importe * (@credito.tasa_interes / 100)) + @credito.importe
     if @credito.save
-      flash[:notice] = 'Credito guardado correctamente'
+      flash[:notice] = 'Credito was successfully created.'
       redirect_to :action => 'list'
     else
       render :action => 'new'
