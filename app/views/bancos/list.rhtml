@@ -1,13 +1,22 @@
 <h1>Listado de bancos</h1>
 
-<!-- -->
-Aqui va el codigo para la busqueda
-
-<!-- -->
+<!--inicia ajax -->
 
 
+ <label for="searchtext">Búsqueda por nombre:</label>
+<%= text_field_tag :searchtext %>
+<%= observe_field(:searchtext,
+                 :frequency => 0.25,
+                 :update => :search_hits,
+                 :with  => "searchtext",
+                 :url => { :action => :live_search }) %>
+<p>Search Results:</p>
+<div id="search_hits"></div>
+
+<!-- termina ajax -->
 
 
+<<<<<<< HEAD:app/views/bancos/list.rhtml
 
 
 <table>
@@ -35,3 +44,6 @@ Aqui va el codigo para la busqueda
 <br />
 
 <%= link_to 'Nuevo', :action => 'new' %>
+=======
+<%= button_to 'Nuevo banco', :action => 'new' %>
+>>>>>>> 92fb7ca51e5dec678497b52d722b6aa124f289ea:app/views/bancos/list.rhtml
