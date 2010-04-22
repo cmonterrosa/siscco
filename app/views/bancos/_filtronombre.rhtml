@@ -1,0 +1,23 @@
+<table>
+  <tr>
+  <% for column in Banco.content_columns %>
+    <th><%= column.human_name %></th>
+  <% end %>
+  </tr>
+
+<% for banco in @bancos %>
+  <tr>
+  <% for column in Banco.content_columns %>
+    <td><%=h banco.send(column.name) %></td>
+  <% end %>
+    <td><%= button_to 'Show', :action => 'show', :id => banco %></td>
+    <td><%= button_to 'Edit', :action => 'edit', :id => banco %></td>
+    <td><%= button_to 'Eliminar', { :action => 'destroy', :id => banco }, :confirm => 'Are you sure?', :method => :post %></td>
+  </tr>
+<% end %>
+</table>
+
+<%= link_to 'Previous page', { :page => @banco_pages.current.previous } if @banco_pages.current.previous %>
+<%= link_to 'Next page', { :page => @banco_pages.current.next } if @banco_pages.current.next %>
+
+<br />

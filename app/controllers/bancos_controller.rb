@@ -55,4 +55,12 @@ class BancosController < ApplicationController
     Banco.find(params[:id]).destroy
     redirect_to :action => 'list'
   end
+
+  #--- Funciones ajax para filtrado --
+  def live_search
+      @banco_pages, @bancos = paginate :bancos, :per_page => 10
+      @bancos = Banco.find(:all, :conditions => ["nombre like ?", "%#{params[:searchtext]}%"])
+      return render(:partial => 'filtronombre', :layout => false) if request.xhr?
+  end
+
 end

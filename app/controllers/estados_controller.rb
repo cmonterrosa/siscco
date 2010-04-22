@@ -49,4 +49,13 @@ class EstadosController < ApplicationController
     Estado.find(params[:id]).destroy
     redirect_to :action => 'list'
   end
+
+  #-- Ajax --
+    def live_search
+      @estado_pages, @estados = paginate :estado, :per_page => 10
+      @estados = Estado.find(:all, :conditions => ["estado like ?", "%#{params[:searchtext]}%"])
+      return render(:partial => 'filtroestado', :layout => false) if request.xhr?
+   end
+
+
 end
