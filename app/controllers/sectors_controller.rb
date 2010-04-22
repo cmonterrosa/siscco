@@ -23,7 +23,7 @@ class SectorsController < ApplicationController
   def create
     @sector = Sector.new(params[:sector])
     if @sector.save
-      flash[:notice] = 'Sector was successfully created.'
+      flash[:notice] = 'Registro creado satisfactoriamente.'
       redirect_to :action => 'list'
     else
       render :action => 'new'
@@ -37,7 +37,7 @@ class SectorsController < ApplicationController
   def update
     @sector = Sector.find(params[:id])
     if @sector.update_attributes(params[:sector])
-      flash[:notice] = 'Sector was successfully updated.'
+      flash[:notice] = 'Registro actualizado.'
       redirect_to :action => 'show', :id => @sector
     else
       render :action => 'edit'

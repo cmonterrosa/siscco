@@ -39,7 +39,7 @@ class CreditosController < ApplicationController
   def create
     @credito = Credito.new(params[:credito])
     if @credito.save
-      flash[:notice] = 'Credito was successfully created.'
+      flash[:notice] = 'Registro creado satisfactoriamente.'
       redirect_to :action => 'list'
     else
       render :action => 'new'
@@ -53,7 +53,7 @@ class CreditosController < ApplicationController
   def update
     @credito = Credito.find(params[:id])
     if @credito.update_attributes(params[:credito])
-      flash[:notice] = 'Credito was successfully updated.'
+      flash[:notice] = 'Registro actualizado.'
       redirect_to :action => 'show', :id => @credito
     else
       render :action => 'edit'

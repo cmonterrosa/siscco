@@ -23,7 +23,7 @@ class PeriodosController < ApplicationController
   def create
     @periodo = Periodo.new(params[:periodo])
     if @periodo.save
-      flash[:notice] = 'Periodo was successfully created.'
+      flash[:notice] = 'Registro creado satisfactoriamente.'
       redirect_to :action => 'list'
     else
       render :action => 'new'
@@ -37,7 +37,7 @@ class PeriodosController < ApplicationController
   def update
     @periodo = Periodo.find(params[:id])
     if @periodo.update_attributes(params[:periodo])
-      flash[:notice] = 'Periodo was successfully updated.'
+      flash[:notice] = 'Registro actualizado.'
       redirect_to :action => 'show', :id => @periodo
     else
       render :action => 'edit'

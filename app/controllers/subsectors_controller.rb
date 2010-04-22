@@ -25,7 +25,7 @@ class SubsectorsController < ApplicationController
   def create
     @subsector = Subsector.new(params[:subsector])
     if @subsector.save
-      flash[:notice] = 'Subsector was successfully created.'
+      flash[:notice] = 'Registro creado satisfactoriamente.'
       redirect_to :action => 'list'
     else
       render :action => 'new'
@@ -39,7 +39,7 @@ class SubsectorsController < ApplicationController
   def update
     @subsector = Subsector.find(params[:id])
     if @subsector.update_attributes(params[:subsector])
-      flash[:notice] = 'Subsector was successfully updated.'
+      flash[:notice] = 'Registro actualizado.'
       redirect_to :action => 'show', :id => @subsector
     else
       render :action => 'edit'

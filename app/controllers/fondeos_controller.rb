@@ -23,7 +23,7 @@ class FondeosController < ApplicationController
   def create
     @fondeo = Fondeo.new(params[:fondeo])
     if @fondeo.save
-      flash[:notice] = 'Fondeo was successfully created.'
+      flash[:notice] = 'Registro creado satisfactoriamente.'
       redirect_to :action => 'list'
     else
       render :action => 'new'
@@ -37,7 +37,7 @@ class FondeosController < ApplicationController
   def update
     @fondeo = Fondeo.find(params[:id])
     if @fondeo.update_attributes(params[:fondeo])
-      flash[:notice] = 'Fondeo was successfully updated.'
+      flash[:notice] = 'Registro actualizado.'
       redirect_to :action => 'show', :id => @fondeo
     else
       render :action => 'edit'

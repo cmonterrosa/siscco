@@ -30,7 +30,7 @@ class BancosController < ApplicationController
   def create
     @banco = Banco.new(params[:banco])
     if @banco.save
-      flash[:notice] = 'Banco was successfully created.'
+      flash[:notice] = 'Registro creado satisfactoriamente.'
       redirect_to :action => 'list'
     else
       render :action => 'new'
@@ -44,7 +44,7 @@ class BancosController < ApplicationController
   def update
     @banco = Banco.find(params[:id])
     if @banco.update_attributes(params[:banco])
-      flash[:notice] = 'Banco was successfully updated.'
+      flash[:notice] = 'Registro actuaizado.'
       redirect_to :action => 'show', :id => @banco
     else
       render :action => 'edit'

@@ -25,7 +25,7 @@ class GirosController < ApplicationController
   def create
     @giro = Giro.new(params[:giro])
     if @giro.save
-      flash[:notice] = 'Giro was successfully created.'
+      flash[:notice] = 'Registro creado satisfactoriamente.'
       redirect_to :action => 'list'
     else
       render :action => 'new'
@@ -39,7 +39,7 @@ class GirosController < ApplicationController
   def update
     @giro = Giro.find(params[:id])
     if @giro.update_attributes(params[:giro])
-      flash[:notice] = 'Giro was successfully updated.'
+      flash[:notice] = 'Registro actualizado.'
       redirect_to :action => 'show', :id => @giro
     else
       render :action => 'edit'

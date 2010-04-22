@@ -12,16 +12,16 @@
   <% for column in Aval.content_columns %>
     <td><%=h aval.send(column.name) %></td>
   <% end %>
-    <td><%= link_to 'Show', :action => 'show', :id => aval %></td>
-    <td><%= link_to 'Edit', :action => 'edit', :id => aval %></td>
-    <td><%= link_to 'Destroy', { :action => 'destroy', :id => aval }, :confirm => 'Are you sure?', :method => :post %></td>
+    <td><%= link_to 'Detalles', :action => 'show', :id => aval %></td>
+    <td><%= link_to 'Editar', :action => 'edit', :id => aval %></td>
+    <td><%= link_to 'Eliminar', { :action => 'destroy', :id => aval }, :confirm => 'Estas seguro?', :method => :post %></td>
   </tr>
 <% end %>
 </table>
 
-<%= link_to 'Previous page', { :page => @aval_pages.current.previous } if @aval_pages.current.previous %>
-<%= link_to 'Next page', { :page => @aval_pages.current.next } if @aval_pages.current.next %> 
+<%= link_to 'Pag Anterior', { :page => @aval_pages.current.previous } if @aval_pages.current.previous %>
+<%= link_to 'Pag Siguiente', { :page => @aval_pages.current.next } if @aval_pages.current.next %>
 
 <br />
 
-<%= link_to 'New aval', :action => 'new' %>
+<%= link_to 'Nuevo', :action => 'new' %>
