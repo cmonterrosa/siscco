@@ -284,4 +284,13 @@ img.right {
 #links {
 	float: right;
 }
+.centrado{
+       text-align: right;
+}
 
+.scroll{
+       overflow: auto;
+       width:1000px;
+       height: 200px;
+       text-align: center;
+}

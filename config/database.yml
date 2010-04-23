@@ -15,10 +15,10 @@ development:
   adapter: mysql
   database: ultima
   username: root
-  password: solaris
-  #socket:    /var/run/mysqld/mysqld.sock
+  password: rajuijui
+  socket:   /var/run/mysqld/mysqld.sock
   #  password: solaris
-  socket: /tmp/mysql.sock
+ # socket: /tmp/mysql.sock
 
 # Warning: The database defined as 'test' will be erased and
 # re-generated from your development database when you run 'rake'.

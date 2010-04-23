@@ -20,9 +20,11 @@ class ApplicationController < ActionController::Base
   before_filter :configure_charsets
 
 
-  #-- Variables para combos globales ---
+  #-- --------Variables para combos globales -----------
   $estados = Estado.find(:all, :order => "estado")
   $clientes = Cliente.find(:all, :order => "paterno, materno, nombre")
+  $colonias = Colonia.find(:all)
+  $bancos = Banco.find(:all)
 
     #----------- Cambio de idioma de las fechas --------------------
   Date::MONTHNAMES = [nil] + %w(Enero Febrero Marzo Abril Mayo Junio Julio Agosto Septiembre Octubre Noviembre Diciembre)
