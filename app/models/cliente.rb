@@ -5,6 +5,7 @@ class Cliente < ActiveRecord::Base
   belongs_to :colonia
   belongs_to :grupo
   has_many :negocios
+  has_many :creditos
 
   def nombre_completo
     "#{paterno} #{materno} #{nombre}"

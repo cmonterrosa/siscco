@@ -22,7 +22,18 @@ class ApplicationController < ActionController::Base
 
   #-- Variables para combos globales ---
   $estados = Estado.find(:all, :order => "estado")
+  $ejidos = Ejido.find(:all, :order => "ejido")
+  $colonias = Colonia.find(:all, :order => "colonia")
+  $municipios = Municipio.find(:all, :order => "municipio")
   $clientes = Cliente.find(:all, :order => "paterno, materno, nombre")
+  $lineas = Linea.find(:all)
+  $bancos = Banco.find(:all, :order => "nombre")
+  $promotores = Promotor.find(:all, :order => "nombre")
+  $destinos = Destino.find(:all)
+  $grupos = Grupo.find(:all, :order => "nombre")
+  $fondeos = Fondeo.find(:all)
+  $periodos = Periodo.find(:all, :order => "dias")
+
 
     #----------- Cambio de idioma de las fechas --------------------
   Date::MONTHNAMES = [nil] + %w(Enero Febrero Marzo Abril Mayo Junio Julio Agosto Septiembre Octubre Noviembre Diciembre)

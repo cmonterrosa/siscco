@@ -1,5 +1,21 @@
-<% form_for :credito, @credito, :url => { :controller => "creditos", :action => "resultados" } do |f| %>
-      Numero de credito: <%= f.text_field :id %><br>
-      RFC del cliente: <%= f.text_field :rfc %> <br>
-      <%= submit_tag 'Buscar' %>
-<% end -%>
+<!--inicia ajax -->
+<p><label for="searchtext">Búsqueda por numero de credito:</label>
+<%= text_field_tag :num_credito %></p>
+      <p> <label for="searchtext">Búsqueda por numero de rfc:</label>
+<%= text_field_tag :rfc_credito %></p>
+
+
+<%= observe_field(:num_credito,
+                 :frequency => 0.25,
+                 :update => :search_hits,
+                 :with  => "num_credito",
+                 :url => { :action => :live_search_num }) %>
+<%= observe_field(:rfc_credito,
+                 :frequency => 0.25,
+                 :update => :search_hits,
+                 :with  => "rfc_credito",
+                 :url => { :action => :live_search_rfc }) %>
+<p>Resultados:</p>
+<div id="search_hits"></div>
+
+<!-- termina ajax -->

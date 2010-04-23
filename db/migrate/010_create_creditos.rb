@@ -3,7 +3,6 @@ class CreateCreditos < ActiveRecord::Migration
     create_table :creditos do |t|
       t.column :fecha_inicio, :date
       t.column :fecha_fin, :date
-      t.column :plazo, :string
       t.column :num_referencia, :string
       #--- aqui van las relaciones con las otras tablas ----
       t.column :linea_id, :integer
@@ -12,6 +11,7 @@ class CreateCreditos < ActiveRecord::Migration
       t.column :promotor_id, :integer
       t.column :destino_id, :integer
       t.column :grupo_id, :integer
+      t.column :periodo_id, :integer
     end
   end
 

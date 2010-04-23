@@ -7,8 +7,10 @@
 <p><label for="credito_fecha_fin">Fecha fin</label><br/>
 <%= date_select 'credito', 'fecha_fin'  %></p>
 
-<p><label for="credito_plazo">Plazo</label><br/>
-<%= text_field 'credito', 'plazo'  %></p>
+
+<p><label for="cliente_civil">Periodos</label><br/>
+ <%=collection_select("credito", "periodo_id", $periodos, :id, :nombre)%>
+</p>
 
 <p><label for="credito_num_referencia">Num referencia</label><br/>
 <%= text_field 'credito', 'num_referencia'  %></p>
@@ -21,7 +23,7 @@
 </p>
 
 <p><label for="cliente_civil">Banco</label><br/>
- <%=collection_select("credito", "banco_id", $bancos, :id, :nombre_cuenta)%>
+ <%=collection_select("credito", "banco_id", $bancos, :id, :banco_cuenta)%>
 </p>
 
 <p><label for="cliente_civil">Clientes</label><br/>
@@ -33,10 +35,8 @@
 </p>
 
 <p><label for="cliente_civil">Destino</label><br/>
- <%=collection_select("credito", "promotor_id", $destinos, :id, :destino)%>
+ <%=collection_select("credito", "destino_id", $destinos, :id, :destino)%>
 </p>
-
-
 
 
 
