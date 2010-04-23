@@ -1,3 +1,3 @@
 class Fondeo < ActiveRecord::Base
-has_many :lineas
+ has_many :lineas
 end

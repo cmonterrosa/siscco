@@ -22,6 +22,7 @@ class ApplicationController < ActionController::Base
 
   #-- Variables para combos globales ---
   $estados = Estado.find(:all, :order => "estado")
+  $clientes = Cliente.find(:all, :order => "paterno, materno, nombre")
 
     #----------- Cambio de idioma de las fechas --------------------
   Date::MONTHNAMES = [nil] + %w(Enero Febrero Marzo Abril Mayo Junio Julio Agosto Septiembre Octubre Noviembre Diciembre)

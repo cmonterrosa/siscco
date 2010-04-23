@@ -16,30 +16,14 @@ class CreditosController < ApplicationController
     @credito = Credito.find(params[:id])
   end
 
-  def new_grupal
+  def new
     @credito = Credito.new
-    #---- Para rellenar las queries----
-    @lineas = Linea.find(:all)
-    @bancos = Banco.find(:all)
-    @clientes = Cliente.find(:all)
-    @promotores = Promotor.find(:all)
-    @destinos = Destino.find(:all)
-    @grupos = Grupo.find(:all)
-  end
-
-  def new_individual
-    @credito = Credito.new
-    @lineas = Linea.find(:all)
-    @bancos = Banco.find(:all)
-    @clientes = Cliente.find(:all)
-    @promotores = Promotor.find(:all)
-    @destinos = Destino.find(:all)
   end
 
   def create
     @credito = Credito.new(params[:credito])
     if @credito.save
-      flash[:notice] = 'Registro creado satisfactoriamente.'
+      flash[:notice] = 'Credito was successfully created.'
       redirect_to :action => 'list'
     else
       render :action => 'new'
@@ -53,7 +37,7 @@ class CreditosController < ApplicationController
   def update
     @credito = Credito.find(params[:id])
     if @credito.update_attributes(params[:credito])
-      flash[:notice] = 'Registro actualizado.'
+      flash[:notice] = 'Credito was successfully updated.'
       redirect_to :action => 'show', :id => @credito
     else
       render :action => 'edit'
