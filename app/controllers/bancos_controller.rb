@@ -18,13 +18,6 @@ class BancosController < ApplicationController
 
   def new
     @banco = Banco.new
-
-    #----- Consultas para actualizar dinamicamente los combos --
-    @estados = Estado.find(:all, :order => "estado")
-    @municipios = Municipio.find(:all, :order => "municipio")
-    @ejidos = Ejido.find(:all, :order => "ejido")
-    @colonias = Colonia.find(:all)
-
   end
 
   def create
