@@ -1,7 +1,12 @@
-<h1>Nuevo Crédito</h1>
+<h1>Nuevo Crédito Grupal</h1>
 
 <% form_tag :action => 'create' do %>
   <%= render :partial => 'form' %>
+  <p><label for="cliente_civil">Destino</label><br/>
+      <%=collection_select("credito", "grupo_id", $grupos, :id, :nombre)%>
+  </p>
+
+
   <%= submit_tag "Guardar" %>
 <% end %>
 

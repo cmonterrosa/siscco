@@ -48,4 +48,32 @@ class CreditosController < ApplicationController
     Credito.find(params[:id]).destroy
     redirect_to :action => 'list'
   end
+
+
+  def transaccion
+    @credito = Credito.find(params[:id])
+  end
+
+
+
+
+  #--- Métodos ajax ---
+    def live_search_num
+      @credito_pages, @creditos = paginate :creditos, :per_page => 20
+      @creditos = Credito.find(:all, :conditions => ["id like ?", "%#{params[:num_credito]}%"])
+      return render(:partial => 'filtrados', :layout => false) if request.xhr?
+    end
+
+    def live_search_rfc
+      @cliente = Cliente.find(:first, :conditions => ["rfc like ?", "%#{params[:rfc_credito]}%" ])
+      @credito_pages, @creditos = paginate :creditos, :per_page => 20
+      if @cliente.nil? || @cliente.creditos.empty?
+         @creditos=[]
+      else
+         @creditos = @cliente.creditos
+      end
+     
+      return render(:partial => 'filtrados', :layout => false) if request.xhr?
+    end
+
 end
