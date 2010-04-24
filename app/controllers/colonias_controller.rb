@@ -18,10 +18,6 @@ class ColoniasController < ApplicationController
 
   def new
     @colonia = Colonia.new
-    #----- Consultas para actualizar dinamicamente los combos --
-    @estados = Estado.find(:all, :order => "estado")
-    @municipios = Municipio.find(:all, :order => "municipio")
-    @ejidos = Ejido.find(:all, :order => "ejido")
   end
 
   def create

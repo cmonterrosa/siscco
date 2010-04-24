@@ -25,6 +25,8 @@ class ApplicationController < ActionController::Base
   $clientes = Cliente.find(:all, :order => "paterno, materno, nombre")
   $colonias = Colonia.find(:all)
   $bancos = Banco.find(:all)
+  $ejidos = Ejido.find(:all)
+  $municipios = Municipio.find(:all)
 
     #----------- Cambio de idioma de las fechas --------------------
   Date::MONTHNAMES = [nil] + %w(Enero Febrero Marzo Abril Mayo Junio Julio Agosto Septiembre Octubre Noviembre Diciembre)

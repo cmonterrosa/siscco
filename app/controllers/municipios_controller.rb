@@ -19,7 +19,6 @@ class MunicipiosController < ApplicationController
 
   def new
     @municipio = Municipio.new
-    @estados = Estado.find(:all, :order => "estado")
   end
 
   def create

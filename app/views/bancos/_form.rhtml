@@ -24,9 +24,9 @@
   </tr>
   <tr>
     <th><%=  collection_select("lugar", "estado_id", $estados, :id, :estado, :prompt =>'Seleciona un estado')    %></th>
-    <th><%=  select("lugar", "municipio_id", ['Seleciona el municipio'])    %></th>
-    <th><%=  select("lugar", "ejido_id", ['Selecciona un Ejido'])    %></th>
-    <th><%=  select("banco", "colonia_id", :id, :colonia)    %></th>
+    <th><%=  collection_select("lugar", "municipio_id",$municipios, :id, :municipio)    %></th>
+    <th><%=  collection_select("lugar", "ejido_id", $ejidos, :id, :ejido)    %></th>
+    <th><%=  collection_select("banco", "colonia_id", $colonias, :id, :colonia)    %></th>
   </tr>
 </table>
 <!--[eoform:banco]-->
