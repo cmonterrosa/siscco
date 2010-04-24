@@ -26,22 +26,15 @@ class ApplicationController < ActionController::Base
   $colonias = Colonia.find(:all, :order => "colonia")
   $municipios = Municipio.find(:all, :order => "municipio")
   $clientes = Cliente.find(:all, :order => "paterno, materno, nombre")
-<<<<<<< HEAD:app/controllers/application.rb
-  $colonias = Colonia.find(:all)
   $bancos = Banco.find(:all)
   $ejidos = Ejido.find(:all)
-  $municipios = Municipio.find(:all)
-=======
   $lineas = Linea.find(:all)
-  $bancos = Banco.find(:all, :order => "nombre")
   $promotores = Promotor.find(:all, :order => "nombre")
   $destinos = Destino.find(:all)
   $grupos = Grupo.find(:all, :order => "nombre")
   $fondeos = Fondeo.find(:all)
   $periodos = Periodo.find(:all, :order => "dias")
 
-
->>>>>>> 6209b73dd5590b77128a2ace2425eb1c779c123d:app/controllers/application.rb
 
     #----------- Cambio de idioma de las fechas --------------------
   Date::MONTHNAMES = [nil] + %w(Enero Febrero Marzo Abril Mayo Junio Julio Agosto Septiembre Octubre Noviembre Diciembre)
