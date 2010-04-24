@@ -19,7 +19,6 @@ class GirosController < ApplicationController
   def new
     @giro = Giro.new
 #    ------ carga combo subsectores -----
-    @subsectores=Subsector.find(:all, :order => "subsector")
   end
 
   def create

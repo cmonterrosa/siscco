@@ -9,7 +9,8 @@ class ColoniasController < ApplicationController
          :redirect_to => { :action => :list }
 
   def list
-    @colonia_pages, @colonias = paginate :colonias, :per_page => 10
+    @colonias = Colonia.find(:all, :order => 'colonia')
+#    @colonia_pages, @colonias = paginate :colonias, :per_page => 10
   end
 
   def show

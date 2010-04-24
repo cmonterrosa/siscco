@@ -6,7 +6,7 @@ class CreateBancos < ActiveRecord::Migration
       t.column :titular, :string
       t.column :direccion, :string
       t.column :telefono, :string
-      t.column :colonia_id, :string
+      t.column :colonia_id, :integer
     end
   end
 

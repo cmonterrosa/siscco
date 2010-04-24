@@ -12,30 +12,30 @@
 <!-- Combo para conseguir la colonia donde vive -->
 
 Estado<br/>
-<%=  collection_select(:lugar, :estado_id, $estados, :id, :estado, {:prompt => "---- Selecciona el estado ----"})    %>
+<%=  collection_select("", "estado_id", $estados, :id, :estado, :prompt => '>>Estado')    %>
 
 <br/>
 <br/>Municipio<br/>
-<%=  select(:lugar, :municipio_id, ["-- Selecciona el municipio --"])    %>
+<%=  select("", "municipio_id", ['>>Municipio'])    %>
 
 <br/>
 <br/>Ejido<br/>
-<%=  select("colonia", "ejido_id", ["-- Selecciona el ejido --"])    %>
+<%=  collection_select("colonia", "ejido_id", $ejidos, :id, :ejido, :prompt => '>>Ejido')    %>
 
 <br/>
 <br/>
 <!--Funciones para ejecutar las acciones cuando cambia la seleccion -->
 
-      <%= observe_field 'lugar_estado_id',
+      <%= observe_field '_estado_id',
         :url => {:controller => 'combos',
         :action => 'get_municipios'},
-        :update => 'lugar_municipio_id',
-        :with => 'lugar_estado_id' %>
+        :update => '_municipio_id',
+        :with => '_estado_id' %>
 
-      <%= observe_field 'lugar_municipio_id',
+      <%= observe_field '_municipio_id',
         :url => {:controller => 'combos',
         :action => 'get_ejidos'},
         :update => 'colonia_ejido_id',
-        :with => 'lugar_municipio_id' %>
+        :with => '_municipio_id' %>
 <!--[eoform:colonia]-->
 

@@ -1,4 +1,4 @@
-<div style="overflow: auto; width:1000px; height: 200px;" align="center" >
+<div class="scroll">
 <table>
   <tr>
   <% for column in Banco.content_columns %>
@@ -19,8 +19,4 @@
 <% end %>
 </table>
 </div>
-
-<%= link_to 'Pag anterior', { :page => @banco_pages.current.previous } if @banco_pages.current.previous %>
-<%= link_to 'Pag siguiente', { :page => @banco_pages.current.next } if @banco_pages.current.next %>
-
 <br />
