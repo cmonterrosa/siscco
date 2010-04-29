@@ -1,4 +1,5 @@
 class SectorsController < ApplicationController
+   before_filter :login_required
   def index
     list
     render :action => 'list'
@@ -9,7 +10,8 @@ class SectorsController < ApplicationController
          :redirect_to => { :action => :list }
 
   def list
-    @sector_pages, @sectors = paginate :sectors, :per_page => 10
+#    @sector_pages, @sectors = paginate :sectors, :per_page => 10
+     @sectors = Sector.find(:all, :order => 'sector')
   end
 
   def show
@@ -47,5 +49,9 @@ class SectorsController < ApplicationController
   def destroy
     Sector.find(params[:id]).destroy
     redirect_to :action => 'list'
+  end
+  def live_search
+      @sectors = Sector.find(:all, :conditions => ["sector like ?", "%#{params[:searchtext]}%"])
+      return render(:partial => 'filtrosector', :layout => false) if request.xhr?
   end
 end

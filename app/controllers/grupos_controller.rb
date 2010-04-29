@@ -1,4 +1,5 @@
 class GruposController < ApplicationController
+   before_filter :login_required
   def index
     list
     render :action => 'list'
@@ -9,7 +10,8 @@ class GruposController < ApplicationController
          :redirect_to => { :action => :list }
 
   def list
-    @grupo_pages, @grupos = paginate :grupos, :per_page => 10
+#    @grupo_pages, @grupos = paginate :grupos, :per_page => 10
+     @grupos = Grupo.find(:all, :order => 'nombre')
   end
 
   def show
@@ -48,4 +50,10 @@ class GruposController < ApplicationController
     Grupo.find(params[:id]).destroy
     redirect_to :action => 'list'
   end
+            #-- Ajax --
+    def live_search
+      @grupos = Grupo.find(:all, :conditions => ["nombre like ?", "%#{params[:searchtext]}%"])
+      return render(:partial => 'filtrogrupo', :layout => false) if request.xhr?
+   end
+      #--- Funciones ajax para filtrado --
 end

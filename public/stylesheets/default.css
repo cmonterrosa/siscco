@@ -287,6 +287,9 @@ img.right {
 .centrado{
        text-align: right;
 }
+.center{
+    text-align: center;
+}
 
 .scroll{
        overflow: auto;

@@ -1,7 +1,13 @@
 <%= error_messages_for 'grupo' %>
 
 <!--[form:grupo]-->
-<p><label for="grupo_nombre">Nombre</label><br/>
-<%= text_field 'grupo', 'nombre'  %></p>
+<table>
+  <tr>
+    <th>Nombre:</th>
+  </tr>
+  <tr>
+    <th><%= text_field 'grupo', 'nombre'  %></th>
+  </tr>
+</table>
 <!--[eoform:grupo]-->
 

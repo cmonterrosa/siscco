@@ -10,7 +10,8 @@ class BancosController < ApplicationController
          :redirect_to => { :action => :list }
 
   def list
-    @bancos = Banco.find(:all, :order => 'nombre') #@banco_pages, @bancos = paginate :bancos , :per_page => 10
+    #@banco_pages, @bancos = paginate :bancos , :per_page => 10
+    @bancos = Banco.find(:all, :order => 'nombre') 
   end
 
   def show

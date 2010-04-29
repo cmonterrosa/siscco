@@ -1,4 +1,5 @@
 class GirosController < ApplicationController
+   before_filter :login_required
   def index
     list
     render :action => 'list'
@@ -9,7 +10,8 @@ class GirosController < ApplicationController
          :redirect_to => { :action => :list }
 
   def list
-    @giro_pages, @giros = paginate :giros, :per_page => 10
+#    @giro_pages, @giros = paginate :giros, :per_page => 10
+     @giro = Giro.find(:all, :order => 'giro')
   end
 
   def show
@@ -18,7 +20,6 @@ class GirosController < ApplicationController
 
   def new
     @giro = Giro.new
-#    ------ carga combo subsectores -----
   end
 
   def create
@@ -49,4 +50,10 @@ class GirosController < ApplicationController
     Giro.find(params[:id]).destroy
     redirect_to :action => 'list'
   end
+          #-- Ajax --
+    def live_search
+      @giros = Giro.find(:all, :conditions => ["giro like ?", "%#{params[:searchtext]}%"])
+      return render(:partial => 'filtrogiro', :layout => false) if request.xhr?
+   end
+      #--- Funciones ajax para filtrado --
 end

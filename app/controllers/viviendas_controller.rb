@@ -1,4 +1,5 @@
 class ViviendasController < ApplicationController
+   before_filter :login_required
   def index
     list
     render :action => 'list'
@@ -9,7 +10,8 @@ class ViviendasController < ApplicationController
          :redirect_to => { :action => :list }
 
   def list
-    @vivienda_pages, @viviendas = paginate :viviendas, :per_page => 10
+#    @vivienda_pages, @viviendas = paginate :viviendas, :per_page => 10
+     @viviendas = Vivienda.find(:all, :order => 'tipo_vivienda')
   end
 
   def show
@@ -48,4 +50,10 @@ class ViviendasController < ApplicationController
     Vivienda.find(params[:id]).destroy
     redirect_to :action => 'list'
   end
+                    #-- Ajax --
+  def live_search
+      @viviendas = Vivienda.find(:all, :conditions => ["tipo_vivienda like ?", "%#{params[:searchtext]}%"])
+      return render(:partial => 'filtrovivienda', :layout => false) if request.xhr?
+  end
+      #--- Funciones ajax para filtrado --
 end

@@ -1,4 +1,5 @@
 class FestivosController < ApplicationController
+   before_filter :login_required
   def index
     list
     render :action => 'list'
@@ -9,7 +10,8 @@ class FestivosController < ApplicationController
          :redirect_to => { :action => :list }
 
   def list
-    @festivo_pages, @festivos = paginate :festivos, :per_page => 10
+#    @festivo_pages, @festivos = paginate :festivos, :per_page => 10
+     @festivos = Festivo.find(:all, :order => 'fecha')
   end
 
   def show
@@ -48,4 +50,11 @@ class FestivosController < ApplicationController
     Festivo.find(params[:id]).destroy
     redirect_to :action => 'list'
   end
+    #-- Ajax --
+    def live_search
+#      @estado_pages, @estados = paginate :estado, :per_page => 10
+      @festivos = Festivo.find(:all, :conditions => ["descripcion like ?", "%#{params[:searchtext]}%"])
+      return render(:partial => 'filtrofestivo', :layout => false) if request.xhr?
+   end
+      #--- Funciones ajax para filtrado --
 end

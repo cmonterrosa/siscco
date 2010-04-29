@@ -1,13 +1,17 @@
 <%= error_messages_for 'giro' %>
 
 <!--[form:giro]-->
-<p><label for="giro_subsector">Subsector</label><br/>
-<%= collection_select('giro', 'subsector', Subsector.find(:all), :subsector, :subsector)  %></p>
-
-<p><label for="giro_codigo">Codigo</label><br/>
-<%= text_field 'giro', 'codigo'  %></p>
-
-<p><label for="giro_giro">Giro</label><br/>
-<%= text_field 'giro', 'giro'  %></p>
+<table>
+  <tr>
+    <th>Giro:</th>
+    <th>Codigo:</th>
+    <th>Subsector:</th>
+  </tr>
+  <tr>
+    <th><%= text_field 'giro', 'giro'  %></th>
+    <th><%= text_field 'giro', 'codigo'  %></th>
+    <th><%= collection_select('giro', 'subsector', Subsector.find(:all, :order => 'subsector'), :subsector, :subsector)  %></th>
+  </tr>
+</table>
 <!--[eoform:giro]-->
 

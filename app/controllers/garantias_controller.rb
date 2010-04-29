@@ -1,4 +1,5 @@
 class GarantiasController < ApplicationController
+   before_filter :login_required
   def index
     list
     render :action => 'list'
@@ -9,7 +10,8 @@ class GarantiasController < ApplicationController
          :redirect_to => { :action => :list }
 
   def list
-    @garantia_pages, @garantias = paginate :garantias, :per_page => 10
+#    @garantia_pages, @garantias = paginate :garantias, :per_page => 10
+     @garantias = Garantia.find(:all, :order => 'garantia')
   end
 
   def show
@@ -48,4 +50,10 @@ class GarantiasController < ApplicationController
     Garantia.find(params[:id]).destroy
     redirect_to :action => 'list'
   end
+        #-- Ajax --
+    def live_search
+      @garantias = Garantia.find(:all, :conditions => ["garantia like ?", "%#{params[:searchtext]}%"])
+      return render(:partial => 'filtrogarantia', :layout => false) if request.xhr?
+   end
+      #--- Funciones ajax para filtrado --
 end

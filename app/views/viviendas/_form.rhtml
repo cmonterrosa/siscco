@@ -1,7 +1,13 @@
 <%= error_messages_for 'vivienda' %>
 
 <!--[form:vivienda]-->
-<p><label for="vivienda_tipo_vivienda">Tipo vivienda</label><br/>
-<%= text_field 'vivienda', 'tipo_vivienda'  %></p>
+<table>
+  <tr>
+    <th>Tpo Vivienda:</th>
+  </tr>
+  <tr>
+    <th><%= text_field 'vivienda', 'tipo_vivienda'  %></th>
+  </tr>
+</table>
 <!--[eoform:vivienda]-->
 

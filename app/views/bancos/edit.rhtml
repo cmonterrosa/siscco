@@ -1,9 +1,8 @@
 <h1 class="centrado">Editar banco</h1>
 
 <% form_tag :action => 'update', :id => @banco do %>
-  <%= render :partial => 'form' %>
-  <%= submit_tag 'Guardar cambios' %>
+  <%= render :partial => 'formall' %>
+  <%= submit_tag 'Guardar' %>
 <% end %>
 
-<%#= button_to 'Detalles', :action => 'show', :id => @banco %>
 <%= link_to 'Regresar', :action => 'list' %>

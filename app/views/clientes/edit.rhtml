@@ -1,9 +1,8 @@
-<h1>Editar cliente</h1>
+<h1 class="centrado">Editar Cliente</h1>
 
-<% form_tag :action => 'update', :id => @cliente do %>
-  <%= render :partial => 'form' %>
-  <%= submit_tag 'Editar' %>
+<% form_tag :action => 'update', :id => @cliente, :id_negocio => @negocio do %>
+  <%= render :partial => 'formall' %>
+  <%= submit_tag 'Guardar' %>
 <% end %>
 
-<%= link_to 'Show', :action => 'show', :id => @cliente %> |
-<%= link_to 'Back', :action => 'list' %>
+<%= link_to 'Regresar', :action => 'list' %>

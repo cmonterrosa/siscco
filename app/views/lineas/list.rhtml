@@ -1,27 +1,36 @@
-<h1>Listing lineas</h1>
-
-<table>
-  <tr>
-  <% for column in Linea.content_columns %>
-    <th><%= column.human_name %></th>
-  <% end %>
-  </tr>
+<h1 class="centrado">Lineas</h1>
+<!--inicia ajax -->
+<label for="searchtext">Búsqueda por nombre:</label>
+  <%= text_field_tag :searchtext %>
+  <%= observe_field(:searchtext,
+                 :frequency => 0.25,
+                 :update => :search_hits,
+                 :with  => "searchtext",
+                 :url => { :action => :live_search }) %>
+<p>Resultados de la Busqueda:</p>
+<div id="search_hits">
+  <div class="scroll">
+    <table>
+      <tr>
+      <% for column in Linea.content_columns %>
+        <th><%= column.human_name %></th>
+      <% end %>
+        <th colspan="3">Acciones</th>
+      </tr>
   
-<% for linea in @lineas %>
-  <tr>
-  <% for column in Linea.content_columns %>
-    <td><%=h linea.send(column.name) %></td>
-  <% end %>
-    <td><%= link_to 'Show', :action => 'show', :id => linea %></td>
-    <td><%= link_to 'Edit', :action => 'edit', :id => linea %></td>
-    <td><%= link_to 'Destroy', { :action => 'destroy', :id => linea }, :confirm => 'Are you sure?', :method => :post %></td>
-  </tr>
-<% end %>
-</table>
-
-<%= link_to 'Previous page', { :page => @linea_pages.current.previous } if @linea_pages.current.previous %>
-<%= link_to 'Next page', { :page => @linea_pages.current.next } if @linea_pages.current.next %> 
-
-<br />
-
-<%= link_to 'New linea', :action => 'new' %>
+      <% for linea in @lineas %>
+      <tr>
+        <% for column in Linea.content_columns %>
+        <td><%=h linea.send(column.name) %></td>
+        <% end %>
+        <td><%= button_to 'Detalles', :action => 'show', :id => linea %></td>
+        <td><%= button_to 'Editar', :action => 'edit', :id => linea %></td>
+        <td><%= button_to 'Eliminar', { :action => 'destroy', :id => linea }, :confirm => 'Estas suguro?', :method => :post %></td>
+      </tr>
+      <% end %>
+    </table>
+  </div>
+</div>
+<div class="">
+  <%= button_to 'Agregar Linea', :action => 'new' %>
+</div>

@@ -1,4 +1,5 @@
 class SubsectorsController < ApplicationController
+   before_filter :login_required
   def index
     list
     render :action => 'list'
@@ -9,7 +10,8 @@ class SubsectorsController < ApplicationController
          :redirect_to => { :action => :list }
 
   def list
-    @subsector_pages, @subsectors = paginate :subsectors, :per_page => 10
+#    @subsector_pages, @subsectors = paginate :subsectors, :per_page => 10
+     @subsectors = Subsector.find(:all, :order => "subsector")
   end
 
   def show
@@ -17,9 +19,7 @@ class SubsectorsController < ApplicationController
   end
 
   def new
-    @subsector = Subsector.new
-#    ---- llena combo sector ----
-    @sectores = Sector.find(:all, :order => "sector")
+    @subsector = Subsector.new    
   end
 
   def create
@@ -50,4 +50,10 @@ class SubsectorsController < ApplicationController
     Subsector.find(params[:id]).destroy
     redirect_to :action => 'list'
   end
+                  #-- Ajax --
+  def live_search
+      @subsectors = Subsector.find(:all, :conditions => ["subsector like ?", "%#{params[:searchtext]}%"])
+      return render(:partial => 'filtrosubsector', :layout => false) if request.xhr?
+  end
+      #--- Funciones ajax para filtrado --
 end

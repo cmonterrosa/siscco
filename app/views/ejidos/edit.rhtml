@@ -1,9 +1,8 @@
-<h1>Editing ejido</h1>
+<h1 class="centrado">Editar ejido</h1>
 
 <% form_tag :action => 'update', :id => @ejido do %>
   <%= render :partial => 'form' %>
-  <%= submit_tag 'Edit' %>
+  <%= submit_tag 'Guardar' %>
 <% end %>
 
-<%= link_to 'Show', :action => 'show', :id => @ejido %> |
-<%= link_to 'Back', :action => 'list' %>
+<%= link_to 'Regresar', :action => 'list' %>

@@ -3,6 +3,9 @@
   <b><%= column.human_name %>:</b> <%=h @municipio.send(column.name) %>
 </p>
 <% end %>
+<p>
+  <b>Estado:</b> <%= @municipio.estado.estado %>
+</p>
 
-<%= link_to 'Edit', :action => 'edit', :id => @municipio %> |
-<%= link_to 'Back', :action => 'list' %>
+<%= button_to 'Editar', :action => 'edit', :id => @municipio %>
+<%= link_to 'Regresar', :action => 'list' %>

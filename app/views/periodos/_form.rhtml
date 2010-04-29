@@ -1,10 +1,15 @@
 <%= error_messages_for 'periodo' %>
 
 <!--[form:periodo]-->
-<p><label for="periodo_nombre">Nombre</label><br/>
-<%= text_field 'periodo', 'nombre'  %></p>
-
-<p><label for="periodo_dias">Dias</label><br/>
-<%= text_field 'periodo', 'dias'  %></p>
+<table>
+  <tr>
+    <th>Nombre:</th>
+    <th>Dias:</th>
+  </tr>
+  <tr>
+    <th><%= text_field 'periodo', 'nombre'  %></th>
+    <th><%= text_field 'periodo', 'dias'  %></th>
+  </tr>
+</table>
 <!--[eoform:periodo]-->
 

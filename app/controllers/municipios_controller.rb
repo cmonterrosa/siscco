@@ -10,7 +10,8 @@ class MunicipiosController < ApplicationController
          :redirect_to => { :action => :list }
 
   def list
-    @municipio_pages, @municipios = paginate :municipios, :per_page => 10
+#    @municipio_pages, @municipios = paginate :municipios, :per_page => 10
+     @municipios = Municipio.find(:all, :order => 'municipio')
   end
 
   def show
@@ -49,4 +50,10 @@ class MunicipiosController < ApplicationController
     Municipio.find(params[:id]).destroy
     redirect_to :action => 'list'
   end
+               #-- Ajax --
+  def live_search
+      @municipios = Municipio.find(:all, :conditions => ["municipio like ?", "%#{params[:searchtext]}%"])
+      return render(:partial => 'filtromunicipio', :layout => false) if request.xhr?
+  end
+      #--- Funciones ajax para filtrado --
 end

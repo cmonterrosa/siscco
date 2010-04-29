@@ -1,27 +1,36 @@
-<h1>Listing giros</h1>
-
-<table>
-  <tr>
-  <% for column in Giro.content_columns %>
-    <th><%= column.human_name %></th>
-  <% end %>
-  </tr>
+<h1 class="centrado">Giros</h1>
+<!--inicia ajax -->
+<label for="searchtext">Búsqueda por nombre:</label>
+  <%= text_field_tag :searchtext %>
+  <%= observe_field(:searchtext,
+                 :frequency => 0.25,
+                 :update => :search_hits,
+                 :with  => "searchtext",
+                 :url => { :action => :live_search }) %>
+<p>Resultados de la Busqueda:</p>
+<div id="search_hits">
+  <div class="scroll">
+    <table>
+      <tr>
+      <% for column in Giro.content_columns %>
+        <th><%= column.human_name %></th>
+      <% end %>
+        <th colspan="3">Acciones</th>
+      </tr>
   
-<% for giro in @giros %>
-  <tr>
-  <% for column in Giro.content_columns %>
-    <td><%=h giro.send(column.name) %></td>
-  <% end %>
-    <td><%= link_to 'Show', :action => 'show', :id => giro %></td>
-    <td><%= link_to 'Edit', :action => 'edit', :id => giro %></td>
-    <td><%= link_to 'Destroy', { :action => 'destroy', :id => giro }, :confirm => 'Are you sure?', :method => :post %></td>
-  </tr>
-<% end %>
-</table>
-
-<%= link_to 'Previous page', { :page => @giro_pages.current.previous } if @giro_pages.current.previous %>
-<%= link_to 'Next page', { :page => @giro_pages.current.next } if @giro_pages.current.next %> 
-
-<br />
-
-<%= link_to 'New giro', :action => 'new' %>
+      <% for giro in @giros %>
+      <tr>
+        <% for column in Giro.content_columns %>
+        <td><%=h giro.send(column.name) %></td>
+        <% end %>
+        <td><%= button_to 'Detalles', :action => 'show', :id => giro %></td>
+        <td><%= button_to 'Editar', :action => 'edit', :id => giro %></td>
+        <td><%= button_to 'Eliminar', { :action => 'destroy', :id => giro }, :confirm => 'Estas seguro?', :method => :post %></td>
+      </tr>
+      <% end %>
+    </table>
+  </div>
+</div>
+<div class="">
+<%= button_to 'Agregar Giro', :action => 'new' %>
+</div>

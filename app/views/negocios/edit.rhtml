@@ -1,9 +1,8 @@
-<h1>Editing negocio</h1>
+<h1 class="centrado">Editar Negocio</h1>
 
 <% form_tag :action => 'update', :id => @negocio do %>
   <%= render :partial => 'form' %>
-  <%= submit_tag 'Edit' %>
+  <%= submit_tag 'Guardar' %>
 <% end %>
 
-<%= link_to 'Show', :action => 'show', :id => @negocio %> |
-<%= link_to 'Back', :action => 'list' %>
+<%= link_to 'Regresar', :action => 'show', :controller => 'clientes', :id => @negocio.cliente %>
