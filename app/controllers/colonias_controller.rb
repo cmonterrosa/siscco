@@ -9,7 +9,8 @@ class ColoniasController < ApplicationController
          :redirect_to => { :action => :list }
 
   def list
-    @colonia_pages, @colonias = paginate :colonias, :per_page => 10
+    @colonias = Colonia.find(:all, :order => 'colonia')
+#    @colonia_pages, @colonias = paginate :colonias, :per_page => 10
   end
 
   def show
@@ -18,10 +19,6 @@ class ColoniasController < ApplicationController
 
   def new
     @colonia = Colonia.new
-    #----- Consultas para actualizar dinamicamente los combos --
-    @estados = Estado.find(:all, :order => "estado")
-    @municipios = Municipio.find(:all, :order => "municipio")
-    @ejidos = Ejido.find(:all, :order => "ejido")
   end
 
   def create

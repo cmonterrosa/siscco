@@ -1,9 +1,9 @@
-<h1>Editing colonia</h1>
+<h1 class="centrado">Editar colonia</h1>
 
 <% form_tag :action => 'update', :id => @colonia do %>
   <%= render :partial => 'form' %>
-  <%= submit_tag 'Edit' %>
+  <%= submit_tag 'Guardar' %>
 <% end %>
 
-<%= link_to 'Show', :action => 'show', :id => @colonia %> |
-<%= link_to 'Back', :action => 'list' %>
+<%#= link_to 'Detalles', :action => 'show', :id => @colonia %>
+<%= link_to 'Regresar', :action => 'list' %>

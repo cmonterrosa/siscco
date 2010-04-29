@@ -1,10 +1,12 @@
-<h1>Listing colonias</h1>
+<h1 class="centrado">Colonias</h1>
 
+<div class="scroll2" align="center">
 <table>
   <tr>
   <% for column in Colonia.content_columns %>
     <th><%= column.human_name %></th>
   <% end %>
+    <th colspan="3">Acciones</th>
   </tr>
   
 <% for colonia in @colonias %>
@@ -12,16 +14,14 @@
   <% for column in Colonia.content_columns %>
     <td><%=h colonia.send(column.name) %></td>
   <% end %>
-    <td><%= link_to 'Show', :action => 'show', :id => colonia %></td>
-    <td><%= link_to 'Edit', :action => 'edit', :id => colonia %></td>
-    <td><%= link_to 'Destroy', { :action => 'destroy', :id => colonia }, :confirm => 'Are you sure?', :method => :post %></td>
+    <td><%= button_to 'Detalles', :action => 'show', :id => colonia %></td>
+    <td><%= button_to 'Editar', :action => 'edit', :id => colonia %></td>
+    <td><%= button_to 'Eliminar', { :action => 'destroy', :id => colonia }, :confirm => 'Estas seguro?', :method => :post %></td>
   </tr>
 <% end %>
 </table>
-
-<%= link_to 'Previous page', { :page => @colonia_pages.current.previous } if @colonia_pages.current.previous %>
-<%= link_to 'Next page', { :page => @colonia_pages.current.next } if @colonia_pages.current.next %> 
+</div>
 
 <br />
 
-<%= link_to 'New colonia', :action => 'new' %>
+<%= button_to 'Agregar colonia', :action => 'new' %>

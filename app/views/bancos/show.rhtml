@@ -3,6 +3,9 @@
   <b><%= column.human_name %>:</b> <%=h @banco.send(column.name) %>
 </p>
 <% end %>
+<p>
+  <b>Colonia: </b> <%= @banco.colonia.colonia %>
+</p>
+<p><%= button_to 'Editar', :action => 'edit', :id => @banco %></p>
+<p><%= link_to 'Regresar', :action => 'list' %></p>
 
-<%= link_to 'Editar', :action => 'edit', :id => @banco %> |
-<%= link_to 'Regresar', :action => 'list' %>

@@ -12,11 +12,11 @@
 <!-- Combo para conseguir la ejido donde vive -->
 
 Estado<br/>
-<%=  collection_select(:lugar, :estado_id, @estados, :id, :estado, {:prompt => "---- Selecciona el estado ----"})    %>
+<%=  collection_select(:lugar, :estado_id, $estados, :id, :estado, {:prompt => "---- Selecciona el estado ----"})    %>
 
 <br/>
 <br/>Municipio<br/>
-<%=  select("ejido", "municipio_id", ["---- Selecciona el municipio --"])    %>
+<%=  select("ejido", "municipio_id", [">>Municipio"])    %>
 
 <br/>
 <br/>

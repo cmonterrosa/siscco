@@ -290,7 +290,13 @@ img.right {
 
 .scroll{
        overflow: auto;
-       width:1000px;
+       width:900px;
+       height: 200px;
+       text-align: center;
+}
+.scroll2{
+       overflow: auto;
+       width:500px;
        height: 200px;
        text-align: center;
 }

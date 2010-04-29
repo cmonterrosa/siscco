@@ -1,4 +1,5 @@
 class BancosController < ApplicationController
+  before_filter :login_required
   def index
     list
     render :action => 'list'
@@ -9,7 +10,7 @@ class BancosController < ApplicationController
          :redirect_to => { :action => :list }
 
   def list
-    @banco_pages, @bancos = paginate :bancos, :per_page => 10
+    @bancos = Banco.find(:all, :order => 'nombre') #@banco_pages, @bancos = paginate :bancos , :per_page => 10
   end
 
   def show
@@ -51,7 +52,8 @@ class BancosController < ApplicationController
 
   #--- Funciones ajax para filtrado --
   def live_search
-      @banco_pages, @bancos = paginate :bancos, :per_page => 10
+#      @banco_pages, @bancos = paginate :bancos, :per_page => 10
+      @bancos = Banco.find(:all, :order => 'nombre')
       @bancos = Banco.find(:all, :conditions => ["nombre like ?", "%#{params[:searchtext]}%"])
       return render(:partial => 'filtronombre', :layout => false) if request.xhr?
   end

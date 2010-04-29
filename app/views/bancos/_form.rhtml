@@ -1,6 +1,6 @@
 <%= error_messages_for 'banco' %>
 
-<!--[banco]-->
+<!--[form:banco]-->
 <table>
   <tr>
     <td>Nombre:</td>
@@ -23,30 +23,31 @@
     <td>Colonia:</td>
   </tr>
   <tr>
-    <th><%=  collection_select("lugar", "estado_id", $estados, :id, :estado, :prompt =>'Seleciona un estado')    %></th>
-    <th><%=  select("lugar", "municipio_id", ['Seleciona el municipio'])    %></th>
-    <th><%=  select("lugar", "ejido_id", ['Selecciona un Ejido'])    %></th>
-    <th><%=  select("banco", "colonia_id", :id, :colonia)    %></th>
+    <th><%=  collection_select("", "estado_id", $estados, :id, :estado, :prompt => '>>Estado')    %></th>
+    <th><%=  select("","municipio_id", ['>>Municipios'])    %></th>
+    <th><%=  select("","ejido_id", ['>>Ejidos'])    %></th>
+    <th><%=  collection_select("banco", "colonia_id", $colonias, :id, :colonia, :prompt => '>>Colonia')    %></th>
   </tr>
 </table>
+
 <!--[eoform:banco]-->
 <!--------- funciones cargar combos ------------->
-      <%= observe_field 'lugar_estado_id',
+      <%= observe_field '_estado_id',
         :url => {:controller => 'combos',
         :action => 'get_municipios'},
-        :update => 'lugar_municipio_id',
-        :with => 'lugar_estado_id' %>
+        :update => '_municipio_id',
+        :with => '_estado_id' %>
 
 
-      <%= observe_field 'lugar_municipio_id',
+      <%= observe_field '_municipio_id',
         :url => {:controller => 'combos',
         :action => 'get_ejidos'},
-        :update => 'lugar_ejido_id',
-        :with => 'lugar_municipio_id' %>
+        :update => '_ejido_id',
+        :with => '_municipio_id' %>
 
 
-      <%= observe_field 'lugar_ejido_id',
+      <%= observe_field '_ejido_id',
         :url => {:controller => 'combos',
         :action => 'get_colonias'},
         :update => 'banco_colonia_id',
-        :with => 'lugar_ejido_id' %>
+        :with => '_ejido_id' %>

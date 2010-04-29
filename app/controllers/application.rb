@@ -27,14 +27,14 @@ class ApplicationController < ActionController::Base
   $colonias = Colonia.find(:all, :order => "colonia")
   $municipios = Municipio.find(:all, :order => "municipio")
   $clientes = Cliente.find(:all, :order => "paterno, materno, nombre")
+  $bancos = Banco.find(:all)
+  $ejidos = Ejido.find(:all)
   $lineas = Linea.find(:all)
-  $bancos = Banco.find(:all, :order => "nombre")
   $promotores = Promotor.find(:all, :order => "nombre")
   $destinos = Destino.find(:all)
   $grupos = Grupo.find(:all, :order => "nombre")
   $fondeos = Fondeo.find(:all)
   $periodos = Periodo.find(:all, :order => "dias")
-
 
 
     #----------- Cambio de idioma de las fechas --------------------
