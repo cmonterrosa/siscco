@@ -1,9 +1,8 @@
-<h1>Editing promotor</h1>
+<h1 class="centrado">Editar Promotor</h1>
 
 <% form_tag :action => 'update', :id => @promotor do %>
   <%= render :partial => 'form' %>
-  <%= submit_tag 'Edit' %>
+  <%= submit_tag 'Guardar' %>
 <% end %>
 
-<%= link_to 'Show', :action => 'show', :id => @promotor %> |
-<%= link_to 'Back', :action => 'list' %>
+<%= link_to 'Regresar', :action => 'list' %>

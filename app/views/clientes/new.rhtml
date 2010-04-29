@@ -1,7 +1,7 @@
-<h1>Cliente</h1>
+<h1 class="centrado">Alta Cliente</h1>
 
-<% form_tag :action => 'new', :controller => 'negocios' do %>
-  <%= render :partial => 'form' %>
+<% form_tag :action => 'create' do%>
+  <%= render :partial => 'formall' %>
   <%= submit_tag "Guardar" %>
 <% end %>
 

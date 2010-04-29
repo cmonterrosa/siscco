@@ -1,4 +1,5 @@
 class ProductosController < ApplicationController
+   before_filter :login_required
   def index
     list
     render :action => 'list'
@@ -9,7 +10,8 @@ class ProductosController < ApplicationController
          :redirect_to => { :action => :list }
 
   def list
-    @producto_pages, @productos = paginate :productos, :per_page => 10
+#    @producto_pages, @productos = paginate :productos, :per_page => 10
+     @productos = Producto.find(:all, :order => 'producto')
   end
 
   def show
@@ -53,4 +55,10 @@ class ProductosController < ApplicationController
     Producto.find(params[:id]).destroy
     redirect_to :action => 'list'
   end
+                  #-- Ajax --
+  def live_search
+      @productos = Producto.find(:all, :conditions => ["producto like ?", "%#{params[:searchtext]}%"])
+      return render(:partial => 'filtroproducto', :layout => false) if request.xhr?
+  end
+      #--- Funciones ajax para filtrado --
 end

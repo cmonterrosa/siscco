@@ -1,8 +1,42 @@
-<% for column in Cliente.content_columns %>
-<p>
-  <b><%= column.human_name %>:</b> <%=h @cliente.send(column.name) %>
-</p>
-<% end %>
-
-<%= link_to 'Editar', :action => 'edit', :id => @cliente %> |
+<table>
+  <tr>
+    <td>
+      <table>
+        <tr><th>>>Cliente:</th></tr>
+        <% for column in Cliente.content_columns %>
+        <tr>
+          <td><b><%= column.human_name %>:</b> <%=h @cliente.send(column.name) %></td>
+        </tr>
+        <% end %>
+        <tr>
+          <td class="center"><%= button_to 'Editar', :action => 'editc', :controller => 'clientes', :id => @cliente %></td>
+        </tr>
+      </table>
+    </td>
+    <td>
+      <table>
+        <tr><th>>>Negocio:</th></tr>
+        <% for column in Negocio.content_columns %>
+        <tr>
+          <td><b><%= column.human_name %>:</b> <%=h @negocio.send(column.name) %></td>
+        </tr>
+        <% end %>
+        <tr><td>&nbsp</td></tr>
+        <tr><td>&nbsp</td></tr>
+        <tr><td>&nbsp</td></tr>
+        <tr><td>&nbsp</td></tr>
+        <tr><td>&nbsp</td></tr>
+        <tr><td>&nbsp</td></tr>
+        <tr><td>&nbsp</td></tr>
+        <tr><td>&nbsp</td></tr>
+        <tr><td>&nbsp</td></tr>
+        <tr><td>&nbsp</td></tr>
+        <tr>
+          <td class="center"><%= button_to 'Editar', :action => 'edit', :controller => 'negocios', :id_negocio => @negocio %></td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<%#= button_to 'Editar', :action => 'edit', :id => @cliente, :id_negocio => @negocio %>
 <%= link_to 'Regresar', :action => 'list' %>

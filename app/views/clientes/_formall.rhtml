@@ -1,0 +1,129 @@
+<%= error_messages_for 'cliente' %>
+
+<!--[form:cliente]-->
+<table>
+  <tr>
+    <td colspan="4">>>Datos Clientes:</td>
+  </tr>
+  <tr>
+    <th>Paterno:</th>
+    <th>Materno:</th>
+    <th>Nombre:</th>
+    <th>Fecha de Nac:</th>
+  </tr>
+  <tr>
+    <th><%= text_field 'cliente', 'paterno'  %></th>
+    <th><%= text_field 'cliente', 'materno'  %></th>
+    <th><%= text_field 'cliente', 'nombre'  %></th>
+    <th><%= date_select 'cliente', 'fecha_nac', :order => [:day, :month, :year], :start_year => 1900%></th>
+  </tr>
+  <tr>
+    <th>RFC:</th>
+    <th>CURP:</th>
+    <th>Clave IFE:</th>
+    <th>Dirección:</th>
+  </tr>
+  <tr>
+    <th><%= text_field 'cliente', 'rfc'  %></th>
+    <th><%= text_field 'cliente', 'curp'  %></th>
+    <th><%= text_field 'cliente', 'clave_ife'  %></th>
+    <th><%= text_field 'cliente', 'direccion'  %></th>
+  </tr>
+  <tr>
+    <th>Cod. Postal</th>
+    <th>Sexo:</th>
+    <th>Nacionalidad</th>
+    <th>Tipo Propiedad:</th>
+    
+  </tr>
+  <tr>
+    <th><%= text_field 'cliente', 'codigo_postal'  %></th>
+    <th><%= text_field 'cliente', 'sexo'  %></th>
+    <th><%= text_field 'cliente', 'nacionalidad'  %></th>
+    <th><%= text_field 'cliente', 'tipo_propiedad'  %></th>
+   </tr>
+   <tr>
+     <th>Tipo Persona:</th>
+     <th>Telefono:</th>
+     <th>Email:</th>
+     <th>Estado Civil:</th>
+     
+   </tr>
+   <tr>
+      <th><%= text_field 'cliente', 'tipo_persona'  %></th>
+     <th><%= text_field 'cliente', 'telefono'  %></th>
+     <th><%= text_field 'cliente', 'email'  %></th>
+     <th><%= collection_select("cliente", "civil_id", @civiles, :id, :civil) %></th>
+     
+   </tr>
+   <tr>
+     <th>Escolaridad:</th>
+     <th>Tipo Vivienda:</th>
+     <th>Grupo:</th>
+     <th>Estado:</th>
+   </tr>
+   <tr>
+     <th><%= collection_select("cliente", "escolaridad_id", @escolaridades, :id, :escolaridad) %></th>
+     <th> <%= collection_select("cliente", "vivienda_id", @viviendas, :id, :tipo_vivienda) %></th>
+     <th><%= collection_select("cliente", "grupo_id", $grupos, :id, :nombre)%></th>
+     <th><%= collection_select("", "estado_id", $estados, :id, :estado, :prompt => '>>Estado')  %></th>
+   </tr>
+   <tr>
+     <th>Municipio:</th>
+     <th>Ejido:</th>
+     <th>Colonia:</th>
+   </tr>
+   <tr>
+     <th><%=  select("", "municipio_id", ['>>Municipio'])    %></th>
+     <th><%=  select("", "ejido_id", ['>>Ejido'])    %></th>
+     <th><%=  collection_select("cliente", "colonia_id", $colonias, :id, :colonia, :prompt => '>>Colonia')    %></th>
+   </tr>
+   <tr>
+     <th colspan="4">=================================================================================================</th>
+   </tr>
+   <tr>
+     <td colspan="4">>>Datos Negocio:</td>
+   </tr>
+   <tr>
+     <th>Nombre:</th>
+     <th>Puesto:</th>
+     <th>Dirección:</th>
+     <th>Teléfono:</th>
+   </tr>
+   <tr>
+     <th><%= text_field 'negocio', 'nombre'  %></th>
+     <th><%= text_field 'negocio', 'puesto'  %></th>
+     <th><%= text_field 'negocio', 'direccion'  %></th>
+     <th><%= text_field 'negocio', 'telefono'  %></th>
+   </tr>
+   <tr>
+     <th>Num Empleados:</th>
+     <th>Giro:</th>
+   </tr>
+   <tr>
+     <th><%= text_field 'negocio', 'num_empleados'  %></th>
+     <th><%= collection_select('negocio', 'giro_id', Giro.find(:all,:order => 'giro'), :id, :giro, :prompt => '>>Giro')  %></th>
+   </tr>
+</table>
+
+      <%= observe_field '_estado_id',
+        :url => {:controller => 'combos',
+        :action => 'get_municipios'},
+        :update => '_municipio_id',
+        :with => '_estado_id' %>
+
+
+      <%= observe_field '_municipio_id',
+        :url => {:controller => 'combos',
+        :action => 'get_ejidos'},
+        :update => '_ejido_id',
+        :with => '_municipio_id' %>
+
+
+      <%= observe_field '_ejido_id',
+        :url => {:controller => 'combos',
+        :action => 'get_colonias'},
+        :update => 'cliente_colonia_id',
+        :with => '_ejido_id' %>
+
+<!--[eoform:cliente]-->

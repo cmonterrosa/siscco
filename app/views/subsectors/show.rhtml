@@ -3,6 +3,9 @@
   <b><%= column.human_name %>:</b> <%=h @subsector.send(column.name) %>
 </p>
 <% end %>
+<p>
+  <b>Sector:</b> <%= @subsector.sector.sector  %>
+</p>
 
-<%= link_to 'Edit', :action => 'edit', :id => @subsector %> |
-<%= link_to 'Back', :action => 'list' %>
+<%= button_to 'Editar', :action => 'edit', :id => @subsector %>
+<%= link_to 'Regresar', :action => 'list' %>

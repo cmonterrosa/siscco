@@ -3,6 +3,13 @@
   <b><%= column.human_name %>:</b> <%=h @producto.send(column.name) %>
 </p>
 <% end %>
+<p>
+  <b>Periodo:</b> <%=h @producto.periodo.nombre %>
+</p>
+<p>
+  <b>Grupo:</b> <%=h @producto.grupo.nombre %>
+</p>
 
-<%= link_to 'Edit', :action => 'edit', :id => @producto %> |
-<%= link_to 'Back', :action => 'list' %>
+
+<%= button_to 'Editar', :action => 'edit', :id => @producto %>
+<%= link_to 'Regresar', :action => 'list' %>

@@ -1,25 +1,29 @@
 <%= error_messages_for 'linea' %>
 
 <!--[form:linea]-->
-<p><label for="linea_cuenta_cheques">Cuenta cheques</label><br/>
-<%= text_field 'linea', 'cuenta_cheques'  %></p>
-
-<p><label for="linea_fecha_autorizacion">Fecha autorizacion</label><br/>
-<%= date_select 'linea', 'fecha_autorizacion'  %></p>
-
-<p><label for="linea_linea_autorizada">Linea autorizada</label><br/>
-<%= text_field 'linea', 'linea_autorizada'  %></p>
-
-<p><label for="linea_linea_disponible">Linea disponible</label><br/>
-<%= text_field 'linea', 'linea_disponible'  %></p>
-
-<p><label for="linea_estatus">Estatus</label><br/>
-<%= collection_select('linea', 'estatus', @status, :id, :statu, {:prompt =>'-- Status --'})%></p>
-
-<p><label for="linea_gcnf">Gcnf</label><br/>
-<%= text_field 'linea', 'gcnf'  %></p>
-
-<p><label for="linea_fondeo_id">Fondeo</label><br/>
-<%= collection_select('linea', 'fondeo_id', @fondeos, :id, :fuente, {:prompt =>'--Selecciona una fuente--'}) %></p>
+<table>
+  <tr>
+    <th>Cuenta Cheque:</th>
+    <th>Fecha Autorización:</th>
+    <th>Línea Autorizada:</th>
+    <th>Línea Disponible:</th>
+  </tr>
+  <tr>
+    <th><%= text_field 'linea', 'cuenta_cheques'  %></th>
+    <th><%= date_select 'linea', 'fecha_autorizacion'  %></th>
+    <th><%= text_field 'linea', 'linea_autorizada'  %></th>
+    <th><%= text_field 'linea', 'linea_disponible'  %></th>
+  </tr>
+  <tr>
+    <th>Estatus:</th>
+    <th>Gcnf:</th>
+    <th>Fondeo:</th>
+  </tr>
+  <tr>
+    <th><%= collection_select('linea', 'estatus', Statu.find(:all, :order => 'statu'), :id, :statu, :prompt => '>>Estatus')%></th>
+    <th><%= text_field 'linea', 'gcnf'  %></th>
+    <th><%= collection_select('linea', 'fondeo_id', $fondeos, :id, :fuente, :prompt => '>>Fondeo') %></th>
+  </tr>
+</table>
 <!--[eoform:linea]-->
 

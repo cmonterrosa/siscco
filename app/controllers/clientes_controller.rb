@@ -1,4 +1,5 @@
 class ClientesController < ApplicationController
+   before_filter :login_required
   def index
     list
     render :action => 'list'
@@ -9,31 +10,33 @@ class ClientesController < ApplicationController
          :redirect_to => { :action => :list }
 
   def list
-    @cliente_pages, @clientes = paginate :clientes, :per_page => 10
+#    @cliente_pages, @clientes = paginate :clientes, :per_page => 10
+     @clientes = Cliente.find(:all, :order => 'paterno')
+     @negocios = Negocio.find(:all, :order => 'nombre')
+#     @negocio.cliente_id = @cliente
   end
 
   def show
     @cliente = Cliente.find(params[:id])
+    @negocio = Negocio.find(:first, :conditions => ["cliente_id = ?", params[:id]])
+    @civiles = Civil.find(:all)
+    @escolaridades = Escolaridad.find(:all)
+    @viviendas = Vivienda.find(:all)
   end
 
   def new
     @cliente = Cliente.new
+    @negocio = Negocio.new
     #--- Hacemos las consultas para rellenar los combos ----
     @civiles = Civil.find(:all)
     @escolaridades = Escolaridad.find(:all)
     @viviendas = Vivienda.find(:all)
-    @colonias = Colonia.find(:all)
-    @grupos = Grupo.find(:all)
-    #----- Consultas para actualizar dinamicamente los combos --
-    #@estados = Estado.find(:all, :order => "estado")
-    @municipios = Municipio.find(:all, :order => "municipio")
-    @ejidos = Ejido.find(:all, :order => "ejido")
-
   end
 
   def create
     @cliente = Cliente.new(params[:cliente])
     @negocio = Negocio.new(params[:negocio])
+    @negocio.cliente = @cliente
     if @cliente.save and @negocio.save
       flash[:notice] = 'Registro creado satisfactorimente.'
       redirect_to :action => 'list'
@@ -44,9 +47,31 @@ class ClientesController < ApplicationController
 
   def edit
     @cliente = Cliente.find(params[:id])
+    @negocio = Negocio.find(:first, :conditions => ["cliente_id = ?", params[:id]])
+    @civiles = Civil.find(:all)
+    @escolaridades = Escolaridad.find(:all)
+    @viviendas = Vivienda.find(:all)
+  end
+
+    def editc
+    @cliente = Cliente.find(params[:id])
+    @civiles = Civil.find(:all)
+    @escolaridades = Escolaridad.find(:all)
+    @viviendas = Vivienda.find(:all)
   end
 
   def update
+    @cliente = Cliente.find(params[:id])
+    @negocio = Negocio.find(params[:id_negocio])
+    if @cliente.update_attributes(params[:cliente]) && @negocio.update_attributes(params[:negocio])
+      flash[:notice] = 'Registro actualizado.'
+      redirect_to :action => 'list', :id => @cliente
+    else
+      render :action => 'edit'
+    end
+  end
+
+    def updatec
     @cliente = Cliente.find(params[:id])
     if @cliente.update_attributes(params[:cliente])
       flash[:notice] = 'Registro actualizado.'
@@ -56,30 +81,18 @@ class ClientesController < ApplicationController
     end
   end
 
+
   def destroy
     Cliente.find(params[:id]).destroy
+    Negocio.find(params[:id_negocio]).destroy
     redirect_to :action => 'list'
   end
-
-  #--- Estas funciones son para manipular el AJAX
-
-  def get_municipios
-      @municipios= Municipio.find(:all, :conditions => ["estado_id = ?",params[:lugar_estado_id] ])
-      return render(:partial => 'municipios', :layout => false) if request.xhr?
+                    #-- Ajax --
+  def live_search
+      @clientes = Cliente.find(:all, :conditions => "nombre like '%#{params[:searchtext]}%' or
+                                                     paterno like '%#{params[:searchtext]}%' or
+                                                     materno like '%#{params[:searchtext]}%'")
+      return render(:partial => 'filtrocliente', :layout => false) if request.xhr?
   end
-
-
-   def get_ejidos
-      @ejidos= Ejido.find(:all, :conditions => ["municipio_id = ?",params[:lugar_municipio_id] ])
-      return render(:partial => 'ejidos', :layout => false) if request.xhr?
-  end
-
-    def get_colonias
-      @colonias= Colonia.find(:all, :conditions => ["ejido_id = ?",params[:lugar_ejido_id] ])
-      return render(:partial => 'colonias', :layout => false) if request.xhr?
-    end
-
-
-
-
+      #--- Funciones ajax para filtrado --
 end

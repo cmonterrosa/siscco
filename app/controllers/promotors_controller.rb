@@ -1,4 +1,5 @@
 class PromotorsController < ApplicationController
+   before_filter :login_required
   def index
     list
     render :action => 'list'
@@ -9,7 +10,8 @@ class PromotorsController < ApplicationController
          :redirect_to => { :action => :list }
 
   def list
-    @promotor_pages, @promotors = paginate :promotors, :per_page => 10
+#    @promotor_pages, @promotors = paginate :promotors, :per_page => 10
+     @promotors = Promotor.find(:all, :order => 'Paterno')
   end
 
   def show
@@ -48,4 +50,12 @@ class PromotorsController < ApplicationController
     Promotor.find(params[:id]).destroy
     redirect_to :action => 'list'
   end
+                   #-- Ajax --
+  def live_search
+      @promotors = Promotor.find(:all, :conditions => "nombre like '%#{params[:searchtext]}%' or
+                                                       paterno like '%#{params[:searchtext]}%' or
+                                                       materno like '%#{params[:searchtext]}%'")
+      return render(:partial => 'filtropromotor', :layout => false) if request.xhr?
+  end
+      #--- Funciones ajax para filtrado --
 end

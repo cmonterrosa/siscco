@@ -1,27 +1,36 @@
-<h1>Listing viviendas</h1>
-
-<table>
-  <tr>
-  <% for column in Vivienda.content_columns %>
-    <th><%= column.human_name %></th>
-  <% end %>
-  </tr>
+<h1 class="centrado">Viviendas</h1>
+<!--inicia ajax -->
+<label for="searchtext">Búsqueda por vivienda:</label>
+  <%= text_field_tag :searchtext %>
+  <%= observe_field(:searchtext,
+                 :frequency => 0.25,
+                 :update => :search_hits,
+                 :with  => "searchtext",
+                 :url => { :action => :live_search }) %>
+<p>Resultados de la Busqueda:</p>
+<div id="search_hits">
+  <div class="scroll">
+    <table>
+      <tr>
+      <% for column in Vivienda.content_columns %>
+        <th><%= column.human_name %></th>
+      <% end %>
+        <th colspan="3">Acciones</th>
+      </tr>
   
-<% for vivienda in @viviendas %>
-  <tr>
-  <% for column in Vivienda.content_columns %>
-    <td><%=h vivienda.send(column.name) %></td>
-  <% end %>
-    <td><%= link_to 'Show', :action => 'show', :id => vivienda %></td>
-    <td><%= link_to 'Edit', :action => 'edit', :id => vivienda %></td>
-    <td><%= link_to 'Destroy', { :action => 'destroy', :id => vivienda }, :confirm => 'Are you sure?', :method => :post %></td>
-  </tr>
-<% end %>
-</table>
-
-<%= link_to 'Previous page', { :page => @vivienda_pages.current.previous } if @vivienda_pages.current.previous %>
-<%= link_to 'Next page', { :page => @vivienda_pages.current.next } if @vivienda_pages.current.next %> 
-
-<br />
-
-<%= link_to 'New vivienda', :action => 'new' %>
+      <% for vivienda in @viviendas %>
+      <tr>
+        <% for column in Vivienda.content_columns %>
+        <td><%=h vivienda.send(column.name) %></td>
+        <% end %>
+        <td><%= button_to 'Detalles', :action => 'show', :id => vivienda %></td>
+        <td><%= button_to 'Editar', :action => 'edit', :id => vivienda %></td>
+        <td><%= button_to 'Eliminar', { :action => 'destroy', :id => vivienda }, :confirm => 'Estas seguro?', :method => :post %></td>
+       </tr>
+      <% end %>
+    </table>
+  </div>
+</div>
+<div class="">
+  <%= button_to 'Agregar Vivienda', :action => 'new' %>
+</div>

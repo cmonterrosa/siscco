@@ -1,4 +1,5 @@
 class PeriodosController < ApplicationController
+   before_filter :login_required
   def index
     list
     render :action => 'list'
@@ -9,7 +10,8 @@ class PeriodosController < ApplicationController
          :redirect_to => { :action => :list }
 
   def list
-    @periodo_pages, @periodos = paginate :periodos, :per_page => 10
+#    @periodo_pages, @periodos = paginate :periodos, :per_page => 10
+     @periodos = Periodo.find(:all, :order => 'nombre')
   end
 
   def show
@@ -48,4 +50,10 @@ class PeriodosController < ApplicationController
     Periodo.find(params[:id]).destroy
     redirect_to :action => 'list'
   end
+                 #-- Ajax --
+  def live_search
+      @periodos = Periodo.find(:all, :conditions => ["nombre like ?", "%#{params[:searchtext]}%"])
+      return render(:partial => 'filtroperiodo', :layout => false) if request.xhr?
+  end
+      #--- Funciones ajax para filtrado --
 end

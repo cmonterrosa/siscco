@@ -1,9 +1,8 @@
-<h1>Editing giro</h1>
+<h1 class="centrado">Editar Giro</h1>
 
 <% form_tag :action => 'update', :id => @giro do %>
   <%= render :partial => 'form' %>
-  <%= submit_tag 'Edit' %>
+  <%= submit_tag 'Guardar' %>
 <% end %>
 
-<%= link_to 'Show', :action => 'show', :id => @giro %> |
-<%= link_to 'Back', :action => 'list' %>
+<%= link_to 'Regresar', :action => 'list' %>

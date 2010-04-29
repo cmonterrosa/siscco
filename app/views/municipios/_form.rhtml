@@ -1,11 +1,17 @@
 <%= error_messages_for 'municipio' %>
 
 <!--[form:municipio]-->
-<p><label for="municipio_municipio">Municipio</label><br/>
-<%= text_field 'municipio', 'municipio'  %></p>
-Estado<br/>
-<%=  collection_select("municipio", "estado_id", $estados, :id, :estado, :prompt => "---- Selecciona el estado ----") %>
-<br/>
-<br/>
+<table>
+  <tr>
+    <th>Municipio:</th>
+    <th>Clave Inegi:</th>
+    <th>Estado:</th>
+  </tr>
+  <tr>
+    <th><%= text_field 'municipio', 'municipio'  %></th>
+    <th><%= text_field 'municipio', 'clave_inegi'  %></th>
+    <th><%= collection_select("municipio", "estado_id", $estados, :id, :estado, :prompt => ">>Estado") %></th>
+  </tr>
+</table>
 <!--[eoform:municipio]-->
 

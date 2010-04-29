@@ -1,4 +1,5 @@
 class EjidosController < ApplicationController
+   before_filter :login_required
   def index
     list
     render :action => 'list'
@@ -9,7 +10,8 @@ class EjidosController < ApplicationController
          :redirect_to => { :action => :list }
 
   def list
-    @ejido_pages, @ejidos = paginate :ejidos, :per_page => 10
+#    @ejido_pages, @ejidos = paginate :ejidos, :per_page => 10
+     @ejidos = Ejido.find(:all, :order => 'ejido')
   end
 
   def show
@@ -51,4 +53,12 @@ class EjidosController < ApplicationController
     Ejido.find(params[:id]).destroy
     redirect_to :action => 'list'
   end
+      #--- Funciones ajax para filtrado --
+  def live_search
+#      @banco_pages, @bancos = paginate :bancos, :per_page => 10
+      @ejidos = Ejido.find(:all, :order => 'ejido')
+      @ejidos = Ejido.find(:all, :conditions => ["ejido like ?", "%#{params[:searchtext]}%"])
+      return render(:partial => 'filtroejido', :layout => false) if request.xhr?
+  end
+
 end

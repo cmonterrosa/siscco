@@ -1,28 +1,32 @@
 <%= error_messages_for 'promotor' %>
 
 <!--[form:promotor]-->
-<p><label for="promotor_paterno">Paterno</label><br/>
-<%= text_field 'promotor', 'paterno'  %></p>
+<table>
+  <tr>
+    <th>Paterno:</th>
+    <th>Materno:</th>
+    <th>Nombre:</th>
+    <th>Dirección:</th>
 
-<p><label for="promotor_materno">Materno</label><br/>
-<%= text_field 'promotor', 'materno'  %></p>
-
-<p><label for="promotor_nombre">Nombre</label><br/>
-<%= text_field 'promotor', 'nombre'  %></p>
-
-<p><label for="promotor_direccion">Direccion</label><br/>
-<%= text_field 'promotor', 'direccion'  %></p>
-
-<p><label for="promotor_telefono">Telefono</label><br/>
-<%= text_field 'promotor', 'telefono'  %></p>
-
-<p><label for="promotor_celular">Celular</label><br/>
-<%= text_field 'promotor', 'celular'  %></p>
-
-<p><label for="promotor_email">Email</label><br/>
-<%= text_field 'promotor', 'email'  %></p>
-
-<p><label for="promotor_observaciones">Observaciones</label><br/>
-<%= text_field 'promotor', 'observaciones'  %></p>
+  </tr>
+  <tr>
+    <th><%= text_field 'promotor', 'paterno'  %></th>
+    <th><%= text_field 'promotor', 'materno'  %></th>
+    <th><%= text_field 'promotor', 'nombre'  %></th>
+    <th><%= text_field 'promotor', 'direccion'  %></th>
+  </tr>
+  <tr>
+    <th>Teléfono:</th>
+    <th>Celular:</th>
+    <th>Email:</th>
+    <th>Observaciones:</th>
+  </tr>
+  <tr>
+    <th><%= text_field 'promotor', 'telefono'  %></th>
+    <th><%= text_field 'promotor', 'celular'  %></th>
+    <th><%= text_field 'promotor', 'email'  %></th>
+    <th><%= text_field 'promotor', 'observaciones'  %></th>
+  </tr>
+</table>
 <!--[eoform:promotor]-->
 

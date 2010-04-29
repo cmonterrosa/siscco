@@ -1,4 +1,5 @@
 class LineasController < ApplicationController
+   before_filter :login_required
   def index
     list
     render :action => 'list'
@@ -9,7 +10,8 @@ class LineasController < ApplicationController
          :redirect_to => { :action => :list }
 
   def list
-    @linea_pages, @lineas = paginate :lineas, :per_page => 10
+#    @linea_pages, @lineas = paginate :lineas, :per_page => 10
+     @lineas = Linea.fin(:all, :order => 'linea_autorizada')
   end
 
   def show
@@ -51,4 +53,11 @@ class LineasController < ApplicationController
     Linea.find(params[:id]).destroy
     redirect_to :action => 'list'
   end
+              #-- Ajax --
+  def live_search
+      @lineas = Linea.find(:all, :conditions => "linea_autorizada like '%#{params[:searchtext]}%' or
+                                                 linea_disponible like '%#{params[:searchtext]}%'")
+      return render(:partial => 'filtrolinea', :layout => false) if request.xhr?
+  end
+      #--- Funciones ajax para filtrado --
 end

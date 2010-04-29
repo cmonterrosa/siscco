@@ -1,27 +1,37 @@
-<h1>Listing festivos</h1>
-
-<table>
-  <tr>
-  <% for column in Festivo.content_columns %>
-    <th><%= column.human_name %></th>
-  <% end %>
-  </tr>
+<h1 class="centrado">Dias Festivos</h1>
+<!--inicia ajax -->
+<label for="searchtext">Búsqueda por nombre:</label>
+  <%= text_field_tag :searchtext %>
+  <%= observe_field(:searchtext,
+                 :frequency => 0.25,
+                 :update => :search_hits,
+                 :with  => "searchtext",
+                 :url => { :action => :live_search }) %>
+<p>Resultados de la Busqueda:</p>
+<div id="search_hits">
+  <div class="scroll">
+    <table>
+      <tr>
+      <% for column in Festivo.content_columns %>
+        <th><%= column.human_name %></th>
+      <% end %>
+        <th colspan="3">Acciones</th>
+      </tr>
   
-<% for festivo in @festivos %>
-  <tr>
-  <% for column in Festivo.content_columns %>
-    <td><%=h festivo.send(column.name) %></td>
-  <% end %>
-    <td><%= link_to 'Show', :action => 'show', :id => festivo %></td>
-    <td><%= link_to 'Edit', :action => 'edit', :id => festivo %></td>
-    <td><%= link_to 'Destroy', { :action => 'destroy', :id => festivo }, :confirm => 'Are you sure?', :method => :post %></td>
-  </tr>
-<% end %>
-</table>
-
-<%= link_to 'Previous page', { :page => @festivo_pages.current.previous } if @festivo_pages.current.previous %>
-<%= link_to 'Next page', { :page => @festivo_pages.current.next } if @festivo_pages.current.next %> 
-
-<br />
-
-<%= link_to 'New festivo', :action => 'new' %>
+      <% for festivo in @festivos %>
+      <tr>
+        <% for column in Festivo.content_columns %>
+        <td><%=h festivo.send(column.name) %></td>
+        <% end %>
+        <td><%= button_to 'Detalles', :action => 'show', :id => festivo %></td>
+        <td><%= button_to 'Editar', :action => 'edit', :id => festivo %></td>
+        <td><%= button_to 'Eliminar', { :action => 'destroy', :id => festivo }, :confirm => 'Estas seguro?', :method => :post %></td>
+      </tr>
+      <% end %>
+    </table>
+  </div>
+</div>
+<!-- fin ajax ---->
+<div class="">
+  <%= button_to 'Agregar Dia Festivo', :action => 'new' %>
+</div>

@@ -1,29 +1,24 @@
 <%= error_messages_for 'colonia' %>
 
 <!--[form:colonia]-->
-<p><label for="colonia_colonia">Colonia</label><br/>
-<%= text_field 'colonia', 'colonia'  %></p>
 
-<p><label for="colonia_clave_inegi">Clave inegi</label><br/>
-<%= text_field 'colonia', 'clave_inegi'  %></p>
+<table>
+  <tr>
+    <td>Colonia:</td>
+    <td>Clave Inegi:</td>
+    <td>Estado:</td>
+    <td>Municipio:</td>
+    <td>Colonia:</td>
+  </tr>
+  <tr>
+    <th><%= text_field 'colonia', 'colonia'  %></th>
+    <th><%= text_field 'colonia', 'clave_inegi'  %></th>
+    <th><%=  collection_select("", "estado_id", $estados, :id, :estado, :prompt => '>>Estado')    %></th>
+    <th><%=  select("", "municipio_id", ['>>Municipio'])    %></th>
+    <th><%=  collection_select("colonia", "ejido_id", $ejidos, :id, :ejido, :prompt => '>>Ejido')    %></th>
+  </tr>
+</table>
 
-<p style="font-size: 13pt">Perteneciente a:<p/>
-
-<!-- Combo para conseguir la colonia donde vive -->
-
-Estado<br/>
-<%=  collection_select("", "estado_id", $estados, :id, :estado, :prompt => '>>Estado')    %>
-
-<br/>
-<br/>Municipio<br/>
-<%=  select("", "municipio_id", ['>>Municipio'])    %>
-
-<br/>
-<br/>Ejido<br/>
-<%=  collection_select("colonia", "ejido_id", $ejidos, :id, :ejido, :prompt => '>>Ejido')    %>
-
-<br/>
-<br/>
 <!--Funciones para ejecutar las acciones cuando cambia la seleccion -->
 
       <%= observe_field '_estado_id',

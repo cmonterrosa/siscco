@@ -1,4 +1,5 @@
 class NegociosController < ApplicationController
+   before_filter :login_required
   def index
     list
     render :action => 'list'
@@ -18,12 +19,15 @@ class NegociosController < ApplicationController
 
   def new
     @negocio = Negocio.new
+    @negocio.cliente_id = params[:cliente][:id]
+    @cliente =  Cliente.new(params[:cliente]) if params[:cliente]
     @giros = Giro.find(:all, :order => 'giro')
   end
 
   def create
     @cliente = Cliente.new(params[:cliente])
     @negocio = Negocio.new(params[:negocio])
+    @negocio.cliente = @cliente
    if @cliente.save and @negocio.save
       flash[:notice] = 'Registro creado satisfactoriamente'
       redirect_to :action => 'list'
@@ -33,15 +37,16 @@ class NegociosController < ApplicationController
   end
 
   def edit
-    @negocio = Negocio.find(params[:id])
+    @negocio = Negocio.find(params[:id_negocio])
     @giros = Giro.find(:all, :order => 'giro')
   end
 
   def update
     @negocio = Negocio.find(params[:id])
+#    @cliente = Cliente.find(:first, :conditions => ["id = ?", params[:cliente_id]])
     if @negocio.update_attributes(params[:negocio])
       flash[:notice] = 'Registro actualizado.'
-      redirect_to :action => 'show', :id => @negocio
+      redirect_to :action => 'show', :controller => 'clientes', :id => @negocio.cliente
     else
       render :action => 'edit'
     end

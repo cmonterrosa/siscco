@@ -4,8 +4,18 @@
 </p>
 <% end %>
 <p>
+  <b>Estado: </b> <%= @banco.colonia.ejido.municipio.estado.estado %>
+</p>
+<p>
+  <b>Municipio: </b> <%= @banco.colonia.ejido.municipio.municipio %>
+</p>
+<p>
+  <b>Ejido: </b> <%= @banco.colonia.ejido.ejido %>
+</p>
+<p>
   <b>Colonia: </b> <%= @banco.colonia.colonia %>
 </p>
+
 <p><%= button_to 'Editar', :action => 'edit', :id => @banco %></p>
 <p><%= link_to 'Regresar', :action => 'list' %></p>
 

@@ -1,4 +1,5 @@
 class ColoniasController < ApplicationController
+   before_filter :login_required
   def index
     list
     render :action => 'list'
@@ -49,4 +50,13 @@ class ColoniasController < ApplicationController
     Colonia.find(params[:id]).destroy
     redirect_to :action => 'list'
   end
+
+    #--- Funciones ajax para filtrado --
+  def live_search
+#      @banco_pages, @bancos = paginate :bancos, :per_page => 10
+      @colonias = Colonia.find(:all, :order => 'colonia')
+      @colonias = Colonia.find(:all, :conditions => ["colonia like ?", "%#{params[:searchtext]}%"])
+      return render(:partial => 'filtrocolonia', :layout => false) if request.xhr?
+  end
+
 end

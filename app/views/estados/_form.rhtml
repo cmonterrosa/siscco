@@ -1,7 +1,13 @@
 <%= error_messages_for 'estado' %>
 
 <!--[form:estado]-->
-<p><label for="estado_nombre">Nombre :</label><br/>
-<%= text_field 'estado', 'estado'  %></p>
+<table>
+  <tr>
+    <th>Nombre:</th>
+  </tr>
+  <tr>
+    <th><%= text_field 'estado', 'estado'  %></th>
+  </tr>
+</table>
 <!--[eoform:estado]-->
 

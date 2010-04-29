@@ -1,9 +1,8 @@
-<h1>Editing fondeo</h1>
+<h1 class="centrado">Editar Fondeo</h1>
 
 <% form_tag :action => 'update', :id => @fondeo do %>
   <%= render :partial => 'form' %>
-  <%= submit_tag 'Edit' %>
+  <%= submit_tag 'Guardar' %>
 <% end %>
 
-<%= link_to 'Show', :action => 'show', :id => @fondeo %> |
-<%= link_to 'Back', :action => 'list' %>
+<%= link_to 'Regresar', :action => 'list' %>
