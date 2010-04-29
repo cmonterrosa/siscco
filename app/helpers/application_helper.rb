@@ -26,6 +26,100 @@ module ApplicationHelper
           return @arreglo_controllers
        end
 
+       #---- Funciones del crédito -----
+    def cargos(credito)
+    @arreglo = []
+    @movimientos = credito.movimientos
+    if @movimientos.empty?
+      #el cliente no ha realizado ningun pago
+        return false
+    else
+
+    @movimientos.each { | movimiento|
+              if movimiento.tipo=="C"
+                     @arreglo << movimiento
+              end
+     }
+     return @arreglo
+     end
+  end
+
+    def abonos(credito)
+    @arreglo = []
+    @movimientos = credito.movimientos
+    if @movimientos.empty?
+      #el cliente no ha realizado ningun pago
+        return false
+    else
+
+    @movimientos.each { | movimiento|
+              if movimiento.tipo =="A"
+                     @arreglo << movimiento
+              end
+     }
+     return @arreglo
+     end
+end
+
+
+      def liquido(credito)
+    @abonos = 0
+    @cargos = 0
+    @movimientos = credito.movimientos
+    if @movimientos.empty?
+      #el cliente no ha realizado ningun pago
+        return ( credito.monto * credito.tasa_interes / 100 ) + credito.monto
+
+    else
+
+    @movimientos.each { | movimiento|
+      if movimiento.tipo=="C"
+          @cargos = movimiento.capital += @cargos
+      end
+
+      if movimiento.tipo=="A"
+          @abonos = movimiento.capital += @abonos
+      end
+
+    }
+      return (credito.monto * (credito.tasa_interes / 100 ) + credito.monto ) + @cargos - @abonos
+  end
+end
+
+     def pago_minimo(credito)
+        #--- Verificamos si el credito ha sido cubierto ----
+        @credito = Credito.find(credito)
+       if @credito.nil?
+          return nil
+       else
+        return ((credito.monto * (credito.tasa_interes / 100 ) + credito.monto ) / @credito.num_pagos)
+       end
+     end
+
+     def calcula_pagos(anio, mes, dia, num_pagos, periodo)
+        @dias = num_pagos.to_i * periodo.dias.to_i
+           @f_ini = Date.new(y=anio.to_i,m=mes.to_i,d=dia.to_i)
+           # --- Creamos un arreglo donde pondremos los pagos ---
+           @pagos = []
+           @fecha_preliminar = @f_ini
+           (num_pagos.to_i).times{
+           @fecha_preliminar = @fecha_preliminar + periodo.dias.to_i
+           #---- Validamos si es inhabil o dia festivo -----
+           if Festivo.find(:first, :conditions=>["fecha = ?", @fecha_preliminar.to_s]) || @fecha_preliminar.wday == 0
+              if Festivo.find(:first, :conditions=>["fecha = ?", @fecha_preliminar.to_s]) && @fecha_preliminar.wday == 6
+                 @fecha_preliminar += 2 #--- Es festivo y es sabado --
+                 @pagos << @fecha_preliminar
+              else
+                 @fecha_preliminar += 1
+                 @pagos << @fecha_preliminar
+              end
+           else
+              @pagos << @fecha_preliminar
+           end
+           }
+           return @pagos
+      end
+
 
   
 

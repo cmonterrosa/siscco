@@ -4,6 +4,9 @@ class CreateCreditos < ActiveRecord::Migration
       t.column :fecha_inicio, :date
       t.column :fecha_fin, :date
       t.column :num_referencia, :string
+      t.column :monto, :float
+      t.column :tasa_interes, :float
+      t.column :num_pagos, :integer
       #--- aqui van las relaciones con las otras tablas ----
       t.column :linea_id, :integer
       t.column :banco_id, :integer

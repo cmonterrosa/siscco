@@ -5,7 +5,6 @@ class CreateMovimientos < ActiveRecord::Migration
       t.column :capital, :float
       t.column :fecha, :date
       t.column :interes, :float
-      t.column :iva, :float
       t.column :concepto, :string
       #--- Relacion con la tabla credito ---
       t.column :credito_id, :integer
