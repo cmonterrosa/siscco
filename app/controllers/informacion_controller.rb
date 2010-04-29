@@ -82,7 +82,7 @@ def pdf_report(credito)
           pdf.text("<b>RFC:</b> #{credito.cliente.rfc}")
           pdf.text("<b>Fecha de inicio: #{credito.fecha_inicio} </b> ")
           pdf.text("<b>Fecha de inicio: #{credito.fecha_fin} </b> ")
-          pdf.text("<b>Importe inicial: #{credito.importe} </b> ")
+          pdf.text("<b>Monto inicial: #{credito.monto} </b> ")
           pdf.text("<b>Tasa de interes: #{credito.tasa_interes} </b> ")
 
           meses= %w{enero febrero marzo abril mayo junio julio agosto septiembre octubre noviembre diciembre}
@@ -108,7 +108,7 @@ def pdf_report(credito)
           pdf.text("<i>Abonos</i>", :justification => :center, :font_size => 13)
              pdf.move_pointer(10)
           PDF::SimpleTable.new do |tab|
-              tab.column_order.push(*%w(fecha importe))
+              tab.column_order.push(*%w(fecha monto))
               tab.font_size=10
               tab.heading_font_size=10
               tab.bold_headings = true
@@ -118,7 +118,7 @@ def pdf_report(credito)
 
               #----------------- Columnas --------------------
               tab.columns["fecha"] = PDF::SimpleTable::Column.new("fecha") { |col|  col.width=150 }
-              tab.columns["importe"] = PDF::SimpleTable::Column.new('importe') { |col|   col.width=150  }
+              tab.columns["monto"] = PDF::SimpleTable::Column.new('monto') { |col|   col.width=150  }
               #tab.show_lines    = :false
               #tab.orientation   = :center
               tab.position      = :center
@@ -127,18 +127,17 @@ def pdf_report(credito)
     
            abonos(credito).each do |abono|
                 data << {"fecha" => abono.fecha_pago,
-                          "importe" =>  abono.importe
+                          "monto" =>  abono.monto
                         }
-                        @abonos = abono.importe += @abonos
+                        @abonos = abono.monto += @abonos
                 end
     
     end
 
 
-              #---------- iteramos sobres las plazas dependientes de la escuela ----
-         
 
-              data << {"fecha" => "<b>TOTAL</b>", "importe" => "<b>#{@abonos}</b>"}
+
+              data << {"fecha" => "<b>TOTAL</b>", "monto" => "<b>#{@abonos}</b>"}
               #tab.shade_color = Color::RGB::White
               tab.data.replace data
               tab.render_on(pdf)
@@ -149,7 +148,7 @@ def pdf_report(credito)
      pdf.text("<i>Cargos</i>", :justification => :center, :font_size => 13)
         pdf.move_pointer(10)
           PDF::SimpleTable.new do |tab|
-              tab.column_order.push(*%w(fecha importe))
+              tab.column_order.push(*%w(fecha monto))
               tab.font_size=10
               tab.heading_font_size=10
               tab.bold_headings = true
@@ -159,7 +158,7 @@ def pdf_report(credito)
 
               #----------------- Columnas --------------------
               tab.columns["fecha"] = PDF::SimpleTable::Column.new("fecha") { |col|  col.width=150 }
-              tab.columns["importe"] = PDF::SimpleTable::Column.new('importe') { |col|   col.width=150  }
+              tab.columns["monto"] = PDF::SimpleTable::Column.new('monto') { |col|   col.width=150  }
               #tab.show_lines    = :false
               #tab.orientation   = :center
               tab.position      = :center
@@ -168,9 +167,9 @@ def pdf_report(credito)
     if cargos(credito)
        cargos(credito).each do |cargo|
                 data_c << {"fecha" => cargo.fecha_pago,
-                          "importe" =>  cargo.importe
+                          "monto" =>  cargo.monto
                         }
-                        @cargos = cargo.importe += @cargos
+                        @cargos = cargo.monto += @cargos
                 end
 
 
@@ -178,7 +177,7 @@ def pdf_report(credito)
               
            
 
-              data_c << {"fecha" => "<b>TOTAL</b>", "importe" => "<b>#{@cargos}</b>"}
+              data_c << {"fecha" => "<b>TOTAL</b>", "monto" => "<b>#{@cargos}</b>"}
 
               #tab.shade_color = Color::RGB::White
               tab.data.replace data_c

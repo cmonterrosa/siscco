@@ -10,6 +10,7 @@ class ActiveRecord::RecordInvalid
 end
 
 class ApplicationController < ActionController::Base
+  require 'date'
   
   # --- Plantilla por defecto ------
   layout 'logged'
@@ -114,8 +115,8 @@ end
     end
 end
 
-
-  def cargos(credito)
+       #---- Funciones del crédito -----
+       def cargos(credito)
     @arreglo = []
     @movimientos = credito.movimientos
     if @movimientos.empty?
@@ -124,7 +125,7 @@ end
     else
 
     @movimientos.each { | movimiento|
-              unless movimiento.cargo.nil?
+              if movimiento.tipo=="C"
                      @arreglo << movimiento
               end
      }
@@ -141,7 +142,7 @@ end
     else
 
     @movimientos.each { | movimiento|
-              unless movimiento.abono.nil?
+              if movimiento.tipo =="A"
                      @arreglo << movimiento
               end
      }
@@ -156,26 +157,100 @@ end
     @movimientos = credito.movimientos
     if @movimientos.empty?
       #el cliente no ha realizado ningun pago
-        return ( credito.importe * credito.tasa_interes / 100 ) + credito.importe
+        return ( credito.monto * credito.tasa_interes / 100 ) + credito.monto
 
     else
 
     @movimientos.each { | movimiento|
-      unless movimiento.cargo.nil?
-          @cargos = movimiento.cargo += @cargos
+      if movimiento.tipo=="C"
+          @cargos = movimiento.capital += @cargos
       end
 
-      unless movimiento.abono.nil?
-          @abonos = movimiento.abono += @abonos
+      if movimiento.tipo=="A"
+          @abonos = movimiento.capital += @abonos
       end
 
     }
-      return (credito.importe * (credito.tasa_interes / 100 ) + credito.importe ) + @cargos - @abonos
+      return (credito.monto * (credito.tasa_interes / 100 ) + credito.monto ) + @cargos - @abonos
   end
 end
 
+      def pago_minimo(credito)
+        #--- Verificamos si el credito ha sido cubierto ----
+        @credito = Credito.find(credito)
+       if @credito.nil?
+          return nil
+       else
+        @numero_dias = @credito.periodo.dias.to_i
+        @monto = @credito.monto
+        @interes = @credito.tasa_interes
+        return ((@monto * @interes.to_f) * @credito.num_pagos)
+       end
+     end
+
+
+
+
+      def ultimo_pago(anio, mes, dia, num_pagos, periodo)
+        @dias = num_pagos.to_i * periodo.dias.to_i
+           @f_ini = Date.new(y=anio.to_i,m=mes.to_i,d=dia.to_i)
+           # --- Creamos un arreglo donde pondremos los pagos ---
+           @pagos = []
+           @fecha_preliminar = @f_ini
+           (num_pagos.to_i).times{
+           @fecha_preliminar = @fecha_preliminar + periodo.dias.to_i
+           #---- Validamos si es inhabil o dia festivo -----
+           if Festivo.find(:first, :conditions=>["fecha = ?", @fecha_preliminar.to_s]) || @fecha_preliminar.wday == 0
+              if Festivo.find(:first, :conditions=>["fecha = ?", @fecha_preliminar.to_s]) && @fecha_preliminar.wday == 6
+                 @fecha_preliminar += 2 #--- Es festivo y es sabado --
+                 @pagos << @fecha_preliminar
+              else
+                 @fecha_preliminar += 1
+                 @pagos << @fecha_preliminar
+              end
+           else
+              @pagos << @fecha_preliminar
+           end
+           }
+           return @pagos.last
+       end
+
+       def calcula_pagos(anio, mes, dia, num_pagos, periodo)
+        @dias = num_pagos.to_i * periodo.dias.to_i
+           @f_ini = Date.new(y=anio.to_i,m=mes.to_i,d=dia.to_i)
+           # --- Creamos un arreglo donde pondremos los pagos ---
+           @pagos = []
+           @fecha_preliminar = @f_ini
+           (num_pagos.to_i).times{
+           @fecha_preliminar = @fecha_preliminar + periodo.dias.to_i
+           #---- Validamos si es inhabil o dia festivo -----
+           if Festivo.find(:first, :conditions=>["fecha = ?", @fecha_preliminar.to_s]) || @fecha_preliminar.wday == 0
+              if Festivo.find(:first, :conditions=>["fecha = ?", @fecha_preliminar.to_s]) && @fecha_preliminar.wday == 6
+                 @fecha_preliminar += 2 #--- Es festivo y es sabado --
+                 @pagos << @fecha_preliminar
+              else
+                 @fecha_preliminar += 1
+                 @pagos << @fecha_preliminar
+              end
+           else
+              @pagos << @fecha_preliminar
+           end
+           }
+           return @pagos
+      end
+
+       def insertar_pagos(credito, arreglo_pagos)
+
+         
+         Movimiento.transaction do
+         credito.movimientos.create(:tipo => "A", :capital => , :fecha => "")
+         end
+
+
+
+       end
 
 
   # Scrub sensitive parameters from your log
-  # filter_parameter_logging :password
+   filter_parameter_logging :password
 end

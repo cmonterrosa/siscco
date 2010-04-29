@@ -1,16 +1,26 @@
 <%= error_messages_for 'credito' %>
 
 <!--[form:credito]-->
+
+<p><label for="credito_fecha_inicio">Monto</label><br/>
+<%= text_field 'credito', 'monto'  %></p>
+
+
 <p><label for="credito_fecha_inicio">Fecha inicio</label><br/>
 <%= date_select 'credito', 'fecha_inicio'  %></p>
-
+<!--
 <p><label for="credito_fecha_fin">Fecha fin</label><br/>
-<%= date_select 'credito', 'fecha_fin'  %></p>
+<= date_select 'credito', 'fecha_fin'  %></p>
+-->
 
 
 <p><label for="cliente_civil">Periodos</label><br/>
  <%=collection_select("credito", "periodo_id", $periodos, :id, :nombre)%>
 </p>
+
+<p><label for="credito_num_referencia">Número de pagos</label><br/>
+<%= text_field 'credito', 'num_pagos'  %></p>
+
 
 <p><label for="credito_num_referencia">Num referencia</label><br/>
 <%= text_field 'credito', 'num_referencia'  %></p>
