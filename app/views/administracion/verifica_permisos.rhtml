@@ -1,23 +1,30 @@
 <h2>Perfil: <%=@rol.nombre%></h2>
-<h3>Módulos con permiso:</h3>
+<h4></h4>Total de módulos disponibles <%=todos_controladores.size%><br/>
 
 
-<!--
-  <todos_controladores.each do |controlador| -%>
-     <li><= check_box_tag "rol[systable_ids][]", controlador.id, rol_tiene_permiso?(@rol,controlador) -%> <= controlador.descripcion -%></li>
-  <end%>
--->
 
-Total de módulos dispnibles <%=todos_controladores.size%>
+<% form_tag :action => 'update_permisos', :controller => 'administracion', :rol => @rol do -%>
+<table>
+  <tr>
+    <th>Permiso</th>
+    <th>Descripción del módulo</th>
+  </tr>
 
-<%todos_controladores.each do |controlador| -%>
-     <li><%= check_box_tag "rol[systable_ids][]", controlador.id, @rol.systables.include?(controlador) -%> <%= controlador.descripcion -%></li>
+  <!-- Inicia iteracion de modulos -->
+  <%todos_controladores.each do |controlador| -%>
+    <tr>
+      <td><%= check_box_tag "rols[systable_ids][]", controlador.id, tiene_permiso?(@rol, controlador.controller) -%></td>
+      <td><%= controlador.descripcion -%></td>
+    </tr>
   <%end%>
+</table>
 
-  <!--
-  <ul class="checkbox-list">
-  < @languages.each do |language| -%>
-      <li>< check_box_tag "rol[systable_ids][]", systable.id, rol_tiene_permiso?(@rol,controlador) -%> <= systable.descripcion -%></li>
-  < end -%>
-</ul>
-  -->
+  <br/>
+  <%= submit_tag "Modificar" %>
+<% end %>
+  <%=button_to 'Regresar', :action => "index"%>
+
+
+
+
+

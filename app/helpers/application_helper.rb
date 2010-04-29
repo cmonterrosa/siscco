@@ -6,13 +6,11 @@ module ApplicationHelper
     return @rol.systables
   end
 
-    def rol_tiene_permiso?(rol,controlador)
-      @rol = Rol.find(rol)
-      @controlador = Systable.find(controlador)
-      if @rol.nil?
+    def tiene_permiso?(rol, controlador)
+      @registro = Systable.find(:first, :conditions => ["rol_id = ? and controller = ? ", Rol.find(rol).id, controlador])
+      if @registro.nil?
          false
       else
-        @rol.systables.include?(@controlador)
          true
       end
     end
