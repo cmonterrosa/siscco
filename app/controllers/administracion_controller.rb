@@ -26,33 +26,47 @@ class AdministracionController < ApplicationController
   end
 
   def update_permisos
-    @systables = Rol.find(params[:rol]).systables
-    @systables_list = []
-    params[:rols][:systable_ids].each do |id|
-      @systable_list << (Systable.find(:first, :conditions => ["rol_id = ? and controller = ?", params[:rol]])
-    end
+    @rol = Rol.find(params[:rol])
+    @systables = @rol.systables
+    #---- Creamos un arreglo de objetos tipo systable ----
+    @lista = Systable.find(params[:rols][:systable_ids])
+#    params[:rols][:systable_ids].each do |id|
+#      @tmp = Systable.find(:first, :conditions => ["rol_id = ? and controller = ?", params[:rol].to_i, Systable.find(id).controller ])
+#      @systable_list << @tmp
+#    end
+    #---- Iteramos sobre la lista total de systables del rol ---
 
-    if @systables.include?(Systable.find(:first, :conditions => ["rol_id = ? and controller = ?", params[:rol] ]))
+      Systable.destroy(@systables)
+       render :text => @systables.size
+#      @lista.each do |systable|
+#        @rol.systables << Systable.create
+#      end
     
-    include?()
-    #--- Iteracion por cada elemento seleccionado ---
-    params[:rols][:systable_ids].each do |id|
-        unless tiene_permiso?(Rol.find(params[:rol]), Systable.find(id).controller)
-        Systable.create(:controller => Systable.find(id).controller, 
-                        :rol_id => params[:rol],
-                        :descripcion => Systable.find(id).descripcion)
-        else
-          
-        end
 
 
-    end
+  
+
+#    if @systables.include?(Systable.find(:first, :conditions => ["rol_id = ? and controller = ?", params[:rol] ]))
+#
+#    include?()
+#    #--- Iteracion por cada elemento seleccionado ---
+#    params[:rols][:systable_ids].each do |id|
+#        unless tiene_permiso?(Rol.find(params[:rol]), Systable.find(id).controller)
+#        Systable.create(:controller => Systable.find(id).controller,
+#                        :rol_id => params[:rol],
+#                        :descripcion => Systable.find(id).descripcion)
+#        else
+#
+#        end
+
+
+
 
     #--- Verificamos los que tiene en la BD y no estan en la lista ----
 
     
     flash[:notice] = "Permisos otorgados"
-    redirect_to :action => "verifica_permisos", :id => Rol.find(params[:rol])
+   # redirect_to :action => "verifica_permisos", :id => Rol.find(params[:rol])
   end
 
 

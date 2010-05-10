@@ -2,7 +2,7 @@
 
 <% form_tag :action => 'create' do %>
   <%= render :partial => 'form' %>
-  <p><label for="cliente_civil">Destino</label><br/>
+  <p><label for="cliente_civil">Grupo</label><br/>
       <%=collection_select("credito", "grupo_id", $grupos, :id, :nombre)%>
   </p>
 
