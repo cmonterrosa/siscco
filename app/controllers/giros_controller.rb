@@ -11,7 +11,7 @@ class GirosController < ApplicationController
 
   def list
 #    @giro_pages, @giros = paginate :giros, :per_page => 10
-     @giro = Giro.find(:all, :order => 'giro')
+     @giros = Giro.find(:all, :order => 'giro')
   end
 
   def show

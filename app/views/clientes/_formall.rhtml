@@ -1,7 +1,8 @@
 <%= error_messages_for 'cliente' %>
 
 <!--[form:cliente]-->
-<table>
+<div class="centrado">
+  <table class="centrado">
   <tr>
     <td colspan="4">>>Datos Clientes:</td>
   </tr>
@@ -105,6 +106,7 @@
      <th><%= collection_select('negocio', 'giro_id', Giro.find(:all,:order => 'giro'), :id, :giro, :prompt => '>>Giro')  %></th>
    </tr>
 </table>
+</div>
 
       <%= observe_field '_estado_id',
         :url => {:controller => 'combos',

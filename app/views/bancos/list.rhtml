@@ -1,5 +1,5 @@
-<h1 class="centrado">Bancos</h1>
-<!--inicia ajax -->
+<h1>Bancos</h1>
+
  <label for="searchtext">Búsqueda por nombre:</label>
   <%= text_field_tag :searchtext %>
   <%= observe_field(:searchtext,
@@ -30,7 +30,6 @@
       </table>
     </div>
   </div>
-<!-- fin ajax ---->
   <div class="">
     <%= button_to 'Agregar Banco', :action => 'new' %>
   </div>

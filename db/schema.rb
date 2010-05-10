@@ -10,7 +10,7 @@ ActiveRecord::Schema.define(:version => 31) do
     t.column "titular",    :string
     t.column "direccion",  :string
     t.column "telefono",   :string
-    t.column "colonia_id", :string
+    t.column "colonia_id", :integer
   end
 
   create_table "civils", :force => true do |t|

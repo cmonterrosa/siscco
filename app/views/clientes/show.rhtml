@@ -2,7 +2,7 @@
   <tr>
     <td>
       <table>
-        <tr><th>>>Cliente:</th></tr>
+        <tr><th>>>Cliente:&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</th></tr>
         <% for column in Cliente.content_columns %>
         <tr>
           <td><b><%= column.human_name %>:</b> <%=h @cliente.send(column.name) %></td>
@@ -15,7 +15,7 @@
     </td>
     <td>
       <table>
-        <tr><th>>>Negocio:</th></tr>
+        <tr><th >>>Negocio:</th></tr>
         <% for column in Negocio.content_columns %>
         <tr>
           <td><b><%= column.human_name %>:</b> <%=h @negocio.send(column.name) %></td>

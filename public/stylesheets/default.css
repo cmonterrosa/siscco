@@ -31,11 +31,13 @@ input, textarea, select {
 h1, h2 {
 	font-weight: normal;
 	color: #7CD300;
+        text-align: right;
 }
 
 h1 {
 	letter-spacing: -1px;
 	font-size: 2.6em;
+        text-align: right;
 }
 
 h2 {
@@ -284,20 +286,20 @@ img.right {
 #links {
 	float: right;
 }
-.centrado{
-       text-align: right;
+div.centrado{
+       text-align: center;
 }
-.center{
+div.center{
     text-align: center;
 }
 
-.scroll{
+div.scroll{
        overflow: auto;
        width:900px;
        height: 200px;
        text-align: center;
 }
-.scroll2{
+div.scroll2{
        overflow: auto;
        width:500px;
        height: 200px;
