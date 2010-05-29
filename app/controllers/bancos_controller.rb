@@ -37,6 +37,7 @@ class BancosController < ApplicationController
   end
 
   def update
+#    @banco = Banco.update(params[:id].keys, params[:id].values).reject { |p| p.errors.empty? }
     @banco = Banco.find(params[:id])
     if @banco.update_attributes(params[:banco])
       flash[:notice] = 'Registro actuaizado.'

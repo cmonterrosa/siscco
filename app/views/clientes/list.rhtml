@@ -33,7 +33,7 @@
           <td><%= cliente.telefono %></td>
           <td><%= button_to 'Detalles', :action => 'show', :id => cliente %></td>
           <td><%= button_to 'Editar', :action => 'edit', :id => cliente %></td>
-          <td><%= button_to 'Eliminar', { :action => 'destroy', :id => cliente}, :confirm => 'Estas seguro?', :method => :post %></td>
+          <td><%= button_to 'Eliminar', { :action => 'destroy', :id => cliente }, :confirm => 'Se eliminarán también los negocios vinculados al cliente?', :method => :post %></td>
         </tr>
         <% end %>
       </table>

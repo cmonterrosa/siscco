@@ -2,7 +2,7 @@
 # migrations feature of ActiveRecord to incrementally modify your database, and
 # then regenerate this schema definition.
 
-ActiveRecord::Schema.define(:version => 31) do
+ActiveRecord::Schema.define(:version => 30) do
 
   create_table "bancos", :force => true do |t|
     t.column "nombre",     :string
@@ -10,7 +10,7 @@ ActiveRecord::Schema.define(:version => 31) do
     t.column "titular",    :string
     t.column "direccion",  :string
     t.column "telefono",   :string
-    t.column "colonia_id", :string
+    t.column "colonia_id", :integer
   end
 
   create_table "civils", :force => true do |t|
@@ -49,14 +49,17 @@ ActiveRecord::Schema.define(:version => 31) do
   create_table "creditos", :force => true do |t|
     t.column "fecha_inicio",   :date
     t.column "fecha_fin",      :date
-    t.column "plazo",          :string
     t.column "num_referencia", :string
+    t.column "monto",          :float
+    t.column "tasa_interes",   :float
+    t.column "num_pagos",      :integer
     t.column "linea_id",       :integer
     t.column "banco_id",       :integer
     t.column "cliente_id",     :integer
     t.column "promotor_id",    :integer
     t.column "destino_id",     :integer
     t.column "grupo_id",       :integer
+    t.column "periodo_id",     :integer
   end
 
   create_table "destinos", :force => true do |t|
@@ -96,9 +99,9 @@ ActiveRecord::Schema.define(:version => 31) do
   end
 
   create_table "giros", :force => true do |t|
-    t.column "subsector", :string
-    t.column "codigo",    :string
     t.column "giro",      :string
+    t.column "codigo",    :string
+    t.column "subsector", :string
   end
 
   create_table "grupos", :force => true do |t|
@@ -120,7 +123,6 @@ ActiveRecord::Schema.define(:version => 31) do
     t.column "capital",    :float
     t.column "fecha",      :date
     t.column "interes",    :float
-    t.column "iva",        :float
     t.column "concepto",   :string
     t.column "credito_id", :integer
   end
@@ -195,7 +197,7 @@ ActiveRecord::Schema.define(:version => 31) do
 
   create_table "subsectors", :force => true do |t|
     t.column "subsector", :string
-    t.column "sector_id", :string
+    t.column "sector_id", :integer
   end
 
   create_table "sucursals", :force => true do |t|

@@ -7,28 +7,33 @@
     <td>Num Cuenta:</td>
     <td>Titular:</td>
     <td>Dirección:</td>
-    <td>Telefono:</td>
   </tr>
   <tr>
-    <th><%= text_field 'banco', 'nombre'  %></th>
+    <th><%= text_field 'banco', 'nombre' %></th>
     <th><%= text_field 'banco', 'num_cuenta'  %></th>
     <th><%= text_field 'banco', 'titular'  %></th>
     <th><%= text_field 'banco', 'direccion'  %></th>
-    <th><%= text_field 'banco', 'telefono'  %></th>
   </tr>
   <tr>
+    <td>Telefono:</td>
     <td>Estado:</td>
     <td>Municipio:</td>
     <td>Ejido:</td>
-    <td>Colonia:</td>
   </tr>
   <tr>
+    <th><%= text_field 'banco', 'telefono'  %></th>
     <th><%=  collection_select("", "estado_id", $estados, :id, :estado, :prompt => '>>Estado')    %></th>
     <th><%=  select("","municipio_id", ['>>Municipios'])    %></th>
     <th><%=  select("","ejido_id", ['>>Ejidos'])    %></th>
+  </tr>
+  <tr>
+    <td>Colonia:</td>
+  </tr>
+  <tr>
     <th><%=  collection_select("banco", "colonia_id", $colonias, :id, :colonia, :prompt => '>>Colonia')    %></th>
   </tr>
 </table>
+
 
 <!--[eoform:banco]-->
 <!--------- funciones cargar combos ------------->

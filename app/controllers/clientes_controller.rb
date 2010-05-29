@@ -12,7 +12,7 @@ class ClientesController < ApplicationController
   def list
 #    @cliente_pages, @clientes = paginate :clientes, :per_page => 10
      @clientes = Cliente.find(:all, :order => 'paterno')
-     @negocios = Negocio.find(:all, :order => 'nombre')
+#     @negocio = Negocio.find(:all, :order => 'nombre')
 #     @negocio.cliente_id = @cliente
   end
 
@@ -83,8 +83,8 @@ class ClientesController < ApplicationController
 
 
   def destroy
+    Negocio.find(:first, :conditions => ["cliente_id = ?", params[:id]]).destroy
     Cliente.find(params[:id]).destroy
-    Negocio.find(params[:id_negocio]).destroy
     redirect_to :action => 'list'
   end
                     #-- Ajax --
