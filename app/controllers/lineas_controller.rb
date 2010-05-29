@@ -11,7 +11,7 @@ class LineasController < ApplicationController
 
   def list
 #    @linea_pages, @lineas = paginate :lineas, :per_page => 10
-     @lineas = Linea.fin(:all, :order => 'linea_autorizada')
+     @lineas = Linea.find(:all, :order => 'linea_autorizada')
   end
 
   def show

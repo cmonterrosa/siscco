@@ -1,6 +1,12 @@
 <h2>Módulo de Administración</h2>
 
 
+<% form_tag :action => 'create' do %>
+validacion: <%=text_field 'entidad', 'campo', :id => "f21", :class=>"Validate.Email( 'live@validation.com', { failureMessage: 'I am an overridden message!' } );"%>
+  <%= submit_tag "Create" %>
+<% end %>
+
+
 <p><h2><%=link_to 'Usuarios', :controller => "administracion", :action => "usuarios"%></h2></p>
 <p><h2><%=link_to 'Permisos', :controller => "administracion", :action => "permisos"%></h2></p>
 
