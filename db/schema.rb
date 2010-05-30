@@ -2,7 +2,7 @@
 # migrations feature of ActiveRecord to incrementally modify your database, and
 # then regenerate this schema definition.
 
-ActiveRecord::Schema.define(:version => 30) do
+ActiveRecord::Schema.define(:version => 32) do
 
   create_table "bancos", :force => true do |t|
     t.column "nombre",     :string
@@ -10,7 +10,7 @@ ActiveRecord::Schema.define(:version => 30) do
     t.column "titular",    :string
     t.column "direccion",  :string
     t.column "telefono",   :string
-    t.column "colonia_id", :integer
+    t.column "colonia_id", :string
   end
 
   create_table "civils", :force => true do |t|
@@ -47,19 +47,21 @@ ActiveRecord::Schema.define(:version => 30) do
   end
 
   create_table "creditos", :force => true do |t|
-    t.column "fecha_inicio",   :date
-    t.column "fecha_fin",      :date
-    t.column "num_referencia", :string
-    t.column "monto",          :float
-    t.column "tasa_interes",   :float
-    t.column "num_pagos",      :integer
-    t.column "linea_id",       :integer
-    t.column "banco_id",       :integer
-    t.column "cliente_id",     :integer
-    t.column "promotor_id",    :integer
-    t.column "destino_id",     :integer
-    t.column "grupo_id",       :integer
-    t.column "periodo_id",     :integer
+    t.column "fecha_inicio",      :date
+    t.column "fecha_fin",         :date
+    t.column "plazo",             :string
+    t.column "num_referencia",    :string
+    t.column "linea_id",          :integer
+    t.column "banco_id",          :integer
+    t.column "cliente_id",        :integer
+    t.column "promotor_id",       :integer
+    t.column "destino_id",        :integer
+    t.column "grupo_id",          :integer
+    t.column "periodo_id",        :integer
+    t.column "monto",             :float
+    t.column "tasa_interes",      :float
+    t.column "num_pagos",         :integer
+    t.column "interes_moratorio", :integer
   end
 
   create_table "destinos", :force => true do |t|
@@ -99,9 +101,9 @@ ActiveRecord::Schema.define(:version => 30) do
   end
 
   create_table "giros", :force => true do |t|
-    t.column "giro",      :string
-    t.column "codigo",    :string
     t.column "subsector", :string
+    t.column "codigo",    :string
+    t.column "giro",      :string
   end
 
   create_table "grupos", :force => true do |t|
@@ -119,12 +121,12 @@ ActiveRecord::Schema.define(:version => 30) do
   end
 
   create_table "movimientos", :force => true do |t|
-    t.column "tipo",       :string
-    t.column "capital",    :float
-    t.column "fecha",      :date
-    t.column "interes",    :float
-    t.column "concepto",   :string
-    t.column "credito_id", :integer
+    t.column "tipo",     :string
+    t.column "capital",  :float
+    t.column "fecha",    :date
+    t.column "interes",  :float
+    t.column "concepto", :string
+    t.column "pago_id",  :integer
   end
 
   create_table "municipios", :force => true do |t|
@@ -143,6 +145,22 @@ ActiveRecord::Schema.define(:version => 30) do
     t.column "giro_id",       :integer
   end
 
+  create_table "pagos", :force => true do |t|
+    t.column "num_pago",     :integer
+    t.column "fecha_limite", :date
+    t.column "pago_minimo",  :string
+    t.column "pagado",       :integer
+    t.column "credito_id",   :integer
+    t.column "descripcion",  :string
+  end
+
+  create_table "pagoslineas", :force => true do |t|
+    t.column "linea_id",      :integer
+    t.column "fecha",         :date
+    t.column "monto",         :string
+    t.column "observaciones", :string
+  end
+
   create_table "periodos", :force => true do |t|
     t.column "nombre", :string
     t.column "dias",   :integer
@@ -156,7 +174,7 @@ ActiveRecord::Schema.define(:version => 30) do
     t.column "intereses_moratorio", :float
     t.column "multa",               :float
     t.column "iva_multa",           :float
-    t.column "garantia",            :string
+    t.column "garantia",            :float
     t.column "periodo_id",          :integer
     t.column "grupo_id",            :integer
   end

@@ -27,19 +27,26 @@ class AdministracionController < ApplicationController
 
   def update_permisos
     @rol = Rol.find(params[:rol])
+    @systable_list=[]
     @systables = @rol.systables
     #---- Creamos un arreglo de objetos tipo systable ----
     @lista = Systable.find(params[:rols][:systable_ids])
-#    params[:rols][:systable_ids].each do |id|
-#      @tmp = Systable.find(:first, :conditions => ["rol_id = ? and controller = ?", params[:rol].to_i, Systable.find(id).controller ])
-#      @systable_list << @tmp
-#    end
+     Systable.destroy(@systables)
+    params[:rols][:systable_ids].each do |id|
+      #@tmp = Systable.find(:first, :conditions => ["rol_id = ? and controller = ?", params[:rol].to_i, Systable.find(id).controller ])
+     # @systable_list << @tmp unless @tmp.nil?
+     @tmp = Systable.find(id)
+     @tmp2 = Systable.create(:controller=>@tmp.controller, :descripcion=> @tmp.descripcion)
+     @rol.systables << @tmp2
+     @rol.save!
+    end
     #---- Iteramos sobre la lista total de systables del rol ---
 
-      Systable.destroy(@systables)
-       render :text => @systables.size
+#      Systable.destroy(@systables)
 #      @lista.each do |systable|
-#        @rol.systables << Systable.create
+#        @tmp = Systable.find(systable)
+#        @rol.systables << @tmp
+#        @rol.save!
 #      end
     
 
@@ -66,7 +73,7 @@ class AdministracionController < ApplicationController
 
     
     flash[:notice] = "Permisos otorgados"
-   # redirect_to :action => "verifica_permisos", :id => Rol.find(params[:rol])
+    redirect_to :action => "verifica_permisos", :id => Rol.find(params[:rol])
   end
 
 

@@ -27,16 +27,18 @@ class MovimientosController < ApplicationController
     
   end
 
-  def create
-    if params[:movimiento][:tipo] == "ABONO"
-      params[:movimiento][:abono] = params[:movimiento][:importe]
-    else
-      params[:movimiento][:cargo] = params[:movimiento][:importe]
-    end
-    valor= params[:movimiento].delete(:tipo)
+  def nuevo
+    @credito=Credito.find(params[:credito])
+    @tipos = %w{ABONO CARGO}
+    return render(:partial => 'nuevoabono', :layout => false, :credito=>params[:credito]) if request.xhr?
+  end
 
+
+  def create
+    #valor= params[:movimiento].delete(:tipo)
     @movimiento = Movimiento.new(params[:movimiento])
-    @movimiento.credito = Credito.find(params[:credito])
+    #@movimiento.credito = Credito.find(params[:credito])
+    
     if @movimiento.save
       flash[:notice] = 'El Movimiento ha sido aplicado correctamente'
       #redirect_to :action => 'aplicar', :id => @movimiento.credito

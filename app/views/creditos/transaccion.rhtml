@@ -9,6 +9,8 @@
   <tr><td>Tasa de interés: <%=@credito.tasa_interes.to_s + " %" %></td></tr>
   <tr><td>Pago minimo: <%=pago_minimo(@credito)%></td></tr>
   <tr><td>Número de pagos: <%=@credito.num_pagos%></td></tr>
+    <tr><td>Próximo Pago: <%=proximo_pago(@credito)%></td></tr>
+
   <!--
   <tr><th>Liquido actual: <=liquido(@credito)%></th></tr>
   -->
@@ -17,21 +19,31 @@
 <h3>Calendario de pagos</h3>
 <table>
   <tr>
-    <th>Numero de pago</th>
-    <th>Fecha</th>
-    <th>Cantidad</th>
+    <th>Num de pago</th>
+    <th>Fecha Limite</th>
+    <th>Pago minimo</th>
+    <th>Pagado</th>
   </tr>
-<%@contador = 0%>
-  <%calcula_pagos(@fecha_inicio.year, @fecha_inicio.month, @fecha_inicio.day, @credito.num_pagos, @credito.periodo).each do |pago|%>
-  <%@contador += 1%>
+  <%@credito.pagos.each do |pago|%>
   <tr>
-    <td><%=@contador%></td>
-    <td><%=pago%></td>
-    <td><%="$%.2f" % pago_minimo(@credito).to_s%></td>
+     <td><%=pago.num_pago%></td>
+     <td><%=pago.fecha_limite%></td>
+     <td><%="$%.2f" % pago.pago_minimo%></td>
+     <%if pago.pagado == 1%>
+        <td>SI</td>
+     <%else%>
+        <td>NO</td>
+     <%end%>
+
   </tr>
   <%end%>
 
 </table>
+
+
+
+
+
 
 <!-- Movimientos -->
 <!-------- Abonos ------>
@@ -44,18 +56,19 @@
     <th>Importe</th>
   </tr>
 
+<!--
+<if abonos(@credito) %>
 
-<%if abonos(@credito) %>
-
-<%for abono in abonos(@credito)%>
+<for abono in abonos(@credito)%>
   <tr>
-    <td><%=abono.fecha_pago%></td>
-    <td><%=abono.monto%></td>
-    <!-- Sumatoria de los importes -->
-    <%@abonos = abono.monto += @abonos%>
+    <td><=abono.fecha_pago%></td>
+    <td><=abono.monto%></td>
+    
+    <@abonos = abono.monto += @abonos%>
   </tr>
-<%end%>
-<%end%>
+<end%>
+<end%>
+ -->
 
 
 </table>
@@ -65,7 +78,7 @@
       
       <%= link_to_remote( "Agregar Abono",
                          :update => "nuevo_abono",
-                         :url =>{ :action => :new_abono }) %>
+                         :url =>{ :controller=>"movimientos", :action => :nuevo, :credito=> @credito, :layout=>false }) %>
  </div>
 
 
@@ -80,18 +93,19 @@
     <th>Importe</th>
   </tr>
 
-
-  <%if cargos(@credito) %>
-<%for cargo in cargos(@credito)%>
+<!--
+  <if cargos(@credito) %>
+<for cargo in cargos(@credito)%>
   <tr>
-    <td><%=cargo.fecha_pago%></td>
-    <td><%="$%.2f" % cargo.monto%></td>
+    <td><=cargo.fecha_pago%></td>
+    <td><="$%.2f" % cargo.monto%></td>
 
-    <!-- Sumatoria de los importes -->
-    <%@cargos = cargo.monto += @cargos%>
+    
+    <@cargos = cargo.monto += @cargos%>
   </tr>
-<%end%>
-<%end%>
+<end%>
+<end%>
+  -->
 
 
 

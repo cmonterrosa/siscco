@@ -28,17 +28,20 @@
 	<div id="menu">
 		<ul>
 			
-                        <li class="active"><%=link_to 'catalogos', :controller => "catalogos"%></li>
-			<li><%=link_to 'Créditos', :controller => "creditos", :action => "menu"%></li>
-			<li><%=link_to 'Información', :controller => "informacion", :action => "index"%></li>
-			<li><%=link_to 'Administración', :controller => "administracion", :action => "index"%></li>
-
+                        <li class="active"><%=link_to 'Catálogos', :controller => "catalogos"%></li>
+			<li><%=link_to 'Operaciones', :controller => "creditos", :action => "menu"%></li>
+			<li><%=link_to 'Reportes', :controller => "informacion", :action => "index"%></li>
                         <!-- verificamos si esta loggeado -->
+                          <% if session['user']%>
 
-                         <% if session['user']%>
-                          <li><%=link_to 'Cerrar sesión', :controller=>"account", :action => "logout"%></li>
+                        <!-- si es administrador le habilitamos el modulo -->
+                         <%if session['user'].rol.id == 5%>
+                          <li><%=link_to 'Administración', :controller => "administracion", :action => "index"%></li>
+                         <%end%>
+
+                            <li><%=link_to 'Cerrar sesión', :controller=>"account", :action => "logout"%></li>
                           <%else%>
-                          <li><%=link_to 'Iniciar sesión', :controller=>"account", :action => "login"%></li>
+                            <li><%=link_to 'Iniciar sesión', :controller=>"account", :action => "login"%></li>
                           <%end%>
                         <!-- -->
         </ul>

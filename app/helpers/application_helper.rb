@@ -15,6 +15,17 @@ module ApplicationHelper
       end
     end
 
+          def proximo_pago(credito)
+          @proximo = Pago.find(:first, :conditions=>["credito_id = ? AND
+                                                   pagado=0", credito.id],
+                               :order=>"fecha_limite")
+                             return @proximo.fecha_limite
+
+
+        end
+
+
+
        def todos_controladores
           @arreglo_controllers = Array.new
           @controllers = Systable.find(:all, :select => ["distinct(controller)"])
@@ -84,15 +95,14 @@ end
   end
 end
 
-     def pago_minimo(credito)
+
+        def pago_minimo(credito)
         #--- Verificamos si el credito ha sido cubierto ----
-        @credito = Credito.find(credito)
-       if @credito.nil?
-          return nil
-       else
-        return ((credito.monto * (credito.tasa_interes / 100 ) + credito.monto ) / @credito.num_pagos)
-       end
-     end
+        @monto = credito.monto
+        @interes = credito.tasa_interes / 100.0
+        return((@monto * @interes) + @monto) / @credito.num_pagos
+        end
+
 
      def calcula_pagos(anio, mes, dia, num_pagos, periodo)
         @dias = num_pagos.to_i * periodo.dias.to_i

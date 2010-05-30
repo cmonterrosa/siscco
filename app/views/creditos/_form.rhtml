@@ -22,15 +22,20 @@
 <%= text_field 'credito', 'num_pagos'  %></p>
 
 
+<p><label for="credito_tasa_interes">Tasa de Interes</label><br/>
+<%= text_field 'credito', 'tasa_interes'  %></p>
+
+
 <p><label for="credito_num_referencia">Num referencia</label><br/>
 <%= text_field 'credito', 'num_referencia'  %></p>
 
 
 <!-- Aqui van las relaciones con las otras tablas -->
-
+<!--
 <p><label for="cliente_civil">Linea</label><br/>
- <%=collection_select("credito", "linea_id", $lineas, :id, :nombre)%>
+ <=collection_select("credito", "linea_id", $lineas, :id, :nombre)%>
 </p>
+-->
 
 <p><label for="cliente_civil">Banco</label><br/>
  <%=collection_select("credito", "banco_id", $bancos, :id, :banco_cuenta)%>

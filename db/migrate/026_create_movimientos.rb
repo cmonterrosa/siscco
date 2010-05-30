@@ -7,7 +7,7 @@ class CreateMovimientos < ActiveRecord::Migration
       t.column :interes, :float
       t.column :concepto, :string
       #--- Relacion con la tabla credito ---
-      t.column :credito_id, :integer
+      t.column :pago_id, :integer
     end
   end
 

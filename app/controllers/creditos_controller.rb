@@ -1,4 +1,5 @@
 class CreditosController < ApplicationController
+  before_filter :permiso_requerido
   def index
     list
     render :action => 'list'
@@ -24,10 +25,16 @@ class CreditosController < ApplicationController
     @credito = Credito.new(params[:credito])
     @fecha_inicio = Date.strptime(@credito.fecha_inicio.to_s)
     @credito.fecha_fin = ultimo_pago(@fecha_inicio.year, @fecha_inicio.month, @fecha_inicio.day, params[:credito][:num_pagos], Periodo.find(params[:credito][:periodo_id]))
-    #---- Verificamos que los pagos no se hayan creado ----
-    if insertar_pagos(@credito, calcula_pagos(@fecha_inicio.year, @fecha_inicio.month, @fecha_inicio.day, params[:credito][:num_pagos], Periodo.find(params[:credito][:periodo_id])))
-       insertar_registro(@credito, "Credito creado correctamente")
+    if inserta_registro(@credito, "Credito creado correctamente")
+      #--- Insertamos el registro de los pagos que debe de realizar -----
+       inserta_pagos(@credito, calcula_pagos(@fecha_inicio.year, @fecha_inicio.month, @fecha_inicio.day, params[:credito][:num_pagos], Periodo.find(params[:credito][:periodo_id])))
     end
+
+
+#    #---- Verificamos que los pagos no se hayan creado y calendarizado ----
+#    if insertar_pagos(@credito, calcula_pagos(@fecha_inicio.year, @fecha_inicio.month, @fecha_inicio.day, params[:credito][:num_pagos], Periodo.find(params[:credito][:periodo_id])))
+#       insertar_registro(@credito, "Credito creado correctamente")
+#    end
 
 #    if @credito.save
 #      flash[:notice] = 'Credito was successfully created.'

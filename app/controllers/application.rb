@@ -33,7 +33,7 @@ class ApplicationController < ActionController::Base
   $promotores = Promotor.find(:all, :order => "nombre")
   $destinos = Destino.find(:all)
   $grupos = Grupo.find(:all, :order => "nombre")
-  $fondeos = Fondeo.find(:all)
+  $fondeos = Fondeo.find(:all, :order => "fuente")
   $periodos = Periodo.find(:all, :order => "dias")
 
 
@@ -175,19 +175,22 @@ end
   end
 end
 
-      def pago_minimo(credito)
-        #--- Verificamos si el credito ha sido cubierto ----
-        @credito = Credito.find(credito)
-       if @credito.nil?
-          return nil
-       else
-        @numero_dias = @credito.periodo.dias.to_i
-        @monto = @credito.monto
-        @interes = @credito.tasa_interes
-        return ((@monto * @interes.to_f) * @credito.num_pagos)
+        def pago_minimo(credito)
+          #--- Verificamos si el credito ha sido cubierto ----
+          @monto = credito.monto
+          @interes = credito.tasa_interes / 100.0
+          return((@monto * @interes) + @monto) / @credito.num_pagos
        end
-     end
 
+
+        def proximo_pago(credito)
+          @proximo = Pago.find(:first, :conditions=>["credito_id = ? AND
+                                                   pagado=0", credito.id],
+                               :order=>"fecha_limite")
+                             return @proximo.fecha_limite
+
+
+        end
 
 
 
@@ -239,15 +242,24 @@ end
            return @pagos
       end
 
-       def insertar_pagos(credito, arreglo_pagos)
-
-         
-         Movimiento.transaction do
-         credito.movimientos.create(:tipo => "A", :capital => "45" , :fecha => "2010-04-22")
+       def inserta_pagos(credito, arreglo_pagos)
+         if credito.pagos.size == 0
+         contador=1
+         #---- Esta funcion crea los registros en la tabla pagos para tener un historial ----
+         arreglo_pagos.each do |x|
+                   Pago.create(:num_pago => contador,
+                             :credito_id => credito.id.to_i,
+                             :fecha_limite => x,
+                             :pago_minimo => pago_minimo(credito),
+                             :pagado => 0,
+                             :descripcion => "Pago #{contador} de #{arreglo_pagos.size} pago minimo #{pago_minimo(credito)} ")
+                 contador+=1
+         end
+         else
+           return nil
          end
 
-
-
+         
        end
 
 
