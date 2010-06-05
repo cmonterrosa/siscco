@@ -1,9 +1,8 @@
-<h1>Editing sucursal</h1>
+<h1 class="centrado">Editar Sucursal</h1>
 
 <% form_tag :action => 'update', :id => @sucursal do %>
   <%= render :partial => 'form' %>
-  <%= submit_tag 'Edit' %>
+  <%= submit_tag 'Guardar' %>
 <% end %>
 
-<%= link_to 'Show', :action => 'show', :id => @sucursal %> |
-<%= link_to 'Back', :action => 'list' %>
+<%= link_to 'Regresar', :action => 'list' %>

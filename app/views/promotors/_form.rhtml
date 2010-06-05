@@ -10,10 +10,10 @@
 
   </tr>
   <tr>
-    <td><%= text_field 'promotor', 'paterno'  %></td>
-    <td><%= text_field 'promotor', 'materno'  %></td>
-    <td><%= text_field 'promotor', 'nombre'  %></td>
-    <td><%= text_field 'promotor', 'direccion'  %></td>
+    <td><%= text_field 'promotor', 'paterno', :onkeypress => "return CharNum(event, 'letra');"  %></td>
+    <td><%= text_field 'promotor', 'materno', :onkeypress => "return CharNum(event, 'letra');"  %></td>
+    <td><%= text_field 'promotor', 'nombre', :onkeypress => "return CharNum(event, 'letra');"  %></td>
+    <td><%= text_field 'promotor', 'direccion', :onkeypress => "return CharNum(event, 'letra');"  %></td>
   </tr>
   <tr>
     <th>Teléfono:</th>
@@ -22,10 +22,10 @@
     <th>Observaciones:</th>
   </tr>
   <tr>
-    <td><%= text_field 'promotor', 'telefono'  %></td>
-    <td><%= text_field 'promotor', 'celular'  %></td>
+    <td><%= text_field 'promotor', 'telefono', :onkeypress => "return CharNum(event, 'numero');"  %></td>
+    <td><%= text_field 'promotor', 'celular', :onkeypress => "return CharNum(event, 'numero');"  %></td>
     <td><%= text_field 'promotor', 'email'  %></td>
-    <td><%= text_field 'promotor', 'observaciones'  %></td>
+    <td><%= text_field 'promotor', 'observaciones', :onkeypress => "return CharNum(event, 'letra');"  %></td>
   </tr>
 </table>
 <!--[eoform:promotor]-->

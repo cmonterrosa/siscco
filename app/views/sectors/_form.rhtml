@@ -6,7 +6,7 @@
     <th>Sector:</th>
   </tr>
   <tr>
-    <td><%= text_field 'sector', 'sector'  %></td>
+    <td><%= text_field 'sector', 'sector', :onkeypress => "return CharNum(event, 'letra');"  %></td>
   </tr>
 </table>
 <!--[eoform:sector]-->

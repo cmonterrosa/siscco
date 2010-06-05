@@ -9,9 +9,9 @@
     <th>Fecha de Nac:</th>
   </tr>
   <tr>
-    <td><%= text_field 'cliente', 'paterno'  %></td>
-    <td><%= text_field 'cliente', 'materno'  %></td>
-    <td><%= text_field 'cliente', 'nombre'  %></td>
+    <td><%= text_field 'cliente', 'paterno', :onkeypress => "return CharNum(event, 'letra');"    %></td>
+    <td><%= text_field 'cliente', 'materno', :onkeypress => "return CharNum(event, 'letra');"    %></td>
+    <td><%= text_field 'cliente', 'nombre', :onkeypress => "return CharNum(event, 'letra');"    %></td>
     <td><%= date_select 'cliente', 'fecha_nac', :order => [:day, :month, :year], :start_year => 1930%></td>
   </tr>
   <tr>
@@ -24,7 +24,7 @@
     <td><%= text_field 'cliente', 'rfc'  %></td>
     <td><%= text_field 'cliente', 'curp'  %></td>
     <td><%= text_field 'cliente', 'clave_ife'  %></td>
-    <td><%= text_field 'cliente', 'sexo'  %></td>
+    <td><%= select('cliente', 'sexo', ['Masculino', 'Femenino']) %></td>
   </tr>
   <tr>
     <th>Nacionalidad</th>
@@ -33,9 +33,9 @@
     <th>Dirección:</th>
   </tr>
   <tr>
-    <td><%= text_field 'cliente', 'nacionalidad'  %></td>
-    <td><%= text_field 'cliente', 'tipo_propiedad'  %></td>
-    <td><%= text_field 'cliente', 'tipo_persona'  %></td>
+    <td><%= select('cliente', 'nacionalidad', ['Mexicana', 'Extranjera']) %></td>
+    <td><%= text_field 'cliente', 'tipo_propiedad', :onkeypress => "return CharNum(event, 'letra');"    %></td>
+    <td><%= text_field 'cliente', 'tipo_persona', :onkeypress => "return CharNum(event, 'letra');"    %></td>
     <td><%= text_field 'cliente', 'direccion'  %></td>
    </tr>
    <tr>
@@ -45,7 +45,7 @@
      <th>Escolaridad:</th>
    </tr>
    <tr>
-     <td><%= text_field 'cliente', 'telefono'  %></td>
+     <td><%= text_field 'cliente', 'telefono', :onkeypress => "return CharNum(event, 'numero');"    %></td>
      <td><%= text_field 'cliente', 'email'  %></td>
      <td><%= collection_select("cliente", "civil_id", @civiles, :id, :civil) %></td>
      <td><%= collection_select("cliente", "escolaridad_id", @escolaridades, :id, :escolaridad) %></td>

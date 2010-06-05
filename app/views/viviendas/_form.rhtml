@@ -6,7 +6,7 @@
     <th>Tpo Vivienda:</th>
   </tr>
   <tr>
-    <td><%= text_field 'vivienda', 'tipo_vivienda'  %></td>
+    <td><%= text_field 'vivienda', 'tipo_vivienda', :onkeypress => "return CharNum(event, 'letra');"  %></td>
   </tr>
 </table>
 <!--[eoform:vivienda]-->

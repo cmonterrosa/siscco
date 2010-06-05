@@ -2,7 +2,7 @@
 
 <% form_tag :action => 'create', :conroller => 'clientes' do %>
   <%= render :partial => 'form' %>
-  <%= submit_tag "Agregar" %>
+  <%= submit_tag "Agregar", :onclick => "return comprobar();" %>
 <% end %>
 
 <%= link_to 'Regresar', :action => 'list' %>

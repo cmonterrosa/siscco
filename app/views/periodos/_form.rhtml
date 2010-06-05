@@ -7,7 +7,7 @@
     <th>Dias:</th>
   </tr>
   <tr>
-    <td><%= text_field 'periodo', 'nombre'  %></td>
+    <td><%= text_field 'periodo', 'nombre', :onkeypress => "return CharNum(event, 'letra');"  %></td>
     <td><%= text_field 'periodo', 'dias'  %></td>
   </tr>
 </table>

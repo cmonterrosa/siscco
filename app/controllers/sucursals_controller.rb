@@ -1,4 +1,5 @@
 class SucursalsController < ApplicationController
+  before_filter :login_required
   def index
     list
     render :action => 'list'
@@ -9,7 +10,8 @@ class SucursalsController < ApplicationController
          :redirect_to => { :action => :list }
 
   def list
-    @sucursal_pages, @sucursals = paginate :sucursals, :per_page => 10
+#    @sucursal_pages, @sucursals = paginate :sucursals, :per_page => 10
+    @sucursals = Sucursal.find(:all, :order => 'nombre')
   end
 
   def show
@@ -18,11 +20,6 @@ class SucursalsController < ApplicationController
 
   def new
     @sucursal = Sucursal.new
-    #----- Consultas para actualizar dinamicamente los combos --
-    @estados = Estado.find(:all, :order => "estado")
-    @municipios = Municipio.find(:all, :order => "municipio")
-    @ejidos = Ejido.find(:all, :order => "ejido")
-     @colonias = Colonia.find(:all)
   end
 
   def create
@@ -53,24 +50,10 @@ class SucursalsController < ApplicationController
     Sucursal.find(params[:id]).destroy
     redirect_to :action => 'list'
   end
-
-   #--- Estas funciones son para manipular el AJAX
-
-  def get_municipios
-      @municipios= Municipio.find(:all, :conditions => ["estado_id = ?",params[:lugar_estado_id] ])
-      return render(:partial => 'municipios', :layout => false) if request.xhr?
+  
+  def live_search
+      @sucursals = Sucursal.find(:all, :conditions => ["nombre like ?", "%#{params[:searchtext]}%"])
+      return render(:partial => 'filtrosucursal', :layout => false) if request.xhr?
   end
-
-
-   def get_ejidos
-      @ejidos= Ejido.find(:all, :conditions => ["municipio_id = ?",params[:lugar_municipio_id] ])
-      return render(:partial => 'ejidos', :layout => false) if request.xhr?
-  end
-
-    def get_colonias
-      @colonias= Colonia.find(:all, :conditions => ["ejido_id = ?",params[:lugar_ejido_id] ])
-      return render(:partial => 'colonias', :layout => false) if request.xhr?
-    end
-
 
 end

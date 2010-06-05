@@ -6,7 +6,7 @@
     <th>Garantía:</th>
   </tr>
   <tr>
-    <td><%= text_field 'garantia', 'garantia'  %></td>
+    <td><%= text_field 'garantia', 'garantia', :onkeypress => "return CharNum(event, 'letra');"  %></td>
   </tr>
 </table>
 <!--[eoform:garantia]-->

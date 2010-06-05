@@ -2,7 +2,7 @@
 "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-<title>Creo Blog</title>
+<title></title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
 <!--
   <= stylesheet_link_tag "default"%>
@@ -34,9 +34,9 @@
 					<li><a href="#" class="but5"><img src="/images/mac/spacer.gif" alt="" width="154" height="42" /></a></li>
 					<li><a href="#" class="but6"><img src="/images/mac/spacer.gif" alt="" width="129" height="42" /></a></li>
 				</ul>
-				<form action="#">
-					<input type="text" value="Buscar" />
-				</form>
+				<%#*<form action="#">%>
+					<%#*<input type="text" value="Buscar" />%>
+				<%#*</form>%>
 			</div>
 			<ul id="meta">
 				<li><a href="#" class="meta1"><img src="/images/mac/spacer.gif" alt="" width="37" height="39" /></a></li>
@@ -53,12 +53,12 @@
 					<a href="#" class="current_link"><img src="/images/mac/spacer.gif" width="65" height="65" alt="" /></a>
 				</div>
    -->
-				<div class="post2">
+				<%#*<div class="post2">%>
 					<span><%=Time.now.strftime("%d-%m-%Y")%></span><br />
 					<h5>Bienvenidos</h5>
 
                                         <%=yield%>
-                                </div>
+                                <%#*</div>%>
                                 <!--
 				<div class="post">
 					<span>September 25th</span><br />

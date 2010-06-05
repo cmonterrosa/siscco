@@ -2,7 +2,7 @@
 
 <% form_tag :action => 'create' do%>
   <%= render :partial => 'formall' %>
-  <%= submit_tag "Guardar" %>
+  <%= submit_tag "Agregar", :onclick => "return comprobar();" %>
 <% end %>
 
 <%= link_to 'Regresar', :action => 'list' %>

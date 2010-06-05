@@ -1,6 +1,6 @@
 <h1 class="centrado">Alta Giro</h1>
 
-<% form_tag :action => 'create' do %>
+<% form_tag :action => 'create', :onkeypress => 'return comprobar();' do %>
   <%= render :partial => 'form' %>
   <%= submit_tag "Agregar" %>
 <% end %>

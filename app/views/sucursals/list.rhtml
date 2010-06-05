@@ -1,27 +1,35 @@
-<h1>Listing sucursals</h1>
+<h1 class="centrado">Sucursales</h1>
 
-<table>
-  <tr>
-  <% for column in Sucursal.content_columns %>
-    <th><%= column.human_name %></th>
-  <% end %>
-  </tr>
-  
-<% for sucursal in @sucursals %>
-  <tr>
-  <% for column in Sucursal.content_columns %>
-    <td><%=h sucursal.send(column.name) %></td>
-  <% end %>
-    <td><%= link_to 'Show', :action => 'show', :id => sucursal %></td>
-    <td><%= link_to 'Edit', :action => 'edit', :id => sucursal %></td>
-    <td><%= link_to 'Destroy', { :action => 'destroy', :id => sucursal }, :confirm => 'Are you sure?', :method => :post %></td>
-  </tr>
-<% end %>
-</table>
+<label for="searchtext">Búsqueda por Sucursal:</label>
+  <%= text_field_tag :searchtext %>
+  <%= observe_field(:searchtext,
+                 :frequency => 0.25,
+                 :update => :search_hits,
+                 :with  => "searchtext",
+                 :url => { :action => :live_search }) %>
+<p>Resultados de la Busqueda:</p>
+<div id="search_hits">
+  <div class="scroll">
+  <table>
+    <tr>
+    <% for column in Sucursal.content_columns %>
+      <th><%= column.human_name %></th>
+    <% end %>
+      <th colspan="3">Acciones</th>
+     </tr>
 
-<%= link_to 'Previous page', { :page => @sucursal_pages.current.previous } if @sucursal_pages.current.previous %>
-<%= link_to 'Next page', { :page => @sucursal_pages.current.next } if @sucursal_pages.current.next %> 
+    <% for sucursal in @sucursals %>
+    <tr>
+      <% for column in Sucursal.content_columns %>
+      <td><%=h sucursal.send(column.name) %></td>
+      <% end %>
+      <td><%= button_to 'Detalles', :action => 'show', :id => sucursal %></td>
+      <td><%= button_to 'Editar', :action => 'edit', :id => sucursal %></td>
+      <td><%= button_to 'Eliminar', { :action => 'destroy', :id => sucursal }, :confirm => 'Estas seguro?', :method => :post %></td>
+    </tr>
+    <% end %>
+  </table>
+  </div>
+</div>
 
-<br />
-
-<%= link_to 'New sucursal', :action => 'new' %>
+<h4><%= button_to 'Agregar Sucursal', :action => 'new' %></h4>

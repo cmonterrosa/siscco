@@ -9,9 +9,9 @@
     <th>Dirección:</th>
   </tr>
   <tr>
-    <td><%= text_field 'banco', 'nombre' %></td>
+    <td><%= text_field 'banco', 'nombre', :onkeypress => "return CharNum(event, 'letra');"   %></td>
     <td><%= text_field 'banco', 'num_cuenta'  %></td>
-    <td><%= text_field 'banco', 'titular'  %></td>
+    <td><%= text_field 'banco', 'titular', :onkeypress => "return CharNum(event, 'letra');"    %></td>
     <td><%= text_field 'banco', 'direccion'  %></td>
   </tr>
   <tr>
@@ -21,7 +21,7 @@
     <th>Ejido:</th>
   </tr>
   <tr>
-    <td><%= text_field 'banco', 'telefono'  %></td>
+    <td><%= text_field 'banco', 'telefono', :onkeypress => "return CharNum(event, 'numero');"    %></td>
     <td><%=  collection_select("", "estado_id", $estados, :id, :estado, :prompt => '>>Estado')    %></td>
     <td><%=  select("","municipio_id", ['>>Municipios'])    %></td>
     <td><%=  select("","ejido_id", ['>>Ejidos'])    %></td>

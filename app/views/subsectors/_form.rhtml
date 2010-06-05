@@ -7,7 +7,7 @@
     <th>Sector:</th>
   </tr>
   <tr>
-    <td><%= text_field 'subsector', 'subsector'  %></td>
+    <td><%= text_field 'subsector', 'subsector', :onkeypress => "return CharNum(event, 'letra');"  %></td>
     <td><%= collection_select('subsector','sector_id', Sector.find(:all, :order => "sector"), :id, :sector, :prompt => '>>Sector') %></td>
   </tr>
 </table>

@@ -46,3 +46,31 @@ function NumberDec(obj, e, allowDecimal, allowNegative)
     return isFirstN || isFirstD || reg.test(keychar);
 }
 
+function comprobar()
+{
+    
+    var mal=false;
+    numero=document.forms[0].elements.length;
+    for(a=0;a<numero;a++)
+    {
+        if(document.forms[0].elements[a].value=="")
+        {
+            document.forms[0].elements[a].style.backgroundColor="#ff9999";
+            mal=true;
+        }
+        else
+        {
+            document.forms[0].elements[a].style.backgroundColor="white";
+        }
+    }
+    if(mal)
+    {
+        alert("Por favor, rellene los campos coloreados");
+        return false;
+    }
+    else
+    {
+        document.forms[0].submit();
+        return true;
+    }
+}
