@@ -1,0 +1,13 @@
+<%= error_messages_for 'pagoslinea' %>
+
+<!--[form:pagoslinea]-->
+<p><label for="pagoslinea_fecha">Fecha</label><br/>
+<%= date_select 'pagoslinea', 'fecha'  %></p>
+
+<p><label for="pagoslinea_monto">Monto</label><br/>
+<%= text_field 'pagoslinea', 'monto'  %></p>
+
+<p><label for="pagoslinea_observaciones">Observaciones</label><br/>
+<%= text_area 'pagoslinea', 'observaciones'  %></p>
+<!--[eoform:pagoslinea]-->
+

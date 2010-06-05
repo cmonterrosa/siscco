@@ -13,7 +13,7 @@ class ApplicationController < ActionController::Base
   require 'date'
   
   # --- Plantilla por defecto ------
-  layout 'index'
+  layout 'logged'
 
   # ---  Incluimos la libreria para el acceso ---
   include LoginSystem
