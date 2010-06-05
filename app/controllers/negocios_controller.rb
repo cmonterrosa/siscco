@@ -10,7 +10,8 @@ class NegociosController < ApplicationController
          :redirect_to => { :action => :list }
 
   def list
-    @negocio_pages, @negocios = paginate :negocios, :per_page => 10
+#    @negocio_pages, @negocios = paginate :negocios, :per_page => 10
+     @negocios = Negocio.find(:all, :order => 'nombre')
   end
 
   def show
@@ -19,8 +20,8 @@ class NegociosController < ApplicationController
 
   def new
     @negocio = Negocio.new
-    @negocio.cliente_id = params[:cliente][:id]
-    @cliente =  Cliente.new(params[:cliente]) if params[:cliente]
+#    @negocio.cliente_id = params[:cliente][:id]
+#    @cliente =  Cliente.new(params[:cliente]) if params[:cliente]
     @giros = Giro.find(:all, :order => 'giro')
   end
 
@@ -37,7 +38,7 @@ class NegociosController < ApplicationController
   end
 
   def edit
-    @negocio = Negocio.find(params[:id_negocio])
+    @negocio = Negocio.find(params[:id])
     @giros = Giro.find(:all, :order => 'giro')
   end
 
@@ -55,5 +56,13 @@ class NegociosController < ApplicationController
   def destroy
     Negocio.find(params[:id]).destroy
     redirect_to :action => 'list'
+  end
+
+    #--- Funciones ajax para filtrado --
+  def live_search
+#      @banco_pages, @bancos = paginate :bancos, :per_page => 10
+      @negocios = Negocio.find(:all, :order => 'nombre')
+      @negocios = Negocio.find(:all, :conditions => ["nombre like ?", "%#{params[:searchtext]}%"])
+      return render(:partial => 'filtronegocio', :layout => false) if request.xhr?
   end
 end

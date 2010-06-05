@@ -8,9 +8,9 @@
     <th>Estado:</th>
   </tr>
   <tr>
-    <th><%= text_field 'municipio', 'municipio'  %></th>
-    <th><%= text_field 'municipio', 'clave_inegi'  %></th>
-    <th><%= collection_select("municipio", "estado_id", $estados, :id, :estado, :prompt => ">>Estado") %></th>
+    <td><%= text_field 'municipio', 'municipio'  %></td>
+    <td><%= text_field 'municipio', 'clave_inegi'  %></td>
+    <td><%= collection_select("municipio", "estado_id", $estados, :id, :estado, :prompt => ">>Estado") %></td>
   </tr>
 </table>
 <!--[eoform:municipio]-->

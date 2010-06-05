@@ -11,7 +11,7 @@ class FondeosController < ApplicationController
 
   def list
 #    @fondeo_pages, @fondeos = paginate :fondeos, :per_page => 10
-     #@fondeos = Fondeo.find(:all, :order => 'fuente')
+     @fondeos = Fondeo.find(:all, :order => 'fuente')
   end
 
  

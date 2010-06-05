@@ -10,10 +10,17 @@
   <!--estilos del tema por defecto -->
   <%= stylesheet_link_tag "default"%>
   <%= stylesheet_link_tag "miestilo"%>
+   <%= stylesheet_link_tag "menu"%>
+
     <%= stylesheet_link_tag "validaciones"%>
     <%= javascript_include_tag 'prototype' %>
     <%= javascript_include_tag 'misfunciones' %>
     <%= javascript_include_tag :defaults %>
+  <!-- Javascript de los menus -->
+      <%= javascript_include_tag 'menu' %>
+    <%= javascript_include_tag 'menu_items_public' %>
+    <%= javascript_include_tag 'menu_tpl' %>
+
   </head>
 
 
@@ -25,6 +32,12 @@
 		<h1><a href="#">Sistema de </a></h1>
 		<h2><a href="http://www.freecsstemplates.org/">Créditos</a></h2>
 	</div>
+        <!-- Menu desplegable -->
+        <script language="JavaScript">
+            new menu (MENU_ITEMS, MENU_TPL);
+        </script>
+
+
 	<div id="menu">
 		<ul>
 			

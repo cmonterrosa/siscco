@@ -13,7 +13,7 @@ class ApplicationController < ActionController::Base
   require 'date'
   
   # --- Plantilla por defecto ------
-  layout 'logged'
+  layout 'index'
 
   # ---  Incluimos la libreria para el acceso ---
   include LoginSystem
@@ -182,6 +182,16 @@ end
           return((@monto * @interes) + @monto) / @credito.num_pagos
        end
 
+        def capital_minimo(credito)
+          return credito.monto / @credito.num_pagos.to_f
+        end
+
+        def interes_minimo(credito)
+          @monto = credito.monto
+          @interes = credito.tasa_interes / 100.0
+          return(@monto * @interes) / @credito.num_pagos
+        end
+
 
         def proximo_pago(credito)
           @proximo = Pago.find(:first, :conditions=>["credito_id = ? AND
@@ -242,7 +252,7 @@ end
            return @pagos
       end
 
-       def inserta_pagos(credito, arreglo_pagos)
+              def inserta_pagos(credito, arreglo_pagos)
          if credito.pagos.size == 0
          contador=1
          #---- Esta funcion crea los registros en la tabla pagos para tener un historial ----
@@ -250,14 +260,34 @@ end
                    Pago.create(:num_pago => contador,
                              :credito_id => credito.id.to_i,
                              :fecha_limite => x,
-                             :pago_minimo => pago_minimo(credito),
+                             :capital_minimo => capital_minimo(credito),
+                             :interes_minimo => interes_minimo(credito),
                              :pagado => 0,
-                             :descripcion => "Pago #{contador} de #{arreglo_pagos.size} pago minimo #{pago_minimo(credito)} ")
+                             :descripcion => "Pago #{contador} de #{arreglo_pagos.size} capital minimo #{capital_minimo(credito)} ")
                  contador+=1
          end
          else
            return nil
          end
+
+
+#--- Version Anterior --
+#       def inserta_pagos(credito, arreglo_pagos)
+#         if credito.pagos.size == 0
+#         contador=1
+#         #---- Esta funcion crea los registros en la tabla pagos para tener un historial ----
+#         arreglo_pagos.each do |x|
+#                   Pago.create(:num_pago => contador,
+#                             :credito_id => credito.id.to_i,
+#                             :fecha_limite => x,
+#                             :pago_minimo => pago_minimo(credito),
+#                             :pagado => 0,
+#                             :descripcion => "Pago #{contador} de #{arreglo_pagos.size} pago minimo #{pago_minimo(credito)} ")
+#                 contador+=1
+#         end
+#         else
+#           return nil
+#         end
 
          
        end

@@ -4,18 +4,18 @@
 
 <table>
   <tr>
-    <td>Colonia:</td> 
-    <td>Clave Inegi:</td>
-    <td>Estado:</td>
-    <td>Municipio:</td>
-    <td>Colonia:</td>
+    <th>Colonia:</th>
+    <th>Clave Inegi:</th>
+    <th>Estado:</th>
+    <th>Municipio:</th>
+    <th>Colonia:</th>
   </tr>
   <tr>
-    <th><%= text_field 'colonia', 'colonia'  %></th>
-    <th><%= text_field 'colonia', 'clave_inegi'  %></th>
-    <th><%=  collection_select("", "estado_id", $estados, :id, :estado, :prompt => '>>Estado')    %></th>
-    <th><%=  select("", "municipio_id", ['>>Municipio'])    %></th>
-    <th><%=  collection_select("colonia", "ejido_id", $ejidos, :id, :ejido, :prompt => '>>Ejido')    %></th>
+    <td><%= text_field 'colonia', 'colonia'  %></td>
+    <td><%= text_field 'colonia', 'clave_inegi'  %></td>
+    <td><%=  collection_select("", "estado_id", $estados, :id, :estado, :prompt => '>>Estado')    %></td>
+    <td><%=  select("", "municipio_id", ['>>Municipio'])    %></td>
+    <td><%=  collection_select("colonia", "ejido_id", $ejidos, :id, :ejido, :prompt => '>>Ejido')    %></td>
   </tr>
 </table>
 

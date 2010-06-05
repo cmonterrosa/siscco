@@ -7,8 +7,8 @@
     <th>Sector:</th>
   </tr>
   <tr>
-    <th><%= text_field 'subsector', 'subsector'  %></th>
-    <th><%= collection_select('subsector','sector_id', Sector.find(:all, :order => "sector"), :id, :sector, :prompt => '>>Sector') %></th>
+    <td><%= text_field 'subsector', 'subsector'  %></td>
+    <td><%= collection_select('subsector','sector_id', Sector.find(:all, :order => "sector"), :id, :sector, :prompt => '>>Sector') %></td>
   </tr>
 </table>
 <!--[eoform:subsector]-->

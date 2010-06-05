@@ -20,8 +20,9 @@ class AdministracionController < ApplicationController
 
   #----- Este control pagina todos los usuarios que tienen acceso al sistema y le muestra opciones
   def verifica_usuarios
-     @user_pages, @usuarios = paginate :users, :per_page => 10
-     @rol = Rol.find(params[:id])
+#     @user_pages, @usuarios = paginate :users, :per_page => 10
+    @usuarios = User.find(:all, :order => 'nombre')
+    @rol = Rol.find(params[:id])
      @usuarios = @rol.users
   end
 

@@ -1,4 +1,6 @@
 class Promotor < ActiveRecord::Base
+  has_many :creditos
+
   def nombre_completo
     "#{paterno} #{materno} #{nombre}"
   end

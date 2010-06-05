@@ -6,7 +6,7 @@
     <th>Fuente:</th>
   </tr>
   <tr>
-    <th><%= text_field 'fondeo', 'fuente'%></th>
+    <td><%= text_field 'fondeo', 'fuente', :onkeypress =>"return CharNum(event, 'letra');"%></td>
   </tr>
 </table>
 <!--[eoform:fondeo]-->

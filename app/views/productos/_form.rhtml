@@ -7,28 +7,31 @@
     <th>Tipo:</th>
     <th>Intereses:</th>
     <th>Iva Intereses:</th>
+  </tr>
+  <tr>
+    <td><%= text_field 'producto', 'producto'  %></td>
+    <td><%= text_field 'producto', 'tipo'  %></td>
+    <td><%= text_field 'producto', 'intereses'  %></td>
+    <td><%= text_field 'producto', 'iva_intereses'  %></td>
+  </tr>
+  <tr>
     <th>Interes Moratorio:</th>
-  </tr>
-  <tr>
-    <th><%= text_field 'producto', 'producto'  %></th>
-    <th><%= text_field 'producto', 'tipo'  %></th>
-    <th><%= text_field 'producto', 'intereses'  %></th>
-    <th><%= text_field 'producto', 'iva_intereses'  %></th>
-    <th><%= text_field 'producto', 'intereses_moratorio'  %></th>
-  </tr>
-  <tr>
     <th>Multa:</th>
     <th>Iva Multa:</th>
     <th>Garantía:</th>
-    <th>Periodo:</th>
-    <th>Grupo:</th>
   </tr>
   <tr>
-    <th><%= text_field 'producto', 'multa'  %></th>
-    <th><%= text_field 'producto', 'iva_multa'  %></th>
-    <th><%= text_field 'producto', 'garantia'  %></th>
-    <th><%= collection_select('producto', 'periodo_id', $periodos, :id, :nombre, :prompt => '>>Periodo')  %></th>
-    <th><%= collection_select('producto', 'grupo_id', $grupos, :id, :nombre, :prompt => '>>Grupo')  %></th>
+    <td><%= text_field 'producto', 'intereses_moratorio'  %></td>
+    <td><%= text_field 'producto', 'multa'  %></td>
+    <td><%= text_field 'producto', 'iva_multa'  %></td>
+    <td><%= text_field 'producto', 'garantia'  %></td>
   </tr>
+  <tr>
+    <th>Periodo:</th>
+    <th>Grupo:</th>    
+  </tr>
+  <tr>
+    <td><%= collection_select('producto', 'periodo_id', $periodos, :id, :nombre, :prompt => '>>Periodo')  %></td>
+    <td><%= collection_select('producto', 'grupo_id', $grupos, :id, :nombre, :prompt => '>>Grupo')  %></td>  </tr>
 </table>
 <!--[eoform:producto]-->

@@ -4,7 +4,7 @@
 <div class="centrado">
   <table class="centrado">
   <tr>
-    <td colspan="4">>>Datos Clientes:</td>
+    <th colspan="4" style="text-align: left">>>Datos Clientes:</th>
   </tr>
   <tr>
     <th>Paterno:</th>
@@ -13,10 +13,10 @@
     <th>Fecha de Nac:</th>
   </tr>
   <tr>
-    <th><%= text_field 'cliente', 'paterno'  %></th>
-    <th><%= text_field 'cliente', 'materno'  %></th>
-    <th><%= text_field 'cliente', 'nombre'  %></th>
-    <th><%= date_select 'cliente', 'fecha_nac', :order => [:day, :month, :year], :start_year => 1900%></th>
+    <td><%= text_field 'cliente', 'paterno'  %></td>
+    <td><%= text_field 'cliente', 'materno'  %></td>
+    <td><%= text_field 'cliente', 'nombre'  %></td>
+    <td><%= date_select 'cliente', 'fecha_nac', :order => [:day, :month, :year], :start_year => 1900%></td>
   </tr>
   <tr>
     <th>RFC:</th>
@@ -25,10 +25,10 @@
     <th>Dirección:</th>
   </tr>
   <tr>
-    <th><%= text_field 'cliente', 'rfc'  %></th>
-    <th><%= text_field 'cliente', 'curp'  %></th>
-    <th><%= text_field 'cliente', 'clave_ife'  %></th>
-    <th><%= text_field 'cliente', 'direccion'  %></th>
+    <td><%= text_field 'cliente', 'rfc'  %></td>
+    <td><%= text_field 'cliente', 'curp'  %></td>
+    <td><%= text_field 'cliente', 'clave_ife'  %></td>
+    <td><%= text_field 'cliente', 'direccion'  %></td>
   </tr>
   <tr>
     <th>Cod. Postal</th>
@@ -38,10 +38,10 @@
     
   </tr>
   <tr>
-    <th><%= text_field 'cliente', 'codigo_postal'  %></th>
-    <th><%= text_field 'cliente', 'sexo'  %></th>
-    <th><%= text_field 'cliente', 'nacionalidad'  %></th>
-    <th><%= text_field 'cliente', 'tipo_propiedad'  %></th>
+    <td><%= text_field 'cliente', 'codigo_postal'  %></td>
+    <td><%= select("cliente", "sexo", ['>> Sexo', 'Masculiino', 'Femenino'])  %></td>
+    <td><%= select("cliente", "sexo", ['>> Nacionalidad', 'Mexicana', 'Extranjera'])  %></td>
+    <td><%= text_field 'cliente', 'tipo_propiedad'  %></td>
    </tr>
    <tr>
      <th>Tipo Persona:</th>
@@ -51,10 +51,10 @@
      
    </tr>
    <tr>
-      <th><%= text_field 'cliente', 'tipo_persona'  %></th>
-     <th><%= text_field 'cliente', 'telefono'  %></th>
-     <th><%= text_field 'cliente', 'email'  %></th>
-     <th><%= collection_select("cliente", "civil_id", @civiles, :id, :civil) %></th>
+     <td><%= text_field 'cliente', 'tipo_persona'  %></td>
+     <td><%= text_field 'cliente', 'telefono'  %></td>
+     <td><%= text_field 'cliente', 'email'  %></td>
+     <td><%= collection_select("cliente", "civil_id", @civiles, :id, :civil) %></td>
      
    </tr>
    <tr>
@@ -64,10 +64,10 @@
      <th>Estado:</th>
    </tr>
    <tr>
-     <th><%= collection_select("cliente", "escolaridad_id", @escolaridades, :id, :escolaridad) %></th>
-     <th> <%= collection_select("cliente", "vivienda_id", @viviendas, :id, :tipo_vivienda) %></th>
-     <th><%= collection_select("cliente", "grupo_id", $grupos, :id, :nombre)%></th>
-     <th><%= collection_select("", "estado_id", $estados, :id, :estado, :prompt => '>>Estado')  %></th>
+     <td><%= collection_select("cliente", "escolaridad_id", @escolaridades, :id, :escolaridad) %></td>
+     <td> <%= collection_select("cliente", "vivienda_id", @viviendas, :id, :tipo_vivienda) %></td>
+     <td><%= collection_select("cliente", "grupo_id", $grupos, :id, :nombre)%></td>
+     <td><%= collection_select("", "estado_id", $estados, :id, :estado, :prompt => '>>Estado')  %></td>
    </tr>
    <tr>
      <th>Municipio:</th>
@@ -75,15 +75,15 @@
      <th>Colonia:</th>
    </tr>
    <tr>
-     <th><%=  select("", "municipio_id", ['>>Municipio'])    %></th>
-     <th><%=  select("", "ejido_id", ['>>Ejido'])    %></th>
-     <th><%=  collection_select("cliente", "colonia_id", $colonias, :id, :colonia, :prompt => '>>Colonia')    %></th>
+     <td><%=  select("", "municipio_id", ['>>Municipio'])    %></td>
+     <td><%=  select("", "ejido_id", ['>>Ejido'])    %></td>
+     <td><%=  collection_select("cliente", "colonia_id", $colonias, :id, :colonia, :prompt => '>>Colonia')    %></td>
    </tr>
    <tr>
      <th colspan="4">=================================================================================================</th>
    </tr>
    <tr>
-     <td colspan="4">>>Datos Negocio:</td>
+     <th colspan="4" style=" text-align: left">>>Datos Negocio:</th>
    </tr>
    <tr>
      <th>Nombre:</th>
@@ -92,18 +92,18 @@
      <th>Teléfono:</th>
    </tr>
    <tr>
-     <th><%= text_field 'negocio', 'nombre'  %></th>
-     <th><%= text_field 'negocio', 'puesto'  %></th>
-     <th><%= text_field 'negocio', 'direccion'  %></th>
-     <th><%= text_field 'negocio', 'telefono'  %></th>
+     <td><%= text_field 'negocio', 'nombre'  %></td>
+     <td><%= text_field 'negocio', 'puesto'  %></td>
+     <td><%= text_field 'negocio', 'direccion'  %></td>
+     <td><%= text_field 'negocio', 'telefono'  %></td>
    </tr>
    <tr>
      <th>Num Empleados:</th>
      <th>Giro:</th>
    </tr>
    <tr>
-     <th><%= text_field 'negocio', 'num_empleados'  %></th>
-     <th><%= collection_select('negocio', 'giro_id', Giro.find(:all,:order => 'giro'), :id, :giro, :prompt => '>>Giro')  %></th>
+     <td><%= text_field 'negocio', 'num_empleados'  %></td>
+     <td><%= collection_select('negocio', 'giro_id', Giro.find(:all,:order => 'giro'), :id, :giro, :prompt => '>>Giro')  %></td>
    </tr>
 </table>
 </div>

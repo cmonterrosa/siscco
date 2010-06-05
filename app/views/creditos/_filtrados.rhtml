@@ -12,14 +12,14 @@
     <td><%=h credito.send(column.name) %></td>
   <% end %>
      <td><%= link_to 'Aplicar movimiento', :action => 'transaccion', :id => credito %></td>
-    <td><%= link_to 'Show', :action => 'show', :id => credito %></td>
-    <td><%= link_to 'Edit', :action => 'edit', :id => credito %></td>
-    <td><%= link_to 'Destroy', { :action => 'destroy', :id => credito }, :confirm => 'Are you sure?', :method => :post %></td>
+    <td><%= link_to 'Detalles', :action => 'show', :id => credito %></td>
+    <td><%= link_to 'Editar', :action => 'edit', :id => credito %></td>
+    <td><%= link_to 'Eliminar', { :action => 'destroy', :id => credito }, :confirm => '¿Esta seguro?', :method => :post %></td>
   </tr>
 <% end %>
 </table>
 
-<%= link_to 'Previous page', { :page => @credito_pages.current.previous } if @credito_pages.current.previous %>
-<%= link_to 'Next page', { :page => @credito_pages.current.next } if @credito_pages.current.next %>
+<%= link_to 'Anterior', { :page => @credito_pages.current.previous } if @credito_pages.current.previous %>
+<%= link_to 'Siguiente', { :page => @credito_pages.current.next } if @credito_pages.current.next %>
 
 <br />

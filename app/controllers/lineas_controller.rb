@@ -55,8 +55,9 @@ class LineasController < ApplicationController
   end
               #-- Ajax --
   def live_search
-      @lineas = Linea.find(:all, :conditions => "linea_autorizada like '%#{params[:searchtext]}%' or
-                                                 linea_disponible like '%#{params[:searchtext]}%'")
+          @lineas = Linea.find(:all, :conditions => "linea_autorizada like '%#{params[:searchtext]}%'")
+#      @lineas = Linea.find(:all, :conditions => "linea_autorizada like '%#{params[:searchtext]}%' or
+#                                                 linea_disponible like '%#{params[:searchtext]}%'")
       return render(:partial => 'filtrolinea', :layout => false) if request.xhr?
   end
       #--- Funciones ajax para filtrado --

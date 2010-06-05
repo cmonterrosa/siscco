@@ -9,10 +9,10 @@
     <th>Fecha de Nac:</th>
   </tr>
   <tr>
-    <th><%= text_field 'cliente', 'paterno'  %></th>
-    <th><%= text_field 'cliente', 'materno'  %></th>
-    <th><%= text_field 'cliente', 'nombre'  %></th>
-    <th><%= date_select 'cliente', 'fecha_nac', :order => [:day, :month, :year], :start_year => 1930%></th>
+    <td><%= text_field 'cliente', 'paterno'  %></td>
+    <td><%= text_field 'cliente', 'materno'  %></td>
+    <td><%= text_field 'cliente', 'nombre'  %></td>
+    <td><%= date_select 'cliente', 'fecha_nac', :order => [:day, :month, :year], :start_year => 1930%></td>
   </tr>
   <tr>
     <th>RFC:</th>
@@ -21,10 +21,10 @@
     <th>Sexo:</th>
   </tr>
   <tr>
-    <th><%= text_field 'cliente', 'rfc'  %></th>
-    <th><%= text_field 'cliente', 'curp'  %></th>
-    <th><%= text_field 'cliente', 'clave_ife'  %></th>
-    <th><%= text_field 'cliente', 'sexo'  %></th>
+    <td><%= text_field 'cliente', 'rfc'  %></td>
+    <td><%= text_field 'cliente', 'curp'  %></td>
+    <td><%= text_field 'cliente', 'clave_ife'  %></td>
+    <td><%= text_field 'cliente', 'sexo'  %></td>
   </tr>
   <tr>
     <th>Nacionalidad</th>
@@ -33,10 +33,10 @@
     <th>Dirección:</th>
   </tr>
   <tr>
-    <th><%= text_field 'cliente', 'nacionalidad'  %></th>
-    <th><%= text_field 'cliente', 'tipo_propiedad'  %></th>
-    <th><%= text_field 'cliente', 'tipo_persona'  %></th>
-    <th><%= text_field 'cliente', 'direccion'  %></th>
+    <td><%= text_field 'cliente', 'nacionalidad'  %></td>
+    <td><%= text_field 'cliente', 'tipo_propiedad'  %></td>
+    <td><%= text_field 'cliente', 'tipo_persona'  %></td>
+    <td><%= text_field 'cliente', 'direccion'  %></td>
    </tr>
    <tr>
      <th>Telefono:</th>
@@ -45,10 +45,10 @@
      <th>Escolaridad:</th>
    </tr>
    <tr>
-     <th><%= text_field 'cliente', 'telefono'  %></th>
-     <th><%= text_field 'cliente', 'email'  %></th>
-     <th><%= collection_select("cliente", "civil_id", @civiles, :id, :civil) %></th>
-     <th><%= collection_select("cliente", "escolaridad_id", @escolaridades, :id, :escolaridad) %></th>
+     <td><%= text_field 'cliente', 'telefono'  %></td>
+     <td><%= text_field 'cliente', 'email'  %></td>
+     <td><%= collection_select("cliente", "civil_id", @civiles, :id, :civil) %></td>
+     <td><%= collection_select("cliente", "escolaridad_id", @escolaridades, :id, :escolaridad) %></td>
    </tr>
    <tr>
      <th>Tipo Vivienda:</th>
@@ -57,18 +57,18 @@
      <th>Municipio:</th>
    </tr>
    <tr>
-     <th> <%= collection_select("cliente", "vivienda_id", @viviendas, :id, :tipo_vivienda) %></th>
-     <th><%= collection_select("cliente", "grupo_id", $grupos, :id, :nombre)%></th>
-     <th><%= collection_select("", "estado_id", $estados, :id, :estado, :prompt => '>>Estado')  %></th>
-     <th><%=  select("", "municipio_id", ['>>Municipio'])    %></th>
+     <td> <%= collection_select("cliente", "vivienda_id", @viviendas, :id, :tipo_vivienda) %></td>
+     <td><%= collection_select("cliente", "grupo_id", $grupos, :id, :nombre)%></td>
+     <td><%= collection_select("", "estado_id", $estados, :id, :estado, :prompt => '>>Estado')  %></td>
+     <td><%=  select("", "municipio_id", ['>>Municipio'])    %></td>
    </tr>
    <tr>
      <th>Ejido:</th>
      <th>Colonia:</th>
    </tr>
    <tr>
-     <th><%=  select("", "ejido_id", ['>>Ejido'])    %></th>
-     <th><%=  collection_select("cliente", "colonia_id", $colonias, :id, :colonia, :prompt => '>>Colonia')    %></th>
+     <td><%=  select("", "ejido_id", ['>>Ejido'])    %></td>
+     <td><%=  collection_select("cliente", "colonia_id", $colonias, :id, :colonia, :prompt => '>>Colonia')    %></td>
    </tr>
 </table>
 

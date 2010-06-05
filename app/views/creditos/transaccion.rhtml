@@ -3,6 +3,7 @@
 <table>
   <tr><th>Cliente: <%=@credito.cliente.nombre_completo%></th></tr>
   <tr><td>RFC: <%=@credito.cliente.rfc%></td></tr>
+   <tr><td>Oficial de Credito: <%=@credito.promotor.nombre_completo%></td></tr>
   <tr><td>Número de credito: <%=@credito.id%></td></tr>
   <tr><td>Monto inicial: <%="$%.2f" % @credito.monto.to_s%></td></tr>
   <tr><td>Fecha de inicio: <%=@credito.fecha_inicio%></td></tr>
@@ -21,14 +22,16 @@
   <tr>
     <th>Num de pago</th>
     <th>Fecha Limite</th>
-    <th>Pago minimo</th>
+    <th>Capital minimo</th>
+    <th>Interes minimo</th>
     <th>Pagado</th>
   </tr>
   <%@credito.pagos.each do |pago|%>
   <tr>
      <td><%=pago.num_pago%></td>
      <td><%=pago.fecha_limite%></td>
-     <td><%="$%.2f" % pago.pago_minimo%></td>
+     <td><%="$%.2f" % pago.capital_minimo%></td>
+      <td><%="$%.2f" % pago.interes_minimo%></td>
      <%if pago.pagado == 1%>
         <td>SI</td>
      <%else%>
@@ -39,8 +42,6 @@
   <%end%>
 
 </table>
-
-
 
 
 
@@ -110,6 +111,29 @@
 
 
 </table>
+
+<h3>Ingresar Pago</h3>
+
+<!-- Form para agregar un pago -->
+<% form_tag :action => 'abonar', :credito=>@credito do -%>
+<%= error_messages_for 'pago' %>
+<p><label for="movimiento_capital">Importe</label><br/>
+<%= text_field 'pago', 'capital'  %></p>
+
+<p><label for="movimiento_fecha">Fecha</label><br/>
+<%= date_select 'pago', 'fecha'  %></p>
+
+<p><label for="movimiento_concepto">Descripcion</label><br/>
+<%= text_field 'pago', 'descripcion'  %></p>
+<!--[eoform:movimiento]-->
+<%= submit_tag "Aplicar" %>
+<% end %>
+
+
+
+
+
+
 <h3>Importe inicial = <%= "$%.2f" % @credito.monto.to_s%></h3>
 <h3>Total de abonos = <%= "$%.2f" % @abonos.to_s%></h3>
 <h3>Total de cargos = <%="$%.2f" % @cargos.to_s%></h3>

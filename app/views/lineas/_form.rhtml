@@ -6,13 +6,11 @@
     <th>Cuenta Cheque:</th>
     <th>Fecha Autorización:</th>
     <th>Línea Autorizada:</th>
-    <th>Línea Disponible:</th>
   </tr>
   <tr>
-    <th><%= text_field 'linea', 'cuenta_cheques'  %></th>
-    <th><%= date_select 'linea', 'fecha_autorizacion'  %></th>
-    <th><%= text_field 'linea', 'linea_autorizada'  %></th>
-    <th><%= text_field 'linea', 'linea_disponible'  %></th>
+    <td><%= text_field 'linea', 'cuenta_cheques'  %></td>
+    <td><%= date_select 'linea', 'fecha_autorizacion'  %></td>
+    <td><%= text_field 'linea', 'linea_autorizada'  %></td>
   </tr>
   <tr>
     <th>Estatus:</th>
@@ -20,9 +18,9 @@
     <th>Fondeo:</th>
   </tr>
   <tr>
-    <th><%= collection_select('linea', 'estatus', Statu.find(:all, :order => 'statu'), :id, :statu, :prompt => '>>Estatus')%></th>
-    <th><%= text_field 'linea', 'gcnf'  %></th>
-    <th><%= collection_select('linea', 'fondeo_id', $fondeos, :id, :fuente, :prompt => '>>Fondeo') %></th>
+    <td><%= collection_select('linea', 'estatus', Statu.find(:all, :order => 'statu'), :statu, :statu, :prompt => '>>Estatus')%></td>
+    <td><%= text_field 'linea', 'gcnf'  %></td>
+    <td><%= collection_select('linea', 'fondeo_id', $fondeos, :id, :fuente, :prompt => '>>Fondeo') %></td>
   </tr>
 </table>
 <!--[eoform:linea]-->

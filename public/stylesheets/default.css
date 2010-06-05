@@ -49,6 +49,11 @@ h3 {
 	font-weight: bold;
 }
 
+h4 {
+        font-size: 1em;
+        text-align: right;
+}
+
 p, ul, ol {
 }
 
@@ -290,7 +295,7 @@ div.centrado{
        text-align: center;
 }
 div.center{
-    text-align: center;
+    text-align: right;
 }
 
 div.scroll{

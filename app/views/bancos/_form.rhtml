@@ -3,34 +3,34 @@
 <!--[form:banco]-->
 <table>
   <tr>
-    <td>Nombre:</td>
-    <td>Num Cuenta:</td>
-    <td>Titular:</td>
-    <td>Dirección:</td>
+    <th>Nombre:</th>
+    <th>Num Cuenta:</th>
+    <th>Titular:</th>
+    <th>Dirección:</th>
   </tr>
   <tr>
-    <th><%= text_field 'banco', 'nombre' %></th>
-    <th><%= text_field 'banco', 'num_cuenta'  %></th>
-    <th><%= text_field 'banco', 'titular'  %></th>
-    <th><%= text_field 'banco', 'direccion'  %></th>
+    <td><%= text_field 'banco', 'nombre' %></td>
+    <td><%= text_field 'banco', 'num_cuenta'  %></td>
+    <td><%= text_field 'banco', 'titular'  %></td>
+    <td><%= text_field 'banco', 'direccion'  %></td>
   </tr>
   <tr>
-    <td>Telefono:</td>
-    <td>Estado:</td>
-    <td>Municipio:</td>
-    <td>Ejido:</td>
+    <th>Telefono:</th>
+    <th>Estado:</th>
+    <th>Municipio:</th>
+    <th>Ejido:</th>
   </tr>
   <tr>
-    <th><%= text_field 'banco', 'telefono'  %></th>
-    <th><%=  collection_select("", "estado_id", $estados, :id, :estado, :prompt => '>>Estado')    %></th>
-    <th><%=  select("","municipio_id", ['>>Municipios'])    %></th>
-    <th><%=  select("","ejido_id", ['>>Ejidos'])    %></th>
+    <td><%= text_field 'banco', 'telefono'  %></td>
+    <td><%=  collection_select("", "estado_id", $estados, :id, :estado, :prompt => '>>Estado')    %></td>
+    <td><%=  select("","municipio_id", ['>>Municipios'])    %></td>
+    <td><%=  select("","ejido_id", ['>>Ejidos'])    %></td>
   </tr>
   <tr>
-    <td>Colonia:</td>
+    <th>Colonia:</th>
   </tr>
   <tr>
-    <th><%=  collection_select("banco", "colonia_id", $colonias, :id, :colonia, :prompt => '>>Colonia')    %></th>
+    <td><%=  collection_select("banco", "colonia_id", $colonias, :id, :colonia, :prompt => '>>Colonia')    %></td>
   </tr>
 </table>
 

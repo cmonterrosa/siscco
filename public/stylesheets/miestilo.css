@@ -1,9 +1,9 @@
 table,tr,td,th{border-collapse:collapse;border-spacing:0;border:1px solid #d9d1cc;}
-table{width:500px;margin:1em auto;background:#efeeff; text-align: center}
-caption{font-weight:bold;width:75%;margin:0 auto -1em;background:#ac1f0d;color:#efe;border-bottom:1px solid #d9d1cc;}
-th{background:#b2b3a8;color:#333;border-bottom:1px solid #d9d1cc; width: 100%}
-tr{background:#feffee;color:#333;hover:expression(this.onmouseover=new Function("this.style.background='#d8d9cc';"),this.onmouseout=new Function("this.style.background='#feffee';"));}
-tr:hover{background:#d8d9cc;}
+table{width:auto;margin:1em auto;background:#efeeff; text-align: center;}
+caption{font-weight:bold;margin:0 auto -1em;background:#ac1f0d;color:#efe;border-bottom:1px solid #d9d1cc;}
+th{background:#66cc33;color:#333;border-bottom:1px solid #d9d1cc; text-align: center;}
+tr{background:#ccff99;color:#333;hover:expression(this.onmouseover=new Function("this.style.background='#d8d9cc';"),this.onmouseout=new Function("this.style.background='#feffee';"));}
+tr:hover{background:#99ff66;}
 td{padding-left:1em;text-align:left;}
 a{color:#666;}
 a:hover{color:#000;}

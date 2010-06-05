@@ -8,9 +8,9 @@
     <th>Subsector:</th>
   </tr>
   <tr>
-    <th><%= text_field 'giro', 'giro'  %></th>
-    <th><%= text_field 'giro', 'codigo'  %></th>
-    <th><%= collection_select('giro', 'subsector', Subsector.find(:all, :order => 'subsector'), :subsector, :subsector)  %></th>
+    <td><%= text_field 'giro', 'giro'  %></td>
+    <td><%= text_field 'giro', 'codigo'  %></td>
+    <td><%= collection_select('giro', 'subsector', Subsector.find(:all, :order => 'subsector'), :subsector, :subsector)  %></td>
   </tr>
 </table>
 <!--[eoform:giro]-->

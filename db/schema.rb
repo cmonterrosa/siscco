@@ -49,7 +49,6 @@ ActiveRecord::Schema.define(:version => 32) do
   create_table "creditos", :force => true do |t|
     t.column "fecha_inicio",      :date
     t.column "fecha_fin",         :date
-    t.column "plazo",             :string
     t.column "num_referencia",    :string
     t.column "linea_id",          :integer
     t.column "banco_id",          :integer
@@ -115,7 +114,6 @@ ActiveRecord::Schema.define(:version => 32) do
     t.column "cuenta_cheques",     :string
     t.column "fecha_autorizacion", :date
     t.column "linea_autorizada",   :string
-    t.column "linea_disponible",   :string
     t.column "estatus",            :string,  :limit => 5
     t.column "gcnf",               :string
   end
@@ -146,12 +144,16 @@ ActiveRecord::Schema.define(:version => 32) do
   end
 
   create_table "pagos", :force => true do |t|
-    t.column "num_pago",     :integer
-    t.column "fecha_limite", :date
-    t.column "pago_minimo",  :string
-    t.column "pagado",       :integer
-    t.column "credito_id",   :integer
-    t.column "descripcion",  :string
+    t.column "num_pago",       :integer
+    t.column "fecha_limite",   :date
+    t.column "capital_minimo", :string
+    t.column "interes_minimo", :string
+    t.column "fecha",          :date
+    t.column "capital",        :string
+    t.column "interes",        :string
+    t.column "moratorio",      :string
+    t.column "pagado",         :integer
+    t.column "credito_id",     :integer
   end
 
   create_table "pagoslineas", :force => true do |t|
