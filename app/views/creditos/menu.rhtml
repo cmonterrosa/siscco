@@ -1,8 +1,21 @@
 <h2>Operaciones</h2>
 
-<p><h2><%=link_to 'Aplicar Transaccion', :action => "movimiento_credito"%></h2></p>
-<p><h2><%=link_to 'Historico del crédito', :action => "busca_credito"%></h2></p>
-<p><h2><%=link_to 'Alta de Crédito Individual', :action => "new_individual"%></h2></p>
-<p><h2><%=link_to 'Alta de Crédito Grupal', :action => "new_grupal"%></h2></p>
-<p><h2><%=link_to 'Listado de Créditos', :action => "list"%></h2></p>
-<p><h2><%=link_to 'Pago a Linea de Fondeo', :controller => "pagoslineas", :action => "new"%></h2></p>
+<table class="catalogos">
+  <tr>
+    <td><%=link_to 'Aplicar Transaccion', :action => "movimiento_credito"%></td>
+  </tr>
+  <tr>
+    <td><%=link_to 'Alta de Crédito Individual', :action => "new_individual"%></td>
+  </tr>
+  <tr>
+    <td><%=link_to 'Alta de Crédito Grupal', :action => "new_grupal"%></td>
+  </tr>
+  <tr>
+    <td><%=link_to 'Listado de Créditos', :action => "list"%></td>
+  </tr>
+  <tr>
+    <td><%=link_to 'Pago a Linea de Fondeo', :controller => "pagoslineas", :action => "new"%></td>
+  </tr>
+
+</table>
+
