@@ -7,7 +7,7 @@
 
 class AccountController < ApplicationController
   model   :user
-  layout 'logged'
+  layout 'inicio'
  
   #before_filter :login_required, :except =>[ :login, :signup]
     before_filter :permiso_requerido, :except =>[ :login, :signup]
