@@ -299,10 +299,12 @@ div.center{
 }
 
 div.scroll{
-       overflow: auto;
+       /*overflow: auto;*/
        width:900px;
-       height: 200px;
+       height: 600px;
        text-align: center;
+       color: #008C00;
+
 }
 div.scroll2{
        overflow: auto;

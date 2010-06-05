@@ -1,6 +1,6 @@
 class HomeController < ApplicationController
 before_filter :login_required, :except =>[ :index]
-layout 'logged'
+layout 'contenido'
 
   def index
   end

@@ -2,7 +2,7 @@
 "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-<title></title>
+<title>Sistema de Creditos</title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
 <!--
   <= stylesheet_link_tag "default"%>
@@ -11,7 +11,10 @@
   <%= stylesheet_link_tag "menu"%>
   <%= stylesheet_link_tag "style"%>
   <%= stylesheet_link_tag "validaciones"%>
+
   <%= stylesheet_link_tag "miestilo"%>
+
+
 
     <%= stylesheet_link_tag "validaciones"%>
     <%= javascript_include_tag 'prototype' %>
@@ -27,16 +30,25 @@
 			<a href="#" class="logo"><img src="/images/mac/titulo.png" alt="setalpm" width="202" height="55" /></a>																																				<div class="inner_copy"><a href="http://www.greatdirectories.org/">web directories</a><a href="http://www.bestfreetemplates.info/">free CSS templates</a></div>
 			<div id="menu">
 				<ul>
-					<li><a href="#" class="but1 active"><img src="/images/mac/spacer.gif" alt="" width="106" height="42" /></a></li>
-					<li><a href="#" class="but2"><img src="/images/mac/spacer.gif" alt="" width="118" height="42" /></a></li>
-					<li><a href="#" class="but3"><img src="/images/mac/spacer.gif" alt="" width="106" height="42" /></a></li>
-					<li><a href="#" class="but4"><img src="/images/mac/spacer.gif" alt="" width="99" height="42" /></a></li>
-					<li><a href="#" class="but5"><img src="/images/mac/spacer.gif" alt="" width="154" height="42" /></a></li>
-					<li><a href="#" class="but6"><img src="/images/mac/spacer.gif" alt="" width="129" height="42" /></a></li>
-				</ul>
-				<%#*<form action="#">%>
-					<%#*<input type="text" value="Buscar" />%>
-				<%#*</form>%>
+
+
+
+					<li><a href="/home" class="but1 active"><img src="/images/mac/spacer.gif" alt="" width="106" height="42" /></a></li>
+					<li><a href="/catalogos" class="but2"><img src="/images/mac/spacer.gif" alt="" width="118" height="42" /></a></li>
+					<li><a href="/creditos/menu" class="but3"><img src="/images/mac/spacer.gif" alt="" width="106" height="42" /></a></li>
+					<li><a href="/informacion" class="but4"><img src="/images/mac/spacer.gif" alt="" width="99" height="42" /></a></li>
+					<li><a href="/administracion" class="but5"><img src="/images/mac/spacer.gif" alt="" width="154" height="42" /></a></li>
+
+                                        <%if session['user']%>
+                                        <li><a href="/account/logout" class="but7"><img src="/images/mac/spacer.gif" alt="" width="129" height="42" /></a></li>
+				        <%else%>
+                                          <li><a href="#" class="but6"><img src="/images/mac/spacer.gif" alt="" width="129" height="42" /></a></li>
+                                        <%end%>
+
+                                </ul>
+				<form action="#">
+					<input type="text" value="Buscar" />
+				</form>
 			</div>
 			<ul id="meta">
 				<li><a href="#" class="meta1"><img src="/images/mac/spacer.gif" alt="" width="37" height="39" /></a></li>
@@ -53,12 +65,12 @@
 					<a href="#" class="current_link"><img src="/images/mac/spacer.gif" width="65" height="65" alt="" /></a>
 				</div>
    -->
-				<%#*<div class="post2">%>
-					<span><%=Time.now.strftime("%d-%m-%Y")%></span><br />
-					<h5>Bienvenidos</h5>
+				<div class="post2">
+
+
 
                                         <%=yield%>
-                                <%#*</div>%>
+                                </div>
                                 <!--
 				<div class="post">
 					<span>September 25th</span><br />
@@ -86,10 +98,10 @@
                                 -->
 			</div>
 			<div id="sidebar">
-                          
+
 				<div class="block">
 					<div class="news">
-					
+
                                           <% unless session['user']%>
                                           <!-- formulario para inicio de sesion -->
                                           <% form_tag :action => 'login', :controller=>"account" do -%>
@@ -111,7 +123,7 @@
   </div>
 
      <% end -%>
-                                          
+
                                           <%end%>
 
 
@@ -119,8 +131,8 @@
 						<!-- <a href="#" class="more"><img src="/images/mac/more.gif" alt="" width="102" height="21" /></a> -->
 					</div>
 				</div>
-                          
-                          
+
+
 
                           <!--
 				<div class="sponsors">
@@ -151,8 +163,9 @@
 	</div>
 	<div id="footer">
 		<div>
-			<span>Copyright &copy;. All rights reserved. Design by <a href="http://www.bestfreetemplates.info" class="bft" title="Best Free Templates" target="_blank">BFT</a></span>																																																																									<div class="inner_copy"><a href="http://www.beautifullife.info/">beautiful</a><a href="http://www.grungemagazine.com/">grunge</a></div>
-			<ul id="navigation">
+			<span>Copyright &copy; Derechos Reservados </span>
+			<!--
+                        <ul id="navigation">
 				<li><a href="#">Home</a>|</li>
 				<li><a href="#">About us</a>|</li>
 				<li><a href="#">Gallery</a>|</li>
@@ -161,6 +174,7 @@
 				<li><a href="#">Contact us</a>|</li>
 				<li><a href="#" class="rss">RSS</a></li>
 			</ul>
+                      -->
 		</div>
 	</div>
 </body>
