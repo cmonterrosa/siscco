@@ -13,9 +13,9 @@
     <th>Fecha de Nac:</th>
   </tr>
   <tr>
-    <td><%= text_field 'cliente', 'paterno'  %></td>
-    <td><%= text_field 'cliente', 'materno'  %></td>
-    <td><%= text_field 'cliente', 'nombre'  %></td>
+    <td><%= text_field 'cliente', 'paterno', :onkeypress => "return CharNum(event, 'letra');"  %></td>
+    <td><%= text_field 'cliente', 'materno', :onkeypress => "return CharNum(event, 'letra');"  %></td>
+    <td><%= text_field 'cliente', 'nombre', :onkeypress => "return CharNum(event, 'letra');"  %></td>
     <td><%= date_select 'cliente', 'fecha_nac', :order => [:day, :month, :year], :start_year => 1900%></td>
   </tr>
   <tr>
@@ -51,8 +51,8 @@
      
    </tr>
    <tr>
-     <td><%= text_field 'cliente', 'tipo_persona'  %></td>
-     <td><%= text_field 'cliente', 'telefono'  %></td>
+     <td><%= text_field 'cliente', 'tipo_persona', :onkeypress => "return CharNum(event, 'letra');"  %></td>
+     <td><%= text_field 'cliente', 'telefono', :onkeypress => "return CharNum(event, 'numero');"  %></td>
      <td><%= text_field 'cliente', 'email'  %></td>
      <td><%= collection_select("cliente", "civil_id", @civiles, :id, :civil) %></td>
      
@@ -93,16 +93,16 @@
    </tr>
    <tr>
      <td><%= text_field 'negocio', 'nombre'  %></td>
-     <td><%= text_field 'negocio', 'puesto'  %></td>
+     <td><%= text_field 'negocio', 'puesto', :onkeypress => "return CharNum(event, 'letra');"  %></td>
      <td><%= text_field 'negocio', 'direccion'  %></td>
-     <td><%= text_field 'negocio', 'telefono'  %></td>
+     <td><%= text_field 'negocio', 'telefono', :onkeypress => "return CharNum(event, 'numero');"  %></td>
    </tr>
    <tr>
      <th>Num Empleados:</th>
      <th>Giro:</th>
    </tr>
    <tr>
-     <td><%= text_field 'negocio', 'num_empleados'  %></td>
+     <td><%= text_field 'negocio', 'num_empleados', :onkeypress => "return CharNum(event, 'numero');"  %></td>
      <td><%= collection_select('negocio', 'giro_id', Giro.find(:all,:order => 'giro'), :id, :giro, :prompt => '>>Giro')  %></td>
    </tr>
 </table>

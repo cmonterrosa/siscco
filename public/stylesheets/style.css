@@ -23,6 +23,7 @@ overflow:hidden;
 position:relative
 }
 .logo{
+/*width:200px;*/
 margin:0 0 0 40px;
 margin:0 0 0 42px;
 float:left;
@@ -65,7 +66,7 @@ background-position:bottom left
 position:absolute;
 top:134px;
 right:51px;
-/ right:47px;
+/*right:47px;*/
 }
 #meta li{
 display:inline;
@@ -101,11 +102,22 @@ overflow:hidden;
 padding:0 0 28px 0;
 }
 #main{
-width:674px;
+width:640px;
 float:left;
 overflow:hidden;
 padding:13px 5px 0 19px;
 }
+
+#maincompleto{
+width:900px;
+float:left;
+overflow:hidden;
+padding:13px 5px 0 19px;
+font-family:Helvetica, "Franklin Gothic Medium", sans-serif;
+font-size:11px;
+}
+
+
 .current{
 background:url(/images/mac/current_bg.jpg) top left no-repeat;
 width:659px;

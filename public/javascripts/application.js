@@ -5,12 +5,12 @@ function CharNum(e, modo)
     var key = window.event ? e.keyCode : e.which;
     var keychar = String.fromCharCode(key);
     if (modo=='letra') {
-        reg = /\d/;
-        return !reg.test(keychar);
+        reg = /\D/;
+        return reg.test(keychar);
     }
     else {
-        reg = /\D/;
-        return !reg.test(keychar);
+        reg = /\d/;
+        return reg.test(keychar);
     }
 }
 

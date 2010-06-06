@@ -9,9 +9,9 @@
     <th>Fecha de Nac:</th>
   </tr>
   <tr>
-    <td><%= text_field 'cliente', 'paterno', :onkeypress => "return CharNum(event, 'letra');"    %></td>
-    <td><%= text_field 'cliente', 'materno', :onkeypress => "return CharNum(event, 'letra');"    %></td>
-    <td><%= text_field 'cliente', 'nombre', :onkeypress => "return CharNum(event, 'letra');"    %></td>
+    <td><%= text_field 'cliente', 'paterno', :onkeypress => "return CharNum(event, 'letra');"  %></td>
+    <td><%= text_field 'cliente', 'materno', :onkeypress => "return CharNum(event, 'letra');"  %></td>
+    <td><%= text_field 'cliente', 'nombre', :onkeypress => "return CharNum(event, 'letra');"  %></td>
     <td><%= date_select 'cliente', 'fecha_nac', :order => [:day, :month, :year], :start_year => 1930%></td>
   </tr>
   <tr>

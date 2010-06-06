@@ -30,6 +30,7 @@
 					<li><a href="/creditos/menu" class="but3"><img src="/images/mac/spacer.gif" alt="" width="106" height="42" /></a></li>
 					<li><a href="/informacion" class="but4"><img src="/images/mac/spacer.gif" alt="" width="99" height="42" /></a></li>
 					<li><a href="/administracion" class="but5"><img src="/images/mac/spacer.gif" alt="" width="154" height="42" /></a></li>
+                                       
 
                                         <%if session['user']%>
                                         <li><a href="/account/logout" class="but7"><img src="/images/mac/spacer.gif" alt="" width="129" height="42" /></a></li>
@@ -97,7 +98,7 @@
 				<div class="block">
 					<div class="news">
 					
-                                          <% unless session['user']%>
+                                          <% if session['user'].nil?%>
                                           <!-- formulario para inicio de sesion -->
                                           <% form_tag :action => 'login', :controller=>"account" do -%>
                                           <div title="Account login">
@@ -117,7 +118,7 @@
 
   </div>
 
-     <% end -%>
+     <%end%>
                                           
                                           <%end%>
 
