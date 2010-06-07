@@ -17,13 +17,13 @@ width:988px;
 margin:0 auto;
 }
 #header{
-padding:78px 0 0 0;
+padding:40px 0 0 0;
 width:988px;
 overflow:hidden;
 position:relative
 }
 .logo{
-/*width:200px;*/
+width:100px;
 margin:0 0 0 40px;
 margin:0 0 0 42px;
 float:left;
@@ -64,7 +64,7 @@ background-position:bottom left
 }
 #meta{
 position:absolute;
-top:134px;
+top:83px;
 right:51px;
 /*right:47px;*/
 }
@@ -75,13 +75,13 @@ list-style-type:none;
 #meta a{
 display:block;
 float:left;
-margin:0 6px 0 0;
+
 }
-.meta1{background:url(/images/mac/meta1.jpg) top left no-repeat;}
-.meta2{background:url(/images/mac/meta2.jpg) top left no-repeat;}
-.meta3{background:url(/images/mac/meta3.jpg) top left no-repeat;}
+.meta1{background:url(/images/mac/meta1.png) top left no-repeat;}
+.meta2{background:url(/images/mac/meta2.png) top left no-repeat;}
+.meta3{background:url(/images/mac/meta3.png) top left no-repeat;}
 #meta a:hover{
-background-position:bottom left
+background-position: bottom left
 }
 #menu input{
 background:url(/images/mac/search_bg.gif) top left no-repeat;
@@ -102,12 +102,11 @@ overflow:hidden;
 padding:0 0 28px 0;
 }
 #main{
-width:640px;
+width:659px;
 float:left;
 overflow:hidden;
 padding:13px 5px 0 19px;
 }
-
 #maincompleto{
 width:900px;
 float:left;
@@ -116,8 +115,6 @@ padding:13px 5px 0 19px;
 font-family:Helvetica, "Franklin Gothic Medium", sans-serif;
 font-size:11px;
 }
-
-
 .current{
 background:url(/images/mac/current_bg.jpg) top left no-repeat;
 width:659px;
@@ -131,7 +128,7 @@ padding:0 0 25px 0;
 display:block;
 float:left;
 width:520px;
-padding:22px 0 0 35px;
+padding:62px 0 0 15px;
 }
 .current_link{
 display:block;
@@ -143,7 +140,7 @@ width:659px;
 height:363px;
 float:left;
 background:url(/images/mac/post_bg.gif) top left no-repeat;
-background-size: 100%;
+/*background-size: 100%;*/
 padding:15px 28px 0 25px;
 margin:0 15px 11px 0;
 }
@@ -201,29 +198,37 @@ margin:0 0 0 80px;
 }
 #sidebar{
 width:277px;
-float:left;
+margin: 0 10px 0 10px;
+float: left;
 }
 .block{
-background:url(/images/mac/line.gif) top left repeat-y;
-float:left;
-margin:0 0 20px 0;
+background:url(/images/mac/line.gif) top left no-repeat;
+float:right;
+margin:0 0 0 10px;
 }
 .news{
 background:url(/images/mac/block_end.gif) bottom left no-repeat;
 width:272px;
 float:left;
-font-family:Helvetica, Arial, "Franklin Gothic Medium", sans-serif;
+font-family:Helvetica, "Franklin Gothic Medium", sans-serif;
 font-size:12px;
 color:#6D7072;
 }
 .news div{
 background:url(/images/mac/news_bg.jpg) top left no-repeat;
-width:228px;
-padding:30px 16px 15px 28px;
+width:272px;
+padding:20px 6px 15px 28px;
 float:left;
 }
 .news p{
-padding:0 0 18px 0;
+padding:0 18px 18px 0;
+margin: 10px 0 0 80px
+}
+.letra {
+    font-family:Helvetica, "Franklin Gothic Medium", sans-serif;
+    font-size:20px;
+    color:#ff0000;
+    text-align: center;
 }
 #sidebar .more{
 margin:0 0 0 60px;
@@ -240,7 +245,7 @@ margin:17px 0 0 15px;
 }
 .popular li{
 list-style-type:none;
-background:url(/images/mac/bullet.gif) left 3px no-repeat;
+/*background:url(/images/mac/bullet.gif) left 3px no-repeat;*/
 padding:0 0 0 25px;
 line-height:23px;
 height:23px;

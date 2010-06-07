@@ -9,46 +9,13 @@ function CharNum(e, modo)
         return reg.test(keychar);
     }
     else {
-        reg = /\d/;
-        return reg.test(keychar);
+        return (key <= 13 || (key >= 48 && key <= 57) || key == 46);
     }
-}
-
-function NumberDec(obj, e, allowDecimal, allowNegative)
-{
-    var key;
-    var isCtrl = false;
-    var keychar;
-    var reg;
-
-    if(window.event) {
-	key = e.keyCode;
-	isCtrl = window.event.ctrlKey
-    }
-    else if(e.which) {
-	key = e.which;
-	isCtrl = e.ctrlKey;
-    }
-
-    if (isNaN(key)) return true;
-
-    keychar = String.fromCharCode(key);
-
-	// check for backspace or delete, or if Ctrl was pressed
-    if (key == 8 || isCtrl) {
-	return true;
-    }
-
-    reg = /\d/;
-    var isFirstN = allowNegative ? keychar == '-' && obj.value.indexOf('-') == -1 : false;
-    var isFirstD = allowDecimal ? keychar == '.' && obj.value.indexOf('.') == -1 : false;
-
-    return isFirstN || isFirstD || reg.test(keychar);
 }
 
 function comprobar()
 {
-    
+    missinginfo = "";
     var mal=false;
     numero=document.forms[0].elements.length;
     for(a=0;a<numero;a++)
@@ -56,6 +23,7 @@ function comprobar()
         if(document.forms[0].elements[a].value=="")
         {
             document.forms[0].elements[a].style.backgroundColor="#ff9999";
+            missinginfo += "\n     - "+document.forms[0].elements[a].name;
             mal=true;
         }
         else
@@ -65,7 +33,7 @@ function comprobar()
     }
     if(mal)
     {
-        alert("Por favor, rellene los campos coloreados");
+        alert("Por favor, rellene los campos:"+'\n'+missinginfo);
         return false;
     }
     else

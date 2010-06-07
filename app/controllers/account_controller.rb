@@ -4,12 +4,11 @@
 #                                                                             #
 ###############################################################################
 
-
 class AccountController < ApplicationController
   model   :user
   layout 'inicio'
  
-  #before_filter :login_required, :except =>[ :login, :signup]
+#  before_filter :login_required, :except =>[ :login, :signup]
     before_filter :permiso_requerido, :except =>[ :login, :signup]
 
   def login
@@ -26,8 +25,8 @@ class AccountController < ApplicationController
           $usuario= params['user_login'] 
           flash['notice'] ="Login incorrecto" 
           render :action =>signup  
-      end
-    end
+        end
+   end
   end
 
   def signup
@@ -45,8 +44,7 @@ class AccountController < ApplicationController
     end
   end
 #--- el mismo metodo para dar de alta, solo que este recibe el rol de parametro ----
-    def signup_perfil
-     
+  def signup_perfil
      case request.method
       when :post
         @user = User.new(params['user'])
@@ -62,40 +60,37 @@ class AccountController < ApplicationController
   end
 
 
-    def list
-          @user_pages, @users = paginate :users, :per_page => 10
-    end
+  def list
+      @user_pages, @users = paginate :users, :per_page => 10
+  end
 
     
-    def edit
-       @user = User.find(params[:id])
-       @user.password = ""
-       @roles = Rol.find(:all)
-    end
+  def edit
+      @user = User.find(params[:id])
+      @user.password = ""
+      @roles = Rol.find(:all)
+  end
 
-    def update
+  def update
       @user = User.find(params[:id])
       if @user.update_attributes(params[:user])
-        flash[:notice] = 'Usuario actualizado correctamente'
-        redirect_to :action => 'administracion', :controller => "usuarios"
+         flash[:notice] = 'Usuario actualizado correctamente'
+         redirect_to :action => 'administracion', :controller => "usuarios"
       else
-        render :action => 'edit'
+         render :action => 'edit'
       end
-    end
+  end
 
-
-
-
-   def delete
+  def delete
     @admin=User.find_by_login("administrador")
     if (params['usuario']['id']).to_i==@admin.id
           flash[:notice]="No se puede eliminar al usuario administrador"
     else
-             if params['usuario']['id']
-                      user = User.find(params['usuario']['id'])
-                      user.destroy
-                      flash[:notice]="El usuario fue eliminado"
-             end
+       if params['usuario']['id']
+            user = User.find(params['usuario']['id'])
+            user.destroy
+            flash[:notice]="El usuario fue eliminado"
+       end
     end
     redirect_back_or_default :action => "usuarios"
   end
@@ -124,12 +119,9 @@ class AccountController < ApplicationController
 
   end
 
- 
-
   def menu
     
   end
-
 
   def index
     redirect_to :action=>'signup'

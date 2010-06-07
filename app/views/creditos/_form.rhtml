@@ -3,7 +3,7 @@
 <!--[form:credito]-->
 
 <p><label for="credito_fecha_inicio">Monto</label><br/>
-<%= text_field 'credito', 'monto'  %></p>
+<%= text_field 'credito', 'monto', :onkeypress => "return CharNum(event, 'numero');"  %></p>
 
 
 <p><label for="credito_fecha_inicio">Fecha inicio</label><br/>
@@ -19,19 +19,19 @@
 </p>
 
 <p><label for="credito_num_referencia">Número de pagos</label><br/>
-<%= text_field 'credito', 'num_pagos'  %></p>
+<%= text_field 'credito', 'num_pagos', :onkeypress => "return CharNum(event, 'numero');"  %></p>
 
 
 <p><label for="credito_tasa_interes">Tasa de Interes</label><br/>
-<%= text_field 'credito', 'tasa_interes'  %></p>
+<%= text_field 'credito', 'tasa_interes', :onkeypress => "return CharNum(event, 'numero');"  %></p>
 
 <p><label for="credito_tasa_interes">Tasa de Interes Moratorio</label><br/>
-<%= text_field 'credito', 'interes_moratorio'  %></p>
+<%= text_field 'credito', 'interes_moratorio', :onkeypress => "return CharNum(event, 'numero');"  %></p>
 
 
 
 <p><label for="credito_num_referencia">Num referencia</label><br/>
-<%= text_field 'credito', 'num_referencia'  %></p>
+<%= text_field 'credito', 'num_referencia', :onkeypress => "return CharNum(event, 'numero');"  %></p>
 
 
 <!-- Aqui van las relaciones con las otras tablas -->

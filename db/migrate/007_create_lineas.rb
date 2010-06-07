@@ -4,7 +4,8 @@ class CreateLineas < ActiveRecord::Migration
       t.column :fondeo_id, :integer
       t.column :cuenta_cheques, :string
       t.column :fecha_autorizacion, :date
-      t.column :linea_autorizada, :string
+      t.column :linea_autorizada, :integer
+      t.column :linea_disponible, :integer
       t.column :estatus, :string
       t.column :gcnf, :string
     end

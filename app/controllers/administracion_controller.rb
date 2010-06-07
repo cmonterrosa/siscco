@@ -2,9 +2,7 @@ class AdministracionController < ApplicationController
  before_filter :permiso_requerido
 
   def index
-    
   end
-
   #--- definicion de las acciones principales ----
   def usuarios
   end
@@ -41,37 +39,6 @@ class AdministracionController < ApplicationController
      @rol.systables << @tmp2
      @rol.save!
     end
-    #---- Iteramos sobre la lista total de systables del rol ---
-
-#      Systable.destroy(@systables)
-#      @lista.each do |systable|
-#        @tmp = Systable.find(systable)
-#        @rol.systables << @tmp
-#        @rol.save!
-#      end
-    
-
-
-  
-
-#    if @systables.include?(Systable.find(:first, :conditions => ["rol_id = ? and controller = ?", params[:rol] ]))
-#
-#    include?()
-#    #--- Iteracion por cada elemento seleccionado ---
-#    params[:rols][:systable_ids].each do |id|
-#        unless tiene_permiso?(Rol.find(params[:rol]), Systable.find(id).controller)
-#        Systable.create(:controller => Systable.find(id).controller,
-#                        :rol_id => params[:rol],
-#                        :descripcion => Systable.find(id).descripcion)
-#        else
-#
-#        end
-
-
-
-
-    #--- Verificamos los que tiene en la BD y no estan en la lista ----
-
     
     flash[:notice] = "Permisos otorgados"
     redirect_to :action => "verifica_permisos", :id => Rol.find(params[:rol])

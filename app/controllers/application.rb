@@ -1,25 +1,19 @@
 # ---- Personalizacion de la clase ----
 class ActiveRecord::RecordInvalid
-
-
   def initialize(record)
       @record = record
       super("Verifique lo siguiente: #{@record.errors.full_messages.join(", ")}")
   end
-
 end
 
 class ApplicationController < ActionController::Base
   require 'date'
-  
   # --- Plantilla por defecto ------
   layout 'contenido'
-
   # ---  Incluimos la libreria para el acceso ---
   include LoginSystem
   model :user
   before_filter :configure_charsets
-
 
   #----------Variables para combos globales -----------
   $estados = Estado.find(:all, :order => "estado")
@@ -52,9 +46,6 @@ class ApplicationController < ActionController::Base
    headers["Content-Type"] = "text/html; charset=UTF-8"
   end
 
-
-
-
   def inserta_registro(registro, mensaje)
     begin
       registro.save!
@@ -70,8 +61,7 @@ class ApplicationController < ActionController::Base
       #flash[:notice]= e.message
       redirect_to :action => 'new', :controller => "#{params[:controller]}"
     end
-end
-
+  end
 
   def actualiza_registro(registro, parametros)
     begin
@@ -97,14 +87,11 @@ end
     end
   end
 
-
-
   def rango_anios
     @arreglo=[]
     (4).times{|x| @arreglo << Time.now.year - x}
     return @arreglo.sort
   end
-
 
   def has_permission?(usuario)
     #--- primero verificamos que exista el usuario -----
@@ -113,10 +100,10 @@ end
     else
        return false
     end
-end
+  end
 
        #---- Funciones del crédito -----
-       def cargos(credito)
+  def cargos(credito)
     @arreglo = []
     @movimientos = credito.movimientos
     if @movimientos.empty?
@@ -133,7 +120,7 @@ end
      end
   end
 
-    def abonos(credito)
+  def abonos(credito)
     @arreglo = []
     @movimientos = credito.movimientos
     if @movimientos.empty?
@@ -148,10 +135,10 @@ end
      }
      return @arreglo
      end
-end
+  end
 
 
-      def liquido(credito)
+  def liquido(credito)
     @abonos = 0
     @cargos = 0
     @movimientos = credito.movimientos
@@ -170,41 +157,36 @@ end
           @abonos = movimiento.capital += @abonos
       end
 
-    }
+     }
       return (credito.monto * (credito.tasa_interes / 100 ) + credito.monto ) + @cargos - @abonos
+    end
   end
-end
 
-        def pago_minimo(credito)
+  def pago_minimo(credito)
           #--- Verificamos si el credito ha sido cubierto ----
           @monto = credito.monto
           @interes = credito.tasa_interes / 100.0
           return((@monto * @interes) + @monto) / @credito.num_pagos
-       end
+  end
 
-        def capital_minimo(credito)
-          return credito.monto / @credito.num_pagos.to_f
-        end
+  def capital_minimo(credito)
+      return credito.monto / @credito.num_pagos.to_f
+  end
 
-        def interes_minimo(credito)
+  def interes_minimo(credito)
           @monto = credito.monto
           @interes = credito.tasa_interes / 100.0
           return(@monto * @interes) / @credito.num_pagos
-        end
+  end
 
-
-        def proximo_pago(credito)
+  def proximo_pago(credito)
           @proximo = Pago.find(:first, :conditions=>["credito_id = ? AND
                                                    pagado=0", credito.id],
-                               :order=>"fecha_limite")
-                             return @proximo.fecha_limite
+                                                   :order=>"fecha_limite")
+          return @proximo.fecha_limite
+  end
 
-
-        end
-
-
-
-      def ultimo_pago(anio, mes, dia, num_pagos, periodo)
+  def ultimo_pago(anio, mes, dia, num_pagos, periodo)
         @dias = num_pagos.to_i * periodo.dias.to_i
            @f_ini = Date.new(y=anio.to_i,m=mes.to_i,d=dia.to_i)
            # --- Creamos un arreglo donde pondremos los pagos ---
@@ -226,9 +208,9 @@ end
            end
            }
            return @pagos.last
-       end
+  end
 
-       def calcula_pagos(anio, mes, dia, num_pagos, periodo)
+  def calcula_pagos(anio, mes, dia, num_pagos, periodo)
         @dias = num_pagos.to_i * periodo.dias.to_i
            @f_ini = Date.new(y=anio.to_i,m=mes.to_i,d=dia.to_i)
            # --- Creamos un arreglo donde pondremos los pagos ---
@@ -250,13 +232,13 @@ end
            end
            }
            return @pagos
-      end
+  end
 
-              def inserta_pagos(credito, arreglo_pagos)
+  def inserta_pagos(credito, arreglo_pagos)
          if credito.pagos.size == 0
          contador=1
          #---- Esta funcion crea los registros en la tabla pagos para tener un historial ----
-         arreglo_pagos.each do |x|
+            arreglo_pagos.each do |x|
                    Pago.create(:num_pago => contador,
                              :credito_id => credito.id.to_i,
                              :fecha_limite => x,
@@ -265,44 +247,22 @@ end
                              :pagado => 0,
                              :descripcion => "Pago #{contador} de #{arreglo_pagos.size} capital minimo #{capital_minimo(credito)} ")
                  contador+=1
-         end
+            end
          else
            return nil
          end
+    end
 
 
-#--- Version Anterior --
-#       def inserta_pagos(credito, arreglo_pagos)
-#         if credito.pagos.size == 0
-#         contador=1
-#         #---- Esta funcion crea los registros en la tabla pagos para tener un historial ----
-#         arreglo_pagos.each do |x|
-#                   Pago.create(:num_pago => contador,
-#                             :credito_id => credito.id.to_i,
-#                             :fecha_limite => x,
-#                             :pago_minimo => pago_minimo(credito),
-#                             :pagado => 0,
-#                             :descripcion => "Pago #{contador} de #{arreglo_pagos.size} pago minimo #{pago_minimo(credito)} ")
-#                 contador+=1
-#         end
-#         else
-#           return nil
-#         end
+    def tiene_permiso?(rol, controlador)
+          @registro = Systable.find(:first, :conditions => ["rol_id = ? and controller = ? ", Rol.find(rol).id, controlador])
+           if @registro.nil?
+               false
+           else
+                true
+           end
+    end
 
-         
-       end
-
-
-         def tiene_permiso?(rol, controlador)
-              @registro = Systable.find(:first, :conditions => ["rol_id = ? and controller = ? ", Rol.find(rol).id, controlador])
-              if @registro.nil?
-                  false
-              else
-                  true
-              end
-          end
-
-
-  # Scrub sensitive parameters from your log
+ # Scrub sensitive parameters from your log
    filter_parameter_logging :password
 end

@@ -1,8 +1,6 @@
 class CatalogosController < ApplicationController
-  layout 'contenido'
-  before_filter :permiso_requerido
- 
-
+before_filter :login_required, :except =>[ :index]
+layout 'contenido'
 
   def index
 

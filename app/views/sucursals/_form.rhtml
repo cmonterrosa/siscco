@@ -4,40 +4,36 @@
 <table>
   <tr>
     <th>Nombre</th>
-    <th>Rfc</th>
     <th>Gerente</th>
     <th>Telefono</th>
+    <th>Direccion</th>
   </tr>
   <tr>
     <td><%= text_field 'sucursal', 'nombre'  %></td>
-    <td><%= text_field 'sucursal', 'rfc'  %></td>
     <td><%= text_field 'sucursal', 'gerente'  %></td>
     <td><%= text_field 'sucursal', 'telefono'  %></td>
+    <td><%= text_field 'sucursal', 'direccion'  %></td>
   </tr>
   <tr>
-    <th>Direccion</th>
     <th>Codigo postal</th>
     <th>Estado</th>
     <th>Municipio</th>
+     <th>Ejido</th>
   </tr>
   <tr>
-    <td><%= text_field 'sucursal', 'direccion'  %></td>
     <td><%= text_field 'sucursal', 'codigo_postal'  %></td>
     <td><%= collection_select('', 'estado_id', $estados, :id, :estado, :prompt => ">> Estado") %></td>
     <td><%= select('', 'municipio_id', [">> Municipio"]) %></td>
+    <td><%= select('', 'ejido_id', [">> Ejido"]) %></td>
   </tr>
   <tr>
-    <th>Ejido</th>
     <th>Colonia</th>
   </tr>
   <tr>
-    <td><%= select('', 'ejido_id', [">> Ejido"]) %></td>
     <td><%= collection_select("sucursal", "colonia_id", $colonias, :id, :colonia, {:prompt => ">> Colonia"})  %></td>
   </tr>
 </table>
-
 <!-- Combo para conseguir la colonia donde vive -->
-
 <!--Funciones para ejecutar las acciones cuando cambia la seleccion -->
 
       <%= observe_field '_estado_id',

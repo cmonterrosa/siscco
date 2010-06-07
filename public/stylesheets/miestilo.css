@@ -46,6 +46,7 @@ tr{background:#E0ECF8;
    a{color:#666;}
    a:hover{color:#000;}
 
-
-
+table.botones{border-collapse:collapse;border-spacing:0;border:0;text-align: center;}
+th.botones{text-align: center; background: #ffffff; border: 0;}
+tr.botones{text-align: center; background: #ffffff; border: 0;}
 
