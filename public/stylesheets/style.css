@@ -309,3 +309,20 @@ line-height:0px;
 padding:0px;
 font-size:11px
 }
+
+div.center{
+    text-align: right;
+}
+
+div.scroll{
+       overflow: auto;
+       width:900px;
+       height: 200px;
+       text-align: center;
+}
+div.scroll2{
+       overflow: auto;
+       width:500px;
+       height: 200px;
+       text-align: center;
+}

@@ -5,7 +5,7 @@ class CreateProductos < ActiveRecord::Migration
       t.column :tipo, :string
       t.column :intereses, :float
       t.column :iva_intereses, :float
-      t.column :intereses_moratorio, :float
+      t.column :moratorio, :float
       t.column :multa, :float
       t.column :iva_multa, :float
       t.column :garantia, :string

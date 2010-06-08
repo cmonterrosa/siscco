@@ -1,4 +1,4 @@
-<h1 class="centrado">Colonias</h1>
+<h1>Colonias</h1>
 <!--inicia ajax -->
  <label for="searchtext">Búsqueda por nombre:</label>
   <%= text_field_tag :searchtext %>
@@ -10,7 +10,7 @@
   <p>Resultado de Busqueda:</p>
   <div id="search_hits">
 
-    <div class="scroll">
+    <div style="overflow: auto; width:800px; height: 300px;" align="center">
       <table>
         <tr>
           <% for column in Colonia.content_columns %>

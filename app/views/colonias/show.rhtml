@@ -1,3 +1,5 @@
+<h1>Colonias</h1>
+<br />
 <% for column in Colonia.content_columns %>
 <p>
   <b><%= column.human_name %>:</b> <%=h @colonia.send(column.name) %>
@@ -12,6 +14,6 @@
 <p>
   <b>Ejido: </b> <%= @colonia.ejido.ejido %>
 </p>
-
+<br />
 <%= button_to 'Editar', :action => 'edit', :id => @colonia %>
 <%= link_to 'Regresar', :action => 'list' %>

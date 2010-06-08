@@ -1,5 +1,6 @@
 // Place your application-specific JavaScript functions and classes here
 // This file is automatically included by javascript_include_tag :defaults
+//-- Valida campo texto, campo numero -->
 function CharNum(e, modo)
 {
     var key = window.event ? e.keyCode : e.which;
@@ -12,7 +13,8 @@ function CharNum(e, modo)
         return (key <= 13 || (key >= 48 && key <= 57) || key == 46);
     }
 }
-
+//-- fin valida campo -->
+//-- Comprueba que no se envien campos vacios -->
 function comprobar()
 {
     missinginfo = "";
@@ -42,3 +44,64 @@ function comprobar()
         return true;
     }
 }
+//-- fin comprobar-->
+
+//-- Carga los menu -->
+function mmLoadMenus() {
+  if (window.menu_catalogo) return;
+  window.menu_catalogo = new Menu("root",120,20,"Geneva, Arial, Helvetica, sans-serif",14,"#000000","#FFFFFF","#999999","#6699CC","left","middle",3,0,1000,-5,7,true,true,true,0,false,true);
+  menu_catalogo.addMenuItem("Bancos","location='/bancos'");
+  menu_catalogo.addMenuItem("Clientes","location='/clientes'");
+  menu_catalogo.addMenuItem("Festivos","location='/festivos'");
+  menu_catalogo.addMenuItem("Fondeos","location='/fondeos'");
+  menu_catalogo.addMenuItem("Garantías","location='/garantias'");
+  menu_catalogo.addMenuItem("Giros","location='/giros'");
+  menu_catalogo.addMenuItem("Grupos","location='/grupos'");
+  menu_catalogo.addMenuItem("Líneas","location='/lineas'");
+  menu_catalogo.addMenuItem("Periodos","location='/periodos'");
+  menu_catalogo.addMenuItem("Productos","location='/productos'");
+  menu_catalogo.addMenuItem("Promotores","location='/promotors'");
+  menu_catalogo.addMenuItem("Sucursales","location='/sucursals'");
+  menu_catalogo.fontWeight="bold";
+  menu_catalogo.hideOnMouseOut=true;
+  menu_catalogo.bgColor='#555555';
+  menu_catalogo.menuBorder=1;
+  menu_catalogo.menuLiteBgColor='#FFFFFF';
+  menu_catalogo.menuBorderBgColor='#777777';
+
+  window.menu_operacion = new Menu("root",165,20,"Geneva, Arial, Helvetica, sans-serif",14,"#000000","#FFFFFF","#999999","#6699CC","left","middle",3,0,1000,-5,7,true,true,true,0,true,true);
+  menu_operacion.addMenuItem("Aplicar&nbsp;Transacción","location='#'");
+  menu_operacion.addMenuItem("Alta&nbsp;Credito&nbsp;Individual","location='#'");
+  menu_operacion.addMenuItem("Alta&nbsp;Credito&nbsp;Grupal","location='#'");
+  menu_operacion.addMenuItem("Listado&nbsp;de&nbsp;Créditos","location='#'");
+  menu_operacion.addMenuItem("Pago&nbsp;Línea&nbsp;Fondeo","location='#'");
+  menu_operacion.fontWeight="bold";
+  menu_operacion.hideOnMouseOut=true;
+  menu_operacion.bgColor='#555555';
+  menu_operacion.menuBorder=1;
+  menu_operacion.menuLiteBgColor='#FFFFFF';
+  menu_operacion.menuBorderBgColor='#777777';
+
+  window.menu_reporte = new Menu("root",209,20,"Geneva, Arial, Helvetica, sans-serif",14,"#000000","#FFFFFF","#999999","#6699CC","left","middle",3,0,1000,-5,7,true,true,true,0,true,true);
+  menu_reporte.addMenuItem("Estado&nbsp;de&nbsp;Cuenta&nbsp;del&nbsp;Cliente","location='#'");
+  menu_reporte.addMenuItem("Pagos&nbsp;del&nbsp;día","location='#'");
+  menu_reporte.addMenuItem("Estado&nbsp;de&nbsp;cuenta&nbsp;línea&nbsp;fondeo","location='#'");
+  menu_reporte.fontWeight="bold";
+  menu_reporte.hideOnMouseOut=true;
+  menu_reporte.bgColor='#555555';
+  menu_reporte.menuBorder=1;
+  menu_reporte.menuLiteBgColor='#FFFFFF';
+  menu_reporte.menuBorderBgColor='#777777';
+
+  window.menu_administracion = new Menu("root",155,20,"Geneva, Arial, Helvetica, sans-serif",14,"#000000","#FFFFFF","#999999","#6699CC","left","middle",3,0,1000,-5,7,true,true,true,0,false,true);
+  menu_administracion.addMenuItem("Usuarios","location='#'");
+  menu_administracion.addMenuItem("Permisos","location='#'");
+  menu_administracion.fontWeight="bold";
+  menu_administracion.hideOnMouseOut=true;
+  menu_administracion.bgColor='#555555';
+  menu_administracion.menuBorder=1;
+  menu_administracion.menuLiteBgColor='#FFFFFF';
+  menu_administracion.menuBorderBgColor='#777777';
+
+menu_administracion.writeMenus();
+} // fin menus -->

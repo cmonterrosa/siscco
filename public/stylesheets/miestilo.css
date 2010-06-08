@@ -3,32 +3,12 @@ div#itsthetable{
 	font-family:		Helvetica, Arial, "Franklin Gothic Medium", sans-serif;
 }
 
-
-div.center{
-    text-align: right;
-}
-
-div.scroll{
-       overflow: auto;
-       width:900px;
-       height: 200px;
-       text-align: center;
-}
-div.scroll2{
-       overflow: auto;
-       width:500px;
-       height: 200px;
-       text-align: center;
-}
-
-
 /* clases por defecto */
 
 table.catalogos{width:auto;margin:1em auto;background:#efeeff; text-align: center;
 font-size: 22px;
 
 }
-
 
 table,tr,td,th{border-collapse:collapse;border-spacing:0;border:1px solid #d9d1cc;}
 table{width:auto;margin:1em auto;background:#efeeff; text-align: center;}

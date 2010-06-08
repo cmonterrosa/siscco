@@ -11,7 +11,7 @@ class LineasController < ApplicationController
 
   def list
 #    @linea_pages, @lineas = paginate :lineas, :per_page => 10
-     @lineas = Linea.find(:all, :order => 'linea_autorizada')
+     @lineas = Linea.find(:all, :order => 'cuenta_cheques')
   end
 
   def show
@@ -55,7 +55,7 @@ class LineasController < ApplicationController
   end
               #-- Ajax --
   def live_search
-          @lineas = Linea.find(:all, :conditions => "linea_autorizada like '%#{params[:searchtext]}%'")
+          @lineas = Linea.find(:all, :conditions => "cuenta_cheques like '%#{params[:searchtext]}%'")
 #      @lineas = Linea.find(:all, :conditions => "linea_autorizada like '%#{params[:searchtext]}%' or
 #                                                 linea_disponible like '%#{params[:searchtext]}%'")
       return render(:partial => 'filtrolinea', :layout => false) if request.xhr?
