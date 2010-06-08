@@ -17,7 +17,8 @@ caption{font-weight:bold;margin:0 auto -1em;
 th{background:#A4A4A4;
    color:#333;
    border-bottom:1px solid #d9d1cc;
-   text-align: center;}
+   text-align: center;
+   font-size:12px;}
 tr{background:#E0ECF8;
    color:#333;
    hover:expression(this.onmouseover=new Function("this.style.background='#d8d9cc';"),this.onmouseout=new Function("this.style.background='#feffee';"));}
