@@ -46,6 +46,13 @@ class ApplicationController < ActionController::Base
    headers["Content-Type"] = "text/html; charset=UTF-8"
   end
 
+  #---- Validaciones para realizar operaciones con la BD ------
+   #--- Verificamos que el usuario tenga acceso a eliminar registro -----
+     
+
+
+
+
   def inserta_registro(registro, mensaje)
     begin
       registro.save!
@@ -75,17 +82,34 @@ class ApplicationController < ActionController::Base
   end
 
 
-  def eliminar_registro(registro)
+#  def eliminar_registro(registro)
+#    #------Verifica que se pueda eliminar el registro -----
+#   begin
+#    registro.destroy
+#      flash[:notice]="Registro eliminado"
+#      redirect_to :action => 'list', :controller => "#{params[:controller]}"
+#    rescue
+#      flash[:notice]="No se pudo eliminar, puede que el registro tenga tablas asociadas"
+#      redirect_to :action => 'list', :controller => "#{params[:controller]}"
+#    end
+#  end
+
+
+    def eliminar_registro(registro, rol, controller)
     #------Verifica que se pueda eliminar el registro -----
-   begin
-      registro.destroy
-      flash[:notice]="Registro eliminado"
-      redirect_to :action => 'list', :controller => "#{params[:controller]}"
-    rescue
-      flash[:notice]="No se pudo eliminar, puede que el registro tenga tablas asociadas"
-      redirect_to :action => 'list', :controller => "#{params[:controller]}"
+   if Systable.find(:first, :conditions=>["rol_id = ? and delete=1 and controller=?", rol, controller])
+      begin
+        registro.destroy
+        flash[:notice]="Registro eliminado"
+        redirect_to :action => 'list', :controller => "#{params[:controller]}"
+      rescue
+        flash[:notice]="No se pudo eliminar, puede que el registro tenga tablas asociadas"
+        redirect_to :action => 'list', :controller => "#{params[:controller]}"
+      end
     end
   end
+
+
 
   def rango_anios
     @arreglo=[]

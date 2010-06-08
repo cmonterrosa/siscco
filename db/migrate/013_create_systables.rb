@@ -4,6 +4,10 @@ class CreateSystables < ActiveRecord::Migration
       t.column :controller, :string
       t.column :descripcion, :string
       t.column :rol_id, :integer
+      t.column :select, :integer, :default=>1
+      t.column :update, :integer, :default=>0
+      t.column :insert, :integer, :default=>1
+      t.column :delete, :integer, :default=>1
     end
 
     #--- El administrador tiene acceso total ---

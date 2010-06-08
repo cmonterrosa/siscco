@@ -57,5 +57,10 @@ class PromotorsController < ApplicationController
                                                        materno like '%#{params[:searchtext]}%'")
       return render(:partial => 'filtropromotor', :layout => false) if request.xhr?
   end
+
+  def xml
+    render :xml => Promotor.find(all).to_xml
+  end
+
       #--- Funciones ajax para filtrado --
 end
