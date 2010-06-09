@@ -1,4 +1,8 @@
 class PromotorsController < ApplicationController
+  helper :send_doc
+  include SendDocHelper
+
+
    before_filter :login_required
   def index
     list
@@ -59,7 +63,16 @@ class PromotorsController < ApplicationController
   end
 
   def xml
-    render :xml => Promotor.find(all).to_xml
+    render :xml => Promotor.find(:all).to_xml
+  end
+
+  def reporte
+    @promotores=Promotor.find(:all).to_xml
+   send_doc(@promotores,
+     '/promotors/promotor',
+    'promotores',
+    'Promotores',
+    'pdf')
   end
 
       #--- Funciones ajax para filtrado --

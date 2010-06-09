@@ -48,7 +48,7 @@ class FondeosController < ApplicationController
   end
 
   def destroy
-    eliminar_registro(Fondeo.find(params[:id]), session['user'].rol, "fondeos")
+    eliminar_registro(Fondeo.find(params[:id]), session['user'].rol)
   end
       #-- Ajax --
     def live_search

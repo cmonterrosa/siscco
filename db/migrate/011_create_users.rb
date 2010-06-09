@@ -12,8 +12,8 @@ end
   :nombre => "administrador del sistema",
   :password_confirmation => 'password', :rol_id => 5)
 
-      User.create(:login => 'monterrosa',
-  :password => 'password',
+      User.create(:login => 'cmonterrosa',
+  :password => 'solaris',
   :nombre => "capturista de prueba",
   :password_confirmation => 'password', :rol_id => 2)
 
