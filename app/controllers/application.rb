@@ -291,6 +291,16 @@ class ApplicationController < ActionController::Base
            end
     end
 
+        def tiene_permiso_accion?(rol, controlador,accion)
+          @registro = Systable.find(:first, :conditions => ["rol_id = ? and controller = ? and #{accion} = 1", Rol.find(rol).id, controlador])
+           if @registro.nil?
+               false
+           else
+                true
+           end
+    end
+
+
  # Scrub sensitive parameters from your log
    filter_parameter_logging :password
 end
