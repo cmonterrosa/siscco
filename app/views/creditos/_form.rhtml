@@ -22,12 +22,15 @@
 <%= text_field 'credito', 'num_pagos', :onkeypress => "return CharNum(event, 'numero');"  %></p>
 
 
+
+<!-- Deshabiltamos que el usuario escriba la tasa de interes -->
+<!--
 <p><label for="credito_tasa_interes">Tasa de Interes</label><br/>
-<%= text_field 'credito', 'tasa_interes', :onkeypress => "return CharNum(event, 'numero');"  %></p>
+<= text_field 'credito', 'tasa_interes', :onkeypress => "return CharNum(event, 'numero');"  %></p>
 
 <p><label for="credito_tasa_interes">Tasa de Interes Moratorio</label><br/>
-<%= text_field 'credito', 'interes_moratorio', :onkeypress => "return CharNum(event, 'numero');"  %></p>
-
+<= text_field 'credito', 'interes_moratorio', :onkeypress => "return CharNum(event, 'numero');"  %></p>
+-->
 
 
 <p><label for="credito_num_referencia">Num referencia</label><br/>
@@ -35,19 +38,17 @@
 
 
 <!-- Aqui van las relaciones con las otras tablas -->
-<!--
+
 <p><label for="cliente_civil">Linea</label><br/>
- <=collection_select("credito", "linea_id", $lineas, :id, :nombre)%>
+ <%=collection_select("credito", "linea_id", $lineas, :id, :cuenta_cheques)%>
 </p>
--->
+
 
 <p><label for="cliente_civil">Banco</label><br/>
  <%=collection_select("credito", "banco_id", $bancos, :id, :banco_cuenta)%>
 </p>
 
-<p><label for="cliente_civil">Clientes</label><br/>
- <%=collection_select("credito", "cliente_id", $clientes, :id, :nombre_completo)%>
-</p>
+
 
 <p><label for="cliente_civil">Promotor</label><br/>
  <%=collection_select("credito", "promotor_id", $promotores, :id, :nombre)%>
@@ -56,9 +57,5 @@
 <p><label for="cliente_civil">Destino</label><br/>
  <%=collection_select("credito", "destino_id", $destinos, :id, :destino)%>
 </p>
-
-
-
-
 <!--[eoform:credito]-->
 

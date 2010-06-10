@@ -6,10 +6,10 @@
 
 class AccountController < ApplicationController
   model   :user
-  layout 'inicio'
+  layout 'inicio', :except=>[:signup]
  
 #  before_filter :login_required, :except =>[ :login, :signup]
-    before_filter :permiso_requerido, :except =>[ :login, :signup]
+    before_filter :permiso_requerido, :except =>[ :login]
 
   def login
     case request.method

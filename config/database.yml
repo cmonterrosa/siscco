@@ -17,7 +17,7 @@ development:
   username: root
   #password: rajuijui
   #socket:   /var/run/mysqld/mysqld.sock
-  password: rafa
+  password: solaris
   socket: /tmp/mysql.sock
 
 # Warning: The database defined as 'test' will be erased and

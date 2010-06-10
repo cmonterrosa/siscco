@@ -1,4 +1,8 @@
 class PromotorsController < ApplicationController
+  helper :send_doc
+  include SendDocHelper
+
+
    before_filter :login_required
   def index
     list
@@ -57,5 +61,19 @@ class PromotorsController < ApplicationController
                                                        materno like '%#{params[:searchtext]}%'")
       return render(:partial => 'filtropromotor', :layout => false) if request.xhr?
   end
+
+  def xml
+    render :xml => Promotor.find(:all).to_xml
+  end
+
+  def reporte
+    @promotores=Promotor.find(:all).to_xml
+   send_doc(@promotores,
+     '/promotors/promotor',
+    'promotores',
+    'Promotores',
+    'pdf')
+  end
+
       #--- Funciones ajax para filtrado --
 end

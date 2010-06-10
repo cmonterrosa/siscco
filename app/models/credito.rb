@@ -4,6 +4,7 @@ class Credito < ActiveRecord::Base
   belongs_to :producto
   belongs_to :credito
   belongs_to :promotor
+  belongs_to :grupo
   has_many :movimientos
   has_many :referencias
   has_many :pagos

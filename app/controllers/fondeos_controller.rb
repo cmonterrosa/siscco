@@ -48,8 +48,7 @@ class FondeosController < ApplicationController
   end
 
   def destroy
-    Fondeo.find(params[:id]).destroy
-    redirect_to :action => 'list'
+    eliminar_registro(Fondeo.find(params[:id]), session['user'].rol)
   end
       #-- Ajax --
     def live_search

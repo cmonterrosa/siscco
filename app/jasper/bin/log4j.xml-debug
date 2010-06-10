@@ -1,0 +1,18 @@
+<log4j:configuration>
+
+  <appender name="ConsoleAppender" class="org.apache.log4j.ConsoleAppender">
+    <layout class="org.apache.log4j.PatternLayout">
+                          <param name="ConversionPattern" value="[%d{dd/MM/yyyy hh:mm}] %-5p %C{1}.%M() -> %m%n" />
+    </layout>
+  </appender>
+  
+         <!-- Se sobreescribe el nivel de log del padre: El Root Looger -->
+  <logger name="org.apache.commons.beanutils">
+    <level value="WARN"/>
+  </logger>
+
+  <root>
+    <level value="DEBUG" />
+    <appender-ref ref="ConsoleAppender" />
+  </root>
+</log4j:configuration>

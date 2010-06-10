@@ -46,19 +46,27 @@ class ApplicationController < ActionController::Base
    headers["Content-Type"] = "text/html; charset=UTF-8"
   end
 
+  #---- Validaciones para realizar operaciones con la BD ------
+   #--- Verificamos que el usuario tenga acceso a eliminar registro -----
+      def inserta_credito(credito)
+        begin
+          credito.save!
+          return true
+        rescue ActiveRecord::RecordInvalid => invalid
+          return false
+        end
+      end
+
+
+
+
   def inserta_registro(registro, mensaje)
     begin
       registro.save!
         flash[:notice]=mensaje
         redirect_to :action => 'list', :controller => "#{params[:controller]}"
     rescue ActiveRecord::RecordInvalid => invalid
-      #invalid.gsub!(/Validation/, 'Validacion')
-      #invalid.gsub!(/failed/, 'Incorrecta')
       flash[:notice] = invalid
-
-      #rescue Exception => e
-      #flash[:notice]="No se pudo insertar, Verifique los campos"
-      #flash[:notice]= e.message
       redirect_to :action => 'new', :controller => "#{params[:controller]}"
     end
   end
@@ -75,17 +83,38 @@ class ApplicationController < ActionController::Base
   end
 
 
-  def eliminar_registro(registro)
+#  def eliminar_registro(registro)
+#    #------Verifica que se pueda eliminar el registro -----
+#   begin
+#    registro.destroy
+#      flash[:notice]="Registro eliminado"
+#      redirect_to :action => 'list', :controller => "#{params[:controller]}"
+#    rescue
+#      flash[:notice]="No se pudo eliminar, puede que el registro tenga tablas asociadas"
+#      redirect_to :action => 'list', :controller => "#{params[:controller]}"
+#    end
+#  end
+
+
+    def eliminar_registro(registro, rol)
     #------Verifica que se pueda eliminar el registro -----
-   begin
-      registro.destroy
-      flash[:notice]="Registro eliminado"
-      redirect_to :action => 'list', :controller => "#{params[:controller]}"
-    rescue
-      flash[:notice]="No se pudo eliminar, puede que el registro tenga tablas asociadas"
-      redirect_to :action => 'list', :controller => "#{params[:controller]}"
-    end
-  end
+   if Systable.find(:first, :conditions=>["rol_id = ? and eliminar=1 and controller=?", rol, params[:controller]])
+      begin
+        registro.destroy
+        flash[:notice]="Registro eliminado"
+        redirect_to :action => 'list', :controller => params[:controller]
+      rescue
+        flash[:notice]="No se pudo eliminar, puede que el registro tenga tablas asociadas"
+        redirect_to :action => 'list', :controller => params[:controller]
+      end
+   else
+     flash[:notice]="No tiene privilegios para eliminar el registro"
+     redirect_to :action => 'list', :controller => params[:controller]
+   end
+   end
+
+
+
 
   def rango_anios
     @arreglo=[]
@@ -164,10 +193,19 @@ class ApplicationController < ActionController::Base
 
   def pago_minimo(credito)
           #--- Verificamos si el credito ha sido cubierto ----
-          @monto = credito.monto
-          @interes = credito.tasa_interes / 100.0
-          return((@monto * @interes) + @monto) / @credito.num_pagos
+       @interes_moratorio = Configuracion.find(:first, :select=>"interes_moratorio").interes_moratorio.to_f / 100.0
+       @proximo_pago= proximo_pago(credito)
+       if Time.now.to_date <= @proximo_pago.fecha_limite
+         return @proximo_pago.capital_minimo.to_f + @proximo_pago.interes_minimo.to_f
+       else
+         return ((@proximo_pago.capital_minimo.to_f + @proximo_pago.interes_minimo.to_f)*(@interes_moratorio)) + @proximo_pago.capital_minimo.to_f + @proximo_pago.interes_minimo.to_f
+       end
   end
+
+
+
+
+
 
   def capital_minimo(credito)
       return credito.monto / @credito.num_pagos.to_f
@@ -183,7 +221,7 @@ class ApplicationController < ActionController::Base
           @proximo = Pago.find(:first, :conditions=>["credito_id = ? AND
                                                    pagado=0", credito.id],
                                                    :order=>"fecha_limite")
-          return @proximo.fecha_limite
+          return @proximo
   end
 
   def ultimo_pago(anio, mes, dia, num_pagos, periodo)
@@ -262,6 +300,39 @@ class ApplicationController < ActionController::Base
                 true
            end
     end
+
+        def tiene_permiso_accion?(rol, controlador,accion)
+          @registro = Systable.find(:first, :conditions => ["rol_id = ? and controller = ? and #{accion} = 1", Rol.find(rol).id, controlador])
+           if @registro.nil?
+               false
+           else
+                true
+           end
+    end
+
+
+
+        def linea_disponible(linea)
+          return (linea.autorizado - Credito.sum(:monto, :conditions=>["linea_id = ?", linea.id])/1.0)
+        end
+
+
+
+         def cargos?(pago, fecha)
+           @pago= Pago.find(pago)
+           @interes_moratorio = Configuracion.find(:first, :select=>"interes_moratorio").interes_moratorio.to_f / 100.0
+           if @fecha <= @pago.fecha_limite
+             return false
+           else
+             @pago.moratorio = (@pago.capital_minimo.to_f + @pago.interes_minimo.to_f)*(@interes_moratorio)
+             @pago.save!
+             return true
+           end
+         end
+
+
+
+
 
  # Scrub sensitive parameters from your log
    filter_parameter_logging :password

@@ -2,14 +2,24 @@
 
 <table class="catalogos">
   <tr>
-    <td><%=link_to 'Aplicar Transaccion', :action => "movimiento_credito"%></td>
+    <td><%=link_to 'Aplicar Pago Individual', :action => "movimiento_credito"%></td>
   </tr>
+
+   <tr>
+    <td><%=link_to 'Aplicar Pago Grupal', :action => "movimiento_credito"%></td>
+  </tr>
+
   <tr>
     <td><%=link_to 'Alta de Crédito Individual', :action => "new_individual"%></td>
   </tr>
   <tr>
     <td><%=link_to 'Alta de Crédito Grupal', :action => "new_grupal"%></td>
   </tr>
+
+  <tr>
+  <td><%=link_to 'Activación de Crédito', :action => "activacion"%></td>
+  </tr>
+
   <tr>
     <td><%=link_to 'Listado de Créditos', :action => "list"%></td>
   </tr>
