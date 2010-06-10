@@ -1,4 +1,4 @@
-<h1 class="centrado">Lineas</h1>
+<h1>Lineas</h1>
 <!--inicia ajax -->
 <label for="searchtext">Búsqueda por nombre:</label>
   <%= text_field_tag :searchtext %>
@@ -8,8 +8,8 @@
                  :with  => "searchtext",
                  :url => { :action => :live_search }) %>
 <p>Resultados de la Busqueda:</p>
-<div id="search_hits">
-  <div class="scroll">
+<div id="scroll">
+  <div id="search_hits">
     <table>
       <tr>
       <% for column in Linea.content_columns %>
@@ -36,4 +36,3 @@
     <th class="botones"><%= button_to 'Agregar Linea', :action => 'new' %></th>
   </tr>
 </table>
-<h4></h4>

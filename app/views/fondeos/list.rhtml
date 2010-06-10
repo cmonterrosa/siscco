@@ -1,4 +1,4 @@
-<h1 class="centrado">Fondeos</h1>
+<h1>Fondeos</h1>
 <!--inicia ajax -->
 <label for="searchtext">Búsqueda por fuente:</label>
   <%= text_field_tag :searchtext %>
@@ -8,8 +8,8 @@
                  :with  => "searchtext",
                  :url => { :action => :live_search }) %>
 <p>Resultados de la Busqueda:</p>
-<div id="search_hits">
-  <div class="scroll">
+<div id="scroll">
+  <div id="search_hits">
     <table>
       <tr>
       <% for column in Fondeo.content_columns %>
@@ -33,4 +33,8 @@
 </div>
 <!-- fin ajax -->
 
-<h4><%= button_to 'Agregar Fondeo', :action => 'new' %></h4>
+<table  class="botones">
+  <tr class="botones">
+    <th class="botones"><h4><%= button_to 'Agregar Fondeo', :action => 'new' %></h4></th>
+  </tr>
+</table>

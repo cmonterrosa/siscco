@@ -1,4 +1,4 @@
-<h1 class="centrado">Ejidos</h1>
+<h1>Ejidos</h1>
 <!--inicia ajax -->
  <label for="searchtext">Búsqueda por nombre:</label>
   <%= text_field_tag :searchtext %>
@@ -8,8 +8,8 @@
                  :with  => "searchtext",
                  :url => { :action => :live_search }) %>
   <p>Resultado de Busqueda:</p>
-  <div id="search_hits">
-    <div class="scroll">
+  <div id="scroll">
+    <div id="search_hits">
       <table>
         <tr>
           <% for column in Ejido.content_columns %>
@@ -32,5 +32,8 @@
   </div>
 <!-- fin ajax ---->
   
-<h4><%= button_to 'Agregar Ejido', :action => 'new' %></h4>
-  
+<table  class="botones">
+  <tr class="botones">
+    <th class="botones"><h4><%= button_to 'Agregar Ejido', :action => 'new' %></h4></th>
+  </tr>
+</table>

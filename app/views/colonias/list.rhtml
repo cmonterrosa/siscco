@@ -8,9 +8,8 @@
                  :with  => "searchtext",
                  :url => { :action => :live_search }) %>
   <p>Resultado de Busqueda:</p>
-  <div id="search_hits">
-
-    <div style="overflow: auto; width:800px; height: 300px;" align="center">
+    <div id="scroll">
+     <div id="search_hits">
       <table>
         <tr>
           <% for column in Colonia.content_columns %>
@@ -33,4 +32,8 @@
   </div>
 <!-- fin ajax ---->
 
-  <h4><%= button_to 'Agregar Colonia', :action => 'new' %></h4>
+  <table  class="botones">
+  <tr class="botones">
+    <th class="botones"><h4><%= button_to 'Agregar Colonia', :action => 'new' %></h4></th>
+  </tr>
+</table>

@@ -1,4 +1,4 @@
-<h1 class="centrado">Clientes</h1>
+<h1>Clientes</h1>
 <!--inicia ajax -->
  <label for="searchtext">Búsqueda por nombre:</label>
   <%= text_field_tag :searchtext %>
@@ -8,8 +8,9 @@
                  :with  => "searchtext",
                  :url => { :action => :live_search }) %>
   <p>Resultado de Busqueda:</p>
-  <div id="search_hits">
-    <div class="scroll">
+ 
+    <div id="scroll">
+       <div id="search_hits">
       <table>
         <tr>
           <th>Nombre:</th>
@@ -40,4 +41,8 @@
     </div>
   </div>
 
-  <h4><%= button_to 'Agregar Cliente', :action => 'new' %></h4>
+<table  class="botones">
+  <tr class="botones">
+    <th class="botones"><h4><%= button_to 'Agregar Clientes', :action => 'new' %></h4></th>
+  </tr>
+</table>
