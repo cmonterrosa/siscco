@@ -20,10 +20,13 @@ class CreditosController < ApplicationController
 
   #----- Este metodo aplica todos los movimientos ----
   def abonar
+    params[:pago].delete(:descripcion)
+    @movimiento = Movimiento.new(params[:pago])
+
     @credito = Credito.find(params[:credito])
-    @importe, @fecha = params[:pago][:capital], params[:pago][:fecha]
+    #@importe, @fecha = params[:pago][:capital], params[:pago][:fecha]
     #@fecha = Date.strptime(params[:pago][:fecha].to_s)
-    render :text => params[:pago][:fecha].class
+    render :text => @movimiento.fecha
     #----- Calculamos cual es el pago proximo ----
 #    @proximo_pago= proximo_pago(@credito)
 #    if @fecha > @proximo_pago
@@ -36,6 +39,11 @@ class CreditosController < ApplicationController
 
   end
 
+  def activacion
+
+  end
+
+
 
   def new
     @credito = Credito.new
@@ -44,6 +52,8 @@ class CreditosController < ApplicationController
   def create
     @credito = Credito.new(params[:credito])
     @fecha_inicio = Date.strptime(@credito.fecha_inicio.to_s)
+    @credito.tasa_interes = Configuracion.find(:first, :select=>"tasa_interes")
+    @credito.interes_moratorio = Configuracion.find(:first, :select=>"interes_moratorio")
     @credito.grupo = Grupo.find(1) if params[:credito][:grupo_id].nil?
     @credito.fecha_fin = ultimo_pago(@fecha_inicio.year, @fecha_inicio.month, @fecha_inicio.day, params[:credito][:num_pagos], Periodo.find(params[:credito][:periodo_id]))
     if inserta_registro(@credito, "Credito creado correctamente")

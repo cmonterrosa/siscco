@@ -2,6 +2,10 @@
 
 <% form_tag :action => 'create' do -%>
   <%= render :partial => 'form' %>
+
+  <p><label for="cliente_civil">Clientes</label><br/>
+      <%=collection_select("credito", "cliente_id", $clientes, :id, :nombre_completo)%>
+  </p>
   <%= submit_tag "Guardar" %>
 <% end %>
 

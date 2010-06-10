@@ -70,7 +70,7 @@ function mmLoadMenus() {
   menu_catalogo.menuBorderBgColor='#777777';
 
   window.menu_operacion = new Menu("root",175,20,"Geneva, Arial, Helvetica, sans-serif",14,"#000000","#FFFFFF","#999999","#6699CC","left","middle",3,0,1000,-5,7,true,true,true,0,true,true);
-  menu_operacion.addMenuItem("Aplicar&nbsp;Transacción","location='#'");
+  menu_operacion.addMenuItem("Aplicar&nbsp;Transacción","location='/creditos/transaccion'");
   menu_operacion.addMenuItem("Alta&nbsp;Credito&nbsp;Individual","location='#'");
   menu_operacion.addMenuItem("Alta&nbsp;Credito&nbsp;Grupal","location='#'");
   menu_operacion.addMenuItem("Listado&nbsp;de&nbsp;Créditos","location='#'");
