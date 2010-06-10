@@ -110,7 +110,7 @@ padding:13px 5px 0 19px;
 #maincompleto{
 width:900px;
 float:left;
-overflow:hidden;
+/*overflow:hidden;*/
 padding:13px 5px 0 19px;
 font-family:Helvetica, "Franklin Gothic Medium", sans-serif;
 font-size:11px;
@@ -310,19 +310,9 @@ padding:0px;
 font-size:11px
 }
 
-div.center{
-    text-align: right;
-}
-
-div.scroll{
-       overflow: auto;
-       width:900px;
-       height: 200px;
-       text-align: center;
-}
-div.scroll2{
-       overflow: auto;
-       width:500px;
-       height: 200px;
-       text-align: center;
+#scroll{
+overflow: auto;
+width:900px;
+height: 200px;
+text-align: center;
 }

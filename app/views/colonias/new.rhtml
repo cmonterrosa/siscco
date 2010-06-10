@@ -1,8 +1,12 @@
-<h1 class="centrado">Alta Colonia</h1>
+<h1>Alta Colonia</h1>
 
 <% form_tag :action => 'create' do %>
   <%= render :partial => 'form' %>
-  <%= submit_tag "Agregar", :onclick => "return comprobar();" %>
+<table  class="botones">
+  <tr class="botones">
+    <th class="botones"><%= link_to 'Regresar', :action => 'list' %></th>
+    <th class="botones">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+    <th class="botones"><%= submit_tag "Agregar", :onclick => "return comprobar();" %></th>
+  </tr>
+</table>
 <% end %>
-
-<%= link_to 'Regresar', :action => 'list' %>

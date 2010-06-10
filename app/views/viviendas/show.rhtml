@@ -1,8 +1,10 @@
+<h1>Viviendas</h1>
+<br />
 <% for column in Vivienda.content_columns %>
 <p>
   <b><%= column.human_name %>:</b> <%=h @vivienda.send(column.name) %>
 </p>
 <% end %>
-
-<%= button_to 'Editar', :action => 'edit', :id => @vivienda %>
+<br />
+<%#= button_to 'Editar', :action => 'edit', :id => @vivienda %>
 <%= link_to 'Regresar', :action => 'list' %>

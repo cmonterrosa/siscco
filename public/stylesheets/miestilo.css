@@ -5,23 +5,13 @@ div#itsthetable{
 
 /* clases por defecto */
 
-table.catalogos{width:auto;margin:1em auto;background:#efeeff; text-align: center;
-font-size: 22px;
-
-}
+/*table.catalogos{margin:1em auto;background:#efeeff; text-align: center;font-size: 22px;}*/
 
 table,tr,td,th{border-collapse:collapse;border-spacing:0;border:1px solid #d9d1cc;}
 table{width:auto;margin:1em auto;background:#efeeff; text-align: center;}
-caption{font-weight:bold;margin:0 auto -1em;
-        background:#ac1f0d;color:#efe;border-bottom:1px solid #d9d1cc;}
-th{background:#A4A4A4;
-   color:#333;
-   border-bottom:1px solid #d9d1cc;
-   text-align: center;
-   font-size:12px;}
-tr{background:#E0ECF8;
-   color:#333;
-   hover:expression(this.onmouseover=new Function("this.style.background='#d8d9cc';"),this.onmouseout=new Function("this.style.background='#feffee';"));}
+caption{font-weight:bold;margin:0 auto -1em;background:#ac1f0d;color:#efe;border-bottom:1px solid #d9d1cc;}
+th{background:#A9D0F5;color:#333;border-bottom:1px solid #d9d1cc;text-align: center;font-size:12px;}
+tr{background:#E0ECF8;color:#333;hover:expression(this.onmouseover=new Function("this.style.background='#d8d9cc';"),this.onmouseout=new Function("this.style.background='#feffee';"));}
    tr:hover{background:#81BEF7;}
    td{padding-left:1em;text-align:left;}
    a{color:#666;}

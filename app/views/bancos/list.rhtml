@@ -8,8 +8,8 @@
                  :with  => "searchtext",
                  :url => { :action => :live_search }) %>
   <p>Resultado de Busqueda:</p>
+<div id="scroll">
   <div id="search_hits">
-    <div class="scroll">
       <table>
         <tr>
           <% for column in Banco.content_columns %>
@@ -29,7 +29,10 @@
         <% end %>
       </table>
     </div>
-  </div>
+</div>
 
-  <h4><%= button_to 'Agregar Banco', :action => 'new' %></h4>
-
+ <table  class="botones">
+  <tr class="botones">
+    <th class="botones"><h4><%= button_to 'Agregar Banco', :action => 'new' %></h4></th>
+  </tr>
+</table>

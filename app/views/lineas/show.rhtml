@@ -1,8 +1,10 @@
+<h1>Líneas</h1>
+<br />
 <% for column in Linea.content_columns %>
 <p>
   <b><%= column.human_name %>:</b> <%=h @linea.send(column.name) %>
 </p>
 <% end %>
-
-<%= button_to 'Editar', :action => 'edit', :id => @linea %>
+<br />
+<%#= button_to 'Editar', :action => 'edit', :id => @linea %>
 <%= link_to 'Regresar', :action => 'list' %>

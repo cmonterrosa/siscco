@@ -1,4 +1,6 @@
+<h1>Productos</h1>
 <% for column in Producto.content_columns %>
+<br />
 <p>
   <b><%= column.human_name %>:</b> <%=h @producto.send(column.name) %>
 </p>
@@ -9,7 +11,6 @@
 <p>
   <b>Grupo:</b> <%=h @producto.grupo.nombre %>
 </p>
-
-
-<%= button_to 'Editar', :action => 'edit', :id => @producto %>
+<br />
+<%#= button_to 'Editar', :action => 'edit', :id => @producto %>
 <%= link_to 'Regresar', :action => 'list' %>
