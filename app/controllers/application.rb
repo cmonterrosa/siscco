@@ -193,10 +193,19 @@ class ApplicationController < ActionController::Base
 
   def pago_minimo(credito)
           #--- Verificamos si el credito ha sido cubierto ----
-          @monto = credito.monto
-          @interes = credito.tasa_interes / 100.0
-          return((@monto * @interes) + @monto) / @credito.num_pagos
+       @interes_moratorio = Configuracion.find(:first, :select=>"interes_moratorio").interes_moratorio.to_f / 100.0
+       @proximo_pago= proximo_pago(credito)
+       if Time.now.to_date <= @proximo_pago.fecha_limite
+         return @proximo_pago.capital_minimo.to_f + @proximo_pago.interes_minimo.to_f
+       else
+         return ((@proximo_pago.capital_minimo.to_f + @proximo_pago.interes_minimo.to_f)*(@interes_moratorio)) + @proximo_pago.capital_minimo.to_f + @proximo_pago.interes_minimo.to_f
+       end
   end
+
+
+
+
+
 
   def capital_minimo(credito)
       return credito.monto / @credito.num_pagos.to_f
@@ -311,7 +320,7 @@ class ApplicationController < ActionController::Base
 
          def cargos?(pago, fecha)
            @pago= Pago.find(pago)
-           @interes_moratorio = Configuracion.find(:first, :select=>"interes_moratorio").interes_moratorio / 100.0
+           @interes_moratorio = Configuracion.find(:first, :select=>"interes_moratorio").interes_moratorio.to_f / 100.0
            if @fecha <= @pago.fecha_limite
              return false
            else

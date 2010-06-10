@@ -21,6 +21,7 @@
     <th>Fecha Limite</th>
     <th>Capital minimo</th>
     <th>Interes minimo</th>
+        <th>Moratorio</th>
     <th>Pagado</th>
   </tr>
   <%@credito.pagos.each do |pago|%>
@@ -29,6 +30,8 @@
      <td><%=pago.fecha_limite%></td>
      <td><%="$%.2f" % pago.capital_minimo%></td>
       <td><%="$%.2f" % pago.interes_minimo%></td>
+      <td><%="$%.2f" % pago.moratorio%></td>
+
      <%if pago.pagado == 1%>
         <td>SI</td>
      <%else%>

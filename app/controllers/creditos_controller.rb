@@ -31,24 +31,27 @@ class CreditosController < ApplicationController
         flash[:notice] = "Su credito ha sido liquidado"
         redirect_to :action => "transaccion_grupal", :id=>@credito
     else
-      #---- Se aplican pagos ----
-    @pago = Pago.find(params[:pago_id])
-    @fecha = Date.civil(params[:pago][:"fecha(1i)"].to_i,params[:pago][:"fecha(2i)"].to_i,params[:pago][:"fecha(3i)"].to_i)
-    cargos?(@pago, @fecha)
-    @pago.update_attributes(:pagado=>1,
+
+        if (params[:pago][:capital].to_f + params[:pago][:interes].to_f) < pago_minimo(@credito).to_f
+           #--- Si Se intenta pagar menos el minimo
+           flash[:notice] = "Su pago minimo es de #{pago_minimo(@credito)}"
+           redirect_to :action => "transaccion_grupal", :id=>@credito
+
+        else
+        #---- Se aplican pagos ----
+        @pago = Pago.find(params[:pago_id])
+        @fecha = Date.civil(params[:pago][:"fecha(1i)"].to_i,params[:pago][:"fecha(2i)"].to_i,params[:pago][:"fecha(3i)"].to_i)
+        cargos?(@pago, @fecha)
+        @pago.update_attributes(:pagado=>1,
                            :fecha=> @fecha,
-                            :capital=> params[:pago][:capital],
-                            :interes=> params[:pago][:interes])
+                           :capital=> params[:pago][:capital],
+                           :interes=> params[:pago][:interes])
 
-      #--- Si el pago fue despues de la fecha agregar moratorio ----
-
- 
-
-
-    flash[:notice] = "Su pago ha sido abonado"
-    redirect_to :action => "transaccion_grupal", :id=>@credito
-    end
-  end
+          flash[:notice] = "Su pago ha sido abonado"
+          redirect_to :action => "transaccion_grupal", :id=>@credito
+        end
+     end
+ end
 
 
 
@@ -81,6 +84,7 @@ class CreditosController < ApplicationController
           if inserta_credito(@credito)
           #--- Insertamos el registro de los pagos que debe de realizar -----
            inserta_pagos(@credito, calcula_pagos(@fecha_inicio.year, @fecha_inicio.month, @fecha_inicio.day, params[:credito][:num_pagos], Periodo.find(params[:credito][:periodo_id])))
+           flash[:notice]="El crédito #{@credito.id} ha sido capturado"
            redirect_to :action => 'list'
           end
     else

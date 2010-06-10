@@ -38,11 +38,11 @@
 
 
 <!-- Aqui van las relaciones con las otras tablas -->
-<!--
+
 <p><label for="cliente_civil">Linea</label><br/>
- <=collection_select("credito", "linea_id", $lineas, :id, :nombre)%>
+ <%=collection_select("credito", "linea_id", $lineas, :id, :cuenta_cheques)%>
 </p>
--->
+
 
 <p><label for="cliente_civil">Banco</label><br/>
  <%=collection_select("credito", "banco_id", $bancos, :id, :banco_cuenta)%>
