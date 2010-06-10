@@ -19,7 +19,7 @@ module ApplicationHelper
           @proximo = Pago.find(:first, :conditions=>["credito_id = ? AND
                                                    pagado=0", credito.id],
                                :order=>"fecha_limite")
-                             return @proximo.fecha_limite
+                             return @proximo
 
 
         end

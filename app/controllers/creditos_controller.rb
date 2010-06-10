@@ -11,7 +11,7 @@ class CreditosController < ApplicationController
 
   def list
     @credito_pages, @creditos = paginate :creditos, :per_page => 10
-    #redirect_to :action=>""
+    render :action => 'menu'
   end
 
   def show
@@ -20,24 +20,43 @@ class CreditosController < ApplicationController
 
   #----- Este metodo aplica todos los movimientos ----
   def abonar
-    params[:pago].delete(:descripcion)
-    @movimiento = Movimiento.new(params[:pago])
-
+    #params[:pago].delete(:descripcion)
+    #@movimiento = Movimiento.new(params[:pago])
+    #@movimiento.save
     @credito = Credito.find(params[:credito])
-    #@importe, @fecha = params[:pago][:capital], params[:pago][:fecha]
-    #@fecha = Date.strptime(params[:pago][:fecha].to_s)
-    render :text => @movimiento.fecha
-    #----- Calculamos cual es el pago proximo ----
-#    @proximo_pago= proximo_pago(@credito)
-#    if @fecha > @proximo_pago
-#      #---- Tiene pagos vencidos ----
-#      render :text => "tiene pagos vencidos"
-#    else
-#      render :text => "No tiene pagos vencidos"
-#    end
+    @num_pagos = Pago.count(:id, :conditions=>["credito_id = ? AND pagado = 1", @credito.id]).to_i
+
+    if @num_pagos == @credito.num_pagos
+      #---- Ya se liquido el credito ----
+        flash[:notice] = "Su credito ha sido liquidado"
+        redirect_to :action => "transaccion_grupal", :id=>@credito
+    else
+      #---- Se aplican pagos ----
+    @pago = Pago.find(params[:pago_id])
+    @fecha = Date.civil(params[:pago][:"fecha(1i)"].to_i,params[:pago][:"fecha(2i)"].to_i,params[:pago][:"fecha(3i)"].to_i)
+    cargos?(@pago, @fecha)
+    @pago.update_attributes(:pagado=>1,
+                           :fecha=> @fecha,
+                            :capital=> params[:pago][:capital],
+                            :interes=> params[:pago][:interes])
+
+      #--- Si el pago fue despues de la fecha agregar moratorio ----
+
+ 
 
 
+    flash[:notice] = "Su pago ha sido abonado"
+    redirect_to :action => "transaccion_grupal", :id=>@credito
+    end
   end
+
+
+
+
+
+
+
+ 
 
   def activacion
 
@@ -52,13 +71,21 @@ class CreditosController < ApplicationController
   def create
     @credito = Credito.new(params[:credito])
     @fecha_inicio = Date.strptime(@credito.fecha_inicio.to_s)
-    @credito.tasa_interes = Configuracion.find(:first, :select=>"tasa_interes")
-    @credito.interes_moratorio = Configuracion.find(:first, :select=>"interes_moratorio")
+    @credito.tasa_interes = Configuracion.find(:first, :select=>"tasa_interes").tasa_interes
+    @credito.interes_moratorio = Configuracion.find(:first, :select=>"interes_moratorio").interes_moratorio
     @credito.grupo = Grupo.find(1) if params[:credito][:grupo_id].nil?
     @credito.fecha_fin = ultimo_pago(@fecha_inicio.year, @fecha_inicio.month, @fecha_inicio.day, params[:credito][:num_pagos], Periodo.find(params[:credito][:periodo_id]))
-    if inserta_registro(@credito, "Credito creado correctamente")
-      #--- Insertamos el registro de los pagos que debe de realizar -----
-       inserta_pagos(@credito, calcula_pagos(@fecha_inicio.year, @fecha_inicio.month, @fecha_inicio.day, params[:credito][:num_pagos], Periodo.find(params[:credito][:periodo_id])))
+    #--- Validamos si la linea de fondeo tiene disponible ----
+    if linea_disponible(Linea.find(params[:credito][:linea_id])) >=  params[:credito][:monto].to_f
+
+          if inserta_credito(@credito)
+          #--- Insertamos el registro de los pagos que debe de realizar -----
+           inserta_pagos(@credito, calcula_pagos(@fecha_inicio.year, @fecha_inicio.month, @fecha_inicio.day, params[:credito][:num_pagos], Periodo.find(params[:credito][:periodo_id])))
+           redirect_to :action => 'list'
+          end
+    else
+      flash[:notice] = "La linea no cuenta con fondos disponibles"
+      redirect_to :action => "list"
     end
   end
 
@@ -85,7 +112,15 @@ class CreditosController < ApplicationController
   def transaccion
     @credito = Credito.find(params[:id])
     @fecha_inicio = Date.strptime(Credito.find(params[:id]).fecha_inicio.to_s)
-    @pago = Pago.new
+    @pago = proximo_pago(@credito)
+
+  end
+
+  def transaccion_grupal
+    @credito = Credito.find(params[:id])
+    @fecha_inicio = Date.strptime(Credito.find(params[:id]).fecha_inicio.to_s)
+    #@pago = Pago.new
+    @pago = proximo_pago(@credito)
   end
 
 

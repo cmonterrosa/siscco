@@ -13,12 +13,11 @@
     <td><%= text_field 'linea', 'autorizado', :onkeypress => "return CharNum(event, 'numero');"    %></td>
   </tr>
   <tr>
-    <th>Linea Disponible:</th>
     <th>Gcnf:</th>
     <th>Fondeo:</th>
   </tr>
   <tr>
-    <td><%= text_field 'linea', 'disponible', :onkeypress => "return acceptNum(event);"    %></td>
+   
     <td><%= text_field 'linea', 'gcnf', :onkeypress => "return CharNum(event, 'letra');"    %></td>
     <td><%= collection_select('linea', 'fondeo_id', $fondeos, :id, :fuente, :prompt => '>>Fondeo') %></td>
   </tr>

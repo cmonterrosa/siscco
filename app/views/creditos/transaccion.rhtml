@@ -10,11 +10,8 @@
   <tr><td>Tasa de interés: <%=@credito.tasa_interes.to_s + " %" %></td></tr>
   <tr><td>Pago minimo: <%=pago_minimo(@credito)%></td></tr>
   <tr><td>Número de pagos: <%=@credito.num_pagos%></td></tr>
-    <tr><td>Próximo Pago: <%=proximo_pago(@credito)%></td></tr>
+  <tr><td>Próximo Pago: <%=proximo_pago(@credito).fecha_limite%></td></tr>
 
-  <!--
-  <tr><th>Liquido actual: <=liquido(@credito)%></th></tr>
-  -->
 </table>
 
 <h3>Calendario de pagos</h3>
@@ -74,16 +71,6 @@
 
 </table>
 
-<!-- nuevo abono -->
-<div id="nuevo_abono">
-      
-      <%= link_to_remote( "Agregar Abono",
-                         :update => "nuevo_abono",
-                         :url =>{ :controller=>"movimientos", :action => :nuevo, :credito=> @credito, :layout=>false }) %>
- </div>
-
-
-
 <!------- Cargos ----->
 
 <h3>cargos</h3>
@@ -117,14 +104,19 @@
 <!-- Form para agregar un pago -->
 <% form_tag :action => 'abonar', :credito=>@credito do -%>
 <%= error_messages_for 'pago' %>
-<p><label for="movimiento_capital">Importe</label><br/>
+<p><label for="movimiento_capital">Capital</label><br/>
 <%= text_field 'pago', 'capital'  %></p>
+
+<p><label for="movimiento_capital">Interes</label><br/>
+<%= text_field 'pago', 'interes'  %></p>
 
 <p><label for="movimiento_fecha">Fecha</label><br/>
 <%= date_select 'pago', 'fecha'  %></p>
 
-<p><label for="movimiento_concepto">Descripcion</label><br/>
-<%= text_field 'pago', 'descripcion'  %></p>
+<p><label for="movimiento_capital">Interes</label><br/>
+<%= text_field 'pago', 'interes'  %></p>
+
+
 <!--[eoform:movimiento]-->
 <%= submit_tag "Aplicar" %>
 <% end %>

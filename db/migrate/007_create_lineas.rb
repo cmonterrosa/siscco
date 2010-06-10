@@ -5,7 +5,6 @@ class CreateLineas < ActiveRecord::Migration
       t.column :cuenta_cheques, :string
       t.column :fecha_aut, :date
       t.column :autorizado, :float
-      t.column :disponible, :float
       t.column :estatus, :string
       t.column :gcnf, :string
     end

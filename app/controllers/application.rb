@@ -48,7 +48,14 @@ class ApplicationController < ActionController::Base
 
   #---- Validaciones para realizar operaciones con la BD ------
    #--- Verificamos que el usuario tenga acceso a eliminar registro -----
-     
+      def inserta_credito(credito)
+        begin
+          credito.save!
+          return true
+        rescue ActiveRecord::RecordInvalid => invalid
+          return false
+        end
+      end
 
 
 
@@ -59,13 +66,7 @@ class ApplicationController < ActionController::Base
         flash[:notice]=mensaje
         redirect_to :action => 'list', :controller => "#{params[:controller]}"
     rescue ActiveRecord::RecordInvalid => invalid
-      #invalid.gsub!(/Validation/, 'Validacion')
-      #invalid.gsub!(/failed/, 'Incorrecta')
       flash[:notice] = invalid
-
-      #rescue Exception => e
-      #flash[:notice]="No se pudo insertar, Verifique los campos"
-      #flash[:notice]= e.message
       redirect_to :action => 'new', :controller => "#{params[:controller]}"
     end
   end
@@ -211,7 +212,7 @@ class ApplicationController < ActionController::Base
           @proximo = Pago.find(:first, :conditions=>["credito_id = ? AND
                                                    pagado=0", credito.id],
                                                    :order=>"fecha_limite")
-          return @proximo.fecha_limite
+          return @proximo
   end
 
   def ultimo_pago(anio, mes, dia, num_pagos, periodo)
@@ -299,6 +300,29 @@ class ApplicationController < ActionController::Base
                 true
            end
     end
+
+
+
+        def linea_disponible(linea)
+          return (linea.autorizado - Credito.sum(:monto, :conditions=>["linea_id = ?", linea.id])/1.0)
+        end
+
+
+
+         def cargos?(pago, fecha)
+           @pago= Pago.find(pago)
+           @interes_moratorio = Configuracion.find(:first, :select=>"interes_moratorio").interes_moratorio / 100.0
+           if @fecha <= @pago.fecha_limite
+             return false
+           else
+             @pago.moratorio = (@pago.capital_minimo.to_f + @pago.interes_minimo.to_f)*(@interes_moratorio)
+             @pago.save!
+             return true
+           end
+         end
+
+
+
 
 
  # Scrub sensitive parameters from your log
