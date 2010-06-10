@@ -1,0 +1,136 @@
+<!-- Aqui van los datos del cliente y del credito -->
+
+<table>
+  <tr><th>Grupo: <%=@credito.grupo.nombre%></th></tr>
+  <tr><td>Oficial de Credito: <%=@credito.promotor.nombre_completo%></td></tr>
+  <tr><td>Número de credito: <%=@credito.id%></td></tr>
+  <tr><td>Monto inicial: <%="$%.2f" % @credito.monto.to_s%></td></tr>
+  <tr><td>Fecha de inicio: <%=@credito.fecha_inicio%></td></tr>
+  <tr><td>Tasa de interés: <%=@credito.tasa_interes.to_s + " %" %></td></tr>
+  <tr><td>Pago minimo: <%=pago_minimo(@credito)%></td></tr>
+  <tr><td>Número de pagos: <%=@credito.num_pagos%></td></tr>
+  <tr><td>Próximo Pago: <%=proximo_pago(@credito).fecha_limite%></td></tr>
+
+  <!--
+  <tr><th>Liquido actual: <=liquido(@credito)%></th></tr>
+  -->
+</table>
+
+<h3>Calendario de pagos</h3>
+<table>
+  <tr>
+    <th>Num de pago</th>
+    <th>Fecha Limite</th>
+    <th>Capital minimo</th>
+    <th>Interes minimo</th>
+    <th>Moratorio</th>
+    <th>Pagado</th>
+  </tr>
+  <%@credito.pagos.each do |pago|%>
+  <tr>
+     <td><%=pago.num_pago%></td>
+     <td><%=pago.fecha_limite%></td>
+     <td><%="$%.2f" % pago.capital_minimo%></td>
+      <td><%="$%.2f" % pago.interes_minimo%></td>
+      <td><%=("$%.2f" % pago.moratorio) unless pago.moratorio.nil?%></td>
+     <%if pago.pagado == 1%>
+        <td>SI</td>
+     <%else%>
+        <td>NO</td>
+     <%end%>
+
+  </tr>
+  <%end%>
+
+</table>
+
+
+
+
+<!-- Movimientos -->
+<!-------- Abonos ------>
+<h3>Abonos</h3>
+<%@abonos = 0%>
+
+<table>
+  <tr>
+    <th>Fecha de pago</th>
+    <th>Importe</th>
+  </tr>
+
+<!--
+<if abonos(@credito) %>
+
+<for abono in abonos(@credito)%>
+  <tr>
+    <td><=abono.fecha_pago%></td>
+    <td><=abono.monto%></td>
+    
+    <@abonos = abono.monto += @abonos%>
+  </tr>
+<end%>
+<end%>
+ -->
+
+
+</table>
+
+
+<!------- Cargos ----->
+
+<h3>cargos</h3>
+<%@cargos = 0%>
+<table>
+  <tr>
+    <th>Fecha de pago</th>
+    <th>Importe</th>
+  </tr>
+
+<!--
+  <if cargos(@credito) %>
+<for cargo in cargos(@credito)%>
+  <tr>
+    <td><=cargo.fecha_pago%></td>
+    <td><="$%.2f" % cargo.monto%></td>
+
+    
+    <@cargos = cargo.monto += @cargos%>
+  </tr>
+<end%>
+<end%>
+  -->
+
+
+
+</table>
+
+<h3>Ingresar Pago</h3>
+
+<!-- Form para agregar un pago -->
+<% form_tag :action => 'abonar', :credito=>@credito, :pago_id=>@pago do -%>
+<%= error_messages_for 'pago' %>
+<p><label for="movimiento_capital">Capital</label><br/>
+<%= text_field 'pago', 'capital'  %></p>
+
+<p><label for="movimiento_capital">Interes</label><br/>
+<%= text_field 'pago', 'interes'  %></p>
+
+<p><label for="movimiento_fecha">Fecha</label><br/>
+<%= date_select 'pago', 'fecha'  %></p>
+
+<!--[eoform:movimiento]-->
+<%= submit_tag "Aplicar" %>
+<% end %>
+
+
+
+
+
+
+<h3>Importe inicial = <%= "$%.2f" % @credito.monto.to_s%></h3>
+<h3>Total de abonos = <%= "$%.2f" % @abonos.to_s%></h3>
+<h3>Total de cargos = <%="$%.2f" % @cargos.to_s%></h3>
+<h3>Total adeudado = <%="$%.2f" % (@credito.monto + (@credito.monto * (@credito.tasa_interes / 100)) + @cargos - @abonos).to_s%></h3><br>
+<%=image_tag "pdf.jpg", :size =>"15x15"%>
+<%=link_to 'Imprimir Estado de Cuenta', :action => "pdf", :controller =>"informacion", :id => @credito.id %>
+<!-- end -->
