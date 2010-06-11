@@ -96,7 +96,7 @@ class ApplicationController < ActionController::Base
 #  end
 
 
-    def eliminar_registro(registro, rol)
+  def eliminar_registro(registro, rol)
     #------Verifica que se pueda eliminar el registro -----
    if Systable.find(:first, :conditions=>["rol_id = ? and eliminar=1 and controller=?", rol, params[:controller]])
       begin
@@ -107,11 +107,11 @@ class ApplicationController < ActionController::Base
         flash[:notice]="No se pudo eliminar, puede que el registro tenga tablas asociadas"
         redirect_to :action => 'list', :controller => params[:controller]
       end
-   else
+    else
      flash[:notice]="No tiene privilegios para eliminar el registro"
      redirect_to :action => 'list', :controller => params[:controller]
    end
-   end
+ end
 
 
 

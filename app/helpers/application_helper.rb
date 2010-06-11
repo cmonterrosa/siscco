@@ -145,6 +145,13 @@ end
          end
 
 
+
+        def linea_disponible(linea)
+          return (linea.autorizado - Credito.sum(:monto, :conditions=>["linea_id = ?", linea.id])/1.0)
+        end
+
+
+
   
 
 
