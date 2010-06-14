@@ -1,0 +1,24 @@
+
+<h2>Estado de cuenta</h2>
+
+<table>
+  <tr>
+    <th>Fondeo</th>
+    <th>Num de cuenta</th>
+    <th>Total Autorizado</th>
+    <th>Total Otorgado</th>
+    <th>Total Final</th>
+  </tr>
+
+
+  <tr>
+    <td><%=@linea.fondeo.fuente%></td>
+    <td><%=@linea.cuenta_cheques%></td>
+    <td><%=@linea.autorizado%></td>
+    <td><%=@linea.autorizado.to_f - @disponible.to_f%></td>
+    <td><%=@disponible%></td>
+  </tr>
+
+
+
+</table>

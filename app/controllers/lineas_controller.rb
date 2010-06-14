@@ -61,4 +61,19 @@ class LineasController < ApplicationController
       return render(:partial => 'filtrolinea', :layout => false) if request.xhr?
   end
       #--- Funciones ajax para filtrado --
+
+  def estado_cuenta
+    @linea = Linea.new
+    @lineas = Linea.find(:all)
+  end
+
+  def consultar
+    @linea= Linea.find(params[:linea][:cuenta_cheques])
+    @disponible = linea_disponible(@linea)
+  end
+
+
+
+
+
 end

@@ -1,5 +1,6 @@
 <h2>Selecciona la fecha:</h2>
 
+<p>
 <!-- Form para agregar buscar pagos por dia -->
 <% form_tag :action => 'consultar' do -%>
 <%= error_messages_for 'pago' %>
@@ -7,7 +8,10 @@
 <p><label for="movimiento_fecha">Fecha</label><br/>
 <%= date_select 'pago', 'fecha'  %></p>
 
+
+
 <!--[eoform:movimiento]-->
 <%= submit_tag "Aplicar" %>
 <% end %>
 
+</p>
