@@ -13,6 +13,11 @@ class ApplicationController < ActionController::Base
   # ---  Incluimos la libreria para el acceso ---
   include LoginSystem
   model :user
+  #--- Incluimos la clase para generar los reportes ----
+  helper :send_doc
+  include SendDocHelper
+
+
   before_filter :configure_charsets
 
   #----------Variables para combos globales -----------
@@ -131,65 +136,42 @@ class ApplicationController < ActionController::Base
     end
   end
 
-       #---- Funciones del crédito -----
-  def cargos(credito)
-    @arreglo = []
-    @movimientos = credito.movimientos
-    if @movimientos.empty?
-      #el cliente no ha realizado ningun pago
-        return false
-    else
+  
 
-    @movimientos.each { | movimiento|
-              if movimiento.tipo=="C"
-                     @arreglo << movimiento
-              end
-     }
-     return @arreglo
-     end
-  end
+      ###############################################
+       #            Funciones del crédito            #
+       ###############################################
 
   def abonos(credito)
-    @arreglo = []
-    @movimientos = credito.movimientos
-    if @movimientos.empty?
-      #el cliente no ha realizado ningun pago
-        return false
-    else
-
-    @movimientos.each { | movimiento|
-              if movimiento.tipo =="A"
-                     @arreglo << movimiento
-              end
-     }
-     return @arreglo
-     end
-  end
-
-
-  def liquido(credito)
-    @abonos = 0
-    @cargos = 0
-    @movimientos = credito.movimientos
-    if @movimientos.empty?
-      #el cliente no ha realizado ningun pago
-        return ( credito.monto * credito.tasa_interes / 100 ) + credito.monto
-
-    else
-
-    @movimientos.each { | movimiento|
-      if movimiento.tipo=="C"
-          @cargos = movimiento.capital += @cargos
-      end
-
-      if movimiento.tipo=="A"
-          @abonos = movimiento.capital += @abonos
-      end
-
-     }
-      return (credito.monto * (credito.tasa_interes / 100 ) + credito.monto ) + @cargos - @abonos
+    @pagos = Pago.find(:all,
+                       :conditions=>["credito_id = ? AND pagado= 1", credito.id])
+    sum=0
+    @pagos.each do |pago|
+      sum +=  pago.capital
     end
+    return sum
   end
+
+  def cargos(credito)
+      @pagos = Pago.find(:all,
+                       :conditions=>["credito_id = ? AND pagado= 1", credito.id])
+    sum=0
+    @pagos.each do |pago|
+      sum +=  pago.interes
+    end
+    return sum
+
+  end
+
+  def total(credito)
+    @total =  (credito.monto * (credito.tasa_interes / 100.0)) + credito.monto
+    return @total - abonos(credito)
+ end
+
+
+
+
+
 
   def pago_minimo(credito)
           #--- Verificamos si el credito ha sido cubierto ----
@@ -313,9 +295,12 @@ class ApplicationController < ActionController::Base
 
 
         def linea_disponible(linea)
-          return (linea.autorizado - Credito.sum(:monto, :conditions=>["linea_id = ?", linea.id])/1.0)
+          if linea.creditos.empty?
+            return linea.autorizado
+          else
+            return (linea.autorizado - Credito.sum(:monto, :conditions=>["linea_id = ?", linea.id])/1.0)
+          end
         end
-
 
 
          def cargos?(pago, fecha)

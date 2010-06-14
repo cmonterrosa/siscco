@@ -15,14 +15,7 @@ module ApplicationHelper
       end
     end
 
-          def proximo_pago(credito)
-          @proximo = Pago.find(:first, :conditions=>["credito_id = ? AND
-                                                   pagado=0", credito.id],
-                               :order=>"fecha_limite")
-                             return @proximo
-
-
-        end
+  
 
 
 
@@ -35,68 +28,54 @@ module ApplicationHelper
           return @arreglo_controllers
        end
 
-       #---- Funciones del crédito -----
-    def cargos(credito)
-    @arreglo = []
-    @movimientos = credito.movimientos
-    if @movimientos.empty?
-      #el cliente no ha realizado ningun pago
-        return false
-    else
+       ###############################################
+       #            Funciones del crédito            #
+       ###############################################
 
-    @movimientos.each { | movimiento|
-              if movimiento.tipo=="C"
-                     @arreglo << movimiento
-              end
-     }
-     return @arreglo
-     end
+
+
+  def abonos(credito)
+    @pagos = Pago.find(:all,
+                       :conditions=>["credito_id = ? AND pagado= 1", credito.id])
+    sum=0
+    @pagos.each do |pago|
+      sum +=  pago.capital
+    end
+    return sum
   end
 
-    def abonos(credito)
-    @arreglo = []
-    @movimientos = credito.movimientos
-    if @movimientos.empty?
-      #el cliente no ha realizado ningun pago
-        return false
-    else
+  def cargos(credito)
+      @pagos = Pago.find(:all,
+                       :conditions=>["credito_id = ? AND pagado= 1", credito.id])
+    sum=0
+    @pagos.each do |pago|
+      sum +=  pago.interes
+    end
+    return sum
 
-    @movimientos.each { | movimiento|
-              if movimiento.tipo =="A"
-                     @arreglo << movimiento
-              end
-     }
-     return @arreglo
-     end
-end
-
-
-      def liquido(credito)
-    @abonos = 0
-    @cargos = 0
-    @movimientos = credito.movimientos
-    if @movimientos.empty?
-      #el cliente no ha realizado ningun pago
-        return ( credito.monto * credito.tasa_interes / 100 ) + credito.monto
-
-    else
-
-    @movimientos.each { | movimiento|
-      if movimiento.tipo=="C"
-          @cargos = movimiento.capital += @cargos
-      end
-
-      if movimiento.tipo=="A"
-          @abonos = movimiento.capital += @abonos
-      end
-
-    }
-      return (credito.monto * (credito.tasa_interes / 100 ) + credito.monto ) + @cargos - @abonos
   end
-end
+
+  def total(credito)
+    @total =  (credito.monto * credito.tasa_interes ) + credito.monto
+    return @total - abonos(credito)
+ end
 
 
-     def pago_minimo(credito)
+
+
+
+
+
+        def proximo_pago(credito)
+          @proximo = Pago.find(:first, :conditions=>["credito_id = ? AND
+                                                   pagado=0", credito.id],
+                               :order=>"fecha_limite")
+          return @proximo
+        end
+
+
+
+      def pago_minimo(credito)
           #--- Verificamos si el credito ha sido cubierto ----
        @interes_moratorio = Configuracion.find(:first, :select=>"interes_moratorio").interes_moratorio.to_f / 100.0
        @proximo_pago= proximo_pago(credito)
@@ -147,7 +126,11 @@ end
 
 
         def linea_disponible(linea)
-          return (linea.autorizado - Credito.sum(:monto, :conditions=>["linea_id = ?", linea.id])/1.0)
+          if linea.creditos.empty?
+            return linea.autorizado
+          else
+            return (linea.autorizado - Credito.sum(:monto, :conditions=>["linea_id = ?", linea.id])/1.0)
+          end
         end
 
 

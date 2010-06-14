@@ -18,6 +18,10 @@ class CreditosController < ApplicationController
     @credito = Credito.find(params[:id])
   end
 
+  
+
+
+
   #----- Este metodo aplica todos los movimientos ----
   def abonar
     #params[:pago].delete(:descripcion)
@@ -79,8 +83,7 @@ class CreditosController < ApplicationController
     @credito.grupo = Grupo.find(1) if params[:credito][:grupo_id].nil?
     @credito.fecha_fin = ultimo_pago(@fecha_inicio.year, @fecha_inicio.month, @fecha_inicio.day, params[:credito][:num_pagos], Periodo.find(params[:credito][:periodo_id]))
     #--- Validamos si la linea de fondeo tiene disponible ----
-    if linea_disponible(Linea.find(params[:credito][:linea_id])) >=  params[:credito][:monto].to_f
-
+    if linea_disponible(Linea.find(params[:credito][:linea_id])).to_f >=  params[:credito][:monto].to_f
           if inserta_credito(@credito)
           #--- Insertamos el registro de los pagos que debe de realizar -----
            inserta_pagos(@credito, calcula_pagos(@fecha_inicio.year, @fecha_inicio.month, @fecha_inicio.day, params[:credito][:num_pagos], Periodo.find(params[:credito][:periodo_id])))
