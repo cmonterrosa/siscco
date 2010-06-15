@@ -70,11 +70,11 @@ function mmLoadMenus() {
   menu_catalogo.menuBorderBgColor='#777777';
 
   window.menu_operacion = new Menu("root",175,20,"Geneva, Arial, Helvetica, sans-serif",14,"#000000","#FFFFFF","#999999","#6699CC","left","middle",3,0,1000,-5,7,true,true,true,0,true,true);
-  menu_operacion.addMenuItem("Aplicar&nbsp;Transacción","location='/creditos/transaccion'");
-  menu_operacion.addMenuItem("Alta&nbsp;Credito&nbsp;Individual","location='#'");
-  menu_operacion.addMenuItem("Alta&nbsp;Credito&nbsp;Grupal","location='#'");
+  menu_operacion.addMenuItem("Aplicar&nbsp;Pagos","location='/creditos/movimiento_credito'");
+  menu_operacion.addMenuItem("Alta&nbsp;Credito&nbsp;Individual","location='/creditos/new_individual'");
+  menu_operacion.addMenuItem("Alta&nbsp;Credito&nbsp;Grupal","location='/creditos/new_grupal'");
   menu_operacion.addMenuItem("Listado&nbsp;de&nbsp;Créditos","location='#'");
-  menu_operacion.addMenuItem("Pago&nbsp;Línea&nbsp;Fondeo","location='#'");
+  menu_operacion.addMenuItem("Pago&nbsp;Línea&nbsp;Fondeo","location='/pagoslineas/new'");
   menu_operacion.fontWeight="bold";
   menu_operacion.hideOnMouseOut=true;
   menu_operacion.bgColor='#555555';
@@ -84,8 +84,8 @@ function mmLoadMenus() {
 
   window.menu_reporte = new Menu("root",240,20,"Geneva, Arial, Helvetica, sans-serif",14,"#000000","#FFFFFF","#999999","#6699CC","left","middle",3,0,1000,-5,7,true,true,true,0,true,true);
   menu_reporte.addMenuItem("Estado&nbsp;de&nbsp;Cuenta&nbsp;del&nbsp;Cliente","location='#'");
-  menu_reporte.addMenuItem("Pagos&nbsp;del&nbsp;día","location='#'");
-  menu_reporte.addMenuItem("Estado&nbsp;de&nbsp;cuenta&nbsp;línea&nbsp;fondeo","location='#'");
+  menu_reporte.addMenuItem("Pagos&nbsp;del&nbsp;día","location='/pagos/index'");
+  menu_reporte.addMenuItem("Estado&nbsp;de&nbsp;cuenta&nbsp;línea&nbsp;fondeo","location='/lineas/estado_cuenta'");
   menu_reporte.fontWeight="bold";
   menu_reporte.hideOnMouseOut=true;
   menu_reporte.bgColor='#555555';
@@ -94,8 +94,8 @@ function mmLoadMenus() {
   menu_reporte.menuBorderBgColor='#777777';
 
   window.menu_administracion = new Menu("root",150,20,"Geneva, Arial, Helvetica, sans-serif",14,"#000000","#FFFFFF","#999999","#6699CC","left","middle",3,0,1000,-5,7,true,true,true,0,false,true);
-  menu_administracion.addMenuItem("Usuarios","location='#'");
-  menu_administracion.addMenuItem("Permisos","location='#'");
+  menu_administracion.addMenuItem("Usuarios","location='/administracion/usuarios'");
+  menu_administracion.addMenuItem("Permisos","location='/administracion/permisos'");
   menu_administracion.fontWeight="bold";
   menu_administracion.hideOnMouseOut=true;
   menu_administracion.bgColor='#555555';

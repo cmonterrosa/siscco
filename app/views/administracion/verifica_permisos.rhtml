@@ -19,10 +19,14 @@
   <%end%>
 </table>
 
-  <br/>
-  <%= submit_tag "Modificar" %>
+<table class="botones">
+  <tr class="botones">
+    <th class="botones"><%= link_to 'Regresar', :action => "permisos"%></th>
+    <th class="botones">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+    <th class="botones"><%= submit_tag "Agregar" %></th>
+  </tr>
+</table>
 <% end %>
-  <%=button_to 'Regresar', :action => "index"%>
 
 
 

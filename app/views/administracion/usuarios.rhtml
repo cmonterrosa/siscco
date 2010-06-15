@@ -1,10 +1,22 @@
-<h2>Control de usuarios</h2>
+<table class="botones">
+  <tr class="botones">
+    <td class="botones"><h1>Control de usuarios</h1></td>
+  </tr>
+</table>
+<table>
+  <tr>
+    <th><h2>Perfiles</h2></th>
+  </tr>
+  <%for rol in Rol.find(:all)%>
+  <tr>
+    <th><h3><%=link_to "#{rol.nombre}", :action=>"verifica_usuarios", :controller=>"administracion", :id => rol%></h3></th>
+  </tr>
+  <%end%>
+</table>
+<table class="botones">
+  <tr class="botones">
+    <td style=" background: #ffffff; border: 0;"><%=button_to 'Nuevo Usuario', :action => "signup", :controller => "account"%></td>
+  </tr>
+</table>
 
-<h3>Perfiles</h3>
-<%for rol in Rol.find(:all)%>
-  <p><h4><%=link_to "#{rol.nombre}", :action=>"verifica_usuarios", :controller=>"administracion", :id => rol%></h4></p>
-<%end%>
-
-
-<h2><%=link_to 'Nuevo Usuario', :action => "signup", :controller => "account"%></h2>
 

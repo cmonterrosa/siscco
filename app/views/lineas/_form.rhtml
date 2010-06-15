@@ -3,20 +3,21 @@
 <table>
   <tr>
     <th>Cuenta Cheque:</th>
-    <th>Fecha Autorización:</th>
+    <th>Banco:</th>
     <th>Línea Autorizada:</th>
   </tr>
   <tr>
     <td><%= text_field 'linea', 'cuenta_cheques'  %></td>
-    <td><%= date_select 'linea', 'fecha_aut'  %></td>
+    <td><%= collection_select('linea', 'banco_id', $bancos, :id, :nombre, :prompt => '>>Banco') %></td>
     <td><%= text_field 'linea', 'autorizado', :onkeypress => "return CharNum(event, 'numero');"    %></td>
   </tr>
   <tr>
+    <th>Fecha Autorización:</th>
     <th>Gcnf:</th>
     <th>Fondeo:</th>
   </tr>
   <tr>
-   
+    <td><%= date_select 'linea', 'fecha_aut'  %></td>
     <td><%= text_field 'linea', 'gcnf', :onkeypress => "return CharNum(event, 'letra');"    %></td>
     <td><%= collection_select('linea', 'fondeo_id', $fondeos, :id, :fuente, :prompt => '>>Fondeo') %></td>
   </tr>
