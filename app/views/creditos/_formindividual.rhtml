@@ -1,0 +1,37 @@
+<%= error_messages_for 'credito' %>
+
+<!--[form:credito]-->
+
+<p><label for="credito_fecha_inicio">Monto</label><br/>
+<%= text_field 'credito', 'monto', :onkeypress => "return CharNum(event, 'numero');"  %></p>
+
+<p><label for="credito_fecha_inicio">Fecha inicio</label><br/>
+<%= date_select 'credito', 'fecha_inicio'  %></p>
+
+<p><label for="cliente_civil">Periodos</label><br/>
+ <%=collection_select("credito", "periodo_id", $periodos, :id, :nombre)%>
+</p>
+
+<p><label for="credito_num_referencia">Número de pagos</label><br/>
+<%= text_field 'credito', 'num_pagos', :onkeypress => "return CharNum(event, 'numero');"  %></p>
+
+<p><label for="credito_num_referencia">Num referencia</label><br/>
+<%= text_field 'credito', 'num_referencia', :onkeypress => "return CharNum(event, 'numero');"  %></p>
+
+<p><label for="cliente_civil">Linea</label><br/>
+ <%=collection_select("credito", "linea_id", $lineas, :id, :cuenta_cheques)%>
+</p>
+
+<p><label for="cliente_civil">Banco</label><br/>
+ <%=collection_select("credito", "banco_id", $bancos, :id, :banco_cuenta)%>
+</p>
+
+<p><label for="cliente_civil">Promotor</label><br/>
+ <%=collection_select("credito", "promotor_id", $promotores, :id, :nombre)%>
+</p>
+
+<p><label for="cliente_civil">Destino</label><br/>
+ <%=collection_select("credito", "destino_id", $destinos, :id, :destino)%>
+</p>
+<!--[eoform:credito]-->
+
