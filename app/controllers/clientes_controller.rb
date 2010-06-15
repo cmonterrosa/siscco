@@ -95,4 +95,15 @@ class ClientesController < ApplicationController
       return render(:partial => 'filtrocliente', :layout => false) if request.xhr?
   end
       #--- Funciones ajax para filtrado --
+
+  def estado_cuenta
+    
+  end
+
+  def consultar
+     @cliente= Cliente.find_by_rfc(params[:cliente][:rfc])
+  end
+
+
+
 end
