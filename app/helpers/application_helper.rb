@@ -39,7 +39,7 @@ module ApplicationHelper
                        :conditions=>["credito_id = ? AND pagado= 1", credito.id])
     sum=0
     @pagos.each do |pago|
-      sum +=  pago.capital
+      sum +=  pago.capital.to_f
     end
     return sum
   end
@@ -49,7 +49,7 @@ module ApplicationHelper
                        :conditions=>["credito_id = ? AND pagado= 1", credito.id])
     sum=0
     @pagos.each do |pago|
-      sum +=  pago.interes
+      sum +=  pago.interes.to_f
     end
     return sum
 

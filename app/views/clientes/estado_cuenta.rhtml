@@ -1,0 +1,13 @@
+<h2>Historial del Cliente:</h2>
+
+<!-- Form para agregar buscar pagos por dia -->
+<% form_tag :action => 'consultar' do -%>
+<%= error_messages_for 'cliente' %>
+
+<p><label for="movimiento_fecha">RFC</label><br/>
+<%=text_field 'cliente', 'rfc'%></p>
+
+<!--[eoform:movimiento]-->
+<%= submit_tag "Buscar" %>
+<% end %>
+
