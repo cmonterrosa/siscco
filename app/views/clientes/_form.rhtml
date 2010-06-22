@@ -24,7 +24,7 @@
     <td><%= text_field 'cliente', 'rfc'  %></td>
     <td><%= text_field 'cliente', 'curp'  %></td>
     <td><%= text_field 'cliente', 'clave_ife'  %></td>
-    <td><%= select('cliente', 'sexo', ['Masculino', 'Femenino']) %></td>
+    <td><%= select('cliente', 'sexo', ['MASCULINO', 'FEMENINO']) %></td>
   </tr>
   <tr>
     <th>Nacionalidad</th>
@@ -33,7 +33,7 @@
     <th>Dirección:</th>
   </tr>
   <tr>
-    <td><%= select('cliente', 'nacionalidad', ['Mexicana', 'Extranjera']) %></td>
+    <td><%= select('cliente', 'nacionalidad', ['MEXICANA', 'EXTRANJERA']) %></td>
     <td><%= text_field 'cliente', 'tipo_propiedad', :onkeypress => "return CharNum(event, 'letra');"    %></td>
     <td><%= text_field 'cliente', 'tipo_persona', :onkeypress => "return CharNum(event, 'letra');"    %></td>
     <td><%= text_field 'cliente', 'direccion'  %></td>

@@ -5,6 +5,16 @@ class CreateViviendas < ActiveRecord::Migration
     end
   end
 
+  Vivienda.create("BIOCASA O CASA")
+  Vivienda.create("DE ADOBE")
+  Vivienda.create("DE LADRILLO")
+  Vivienda.create("DE MADERA")
+  Vivienda.create("DE MATERIAL MIXTO")
+  Vivienda.create("DE PAJAS, RAMAS O CAÑAS")
+  Vivienda.create("DE PIEDRA")
+  Vivienda.create("APARTAMENTO")
+  Vivienda.create("DEPARTAMENTO")
+
   def self.down
     drop_table :viviendas
   end

@@ -39,9 +39,9 @@
   </tr>
   <tr>
     <td><%= text_field 'cliente', 'codigo_postal'  %></td>
-    <td><%= select("cliente", "sexo", ['>> Sexo', 'Masculiino', 'Femenino'])  %></td>
-    <td><%= select("cliente", "sexo", ['>> Nacionalidad', 'Mexicana', 'Extranjera'])  %></td>
-    <td><%= text_field 'cliente', 'tipo_propiedad'  %></td>
+    <td><%= select("cliente", "sexo", ['MASCULINO', 'FEMENINO'])  %></td>
+    <td><%= select("cliente", "sexo", ['MEXICANA', 'EXTRANJERA'])  %></td>
+    <td><%= select("cliente", "sexo", ['PRIVADA','RENTADA']) %></td>
    </tr>
    <tr>
      <th>Tipo Persona:</th>
