@@ -1,7 +1,7 @@
 <h1>Nuevo Crédito Grupal</h1>
 
 <% form_tag :action => 'create' do %>
-  <%= render :partial => 'form' %>
+  <%= render :partial => 'formgrupal' %>
   <p><label for="cliente_civil">Grupo</label><br/>
       <%=collection_select("credito", "grupo_id", $grupos, :id, :nombre)%>
   </p>

@@ -83,7 +83,7 @@ function mmLoadMenus() {
   menu_operacion.menuBorderBgColor='#777777';
 
   window.menu_reporte = new Menu("root",240,20,"Geneva, Arial, Helvetica, sans-serif",14,"#000000","#FFFFFF","#999999","#6699CC","left","middle",3,0,1000,-5,7,true,true,true,0,true,true);
-  menu_reporte.addMenuItem("Estado&nbsp;de&nbsp;Cuenta&nbsp;del&nbsp;Cliente","location='#'");
+  menu_reporte.addMenuItem("Estado&nbsp;de&nbsp;Cuenta&nbsp;del&nbsp;Cliente","location='/creditos/busca_credito'");
   menu_reporte.addMenuItem("Pagos&nbsp;del&nbsp;día","location='/pagos/index'");
   menu_reporte.addMenuItem("Estado&nbsp;de&nbsp;cuenta&nbsp;línea&nbsp;fondeo","location='/lineas/estado_cuenta'");
   menu_reporte.fontWeight="bold";
