@@ -101,7 +101,17 @@ class ClientesController < ApplicationController
   end
 
   def consultar
-     @cliente= Cliente.find_by_rfc(params[:cliente][:rfc])
+
+    if Cliente.find_by_rfc(params[:cliente][:rfc]) && params[:cliente][:rfc]
+      @cliente= Cliente.find_by_rfc(params[:cliente][:rfc])
+    else
+      flash[:notice]="No existe ese RFC"
+      redirect_to :action => "estado_cuenta"
+    end
+
+
+
+    
   end
 
 
