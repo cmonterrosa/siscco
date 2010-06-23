@@ -54,11 +54,11 @@ function mmLoadMenus() {
   menu_catalogo.addMenuItem("Clientes","location='/clientes'");
   menu_catalogo.addMenuItem("Festivos","location='/festivos'");
   menu_catalogo.addMenuItem("Fondeos","location='/fondeos'");
-  menu_catalogo.addMenuItem("Garantías","location='/garantias'");
+//  menu_catalogo.addMenuItem("Garantías","location='/garantias'");
   menu_catalogo.addMenuItem("Giros","location='/giros'");
   menu_catalogo.addMenuItem("Grupos","location='/grupos'");
   menu_catalogo.addMenuItem("Líneas","location='/lineas'");
-  menu_catalogo.addMenuItem("Periodos","location='/periodos'");
+//  menu_catalogo.addMenuItem("Periodos","location='/periodos'");
   menu_catalogo.addMenuItem("Productos","location='/productos'");
   menu_catalogo.addMenuItem("Promotores","location='/promotors'");
   menu_catalogo.addMenuItem("Sucursales","location='/sucursals'");
@@ -73,7 +73,7 @@ function mmLoadMenus() {
   menu_operacion.addMenuItem("Aplicar&nbsp;Pagos","location='/creditos/movimiento_credito'");
   menu_operacion.addMenuItem("Alta&nbsp;Credito&nbsp;Individual","location='/creditos/new_individual'");
   menu_operacion.addMenuItem("Alta&nbsp;Credito&nbsp;Grupal","location='/creditos/new_grupal'");
-  menu_operacion.addMenuItem("Listado&nbsp;de&nbsp;Créditos","location='#'");
+//  menu_operacion.addMenuItem("Listado&nbsp;de&nbsp;Créditos","location='#'");
   menu_operacion.addMenuItem("Pago&nbsp;Línea&nbsp;Fondeo","location='/pagoslineas/new'");
   menu_operacion.addMenuItem("Transferir&nbsp;Fondos","location='/lineas/transferir_fondos'");
   menu_operacion.fontWeight="bold";
@@ -84,8 +84,9 @@ function mmLoadMenus() {
   menu_operacion.menuBorderBgColor='#777777';
 
   window.menu_reporte = new Menu("root",240,20,"Geneva, Arial, Helvetica, sans-serif",14,"#000000","#FFFFFF","#999999","#6699CC","left","middle",3,0,1000,-5,7,true,true,true,0,true,true);
-  menu_reporte.addMenuItem("Estado&nbsp;de&nbsp;Cuenta&nbsp;del&nbsp;Cliente","location='/clientes/estado_cuenta'");
   menu_reporte.addMenuItem("Pagos&nbsp;del&nbsp;día","location='/pagos/index'");
+  menu_reporte.addMenuItem("Estado&nbsp;de&nbsp;Cuenta&nbsp;del&nbsp;Cliente","location='/clientes/estado_cuenta'");
+  menu_reporte.addMenuItem("Estado&nbsp;de&nbsp;Cuenta&nbsp;del&nbsp;Grupo","location='/grupos/estado_cuenta'");
   menu_reporte.addMenuItem("Estado&nbsp;de&nbsp;cuenta&nbsp;línea&nbsp;fondeo","location='/lineas/estado_cuenta'");
   menu_reporte.fontWeight="bold";
   menu_reporte.hideOnMouseOut=true;

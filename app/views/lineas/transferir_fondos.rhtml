@@ -3,25 +3,34 @@
 <!-- Form para agregar buscar pagos por dia -->
 <% form_tag :action => 'transferir' do -%>
 <%= error_messages_for 'lineas' %>
-
-<p><label for="movimiento_fecha">Cuenta Origen</label><br/>
-<%= collection_select("transferencia", "origen_id", $lineas, :id, :cuenta_cheques) %>
-</p>
-
-
-<p><label for="movimiento_fecha">Cuenta Destino</label><br/>
-<%= collection_select("transferencia", "destino_id", $lineas, :id, :cuenta_cheques) %>
-</p>
-
-
-<p><label for="credito_fecha_inicio">Monto</label><br/>
-<%= text_field 'transferencia', 'monto', :onkeypress => "return CharNum(event, 'numero');" %></p>
-
-
-<p><label for="credito_fecha_inicio">Fecha</label><br/>
-<%= date_select 'transferencia', 'fecha'  %></p>
-
+<br />
+<h3>Fuentes de Fondeo:<br/>
+<%= collection_select("linea", "fondeo_id", $fondeos, :id, :fuente)%></h3>
+<br/>
+<h3>Linea de Fondeo Origen:<br/>
+<%= collection_select("transferencia", "origen_id", $lineas, :id, :cuenta_cheques)%></h3>
+<br/>
+<h3>Linea de Fondeo Destino:<br/>
+<%= collection_select("transferencia", "destino_id", $lineas, :id, :cuenta_cheques)%></h3>
+<br />
+<h3>Monto:<br/>
+<%= text_field 'transferencia', 'monto', :onkeypress => "return CharNum(event, 'numero');" %></h3>
+<br />
+<h3>Fecha<br/>
+<%= date_select 'transferencia', 'fecha'  %></h3>
+<br />
 <!--[eoform:movimiento]-->
-<%= submit_tag "Buscar" %>
+<%= submit_tag "Transferir" %>
 <% end %>
 
+<%= observe_field 'linea_fondeo_id',
+    :url => {:controller => 'combos',
+    :action => 'get_lineas'},
+    :update => 'transferencia_origen_id',
+    :with => 'linea_fondeo_id' %>
+
+<%= observe_field 'linea_fondeo_id',
+    :url => {:controller => 'combos',
+    :action => 'get_lineas'},
+    :update => 'transferencia_destino_id',
+    :with => 'linea_fondeo_id' %>

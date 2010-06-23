@@ -3,10 +3,10 @@
 <!-- Form para agregar buscar pagos por dia -->
 <% form_tag :action => 'consultar' do -%>
 <%= error_messages_for 'cliente' %>
-
-<p><label for="movimiento_fecha">RFC</label><br/>
-<%=text_field 'cliente', 'rfc'%></p>
-
+<br />
+<h3>RFC<br/>
+<%=text_field 'cliente', 'rfc'%></h3>
+<br />
 <!--[eoform:movimiento]-->
 <%= submit_tag "Buscar" %>
 <% end %>
