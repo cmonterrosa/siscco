@@ -1,7 +1,11 @@
 <%= error_messages_for 'cliente' %>
 
 <!--[form:cliente]-->
-<table>
+<%= error_messages_for 'cliente' %>
+
+<!--[form:cliente]-->
+<div>
+  <table>
   <tr>
     <th>Paterno:</th>
     <th>Materno:</th>
@@ -12,65 +16,71 @@
     <td><%= text_field 'cliente', 'paterno', :onkeypress => "return CharNum(event, 'letra');"  %></td>
     <td><%= text_field 'cliente', 'materno', :onkeypress => "return CharNum(event, 'letra');"  %></td>
     <td><%= text_field 'cliente', 'nombre', :onkeypress => "return CharNum(event, 'letra');"  %></td>
-    <td><%= date_select 'cliente', 'fecha_nac', :order => [:day, :month, :year], :start_year => 1930%></td>
+    <td><%= date_select 'cliente', 'fecha_nac', :order => [:day, :month, :year], :start_year => 1900%></td>
   </tr>
   <tr>
     <th>RFC:</th>
     <th>CURP:</th>
     <th>Clave IFE:</th>
-    <th>Sexo:</th>
+    <th>Dirección:</th>
   </tr>
   <tr>
     <td><%= text_field 'cliente', 'rfc'  %></td>
     <td><%= text_field 'cliente', 'curp'  %></td>
     <td><%= text_field 'cliente', 'clave_ife'  %></td>
-    <td><%= select('cliente', 'sexo', ['MASCULINO', 'FEMENINO']) %></td>
+    <td><%= text_field 'cliente', 'direccion'  %></td>
   </tr>
   <tr>
+    <th>Cod. Postal</th>
+    <th>Sexo:</th>
     <th>Nacionalidad</th>
     <th>Tipo Propiedad:</th>
-    <th>Tipo Persona:</th>
-    <th>Dirección:</th>
+
   </tr>
   <tr>
-    <td><%= select('cliente', 'nacionalidad', ['MEXICANA', 'EXTRANJERA']) %></td>
-    <td><%= text_field 'cliente', 'tipo_propiedad', :onkeypress => "return CharNum(event, 'letra');"    %></td>
-    <td><%= text_field 'cliente', 'tipo_persona', :onkeypress => "return CharNum(event, 'letra');"    %></td>
-    <td><%= text_field 'cliente', 'direccion'  %></td>
+    <td><%= text_field 'cliente', 'codigo_postal'  %></td>
+    <td><%= select("cliente", "sexo", ['MASCULINO', 'FEMENINO'])  %></td>
+    <td><%= select("cliente", "nacionalidad", ['MEXICANA', 'EXTRANJERA'])  %></td>
+    <td><%= select("cliente", "tipo_propiedad", ['PRIVADA','RENTADA']) %></td>
    </tr>
    <tr>
+     <th>Tipo Persona:</th>
      <th>Telefono:</th>
      <th>Email:</th>
      <th>Estado Civil:</th>
-     <th>Escolaridad:</th>
+
    </tr>
    <tr>
-     <td><%= text_field 'cliente', 'telefono', :onkeypress => "return CharNum(event, 'numero');"    %></td>
+     <td><%= text_field 'cliente', 'tipo_persona', :onkeypress => "return CharNum(event, 'letra');"  %></td>
+     <td><%= text_field 'cliente', 'telefono', :onkeypress => "return CharNum(event, 'numero');"  %></td>
      <td><%= text_field 'cliente', 'email'  %></td>
      <td><%= collection_select("cliente", "civil_id", @civiles, :id, :civil) %></td>
-     <td><%= collection_select("cliente", "escolaridad_id", @escolaridades, :id, :escolaridad) %></td>
+
    </tr>
    <tr>
+     <th>Escolaridad:</th>
      <th>Tipo Vivienda:</th>
      <th>Grupo:</th>
      <th>Estado:</th>
-     <th>Municipio:</th>
    </tr>
    <tr>
+     <td><%= collection_select("cliente", "escolaridad_id", @escolaridades, :id, :escolaridad) %></td>
      <td> <%= collection_select("cliente", "vivienda_id", @viviendas, :id, :tipo_vivienda) %></td>
      <td><%= collection_select("cliente", "grupo_id", $grupos, :id, :nombre)%></td>
      <td><%= collection_select("", "estado_id", $estados, :id, :estado, :prompt => '>>Estado')  %></td>
-     <td><%=  select("", "municipio_id", ['>>Municipio'])    %></td>
    </tr>
    <tr>
+     <th>Municipio:</th>
      <th>Ejido:</th>
      <th>Colonia:</th>
    </tr>
    <tr>
+     <td><%=  select("", "municipio_id", ['>>Municipio'])    %></td>
      <td><%=  select("", "ejido_id", ['>>Ejido'])    %></td>
      <td><%=  collection_select("cliente", "colonia_id", $colonias, :id, :colonia, :prompt => '>>Colonia')    %></td>
    </tr>
 </table>
+</div>
 
       <%= observe_field '_estado_id',
         :url => {:controller => 'combos',

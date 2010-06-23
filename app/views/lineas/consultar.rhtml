@@ -1,6 +1,5 @@
 
 <h2>Estado de cuenta</h2>
-
 <table>
   <tr>
     <th>Fondeo</th>
@@ -9,8 +8,6 @@
     <th>Total Otorgado</th>
     <th>Total Final</th>
   </tr>
-
-
   <tr>
     <td><%=@linea.fondeo.fuente%></td>
     <td><%=@linea.cuenta_cheques%></td>
@@ -18,7 +15,9 @@
     <td><%=@linea.autorizado.to_f - @disponible.to_f%></td>
     <td><%=@disponible%></td>
   </tr>
-
-
-
+</table>
+<table class="botones">
+  <tr class="botones">
+    <th class="botones"><%= link_to 'Regresar', :action => 'estado_cuenta' %></th>
+  </tr>
 </table>

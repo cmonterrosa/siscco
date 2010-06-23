@@ -7,7 +7,7 @@ class CreateLineas < ActiveRecord::Migration
       t.column :estatus, :string
       t.column :gcnf, :string
       t.column :fondeo_id, :integer
-      t.column :banco_id, :integer
+#      t.column :banco_id, :integer
     end
   end
 

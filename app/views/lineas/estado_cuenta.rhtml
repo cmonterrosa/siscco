@@ -1,15 +1,21 @@
-<h2>Selecciona la Línea de Fondeo:</h2>
-
-<p>
-
+<h2>Estado de cuenta de Lineas de Fodeo:</h2>
 <!-- Form para agregar buscar pagos por dia -->
+<br />
 <% form_tag :action => 'consultar' do -%>
 <%= error_messages_for 'linea' %>
 
-<p><label for="movimiento_fecha">Cuenta Cheques</label><br/>
-<%= collection_select("linea", "cuenta_cheques", @lineas, :id, :cuenta_cheques)%></p>
-
-<!--[eoform:movimiento]-->
+<h3>Fuentes de Fondeo:<br/>
+<%= collection_select("linea", "fondeo_id", $fondeos, :id, :fuente)%></h3>
+<br/>
+<h3>Linea de Fondeo<br/>
+<%= collection_select("linea", "cuenta_cheques", $lineas, :id, :cuenta_cheques)%></h3>
+<!--[eoform:]-->
+<br />
 <%= submit_tag "Buscar" %>
 <% end %>
-</p>
+
+<%= observe_field 'linea_fondeo_id',
+    :url => {:controller => 'combos',
+    :action => 'get_lineas'},
+    :update => 'linea_cuenta_cheques',
+    :with => 'linea_fondeo_id' %>
