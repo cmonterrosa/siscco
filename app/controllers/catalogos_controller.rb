@@ -1,5 +1,5 @@
 class CatalogosController < ApplicationController
-before_filter :login_required, :except =>[ :index]
+before_filter :login_required#, :except =>[ :index]
 layout 'contenido'
 
   def index

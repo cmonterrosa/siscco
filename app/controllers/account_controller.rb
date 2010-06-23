@@ -6,7 +6,7 @@
 
 class AccountController < ApplicationController
   model   :user
-  layout 'inicio', :except=>[:signup]
+  layout 'inicio', :except=>[:signup, :signup_perfil]
  
 #  before_filter :login_required, :except =>[ :login, :signup]
     before_filter :permiso_requerido, :except =>[ :login]
@@ -46,14 +46,14 @@ class AccountController < ApplicationController
 #--- el mismo metodo para dar de alta, solo que este recibe el rol de parametro ----
   def signup_perfil
      case request.method
-      when :post
+      when :get
         @user = User.new(params['user'])
         #@user.rol = Rol.find(params[:rol])
         if @user.save!
           flash[:notice]  = "ALTA CORRECTA PARA EL USUARIO: #{@user.nombre} con el perfil de #{@user.rol.nombre}"
           redirect_to(:controller => 'home')
         end
-      when :get
+      when :post
         @user = User.new
         @rol = Rol.find(params['rol_id'])
     end
