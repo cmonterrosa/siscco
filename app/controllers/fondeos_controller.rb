@@ -57,4 +57,7 @@ class FondeosController < ApplicationController
       return render(:partial => 'filtrofondeo', :layout => false) if request.xhr?
    end
       #--- Funciones ajax para filtrado --
+   
+
+
 end

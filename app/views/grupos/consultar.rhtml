@@ -1,0 +1,50 @@
+<h1>Estado de cuenta del Grupo <%=@grupo.nombre%></h1>
+
+<h2>Miembros del grupo</h2>
+
+
+<table>
+  <tr>
+    <th>RFC</th>
+    <th>Nombre</th>
+    <th>Curp</th>
+    <th>Telefono</th>
+    <th>Grupo</th>
+
+  </tr>
+<%@grupo.clientes.each do |cliente|%>
+  <tr>
+    <td><%=cliente.rfc%></td>
+    <td><%=cliente.nombre_completo%></td>
+    <td><%=cliente.curp%></td>
+    <td><%=cliente.telefono%></td>
+    <td><%=cliente.grupo.nombre%></td>
+  </tr>
+ <%end%>
+</table>
+
+<h2>Datos de los créditos</h2>
+
+<table>
+  <tr>
+    <th>Id</th>
+    <th>Monto</th>
+    <th>Abonos</th>
+    <th>Cargo</th>
+    <th>Total</th>
+    <th>Fecha Inicio</th>
+    <th>Fecha Fin</th>
+  </tr>
+
+  <%@grupo.creditos.each do |credito|%>
+   <tr>
+    <td><%=credito.id%></td>
+    <td><%=credito.monto%></td>
+    <td><%=abonos(credito)%></td>
+    <td><%=cargos(credito)%></td>
+    <td><%=total(credito)%></td>
+    <td><%=credito.fecha_inicio%></td>
+    <td><%=credito.fecha_fin%></td>
+  </tr>
+ <%end%>
+ </table>

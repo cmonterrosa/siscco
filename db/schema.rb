@@ -2,7 +2,7 @@
 # migrations feature of ActiveRecord to incrementally modify your database, and
 # then regenerate this schema definition.
 
-ActiveRecord::Schema.define(:version => 33) do
+ActiveRecord::Schema.define(:version => 34) do
 
   create_table "bancos", :force => true do |t|
     t.column "nombre",     :string
@@ -10,7 +10,7 @@ ActiveRecord::Schema.define(:version => 33) do
     t.column "titular",    :string
     t.column "direccion",  :string
     t.column "telefono",   :string
-    t.column "colonia_id", :string
+    t.column "colonia_id", :integer
   end
 
   create_table "civils", :force => true do |t|
@@ -56,6 +56,10 @@ ActiveRecord::Schema.define(:version => 33) do
     t.column "fecha_inicio",      :date
     t.column "fecha_fin",         :date
     t.column "num_referencia",    :string
+    t.column "monto",             :float
+    t.column "tasa_interes",      :float
+    t.column "interes_moratorio", :string
+    t.column "num_pagos",         :integer
     t.column "linea_id",          :integer
     t.column "banco_id",          :integer
     t.column "cliente_id",        :integer
@@ -63,10 +67,6 @@ ActiveRecord::Schema.define(:version => 33) do
     t.column "destino_id",        :integer
     t.column "grupo_id",          :integer
     t.column "periodo_id",        :integer
-    t.column "monto",             :float
-    t.column "tasa_interes",      :float
-    t.column "num_pagos",         :integer
-    t.column "interes_moratorio", :integer
   end
 
   create_table "destinos", :force => true do |t|
@@ -106,9 +106,9 @@ ActiveRecord::Schema.define(:version => 33) do
   end
 
   create_table "giros", :force => true do |t|
-    t.column "subsector", :string
-    t.column "codigo",    :string
     t.column "giro",      :string
+    t.column "codigo",    :string
+    t.column "subsector", :string
   end
 
   create_table "grupos", :force => true do |t|
@@ -116,12 +116,12 @@ ActiveRecord::Schema.define(:version => 33) do
   end
 
   create_table "lineas", :force => true do |t|
-    t.column "fondeo_id",          :integer
-    t.column "cuenta_cheques",     :string
-    t.column "fecha_autorizacion", :date
-    t.column "autorizado",         :string
-    t.column "estatus",            :string
-    t.column "gcnf",               :string
+    t.column "fondeo_id",      :integer
+    t.column "cuenta_cheques", :string
+    t.column "fecha_aut",      :date
+    t.column "autorizado",     :float
+    t.column "estatus",        :string
+    t.column "gcnf",           :string
   end
 
   create_table "movimientos", :force => true do |t|
@@ -160,7 +160,7 @@ ActiveRecord::Schema.define(:version => 33) do
     t.column "moratorio",      :string
     t.column "pagado",         :integer
     t.column "credito_id",     :integer
-    t.column "descripcion",    :integer
+    t.column "descripcion",    :string
   end
 
   create_table "pagoslineas", :force => true do |t|
@@ -176,16 +176,16 @@ ActiveRecord::Schema.define(:version => 33) do
   end
 
   create_table "productos", :force => true do |t|
-    t.column "producto",            :string
-    t.column "tipo",                :string
-    t.column "intereses",           :float
-    t.column "iva_intereses",       :float
-    t.column "intereses_moratorio", :float
-    t.column "multa",               :float
-    t.column "iva_multa",           :float
-    t.column "garantia",            :float
-    t.column "periodo_id",          :integer
-    t.column "grupo_id",            :integer
+    t.column "producto",      :string
+    t.column "tipo",          :string
+    t.column "intereses",     :float
+    t.column "iva_intereses", :float
+    t.column "moratorio",     :float
+    t.column "multa",         :float
+    t.column "iva_multa",     :float
+    t.column "garantia",      :string
+    t.column "periodo_id",    :integer
+    t.column "grupo_id",      :integer
   end
 
   create_table "promotors", :force => true do |t|
@@ -229,7 +229,6 @@ ActiveRecord::Schema.define(:version => 33) do
 
   create_table "sucursals", :force => true do |t|
     t.column "nombre",        :string
-    t.column "rfc",           :string,  :limit => 13
     t.column "gerente",       :string
     t.column "telefono",      :string
     t.column "direccion",     :string
@@ -241,6 +240,19 @@ ActiveRecord::Schema.define(:version => 33) do
     t.column "controller",  :string
     t.column "descripcion", :string
     t.column "rol_id",      :integer
+    t.column "insertar",    :integer
+    t.column "eliminar",    :integer
+    t.column "actualizar",  :integer
+    t.column "consultar",   :integer
+  end
+
+  create_table "transferencias", :force => true do |t|
+    t.column "origen_id",     :integer
+    t.column "destino_id",    :integer
+    t.column "user_id",       :integer
+    t.column "fecha",         :date
+    t.column "monto",         :string
+    t.column "observaciones", :string
   end
 
   create_table "users", :force => true do |t|

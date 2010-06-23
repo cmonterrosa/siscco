@@ -1,0 +1,27 @@
+<h2>Transferencia de Fondos:</h2>
+
+<!-- Form para agregar buscar pagos por dia -->
+<% form_tag :action => 'transferir' do -%>
+<%= error_messages_for 'lineas' %>
+
+<p><label for="movimiento_fecha">Cuenta Origen</label><br/>
+<%= collection_select("transferencia", "origen_id", $lineas, :id, :cuenta_cheques) %>
+</p>
+
+
+<p><label for="movimiento_fecha">Cuenta Destino</label><br/>
+<%= collection_select("transferencia", "destino_id", $lineas, :id, :cuenta_cheques) %>
+</p>
+
+
+<p><label for="credito_fecha_inicio">Monto</label><br/>
+<%= text_field 'transferencia', 'monto', :onkeypress => "return CharNum(event, 'numero');" %></p>
+
+
+<p><label for="credito_fecha_inicio">Fecha</label><br/>
+<%= date_select 'transferencia', 'fecha'  %></p>
+
+<!--[eoform:movimiento]-->
+<%= submit_tag "Buscar" %>
+<% end %>
+

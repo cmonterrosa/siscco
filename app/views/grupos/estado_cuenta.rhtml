@@ -1,0 +1,14 @@
+<h2>Historial del Grupo:</h2>
+
+<!-- Form para agregar buscar pagos por dia -->
+<% form_tag :action => 'consultar' do -%>
+<%= error_messages_for 'grupo' %>
+
+<p><label for="movimiento_fecha">Nombre del Grupo</label><br/>
+<%= collection_select("grupo", "id", $grupos, :id, :nombre) %>
+</p>
+
+<!--[eoform:movimiento]-->
+<%= submit_tag "Buscar" %>
+<% end %>
+

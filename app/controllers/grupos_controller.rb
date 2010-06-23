@@ -50,8 +50,20 @@ class GruposController < ApplicationController
     Grupo.find(params[:id]).destroy
     redirect_to :action => 'list'
   end
-            #-- Ajax --
-    def live_search
+
+  #--- Metodos para realizar la consulta ---
+
+  def estado_cuenta
+
+  end
+
+  def consultar
+    @grupo = Grupo.find(params[:grupo][:id])
+  end
+
+
+   #-- Ajax --
+   def live_search
       @grupos = Grupo.find(:all, :conditions => ["nombre like ?", "%#{params[:searchtext]}%"])
       return render(:partial => 'filtrogrupo', :layout => false) if request.xhr?
    end

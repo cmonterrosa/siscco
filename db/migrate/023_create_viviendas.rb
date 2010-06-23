@@ -3,7 +3,7 @@ class CreateViviendas < ActiveRecord::Migration
     create_table :viviendas do |t|
       t.column :tipo_vivienda, :string
     end
-  end
+
 
   Vivienda.create("BIOCASA O CASA")
   Vivienda.create("DE ADOBE")
@@ -14,6 +14,7 @@ class CreateViviendas < ActiveRecord::Migration
   Vivienda.create("DE PIEDRA")
   Vivienda.create("APARTAMENTO")
   Vivienda.create("DEPARTAMENTO")
+  end
 
   def self.down
     drop_table :viviendas

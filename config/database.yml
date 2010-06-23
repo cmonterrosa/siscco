@@ -15,9 +15,9 @@ development:
   adapter: mysql
   database: ultima
   username: root
-  #password: rajuijui
+  password: solaris
   #socket:   /var/run/mysqld/mysqld.sock
-  password: rafa
+  #password: rafa
   socket: /tmp/mysql.sock
 
 # Warning: The database defined as 'test' will be erased and
