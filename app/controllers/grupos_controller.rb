@@ -62,10 +62,8 @@ class GruposController < ApplicationController
   end
 
 
-
-
-            #-- Ajax --
-    def live_search
+   #-- Ajax --
+   def live_search
       @grupos = Grupo.find(:all, :conditions => ["nombre like ?", "%#{params[:searchtext]}%"])
       return render(:partial => 'filtrogrupo', :layout => false) if request.xhr?
    end

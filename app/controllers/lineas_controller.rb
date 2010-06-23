@@ -72,6 +72,25 @@ class LineasController < ApplicationController
     @disponible = linea_disponible(@linea)
   end
 
+  #--- Funciones para transferencia ----
+  def transferir_fondos
+    
+  end
+  
+  
+  def transferir
+    @transferencia = Transferencia.new(params[:transferencia])
+    @transferencia.user = User.find(session['user'])
+    if @transferencia.save!
+          flash[:notice]="Transferencia realizada correctamente"
+          redirect_to :action => "transferir_fondos"
+    else
+          flash[:notice]="No se pudo realizar la transferencia, revise los datos"
+          redirect_to :action => "transferir_fondos"
+    end
+  end
+
+
 
 
 
