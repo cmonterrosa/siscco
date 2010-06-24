@@ -5,7 +5,7 @@
 <%= error_messages_for 'lineas' %>
 <br />
 <h3>Fuentes de Fondeo:<br/>
-<%= collection_select("linea", "fondeo_id", $fondeos, :id, :fuente)%></h3>
+<%= collection_select("", "fondeo_id", $fondeos, :id, :fuente)%></h3>
 <br/>
 <h3>Linea de Fondeo Origen:<br/>
 <%= collection_select("transferencia", "origen_id", $lineas, :id, :cuenta_cheques)%></h3>
@@ -16,21 +16,21 @@
 <h3>Monto:<br/>
 <%= text_field 'transferencia', 'monto', :onkeypress => "return CharNum(event, 'numero');" %></h3>
 <br />
-<h3>Fecha<br/>
+<h3>Fecha:<br/>
 <%= date_select 'transferencia', 'fecha'  %></h3>
 <br />
 <!--[eoform:movimiento]-->
 <%= submit_tag "Transferir" %>
 <% end %>
 
-<%= observe_field 'linea_fondeo_id',
+<%= observe_field '_fondeo_id',
     :url => {:controller => 'combos',
     :action => 'get_lineas'},
     :update => 'transferencia_origen_id',
-    :with => 'linea_fondeo_id' %>
+    :with => '_fondeo_id' %>
 
-<%= observe_field 'linea_fondeo_id',
+<%= observe_field '_fondeo_id',
     :url => {:controller => 'combos',
     :action => 'get_lineas'},
     :update => 'transferencia_destino_id',
-    :with => 'linea_fondeo_id' %>
+    :with => '_fondeo_id' %>

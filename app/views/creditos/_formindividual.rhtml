@@ -2,36 +2,46 @@
 
 <!--[form:credito]-->
 
-<p><label for="credito_fecha_inicio">Monto</label><br/>
-<%= text_field 'credito', 'monto', :onkeypress => "return CharNum(event, 'numero');"  %></p>
+<table>
+  <tr>
+    <th>Monto:</th>
+    <th>Fecha Inicio:</th>
+    <th>Periodos:</th>
+    <th>Número de Pagos:</th>
+  </tr>
+  <tr>
+    <td><%= text_field 'credito', 'monto', :onkeypress => "return CharNum(event, 'numero');"  %></td>
+    <td><%= date_select 'credito', 'fecha_inicio'  %></td>
+    <td><%=collection_select("credito", "periodo_id", $periodos, :id, :nombre)%></td>
+    <td><%= text_field 'credito', 'num_pagos', :onkeypress => "return CharNum(event, 'numero');"  %></td>
+  </tr>
+  <tr>
+    <th>Num. de Referencia:</th>
+    <th>Fondeo:</th>
+    <th>Linea:</th>
+    <th>Banco:</th>
+  </tr>
+  <tr>
+    <td><%= text_field 'credito', 'num_referencia', :onkeypress => "return CharNum(event, 'numero');"  %></td>
+    <td><%= collection_select("", "fondeo_id", $fondeos, :id, :fuente, :prompt => '>> Fondeo')%></td>
+    <td><%=collection_select("credito", "linea_id", $lineas, :id, :cuenta_cheques, :prompt => '>> Linea')%></td>
+    <td><%=collection_select("credito", "banco_id", $bancos, :id, :banco_cuenta, :prompt => '>> Banco')%></td>
+  </tr>
+  <tr>
+    <th>Promotor:</th>
+    <th>Destino:</th>
+    <th>Cliente:</th>
+  </tr>
+  <tr>
+    <td><%=collection_select("credito", "promotor_id", $promotores, :id, :nombre)%></td>
+    <td><%=collection_select("credito", "destino_id", $destinos, :id, :destino)%></td>
+    <td><%=collection_select("credito", "cliente_id", $clientes, :id, :nombre_completo)%></td>
+  </tr>
+</table>
 
-<p><label for="credito_fecha_inicio">Fecha inicio</label><br/>
-<%= date_select 'credito', 'fecha_inicio'  %></p>
-
-<p><label for="cliente_civil">Periodos</label><br/>
- <%=collection_select("credito", "periodo_id", $periodos, :id, :nombre)%>
-</p>
-
-<p><label for="credito_num_referencia">Número de pagos</label><br/>
-<%= text_field 'credito', 'num_pagos', :onkeypress => "return CharNum(event, 'numero');"  %></p>
-
-<p><label for="credito_num_referencia">Num referencia</label><br/>
-<%= text_field 'credito', 'num_referencia', :onkeypress => "return CharNum(event, 'numero');"  %></p>
-
-<p><label for="cliente_civil">Linea</label><br/>
- <%=collection_select("credito", "linea_id", $lineas, :id, :cuenta_cheques)%>
-</p>
-
-<p><label for="cliente_civil">Banco</label><br/>
- <%=collection_select("credito", "banco_id", $bancos, :id, :banco_cuenta)%>
-</p>
-
-<p><label for="cliente_civil">Promotor</label><br/>
- <%=collection_select("credito", "promotor_id", $promotores, :id, :nombre)%>
-</p>
-
-<p><label for="cliente_civil">Destino</label><br/>
- <%=collection_select("credito", "destino_id", $destinos, :id, :destino)%>
-</p>
 <!--[eoform:credito]-->
-
+<%= observe_field '_fondeo_id',
+    :url => {:controller => 'combos',
+    :action => 'get_lineas'},
+    :update => 'credito_linea_id',
+    :with => '_fondeo_id' %>

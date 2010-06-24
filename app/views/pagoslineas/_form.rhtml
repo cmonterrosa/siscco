@@ -1,13 +1,14 @@
 <%= error_messages_for 'pagoslinea' %>
 
 <!--[form:pagoslinea]-->
-<p><label for="pagoslinea_fecha">Fecha</label><br/>
-<%= date_select 'pagoslinea', 'fecha'  %></p>
-
-<p><label for="pagoslinea_monto">Monto</label><br/>
-<%= text_field 'pagoslinea', 'monto'  %></p>
-
-<p><label for="pagoslinea_observaciones">Observaciones</label><br/>
-<%= text_area 'pagoslinea', 'observaciones'  %></p>
+<br />
+<h3><label for="pagoslinea_fecha">Fecha:</label><br/>
+<%= date_select 'pagoslinea', 'fecha'  %></h3>
+<br />
+<h3><label for="pagoslinea_monto">Monto:</label><br/>
+<%= text_field 'pagoslinea', 'monto', :onkeypress => "return CharNum(event, 'numero');"  %></h3>
+<br />
+<h3><label for="pagoslinea_observaciones">Observaciones:</label><br/>
+<%= text_area 'pagoslinea', 'observaciones'  %></h3>
 <!--[eoform:pagoslinea]-->
-
+<br />

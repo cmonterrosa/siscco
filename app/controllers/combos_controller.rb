@@ -19,7 +19,7 @@ class CombosController < ApplicationController
     end
 
   def get_lineas
-      @lineas= Linea.find(:all, :conditions => ["fondeo_id = ?",params[:linea_fondeo_id] ])
+      @lineas= Linea.find(:all, :conditions => ["fondeo_id = ?",params[:_fondeo_id] ])
       return render(:partial => 'lineas', :layout => false) if request.xhr?
   end
 
