@@ -3,6 +3,10 @@ class CreateDestinos < ActiveRecord::Migration
     create_table :destinos do |t|
       t.column :destino, :string
     end
+
+    Destino.create(:destino=>"CAPITAL DE NEGOCIO")
+    Destino.create(:destino => "PAGO DE DEUDA")
+
   end
 
   def self.down

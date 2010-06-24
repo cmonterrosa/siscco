@@ -13,7 +13,8 @@
     <td><%= text_field 'credito', 'monto', :onkeypress => "return CharNum(event, 'numero');"  %></td>
     <td><%= date_select 'credito', 'fecha_inicio'  %></td>
     <td><%=collection_select("credito", "periodo_id", $periodos, :id, :nombre)%></td>
-    <td><%= text_field 'credito', 'num_pagos', :onkeypress => "return CharNum(event, 'numero');"  %></td>
+    <!-- <td><= text_field 'credito', 'num_pagos', :onkeypress => "return CharNum(event, 'numero');"  %></td> -->
+    <td><%=select("credito", "num_pagos", $semanas)%></td>
   </tr>
   <tr>
     <th>Num. de Referencia:</th>
@@ -33,7 +34,7 @@
     <th>Cliente:</th>
   </tr>
   <tr>
-    <td><%=collection_select("credito", "promotor_id", $promotores, :id, :nombre)%></td>
+    <td><%=collection_select("credito", "promotor_id", $promotores, :id, :nombre_completo)%></td>
     <td><%=collection_select("credito", "destino_id", $destinos, :id, :destino)%></td>
     <td><%=collection_select("credito", "cliente_id", $clientes, :id, :nombre_completo)%></td>
   </tr>

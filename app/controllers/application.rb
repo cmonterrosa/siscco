@@ -35,6 +35,11 @@ class ApplicationController < ActionController::Base
   $fondeos = Fondeo.find(:all, :order => "fuente")
   $periodos = Periodo.find(:all, :order => "dias")
 
+  #--- combo de semanas, maximo 52 ----
+  @semanas = []
+  (1..52).each do |x| @semanas << x end
+  $semanas = @semanas
+
 
     #----------- Cambio de idioma de las fechas --------------------
   Date::MONTHNAMES = [nil] + %w(Enero Febrero Marzo Abril Mayo Junio Julio Agosto Septiembre Octubre Noviembre Diciembre)
