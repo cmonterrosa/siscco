@@ -3,12 +3,10 @@
 <!-- Form para agregar buscar pagos por dia -->
 <% form_tag :action => 'consultar' do -%>
 <%= error_messages_for 'grupo' %>
-
-<p><label for="movimiento_fecha">Nombre del Grupo</label><br/>
-<%= collection_select("grupo", "id", $grupos, :id, :nombre) %>
-</p>
-
+<br />
+<h3>Nombre del Grupo:<br/>
+<%= collection_select("grupo", "id", $grupos, :id, :nombre) %></h3>
+<br />
 <!--[eoform:movimiento]-->
 <%= submit_tag "Buscar" %>
 <% end %>
-

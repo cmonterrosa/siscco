@@ -1,15 +1,16 @@
-<table class="botones">
-  <tr class="botones">
-    <td class="botones"><h1>Perfiles</h1></td>
-  </tr>
-</table>
+<h1 style=" text-align: center">Control de Permisos</h1>
 <table>
   <tr>
-    <th><h2>Perfiles</h2></th>
+    <th><h3>Perfiles:</h3></th>
   </tr>
   <%for rol in Rol.find(:all)%>
   <tr>
-    <th><h3><%=link_to "#{rol.nombre}", :action=>"verifica_permisos", :controller=>"administracion", :id => rol%></h3></th>
+    <td><%=link_to "#{rol.nombre.to_s.upcase}", :action=>"verifica_permisos", :controller=>"administracion", :id => rol%></td>
   </tr>
   <%end%>
+</table>
+<table class="botones">
+  <tr class="botones">
+    <th class="botones"><%=link_to 'Regresar', :action => "index", :controller => "home"%></th>
+  </tr>
 </table>

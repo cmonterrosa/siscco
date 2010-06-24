@@ -32,11 +32,13 @@
     <th>Promotor:</th>
     <th>Destino:</th>
     <th>Cliente:</th>
+    <th>Status:</th>
   </tr>
   <tr>
     <td><%=collection_select("credito", "promotor_id", $promotores, :id, :nombre_completo)%></td>
     <td><%=collection_select("credito", "destino_id", $destinos, :id, :destino)%></td>
     <td><%=collection_select("credito", "cliente_id", $clientes, :id, :nombre_completo)%></td>
+    <td><%= check_box('credito', 'status') %></td>
   </tr>
 </table>
 

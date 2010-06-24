@@ -1,9 +1,12 @@
 <!--inicia ajax -->
-<p><label for="searchtext">Búsqueda por numero de credito:</label>
-<%= text_field_tag :num_credito %></p>
-      <p> <label for="searchtext">Búsqueda por numero de rfc:</label>
-<%= text_field_tag :rfc_credito %></p>
+<h2>Búsqueda por:</h2><br />
 
+<h3><label for="searchtext">Número de Crédito:</label><br />
+<%= text_field_tag :num_credito %></h3>
+
+<h3><label for="searchtext">RFC:</label><br />
+<%= text_field_tag :rfc_credito %></h3>
+<br />
 
 <%= observe_field(:num_credito,
                  :frequency => 0.25,
@@ -16,6 +19,6 @@
                  :with  => "rfc_credito",
                  :url => { :action => :live_search_rfc }) %>
 <p>Resultados:</p>
-<div id="search_hits"></div>
+<div id="search_hits" style=" width: 900px"></div>
 
 <!-- termina ajax -->
