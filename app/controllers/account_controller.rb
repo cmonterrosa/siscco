@@ -6,8 +6,11 @@
 
 class AccountController < ApplicationController
   model   :user
-  layout 'inicio', :except=>[:signup, :signup_perfil]
- 
+  if $usuario.empty?
+    layout 'inicio', :except=>[:signup, :signup_perfil]
+  else
+    layout 'contenido', :except=>[:login, :signup]
+  end
 #  before_filter :login_required, :except =>[ :login, :signup]
     before_filter :permiso_requerido, :except =>[ :login]
 
