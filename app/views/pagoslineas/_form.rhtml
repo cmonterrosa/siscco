@@ -2,6 +2,12 @@
 
 <!--[form:pagoslinea]-->
 <br />
+<h3>Fuentes de Fondeo:<br/>
+<%= collection_select("", "fondeo_id", $fondeos, :id, :fuente, :prompt => '>> Fondeo')%></h3>
+<br/>
+<h3>Linea de Fondeo<br/>
+<%= collection_select("", "cuenta_cheques", $lineas, :id, :cuenta_cheques)%></h3>
+<br />
 <h3><label for="pagoslinea_fecha">Fecha:</label><br/>
 <%= date_select 'pagoslinea', 'fecha'  %></h3>
 <br />
@@ -10,5 +16,11 @@
 <br />
 <h3><label for="pagoslinea_observaciones">Observaciones:</label><br/>
 <%= text_area 'pagoslinea', 'observaciones'  %></h3>
+
 <!--[eoform:pagoslinea]-->
 <br />
+<%= observe_field '_fondeo_id',
+    :url => {:controller => 'combos',
+    :action => 'get_lineas'},
+    :update => '_cuenta_cheques',
+    :with => '_fondeo_id' %>
