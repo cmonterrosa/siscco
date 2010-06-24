@@ -186,7 +186,7 @@ CREATE TABLE `creditos` (
   `grupo_id` int(11) DEFAULT NULL,
   `periodo_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -195,7 +195,7 @@ CREATE TABLE `creditos` (
 
 LOCK TABLES `creditos` WRITE;
 /*!40000 ALTER TABLE `creditos` DISABLE KEYS */;
-INSERT INTO `creditos` VALUES (1,'2010-06-09','2010-06-21','4484444',45000,NULL,NULL,10,NULL,NULL,NULL,1,NULL,1,1),(2,'2010-06-01','2010-06-24','4444',44,4,'34',3,1,4,5,5,3,0,1),(3,'2010-06-09','2010-06-12','844949849',35000,4,'4',3,4,NULL,NULL,1,NULL,1,1),(4,'2010-06-09','2010-06-12','844949849',35000,2.5,'4',3,4,NULL,NULL,1,NULL,1,1),(5,'2010-06-09','2010-06-12','844949849',35000,2.5,'2.5',3,NULL,NULL,NULL,1,NULL,1,1),(6,'2010-06-09','2010-06-12','844949849',35000,2.5,'2.5',3,NULL,NULL,NULL,1,NULL,1,1),(7,'2010-06-09','2010-06-14','344444',24000,2.5,'2.5',4,NULL,NULL,NULL,1,NULL,2,1),(8,'2010-06-09','2010-06-12','444',20000,2.5,'2.5',3,NULL,NULL,NULL,1,NULL,2,1),(9,'2010-06-08','2010-06-14','5454545',10000,2.5,'2.5',5,4,NULL,NULL,1,NULL,2,1),(10,'2010-06-08','2010-06-29','5555',1000,2.5,'2.5',3,4,NULL,NULL,1,NULL,2,2),(11,'2010-06-10','2010-06-16','5',555,2.5,'2.5',5,4,NULL,NULL,1,NULL,2,1),(12,'2010-06-01','2010-07-06','56654',1000,2.5,'2.5',5,4,NULL,NULL,1,NULL,2,2);
+INSERT INTO `creditos` VALUES (1,'2010-06-09','2010-06-21','4484444',45000,NULL,NULL,10,NULL,NULL,NULL,1,NULL,1,1),(2,'2010-06-01','2010-06-24','4444',44,4,'34',3,1,4,5,5,3,0,1),(3,'2010-06-09','2010-06-12','844949849',35000,4,'4',3,4,NULL,NULL,1,NULL,1,1),(4,'2010-06-09','2010-06-12','844949849',35000,2.5,'4',3,4,NULL,NULL,1,NULL,1,1),(5,'2010-06-09','2010-06-12','844949849',35000,2.5,'2.5',3,NULL,NULL,NULL,1,NULL,1,1),(6,'2010-06-09','2010-06-12','844949849',35000,2.5,'2.5',3,NULL,NULL,NULL,1,NULL,1,1),(7,'2010-06-09','2010-06-14','344444',24000,2.5,'2.5',4,NULL,NULL,NULL,1,NULL,2,1),(8,'2010-06-09','2010-06-12','444',20000,2.5,'2.5',3,NULL,NULL,NULL,1,NULL,2,1),(9,'2010-06-08','2010-06-14','5454545',10000,2.5,'2.5',5,4,NULL,NULL,1,NULL,2,1),(10,'2010-06-08','2010-06-29','5555',1000,2.5,'2.5',3,4,NULL,NULL,1,NULL,2,2),(11,'2010-06-10','2010-06-16','5',555,2.5,'2.5',5,4,NULL,NULL,1,NULL,2,1),(12,'2010-06-01','2010-07-06','56654',1000,2.5,'2.5',5,4,NULL,NULL,1,NULL,2,2),(13,'2010-06-23','2010-07-28','6767676767',1000,2.5,'2.5',5,4,NULL,NULL,1,NULL,4,2);
 /*!40000 ALTER TABLE `creditos` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -210,7 +210,7 @@ CREATE TABLE `destinos` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `destino` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -219,6 +219,7 @@ CREATE TABLE `destinos` (
 
 LOCK TABLES `destinos` WRITE;
 /*!40000 ALTER TABLE `destinos` DISABLE KEYS */;
+INSERT INTO `destinos` VALUES (1,'CAPITAL DE NEGOCIO'),(2,'PAGO DE DEUDA'),(3,'CAPITAL PARA AGRICULTURA');
 /*!40000 ALTER TABLE `destinos` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -426,7 +427,7 @@ CREATE TABLE `grupos` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `nombre` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -435,7 +436,7 @@ CREATE TABLE `grupos` (
 
 LOCK TABLES `grupos` WRITE;
 /*!40000 ALTER TABLE `grupos` DISABLE KEYS */;
-INSERT INTO `grupos` VALUES (1,'Ninguno'),(2,'VILLAFLORES');
+INSERT INTO `grupos` VALUES (1,'Ninguno'),(2,'VILLAFLORES'),(3,'SEF'),(4,'SECH');
 /*!40000 ALTER TABLE `grupos` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -573,7 +574,7 @@ CREATE TABLE `pagos` (
   `credito_id` int(11) DEFAULT NULL,
   `descripcion` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=35 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=40 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -582,7 +583,7 @@ CREATE TABLE `pagos` (
 
 LOCK TABLES `pagos` WRITE;
 /*!40000 ALTER TABLE `pagos` DISABLE KEYS */;
-INSERT INTO `pagos` VALUES (1,1,'2010-06-10','11666.6666666667','291.666666666667',NULL,NULL,NULL,NULL,0,4,'Pago 1 de 3 capital minimo 11666.6666666667 '),(2,2,'2010-06-11','11666.6666666667','291.666666666667',NULL,NULL,NULL,NULL,0,4,'Pago 2 de 3 capital minimo 11666.6666666667 '),(3,3,'2010-06-12','11666.6666666667','291.666666666667',NULL,NULL,NULL,NULL,0,4,'Pago 3 de 3 capital minimo 11666.6666666667 '),(4,1,'2010-06-10','11666.6666666667','291.666666666667',NULL,NULL,NULL,NULL,0,5,'Pago 1 de 3 capital minimo 11666.6666666667 '),(5,2,'2010-06-11','11666.6666666667','291.666666666667',NULL,NULL,NULL,NULL,0,5,'Pago 2 de 3 capital minimo 11666.6666666667 '),(6,3,'2010-06-12','11666.6666666667','291.666666666667',NULL,NULL,NULL,NULL,0,5,'Pago 3 de 3 capital minimo 11666.6666666667 '),(7,1,'2010-06-10','11666.6666666667','291.666666666667',NULL,NULL,NULL,NULL,0,6,'Pago 1 de 3 capital minimo 11666.6666666667 '),(8,2,'2010-06-11','11666.6666666667','291.666666666667',NULL,NULL,NULL,NULL,0,6,'Pago 2 de 3 capital minimo 11666.6666666667 '),(9,3,'2010-06-12','11666.6666666667','291.666666666667',NULL,NULL,NULL,NULL,0,6,'Pago 3 de 3 capital minimo 11666.6666666667 '),(10,1,'2010-06-09','6000.0','150.0','2010-06-10','6000','150','153.75',1,7,'Pago 1 de 4 capital minimo 6000.0 '),(11,2,'2010-06-11','6000.0','150.0','0000-00-00','6000','150','0',0,7,'Pago 2 de 4 capital minimo 6000.0 '),(12,3,'2010-06-12','6000.0','150.0','0000-00-00','6000','150',NULL,0,7,'Pago 3 de 4 capital minimo 6000.0 '),(13,4,'2010-06-14','6000.0','150.0','0000-00-00','6000','150',NULL,0,7,'Pago 4 de 4 capital minimo 6000.0 '),(14,1,'2010-06-10','6666.66666666667','166.666666666667',NULL,NULL,NULL,NULL,0,8,'Pago 1 de 3 capital minimo 6666.66666666667 '),(15,2,'2010-06-11','6666.66666666667','166.666666666667',NULL,NULL,NULL,NULL,0,8,'Pago 2 de 3 capital minimo 6666.66666666667 '),(16,3,'2010-06-12','6666.66666666667','166.666666666667',NULL,NULL,NULL,NULL,0,8,'Pago 3 de 3 capital minimo 6666.66666666667 '),(17,1,'2010-06-09','2000.0','50.0','2010-06-10','2000','50','51.25',1,9,'Pago 1 de 5 capital minimo 2000.0 '),(18,2,'2010-06-10','2000.0','50.0','2010-06-10','2000','50',NULL,1,9,'Pago 2 de 5 capital minimo 2000.0 '),(19,3,'2010-06-11','2000.0','50.0',NULL,NULL,NULL,NULL,0,9,'Pago 3 de 5 capital minimo 2000.0 '),(20,4,'2010-06-12','2000.0','50.0',NULL,NULL,NULL,NULL,0,9,'Pago 4 de 5 capital minimo 2000.0 '),(21,5,'2010-06-14','2000.0','50.0',NULL,NULL,NULL,NULL,0,9,'Pago 5 de 5 capital minimo 2000.0 '),(22,1,'2010-06-15','333.333333333333','8.33333333333333','2010-06-10','333','9',NULL,1,10,'Pago 1 de 3 capital minimo 333.333333333333 '),(23,2,'2010-06-22','333.333333333333','8.33333333333333',NULL,NULL,NULL,NULL,0,10,'Pago 2 de 3 capital minimo 333.333333333333 '),(24,3,'2010-06-29','333.333333333333','8.33333333333333',NULL,NULL,NULL,NULL,0,10,'Pago 3 de 3 capital minimo 333.333333333333 '),(25,1,'2010-06-11','111.0','2.775',NULL,NULL,NULL,NULL,0,11,'Pago 1 de 5 capital minimo 111.0 '),(26,2,'2010-06-12','111.0','2.775',NULL,NULL,NULL,NULL,0,11,'Pago 2 de 5 capital minimo 111.0 '),(27,3,'2010-06-14','111.0','2.775',NULL,NULL,NULL,NULL,0,11,'Pago 3 de 5 capital minimo 111.0 '),(28,4,'2010-06-15','111.0','2.775',NULL,NULL,NULL,NULL,0,11,'Pago 4 de 5 capital minimo 111.0 '),(29,5,'2010-06-16','111.0','2.775',NULL,NULL,NULL,NULL,0,11,'Pago 5 de 5 capital minimo 111.0 '),(30,1,'2010-06-08','200.0','5.0','2010-06-10','200','11','5.125',1,12,'Pago 1 de 5 capital minimo 200.0 '),(31,2,'2010-06-15','200.0','5.0',NULL,NULL,NULL,NULL,0,12,'Pago 2 de 5 capital minimo 200.0 '),(32,3,'2010-06-22','200.0','5.0',NULL,NULL,NULL,NULL,0,12,'Pago 3 de 5 capital minimo 200.0 '),(33,4,'2010-06-29','200.0','5.0',NULL,NULL,NULL,NULL,0,12,'Pago 4 de 5 capital minimo 200.0 '),(34,5,'2010-07-06','200.0','5.0',NULL,NULL,NULL,NULL,0,12,'Pago 5 de 5 capital minimo 200.0 ');
+INSERT INTO `pagos` VALUES (1,1,'2010-06-10','11666.6666666667','291.666666666667',NULL,NULL,NULL,NULL,0,4,'Pago 1 de 3 capital minimo 11666.6666666667 '),(2,2,'2010-06-11','11666.6666666667','291.666666666667',NULL,NULL,NULL,NULL,0,4,'Pago 2 de 3 capital minimo 11666.6666666667 '),(3,3,'2010-06-12','11666.6666666667','291.666666666667',NULL,NULL,NULL,NULL,0,4,'Pago 3 de 3 capital minimo 11666.6666666667 '),(4,1,'2010-06-10','11666.6666666667','291.666666666667',NULL,NULL,NULL,NULL,0,5,'Pago 1 de 3 capital minimo 11666.6666666667 '),(5,2,'2010-06-11','11666.6666666667','291.666666666667',NULL,NULL,NULL,NULL,0,5,'Pago 2 de 3 capital minimo 11666.6666666667 '),(6,3,'2010-06-12','11666.6666666667','291.666666666667',NULL,NULL,NULL,NULL,0,5,'Pago 3 de 3 capital minimo 11666.6666666667 '),(7,1,'2010-06-10','11666.6666666667','291.666666666667',NULL,NULL,NULL,NULL,0,6,'Pago 1 de 3 capital minimo 11666.6666666667 '),(8,2,'2010-06-11','11666.6666666667','291.666666666667',NULL,NULL,NULL,NULL,0,6,'Pago 2 de 3 capital minimo 11666.6666666667 '),(9,3,'2010-06-12','11666.6666666667','291.666666666667',NULL,NULL,NULL,NULL,0,6,'Pago 3 de 3 capital minimo 11666.6666666667 '),(10,1,'2010-06-09','6000.0','150.0','2010-06-10','6000','150','153.75',1,7,'Pago 1 de 4 capital minimo 6000.0 '),(11,2,'2010-06-11','6000.0','150.0','0000-00-00','6000','150','0',0,7,'Pago 2 de 4 capital minimo 6000.0 '),(12,3,'2010-06-12','6000.0','150.0','0000-00-00','6000','150',NULL,0,7,'Pago 3 de 4 capital minimo 6000.0 '),(13,4,'2010-06-14','6000.0','150.0','0000-00-00','6000','150',NULL,0,7,'Pago 4 de 4 capital minimo 6000.0 '),(14,1,'2010-06-10','6666.66666666667','166.666666666667',NULL,NULL,NULL,NULL,0,8,'Pago 1 de 3 capital minimo 6666.66666666667 '),(15,2,'2010-06-11','6666.66666666667','166.666666666667',NULL,NULL,NULL,NULL,0,8,'Pago 2 de 3 capital minimo 6666.66666666667 '),(16,3,'2010-06-12','6666.66666666667','166.666666666667',NULL,NULL,NULL,NULL,0,8,'Pago 3 de 3 capital minimo 6666.66666666667 '),(17,1,'2010-06-09','2000.0','50.0','2010-06-10','2000','50','51.25',1,9,'Pago 1 de 5 capital minimo 2000.0 '),(18,2,'2010-06-10','2000.0','50.0','2010-06-10','2000','50',NULL,1,9,'Pago 2 de 5 capital minimo 2000.0 '),(19,3,'2010-06-11','2000.0','50.0',NULL,NULL,NULL,NULL,0,9,'Pago 3 de 5 capital minimo 2000.0 '),(20,4,'2010-06-12','2000.0','50.0',NULL,NULL,NULL,NULL,0,9,'Pago 4 de 5 capital minimo 2000.0 '),(21,5,'2010-06-14','2000.0','50.0',NULL,NULL,NULL,NULL,0,9,'Pago 5 de 5 capital minimo 2000.0 '),(22,1,'2010-06-15','333.333333333333','8.33333333333333','2010-06-10','333','9',NULL,1,10,'Pago 1 de 3 capital minimo 333.333333333333 '),(23,2,'2010-06-22','333.333333333333','8.33333333333333',NULL,NULL,NULL,NULL,0,10,'Pago 2 de 3 capital minimo 333.333333333333 '),(24,3,'2010-06-29','333.333333333333','8.33333333333333',NULL,NULL,NULL,NULL,0,10,'Pago 3 de 3 capital minimo 333.333333333333 '),(25,1,'2010-06-11','111.0','2.775',NULL,NULL,NULL,NULL,0,11,'Pago 1 de 5 capital minimo 111.0 '),(26,2,'2010-06-12','111.0','2.775',NULL,NULL,NULL,NULL,0,11,'Pago 2 de 5 capital minimo 111.0 '),(27,3,'2010-06-14','111.0','2.775',NULL,NULL,NULL,NULL,0,11,'Pago 3 de 5 capital minimo 111.0 '),(28,4,'2010-06-15','111.0','2.775',NULL,NULL,NULL,NULL,0,11,'Pago 4 de 5 capital minimo 111.0 '),(29,5,'2010-06-16','111.0','2.775',NULL,NULL,NULL,NULL,0,11,'Pago 5 de 5 capital minimo 111.0 '),(30,1,'2010-06-08','200.0','5.0','2010-06-10','200','11','5.125',1,12,'Pago 1 de 5 capital minimo 200.0 '),(31,2,'2010-06-15','200.0','5.0',NULL,NULL,NULL,NULL,0,12,'Pago 2 de 5 capital minimo 200.0 '),(32,3,'2010-06-22','200.0','5.0',NULL,NULL,NULL,NULL,0,12,'Pago 3 de 5 capital minimo 200.0 '),(33,4,'2010-06-29','200.0','5.0',NULL,NULL,NULL,NULL,0,12,'Pago 4 de 5 capital minimo 200.0 '),(34,5,'2010-07-06','200.0','5.0',NULL,NULL,NULL,NULL,0,12,'Pago 5 de 5 capital minimo 200.0 '),(35,1,'2010-06-30','200.0','5.0','2010-06-23','200','5',NULL,1,13,'Pago 1 de 5 capital minimo 200.0 '),(36,2,'2010-07-07','200.0','5.0',NULL,NULL,NULL,NULL,0,13,'Pago 2 de 5 capital minimo 200.0 '),(37,3,'2010-07-14','200.0','5.0',NULL,NULL,NULL,NULL,0,13,'Pago 3 de 5 capital minimo 200.0 '),(38,4,'2010-07-21','200.0','5.0',NULL,NULL,NULL,NULL,0,13,'Pago 4 de 5 capital minimo 200.0 '),(39,5,'2010-07-28','200.0','5.0',NULL,NULL,NULL,NULL,0,13,'Pago 5 de 5 capital minimo 200.0 ');
 /*!40000 ALTER TABLE `pagos` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -772,7 +773,7 @@ CREATE TABLE `schema_info` (
 
 LOCK TABLES `schema_info` WRITE;
 /*!40000 ALTER TABLE `schema_info` DISABLE KEYS */;
-INSERT INTO `schema_info` VALUES (33);
+INSERT INTO `schema_info` VALUES (34);
 /*!40000 ALTER TABLE `schema_info` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -892,7 +893,7 @@ CREATE TABLE `systables` (
   `actualizar` int(11) DEFAULT NULL,
   `consultar` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -901,8 +902,37 @@ CREATE TABLE `systables` (
 
 LOCK TABLES `systables` WRITE;
 /*!40000 ALTER TABLE `systables` DISABLE KEYS */;
-INSERT INTO `systables` VALUES (1,'account','Acceso a Usuarios',1,1,0,1,NULL),(2,'account','Acceso a Usuarios',2,1,0,1,NULL),(3,'account','Acceso a Usuarios',3,1,0,1,NULL),(4,'account','Acceso a Usuarios',4,1,0,1,NULL),(5,'account','Acceso a Usuarios',5,1,0,1,NULL),(6,'fondeos','fondeos',2,1,0,1,NULL),(7,'fondeos','fondeos',5,1,0,1,NULL);
+INSERT INTO `systables` VALUES (1,'account','Acceso a Usuarios',1,1,0,1,NULL),(2,'account','Acceso a Usuarios',2,1,0,1,NULL),(3,'account','Acceso a Usuarios',3,1,0,1,NULL),(5,'account','Acceso a Usuarios',5,1,0,1,NULL),(6,'fondeos','fondeos',2,1,0,1,NULL),(7,'fondeos','fondeos',5,1,0,1,NULL),(8,'account','Acceso a Usuarios',4,NULL,NULL,NULL,NULL),(9,'fondeos','fondeos',4,NULL,NULL,NULL,NULL);
 /*!40000 ALTER TABLE `systables` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `transferencias`
+--
+
+DROP TABLE IF EXISTS `transferencias`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `transferencias` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `origen_id` int(11) DEFAULT NULL,
+  `destino_id` int(11) DEFAULT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  `fecha` date DEFAULT NULL,
+  `monto` varchar(255) DEFAULT NULL,
+  `observaciones` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `transferencias`
+--
+
+LOCK TABLES `transferencias` WRITE;
+/*!40000 ALTER TABLE `transferencias` DISABLE KEYS */;
+INSERT INTO `transferencias` VALUES (1,4,4,1,'2010-06-23','10000',NULL);
+/*!40000 ALTER TABLE `transferencias` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -919,7 +949,7 @@ CREATE TABLE `users` (
   `nombre` varchar(255) DEFAULT NULL,
   `rol_id` int(11) DEFAULT '1',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -928,7 +958,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (1,'administrador','db9c93f05d2e41dc2256c3890d5d78ca6e48d418','administrador del sistema',5),(2,'monterrosa','db9c93f05d2e41dc2256c3890d5d78ca6e48d418','capturista de prueba',2);
+INSERT INTO `users` VALUES (1,'administrador','db9c93f05d2e41dc2256c3890d5d78ca6e48d418','administrador del sistema',5),(2,'monterrosa','db9c93f05d2e41dc2256c3890d5d78ca6e48d418','capturista de prueba',2),(3,'jesus','48c71784d78bb3c9e92286a31ba502d4b79be4a7','jesus vazquez',2),(4,'chuy','48c71784d78bb3c9e92286a31ba502d4b79be4a7','chuy',5);
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -964,4 +994,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2010-06-22 10:23:30
+-- Dump completed on 2010-06-23 21:41:50
