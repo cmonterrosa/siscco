@@ -7,11 +7,12 @@
                  :update => :search_hits,
                  :with  => "searchtext",
                  :url => { :action => :live_search }) %>
-<p>Resultados de la Busqueda:</p>
+<br /><br/><p>Resultados de la Busqueda:</p>
 <div id="scroll">
   <div id="search_hits">
     <table>
       <tr>
+        <th>Fondeo</th>
       <% for column in Linea.content_columns %>
         <th><%= column.human_name %></th>
       <% end %>
@@ -23,6 +24,7 @@
   
       <% for linea in @lineas %>
       <tr>
+        <td><%= linea.fondeo.fuente %> </td>
         <% for column in Linea.content_columns %>
         <td><%=h linea.send(column.name) %></td>
         <% end %>

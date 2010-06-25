@@ -1,9 +1,12 @@
 <h1>Editar credito</h1>
 
 <% form_tag :action => 'update', :id => @credito do %>
-  <%= render :partial => 'form' %>
-  <%= submit_tag 'Guardar' %>
+  <%= render :partial => 'formgrupal' %>
+<table class="botones">
+  <tr class="botones">
+    <th class="botones"><%= link_to 'Regresar', :action => 'movimiento_credito' %></th>
+    <th class="botones">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+    <th class="botones"><%= submit_tag 'Guardar' %></th>
+  </tr>
+</table>
 <% end %>
-
-<%= link_to 'Detalles', :action => 'show', :id => @credito %> |
-<%= link_to 'Atras', :action => 'list' %>

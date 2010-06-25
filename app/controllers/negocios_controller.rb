@@ -38,7 +38,7 @@ class NegociosController < ApplicationController
   end
 
   def edit
-    @negocio = Negocio.find(params[:id])
+    @negocio = Negocio.find(params[:id_negocio])
     @giros = Giro.find(:all, :order => 'giro')
   end
 

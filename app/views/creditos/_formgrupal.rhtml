@@ -1,8 +1,6 @@
 <%= error_messages_for 'credito' %>
-
 <!--[form:credito]-->
-
-<table>
+<table style=" width: 900px">
   <tr>
     <th>Monto:</th>
     <th>Fecha Inicio:</th>
@@ -11,7 +9,7 @@
   </tr>
   <tr>
     <td><%= text_field 'credito', 'monto', :onkeypress => "return CharNum(event, 'numero');"  %></td>
-    <td><%= date_select 'credito', 'fecha_inicio'  %></td>
+    <td><%= date_select 'credito', 'fecha_inicio', :order => [:day, :month, :year]  %></td>
     <td><%=collection_select("credito", "periodo_id", $periodos, :id, :nombre)%></td>
     <td><%=select("credito", "num_pagos", $semanas)%></td>
   </tr>
@@ -36,14 +34,11 @@
   <tr>
     <td><%=collection_select("credito", "promotor_id", $promotores, :id, :nombre_completo)%></td>
     <td><%=collection_select("credito", "destino_id", $destinos, :id, :destino)%></td>
-    <td><%=collection_select("credito", "grupo_id", $grupos, :id, :nombre)%></td>
-    <td><%= check_box('credito', 'status') %></td>
+    <td><%=collection_select("credito", "grupo_id", $grupos, :id, :nombre)%>-<%= button_to '+'%>-</td>
+    <td><%=check_box('credito', 'status') %></td>
   </tr>
 </table>
-
-
 <!--[eoform:credito]-->
-
 <%= observe_field '_fondeo_id',
     :url => {:controller => 'combos',
     :action => 'get_lineas'},

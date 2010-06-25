@@ -1,4 +1,4 @@
-<h1>Listing pagoslineas</h1>
+<h1>Pagoslineas</h1>
 
 <table>
   <tr>
@@ -12,15 +12,15 @@
   <% for column in Pagoslinea.content_columns %>
     <td><%=h pagoslinea.send(column.name) %></td>
   <% end %>
-    <td><%= link_to 'Show', :action => 'show', :id => pagoslinea %></td>
-    <td><%= link_to 'Edit', :action => 'edit', :id => pagoslinea %></td>
-    <td><%= link_to 'Destroy', { :action => 'destroy', :id => pagoslinea }, :confirm => 'Are you sure?', :method => :post %></td>
+    <td><%= link_to 'Detalles', :action => 'show', :id => pagoslinea %></td>
+    <td><%= link_to 'Editar', :action => 'edit', :id => pagoslinea %></td>
+    <td><%= link_to 'Eliminar', { :action => 'destroy', :id => pagoslinea }, :confirm => 'Estas seguro?', :method => :post %></td>
   </tr>
 <% end %>
 </table>
 
-<%= link_to 'Previous page', { :page => @pagoslinea_pages.current.previous } if @pagoslinea_pages.current.previous %>
-<%= link_to 'Next page', { :page => @pagoslinea_pages.current.next } if @pagoslinea_pages.current.next %> 
+<%#= link_to 'Previous page', { :page => @pagoslinea_pages.current.previous } if @pagoslinea_pages.current.previous %>
+<%#= link_to 'Next page', { :page => @pagoslinea_pages.current.next } if @pagoslinea_pages.current.next %>
 
 <br />
 

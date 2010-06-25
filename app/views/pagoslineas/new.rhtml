@@ -2,7 +2,11 @@
 
 <% form_tag :action => 'create' do -%>
   <%= render :partial => 'form' %>
-  <%= submit_tag "Guardar" %>
+<table  class="botones">
+  <tr class="botones">
+    <th class="botones"><%= link_to 'Regresar', :action => 'list' %></th>
+    <th class="botones">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+    <th class="botones"><%= submit_tag "Agregar", :onclick => "return comprobar();" %></th>
+  </tr>
+</table>
 <% end %>
-<br />
-<h3><%= link_to 'Atras', :action => 'index', :controller=>"home"%></h3>

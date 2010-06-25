@@ -17,6 +17,7 @@ class CreateCreditos < ActiveRecord::Migration
       t.column :destino_id, :integer
       t.column :grupo_id, :integer
       t.column :periodo_id, :integer
+      t.column :status, :integer
     end
   end
 

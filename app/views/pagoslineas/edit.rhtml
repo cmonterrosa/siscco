@@ -2,8 +2,11 @@
 
 <% form_tag :action => 'update', :id => @pagoslinea do %>
   <%= render :partial => 'form' %>
-  <%= submit_tag 'Edit' %>
+<table class="botones">
+  <tr class="botones">
+    <th class="botones"><%= link_to 'Regresar', :action => 'list' %></th>
+    <th class="botones">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+    <th class="botones"><%= submit_tag 'Guardar' %></th>
+  </tr>
+</table>
 <% end %>
-
-<%= link_to 'Show', :action => 'show', :id => @pagoslinea %> |
-<%= link_to 'Back', :action => 'list' %>

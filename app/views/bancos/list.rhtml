@@ -1,13 +1,13 @@
 <h1>Bancos</h1>
 
- <label for="searchtext">Búsqueda por nombre:</label>
+<label for="searchtext">Búsqueda por nombre:</label>
   <%= text_field_tag :searchtext %>
   <%= observe_field(:searchtext,
                  :frequency => 0.25,
                  :update => :search_hits,
                  :with  => "searchtext",
-                 :url => { :action => :live_search }) %>
-  <p>Resultado de Busqueda:</p>
+                 :url => { :action => :live_search }) %><br />
+<br /><p>Resultado de Busqueda:</p>
 <div id="scroll">
   <div id="search_hits">
       <table>

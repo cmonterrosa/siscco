@@ -1,8 +1,6 @@
 <%= error_messages_for 'credito' %>
-
 <!--[form:credito]-->
-
-<table>
+<table style=" width: 850px">
   <tr>
     <th>Monto:</th>
     <th>Fecha Inicio:</th>
@@ -11,7 +9,7 @@
   </tr>
   <tr>
     <td><%= text_field 'credito', 'monto', :onkeypress => "return CharNum(event, 'numero');"  %></td>
-    <td><%= date_select 'credito', 'fecha_inicio'  %></td>
+    <td><%= date_select 'credito', 'fecha_inicio', :order => [:day, :month, :year]  %></td>
     <td><%=collection_select("credito", "periodo_id", $periodos, :id, :nombre)%></td>
     <!-- <td><= text_field 'credito', 'num_pagos', :onkeypress => "return CharNum(event, 'numero');"  %></td> -->
     <td><%=select("credito", "num_pagos", $semanas)%></td>
@@ -41,7 +39,6 @@
     <td><%= check_box('credito', 'status') %></td>
   </tr>
 </table>
-
 <!--[eoform:credito]-->
 <%= observe_field '_fondeo_id',
     :url => {:controller => 'combos',

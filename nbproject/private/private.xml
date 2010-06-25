@@ -5,5 +5,9 @@
             <url>app/views/bancos/list.rhtml</url>
             <line>17</line>
         </file>
+        <file>
+            <url>app/views/combos/_lineas.rhtml</url>
+            <line>0</line>
+        </file>
     </editor-bookmarks>
 </project-private>

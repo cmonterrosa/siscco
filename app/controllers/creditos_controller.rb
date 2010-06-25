@@ -88,11 +88,11 @@ class CreditosController < ApplicationController
           #--- Insertamos el registro de los pagos que debe de realizar -----
            inserta_pagos(@credito, calcula_pagos(@fecha_inicio.year, @fecha_inicio.month, @fecha_inicio.day, params[:credito][:num_pagos], Periodo.find(params[:credito][:periodo_id])))
            flash[:notice]="El crédito #{@credito.id} ha sido capturado"
-           redirect_to :action => 'list'
+           redirect_to :action => 'index', :controller => 'home'
           end
     else
       flash[:notice] = "La linea no cuenta con fondos disponibles"
-      redirect_to :action => "list"
+      redirect_to :action => "index", :controller => 'home'
     end
   end
 
