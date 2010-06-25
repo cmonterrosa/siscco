@@ -93,6 +93,20 @@ class ApplicationController < ActionController::Base
   end
 
 
+
+
+    def actualiza_configuracion(registro, parametros)
+    begin
+      registro.update_attributes(parametros)
+      flash[:notice] = 'Configuracion actualizada satisfactoriamente'
+      redirect_to :controller => "administracion", :action => 'index'
+    rescue
+      flash[:notice] = 'No se pudo actualizar verifique los datos'
+      redirect_to :action => 'configuracion', :controller => "administracion"
+    end
+  end
+
+
 #  def eliminar_registro(registro)
 #    #------Verifica que se pueda eliminar el registro -----
 #   begin
@@ -203,6 +217,25 @@ class ApplicationController < ActionController::Base
           @interes = credito.tasa_interes / 100.0
           return(@monto * @interes) / @credito.num_pagos
   end
+  
+  #---- Funciones grupales------
+  
+    def capital_minimo_grupal(credito)
+      @miembros = credito.grupo.clientes.size
+      return (credito.monto / @miembros) / @credito.num_pagos.to_f
+    end
+
+    def interes_minimo_grupal(credito)
+          @miembros = credito.grupo.clientes.size
+          @monto = credito.monto
+          @interes = credito.tasa_interes / 100.0
+          return((@monto / @miembros) * @interes) / @credito.num_pagos
+    end
+
+
+
+
+
 
   def proximo_pago(credito)
           @proximo = Pago.find(:first, :conditions=>["credito_id = ? AND
@@ -259,13 +292,14 @@ class ApplicationController < ActionController::Base
            return @pagos
   end
 
-  def inserta_pagos(credito, arreglo_pagos)
+  def inserta_pagos_individuales(credito, arreglo_pagos)
          if credito.pagos.size == 0
          contador=1
          #---- Esta funcion crea los registros en la tabla pagos para tener un historial ----
             arreglo_pagos.each do |x|
                    Pago.create(:num_pago => contador,
                              :credito_id => credito.id.to_i,
+                             :cliente_id => credito.cliente_id,
                              :fecha_limite => x,
                              :capital_minimo => capital_minimo(credito),
                              :interes_minimo => interes_minimo(credito),
@@ -277,6 +311,32 @@ class ApplicationController < ActionController::Base
            return nil
          end
     end
+
+
+  def inserta_pagos_grupales(credito, arreglo_pagos)
+       if credito.pagos.size == 0
+         contador=1
+         #--- Hacemos una iteracion por todos los miembros del grupo y dividimos el total del credito ---
+         credito.grupo.clientes.each do |y|
+            arreglo_pagos.each do |x|
+                   Pago.create(:num_pago => contador,
+                             :credito_id => credito.id.to_i,
+                             :fecha_limite => x,
+                             :cliente_id => y.id.to_i,
+                             :capital_minimo => capital_minimo_grupal(credito),
+                             :interes_minimo => interes_minimo_grupal(credito),
+                             :pagado => 0,
+                             :descripcion => "Pago #{contador} de #{arreglo_pagos.size} capital minimo #{capital_minimo_grupal(credito)} ")
+                 contador+=1
+               end
+            end
+       else
+           return nil
+       end
+    end
+
+
+
 
 
     def tiene_permiso?(rol, controlador)

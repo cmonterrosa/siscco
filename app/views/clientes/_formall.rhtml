@@ -66,7 +66,7 @@
    <tr>
      <td><%= collection_select("cliente", "escolaridad_id", @escolaridades, :id, :escolaridad) %></td>
      <td> <%= collection_select("cliente", "vivienda_id", @viviendas, :id, :tipo_vivienda) %></td>
-     <td><%= collection_select("cliente", "grupo_id", $grupos, :id, :nombre)%></td>
+     <td><%= collection_select("cliente", "grupo_id", $grupos, :id, :nombre)%>&nbsp; <%=link_to 'Nuevo Grupo', :action=>"new", :controller=>"grupos"%></td>
      <td><%= collection_select("", "estado_id", $estados, :id, :estado, :prompt => '>>Estado')  %></td>
    </tr>
    <tr>
