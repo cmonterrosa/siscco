@@ -44,5 +44,13 @@ class AdministracionController < ApplicationController
     redirect_to :action => "verifica_permisos", :id => Rol.find(params[:rol])
   end
 
+  def configuracion
+    @configuracion = Configuracion.find(:first)
+  end
+
+  def actualizar_configuracion
+    actualiza_configuracion(Configuracion.find(:first), params[:configuracion])
+  end
+
 
 end

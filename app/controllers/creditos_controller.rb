@@ -80,13 +80,27 @@ class CreditosController < ApplicationController
     @fecha_inicio = Date.strptime(@credito.fecha_inicio.to_s)
     @credito.tasa_interes = Configuracion.find(:first, :select=>"tasa_interes").tasa_interes
     @credito.interes_moratorio = Configuracion.find(:first, :select=>"interes_moratorio").interes_moratorio
-    @credito.grupo = Grupo.find(1) if params[:credito][:grupo_id].nil?
+    #@credito.grupo = Grupo.find(1) if params[:credito][:grupo_id].nil?
+    
+
+
+
+
+
     @credito.fecha_fin = ultimo_pago(@fecha_inicio.year, @fecha_inicio.month, @fecha_inicio.day, params[:credito][:num_pagos], Periodo.find(params[:credito][:periodo_id]))
     #--- Validamos si la linea de fondeo tiene disponible ----
     if linea_disponible(Linea.find(params[:credito][:linea_id])).to_f >=  params[:credito][:monto].to_f
           if inserta_credito(@credito)
           #--- Insertamos el registro de los pagos que debe de realizar -----
-           inserta_pagos(@credito, calcula_pagos(@fecha_inicio.year, @fecha_inicio.month, @fecha_inicio.day, params[:credito][:num_pagos], Periodo.find(params[:credito][:periodo_id])))
+           #inserta_pagos(@credito, calcula_pagos(@fecha_inicio.year, @fecha_inicio.month, @fecha_inicio.day, params[:credito][:num_pagos], Periodo.find(params[:credito][:periodo_id])))
+               #---- Validamos si es individual o grupal ----
+                if params[:credito][:grupo_id].nil?
+                #--- Es individual -----
+                   inserta_pagos_individuales(@credito, calcula_pagos(@fecha_inicio.year, @fecha_inicio.month, @fecha_inicio.day, params[:credito][:num_pagos], Periodo.find(params[:credito][:periodo_id])))
+                else
+                   inserta_pagos_grupales(@credito, calcula_pagos(@fecha_inicio.year, @fecha_inicio.month, @fecha_inicio.day, params[:credito][:num_pagos], Periodo.find(params[:credito][:periodo_id])))
+                end
+           
            flash[:notice]="El crédito #{@credito.id} ha sido capturado"
            redirect_to :action => 'list'
           end

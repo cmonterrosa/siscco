@@ -13,6 +13,7 @@ class CreatePagos < ActiveRecord::Migration
       t.column :moratorio, :string
       t.column :pagado, :integer
       t.column :credito_id, :integer
+      t.column :cliente_id, :integer
       t.column :descripcion, :string
     end
   end

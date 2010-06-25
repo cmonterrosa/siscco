@@ -1,0 +1,29 @@
+<h2>Configuracion del Sistema</h2>
+<% form_tag :action => 'actualizar_configuracion' do %>
+
+<table>
+  <tr>
+    <th>Tasa de Interes</th>
+    <th>Interes Moratorio</th>
+    <th>Multa</th>
+  </tr>
+  <tr>
+    <td><%= text_field 'configuracion', 'tasa_interes', :onkeypress => "return CharNum(event, 'numero');"   %></td>
+    <td><%= text_field 'configuracion', 'interes_moratorio'  %></td>
+    <td><%= text_field 'configuracion', 'multa', :onkeypress => "return CharNum(event, 'numero');"    %></td>
+  </tr>
+</table>
+
+<table  class="botones">
+  <tr class="botones">
+    <th class="botones"><%= link_to 'Regresar', :action => 'index', :controller => "administracion" %></th>
+    <th class="botones">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+    <th class="botones"><%= submit_tag "Modificar", :onclick => "return comprobar();" %></th>
+  </tr>
+</table>
+<% end %>
+
+
+
+
+
