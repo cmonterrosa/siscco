@@ -13,6 +13,15 @@ class ApplicationController < ActionController::Base
   # ---  Incluimos la libreria para el acceso ---
   include LoginSystem
   model :user
+
+  #--- Incluimos la libreria para las funciones de créditos ---
+  include Creditos
+
+  @anios = rango_anios55
+  b=10
+
+
+
   #--- Incluimos la clase para generar los reportes ----
   helper :send_doc
   include SendDocHelper
