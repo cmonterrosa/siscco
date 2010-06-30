@@ -2,7 +2,7 @@
 # migrations feature of ActiveRecord to incrementally modify your database, and
 # then regenerate this schema definition.
 
-ActiveRecord::Schema.define(:version => 33) do
+ActiveRecord::Schema.define(:version => 36) do
 
   create_table "bancos", :force => true do |t|
     t.column "nombre",     :string
@@ -116,6 +116,10 @@ ActiveRecord::Schema.define(:version => 33) do
     t.column "nombre", :string
   end
 
+  create_table "jerarquias", :force => true do |t|
+    t.column "jerarquia", :string
+  end
+
   create_table "lineas", :force => true do |t|
     t.column "fondeo_id",      :integer
     t.column "cuenta_cheques", :string
@@ -123,6 +127,14 @@ ActiveRecord::Schema.define(:version => 33) do
     t.column "autorizado",     :float
     t.column "estatus",        :string
     t.column "gcnf",           :string
+  end
+
+  create_table "miembros", :force => true do |t|
+    t.column "credito_id",   :integer
+    t.column "jerarquia_id", :integer
+    t.column "cliente_id",   :integer
+    t.column "user_id",      :integer
+    t.column "fecha_hora",   :datetime
   end
 
   create_table "movimientos", :force => true do |t|
@@ -246,6 +258,15 @@ ActiveRecord::Schema.define(:version => 33) do
     t.column "eliminar",    :integer
     t.column "actualizar",  :integer
     t.column "consultar",   :integer
+  end
+
+  create_table "transferencias", :force => true do |t|
+    t.column "origen_id",     :integer
+    t.column "destino_id",    :integer
+    t.column "user_id",       :integer
+    t.column "fecha",         :date
+    t.column "monto",         :string
+    t.column "observaciones", :string
   end
 
   create_table "users", :force => true do |t|

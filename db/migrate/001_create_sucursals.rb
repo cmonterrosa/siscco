@@ -8,7 +8,7 @@ class CreateSucursals < ActiveRecord::Migration
       t.column :codigo_postal, :string
       t.column :colonia_id, :integer
       t.column :user_id, :integer
-      t.column :fecha, :date
+      t.column :fecha_hora, :datetime
      end
   end
 

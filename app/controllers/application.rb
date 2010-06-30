@@ -14,11 +14,6 @@ class ApplicationController < ActionController::Base
   include LoginSystem
   model :user
 
-  #--- Incluimos la libreria para las funciones de créditos ---
-  include Creditos
-
-  @anios = rango_anios55
-  b=10
 
 
 
@@ -49,7 +44,11 @@ class ApplicationController < ActionController::Base
   (1..52).each do |x| @semanas << x end
   $semanas = @semanas
 
+  a=Miembro.new
+  b=10
 
+  #require 'creditos'
+  
 
 
     #----------- Cambio de idioma de las fechas --------------------
@@ -179,8 +178,12 @@ class ApplicationController < ActionController::Base
   
 
       ###############################################
-       #            Funciones del crédito            #
-       ###############################################
+      #            Funciones del crédito            #
+      ###############################################
+
+
+
+
 
   def abonos(credito)
     @pagos = Pago.find(:all,

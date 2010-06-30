@@ -19,7 +19,7 @@ class AccountController < ApplicationController
       when :post
         if session['user'] = User.authenticate(params['user_login'], params['user_password'])
           flash['notice']  = "Login correcto"
-          $usuario=params['user_login'] #agregado
+          $usuario = session['user'] #agregado
           session['usuario']= params['user_login']
           redirect_to(:controller => 'home', :action => 'index')
         else

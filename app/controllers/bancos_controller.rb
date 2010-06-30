@@ -11,7 +11,7 @@ class BancosController < ApplicationController
 
   def list
     #@banco_pages, @bancos = paginate :bancos , :per_page => 10
-    @bancos = Banco.find(:all, :order => 'nombre') 
+    @bancos = Banco.find(:all, :order => 'nombre')
   end
 
   def show

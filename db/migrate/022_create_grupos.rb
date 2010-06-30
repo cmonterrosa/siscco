@@ -4,7 +4,7 @@ class CreateGrupos < ActiveRecord::Migration
       t.column :nombre, :string
       #---- columnas de auditoria ---
       t.column :user_id, :integer
-      t.column :fecha, :date
+      t.column :fecha_hora, :datetime
     end
     #--- Por defecto no pertenecen a ningun grupo ---
     Grupo.create(:nombre =>"Ninguno")

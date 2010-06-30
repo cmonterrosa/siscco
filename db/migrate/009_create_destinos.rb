@@ -3,7 +3,7 @@ class CreateDestinos < ActiveRecord::Migration
     create_table :destinos do |t|
       t.column :destino, :string
       t.column :user_id, :integer
-      t.column :fecha, :date
+         t.column :fecha_hora, :datetime
     end
 
     Destino.create(:destino=>"CAPITAL DE NEGOCIO")

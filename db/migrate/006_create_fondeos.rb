@@ -3,7 +3,7 @@ class CreateFondeos < ActiveRecord::Migration
     create_table :fondeos do |t|
       t.column :fuente, :string
       t.column :user_id, :integer
-      t.column :fecha, :date
+      t.column :fecha_hora, :datetime
     end
   end
 

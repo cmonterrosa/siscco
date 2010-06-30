@@ -4,7 +4,7 @@ class CreateRols < ActiveRecord::Migration
       t.column :nombre, :string
       #---- columnas de auditoria ---
       t.column :user_id, :integer
-      t.column :fecha, :date
+      t.column :fecha_hora, :datetime
     end
 
      Rol.create(:nombre=> "clientes")

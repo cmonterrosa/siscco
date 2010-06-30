@@ -6,7 +6,7 @@ class CreateConfiguracions < ActiveRecord::Migration
       t.column :multa, :string
       #---- columnas de auditoria ---
       t.column :user_id, :integer
-      t.column :fecha, :date
+      t.column :fecha_hora, :datetime
     end
 
     Configuracion.create(:tasa_interes=>"2.5",

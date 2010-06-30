@@ -24,7 +24,7 @@ class CreateClientes < ActiveRecord::Migration
       t.column :grupo_id, :integer, :default => 1
       #---- columnas de auditoria ---
       t.column :user_id, :integer
-      t.column :fecha, :date
+      t.column :fecha_hora, :datetime
 end
   end
 

@@ -9,7 +9,7 @@ class CreateBancos < ActiveRecord::Migration
       t.column :colonia_id, :integer
       #---- columnas de auditoria ---
       t.column :user_id, :integer
-      t.column :fecha, :date
+      t.column :fecha_hora, :datetime
     end
   end
 

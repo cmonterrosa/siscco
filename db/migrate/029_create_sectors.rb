@@ -4,7 +4,7 @@ class CreateSectors < ActiveRecord::Migration
       t.column :sector, :string
       #---- columnas de auditoria ---
       t.column :user_id, :integer
-      t.column :fecha, :date
+      t.column :fecha_hora, :datetime
     end
   end
 
