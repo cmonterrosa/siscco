@@ -444,6 +444,29 @@ INSERT INTO `grupos` VALUES (1,'Ninguno'),(2,'VILLAFLORES'),(3,'SEF'),(4,'SECH')
 UNLOCK TABLES;
 
 --
+-- Table structure for table `jerarquias`
+--
+
+DROP TABLE IF EXISTS `jerarquias`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `jerarquias` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `jerarquia` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `jerarquias`
+--
+
+LOCK TABLES `jerarquias` WRITE;
+/*!40000 ALTER TABLE `jerarquias` DISABLE KEYS */;
+/*!40000 ALTER TABLE `jerarquias` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `lineas`
 --
 
@@ -470,6 +493,34 @@ LOCK TABLES `lineas` WRITE;
 /*!40000 ALTER TABLE `lineas` DISABLE KEYS */;
 INSERT INTO `lineas` VALUES (4,1,'1111','2010-01-01',2.5e+06,'A','1');
 /*!40000 ALTER TABLE `lineas` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `miembros`
+--
+
+DROP TABLE IF EXISTS `miembros`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `miembros` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `credito_id` int(11) DEFAULT NULL,
+  `jerarquia_id` int(11) DEFAULT NULL,
+  `cliente_id` int(11) DEFAULT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  `fecha_hora` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `miembros`
+--
+
+LOCK TABLES `miembros` WRITE;
+/*!40000 ALTER TABLE `miembros` DISABLE KEYS */;
+INSERT INTO `miembros` VALUES (1,NULL,NULL,NULL,NULL,'2010-06-30 09:58:55');
+/*!40000 ALTER TABLE `miembros` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -778,7 +829,7 @@ CREATE TABLE `schema_info` (
 
 LOCK TABLES `schema_info` WRITE;
 /*!40000 ALTER TABLE `schema_info` DISABLE KEYS */;
-INSERT INTO `schema_info` VALUES (34);
+INSERT INTO `schema_info` VALUES (36);
 /*!40000 ALTER TABLE `schema_info` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -927,7 +978,7 @@ CREATE TABLE `transferencias` (
   `monto` varchar(255) DEFAULT NULL,
   `observaciones` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -936,7 +987,6 @@ CREATE TABLE `transferencias` (
 
 LOCK TABLES `transferencias` WRITE;
 /*!40000 ALTER TABLE `transferencias` DISABLE KEYS */;
-INSERT INTO `transferencias` VALUES (1,4,4,1,'2010-06-23','10000',NULL);
 /*!40000 ALTER TABLE `transferencias` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1000,4 +1050,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2010-06-25 22:27:27
+-- Dump completed on 2010-06-30 10:26:59
