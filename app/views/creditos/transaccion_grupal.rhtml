@@ -25,6 +25,7 @@
     <th>Interes minimo</th>
     <th>Moratorio</th>
     <th>Pagado</th>
+    <th>Cliente</th>
   </tr>
   <%@credito.pagos.each do |pago|%>
   <tr>
@@ -38,6 +39,7 @@
      <%else%>
         <td>NO</td>
      <%end%>
+        <td><%=pago.cliente.nombre_completo%></td>
 
   </tr>
   <%end%>
@@ -45,12 +47,12 @@
 </table>
 
 
-
+<br />
 
 <h3>Ingresar Pago</h3>
 
 <!-- Form para agregar un pago -->
-<% form_tag :action => 'abonar', :credito=>@credito, :pago_id=>@pago do -%>
+<% form_tag :action => 'abonar2', :credito=>@credito, :pago_id=>@pago do -%>
 <%= error_messages_for 'pago' %>
 <p><label for="movimiento_capital">Capital</label><br/>
 <%= text_field 'pago', 'capital'  %></p>
@@ -60,26 +62,22 @@
 
 <p><label for="movimiento_fecha">Fecha</label><br/>
 <%= date_select 'pago', 'fecha'  %></p>
+<br />
+<h3>Cliente que realiza el pago</h3>
+
+<p><%= collection_select("pago", "cliente_id", @credito.grupo.clientes, :id, :nombre_completo) %></p>
 
 <!--[eoform:movimiento]-->
 <%= submit_tag "Aplicar" %>
 <% end %>
 
 <br />
-<h3>Cliente que realiza el pago</h3>
 
+<!--
 
-
-
-
-
-
-
-checar--------
-
-<h3>Total de abonos = <%= "$%.2f" % abonos(@credito).to_s%></h3>
-<h3>Total de intereses = <%="$%.2f" % cargos(@credito).to_s%></h3>
-<h3>Total adeudado = <%="$%.2f" % total(@credito).to_s%></h3><br>
-<%=image_tag "pdf.jpg", :size =>"15x15"%>
-<%=link_to 'Imprimir Estado de Cuenta', :action => "pdf", :controller =>"informacion", :id => @credito.id %>
+<h3>Total de abonos = <= "$%.2f" % abonos(@credito).to_s%></h3>
+<h3>Total de intereses = <="$%.2f" % cargos(@credito).to_s%></h3>
+<h3>Total adeudado = <="$%.2f" % total(@credito).to_s%></h3><br>
+<=image_tag "pdf.jpg", :size =>"15x15"%>
+<=link_to 'Imprimir Estado de Cuenta', :action => "pdf", :controller =>"informacion", :id => @credito.id %>
 <!-- end -->

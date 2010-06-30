@@ -49,7 +49,8 @@ class CreditosController < ApplicationController
         @pago.update_attributes(:pagado=>1,
                            :fecha=> @fecha,
                            :capital=> params[:pago][:capital],
-                           :interes=> params[:pago][:interes])
+                           :interes=> params[:pago][:interes],
+                           :cliente_id => params[:pago][:cliente_id])
 
           flash[:notice] = "Su pago ha sido abonado"
           redirect_to :action => "transaccion_grupal", :id=>@credito
@@ -57,6 +58,39 @@ class CreditosController < ApplicationController
      end
  end
 
+
+  def abonar2 #--- pago modificado
+       @credito = Credito.find(params[:credito])
+    @num_pagos = Pago.count(:id, :conditions=>["credito_id = ? AND pagado = 1", @credito.id]).to_i
+
+    if @num_pagos == @credito.num_pagos
+      #---- Ya se liquido el credito ----
+        flash[:notice] = "Su credito ha sido liquidado"
+        redirect_to :action => "transaccion_grupal", :id=>@credito
+    else
+
+        if (params[:pago][:capital].to_f + params[:pago][:interes].to_f) < pago_minimo(@credito).to_f
+           #--- Si Se intenta pagar menos el minimo
+           flash[:notice] = "Su pago minimo es de #{pago_minimo(@credito)}"
+           redirect_to :action => "transaccion_grupal", :id=>@credito
+
+        else
+        #---- Se aplican pagos ----
+        @pago =  proximo_pago_grupal(@credito, Cliente.find(params[:pago][:cliente_id]))
+        #@pago = Pago.find(:first, params[:pago_id])
+        @fecha = Date.civil(params[:pago][:"fecha(1i)"].to_i,params[:pago][:"fecha(2i)"].to_i,params[:pago][:"fecha(3i)"].to_i)
+        cargos?(@pago, @fecha)
+        @pago.update_attributes(:pagado=>1,
+                           :fecha=> @fecha,
+                           :capital=> params[:pago][:capital],
+                           :interes=> params[:pago][:interes]
+                           )
+
+          flash[:notice] = "Su pago ha sido abonado"
+          redirect_to :action => "transaccion_grupal", :id=>@credito
+        end
+     end
+ end
 
 
 
@@ -81,16 +115,16 @@ class CreditosController < ApplicationController
     @credito.tasa_interes = Configuracion.find(:first, :select=>"tasa_interes").tasa_interes
     @credito.interes_moratorio = Configuracion.find(:first, :select=>"interes_moratorio").interes_moratorio
     #@credito.grupo = Grupo.find(1) if params[:credito][:grupo_id].nil?
-    
-
-
-
-
+    if params[:credito][:grupo_id].nil?
+      @tipo = "INDIVIDUAL"
+    else
+      @tipo = "GRUPAL"
+    end
 
     @credito.fecha_fin = ultimo_pago(@fecha_inicio.year, @fecha_inicio.month, @fecha_inicio.day, params[:credito][:num_pagos], Periodo.find(params[:credito][:periodo_id]))
     #--- Validamos si la linea de fondeo tiene disponible ----
     if linea_disponible(Linea.find(params[:credito][:linea_id])).to_f >=  params[:credito][:monto].to_f
-          if inserta_credito(@credito)
+          if inserta_credito(@credito, @tipo)
           #--- Insertamos el registro de los pagos que debe de realizar -----
            #inserta_pagos(@credito, calcula_pagos(@fecha_inicio.year, @fecha_inicio.month, @fecha_inicio.day, params[:credito][:num_pagos], Periodo.find(params[:credito][:periodo_id])))
                #---- Validamos si es individual o grupal ----
@@ -102,7 +136,19 @@ class CreditosController < ApplicationController
                 end
            
            flash[:notice]="El crédito #{@credito.id} ha sido capturado"
+<<<<<<< HEAD
+           redirect_to :action => 'list'
+        
+          else
+            
+                 flash[:notice]="El crédito no pudo ser grabado, verifique que el grupo tenga clientes asociados"
+                 redirect_to :action => 'list'
+
+
+
+=======
            redirect_to :action => 'index', :controller => 'home'
+>>>>>>> fdc829fba8d9d5d533af15e9f6baae8ca466d231
           end
     else
       flash[:notice] = "La linea no cuenta con fondos disponibles"

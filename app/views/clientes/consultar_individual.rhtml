@@ -1,0 +1,64 @@
+<h1>Estado de cuenta del Cliente</h1>
+
+<h2>Datos Personales</h2>
+
+
+<table>
+  <tr>
+    <th>RFC</th>
+    <th>Nombre</th>
+    <th>Curp</th>
+    <th>Telefono</th>
+    <th>Grupo</th>
+
+  </tr>
+
+  <tr>
+    <td><%=@cliente.rfc%></td>
+    <td><%=@cliente.nombre_completo%></td>
+    <td><%=@cliente.curp%></td>
+    <td><%=@cliente.telefono%></td>
+    <td><%=@cliente.grupo.nombre%></td>
+  </tr>
+</table>
+
+
+
+
+<h2>Pagos de los créditos Individuales para el cliente <%=@cliente.nombre_completo%></h2>
+
+<%@cliente.creditos.each  do |credito|%>
+  <h3>Credito num: <%=credito.id%></h3>
+  <h3>Monto: <%=credito.monto%></h3>
+  <h3>Fecha_inicio: <%=credito.fecha_inicio%></h3>
+  <h3>Fecha fin: <%=credito.fecha_fin%></h3>
+ <br />
+  <%credito.pagos.each do |pago|%>
+    <%if pago.pagado == 1 && pago.cliente_id == @cliente.id%>
+   <h2>Detalle de los pagos</h2><br />
+        <table>
+          <tr>
+            <th>Num pago</th>
+            <th>Capital</th>
+            <th>Interes</th>
+            <th>Cliente</th>
+          </tr>
+          <tr>
+            <td><%=pago.num_pago%></td>
+            <td><%=pago.capital%></td>
+            <td><%=pago.interes%></td>
+            <td><%=pago.cliente.nombre_completo%></td>
+          </tr>
+        </table>
+    <%end%>
+  <%end%>
+<%end%>
+
+
+
+
+
+
+
+
+

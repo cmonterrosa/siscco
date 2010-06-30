@@ -1,8 +1,6 @@
-<h1>Estado de cuenta del Grupo <%=@grupo.nombre%></h1>
+<h1>Estado de cuenta del Grupo <%=@grupo.nombre%></h1><br />
 
-<h2>Miembros del grupo</h2>
-
-
+<h2>Miembros del grupo:</h2>
 <table>
   <tr>
     <th>RFC</th>
@@ -10,9 +8,8 @@
     <th>Curp</th>
     <th>Telefono</th>
     <th>Grupo</th>
-
   </tr>
-<%@grupo.clientes.each do |cliente|%>
+  <%@grupo.clientes.each do |cliente|%>
   <tr>
     <td><%=cliente.rfc%></td>
     <td><%=cliente.nombre_completo%></td>
@@ -20,9 +17,38 @@
     <td><%=cliente.telefono%></td>
     <td><%=cliente.grupo.nombre%></td>
   </tr>
- <%end%>
+  <%end%>
 </table>
 
+<h2>Detalle de los créditos:</h2>
+<%@grupo.creditos.each  do |credito|%>
+  <h3>Credito num: <%=credito.id%></h3>
+  <h3>Monto: <%=credito.monto%></h3>
+  <h3>Fecha_inicio: <%=credito.fecha_inicio%></h3>
+  <h3>Fecha fin: <%=credito.fecha_fin%></h3>
+  <br />
+  <h2>Detalle de los pagos:</h2>
+    <table>
+      <tr>
+        <th>Num pago</th>
+        <th>Capital</th>
+        <th>Interes</th>
+        <th>Cliente</th>
+      </tr>
+      <%credito.pagos.each do |pago|%>
+         <%if pago.pagado == 1%>
+      <tr>
+        <td><%=pago.num_pago%></td>
+        <td><%=pago.capital%></td>
+        <td><%=pago.interes%></td>
+        <td><%=pago.cliente.nombre_completo%></td>
+      </tr>
+         <%end%>
+      <%end%>
+    </table>
+<%end%>
+
+<!--
 <h2>Datos de los créditos</h2>
 
 <table>
@@ -36,15 +62,16 @@
     <th>Fecha Fin</th>
   </tr>
 
-  <%@grupo.creditos.each do |credito|%>
+  <@grupo.creditos.each do |credito|%>
    <tr>
-    <td><%=credito.id%></td>
-    <td><%=credito.monto%></td>
-    <td><%=abonos(credito)%></td>
-    <td><%=cargos(credito)%></td>
-    <td><%=total(credito)%></td>
-    <td><%=credito.fecha_inicio%></td>
-    <td><%=credito.fecha_fin%></td>
+    <td><=credito.id%></td>
+    <td><=credito.monto%></td>
+    <td><=abonos(credito)%></td>
+    <td><=cargos(credito)%></td>
+    <td><=total(credito)%></td>
+    <td><=credito.fecha_inicio%></td>
+    <td><=credito.fecha_fin%></td>
   </tr>
- <%end%>
+ <end%>
  </table>
+-->

@@ -22,6 +22,50 @@
   </tr>
 </table>
 
+
+
+
+<h2>Pagos de los créditos Grupales para el cliente <%=@cliente.nombre_completo%></h2>
+
+<%@cliente.grupo.creditos.each  do |credito|%>
+  <h3>Credito num: <%=credito.id%></h3>
+  <h3>Monto: <%=credito.monto%></h3>
+  <h3>Fecha_inicio: <%=credito.fecha_inicio%></h3>
+  <h3>Fecha fin: <%=credito.fecha_fin%></h3>
+ <br />
+  <%credito.pagos.each do |pago|%>
+    <%if pago.pagado == 1 && pago.cliente_id == @cliente.id%>
+   <h2>Detalle de los pagos</h2><br />
+        <table>
+          <tr>
+            <th>Num pago</th>
+            <th>Capital</th>
+            <th>Interes</th>
+            <th>Cliente</th>
+          </tr>
+          <tr>
+            <td><%=pago.num_pago%></td>
+            <td><%=pago.capital%></td>
+            <td><%=pago.interes%></td>
+            <td><%=pago.cliente.nombre_completo%></td>
+          </tr>
+        </table>
+    <%end%>
+  <%end%>
+<%end%>
+
+
+
+
+
+
+
+
+
+
+
+
+
 <h2>Datos de los créditos</h2>
 
 <table>

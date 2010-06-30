@@ -58,11 +58,21 @@ class ApplicationController < ActionController::Base
 
   #---- Validaciones para realizar operaciones con la BD ------
    #--- Verificamos que el usuario tenga acceso a eliminar registro -----
-      def inserta_credito(credito)
+      def inserta_credito(credito, tipo)
         begin
-          credito.save!
-          return true
-        rescue ActiveRecord::RecordInvalid => invalid
+          if tipo == "GRUPAL"
+             if credito.grupo.clientes.size >= 2
+                credito.save!
+                return true
+             else
+               return false
+             end
+          else
+            #--- Es individual ----
+            credito.save!
+            return true
+          end
+      rescue ActiveRecord::RecordInvalid => invalid
           return false
         end
       end
@@ -244,6 +254,16 @@ class ApplicationController < ActionController::Base
           return @proximo
   end
 
+  def proximo_pago_grupal(credito, cliente)
+           @proximo = Pago.find(:first, :conditions=>["credito_id = ? AND
+                                                   pagado=0 AND cliente_id = ?", credito.id, cliente.id],
+                                                   :order=>"fecha_limite")
+          return @proximo
+  end
+
+
+
+
   def ultimo_pago(anio, mes, dia, num_pagos, periodo)
         @dias = num_pagos.to_i * periodo.dias.to_i
            @f_ini = Date.new(y=anio.to_i,m=mes.to_i,d=dia.to_i)
@@ -315,9 +335,9 @@ class ApplicationController < ActionController::Base
 
   def inserta_pagos_grupales(credito, arreglo_pagos)
        if credito.pagos.size == 0
-         contador=1
          #--- Hacemos una iteracion por todos los miembros del grupo y dividimos el total del credito ---
          credito.grupo.clientes.each do |y|
+           contador=1
             arreglo_pagos.each do |x|
                    Pago.create(:num_pago => contador,
                              :credito_id => credito.id.to_i,

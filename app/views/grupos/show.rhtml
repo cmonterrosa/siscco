@@ -5,6 +5,19 @@
   <b><%= column.human_name %>:</b> <%=h @grupo.send(column.name) %>
 </p>
 <% end %>
+
+<br/>
+<br />
+<h1>Integrantes</h1><br />
+
+<%@grupo.clientes.each do |cliente|%>
+  <h3><%=cliente.nombre_completo%></h3>
+  <%end%>
+
+
+
+
+
 <br />
 <%#= button_to 'Editar', :action => 'edit', :id => @grupo %>
 <%= link_to 'Regresar', :action => 'list' %>

@@ -2,12 +2,12 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/1">
         <file>
-            <url>app/views/bancos/list.rhtml</url>
-            <line>17</line>
-        </file>
-        <file>
             <url>app/views/combos/_lineas.rhtml</url>
             <line>0</line>
+        </file>
+        <file>
+            <url>app/views/bancos/list.rhtml</url>
+            <line>17</line>
         </file>
     </editor-bookmarks>
 </project-private>
