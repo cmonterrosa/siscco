@@ -5,6 +5,9 @@ class CreateUsers < ActiveRecord::Migration
   t.column :password, :string, :default => nil
   t.column :nombre, :string
   t.column :rol_id, :integer, :default => 1
+  #---- columnas de auditoria ---
+  t.column :user_id, :integer
+  t.column :fecha, :date
 end
 
    User.create(:login => 'administrador',

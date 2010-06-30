@@ -4,6 +4,8 @@ class CreateEjidos < ActiveRecord::Migration
       t.column :ejido, :string
       t.column :clave_inegi, :string
       t.column :municipio_id, :integer
+      t.column :user_id, :integer
+      t.column :fecha, :date
     end
   end
 

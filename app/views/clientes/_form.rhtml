@@ -51,7 +51,9 @@
 
    </tr>
    <tr>
-     <td><%= text_field 'cliente', 'tipo_persona', :onkeypress => "return CharNum(event, 'letra');"  %></td>
+     <!--
+     <td><= text_field 'cliente', 'tipo_persona', :onkeypress => "return CharNum(event, 'letra');"  %></td> -->
+     <td><%= select("cliente", "tipo_persona", ["FISICA", "MORAL", "FISICA CON ACTIVIDAD EMPRESARIAL"]) %></td>
      <td><%= text_field 'cliente', 'telefono', :onkeypress => "return CharNum(event, 'numero');"  %></td>
      <td><%= text_field 'cliente', 'email'  %></td>
      <td><%= collection_select("cliente", "civil_id", @civiles, :id, :civil) %></td>

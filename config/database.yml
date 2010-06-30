@@ -15,13 +15,8 @@ development:
   adapter: mysql
   database: ultima
   username: root
-<<<<<<< HEAD
-  password: rafa
-  #password: solaris
-=======
-  #password: rajuijui
   password: solaris
->>>>>>> e92ada70a21a4ce84b996e089f3d2bc83065bb31
+  #password: rafa
   #socket:   /var/run/mysqld/mysqld.sock
   socket: /tmp/mysql.sock
 

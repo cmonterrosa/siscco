@@ -12,6 +12,9 @@ class CreateProductos < ActiveRecord::Migration
       #--- relacion con otras tablas ---
       t.column :periodo_id, :integer
       t.column :grupo_id, :integer
+      #---- columnas de auditoria ---
+      t.column :user_id, :integer
+      t.column :fecha, :date
     end
   end
 

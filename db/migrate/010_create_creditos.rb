@@ -18,6 +18,9 @@ class CreateCreditos < ActiveRecord::Migration
       t.column :grupo_id, :integer
       t.column :periodo_id, :integer
       t.column :status, :integer
+      #---- columnas de auditoria ---
+      t.column :user_id, :integer
+      t.column :fecha, :date
     end
   end
 

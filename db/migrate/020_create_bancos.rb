@@ -7,6 +7,9 @@ class CreateBancos < ActiveRecord::Migration
       t.column :direccion, :string
       t.column :telefono, :string
       t.column :colonia_id, :integer
+      #---- columnas de auditoria ---
+      t.column :user_id, :integer
+      t.column :fecha, :date
     end
   end
 

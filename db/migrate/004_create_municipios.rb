@@ -4,6 +4,8 @@ class CreateMunicipios < ActiveRecord::Migration
       t.column :municipio, :string
       t.column :clave_inegi, :string
       t.column :estado_id, :integer
+      t.column :user_id, :integer
+      t.column :fecha, :date
     end
   end
 

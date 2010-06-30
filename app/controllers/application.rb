@@ -41,6 +41,8 @@ class ApplicationController < ActionController::Base
   $semanas = @semanas
 
 
+
+
     #----------- Cambio de idioma de las fechas --------------------
   Date::MONTHNAMES = [nil] + %w(Enero Febrero Marzo Abril Mayo Junio Julio Agosto Septiembre Octubre Noviembre Diciembre)
   Date::DAYNAMES = %w(Domingo Lunes Martes Miercoles Jueves Viernes Sábado)

@@ -2,6 +2,8 @@ class CreateDestinos < ActiveRecord::Migration
   def self.up
     create_table :destinos do |t|
       t.column :destino, :string
+      t.column :user_id, :integer
+      t.column :fecha, :date
     end
 
     Destino.create(:destino=>"CAPITAL DE NEGOCIO")

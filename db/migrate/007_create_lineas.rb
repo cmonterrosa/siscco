@@ -7,6 +7,8 @@ class CreateLineas < ActiveRecord::Migration
       t.column :estatus, :string
       t.column :gcnf, :string
       t.column :fondeo_id, :integer
+      t.column :user_id, :integer
+      t.column :fecha, :date
 #      t.column :banco_id, :integer
     end
   end
