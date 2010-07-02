@@ -23,13 +23,16 @@ class BancosController < ApplicationController
   end
 
   def create
-    @banco = Banco.new(params[:banco])
-    if @banco.save
-      flash[:notice] = 'Registro creado satisfactoriamente.'
-      redirect_to :action => 'list'
-    else
-      render :action => 'new'
-    end
+
+   inserta_registro(Banco.new(params[:banco]), 'Registro creado satisfactoriamente.')
+
+#    @banco = Banco.new(params[:banco])
+#    if @banco.save
+#      flash[:notice] = 'Registro creado satisfactoriamente.'
+#      redirect_to :action => 'list'
+#    else
+#      render :action => 'new'
+#    end
   end
 
   def edit

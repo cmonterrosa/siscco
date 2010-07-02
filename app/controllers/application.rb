@@ -44,10 +44,13 @@ class ApplicationController < ActionController::Base
   (1..52).each do |x| @semanas << x end
   $semanas = @semanas
 
-  a=Miembro.new
-  b=10
+    #--- Conversion de ISO a UTF-8 para los reportes ---
+    def to_iso(texto)
+      c = Iconv.new('ISO-8859-15//IGNORE//TRANSLIT', 'UTF-8')
+      iso = c.iconv(texto)
+      return iso
+    end
 
-  #require 'creditos'
   
 
 
@@ -92,6 +95,7 @@ class ApplicationController < ActionController::Base
 
   def inserta_registro(registro, mensaje)
     begin
+      #registro.fecha_hora = Time.now
       registro.save!
         flash[:notice]=mensaje
         redirect_to :action => 'list', :controller => "#{params[:controller]}"
