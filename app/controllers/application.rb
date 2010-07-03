@@ -44,6 +44,9 @@ class ApplicationController < ActionController::Base
   (1..52).each do |x| @semanas << x end
   $semanas = @semanas
 
+  #----- carga la variable global de configuracion -----
+  CONFIGURACION = Configuracion.find(:first, :conditions => "activo = 1")
+
     #--- Conversion de ISO a UTF-8 para los reportes ---
     def to_iso(texto)
       c = Iconv.new('ISO-8859-15//IGNORE//TRANSLIT', 'UTF-8')
@@ -75,6 +78,7 @@ class ApplicationController < ActionController::Base
         begin
           if tipo == "GRUPAL"
              if credito.grupo.clientes.size >= 2
+                credito.user_id = session['user'].id
                 credito.save!
                 return true
              else
@@ -95,7 +99,8 @@ class ApplicationController < ActionController::Base
 
   def inserta_registro(registro, mensaje)
     begin
-      #registro.fecha_hora = Time.now
+      registro.fecha_hora = Time.now
+      registro.user_id = session['user'].id
       registro.save!
         flash[:notice]=mensaje
         redirect_to :action => 'list', :controller => "#{params[:controller]}"
@@ -107,6 +112,8 @@ class ApplicationController < ActionController::Base
 
   def actualiza_registro(registro, parametros)
     begin
+      registro.fecha_hora = Time.now
+      registro.user_id = session['user'].id
       registro.update_attributes(parametros)
       flash[:notice] = 'Registro actualizado satisfactoriamente'
       redirect_to :controller => params[:controller], :action => 'show', :id => registro
@@ -121,6 +128,8 @@ class ApplicationController < ActionController::Base
 
     def actualiza_configuracion(registro, parametros)
     begin
+      registro.fecha_hora = Time.now
+      registro.user_id = session['user'].id
       registro.update_attributes(parametros)
       flash[:notice] = 'Configuracion actualizada satisfactoriamente'
       redirect_to :controller => "administracion", :action => 'index'

@@ -1,8 +1,8 @@
--- MySQL dump 10.13  Distrib 5.1.42, for apple-darwin10.2.0 (i386)
+-- MySQL dump 10.13  Distrib 5.1.35, for apple-darwin9.5.0 (i386)
 --
 -- Host: localhost    Database: ultima
 -- ------------------------------------------------------
--- Server version	5.1.42
+-- Server version	5.1.35
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -30,6 +30,8 @@ CREATE TABLE `bancos` (
   `direccion` varchar(255) DEFAULT NULL,
   `telefono` varchar(255) DEFAULT NULL,
   `colonia_id` int(11) DEFAULT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  `fecha_hora` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -40,7 +42,7 @@ CREATE TABLE `bancos` (
 
 LOCK TABLES `bancos` WRITE;
 /*!40000 ALTER TABLE `bancos` DISABLE KEYS */;
-INSERT INTO `bancos` VALUES (1,'BANORTE','444',NULL,NULL,NULL,NULL),(2,'BANCOMER','55',NULL,NULL,NULL,NULL),(3,'SANTANDER','666',NULL,NULL,NULL,NULL);
+INSERT INTO `bancos` VALUES (1,'BANORTE','444',NULL,NULL,NULL,NULL,NULL,NULL),(2,'BANCOMER','55',NULL,NULL,NULL,NULL,NULL,NULL),(3,'SANTANDER','666',NULL,NULL,NULL,NULL,NULL,NULL);
 /*!40000 ALTER TABLE `bancos` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -97,6 +99,8 @@ CREATE TABLE `clientes` (
   `vivienda_id` int(11) DEFAULT NULL,
   `colonia_id` int(11) DEFAULT NULL,
   `grupo_id` int(11) DEFAULT '1',
+  `user_id` int(11) DEFAULT NULL,
+  `fecha_hora` date DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -107,7 +111,7 @@ CREATE TABLE `clientes` (
 
 LOCK TABLES `clientes` WRITE;
 /*!40000 ALTER TABLE `clientes` DISABLE KEYS */;
-INSERT INTO `clientes` VALUES (1,'monterrosa','loopez','carlos','2010-06-24','MOLC8509121S0','M','M','M','MEXICANA','PRIVADA','M','M','M','99','MMM',1,1,3,10,5),(2,'rafa','r','r','2010-06-24','r','r','r','M','MEXICANA','PRIVADA','moral','r','2900','378738','jfjfjf',1,1,1,3,5);
+INSERT INTO `clientes` VALUES (1,'monterrosa','loopez','carlos','2010-06-24','MOLC8509121S0','M','M','M','MEXICANA','PRIVADA','M','M','M','99','MMM',1,1,3,10,5,NULL,NULL),(2,'rafa','r','r','2010-06-24','r','r','r','M','MEXICANA','PRIVADA','moral','r','2900','378738','jfjfjf',1,1,1,3,5,NULL,NULL);
 /*!40000 ALTER TABLE `clientes` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -149,6 +153,9 @@ CREATE TABLE `configuracion` (
   `tasa_interes` varchar(255) DEFAULT NULL,
   `interes_moratorio` varchar(255) DEFAULT NULL,
   `multa` varchar(255) DEFAULT NULL,
+  `nombre_empresa` varchar(255) DEFAULT NULL,
+  `direccion` varchar(255) DEFAULT NULL,
+  `ciudad` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -159,7 +166,7 @@ CREATE TABLE `configuracion` (
 
 LOCK TABLES `configuracion` WRITE;
 /*!40000 ALTER TABLE `configuracion` DISABLE KEYS */;
-INSERT INTO `configuracion` VALUES (1,'3.0','2.5','0');
+INSERT INTO `configuracion` VALUES (1,'3.0','2.5','0','SOCAMA CENTRO FRAYLESCA, A.C','13a Avenida Sur Poniente Nu?mero 640, Barrio San Francisco','Tuxtla Gutie?rrez, Chiapas');
 /*!40000 ALTER TABLE `configuracion` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -187,8 +194,10 @@ CREATE TABLE `creditos` (
   `grupo_id` int(11) DEFAULT NULL,
   `periodo_id` int(11) DEFAULT NULL,
   `status` int(11) DEFAULT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  `fecha_hora` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -197,7 +206,7 @@ CREATE TABLE `creditos` (
 
 LOCK TABLES `creditos` WRITE;
 /*!40000 ALTER TABLE `creditos` DISABLE KEYS */;
-INSERT INTO `creditos` VALUES (1,'2010-06-25','2010-07-01','4444',5000,3,'2.5',5,4,1,NULL,1,1,5,1,0),(2,'2010-06-25','2010-06-26','5555',1000,3,'2.5',1,4,1,2,1,1,NULL,1,0);
+INSERT INTO `creditos` VALUES (1,'2010-06-25','2010-07-01','4444',5000,3,'2.5',5,4,1,NULL,1,1,5,1,0,NULL,NULL),(2,'2010-06-25','2010-06-26','5555',1000,3,'2.5',1,4,1,2,1,1,NULL,1,0,NULL,NULL),(3,'2010-07-02','2010-07-03','455555533',230000,3,'2.5',1,4,2,NULL,1,1,5,1,0,1,'2010-07-02 19:59:31'),(4,'2010-07-02','2010-07-17','4444',30000,3,'2.5',1,4,1,NULL,1,1,5,3,0,1,'2010-07-02 20:15:23');
 /*!40000 ALTER TABLE `creditos` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -630,7 +639,7 @@ CREATE TABLE `pagos` (
   `descripcion` varchar(255) DEFAULT NULL,
   `cliente_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -639,7 +648,7 @@ CREATE TABLE `pagos` (
 
 LOCK TABLES `pagos` WRITE;
 /*!40000 ALTER TABLE `pagos` DISABLE KEYS */;
-INSERT INTO `pagos` VALUES (1,1,'2010-06-26','500.0','15.0','2010-06-25','500','15',NULL,1,1,'Pago 1 de 5 capital minimo 500.0 ',1),(2,2,'2010-06-28','500.0','15.0',NULL,NULL,NULL,NULL,0,1,'Pago 2 de 5 capital minimo 500.0 ',1),(3,3,'2010-06-29','500.0','15.0',NULL,NULL,NULL,NULL,0,1,'Pago 3 de 5 capital minimo 500.0 ',1),(4,4,'2010-06-30','500.0','15.0',NULL,NULL,NULL,NULL,0,1,'Pago 4 de 5 capital minimo 500.0 ',1),(5,5,'2010-07-01','500.0','15.0',NULL,NULL,NULL,NULL,0,1,'Pago 5 de 5 capital minimo 500.0 ',1),(6,1,'2010-06-26','500.0','15.0','2010-06-25','500','15',NULL,1,1,'Pago 1 de 5 capital minimo 500.0 ',2),(7,2,'2010-06-28','500.0','15.0','2010-06-25','500','15',NULL,1,1,'Pago 2 de 5 capital minimo 500.0 ',2),(8,3,'2010-06-29','500.0','15.0',NULL,NULL,NULL,NULL,0,1,'Pago 3 de 5 capital minimo 500.0 ',2),(9,4,'2010-06-30','500.0','15.0',NULL,NULL,NULL,NULL,0,1,'Pago 4 de 5 capital minimo 500.0 ',2),(10,5,'2010-07-01','500.0','15.0',NULL,NULL,NULL,NULL,0,1,'Pago 5 de 5 capital minimo 500.0 ',2),(11,1,'2010-06-26','1000.0','30.0',NULL,NULL,NULL,NULL,0,2,'Pago 1 de 1 capital minimo 1000.0 ',2);
+INSERT INTO `pagos` VALUES (1,1,'2010-06-26','500.0','15.0','2010-06-25','500','15',NULL,1,1,'Pago 1 de 5 capital minimo 500.0 ',1),(2,2,'2010-06-28','500.0','15.0',NULL,NULL,NULL,NULL,0,1,'Pago 2 de 5 capital minimo 500.0 ',1),(3,3,'2010-06-29','500.0','15.0',NULL,NULL,NULL,NULL,0,1,'Pago 3 de 5 capital minimo 500.0 ',1),(4,4,'2010-06-30','500.0','15.0',NULL,NULL,NULL,NULL,0,1,'Pago 4 de 5 capital minimo 500.0 ',1),(5,5,'2010-07-01','500.0','15.0',NULL,NULL,NULL,NULL,0,1,'Pago 5 de 5 capital minimo 500.0 ',1),(6,1,'2010-06-26','500.0','15.0','2010-06-25','500','15',NULL,1,1,'Pago 1 de 5 capital minimo 500.0 ',2),(7,2,'2010-06-28','500.0','15.0','2010-06-25','500','15',NULL,1,1,'Pago 2 de 5 capital minimo 500.0 ',2),(8,3,'2010-06-29','500.0','15.0',NULL,NULL,NULL,NULL,0,1,'Pago 3 de 5 capital minimo 500.0 ',2),(9,4,'2010-06-30','500.0','15.0',NULL,NULL,NULL,NULL,0,1,'Pago 4 de 5 capital minimo 500.0 ',2),(10,5,'2010-07-01','500.0','15.0',NULL,NULL,NULL,NULL,0,1,'Pago 5 de 5 capital minimo 500.0 ',2),(11,1,'2010-06-26','1000.0','30.0',NULL,NULL,NULL,NULL,0,2,'Pago 1 de 1 capital minimo 1000.0 ',2),(12,1,'2010-07-03','115000.0','3450.0',NULL,NULL,NULL,NULL,0,3,'Pago 1 de 1 capital minimo 115000.0 ',1),(13,1,'2010-07-03','115000.0','3450.0',NULL,NULL,NULL,NULL,0,3,'Pago 1 de 1 capital minimo 115000.0 ',2),(14,1,'2010-07-17','15000.0','450.0',NULL,NULL,NULL,NULL,0,4,'Pago 1 de 1 capital minimo 15000.0 ',1),(15,1,'2010-07-17','15000.0','450.0',NULL,NULL,NULL,NULL,0,4,'Pago 1 de 1 capital minimo 15000.0 ',2);
 /*!40000 ALTER TABLE `pagos` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1050,4 +1059,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2010-06-30 10:26:59
+-- Dump completed on 2010-07-03  3:50:24

@@ -103,4 +103,14 @@ En lo relativo a la interpretación, cumplimiento o requerimiento judicial de la
     end
 
 
+    def tabla_pagos
+
+    end
+
+    def reglamento
+      
+    end
+
+
+
 end

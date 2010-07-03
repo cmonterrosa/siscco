@@ -4,6 +4,9 @@ class CreateConfiguracions < ActiveRecord::Migration
       t.column :tasa_interes, :string
       t.column :interes_moratorio, :string
       t.column :multa, :string
+      t.column :nombre_empresa, :string
+      t.column :direccion, :string
+      t.column :telefono, :string
       #---- columnas de auditoria ---
       t.column :user_id, :integer
       t.column :fecha_hora, :datetime

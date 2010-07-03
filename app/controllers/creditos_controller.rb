@@ -136,19 +136,11 @@ class CreditosController < ApplicationController
                 end
            
            flash[:notice]="El crédito #{@credito.id} ha sido capturado"
-<<<<<<< HEAD
            redirect_to :action => 'list'
         
           else
-            
-                 flash[:notice]="El crédito no pudo ser grabado, verifique que el grupo tenga clientes asociados"
-                 redirect_to :action => 'list'
-
-
-
-=======
-           redirect_to :action => 'index', :controller => 'home'
->>>>>>> fdc829fba8d9d5d533af15e9f6baae8ca466d231
+                flash[:notice]="El crédito no pudo ser grabado, verifique que el grupo tenga clientes asociados"
+                redirect_to :action => 'list'
           end
     else
       flash[:notice] = "La linea no cuenta con fondos disponibles"
