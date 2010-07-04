@@ -45,7 +45,11 @@ class ApplicationController < ActionController::Base
   $semanas = @semanas
 
   #----- carga la variable global de configuracion -----
-  CONFIGURACION = Configuracion.find(:first, :conditions => "activo = 1")
+  CIUDAD_EMPRESA = "Tuxtla Gutiérrez, Chiapas"
+  NOMBRE_EMPRESA = "SOCAMA CENTRO Y FRAYLESCA S.A DE C.V."
+  DIRECCION_EMPRESA = "13a Avenida Sur Poniente Número 640, Barrio San Francisco"
+  TELEFONO_EMPRESA = "9616112840"
+  
 
     #--- Conversion de ISO a UTF-8 para los reportes ---
     def to_iso(texto)
@@ -223,6 +227,21 @@ class ApplicationController < ActionController::Base
     @total =  (credito.monto * (credito.tasa_interes / 100.0)) + credito.monto
     return @total - abonos(credito)
  end
+
+#--- Esta funcion la mandamos a llamar del reporte -----
+  def pago_minimo_informativo(credito)
+     pago = Pago.find(:first, :conditions => ["credito_id = ?", credito.id])
+     return pago.capital_minimo.to_f + pago.interes_minimo.to_f
+  end
+
+  def total_adeudado_por_persona(credito)
+    #--- dividimos el total entre el numero de personas -----
+    #@total = credito.monto.to_f + (credito.monto * ( credito.tasa_interes/100.0))
+    @num_personas = credito.grupo.clientes.size
+    @interes = Pago.sum(:interes_minimo, :conditions=>["credito_id = ?", credito.id]).to_f / @num_personas.to_f
+    @capital = Pago.sum(:capital_minimo, :conditions=>["credito_id = ?", credito.id]).to_f / @num_personas.to_f
+    return @interes + @capital
+  end
 
 
 
@@ -429,8 +448,8 @@ class ApplicationController < ActionController::Base
 
 
 
-
-
  # Scrub sensitive parameters from your log
    filter_parameter_logging :password
 end
+
+
