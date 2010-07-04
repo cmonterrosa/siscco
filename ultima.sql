@@ -156,6 +156,7 @@ CREATE TABLE `configuracion` (
   `nombre_empresa` varchar(255) DEFAULT NULL,
   `direccion` varchar(255) DEFAULT NULL,
   `ciudad` varchar(255) DEFAULT NULL,
+  `activo` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -166,7 +167,7 @@ CREATE TABLE `configuracion` (
 
 LOCK TABLES `configuracion` WRITE;
 /*!40000 ALTER TABLE `configuracion` DISABLE KEYS */;
-INSERT INTO `configuracion` VALUES (1,'3.0','2.5','0','SOCAMA CENTRO FRAYLESCA, A.C','13a Avenida Sur Poniente Nu?mero 640, Barrio San Francisco','Tuxtla Gutie?rrez, Chiapas');
+INSERT INTO `configuracion` VALUES (1,'3.0','2.5','0','SOCAMA CENTRO FRAYLESCA, A.C','13a Avenida Sur Poniente Nu?mero 640, Barrio San Francisco','Tuxtla Gutie?rrez, Chiapas',1);
 /*!40000 ALTER TABLE `configuracion` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -721,7 +722,6 @@ CREATE TABLE `productos` (
   `iva_multa` float DEFAULT NULL,
   `garantia` varchar(255) DEFAULT NULL,
   `periodo_id` int(11) DEFAULT NULL,
-  `grupo_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -1059,4 +1059,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2010-07-03  3:50:24
+-- Dump completed on 2010-07-04 15:57:07
