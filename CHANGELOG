@@ -1,5 +1,9 @@
 2 de julio de 2010
 
-La ultima modificacion fue agregar a unos campos al archivo ultima.sql para poder llevar a cabo la insercion de los campos user_id y fecha_hora. 
-Hay que empezar a trabajar con los reportes, te reenvio a tu correo los reportesnecesitamos tambien que cuando se de de alra un nuevo credito este pueda seleccionar quien es el presidente, tesorero, vocal del grupo.
-Falta tambien vincular el credito con el producto, en el producto hay que ir a traer el numero de pagos, la fecha de inicio y de fin etc...
+La ultima modificacion fue agregar a unos campos al archivo ultima.sql
+para poder llevar a cabo la insercion de los campos user_id y fecha_hora. 
+Hay que empezar a trabajar con los reportes, te reenvio a tu correo
+los reportes necesitamos tambien que cuando se de de alra un nuevo credito
+este pueda seleccionar quien es el presidente, tesorero, vocal del grupo.
+Falta tambien vincular el credito con el producto, en el producto hay que
+ir a traer el numero de pagos, la fecha de inicio y de fin etc...
