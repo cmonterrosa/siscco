@@ -6,6 +6,7 @@ class Credito < ActiveRecord::Base
   belongs_to :promotor
   belongs_to :grupo
   belongs_to :linea
+  belongs_to :banco
   has_many :movimientos
   has_many :referencias
   has_many :pagos
