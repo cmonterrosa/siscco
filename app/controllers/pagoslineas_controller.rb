@@ -21,13 +21,7 @@ class PagoslineasController < ApplicationController
   end
 
   def create
-    @pagoslinea = Pagoslinea.new(params[:pagoslinea])
-    if @pagoslinea.save
-      flash[:notice] = 'Pagoslinea was successfully created.'
-      redirect_to :action => 'list'
-    else
-      render :action => 'new'
-    end
+    inserta_registro(Pagoslinea.new(params[:pagoslinea]), 'Registro creado satisfactoriamente')
   end
 
   def edit
@@ -35,13 +29,7 @@ class PagoslineasController < ApplicationController
   end
 
   def update
-    @pagoslinea = Pagoslinea.find(params[:id])
-    if @pagoslinea.update_attributes(params[:pagoslinea])
-      flash[:notice] = 'Pagoslinea was successfully updated.'
-      redirect_to :action => 'show', :id => @pagoslinea
-    else
-      render :action => 'edit'
-    end
+    actualiza_registro(Pagoslinea.find(params[:id]), params[:pagoslinea])
   end
 
   def destroy

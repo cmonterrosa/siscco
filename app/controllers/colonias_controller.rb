@@ -23,13 +23,14 @@ class ColoniasController < ApplicationController
   end
 
   def create
-    @colonia = Colonia.new(params[:colonia])
-    if @colonia.save
-      flash[:notice] = 'Registro creado satisfactoriamente.'
-      redirect_to :action => 'list'
-    else
-      render :action => 'new'
-    end
+    inserta_registro(Colonia.new(params[:colonia]), 'Registro creado satisfactoriamente')
+#    @colonia = Colonia.new(params[:colonia])
+#    if @colonia.save
+#      flash[:notice] = 'Registro creado satisfactoriamente.'
+#      redirect_to :action => 'list'
+#    else
+#      render :action => 'new'
+#    end
   end
 
   def edit
@@ -37,13 +38,14 @@ class ColoniasController < ApplicationController
   end
 
   def update
-    @colonia = Colonia.find(params[:id])
-    if @colonia.update_attributes(params[:colonia])
-      flash[:notice] = 'Registro actualizado.'
-      redirect_to :action => 'show', :id => @colonia
-    else
-      render :action => 'edit'
-    end
+    actualiza_registro(Colonia.fin(params[:id]), params[:colonia])
+#    @colonia = Colonia.find(params[:id])
+#    if @colonia.update_attributes(params[:colonia])
+#      flash[:notice] = 'Registro actualizado.'
+#      redirect_to :action => 'show', :id => @colonia
+#    else
+#      render :action => 'edit'
+#    end
   end
 
   def destroy

@@ -26,13 +26,7 @@ class EjidosController < ApplicationController
   end
 
   def create
-    @ejido = Ejido.new(params[:ejido])
-    if @ejido.save
-      flash[:notice] = 'Registro creado satisfactoriamente.'
-      redirect_to :action => 'list'
-    else
-      render :action => 'new'
-    end
+    inserta_registro(Ejido.new(params[:ejido]), 'Registro creado satisfactoriamente')
   end
 
   def edit
@@ -40,13 +34,7 @@ class EjidosController < ApplicationController
   end
 
   def update
-    @ejido = Ejido.find(params[:id])
-    if @ejido.update_attributes(params[:ejido])
-      flash[:notice] = 'Registro actualizado.'
-      redirect_to :action => 'show', :id => @ejido
-    else
-      render :action => 'edit'
-    end
+    actualiza_registro(Ejido.fin(params[:id]), params[:ejido])
   end
 
   def destroy

@@ -23,13 +23,7 @@ class MunicipiosController < ApplicationController
   end
 
   def create
-    @municipio = Municipio.new(params[:municipio])
-    if @municipio.save
-      flash[:notice] = 'Registro creado satisfactoriamente.'
-      redirect_to :action => 'list'
-    else
-      render :action => 'new'
-    end
+    inserta_registro(Municipio.new(params[:municipio]), 'Registro creado satisfactoriamente')
   end
 
   def edit
@@ -37,13 +31,7 @@ class MunicipiosController < ApplicationController
   end
 
   def update
-    @municipio = Municipio.find(params[:id])
-    if @municipio.update_attributes(params[:municipio])
-      flash[:notice] = 'Registro actualizado.'
-      redirect_to :action => 'show', :id => @municipio
-    else
-      render :action => 'edit'
-    end
+    actualiza_registro(Municipio.find(params[:id]), params[:municipio])
   end
 
   def destroy

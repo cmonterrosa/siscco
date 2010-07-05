@@ -110,6 +110,22 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  def inserta_registro2(registro, registro2, mensaje)
+    begin
+      registro.fecha_hora = Time.now
+      registro.user_id = session['user'].id
+      registro2.cliente = registro
+      registro.save!
+      registro2.save!
+        flash[:notice]=mensaje
+        redirect_to :action => 'list', :controller => "#{params[:controller]}"
+    rescue ActiveRecord::RecordInvalid => invalid
+      flash[:notice] = invalid
+      redirect_to :action => 'new', :controller => "#{params[:controller]}"
+    end
+  end
+
+  
   def actualiza_registro(registro, parametros)
     begin
       registro.fecha_hora = Time.now
@@ -123,10 +139,21 @@ class ApplicationController < ActionController::Base
     end
   end
 
+ def actualiza_registro2(registro, parametros, registro2, parametros2)
+    begin
+      registro.fecha_hora = Time.now
+      registro.user_id = session['user'].id
+      registro.update_attributes(parametros)
+      registro2.update_attributes(parametros2)
+      flash[:notice] = 'Registro actualizado satisfactoriamente'
+      redirect_to :controller => params[:controller], :action => 'show', :id => registro
+    rescue
+      flash[:notice] = 'No se pudo actualizar verifique los datos'
+      redirect_to :action => 'edit', :controller => params[:controller], :id=> registro
+    end
+  end
 
-
-
-    def actualiza_configuracion(registro, parametros)
+  def actualiza_configuracion(registro, parametros)
     begin
       registro.fecha_hora = Time.now
       registro.user_id = session['user'].id
@@ -426,10 +453,6 @@ class ApplicationController < ActionController::Base
              return true
            end
          end
-
-
-
-
 
  # Scrub sensitive parameters from your log
    filter_parameter_logging :password

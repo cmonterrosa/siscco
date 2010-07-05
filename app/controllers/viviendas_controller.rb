@@ -23,13 +23,7 @@ class ViviendasController < ApplicationController
   end
 
   def create
-    @vivienda = Vivienda.new(params[:vivienda])
-    if @vivienda.save
-      flash[:notice] = 'Registro creado satisfactoriamente.'
-      redirect_to :action => 'list'
-    else
-      render :action => 'new'
-    end
+    inserta_registro(Vivienda.new(params[:vivienda]), 'Registro creado satisfactoriamente')
   end
 
   def edit
@@ -37,13 +31,7 @@ class ViviendasController < ApplicationController
   end
 
   def update
-    @vivienda = Vivienda.find(params[:id])
-    if @vivienda.update_attributes(params[:vivienda])
-      flash[:notice] = 'Registro actualizado.'
-      redirect_to :action => 'show', :id => @vivienda
-    else
-      render :action => 'edit'
-    end
+    actualiza_registro(Vivienda.find(params[:id]), params[:vivienda])
   end
 
   def destroy

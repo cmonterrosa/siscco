@@ -34,15 +34,16 @@ class ClientesController < ApplicationController
   end
 
   def create
-    @cliente = Cliente.new(params[:cliente])
-    @negocio = Negocio.new(params[:negocio])
-    @negocio.cliente = @cliente
-    if @cliente.save and @negocio.save
-      flash[:notice] = 'Registro creado satisfactorimente.'
-      redirect_to :action => 'list'
-    else
-      render :action => 'new'
-    end
+    inserta_registro2(Cliente.new(params[:cliente]), Negocio.new(params[:negocio]), 'Registro creado satisfactoriamente.')
+#    @cliente = Cliente.new(params[:cliente])
+#    @negocio = Negocio.new(params[:negocio])
+#    @negocio.cliente = @cliente
+#    if @cliente.save and @negocio.save
+#      flash[:notice] = 'Registro creado satisfactorimente.'
+#      redirect_to :action => 'list'
+#    else
+#      render :action => 'new'
+#    end
   end
 
   def edit
@@ -61,14 +62,15 @@ class ClientesController < ApplicationController
   end
 
   def update
-    @cliente = Cliente.find(params[:id])
-    @negocio = Negocio.find(params[:id_negocio])
-    if @cliente.update_attributes(params[:cliente]) && @negocio.update_attributes(params[:negocio])
-      flash[:notice] = 'Registro actualizado.'
-      redirect_to :action => 'list', :id => @cliente
-    else
-      render :action => 'edit'
-    end
+    actualiza_registro2(Cliente.find(params[:id]), params[:cliente], Negocio.find(params[:id_negocio]), params[:negocio])
+#    @cliente = Cliente.find(params[:id])
+#    @negocio = Negocio.find(params[:id_negocio])
+#    if @cliente.update_attributes(params[:cliente]) && @negocio.update_attributes(params[:negocio])
+#      flash[:notice] = 'Registro actualizado.'
+#      redirect_to :action => 'list', :id => @cliente
+#    else
+#      render :action => 'edit'
+#    end
   end
 
     def updatec

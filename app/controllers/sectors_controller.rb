@@ -23,13 +23,7 @@ class SectorsController < ApplicationController
   end
 
   def create
-    @sector = Sector.new(params[:sector])
-    if @sector.save
-      flash[:notice] = 'Registro creado satisfactoriamente.'
-      redirect_to :action => 'list'
-    else
-      render :action => 'new'
-    end
+    inserta_registro(Sector.new(params[:sector]), 'Registro creado satisfactoriamente')
   end
 
   def edit
@@ -37,13 +31,7 @@ class SectorsController < ApplicationController
   end
 
   def update
-    @sector = Sector.find(params[:id])
-    if @sector.update_attributes(params[:sector])
-      flash[:notice] = 'Registro actualizado.'
-      redirect_to :action => 'show', :id => @sector
-    else
-      render :action => 'edit'
-    end
+    actualiza_registro(Sector.find(params[:id]), params[:sector])
   end
 
   def destroy

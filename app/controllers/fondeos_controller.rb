@@ -24,13 +24,7 @@ class FondeosController < ApplicationController
   end
 
   def create
-    @fondeo = Fondeo.new(params[:fondeo])
-    if @fondeo.save
-      flash[:notice] = 'Registro creado satisfactoriamente.'
-      redirect_to :action => 'list'
-    else
-      render :action => 'new'
-    end
+    inserta_registro(Fondeo.new(params[:fondeo]), 'Registro creado satisfactoriamente')
   end
 
   def edit
@@ -38,13 +32,7 @@ class FondeosController < ApplicationController
   end
 
   def update
-    @fondeo = Fondeo.find(params[:id])
-    if @fondeo.update_attributes(params[:fondeo])
-      flash[:notice] = 'Registro actualizado.'
-      redirect_to :action => 'show', :id => @fondeo
-    else
-      render :action => 'edit'
-    end
+    actaliza_registro(Fondeo.find(params[:id]), params[:fondeo])
   end
 
   def destroy

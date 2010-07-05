@@ -23,13 +23,7 @@ class GirosController < ApplicationController
   end
 
   def create
-    @giro = Giro.new(params[:giro])
-    if @giro.save
-      flash[:notice] = 'Registro creado satisfactoriamente.'
-      redirect_to :action => 'list'
-    else
-      render :action => 'new'
-    end
+    inserta_registro(Periodo.new(params[:periodo]), 'Registro creado satisfactoriamente')
   end
 
   def edit
@@ -37,13 +31,7 @@ class GirosController < ApplicationController
   end
 
   def update
-    @giro = Giro.find(params[:id])
-    if @giro.update_attributes(params[:giro])
-      flash[:notice] = 'Registro actualizado.'
-      redirect_to :action => 'show', :id => @giro
-    else
-      render :action => 'edit'
-    end
+    actualiza_registro(Periodo.find(params[:id]), params[:periodo])
   end
 
   def destroy

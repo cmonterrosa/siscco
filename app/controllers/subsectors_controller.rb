@@ -23,13 +23,7 @@ class SubsectorsController < ApplicationController
   end
 
   def create
-    @subsector = Subsector.new(params[:subsector])
-    if @subsector.save
-      flash[:notice] = 'Registro creado satisfactoriamente.'
-      redirect_to :action => 'list'
-    else
-      render :action => 'new'
-    end
+    inserta_registro(Subsector.new(params[:subsector]), 'Registro creado satisfactoriamente')
   end
 
   def edit
@@ -37,13 +31,7 @@ class SubsectorsController < ApplicationController
   end
 
   def update
-    @subsector = Subsector.find(params[:id])
-    if @subsector.update_attributes(params[:subsector])
-      flash[:notice] = 'Registro actualizado.'
-      redirect_to :action => 'show', :id => @subsector
-    else
-      render :action => 'edit'
-    end
+    actualiza_registro(Subsector.find(params[:id]), params[:subsector])
   end
 
   def destroy

@@ -26,13 +26,7 @@ class ProductosController < ApplicationController
   end
 
   def create
-    @producto = Producto.new(params[:producto])
-    if @producto.save
-      flash[:notice] = 'Registro creado satisfactoriamente.'
-      redirect_to :action => 'list'
-    else
-      render :action => 'new'
-    end
+    inserta_registro(Producto.new(params[:producto]), 'Registro creado satisfactoriamente')
   end
 
   def edit
@@ -42,13 +36,7 @@ class ProductosController < ApplicationController
   end
 
   def update
-    @producto = Producto.find(params[:id])
-    if @producto.update_attributes(params[:producto])
-      flash[:notice] = 'Registro actualizado.'
-      redirect_to :action => 'show', :id => @producto
-    else
-      render :action => 'edit'
-    end
+    actualiza_registro(Producto.find(params[:id]), params[:producto])
   end
 
   def destroy

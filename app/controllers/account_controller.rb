@@ -37,6 +37,8 @@ class AccountController < ApplicationController
      case request.method
       when :post
         @user = User.new(params['user'])
+        @user.fecha_hora = Time.now
+        @user.user_id = session['user'].id
         #@user.rol = Rol.find(params['rol']['rol_id']) if params['rol']['rol_id']
         if @user.save
           flash[:notice]  = "ALTA CORRECTA"
@@ -76,6 +78,8 @@ class AccountController < ApplicationController
 
   def update
       @user = User.find(params[:id])
+      @user.fecha_hora = Time.now
+      @user.user_id = session['user'].id
       if @user.update_attributes(params[:user])
          flash[:notice] = 'Usuario actualizado correctamente'
          redirect_to :action => 'administracion', :controller => "usuarios"

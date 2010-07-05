@@ -26,13 +26,7 @@ class LineasController < ApplicationController
   end
 
   def create
-    @linea = Linea.new(params[:linea])
-    if @linea.save
-      flash[:notice] = 'Registro creado satisfactoriamente.'
-      redirect_to :action => 'list'
-    else
-      render :action => 'new'
-    end
+    inserta_registro(Linea.new(params[:linea]), 'Registro creado satisfactoriamente')
   end
 
   def edit
@@ -40,13 +34,7 @@ class LineasController < ApplicationController
   end
 
   def update
-    @linea = Linea.find(params[:id])
-    if @linea.update_attributes(params[:linea])
-      flash[:notice] = 'Registro actualizado.'
-      redirect_to :action => 'show', :id => @linea
-    else
-      render :action => 'edit'
-    end
+    actualiza_registro(Linea.find(params[:id]), params[:linea])
   end
 
   def destroy

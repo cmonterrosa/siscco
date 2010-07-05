@@ -34,8 +34,18 @@
   <tr>
     <td><%=collection_select("credito", "promotor_id", $promotores, :id, :nombre_completo)%></td>
     <td><%=collection_select("credito", "destino_id", $destinos, :id, :destino)%></td>
-    <td><%=collection_select("credito", "grupo_id", $grupos, :id, :nombre)%>-<%= button_to '+'%>-</td>
+    <td><%=collection_select("credito", "grupo_id", $grupos, :id, :nombre)%><%= link_to 'Agregar'%></td>
     <td><%=check_box('credito', 'status') %></td>
+  </tr>
+  <tr>
+    <th>Presidente:</th>
+    <th>Secretario:</th>
+    <th>Tesorero:</th>
+  </tr>
+  <tr>
+    <td><%=collection_select("","cliente_id", $clientes, :id, :nombre_completo, :prompt => '>>Presidente')%></td>
+    <td><%=collection_select("","secretario", $clientes, :id, :nombre_completo, :prompt => '>>Secretario')%></td>
+    <td><%=collection_select("","tesorero", $clientes, :id, :nombre_completo, :prompt => '>>Tesorero')%></td>
   </tr>
 </table>
 <!--[eoform:credito]-->
@@ -44,3 +54,15 @@
     :action => 'get_lineas'},
     :update => 'credito_linea_id',
     :with => '_fondeo_id' %>
+
+<%= observe_field '_cliente_id',
+    :url => {:controller => 'combos',
+    :action => 'get_secretario'},
+    :update => '_secretario',
+    :with => '_cliente_id' %>
+
+<%= observe_field '_secretario',
+    :url => {:controller => 'combos',
+    :action => 'get_tesorero'},
+    :update => '_tesorero',
+    :with => '_secretario' %>

@@ -23,13 +23,7 @@ class PeriodosController < ApplicationController
   end
 
   def create
-    @periodo = Periodo.new(params[:periodo])
-    if @periodo.save
-      flash[:notice] = 'Registro creado satisfactoriamente.'
-      redirect_to :action => 'list'
-    else
-      render :action => 'new'
-    end
+    inserta_registro(Periodo.new(params[:periodo]), 'Registro creado satisfactoriamente')
   end
 
   def edit
@@ -37,13 +31,7 @@ class PeriodosController < ApplicationController
   end
 
   def update
-    @periodo = Periodo.find(params[:id])
-    if @periodo.update_attributes(params[:periodo])
-      flash[:notice] = 'Registro actualizado.'
-      redirect_to :action => 'show', :id => @periodo
-    else
-      render :action => 'edit'
-    end
+    actualiza_registro(Periodo.find(params[:id]), params[:periodo])
   end
 
   def destroy

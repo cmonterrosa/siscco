@@ -23,13 +23,7 @@ class SucursalsController < ApplicationController
   end
 
   def create
-    @sucursal = Sucursal.new(params[:sucursal])
-    if @sucursal.save
-      flash[:notice] = 'Registro creado satisfactoriamente.'
-      redirect_to :action => 'list'
-    else
-      render :action => 'new'
-    end
+    inserta_registro(Sucursal.new(params[:sucursal]), 'Registro creado satisfactorimente')
   end
 
   def edit
@@ -37,13 +31,7 @@ class SucursalsController < ApplicationController
   end
 
   def update
-    @sucursal = Sucursal.find(params[:id])
-    if @sucursal.update_attributes(params[:sucursal])
-      flash[:notice] = 'Registro actualizado.'
-      redirect_to :action => 'show', :id => @sucursal
-    else
-      render :action => 'edit'
-    end
+    actualiza_registro(Sucursal.find(params[:id]), params[:sucursal])
   end
 
   def destroy

@@ -24,13 +24,7 @@ class EstadosController < ApplicationController
   end
 
   def create
-    @estado = Estado.new(params[:estado])
-    if @estado.save
-      flash[:notice] = 'Registro creado satisfactoriamente.'
-      redirect_to :action => 'list'
-    else
-      render :action => 'new'
-    end
+    inserta_registro(Estado.new(params[:estado]), 'Registro creado satisfactoriamente')
   end
 
   def edit
@@ -38,13 +32,7 @@ class EstadosController < ApplicationController
   end
 
   def update
-    @estado = Estado.find(params[:id])
-    if @estado.update_attributes(params[:estado])
-      flash[:notice] = 'Registro actualizado.'
-      redirect_to :action => 'show', :id => @estado
-    else
-      render :action => 'edit'
-    end
+    actualiza_registro(Estado.find(params[:id]), params[:Estado])
   end
 
   def destroy

@@ -92,18 +92,9 @@ class CreditosController < ApplicationController
      end
  end
 
-
-
-
-
-
- 
-
   def activacion
 
   end
-
-
 
   def new
     @credito = Credito.new
@@ -114,6 +105,8 @@ class CreditosController < ApplicationController
     @fecha_inicio = Date.strptime(@credito.fecha_inicio.to_s)
     @credito.tasa_interes = Configuracion.find(:first, :select=>"tasa_interes").tasa_interes
     @credito.interes_moratorio = Configuracion.find(:first, :select=>"interes_moratorio").interes_moratorio
+    @credito.fecha_hora = Time.now
+    @credito.user_id = session['user'].id
     #@credito.grupo = Grupo.find(1) if params[:credito][:grupo_id].nil?
     if params[:credito][:grupo_id].nil?
       @tipo = "INDIVIDUAL"
@@ -154,6 +147,8 @@ class CreditosController < ApplicationController
 
   def update
     @credito = Credito.find(params[:id])
+    @credito.fecha_hora = Time.now
+    @credito.user_id = session['user'].id
     if @credito.update_attributes(params[:credito])
       flash[:notice] = 'Credito actualizado correctamente'
       redirect_to :action => 'show', :id => @credito

@@ -23,13 +23,7 @@ class FestivosController < ApplicationController
   end
 
   def create
-    @festivo = Festivo.new(params[:festivo])
-    if @festivo.save
-      flash[:notice] = 'Registro creado satisfactoriamente.'
-      redirect_to :action => 'list'
-    else
-      render :action => 'new'
-    end
+    inserta_registro(Festivo.new(params[:festivo]), 'Registro creado satisfactoriamente')
   end
 
   def edit
@@ -37,13 +31,7 @@ class FestivosController < ApplicationController
   end
 
   def update
-    @festivo = Festivo.find(params[:id])
-    if @festivo.update_attributes(params[:festivo])
-      flash[:notice] = 'Registro actualizado.'
-      redirect_to :action => 'show', :id => @festivo
-    else
-      render :action => 'edit'
-    end
+    actualiza_registro(Festivo.find(params[:id]), params[:festivo])
   end
 
   def destroy

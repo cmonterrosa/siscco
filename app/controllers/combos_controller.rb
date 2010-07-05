@@ -23,4 +23,14 @@ class CombosController < ApplicationController
       return render(:partial => 'lineas', :layout => false) if request.xhr?
   end
 
+  def get_secretario
+      @secretarios = Cliente.find(:all, :conditions => ["id != ?", params[:_cliente_id]])
+      return render(:partial => 'secretario', :layout => false) if request.xhr?
+  end
+
+  def get_tesorero
+      @tesoreros = Cliente.find(:all, :conditions => ["id != ? AND id != ?", params[:_secretario], params[:_tesorero]])
+      return render(:partial => 'tesorero', :layout => false) if request.xhr?
+  end
+
 end

@@ -23,13 +23,7 @@ class GruposController < ApplicationController
   end
 
   def create
-    @grupo = Grupo.new(params[:grupo])
-    if @grupo.save
-      flash[:notice] = 'Registro creado satisfactoriamente.'
-      redirect_to :action => 'list'
-    else
-      render :action => 'new'
-    end
+    inserta_registro(Grupo.new(params[:grupo]), 'Registro creado satisfactoriamente')
   end
 
   def edit
@@ -37,13 +31,7 @@ class GruposController < ApplicationController
   end
 
   def update
-    @grupo = Grupo.find(params[:id])
-    if @grupo.update_attributes(params[:grupo])
-      flash[:notice] = 'Registro actualizado.'
-      redirect_to :action => 'show', :id => @grupo
-    else
-      render :action => 'edit'
-    end
+    actualiza_registro(Grupo.find(params[:id]), params[:grupo])
   end
 
   def destroy

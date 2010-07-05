@@ -27,13 +27,7 @@ class PromotorsController < ApplicationController
   end
 
   def create
-    @promotor = Promotor.new(params[:promotor])
-    if @promotor.save
-      flash[:notice] = 'Registro creado satisfactoriamente.'
-      redirect_to :action => 'list'
-    else
-      render :action => 'new'
-    end
+    inserta_registro(Promotor.new(params[:promotor]), 'REgistro creado satisfactoriamente')
   end
 
   def edit
@@ -41,13 +35,7 @@ class PromotorsController < ApplicationController
   end
 
   def update
-    @promotor = Promotor.find(params[:id])
-    if @promotor.update_attributes(params[:promotor])
-      flash[:notice] = 'Registro actualizado.'
-      redirect_to :action => 'show', :id => @promotor
-    else
-      render :action => 'edit'
-    end
+    actualiza_registro(Promotor.find(params[:id]), params[:promotor])
   end
 
   def destroy
