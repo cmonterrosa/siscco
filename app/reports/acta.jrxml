@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="acta" language="groovy" pageWidth="612" pageHeight="792" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="96"/>
+	<style name="table" isDefault="false">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TH" isDefault="false" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_CH" isDefault="false" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TD" isDefault="false" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<subDataset name="Table Dataset 1"/>
+	<queryString language="xpath2">
+		<![CDATA[/clientes/cliente]]>
+	</queryString>
+	<field name="cliente" class="java.lang.String">
+		<fieldDescription><![CDATA[/clientes/cliente]]></fieldDescription>
+	</field>
+	<field name="civil-id" class="java.lang.String">
+		<fieldDescription><![CDATA[civil-id]]></fieldDescription>
+	</field>
+	<field name="clave-ife" class="java.lang.String">
+		<fieldDescription><![CDATA[clave-ife]]></fieldDescription>
+	</field>
+	<field name="codigo-postal" class="java.lang.String">
+		<fieldDescription><![CDATA[codigo-postal]]></fieldDescription>
+	</field>
+	<field name="colonia-id" class="java.lang.String">
+		<fieldDescription><![CDATA[colonia-id]]></fieldDescription>
+	</field>
+	<field name="curp" class="java.lang.String">
+		<fieldDescription><![CDATA[curp]]></fieldDescription>
+	</field>
+	<field name="direccion" class="java.lang.String">
+		<fieldDescription><![CDATA[direccion]]></fieldDescription>
+	</field>
+	<field name="materno" class="java.lang.String">
+		<fieldDescription><![CDATA[materno]]></fieldDescription>
+	</field>
+	<field name="nombre" class="java.lang.String">
+		<fieldDescription><![CDATA[nombre]]></fieldDescription>
+	</field>
+	<field name="paterno" class="java.lang.String">
+		<fieldDescription><![CDATA[paterno]]></fieldDescription>
+	</field>
+	<field name="rfc" class="java.lang.String">
+		<fieldDescription><![CDATA[rfc]]></fieldDescription>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="239" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="60" width="572" height="137"/>
+				<textElement textAlignment="Justified"/>
+				<text><![CDATA[
+En la ciudad de____________________, el día 29 enero 2008 , se reunieron las personas cuyos nombres y firmas aparecen en este documento, con el firme y leal propósito de constituirse en forma voluntaria en Grupo Solidario, para participar en el programa de financiamiento 2,3,4 CICLO GRUPAL del SOCAMA CENTRO FRAYLESCA, A.C., para financiar las actividades productivas de sus integrantes.
+Los integrantes del grupo solidario están concientes que los créditos recibidos serán pagados en los horarios establecidos y en las fechas acordadas que se encuentran en el carnet de pagos. El grupo se compromete a trabajar en forma solidaria y mancomunada, a cumplir con el pago del 100% del monto otorgado, mas los intereses de todos y cada uno de los integrantes. En caso de que algún integrante no cumpla con su pago , los demás integrantes deberán cubrir el (los) adeudo (s) del (los) integrante (s) en la fecha correspondiente de acuerdo al plan de pagos que se les proporcione. A continuación firman de conformidad los miembros integrantes del Grupo Solidario.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="38" width="572" height="20"/>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[ACTA DE CONSTITUCION DE GRUPO SOLIDARIO]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="35" splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="21" splitType="Stretch">
+			<staticText>
+				<reportElement x="20" y="1" width="100" height="20"/>
+				<textElement/>
+				<text><![CDATA[Nombre Completo]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="281" y="1" width="86" height="20"/>
+				<textElement/>
+				<text><![CDATA[RFC]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="403" y="0" width="133" height="20"/>
+				<textElement/>
+				<text><![CDATA[Firmas]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="46" splitType="Stretch">
+			<textField>
+				<reportElement x="20" y="15" width="261" height="20"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{nombre} + " " + $F{paterno} +  " " +$F{materno}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="281" y="15" width="100" height="20"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{rfc}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="403" y="15" width="133" height="20"/>
+				<textElement/>
+				<text><![CDATA[________________________]]></text>
+			</staticText>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="110" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="78" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="572" height="58"/>
+				<textElement textAlignment="Justified"/>
+				<text><![CDATA[POR ESTE MEDIO NOS COMPROMETEMOS SOLIDARIAMENTE A PAGAR PUNTUALMENTE EL MICROFINANCIAMIENTO RECIBIDO DEL FOMMUR A TRAVEZ DE SOCAMA CENTRO FRAYLESCA, A.C., EN ABONOS SEMANALES DE $1,179.96 , (MIL CIENTO SETENTA Y NUEVE PESOS CON 96/100 M.N) ASI MISMO NOS COMPROMETEMOS A AHORRAR EL IMPORTE MINIMO DE $20.00 (VEINTE PESOS 00/100 M.N) SEÑALADO EN NUESTRO REGLAMENTO INTERNO]]></text>
+			</staticText>
+		</band>
+	</summary>
+</jasperReport>

@@ -318,5 +318,10 @@ class ReportesController < ApplicationController
     end
 
 
+    def xml
+      render :text =>  Grupo.find(5).clientes.to_xml
+    end
+
+
 
 end
