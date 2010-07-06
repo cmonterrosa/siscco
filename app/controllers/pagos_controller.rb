@@ -14,10 +14,10 @@ class PagosController < ApplicationController
 
     def reporte
     @pagos=Pago.find(:all, :conditions=>["fecha = ? AND pagado = 1", params[:fecha]], :include => "credito").to_xml
-   send_doc(@pagos,
+   send_doc_xml(@pagos,
     '/pagos/pago',
     'pagos_dia',
-    'pagos_dia',
+    'pagos_dia', "",
     'pdf')
   end
 
