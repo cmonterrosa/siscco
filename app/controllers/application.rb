@@ -61,7 +61,7 @@ class ApplicationController < ActionController::Base
   
 
 
-    #----------- Cambio de idioma de las fechas --------------------
+  #----------- Cambio de idioma de las fechas --------------------
   Date::MONTHNAMES = [nil] + %w(Enero Febrero Marzo Abril Mayo Junio Julio Agosto Septiembre Octubre Noviembre Diciembre)
   Date::DAYNAMES = %w(Domingo Lunes Martes Miercoles Jueves Viernes Sábado)
   Date::ABBR_MONTHNAMES = [nil] + %w(ene Feb Mar Abr May Jun Jul Ago Sep Oct Nov Dic)
@@ -473,11 +473,7 @@ class ApplicationController < ActionController::Base
            end
          end
 
-<<<<<<< HEAD:app/controllers/application.rb
-=======
 
-
->>>>>>> 98af222f24af8f34c9c59ad8fad7844204db041e:app/controllers/application.rb
  # Scrub sensitive parameters from your log
    filter_parameter_logging :password
 end

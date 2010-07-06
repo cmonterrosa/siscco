@@ -29,4 +29,22 @@ module SendDocHelper
     send_data Document.generate_report(xml, report, jasper_type, xml_start_path),
         :filename => "#{filename}.#{extension}", :type => mime_type, :disposition => 'inline'
   end
+
+     def send_doc_xml(ds_data, xml_start_path, report, filename, report_params, output_type = 'pdf')
+    case output_type
+    when 'rtf'
+      extension = 'rtf'
+      mime_type = 'application/rtf'
+      jasper_type = 'rtf'
+    else # pdf
+      extension = 'pdf'
+      mime_type = 'application/pdf'
+      jasper_type = 'pdf'
+    end
+    cache_hack
+    send_data Document.generate_report_xml(ds_data, report, jasper_type, xml_start_path, report_params),
+              :filename => "#{filename}.#{extension}", :type => mime_type, :disposition => 'inline'
+   end
+
+
 end
