@@ -322,6 +322,20 @@ class ReportesController < ApplicationController
       render :text =>  Grupo.find(5).clientes.to_xml
     end
 
+        def jasper
+       param=Hash.new {|k, v| k[v] = {:tipo=>"",:valor=>""}}
+       param["PDIRECCION"]={:tipo=>"String", :valor=>"DIRECCION DE INFORMATICA"}
+       param["PDEPARTAMENTO"]={:tipo=>"String", :valor=>"DEPARTAMENTO DE BASE DE DATOS"}
+
+
+       send_doc_xml(xml,
+       '/records/record',
+      'directorio',
+      'Directorio',
+       param,
+      'pdf')
+    end
+
 
 
 end
