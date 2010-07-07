@@ -48,7 +48,11 @@ module SendDocHelper
    def format_params(parameters)
      @params_string =  ""
      parameters.each_key do |k|
-         @params_string << "-r#{k}@@#{parameters[k][:tipo]}@@#{parameters[k][:valor]} "
+         if parameters[k][:tipo] == "String"
+            @params_string << "-r#{k}@@#{parameters[k][:tipo]}@@\"#{parameters[k][:valor]}\" "
+         else
+           @params_string << "-r#{k}@@#{parameters[k][:tipo]}@@#{parameters[k][:valor]} "
+         end
      end
     @params_string
    end

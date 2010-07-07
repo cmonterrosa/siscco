@@ -68,7 +68,7 @@ class ReportesController < ApplicationController
     _pdf.move_pointer(10)
     _pdf.text to_iso(total_adeudado_por_persona(@credito).to_s), :font_size => 14, :justification => :center
     _pdf.move_pointer(10)
-    _pdf.text to_iso(total_adeudado_por_persona(@credito).to_f.to_words), :font_size => 14, :justification => :center
+    _pdf.text to_iso(total_adeudado_por_persona(@credito).to_words.to_s), :font_size => 14, :justification => :center
 
     _pdf.move_pointer(15)
     @leyenda2=<<-EOS
@@ -322,16 +322,27 @@ class ReportesController < ApplicationController
       render :text =>  Grupo.find(5).clientes.to_xml
     end
 
-        def jasper
+    def jasper
+      #--- Llenamos los parametros -------
+      @xml = Grupo.find(5).clientes.to_xml
        param=Hash.new {|k, v| k[v] = {:tipo=>"",:valor=>""}}
-       param["PDIRECCION"]={:tipo=>"String", :valor=>"DIRECCION DE INFORMATICA"}
-       param["PDEPARTAMENTO"]={:tipo=>"String", :valor=>"DEPARTAMENTO DE BASE DE DATOS"}
-
-
-       send_doc_xml(xml,
-       '/records/record',
-      'directorio',
-      'Directorio',
+       param["EMPRESA"]={:tipo=>"String", :valor=>NOMBRE_EMPRESA}
+       param["FINANCIAMIENTO"]={:tipo=>"String", :valor=>"ABC PRIMER CICLO"}
+       param["CIUDAD"]={:tipo=>"String", :valor=>CIUDAD_EMPRESA}
+       param["FINANCIAMIENTO"]={:tipo=>"String", :valor=>Time.now.strftime("%d de %B de %Y")}
+       param["GRUPO"]={:tipo=>"String", :valor=>"LOS GIRASOLES"}
+       param["ABONO"]={:tipo=>"String", :valor=>"1,594.00"}
+       param["ABONOLETRA"]={:tipo=>"String", :valor=>"UN MIL QUINIENTOS NOVENTA Y CUATRO PESOS OO/100 M.N"}
+       param["FONDEO"]={:tipo=>"String", :valor=>"FOMMUR"}
+       param["AHORRO"]={:tipo=>"String", :valor=>"157.00"}
+       param["AHORROLETRA"]={:tipo=>"String", :valor=>"CIENTO CINCUENTA Y SIETE PESOS"}
+       param["PRESIDENTE"]={:tipo=>"String", :valor=>"CARLOS AUGUSTO MONTERROSA LOPEZ"}
+       param["TESORERO"]={:tipo=>"String", :valor=>"JUAN IGNACIO MORENO SUAREZ"}
+       param["SECRETARIO"]={:tipo=>"String", :valor=>"HILDA CACERES RUIZ"}
+       send_doc_xml(@xml,
+       '/clientes/cliente',
+      'acta',
+      'acta',
        param,
       'pdf')
     end

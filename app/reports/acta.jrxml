@@ -2,7 +2,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="acta" language="groovy" pageWidth="612" pageHeight="792" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="96"/>
+	<property name="ireport.y" value="150"/>
 	<style name="table" isDefault="false">
 		<box>
 			<pen lineWidth="1.0" lineColor="#000000"/>
@@ -24,6 +24,19 @@
 		</box>
 	</style>
 	<subDataset name="Table Dataset 1"/>
+	<parameter name="EMPRESA" class="java.lang.String"/>
+	<parameter name="FINANCIAMIENTO" class="java.lang.String"/>
+	<parameter name="CIUDAD" class="java.lang.String"/>
+	<parameter name="FECHA" class="java.lang.String"/>
+	<parameter name="GRUPO" class="java.lang.String"/>
+	<parameter name="ABONO" class="java.lang.String"/>
+	<parameter name="ABONOLETRA" class="java.lang.String"/>
+	<parameter name="FONDEO" class="java.lang.String"/>
+	<parameter name="AHORRO" class="java.lang.String"/>
+	<parameter name="AHORROLETRA" class="java.lang.String"/>
+	<parameter name="PRESIDENTE" class="java.lang.String"/>
+	<parameter name="TESORERO" class="java.lang.String"/>
+	<parameter name="SECRETARIO" class="java.lang.String"/>
 	<queryString language="xpath2">
 		<![CDATA[/clientes/cliente]]>
 	</queryString>
@@ -64,77 +77,221 @@
 		<band splitType="Stretch"/>
 	</background>
 	<title>
-		<band height="239" splitType="Stretch">
+		<band height="257" splitType="Stretch">
 			<staticText>
-				<reportElement x="0" y="60" width="572" height="137"/>
-				<textElement textAlignment="Justified"/>
-				<text><![CDATA[
-En la ciudad de____________________, el día 29 enero 2008 , se reunieron las personas cuyos nombres y firmas aparecen en este documento, con el firme y leal propósito de constituirse en forma voluntaria en Grupo Solidario, para participar en el programa de financiamiento 2,3,4 CICLO GRUPAL del SOCAMA CENTRO FRAYLESCA, A.C., para financiar las actividades productivas de sus integrantes.
-Los integrantes del grupo solidario están concientes que los créditos recibidos serán pagados en los horarios establecidos y en las fechas acordadas que se encuentran en el carnet de pagos. El grupo se compromete a trabajar en forma solidaria y mancomunada, a cumplir con el pago del 100% del monto otorgado, mas los intereses de todos y cada uno de los integrantes. En caso de que algún integrante no cumpla con su pago , los demás integrantes deberán cubrir el (los) adeudo (s) del (los) integrante (s) en la fecha correspondiente de acuerdo al plan de pagos que se les proporcione. A continuación firman de conformidad los miembros integrantes del Grupo Solidario.]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="0" y="38" width="572" height="20"/>
+				<reportElement x="0" y="19" width="572" height="20"/>
 				<textElement textAlignment="Center">
-					<font isBold="true"/>
+					<font size="14" isBold="true"/>
 				</textElement>
 				<text><![CDATA[ACTA DE CONSTITUCION DE GRUPO SOLIDARIO]]></text>
 			</staticText>
+			<textField>
+				<reportElement x="0" y="78" width="572" height="15"/>
+				<textElement textAlignment="Justified" markup="none">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA["documento, con el firme y leal propósito de constituirse en forma voluntaria en Grupo Solidario, para participar en el"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement stretchType="RelativeToBandHeight" x="0" y="63" width="572" height="15"/>
+				<textElement textAlignment="Justified">
+					<font size="95"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA["En la ciudad de " + $P{CIUDAD} + " " +  "el dia " + $P{FECHA} + ",  se reunieron las personas cuyos nombres y firmas en este"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement stretchType="RelativeToBandHeight" x="0" y="93" width="572" height="15"/>
+				<textElement textAlignment="Justified">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA["programa de financiamiento " + $P{FINANCIAMIENTO} + " de " +  $P{EMPRESA} + ",  para financiar las actividades productivas"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement stretchType="RelativeToBandHeight" x="0" y="108" width="572" height="15"/>
+				<textElement textAlignment="Justified">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA["de sus integrantes"]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="134" width="572" height="81"/>
+				<textElement textAlignment="Justified">
+					<font size="9"/>
+				</textElement>
+				<text><![CDATA[Los integrantes del grupo solidario están concientes que los créditos recibidos serán pagados en los horarios establecidos y en las fechas acordadas que se encuentran en el carnet de pagos. El grupo se compromete a trabajar en forma solidaria y mancomunada, a cumplir con el pago del 100% del monto otorgado, mas los intereses de todos y cada uno de los integrantes. En caso de que algún integrante no cumpla con su pago , los demás integrantes deberán cubrir el (los) adeudo (s) del (los) integrante (s) en la fecha correspondiente de acuerdo al plan de pagos que se les proporcione. A continuación firman de conformidad los miembros integrantes del Grupo Solidario.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="215" width="117" height="15"/>
+				<textElement textAlignment="Justified" markup="none">
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[Nombre del grupo:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="233" width="156" height="20"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[Integrantes del Grupo Solidario:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="114" y="215" width="458" height="15"/>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{GRUPO}]]></textFieldExpression>
+			</textField>
 		</band>
 	</title>
 	<pageHeader>
-		<band height="35" splitType="Stretch"/>
+		<band height="11" splitType="Stretch"/>
 	</pageHeader>
 	<columnHeader>
 		<band height="21" splitType="Stretch">
+			<rectangle>
+				<reportElement x="0" y="1" width="572" height="19" forecolor="#003366"/>
+			</rectangle>
 			<staticText>
-				<reportElement x="20" y="1" width="100" height="20"/>
-				<textElement/>
-				<text><![CDATA[Nombre Completo]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="281" y="1" width="86" height="20"/>
-				<textElement/>
+				<reportElement x="295" y="0" width="86" height="20"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
 				<text><![CDATA[RFC]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="403" y="0" width="133" height="20"/>
-				<textElement/>
+				<reportElement x="406" y="0" width="133" height="20"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
 				<text><![CDATA[Firmas]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="7" y="0" width="100" height="20"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Nombre Completo]]></text>
 			</staticText>
 		</band>
 	</columnHeader>
 	<detail>
-		<band height="46" splitType="Stretch">
+		<band height="36" splitType="Stretch">
 			<textField>
-				<reportElement x="20" y="15" width="261" height="20"/>
-				<textElement/>
-				<textFieldExpression class="java.lang.String"><![CDATA[$F{nombre} + " " + $F{paterno} +  " " +$F{materno}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="281" y="15" width="100" height="20"/>
+				<reportElement x="295" y="7" width="100" height="20"/>
 				<textElement/>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{rfc}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="403" y="15" width="133" height="20"/>
+				<reportElement x="406" y="8" width="166" height="20"/>
 				<textElement/>
-				<text><![CDATA[________________________]]></text>
+				<text><![CDATA[_________________________________]]></text>
 			</staticText>
+			<textField>
+				<reportElement x="8" y="7" width="275" height="20"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{nombre} + " " + $F{paterno} +  " " +$F{materno}]]></textFieldExpression>
+			</textField>
 		</band>
 	</detail>
 	<columnFooter>
-		<band height="45" splitType="Stretch"/>
+		<band height="30" splitType="Stretch"/>
 	</columnFooter>
 	<pageFooter>
-		<band height="110" splitType="Stretch"/>
+		<band height="16" splitType="Stretch">
+			<line>
+				<reportElement x="0" y="15" width="572" height="1"/>
+			</line>
+			<textField>
+				<reportElement stretchType="RelativeToBandHeight" x="0" y="0" width="572" height="15"/>
+				<textElement textAlignment="Center">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{EMPRESA}]]></textFieldExpression>
+			</textField>
+		</band>
 	</pageFooter>
 	<summary>
-		<band height="78" splitType="Stretch">
+		<band height="268" splitType="Stretch">
+			<textField>
+				<reportElement stretchType="RelativeToBandHeight" x="0" y="10" width="572" height="15"/>
+				<textElement textAlignment="Justified">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA["Por este medio nos comprometemos solidariamente a pagar puntualmente el microfinanciamiento recibido de " + $P{FONDEO}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement stretchType="RelativeToBandHeight" x="0" y="25" width="572" height="13"/>
+				<textElement textAlignment="Justified">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA["A través de " + $P{EMPRESA} + ", En abonos semanales de " + $P{ABONO}  + ", (" + $P{ABONOLETRA} + ") Asimismo"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement stretchType="RelativeToBandHeight" x="0" y="38" width="572" height="15"/>
+				<textElement textAlignment="Justified">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[" nos comprometemos a ahorrar el importe mínimo de " + $P{AHORRO} + " (" + $P{AHORROLETRA} + " Señalado en nuestro reglamento"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement stretchType="RelativeToBandHeight" x="0" y="53" width="572" height="15"/>
+				<textElement textAlignment="Justified">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA["interno."]]></textFieldExpression>
+			</textField>
 			<staticText>
-				<reportElement x="0" y="0" width="572" height="58"/>
-				<textElement textAlignment="Justified"/>
-				<text><![CDATA[POR ESTE MEDIO NOS COMPROMETEMOS SOLIDARIAMENTE A PAGAR PUNTUALMENTE EL MICROFINANCIAMIENTO RECIBIDO DEL FOMMUR A TRAVEZ DE SOCAMA CENTRO FRAYLESCA, A.C., EN ABONOS SEMANALES DE $1,179.96 , (MIL CIENTO SETENTA Y NUEVE PESOS CON 96/100 M.N) ASI MISMO NOS COMPROMETEMOS A AHORRAR EL IMPORTE MINIMO DE $20.00 (VEINTE PESOS 00/100 M.N) SEÑALADO EN NUESTRO REGLAMENTO INTERNO]]></text>
+				<reportElement x="214" y="107" width="159" height="20"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[PRESIDENTE (A)]]></text>
 			</staticText>
+			<staticText>
+				<reportElement x="65" y="166" width="159" height="20"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[TESORERO(A)]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="347" y="167" width="159" height="19"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[SECRETARIO(A)]]></text>
+			</staticText>
+			<textField>
+				<reportElement stretchType="RelativeToBandHeight" x="0" y="82" width="572" height="15"/>
+				<textElement textAlignment="Justified">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA["Grupo solidario: " + $P{GRUPO}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="214" y="148" width="159" height="1"/>
+			</line>
+			<line>
+				<reportElement x="65" y="213" width="159" height="1"/>
+			</line>
+			<line>
+				<reportElement x="347" y="212" width="159" height="1"/>
+			</line>
+			<textField>
+				<reportElement x="0" y="149" width="572" height="20"/>
+				<textElement textAlignment="Center">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{PRESIDENTE}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="214" width="283" height="20"/>
+				<textElement textAlignment="Center">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{TESORERO}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="283" y="214" width="289" height="20"/>
+				<textElement textAlignment="Center">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{SECRETARIO}]]></textFieldExpression>
+			</textField>
 		</band>
 	</summary>
 </jasperReport>

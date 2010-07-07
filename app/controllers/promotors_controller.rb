@@ -56,10 +56,11 @@ class PromotorsController < ApplicationController
 
   def reporte
     @promotores=Promotor.find(:all).to_xml
-   send_doc(@promotores,
+   send_doc_xml(@promotores,
      '/promotors/promotor',
     'promotores',
     'Promotores',
+    "",
     'pdf')
   end
 

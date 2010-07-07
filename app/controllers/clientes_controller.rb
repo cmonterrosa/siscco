@@ -1,5 +1,5 @@
 class ClientesController < ApplicationController
-   before_filter :login_required
+  # before_filter :login_required
   def index
     list
     render :action => 'list'
@@ -125,6 +125,10 @@ class ClientesController < ApplicationController
       redirect_to :action => "estado_cuenta"
     end
   end
+
+    def xml
+      render :xml => Cliente.find(:all).to_xml
+    end
 
 
 
