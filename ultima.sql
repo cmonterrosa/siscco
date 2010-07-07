@@ -1,8 +1,8 @@
--- MySQL dump 10.13  Distrib 5.1.35, for apple-darwin9.5.0 (i386)
+-- MySQL dump 10.13  Distrib 5.1.42, for apple-darwin10.2.0 (i386)
 --
 -- Host: localhost    Database: ultima
 -- ------------------------------------------------------
--- Server version	5.1.35
+-- Server version	5.1.42
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -950,13 +950,12 @@ DROP TABLE IF EXISTS `systables`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `systables` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `controller` varchar(255) DEFAULT NULL,
-  `descripcion` varchar(255) DEFAULT NULL,
   `rol_id` int(11) DEFAULT NULL,
   `insertar` int(11) DEFAULT NULL,
   `eliminar` int(11) DEFAULT NULL,
   `actualizar` int(11) DEFAULT NULL,
   `consultar` int(11) DEFAULT NULL,
+  `controller_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -967,7 +966,7 @@ CREATE TABLE `systables` (
 
 LOCK TABLES `systables` WRITE;
 /*!40000 ALTER TABLE `systables` DISABLE KEYS */;
-INSERT INTO `systables` VALUES (1,'account','Acceso a Usuarios',1,1,0,1,NULL),(2,'account','Acceso a Usuarios',2,1,0,1,NULL),(3,'account','Acceso a Usuarios',3,1,0,1,NULL),(5,'account','Acceso a Usuarios',5,1,0,1,NULL),(6,'fondeos','fondeos',2,1,0,1,NULL),(7,'fondeos','fondeos',5,1,0,1,NULL),(8,'account','Acceso a Usuarios',4,NULL,NULL,NULL,NULL),(9,'fondeos','fondeos',4,NULL,NULL,NULL,NULL);
+INSERT INTO `systables` VALUES (1,1,1,0,1,NULL,NULL),(2,2,1,0,1,NULL,NULL),(3,3,1,0,1,NULL,NULL),(5,5,1,0,1,NULL,NULL),(6,2,1,0,1,NULL,NULL),(7,5,1,0,1,NULL,NULL),(8,4,NULL,NULL,NULL,NULL,NULL),(9,4,NULL,NULL,NULL,NULL,NULL);
 /*!40000 ALTER TABLE `systables` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1059,4 +1058,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2010-07-04 15:57:07
+-- Dump completed on 2010-07-07 12:24:38

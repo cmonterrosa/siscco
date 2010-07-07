@@ -44,14 +44,7 @@ class ApplicationController < ActionController::Base
   (1..52).each do |x| @semanas << x end
   $semanas = @semanas
 
-  #----- carga la variable global de configuracion -----
-  CIUDAD_EMPRESA = "Tuxtla Gutiérrez, Chiapas"
-  NOMBRE_EMPRESA = "SOCAMA CENTRO Y FRAYLESCA S.A DE C.V."
-  DIRECCION_EMPRESA = "13a Avenida Sur Poniente Número 640, Barrio San Francisco"
-  TELEFONO_EMPRESA = "9616112840"
-  
-
-    #--- Conversion de ISO a UTF-8 para los reportes ---
+   #--- Conversion de ISO a UTF-8 para los reportes ---
     def to_iso(texto)
       c = Iconv.new('ISO-8859-15//IGNORE//TRANSLIT', 'UTF-8')
       iso = c.iconv(texto)

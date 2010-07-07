@@ -2,7 +2,7 @@
 # migrations feature of ActiveRecord to incrementally modify your database, and
 # then regenerate this schema definition.
 
-ActiveRecord::Schema.define(:version => 36) do
+ActiveRecord::Schema.define(:version => 37) do
 
   create_table "bancos", :force => true do |t|
     t.column "nombre",     :string
@@ -11,6 +11,8 @@ ActiveRecord::Schema.define(:version => 36) do
     t.column "direccion",  :string
     t.column "telefono",   :string
     t.column "colonia_id", :integer
+    t.column "user_id",    :integer
+    t.column "fecha_hora", :datetime
   end
 
   create_table "civils", :force => true do |t|
@@ -38,6 +40,8 @@ ActiveRecord::Schema.define(:version => 36) do
     t.column "vivienda_id",    :integer
     t.column "colonia_id",     :integer
     t.column "grupo_id",       :integer,               :default => 1
+    t.column "user_id",        :integer
+    t.column "fecha_hora",     :date
   end
 
   create_table "colonias", :force => true do |t|
@@ -50,6 +54,15 @@ ActiveRecord::Schema.define(:version => 36) do
     t.column "tasa_interes",      :string
     t.column "interes_moratorio", :string
     t.column "multa",             :string
+    t.column "nombre_empresa",    :string
+    t.column "direccion",         :string
+    t.column "ciudad",            :string
+    t.column "activo",            :integer
+  end
+
+  create_table "controllers", :force => true do |t|
+    t.column "controller",  :string
+    t.column "descripcion", :string
   end
 
   create_table "creditos", :force => true do |t|
@@ -68,6 +81,8 @@ ActiveRecord::Schema.define(:version => 36) do
     t.column "grupo_id",          :integer
     t.column "periodo_id",        :integer
     t.column "status",            :integer
+    t.column "user_id",           :integer
+    t.column "fecha_hora",        :datetime
   end
 
   create_table "destinos", :force => true do |t|
@@ -199,7 +214,6 @@ ActiveRecord::Schema.define(:version => 36) do
     t.column "iva_multa",     :float
     t.column "garantia",      :string
     t.column "periodo_id",    :integer
-    t.column "grupo_id",      :integer
   end
 
   create_table "promotors", :force => true do |t|

@@ -10,14 +10,14 @@
     <th>Descripción del módulo</th>
   </tr>
 
-  <!-- Inicia iteracion de modulos -->
-  <%todos_controladores.each do |controlador| -%>
-    <tr>
-      <td><%= check_box_tag "rols[systable_ids][]", controlador.id, tiene_permiso?(@rol, controlador.controller) -%></td>
-      <td><%= controlador.descripcion -%></td>
-    </tr>
-  <%end%>
-</table>
+  <%#*<!-- Inicia iteracion de modulos -->%>
+  <%#todos_controladores.each do |controlador| -%>
+    <%#*<tr>%>
+      <%#*<td><%= check_box_tag "rols[systable_ids][]", controlador.id, tiene_permiso?(@rol, controlador.controller.id) -%></td>%>
+      <%#*<td><%= controlador.descripcion -%td>%>
+    <%#*</tr>%>
+  <%#end%>
+</table>%>
 
 <table class="botones">
   <tr class="botones">

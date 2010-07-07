@@ -11,6 +11,15 @@ RAILS_GEM_VERSION = '1.2.6' unless defined? RAILS_GEM_VERSION
 require File.join(File.dirname(__FILE__), 'boot')
 
 Rails::Initializer.run do |config|
+
+  #----- carga la variable global de configuracion -----
+  CIUDAD_EMPRESA = "Tuxtla Gutiérrez, Chiapas"
+  NOMBRE_EMPRESA = "SOCAMA CENTRO Y FRAYLESCA S.A DE C.V."
+  DIRECCION_EMPRESA = "13a Avenida Sur Poniente Número 640, Barrio San Francisco"
+  TELEFONO_EMPRESA = "9616112840"
+  
+
+
   # Settings in config/environments/* take precedence over those specified here
 
   # Skip frameworks you're not going to use (only works if using vendor/rails)
