@@ -172,6 +172,31 @@ INSERT INTO `configuracion` VALUES (1,'3.0','2.5','0','SOCAMA CENTRO FRAYLESCA, 
 UNLOCK TABLES;
 
 --
+-- Table structure for table `controllers`
+--
+
+DROP TABLE IF EXISTS `controllers`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `controllers` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `controller` varchar(255) DEFAULT NULL,
+  `descripcion` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `controllers`
+--
+
+LOCK TABLES `controllers` WRITE;
+/*!40000 ALTER TABLE `controllers` DISABLE KEYS */;
+INSERT INTO `controllers` VALUES (1,'account','Autenticacion'),(2,'administracion','Administracion'),(3,'bancos','Bancos'),(4,'catalogos','Catalogos'),(5,'clientes','Clientes'),(6,'colonias','Colonias'),(7,'creditos','Creditos'),(8,'festivos','Dias Festivos'),(9,'lineas','Lineas de Fondeo'),(10,'pagos','Pagos'),(11,'pagoslineas','Pagos a Lineas de Fondeo');
+/*!40000 ALTER TABLE `controllers` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `creditos`
 --
 
@@ -838,7 +863,7 @@ CREATE TABLE `schema_info` (
 
 LOCK TABLES `schema_info` WRITE;
 /*!40000 ALTER TABLE `schema_info` DISABLE KEYS */;
-INSERT INTO `schema_info` VALUES (36);
+INSERT INTO `schema_info` VALUES (37);
 /*!40000 ALTER TABLE `schema_info` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1058,4 +1083,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2010-07-07 12:24:38
+-- Dump completed on 2010-07-07 21:28:43
