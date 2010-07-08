@@ -92,7 +92,7 @@ class ApplicationController < ActionController::Base
       end
 
 
-
+#--- Funciones de insercion de registros ------
 
   def inserta_registro(registro, mensaje)
     begin
@@ -107,7 +107,28 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  def inserta_registro2(registro, registro2, mensaje)
+
+  #----- esta funcion inserta y guarda un log por cada operacion -----
+    def inserta_registro_log(registro, mensaje)
+    begin
+      if registro.save!
+        #--- Guardamos el log ---
+        Log.create(:operacion => "INSERTAR",
+                   :clase => registro.class.to_s,
+                   :objeto_id => registro.id.to_i,
+                   :user_id => session['user'].id)
+      end
+        flash[:notice]=mensaje
+        redirect_to :action => 'list', :controller => "#{params[:controller]}"
+      rescue ActiveRecord::RecordInvalid => invalid
+        flash[:notice] = invalid
+        redirect_to :action => 'new', :controller => "#{params[:controller]}"
+      end
+    end
+
+
+
+  def inserta_cliente(registro, registro2, mensaje)
     begin
       registro.fecha_hora = Time.now
       registro.user_id = session['user'].id
@@ -121,6 +142,8 @@ class ApplicationController < ActionController::Base
       redirect_to :action => 'new', :controller => "#{params[:controller]}"
     end
   end
+
+  #------ Funciones de actualizacion de registros ------
 
   
   def actualiza_registro(registro, parametros)
@@ -136,7 +159,29 @@ class ApplicationController < ActionController::Base
     end
   end
 
- def actualiza_registro2(registro, parametros, registro2, parametros2)
+
+    #----- esta funcion inserta y guarda un log por cada operacion -----
+    def actualiza_registro_log(registro, parametros)
+    begin
+      if registro.update_attributes(parametros)
+        #--- Guardamos el log ---
+        Log.create(:operacion => "ACTUALIZAR",
+                   :clase => registro.class.to_s,
+                   :objeto_id => registro.id.to_i,
+                   :user_id => session['user'].id)
+      end
+        flash[:notice]='Registro actualizado satisfactoriamente'
+        redirect_to :controller => params[:controller], :action => 'show', :id => registro
+      rescue ActiveRecord::RecordInvalid => invalid
+        flash[:notice] = invalid
+        redirect_to :action => 'edit', :controller => params[:controller], :id=> registro
+      end
+    end
+
+
+
+
+ def actualiza_cliente(registro, parametros, registro2, parametros2)
     begin
       registro.fecha_hora = Time.now
       registro.user_id = session['user'].id
@@ -176,6 +221,7 @@ class ApplicationController < ActionController::Base
 #    end
 #  end
 
+#---------- Funciones de eliminacion de registros------
 
   def eliminar_registro(registro, rol)
     #------Verifica que se pueda eliminar el registro -----
@@ -193,6 +239,24 @@ class ApplicationController < ActionController::Base
      redirect_to :action => 'list', :controller => params[:controller]
    end
  end
+
+    def actualiza_registro_log(registro, rol)
+    begin
+      if registro.update_attributes(parametros)
+        #--- Guardamos el log ---
+        Log.create(:operacion => "ACTUALIZAR",
+                   :clase => registro.class.to_s,
+                   :objeto_id => registro.id.to_i,
+                   :user_id => session['user'].id)
+      end
+        flash[:notice]='Registro actualizado satisfactoriamente'
+        redirect_to :controller => params[:controller], :action => 'show', :id => registro
+      rescue ActiveRecord::RecordInvalid => invalid
+        flash[:notice] = invalid
+        redirect_to :action => 'edit', :controller => params[:controller], :id=> registro
+      end
+    end
+
 
 
 

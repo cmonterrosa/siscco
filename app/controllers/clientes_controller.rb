@@ -34,7 +34,7 @@ class ClientesController < ApplicationController
   end
 
   def create
-    inserta_registro2(Cliente.new(params[:cliente]), Negocio.new(params[:negocio]), 'Registro creado satisfactoriamente.')
+    inserta_cliente(Cliente.new(params[:cliente]), Negocio.new(params[:negocio]), 'Registro creado satisfactoriamente.')
 #    @cliente = Cliente.new(params[:cliente])
 #    @negocio = Negocio.new(params[:negocio])
 #    @negocio.cliente = @cliente
@@ -62,7 +62,7 @@ class ClientesController < ApplicationController
   end
 
   def update
-    actualiza_registro2(Cliente.find(params[:id]), params[:cliente], Negocio.find(params[:id_negocio]), params[:negocio])
+    actualiza_cliente(Cliente.find(params[:id]), params[:cliente], Negocio.find(params[:id_negocio]), params[:negocio])
 #    @cliente = Cliente.find(params[:id])
 #    @negocio = Negocio.find(params[:id_negocio])
 #    if @cliente.update_attributes(params[:cliente]) && @negocio.update_attributes(params[:negocio])
@@ -89,7 +89,7 @@ class ClientesController < ApplicationController
     Cliente.find(params[:id]).destroy
     redirect_to :action => 'list'
   end
-                    #-- Ajax --
+  #-- Ajax --
   def live_search
       @clientes = Cliente.find(:all, :conditions => "nombre like '%#{params[:searchtext]}%' or
                                                      paterno like '%#{params[:searchtext]}%' or

@@ -23,7 +23,7 @@ class BancosController < ApplicationController
   end
 
   def create
-   inserta_registro(Banco.new(params[:banco]), 'Registro creado satisfactoriamente.')
+   inserta_registro_log(Banco.new(params[:banco]), 'Registro creado satisfactoriamente.')
 
 #    @banco = Banco.new(params[:banco])
 #    if @banco.save
@@ -40,7 +40,7 @@ class BancosController < ApplicationController
 
   def update
 #    @banco = Banco.update(params[:id].keys, params[:id].values).reject { |p| p.errors.empty? }
-    actualiza_registro(Banco.find(params[:id]), params[:bancos])
+    actualiza_registro_log(Banco.find(params[:id]), params[:banco])
 #    @banco = Banco.find(params[:id])
 #    if @banco.update_attributes(params[:banco])
 #      flash[:notice] = 'Registro actuaizado.'

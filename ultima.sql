@@ -33,7 +33,7 @@ CREATE TABLE `bancos` (
   `user_id` int(11) DEFAULT NULL,
   `fecha_hora` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -42,7 +42,7 @@ CREATE TABLE `bancos` (
 
 LOCK TABLES `bancos` WRITE;
 /*!40000 ALTER TABLE `bancos` DISABLE KEYS */;
-INSERT INTO `bancos` VALUES (1,'BANORTE','444',NULL,NULL,NULL,NULL,NULL,NULL),(2,'BANCOMER','55',NULL,NULL,NULL,NULL,NULL,NULL),(3,'SANTANDER','666',NULL,NULL,NULL,NULL,NULL,NULL);
+INSERT INTO `bancos` VALUES (1,'BANORTE','444',NULL,NULL,NULL,NULL,NULL,NULL),(2,'BANCOMER','55',NULL,NULL,NULL,NULL,NULL,NULL),(3,'SANTANDER','666',NULL,NULL,NULL,NULL,NULL,NULL),(5,'BANAMEX','787878','JUAN IGNACIO VALLE RUEDA','AV CENTRAL PONIENTE','8787484',10,NULL,NULL),(6,'BANSEFI','839339','JJDDJ','9389383','88383',10,NULL,NULL),(7,'BANSEFI','839339','JJDDJ','9389383','88383',10,NULL,NULL);
 /*!40000 ALTER TABLE `bancos` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -531,6 +531,34 @@ INSERT INTO `lineas` VALUES (4,1,'1111','2010-01-01',2.5e+06,'A','1');
 UNLOCK TABLES;
 
 --
+-- Table structure for table `logs`
+--
+
+DROP TABLE IF EXISTS `logs`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `logs` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `operacion` varchar(255) DEFAULT NULL,
+  `fecha_hora` datetime DEFAULT NULL,
+  `clase` varchar(255) DEFAULT NULL,
+  `objeto_id` int(11) DEFAULT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `logs`
+--
+
+LOCK TABLES `logs` WRITE;
+/*!40000 ALTER TABLE `logs` DISABLE KEYS */;
+INSERT INTO `logs` VALUES (1,'INSERTAR','2010-07-08 13:38:41','Banco',NULL,1),(2,'INSERTAR','2010-07-08 13:40:09','Banco',0,1),(3,'INSERTAR','2010-07-08 13:47:53','Banco',6,1),(4,'INSERTAR','2010-07-08 13:47:54','Banco',6,1),(5,'INSERTAR','2010-07-08 13:47:54','Banco',6,1),(6,'INSERTAR','2010-07-08 13:49:48','Banco',7,1),(7,'ACTUALIZAR','2010-07-08 13:55:54','Banco',7,1),(8,'ACTUALIZAR','2010-07-08 13:59:06','Banco',6,1);
+/*!40000 ALTER TABLE `logs` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `miembros`
 --
 
@@ -863,7 +891,7 @@ CREATE TABLE `schema_info` (
 
 LOCK TABLES `schema_info` WRITE;
 /*!40000 ALTER TABLE `schema_info` DISABLE KEYS */;
-INSERT INTO `schema_info` VALUES (37);
+INSERT INTO `schema_info` VALUES (38);
 /*!40000 ALTER TABLE `schema_info` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1083,4 +1111,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2010-07-07 21:28:43
+-- Dump completed on 2010-07-08 14:26:08
