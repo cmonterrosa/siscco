@@ -265,13 +265,12 @@ ActiveRecord::Schema.define(:version => 37) do
   end
 
   create_table "systables", :force => true do |t|
-    t.column "controller",  :string
-    t.column "descripcion", :string
-    t.column "rol_id",      :integer
-    t.column "insertar",    :integer
-    t.column "eliminar",    :integer
-    t.column "actualizar",  :integer
-    t.column "consultar",   :integer
+    t.column "rol_id",        :integer
+    t.column "insertar",      :integer
+    t.column "eliminar",      :integer
+    t.column "actualizar",    :integer
+    t.column "consultar",     :integer
+    t.column "controller_id", :integer
   end
 
   create_table "transferencias", :force => true do |t|
