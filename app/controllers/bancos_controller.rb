@@ -11,7 +11,7 @@ class BancosController < ApplicationController
 
   def list
     #@banco_pages, @bancos = paginate :bancos , :per_page => 10
-    @bancos = Banco.find(:all, :order => 'nombre')
+    @bancos = Banco.find(:all, :order => 'nombre', :conditions => "st != 0")
   end
 
   def show
@@ -51,8 +51,9 @@ class BancosController < ApplicationController
   end
 
   def destroy
-    Banco.find(params[:id]).destroy
-    redirect_to :action => 'list'
+    #Banco.find(params[:id]).destroy
+    #redirect_to :action => 'list'
+    elimina_registro_log(Banco.find(params[:id]), session['user'].rol)
   end
 
   #--- Funciones ajax para filtrado --
