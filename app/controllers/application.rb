@@ -240,21 +240,29 @@ class ApplicationController < ActionController::Base
    end
  end
 
-    def actualiza_registro_log(registro, rol)
+    def elimina_registro_log(registro, rol)
     begin
-      if registro.update_attributes(parametros)
+      @controller = Controller.find_by_controller(params[:controller])
+      if Systable.find(:first, :conditions=>["rol_id = ? and eliminar=1 and controller_id=?", rol, @controller.id])
+        #--- Cambiamos el estatus ----
+        registro.st = 0
+        registro.save!
         #--- Guardamos el log ---
-        Log.create(:operacion => "ACTUALIZAR",
+        Log.create(:operacion => "ELIMINAR",
                    :clase => registro.class.to_s,
                    :objeto_id => registro.id.to_i,
                    :user_id => session['user'].id)
+        flash[:notice]="Registro eliminado"
+        redirect_to :action => 'list', :controller => params[:controller]
+      else
+        flash[:notice]="No tiene privilegios para eliminar el registro"
+        redirect_to :action => 'list', :controller => params[:controller]
       end
-        flash[:notice]='Registro actualizado satisfactoriamente'
-        redirect_to :controller => params[:controller], :action => 'show', :id => registro
-      rescue ActiveRecord::RecordInvalid => invalid
+        
+     rescue ActiveRecord::RecordInvalid => invalid
         flash[:notice] = invalid
         redirect_to :action => 'edit', :controller => params[:controller], :id=> registro
-      end
+     end
     end
 
 
