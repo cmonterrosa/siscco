@@ -121,6 +121,7 @@ class CreditosController < ApplicationController
           #--- Insertamos el registro de los pagos que debe de realizar -----
            #inserta_pagos(@credito, calcula_pagos(@fecha_inicio.year, @fecha_inicio.month, @fecha_inicio.day, params[:credito][:num_pagos], Periodo.find(params[:credito][:periodo_id])))
                #---- Validamos si es individual o grupal ----
+               inserta_miembros()
                 if params[:credito][:grupo_id].nil?
                 #--- Es individual -----
                    inserta_pagos_individuales(@credito, calcula_pagos(@fecha_inicio.year, @fecha_inicio.month, @fecha_inicio.day, params[:credito][:num_pagos], Periodo.find(params[:credito][:periodo_id])))

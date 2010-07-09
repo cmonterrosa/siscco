@@ -531,6 +531,11 @@ class ApplicationController < ActionController::Base
          end
 
 
+         def inserta_miembros()
+
+         end
+
+
  # Scrub sensitive parameters from your log
    filter_parameter_logging :password
 end
