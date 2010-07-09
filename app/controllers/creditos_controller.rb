@@ -121,7 +121,7 @@ class CreditosController < ApplicationController
           #--- Insertamos el registro de los pagos que debe de realizar -----
            #inserta_pagos(@credito, calcula_pagos(@fecha_inicio.year, @fecha_inicio.month, @fecha_inicio.day, params[:credito][:num_pagos], Periodo.find(params[:credito][:periodo_id])))
                #---- Validamos si es individual o grupal ----
-               inserta_miembros()
+               inserta_miembros(params[:miembro], @credito)
                 if params[:credito][:grupo_id].nil?
                 #--- Es individual -----
                    inserta_pagos_individuales(@credito, calcula_pagos(@fecha_inicio.year, @fecha_inicio.month, @fecha_inicio.day, params[:credito][:num_pagos], Periodo.find(params[:credito][:periodo_id])))
@@ -203,5 +203,17 @@ class CreditosController < ApplicationController
       render :text => params[:id]
     end
 
+
+  def inserta_miembros(miembros , credito)
+
+    miembros.each do |miembro, cliente|
+      @miembro = Miembro.new
+      @jerarquia = Jerarquia.find(:first, :conditions => ["jerarquia = ?", miembro])
+      @miembro.credito = credito
+      @miembro.cliente_id = cliente.to_i
+      @miembro.jerarquia = @jerarquia
+      @miembro.save!
+    end
+  end
 
 end

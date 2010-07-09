@@ -4,11 +4,10 @@ class CreateJerarquias < ActiveRecord::Migration
       t.column :jerarquia, :string
     end
 
-    Jerarquia.new(:jerarquia=>"PRESIDENTE")
-    Jerarquia.new(:jerarquia=>"SECRETARIO")
-    Jerarquia.new(:jerarquia=>"TESORERO")
-    Jerarquia.new(:jerarquia=>"VOCAL")
-    Jerarquia.new(:jerarquia=>"MIEMBRO")
+    Jerarquia.new(:jerarquia=>"presidente")
+    Jerarquia.new(:jerarquia=>"secretario")
+    Jerarquia.new(:jerarquia=>"tesorero")
+    Jerarquia.new(:jerarquia=>"miembro")
   end
 
   def self.down

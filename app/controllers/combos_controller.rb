@@ -24,15 +24,15 @@ class CombosController < ApplicationController
   end
 
   def get_secretario
-      @secretarios = Cliente.find(:all, :conditions => ["id != ?", params[:_presidente]])
+      @secretarios = Cliente.find(:all, :conditions => ["id != ?", params[:miembro_presidente]])
       unless @secretarios.nil?
-        $presidente = params[:_presidente]
+        $presidente = params[:miembro_presidente]
       end
       return render(:partial => 'secretario', :layout => false) if request.xhr?
   end
 
   def get_tesorero
-      @tesoreros = Cliente.find(:all, :conditions => ["id != ? AND id != ?", params[:_secretario], $presidente])
+      @tesoreros = Cliente.find(:all, :conditions => ["id != ? AND id != ?", params[:miembro_secretario], $presidente])
       return render(:partial => 'tesorero', :layout => false) if request.xhr?
   end
 

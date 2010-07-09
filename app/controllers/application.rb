@@ -276,15 +276,9 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  
-
       ###############################################
       #            Funciones del crédito            #
       ###############################################
-
-
-
-
 
   def abonos(credito)
     @pagos = Pago.find(:all,
@@ -327,11 +321,6 @@ class ApplicationController < ActionController::Base
     return @interes + @capital
   end
 
-
-
-
-
-
   def pago_minimo(credito)
           #--- Verificamos si el credito ha sido cubierto ----
        @interes_moratorio = Configuracion.find(:first, :select=>"interes_moratorio").interes_moratorio.to_f / 100.0
@@ -342,11 +331,6 @@ class ApplicationController < ActionController::Base
          return ((@proximo_pago.capital_minimo.to_f + @proximo_pago.interes_minimo.to_f)*(@interes_moratorio)) + @proximo_pago.capital_minimo.to_f + @proximo_pago.interes_minimo.to_f
        end
   end
-
-
-
-
-
 
   def capital_minimo(credito)
       return credito.monto / @credito.num_pagos.to_f
@@ -372,11 +356,6 @@ class ApplicationController < ActionController::Base
           return((@monto / @miembros) * @interes) / @credito.num_pagos
     end
 
-
-
-
-
-
   def proximo_pago(credito)
           @proximo = Pago.find(:first, :conditions=>["credito_id = ? AND
                                                    pagado=0", credito.id],
@@ -390,9 +369,6 @@ class ApplicationController < ActionController::Base
                                                    :order=>"fecha_limite")
           return @proximo
   end
-
-
-
 
   def ultimo_pago(anio, mes, dia, num_pagos, periodo)
         @dias = num_pagos.to_i * periodo.dias.to_i
@@ -485,10 +461,6 @@ class ApplicationController < ActionController::Base
        end
     end
 
-
-
-
-
     def tiene_permiso?(rol, controlador)
           @registro = Systable.find(:first, :conditions => ["rol_id = ? and controller = ? ", Rol.find(rol).id, controlador])
            if @registro.nil?
@@ -506,8 +478,6 @@ class ApplicationController < ActionController::Base
                 true
            end
     end
-
-
 
         def linea_disponible(linea)
           if linea.creditos.empty?
@@ -529,12 +499,6 @@ class ApplicationController < ActionController::Base
              return true
            end
          end
-
-
-         def inserta_miembros()
-
-         end
-
 
  # Scrub sensitive parameters from your log
    filter_parameter_logging :password
