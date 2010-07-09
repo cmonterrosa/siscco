@@ -43,7 +43,7 @@
     <th>Tesorero:</th>
   </tr>
   <tr>
-    <td><%=collection_select("","cliente_id", $clientes, :id, :nombre_completo, :prompt => '>>Presidente')%></td>
+    <td><%=collection_select("","presidente", $clientes, :id, :nombre_completo, :prompt => '>>Presidente')%></td>
     <td><%=collection_select("","secretario", $clientes, :id, :nombre_completo, :prompt => '>>Secretario')%></td>
     <td><%=collection_select("","tesorero", $clientes, :id, :nombre_completo, :prompt => '>>Tesorero')%></td>
   </tr>
@@ -55,11 +55,11 @@
     :update => 'credito_linea_id',
     :with => '_fondeo_id' %>
 
-<%= observe_field '_cliente_id',
+<%= observe_field '_presidente',
     :url => {:controller => 'combos',
     :action => 'get_secretario'},
     :update => '_secretario',
-    :with => '_cliente_id' %>
+    :with => '_presidente' %>
 
 <%= observe_field '_secretario',
     :url => {:controller => 'combos',
