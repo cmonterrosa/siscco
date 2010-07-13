@@ -11,9 +11,8 @@ class CreateProductos < ActiveRecord::Migration
       t.column :garantia, :string
       #--- relacion con otras tablas ---
       t.column :periodo_id, :integer
-      #---- columnas de auditoria ---
-      t.column :user_id, :integer
-      t.column :fecha_hora, :datetime
+      #---- campo para historial -----
+      t.column :st, :integer
     end
   end
 

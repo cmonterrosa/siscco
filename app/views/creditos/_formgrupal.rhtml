@@ -4,13 +4,13 @@
   <tr>
     <th>Monto:</th>
     <th>Fecha Inicio:</th>
-    <th>Periodos:</th>
+    <th>Producto:</th>
     <th>Número de Pagos:</th>
   </tr>
   <tr>
     <td><%= text_field 'credito', 'monto', :onkeypress => "return CharNum(event, 'numero');"  %></td>
     <td><%= date_select 'credito', 'fecha_inicio', :order => [:day, :month, :year]  %></td>
-    <td><%=collection_select("credito", "periodo_id", $periodos, :id, :nombre)%></td>
+    <td><%=collection_select("credito", "producto_id", $productos, :id, :nombre)%></td>
     <td><%=select("credito", "num_pagos", $semanas)%></td>
   </tr>
   <tr>
@@ -34,7 +34,7 @@
   <tr>
     <td><%=collection_select("credito", "promotor_id", $promotores, :id, :nombre_completo)%></td>
     <td><%=collection_select("credito", "destino_id", $destinos, :id, :destino)%></td>
-    <td><%=collection_select("credito", "grupo_id", $grupos, :id, :nombre)%><%= link_to 'Agregar'%></td>
+    <td><%=collection_select("credito", "grupo_id", $grupos, :id, :nombre)%>&nbsp;&nbsp;&nbsp;<%= link_to 'Agregar', :controller => 'grupos', :action => 'new'%></td>
     <td><%=check_box('credito', 'status') %></td>
   </tr>
   <tr>

@@ -4,9 +4,8 @@ class CreateLogs < ActiveRecord::Migration
       t.column :operacion, :string
       t.column :fecha_hora, :datetime
       t.column :clase, :string
-      #---- Vinculacion con otras tablas -----
-      t.column :objeto_id, :integer
-      t.column :user_id, :integer
+      #---- campo para historial -----
+      t.column :st, :integer
     end
   end
 

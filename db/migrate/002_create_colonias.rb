@@ -4,8 +4,8 @@ class CreateColonias < ActiveRecord::Migration
       t.column :colonia, :string
       t.column :clave_inegi, :string
       t.column :ejido_id, :integer
-      t.column :user_id, :integer
-       t.column :fecha_hora, :datetime
+      #---- campo para historial -----
+      t.column :st, :integer
     end
   end
 

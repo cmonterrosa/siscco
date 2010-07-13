@@ -15,9 +15,8 @@ class CreatePagos < ActiveRecord::Migration
       t.column :credito_id, :integer
       t.column :cliente_id, :integer
       t.column :descripcion, :string
-      #---- columnas de auditoria ---
-      t.column :user_id, :integer
-      t.column :fecha_hora, :datetime
+      #---- campo para historial -----
+      t.column :st, :integer
     end
   end
 

@@ -2,9 +2,8 @@ class CreateSectors < ActiveRecord::Migration
   def self.up
     create_table :sectors do |t|
       t.column :sector, :string
-      #---- columnas de auditoria ---
-      t.column :user_id, :integer
-      t.column :fecha_hora, :datetime
+      #---- campo para historial -----
+      t.column :st, :integer
     end
   end
 

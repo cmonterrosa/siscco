@@ -4,9 +4,8 @@ class CreateGiros < ActiveRecord::Migration
       t.column :giro, :string
       t.column :codigo, :string
       t.column :subsector, :string
-      #---- columnas de auditoria ---
-      t.column :user_id, :integer
-      t.column :fecha_hora, :datetime
+      #---- campo para historial -----
+      t.column :st, :integer
     end
   end
 

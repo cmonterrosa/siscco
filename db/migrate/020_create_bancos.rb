@@ -8,9 +8,8 @@ class CreateBancos < ActiveRecord::Migration
       t.column :telefono, :string
       t.column :colonia_id, :integer
       t.column :st, :integer, :default => 1
-      #---- columnas de auditoria ---
-      t.column :user_id, :integer
-      t.column :fecha_hora, :datetime
+      #---- campo para historial -----
+      t.column :st, :integer
     end
   end
 

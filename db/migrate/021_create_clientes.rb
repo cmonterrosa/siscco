@@ -22,9 +22,8 @@ class CreateClientes < ActiveRecord::Migration
       t.column :vivienda_id, :integer
       t.column :colonia_id, :integer
       t.column :grupo_id, :integer, :default => 1
-      #---- columnas de auditoria ---
-      t.column :user_id, :integer
-      t.column :fecha_hora, :datetime
+      #---- campo para historial -----
+      t.column :st, :integer
 end
   end
 

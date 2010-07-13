@@ -7,10 +7,8 @@ class CreateLineas < ActiveRecord::Migration
       t.column :estatus, :string
       t.column :gcnf, :string
       t.column :fondeo_id, :integer
-      #-- columnas de auditoria---
-      t.column :user_id, :integer
-      t.column :fecha_hora, :datetime
-#      t.column :banco_id, :integer
+      #---- campo para historial -----
+      t.column :st, :integer
     end
   end
 

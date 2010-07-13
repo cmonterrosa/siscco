@@ -1,5 +1,7 @@
 class GruposController < ApplicationController
-   before_filter :login_required
+
+  before_filter :login_required
+
   def index
     list
     render :action => 'list'
@@ -10,8 +12,11 @@ class GruposController < ApplicationController
          :redirect_to => { :action => :list }
 
   def list
-#    @grupo_pages, @grupos = paginate :grupos, :per_page => 10
-     @grupos = Grupo.find(:all, :order => 'nombre')
+      unless @credito.nil?
+        @grupos = Grupo.find(:all, :order => 'nombre')
+      else
+        redirect_to :action => 'new_grupal', :controller => 'creditos', :id => @credito
+      end
   end
 
   def show
@@ -20,10 +25,19 @@ class GruposController < ApplicationController
 
   def new
     @grupo = Grupo.new
+    if params[:credito]
+      @credito = params[:credito]
+    end
   end
 
   def create
-    inserta_registro(Grupo.new(params[:grupo]), 'Registro creado satisfactoriamente')
+    unless @credito.nil?
+      inserta_registro(Grupo.new(params[:grupo]), 'Registro creado satisfactoriamente')
+    else
+      @grupo = Grupo.new(params[:grupo])
+      @grupo.save!
+      redirect_to :action => 'new_grupal', :controller => 'creditos', :id => @credito
+    end
   end
 
   def edit
@@ -40,20 +54,14 @@ class GruposController < ApplicationController
   end
 
   #--- Metodos para realizar la consulta ---
-
-  def estado_cuenta
-
-  end
-
   def consultar
     @grupo = Grupo.find(params[:grupo][:id])
   end
 
-
-   #-- Ajax --
-   def live_search
-      @grupos = Grupo.find(:all, :conditions => ["nombre like ?", "%#{params[:searchtext]}%"])
-      return render(:partial => 'filtrogrupo', :layout => false) if request.xhr?
-   end
+  #-- Ajax --
+  def live_search
+     @grupos = Grupo.find(:all, :conditions => ["nombre like ?", "%#{params[:searchtext]}%"])
+     return render(:partial => 'filtrogrupo', :layout => false) if request.xhr?
+  end
       #--- Funciones ajax para filtrado --
 end

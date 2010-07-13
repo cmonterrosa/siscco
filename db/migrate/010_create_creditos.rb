@@ -8,7 +8,6 @@ class CreateCreditos < ActiveRecord::Migration
       t.column :tasa_interes, :float
       t.column :interes_moratorio, :string
       t.column :num_pagos, :integer
-      t.column :estatus, :string
       #--- aqui van las relaciones con las otras tablas ----
       t.column :linea_id, :integer
       t.column :banco_id, :integer
@@ -16,11 +15,10 @@ class CreateCreditos < ActiveRecord::Migration
       t.column :promotor_id, :integer
       t.column :destino_id, :integer
       t.column :grupo_id, :integer
-      t.column :periodo_id, :integer
+      t.column :producto_id, :integer
       t.column :status, :integer
-      #---- columnas de auditoria ---
-      t.column :user_id, :integer
-      t.column :fecha_hora, :datetime
+      #---- campo para historial -----
+      t.column :st, :integer
     end
   end
 

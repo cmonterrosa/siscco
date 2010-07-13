@@ -14,13 +14,9 @@ class ApplicationController < ActionController::Base
   include LoginSystem
   model :user
 
-
-
-
   #--- Incluimos la clase para generar los reportes ----
   helper :send_doc
   include SendDocHelper
-
 
   before_filter :configure_charsets
 
@@ -38,6 +34,7 @@ class ApplicationController < ActionController::Base
   $grupos = Grupo.find(:all, :order => "nombre")
   $fondeos = Fondeo.find(:all, :order => "fuente")
   $periodos = Periodo.find(:all, :order => "dias")
+  $productos = Producto.find(:all, :order => "producto")
 
   #--- combo de semanas, maximo 52 ----
   @semanas = []
@@ -51,15 +48,11 @@ class ApplicationController < ActionController::Base
       return iso
     end
 
-  
-
-
   #----------- Cambio de idioma de las fechas --------------------
   Date::MONTHNAMES = [nil] + %w(Enero Febrero Marzo Abril Mayo Junio Julio Agosto Septiembre Octubre Noviembre Diciembre)
   Date::DAYNAMES = %w(Domingo Lunes Martes Miercoles Jueves Viernes Sábado)
   Date::ABBR_MONTHNAMES = [nil] + %w(ene Feb Mar Abr May Jun Jul Ago Sep Oct Nov Dic)
   Date::ABBR_DAYNAMES = %w(Dom Lun Mar Mie Jue Vie Sab)
-
 
   ##############################################################################
   # Métodos globales (pueden ser llamados desde cualquier controlador ---------#
@@ -91,13 +84,10 @@ class ApplicationController < ActionController::Base
         end
       end
 
-
 #--- Funciones de insercion de registros ------
 
   def inserta_registro(registro, mensaje)
     begin
-      registro.fecha_hora = Time.now
-      registro.user_id = session['user'].id
       registro.save!
         flash[:notice]=mensaje
         redirect_to :action => 'list', :controller => "#{params[:controller]}"
@@ -130,8 +120,6 @@ class ApplicationController < ActionController::Base
 
   def inserta_cliente(registro, registro2, mensaje)
     begin
-      registro.fecha_hora = Time.now
-      registro.user_id = session['user'].id
       registro2.cliente = registro
       registro.save!
       registro2.save!

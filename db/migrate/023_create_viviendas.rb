@@ -5,15 +5,15 @@ class CreateViviendas < ActiveRecord::Migration
     end
 
 
-  Vivienda.create("BIOCASA O CASA")
-  Vivienda.create("DE ADOBE")
-  Vivienda.create("DE LADRILLO")
-  Vivienda.create("DE MADERA")
-  Vivienda.create("DE MATERIAL MIXTO")
-  Vivienda.create("DE PAJAS, RAMAS O CAÑAS")
-  Vivienda.create("DE PIEDRA")
-  Vivienda.create("APARTAMENTO")
-  Vivienda.create("DEPARTAMENTO")
+  Vivienda.create(:tipo_vivienda => "BIOCASA O CASA")
+  Vivienda.create(:tipo_vivienda => "DE ADOBE")
+  Vivienda.create(:tipo_vivienda => "DE LADRILLO")
+  Vivienda.create(:tipo_vivienda => "DE MADERA")
+  Vivienda.create(:tipo_vivienda => "DE MATERIAL MIXTO")
+  Vivienda.create(:tipo_vivienda => "DE PAJAS, RAMAS O CAÑAS")
+  Vivienda.create(:tipo_vivienda => "DE PIEDRA")
+  Vivienda.create(:tipo_vivienda => "APARTAMENTO")
+  Vivienda.create(:tipo_vivienda => "DEPARTAMENTO")
   end
 
   def self.down

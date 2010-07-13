@@ -9,9 +9,8 @@ class CreatePromotors < ActiveRecord::Migration
       t.column :celular, :string, :limit => 10
       t.column :email, :string
       t.column :observaciones, :string
-      #---- columnas de auditoria ---
-      t.column :user_id, :integer
-      t.column :fecha_hora, :datetime
+       #---- campo para historial -----
+      t.column :st, :integer
     end
   end
 
