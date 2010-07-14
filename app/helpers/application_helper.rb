@@ -1,4 +1,6 @@
 # Methods added to this helper will be available to all templates in the application.
+include Utilerias
+
 module ApplicationHelper
     #---- Funciones que pueden ser usadas desde cualquier vista ----
     def controllers_by_rol(rol)

@@ -14,6 +14,9 @@ class ApplicationController < ActionController::Base
   include LoginSystem
   model :user
 
+  #---- Incluimos las utilerias
+  include Utilerias
+
   #--- Incluimos la clase para generar los reportes ----
   helper :send_doc
   include SendDocHelper

@@ -103,6 +103,8 @@ class CreditosController < ApplicationController
   def create
     @credito = Credito.new(params[:credito])
     @fecha_inicio = Date.strptime(@credito.fecha_inicio.to_s)
+    #@credito.tasa_interes = Producto.find(params[:producto_id]).tasa_interes
+
     @credito.tasa_interes = Configuracion.find(:first, :select=>"tasa_interes").tasa_interes
     @credito.interes_moratorio = Configuracion.find(:first, :select=>"interes_moratorio").interes_moratorio
     @credito.fecha_hora = Time.now

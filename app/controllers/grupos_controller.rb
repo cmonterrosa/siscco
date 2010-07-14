@@ -12,11 +12,11 @@ class GruposController < ApplicationController
          :redirect_to => { :action => :list }
 
   def list
-      unless @credito.nil?
+#      unless @credito.nil?
         @grupos = Grupo.find(:all, :order => 'nombre')
-      else
-        redirect_to :action => 'new_grupal', :controller => 'creditos', :id => @credito
-      end
+#      else
+#        redirect_to :action => 'new_grupal', :controller => 'creditos', :id => @credito
+#      end
   end
 
   def show
