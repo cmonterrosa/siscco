@@ -8,27 +8,12 @@ module ApplicationHelper
     return @rol.systables
   end
 
-    def tiene_permiso?(rol, controlador)
-      @registro = Systable.find(:first, :conditions => ["rol_id = ? and controller = ? ", Rol.find(rol).id, controlador])
-      if @registro.nil?
-         false
-      else
-         true
-      end
-    end
+    
 
   
 
 
 
-       def todos_controladores
-          @arreglo_controllers = Array.new
-          @controllers = Systable.find(:all, :select => ["distinct(controller)"])
-          @controllers.each{|x|
-            @arreglo_controllers << Systable.find(:first,
-              :conditions => ["controller = ?", x.controller])}
-          return @arreglo_controllers
-       end
 
        ###############################################
        #            Funciones del crédito            #

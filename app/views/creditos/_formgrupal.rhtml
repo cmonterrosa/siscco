@@ -10,7 +10,7 @@
   <tr>
     <td><%= text_field 'credito', 'monto', :onkeypress => "return CharNum(event, 'numero');"  %></td>
     <td><%= date_select 'credito', 'fecha_inicio', :order => [:day, :month, :year]  %></td>
-    <td><%=collection_select("credito", "producto_id", $productos, :id, :nombre)%></td>
+    <td><%=collection_select("credito", "producto_id", $productos, :id, :producto)%></td>
     <td><%=select("credito", "num_pagos", $semanas)%></td>
   </tr>
   <tr>

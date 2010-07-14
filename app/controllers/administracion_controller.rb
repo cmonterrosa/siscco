@@ -13,7 +13,7 @@ class AdministracionController < ApplicationController
   def verifica_permisos
     @rol = Rol.find(params[:id])
     @usuarios = @rol.users
-    @controladores = @rol.systables
+    @controllers = Controller.find(:all, :order => "controller")
   end
 
   #----- Este control pagina todos los usuarios que tienen acceso al sistema y le muestra opciones
@@ -24,25 +24,22 @@ class AdministracionController < ApplicationController
      @usuarios = @rol.users
   end
 
-  def update_permisos
+
+   def update_permisos
+    @controllers = Controller.find(params[:rols][:systable_ids])
     @rol = Rol.find(params[:rol])
-    @systable_list=[]
-    @systables = @rol.systables
-    #---- Creamos un arreglo de objetos tipo systable ----
-    @lista = Systable.find(params[:rols][:systable_ids])
-     Systable.destroy(@systables)
-    params[:rols][:systable_ids].each do |id|
-      #@tmp = Systable.find(:first, :conditions => ["rol_id = ? and controller = ?", params[:rol].to_i, Systable.find(id).controller ])
-     # @systable_list << @tmp unless @tmp.nil?
-     @tmp = Systable.find(id)
-     @tmp2 = Systable.create(:controller=>@tmp.controller, :descripcion=> @tmp.descripcion)
-     @rol.systables << @tmp2
-     @rol.save!
+    @controllers.each do |controller|
+      #---- Validamos si ya lo tiene ----
+      unless Systable.find(:first, :conditions =>["controller_id = ? and rol_id = ?", controller.id, @rol.id ])
+           Systable.create(:controller_id => controller.id, :rol_id => @rol.id)
+      end
     end
-    
     flash[:notice] = "Permisos otorgados"
     redirect_to :action => "verifica_permisos", :id => Rol.find(params[:rol])
   end
+
+
+
 
   def configuracion
     @configuracion = Configuracion.find(:first)
