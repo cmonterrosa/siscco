@@ -26,14 +26,15 @@ class AdministracionController < ApplicationController
 
 
    def update_permisos
-    @controllers = Controller.find(params[:rols][:systable_ids])
-    @rol = Rol.find(params[:rol])
-    @controllers.each do |controller|
-      #---- Validamos si ya lo tiene ----
-      unless Systable.find(:first, :conditions =>["controller_id = ? and rol_id = ?", controller.id, @rol.id ])
-           Systable.create(:controller_id => controller.id, :rol_id => @rol.id)
-      end
-    end
+   asigna_permisos(Rol.find(params[:rol]), params[:rols][:systable_ids], params[:rols][:insertar], params[:rols][:actualizar], params[:rols][:eliminar])
+#    @controllers = Controller.find(params[:rols][:systable_ids])
+#    @rol = Rol.find(params[:rol])
+#    @controllers.each do |controller|
+#      #---- Validamos si ya lo tiene ----
+#      unless Systable.find(:first, :conditions =>["controller_id = ? and rol_id = ?", controller.id, @rol.id ])
+#           Systable.create(:controller_id => controller.id, :rol_id => @rol.id)
+#      end
+#    end
     flash[:notice] = "Permisos otorgados"
     redirect_to :action => "verifica_permisos", :id => Rol.find(params[:rol])
   end
