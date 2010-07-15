@@ -1,8 +1,8 @@
--- MySQL dump 10.13  Distrib 5.1.35, for apple-darwin9.5.0 (i386)
+-- MySQL dump 10.13  Distrib 5.1.42, for apple-darwin10.2.0 (i386)
 --
 -- Host: localhost    Database: ultima
 -- ------------------------------------------------------
--- Server version	5.1.35
+-- Server version	5.1.42
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -103,7 +103,7 @@ CREATE TABLE `clientes` (
   `user_id` int(11) DEFAULT NULL,
   `fecha_hora` date DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -112,7 +112,7 @@ CREATE TABLE `clientes` (
 
 LOCK TABLES `clientes` WRITE;
 /*!40000 ALTER TABLE `clientes` DISABLE KEYS */;
-INSERT INTO `clientes` VALUES (1,'monterrosa','loopez','carlos','2010-06-24','MOLC8509121S0','M','M','M','MEXICANA','PRIVADA','M','M','M','99','MMM',1,1,3,10,5,NULL,NULL),(2,'rafa','r','r','2010-06-24','r','r','r','M','MEXICANA','PRIVADA','moral','r','2900','378738','jfjfjf',1,1,1,3,5,NULL,NULL);
+INSERT INTO `clientes` VALUES (1,'monterrosa','loopez','carlos','2010-06-24','MOLC8509121S0','M','M','M','MEXICANA','PRIVADA','M','M','M','99','MMM',1,1,3,10,5,NULL,NULL),(2,'rafa','r','r','2010-06-24','r','r','r','M','MEXICANA','PRIVADA','moral','r','2900','378738','jfjfjf',1,1,1,3,5,NULL,NULL),(3,'MOLINA','NANGO','JUAN JOSE','2010-07-14','MONJ850912187','MONJ850912187333','RRRR','M','MEXICANA','PRIVADA','FISICA CON ACTIVIDAD EMPRESARIAL','4444','44444','4555555','RRRRRRR',1,5,2,10,3,NULL,NULL),(4,'MARTINEZ','JUAREZ','LUIS RODRIGO','2010-07-14','XXXXXXX','XXXX','XXX','M','MEXICANA','PRIVADA','MORAL','XXXX','4444','4444','XXXXXX',1,6,3,10,3,NULL,NULL),(5,'PEREZ','FUENTES','ITZEL','2010-07-14','CCCCCC','CCCCC','CCCCC','M','MEXICANA','PRIVADA','FISICA','CCCCC','CCCCCCC','444444','444444',1,4,3,10,3,NULL,NULL);
 /*!40000 ALTER TABLE `clientes` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -659,7 +659,7 @@ CREATE TABLE `negocios` (
   `cliente_id` int(11) DEFAULT NULL,
   `giro_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -668,7 +668,7 @@ CREATE TABLE `negocios` (
 
 LOCK TABLES `negocios` WRITE;
 /*!40000 ALTER TABLE `negocios` DISABLE KEYS */;
-INSERT INTO `negocios` VALUES (1,'c','c','c','444',4,1,2),(2,'finca','jefe','888','8888',4,2,2);
+INSERT INTO `negocios` VALUES (1,'c','c','c','444',4,1,2),(2,'finca','jefe','888','8888',4,2,2),(3,'XXXXX','XXX','XXX','444444',3,3,2),(4,'XXXX','XXX','XXX','44444',4,4,2),(5,'4444','DDDDD','DDDD','333333',4,5,2);
 /*!40000 ALTER TABLE `negocios` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -777,7 +777,7 @@ CREATE TABLE `productos` (
   `garantia` varchar(255) DEFAULT NULL,
   `periodo_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -786,6 +786,7 @@ CREATE TABLE `productos` (
 
 LOCK TABLES `productos` WRITE;
 /*!40000 ALTER TABLE `productos` DISABLE KEYS */;
+INSERT INTO `productos` VALUES (1,'FOMUR PRIMER CICLO','EFECTIVO',12.3,2.2,1.5,2400,1000,'JDJJDJDJDDD',2);
 /*!40000 ALTER TABLE `productos` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1011,7 +1012,7 @@ CREATE TABLE `systables` (
   `consultar` int(11) DEFAULT NULL,
   `controller_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=30 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1020,7 +1021,7 @@ CREATE TABLE `systables` (
 
 LOCK TABLES `systables` WRITE;
 /*!40000 ALTER TABLE `systables` DISABLE KEYS */;
-INSERT INTO `systables` VALUES (1,1,1,0,1,NULL,NULL),(2,2,1,0,1,NULL,NULL),(3,3,1,0,1,NULL,NULL),(5,5,1,0,1,NULL,NULL),(6,2,1,0,1,NULL,NULL),(7,5,1,0,1,NULL,NULL),(8,4,NULL,NULL,NULL,NULL,NULL),(9,4,NULL,NULL,NULL,NULL,NULL),(10,5,1,1,0,1,3);
+INSERT INTO `systables` VALUES (1,1,1,0,1,1,1),(2,2,1,0,1,1,2),(3,3,1,0,1,1,1),(6,2,1,0,1,1,1),(8,4,1,1,0,1,1),(29,4,1,1,1,NULL,5);
 /*!40000 ALTER TABLE `systables` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1112,4 +1113,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2010-07-09  7:17:17
+-- Dump completed on 2010-07-15 10:31:23

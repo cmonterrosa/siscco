@@ -24,39 +24,47 @@ module Utilerias
 
 
     def asigna_permisos(rol, controllers=nil, permisos_insertar=nil, permisos_actualizar=nil, permisos_eliminar=nil)
-    rol = Rol.find(rol)
-    if controllers
-      controllers.each do |controller|
-      #---- Validamos si ya lo tiene ----
-        unless Systable.find(:first, :conditions =>["controller_id = ? and rol_id = ?", controller.id, rol.id ])
-             Systable.create(:controller_id => controller.id, :rol_id => rol.id)
-        end
+      rol = Rol.find(rol)
+      if controllers
+        controllers.each do |controller|
+        #---- Validamos si ya lo tiene ----
+          unless Systable.find(:first, :conditions =>["controller_id = ? and rol_id = ?", controller, rol.id ])
+               Systable.create(:controller_id => controller, :rol_id => rol.id)
+          end
+         end
+      else
+          return false
       end
-    else
-      return false
-    end
-     #---- Insertamos los permisos de insertar ----
-     if permisos_insertar
-        Systable.find(:first, :conditions =>["controller_id = ? and rol_id = ?", controller.id, rol.id).each do |permiso_insertar|
-          permiso_insertar.insertar = 1
-          permiso_insertar.save!
+      #---- Insertamos los permisos de insertar ----
+          if permisos_insertar
+             permisos_insertar.each do |controller|
+        #---- Validamos si ya lo tiene ----
+               unless (x = Systable.find(:first, :conditions =>["controller_id = ? and rol_id = ?", controller, rol.id ])).nil?
+                  x.insertar= 1
+                  x.save!
+               end
+             end
+          end
+       #---- Insertamos los permisos de actualizar ----
+        if permisos_actualizar
+           permisos_actualizar.each do |controller|
+           #---- Validamos si ya lo tiene ----
+            unless (x= Systable.find(:first, :conditions =>["controller_id = ? and rol_id = ?", controller, rol.id ])).nil?
+                x.actualizar= 1
+                x.save!
+            end
+          end
         end
-     end
-
-     #---- Insertamos los permisos de actualizar ----
-     if permisos_actualizar
-        Systable.find(permisos_actualizar).each do |permiso_actualizar|
-          permiso_actualizar.insertar = 1
-          permiso_actualizar.save!
+        #---- Insertamos los permisos de eliminar ----
+        if permisos_eliminar
+           permisos_eliminar.each do |controller|
+          #---- Validamos si ya lo tiene ----
+            unless (x= Systable.find(:first, :conditions =>["controller_id = ? and rol_id = ?", controller, rol.id ])).nil?
+                x.eliminar= 1
+                x.save!
+            end
         end
-     end
-     #---- Insertamos los permisos de eliminar ----
-     if permisos_eliminar
-        Systable.find(permisos_eliminar).each do |permiso_eliminar|
-          permiso_eliminar.insertar = 1
-          permiso_eliminar.save!
         end
-     end
      return true
    end
    
