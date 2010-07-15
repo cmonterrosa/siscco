@@ -9,28 +9,29 @@ module Creditos
                        :conditions=>["credito_id = ? AND pagado= 1", credito.id])
     sum=0
     @pagos.each do |pago|
-      sum +=  pago.capital
+      sum +=  pago.capital.to_f
     end
     return sum
   end
+
 
   def cargos(credito)
       @pagos = Pago.find(:all,
-                       :conditions=>["credito_id = ? AND pagado= 1", credito.id])
+                         :conditions=>["credito_id = ? AND pagado= 1", credito.id])
     sum=0
     @pagos.each do |pago|
-      sum +=  pago.interes
+      sum +=  pago.interes.to_f
     end
     return sum
-
   end
 
-  def total(credito)
+
+ def total(credito)
     @total =  (credito.monto * (credito.tasa_interes / 100.0)) + credito.monto
     return @total - abonos(credito)
  end
 
-#--- Esta funcion la mandamos a llamar del reporte -----
+  #--- Esta funcion la mandamos a llamar del reporte -----
   def pago_minimo_informativo(credito)
      pago = Pago.find(:first, :conditions => ["credito_id = ?", credito.id])
      return pago.capital_minimo.to_f + pago.interes_minimo.to_f
@@ -38,7 +39,6 @@ module Creditos
 
   def total_adeudado_por_persona(credito)
     #--- dividimos el total entre el numero de personas -----
-    #@total = credito.monto.to_f + (credito.monto * ( credito.tasa_interes/100.0))
     @num_personas = credito.grupo.clientes.size
     @interes = Pago.sum(:interes_minimo, :conditions=>["credito_id = ?", credito.id]).to_f / @num_personas.to_f
     @capital = Pago.sum(:capital_minimo, :conditions=>["credito_id = ?", credito.id]).to_f / @num_personas.to_f
@@ -56,6 +56,7 @@ module Creditos
        end
   end
 
+
   def capital_minimo(credito)
       return credito.monto / @credito.num_pagos.to_f
   end
@@ -66,19 +67,19 @@ module Creditos
           return(@monto * @interes) / @credito.num_pagos
   end
 
-  #---- Funciones grupales------
 
-    def capital_minimo_grupal(credito)
+  #---- Funciones grupales------
+  def capital_minimo_grupal(credito)
       @miembros = credito.grupo.clientes.size
       return (credito.monto / @miembros) / @credito.num_pagos.to_f
-    end
+  end
 
-    def interes_minimo_grupal(credito)
+  def interes_minimo_grupal(credito)
           @miembros = credito.grupo.clientes.size
           @monto = credito.monto
           @interes = credito.tasa_interes / 100.0
           return((@monto / @miembros) * @interes) / @credito.num_pagos
-    end
+  end
 
   def proximo_pago(credito)
           @proximo = Pago.find(:first, :conditions=>["credito_id = ? AND
@@ -86,6 +87,9 @@ module Creditos
                                                    :order=>"fecha_limite")
           return @proximo
   end
+
+
+  
 
   def proximo_pago_grupal(credito, cliente)
            @proximo = Pago.find(:first, :conditions=>["credito_id = ? AND
@@ -142,6 +146,8 @@ module Creditos
            return @pagos
   end
 
+
+
   def inserta_pagos_individuales(credito, arreglo_pagos)
          if credito.pagos.size == 0
          contador=1
@@ -194,25 +200,18 @@ module Creditos
            end
     end
 
-        def tiene_permiso_accion?(rol, controlador,accion)
-          @registro = Systable.find(:first, :conditions => ["rol_id = ? and controller = ? and #{accion} = 1", Rol.find(rol).id, controlador])
-           if @registro.nil?
-               false
-           else
-                true
-           end
+     
+
+    def linea_disponible(linea)
+        if linea.creditos.empty?
+           return linea.autorizado
+        else
+           return (linea.autorizado - Credito.sum(:monto, :conditions=>["linea_id = ?", linea.id])/1.0)
+        end
     end
 
-        def linea_disponible(linea)
-          if linea.creditos.empty?
-            return linea.autorizado
-          else
-            return (linea.autorizado - Credito.sum(:monto, :conditions=>["linea_id = ?", linea.id])/1.0)
-          end
-        end
-
-
-         def cargos?(pago, fecha)
+   
+        def cargos?(pago, fecha)
            @pago= Pago.find(pago)
            @interes_moratorio = Configuracion.find(:first, :select=>"interes_moratorio").interes_moratorio.to_f / 100.0
            if @fecha <= @pago.fecha_limite
@@ -223,6 +222,5 @@ module Creditos
              return true
            end
          end
-
 
 end

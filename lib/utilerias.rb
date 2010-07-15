@@ -1,4 +1,5 @@
 module Utilerias
+
   def separar_miles(n)
     n.to_s =~ /([^\.]*)(\..*)?/
     int, dec = $1.reverse, $2 ? $2 : ""
@@ -12,5 +13,22 @@ module Utilerias
     @registro = Systable.find(:first, :conditions => ["rol_id = ? and controller_id = ? ", Rol.find(rol).id, @controlador])
     return ( @registro.nil? ) ? false : true
   end
+
+  #--- Conversion de ISO a UTF-8 para los reportes ---
+  def to_iso(texto)
+      c = Iconv.new('ISO-8859-15//IGNORE//TRANSLIT', 'UTF-8')
+      iso = c.iconv(texto)
+      return iso
+  end
+
+  def tiene_permiso_accion?(rol, controlador,accion)
+      @registro = Systable.find(:first, :conditions => ["rol_id = ? and controller = ? and #{accion} = 1", Rol.find(rol).id, controlador])
+      return ( @registro.nil? ) ? false : true
+  end
+
+   #--- combo de semanas, maximo 52 ----
+  @semanas = []
+  (1..52).each do |x| @semanas << x end
+  $semanas = @semanas
 
 end
