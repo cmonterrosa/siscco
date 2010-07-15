@@ -23,20 +23,12 @@ module LoginSystem
   def autorizado?(user, controller)
     @usuario= User.find(user)
     @rol = @usuario.rol.id.to_i
-
-        if @rol == 5  # -- es parte del grupo administrador
-          return true
-        end
-
-      #f = File.new("testfile.txt", "w")
-      #f.write("#{@usuario.grupo.id} - #{controller}")
-      #f.close
-    @systable = Systable.find(:all, :conditions => ["rol_id = ? and controller = ?", @rol, controller])
-    if @systable.empty?
-       return false
-    else
+    if @rol == 5  # -- es parte del grupo administrador
        return true
     end
+    @controller = Controller.find_by_controller(controller)
+    @systable = Systable.find(:all, :conditions => ["rol_id = ? and controller_id = ?", @rol, controller.id])
+    return ( @systable.empty? ) ? false : true
   end
 
 
