@@ -191,16 +191,6 @@ module Creditos
        end
     end
 
-    def tiene_permiso?(rol, controlador)
-          @registro = Systable.find(:first, :conditions => ["rol_id = ? and controller = ? ", Rol.find(rol).id, controlador])
-           if @registro.nil?
-               false
-           else
-                true
-           end
-    end
-
-     
 
     def linea_disponible(linea)
         if linea.creditos.empty?

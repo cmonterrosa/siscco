@@ -1,5 +1,6 @@
 <h2>Perfil: <%=@rol.nombre%></h2>
-<h4></h4>Total de módulos disponibles <%=@controllers.size%><br/>
+<h3>Total de módulos disponibles <%=@controllers.size%></h3>
+<br />
 
 
 
@@ -8,16 +9,22 @@
   <tr>
     <th>Permiso</th>
     <th>Descripción del módulo</th>
+    <th>Insertar</th>
+    <th>Eliminar</th>
+    <th>Actualizar</th>
   </tr>
 
   <!-- Inicia iteracion de modulos -->
   <%@controllers.each do |controlador| -%>
     <tr>
       <td><%= check_box_tag "rols[systable_ids][]", controlador.id, tiene_permiso?(@rol, controlador.id) -%></td>
-      <td><%= controlador.descripcion %></td>
-    </tr>%>
+      <td><%= controlador.descripcion -%></td>
+       <td><%= check_box_tag "rols[insertar][]", controlador.id, tiene_permiso_accion?(@rol, controlador.id, "INSERTAR") -%></td>
+       <td><%= check_box_tag "rols[eliminar][]", controlador.id, tiene_permiso_accion?(@rol, controlador.id, "ELIMINAR") -%></td>
+       <td><%= check_box_tag "rols[actualizar][]", controlador.id, tiene_permiso_accion?(@rol, controlador.id, "ACTUALIZAR") -%></td>
+    </tr>
   <%end%>
-</table>%>
+</table>
 
 <table class="botones">
   <tr class="botones">
