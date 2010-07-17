@@ -34,7 +34,7 @@
   <tr>
     <td><%=collection_select("credito", "promotor_id", $promotores, :id, :nombre_completo)%></td>
     <td><%=collection_select("credito", "destino_id", $destinos, :id, :destino)%></td>
-    <td><%=collection_select("credito", "grupo_id", $grupos, :id, :nombre)%>&nbsp;&nbsp;&nbsp;<%= link_to 'Agregar', :controller => 'grupos', :action => 'new'%></td>
+    <td><%=collection_select("credito", "grupo_id", $grupos, :id, :nombre, :prompt => '>>Grupo')%>&nbsp;&nbsp;&nbsp;<%= link_to 'Agregar', :controller => 'grupos', :action => 'new'%></td>
     <td><%=check_box('credito', 'status') %></td>
   </tr>
   <tr>
@@ -54,6 +54,12 @@
     :action => 'get_lineas'},
     :update => 'credito_linea_id',
     :with => '_fondeo_id' %>
+
+<%= observe_field 'credito_grupo_id',
+    :url => {:controller => 'combos',
+    :action => 'get_integrantes'},
+    :update => 'miembro_presidente',
+    :with => 'credito_grupo_id' %>
 
 <%= observe_field 'miembro_presidente',
     :url => {:controller => 'combos',

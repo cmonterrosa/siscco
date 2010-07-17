@@ -23,8 +23,16 @@ class CombosController < ApplicationController
       return render(:partial => 'lineas', :layout => false) if request.xhr?
   end
 
+  def get_integrantes
+      @integrantes = Cliente.find(:all, :conditions => ["grupo_id = ?", params[:credito_grupo_id]])
+      unless @integrantes.nil?
+        $integrantes = params[:credito_grupo_id]
+      end
+      return render(:partial => 'integrantes', :layout => false) if request.xhr?
+  end
+
   def get_secretario
-      @secretarios = Cliente.find(:all, :conditions => ["id != ?", params[:miembro_presidente]])
+      @secretarios = Cliente.find(:all, :conditions => ["id != ? AND grupo_id = ?", params[:miembro_presidente], $integrantes])
       unless @secretarios.nil?
         $presidente = params[:miembro_presidente]
       end
@@ -32,7 +40,7 @@ class CombosController < ApplicationController
   end
 
   def get_tesorero
-      @tesoreros = Cliente.find(:all, :conditions => ["id != ? AND id != ?", params[:miembro_secretario], $presidente])
+      @tesoreros = Cliente.find(:all, :conditions => ["id != ? AND id != ? AND grupo_id = ?", params[:miembro_secretario], $presidente, $integrantes])
       return render(:partial => 'tesorero', :layout => false) if request.xhr?
   end
 

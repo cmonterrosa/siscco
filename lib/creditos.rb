@@ -57,15 +57,15 @@ module Creditos
   end
 
 
-  def capital_minimo(credito)
-      return credito.monto / @credito.num_pagos.to_f
-  end
+#  def capital_minimo(credito)
+#      return credito.monto / @credito.num_pagos.to_f
+#  end
 
-  def interes_minimo(credito)
-          @monto = credito.monto
-          @interes = credito.tasa_interes / 100.0
-          return(@monto * @interes) / @credito.num_pagos
-  end
+#  def interes_minimo(credito)
+#          @monto = credito.monto
+#          @interes = credito.tasa_interes / 100.0
+#          return(@monto * @interes) / @credito.num_pagos
+#  end
 
 
   #---- Funciones grupales------

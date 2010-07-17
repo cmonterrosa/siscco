@@ -18,7 +18,7 @@
     <th>Interes Moratorio:</th>
     <th>Gastos cobranza:</th>
     <th>Iva Gastos de Cobranza:</th>
-    <th>Garantía:</th>
+    <th>Ahorro:</th>
   </tr>
   <tr>
     <td><%= text_field 'producto', 'moratorio', :onkeypress => "return NumberDec(event, 'si', 'si');"  %></td>
@@ -28,6 +28,9 @@
   </tr>
   <tr>
     <th>Periodo:</th>
+    <th>Num. de Pagos:</th>
+    <th>Fondeo:</th>
+    <th>Linea de Fondeo:</th>
   </tr>
   <tr>
     <td><%= collection_select('producto', 'periodo_id', $periodos, :id, :nombre, :prompt => '>>Periodo')  %></td>
