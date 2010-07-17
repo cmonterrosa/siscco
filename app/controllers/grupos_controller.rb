@@ -12,11 +12,7 @@ class GruposController < ApplicationController
          :redirect_to => { :action => :list }
 
   def list
-#      unless @credito.nil?
-        @grupos = Grupo.find(:all, :order => 'nombre')
-#      else
-#        redirect_to :action => 'new_grupal', :controller => 'creditos', :id => @credito
-#      end
+    @grupos = Grupo.find(:all, :order => 'nombre')
   end
 
   def show
@@ -25,19 +21,10 @@ class GruposController < ApplicationController
 
   def new
     @grupo = Grupo.new
-    if params[:credito]
-      @credito = params[:credito]
-    end
   end
 
   def create
-    unless @credito.nil?
-      inserta_registro(Grupo.new(params[:grupo]), 'Registro creado satisfactoriamente')
-    else
-      @grupo = Grupo.new(params[:grupo])
-      @grupo.save!
-      redirect_to :action => 'new_grupal', :controller => 'creditos', :id => @credito
-    end
+    inserta_registro(Grupo.new(params[:grupo]), 'Registro creado satisfactoriamente')
   end
 
   def edit

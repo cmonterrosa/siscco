@@ -1,42 +1,43 @@
 <%= error_messages_for 'credito' %>
 <!--[form:credito]-->
-<table style=" width: 850px">
+<table style=" width: 800px">
   <tr>
+    <th>Producto:</th>
     <th>Monto:</th>
-    <th>Fecha Inicio:</th>
-    <th>Periodos:</th>
-    <th>Número de Pagos:</th>
+    <th colspan="2">Cliente:</th>
   </tr>
   <tr>
+    <td><%= collection_select("credito", "producto_id", $productos, :id, :producto, :prompt => '>>Producto')%></td>
     <td><%= text_field 'credito', 'monto', :onkeypress => "return CharNum(event, 'numero');"  %></td>
-    <td><%= date_select 'credito', 'fecha_inicio', :order => [:day, :month, :year]  %></td>
-    <td><%=collection_select("credito", "periodo_id", $periodos, :id, :nombre)%></td>
-    <!-- <td><= text_field 'credito', 'num_pagos', :onkeypress => "return CharNum(event, 'numero');"  %></td> -->
-    <td><%=select("credito", "num_pagos", $semanas)%></td>
+    <td colspan="2"><%= collection_select("credito", "cliente_id", $clientes, :id, :nombre_completo)%></td>
   </tr>
   <tr>
-    <th>Num. de Referencia:</th>
+    <th>Fecha:</th>
     <th>Fondeo:</th>
     <th>Linea:</th>
     <th>Banco:</th>
   </tr>
   <tr>
-    <td><%= text_field 'credito', 'num_referencia', :onkeypress => "return CharNum(event, 'numero');"  %></td>
+    <td><%= date_select 'credito', 'fecha_inicio', :order => [:day, :month, :year]  %></td>
     <td><%= collection_select("", "fondeo_id", $fondeos, :id, :fuente, :prompt => '>> Fondeo')%></td>
-    <td><%=collection_select("credito", "linea_id", $lineas, :id, :cuenta_cheques, :prompt => '>> Linea')%></td>
-    <td><%=collection_select("credito", "banco_id", $bancos, :id, :banco_cuenta, :prompt => '>> Banco')%></td>
+    <td><%= collection_select("credito", "linea_id", $lineas, :id, :cuenta_cheques, :prompt => '>> Linea')%></td>
+    <td><%= collection_select("credito", "banco_id", $bancos, :id, :banco_cuenta,  :prompt => '>> Banco')%></td>
+ </tr>
+  <tr>
+    <th>Referencia:</th>
+    <th>Destino:</th>
+    <th colspan="2">Promotor:</th>
   </tr>
   <tr>
-    <th>Promotor:</th>
-    <th>Destino:</th>
-    <th>Cliente:</th>
+    <td><%= text_field 'credito', 'num_referencia', :onkeypress => "return CharNum(event, 'numero');"  %></td>
+    <td><%=collection_select("credito", "destino_id", $destinos, :id, :destino, :prompt => '>>Destino')%></td>
+    <td colspan="2"><%=collection_select("credito", "promotor_id", $promotores, :id, :nombre_completo)%></td>
+  </tr>
+  <tr>
     <th>Status:</th>
   </tr>
   <tr>
-    <td><%=collection_select("credito", "promotor_id", $promotores, :id, :nombre_completo)%></td>
-    <td><%=collection_select("credito", "destino_id", $destinos, :id, :destino)%></td>
-    <td><%=collection_select("credito", "cliente_id", $clientes, :id, :nombre_completo)%></td>
-    <td><%= check_box('credito', 'status') %></td>
+    <td><%=check_box('credito', 'status') %></td>
   </tr>
 </table>
 <!--[eoform:credito]-->
