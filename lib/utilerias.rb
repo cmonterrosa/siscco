@@ -77,6 +77,42 @@ module Utilerias
       return iso
   end
 
+
+  def valida_referencia_alfa(num)
+    if num.size < 29
+      return false
+    end
+    sucursal = num[0..3]
+    cuenta = num[4..10]
+    ref_numerica = num[11..28]
+    digito = num[29..30]
+    #--- conversion de letras a numeros ----
+    num.gsub!(/A|B|C/, '2')
+    num.gsub!(/D|E|F/, '3')
+    num.gsub!(/G|H|I/, '4')
+    num.gsub!(/J|K|L/, '5')
+    num.gsub!(/M|N|O/, '6')
+    num.gsub!(/P|Q|R/, '7')
+    num.gsub!(/S|T|U/, '8')
+    num.gsub!(/V|W|X/, '9')
+    num.gsub!(/Y|Z/, '0')
+    #----- multiplicadores -----
+    sumatoria = 0
+    m = %w{23 29 31 37 13 17 19 23 29 31 37 19 23 29 31 37 1 2 3 5 7 11 13 17 19 23 29 31 37}
+    contador = 0
+    num.each_char do |char|
+      sumatoria += char.to_i * m[contador].to_i
+      contador+=1
+    end
+
+    ponderador = sumatoria%97
+    dd = 99 - ponderador
+  return num + dd.to_s
+end
+
+
+
+
    #--- combo de semanas, maximo 52 ----
   @semanas = []
   (1..52).each do |x| @semanas << x end

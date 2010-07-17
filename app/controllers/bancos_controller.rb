@@ -1,5 +1,6 @@
 class BancosController < ApplicationController
-  before_filter :login_required
+  #before_filter :login_required
+  require_role "administradores", :only => [:list, :new]
   def index
     list
     render :action => 'list'

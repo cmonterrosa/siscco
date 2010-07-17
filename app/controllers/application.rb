@@ -13,6 +13,9 @@ class ApplicationController < ActionController::Base
   # ---  Incluimos la libreria para el acceso ---
   include LoginSystem
   model :user
+  #---- Incluimos a los roles ---
+  #include RoleRequirementSystem
+  model :role
   #---- Incluimos las Variables Globales ---
   include Variables
   #---- Incluimos las utilerias

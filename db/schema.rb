@@ -2,7 +2,14 @@
 # migrations feature of ActiveRecord to incrementally modify your database, and
 # then regenerate this schema definition.
 
-ActiveRecord::Schema.define(:version => 38) do
+ActiveRecord::Schema.define(:version => 40) do
+
+  create_table "ahorros", :force => true do |t|
+    t.column "monto",      :string
+    t.column "cliente_id", :integer
+    t.column "credito_id", :integer
+    t.column "hora_fecha", :datetime
+  end
 
   create_table "bancos", :force => true do |t|
     t.column "nombre",     :string
@@ -11,7 +18,9 @@ ActiveRecord::Schema.define(:version => 38) do
     t.column "direccion",  :string
     t.column "telefono",   :string
     t.column "colonia_id", :integer
-    t.column "st",         :integer
+    t.column "user_id",    :integer
+    t.column "fecha_hora", :datetime
+    t.column "st",         :integer,  :default => 1
   end
 
   create_table "civils", :force => true do |t|
@@ -39,14 +48,14 @@ ActiveRecord::Schema.define(:version => 38) do
     t.column "vivienda_id",    :integer
     t.column "colonia_id",     :integer
     t.column "grupo_id",       :integer,               :default => 1
-    t.column "st",             :integer
+    t.column "user_id",        :integer
+    t.column "fecha_hora",     :date
   end
 
   create_table "colonias", :force => true do |t|
     t.column "colonia",     :string
     t.column "clave_inegi", :string
     t.column "ejido_id",    :integer
-    t.column "st",          :integer
   end
 
   create_table "configuracion", :force => true do |t|
@@ -55,9 +64,8 @@ ActiveRecord::Schema.define(:version => 38) do
     t.column "multa",             :string
     t.column "nombre_empresa",    :string
     t.column "direccion",         :string
-    t.column "telefono",          :string
-    t.column "activo",            :string,  :default => "1"
-    t.column "st",                :integer
+    t.column "ciudad",            :string
+    t.column "activo",            :integer
   end
 
   create_table "controllers", :force => true do |t|
@@ -73,7 +81,6 @@ ActiveRecord::Schema.define(:version => 38) do
     t.column "tasa_interes",      :float
     t.column "interes_moratorio", :string
     t.column "num_pagos",         :integer
-    t.column "estatus",           :string
     t.column "linea_id",          :integer
     t.column "banco_id",          :integer
     t.column "cliente_id",        :integer
@@ -82,20 +89,18 @@ ActiveRecord::Schema.define(:version => 38) do
     t.column "grupo_id",          :integer
     t.column "periodo_id",        :integer
     t.column "status",            :integer
-    t.column "st",                :integer
+    t.column "user_id",           :integer
+    t.column "fecha_hora",        :datetime
   end
 
   create_table "destinos", :force => true do |t|
-    t.column "destino",    :string
-    t.column "user_id",    :integer
-    t.column "fecha_hora", :datetime
+    t.column "destino", :string
   end
 
   create_table "ejidos", :force => true do |t|
     t.column "ejido",        :string
     t.column "clave_inegi",  :string
     t.column "municipio_id", :integer
-    t.column "st",           :integer
   end
 
   create_table "escolaridads", :force => true do |t|
@@ -109,13 +114,10 @@ ActiveRecord::Schema.define(:version => 38) do
   create_table "festivos", :force => true do |t|
     t.column "fecha",       :date
     t.column "descripcion", :string
-    t.column "st",          :integer
   end
 
   create_table "fondeos", :force => true do |t|
-    t.column "fuente",     :string
-    t.column "user_id",    :integer
-    t.column "fecha_hora", :datetime
+    t.column "fuente", :string
   end
 
   create_table "garantias", :force => true do |t|
@@ -131,12 +133,10 @@ ActiveRecord::Schema.define(:version => 38) do
     t.column "giro",      :string
     t.column "codigo",    :string
     t.column "subsector", :string
-    t.column "st",        :integer
   end
 
   create_table "grupos", :force => true do |t|
     t.column "nombre", :string
-    t.column "st",     :integer
   end
 
   create_table "jerarquias", :force => true do |t|
@@ -144,26 +144,28 @@ ActiveRecord::Schema.define(:version => 38) do
   end
 
   create_table "lineas", :force => true do |t|
+    t.column "fondeo_id",      :integer
     t.column "cuenta_cheques", :string
     t.column "fecha_aut",      :date
     t.column "autorizado",     :float
     t.column "estatus",        :string
     t.column "gcnf",           :string
-    t.column "fondeo_id",      :integer
-    t.column "st",             :integer
   end
 
   create_table "logs", :force => true do |t|
     t.column "operacion",  :string
     t.column "fecha_hora", :datetime
     t.column "clase",      :string
-    t.column "st",         :integer
+    t.column "objeto_id",  :integer
+    t.column "user_id",    :integer
   end
 
   create_table "miembros", :force => true do |t|
     t.column "credito_id",   :integer
     t.column "jerarquia_id", :integer
     t.column "cliente_id",   :integer
+    t.column "user_id",      :integer
+    t.column "fecha_hora",   :datetime
   end
 
   create_table "movimientos", :force => true do |t|
@@ -179,8 +181,6 @@ ActiveRecord::Schema.define(:version => 38) do
     t.column "municipio",   :string
     t.column "clave_inegi", :string
     t.column "estado_id",   :integer
-    t.column "user_id",     :integer
-    t.column "fecha_hora",  :datetime
   end
 
   create_table "negocios", :force => true do |t|
@@ -204,9 +204,8 @@ ActiveRecord::Schema.define(:version => 38) do
     t.column "moratorio",      :string
     t.column "pagado",         :integer
     t.column "credito_id",     :integer
-    t.column "cliente_id",     :integer
     t.column "descripcion",    :string
-    t.column "st",             :integer
+    t.column "cliente_id",     :integer
   end
 
   create_table "pagoslineas", :force => true do |t|
@@ -214,7 +213,6 @@ ActiveRecord::Schema.define(:version => 38) do
     t.column "fecha",         :date
     t.column "monto",         :string
     t.column "observaciones", :string
-    t.column "st",            :integer
   end
 
   create_table "periodos", :force => true do |t|
@@ -232,7 +230,6 @@ ActiveRecord::Schema.define(:version => 38) do
     t.column "iva_multa",     :float
     t.column "garantia",      :string
     t.column "periodo_id",    :integer
-    t.column "st",            :integer
   end
 
   create_table "promotors", :force => true do |t|
@@ -240,11 +237,10 @@ ActiveRecord::Schema.define(:version => 38) do
     t.column "materno",       :string
     t.column "nombre",        :string
     t.column "direccion",     :string
-    t.column "telefono",      :string,  :limit => 10
-    t.column "celular",       :string,  :limit => 10
+    t.column "telefono",      :string, :limit => 10
+    t.column "celular",       :string, :limit => 10
     t.column "email",         :string
     t.column "observaciones", :string
-    t.column "st",            :integer
   end
 
   create_table "referencias", :force => true do |t|
@@ -258,14 +254,24 @@ ActiveRecord::Schema.define(:version => 38) do
     t.column "credito_id", :integer
   end
 
+  create_table "roles", :force => true do |t|
+    t.column "name", :string
+  end
+
+  create_table "roles_users", :id => false, :force => true do |t|
+    t.column "user_id", :integer
+    t.column "role_id", :integer
+  end
+
+  add_index "roles_users", ["role_id"], :name => "index_roles_users_on_role_id"
+  add_index "roles_users", ["user_id"], :name => "index_roles_users_on_user_id"
+
   create_table "rols", :force => true do |t|
     t.column "nombre", :string
-    t.column "st",     :integer
   end
 
   create_table "sectors", :force => true do |t|
     t.column "sector", :string
-    t.column "st",     :integer
   end
 
   create_table "status", :force => true do |t|
@@ -275,7 +281,6 @@ ActiveRecord::Schema.define(:version => 38) do
   create_table "subsectors", :force => true do |t|
     t.column "subsector", :string
     t.column "sector_id", :integer
-    t.column "st",        :integer
   end
 
   create_table "sucursals", :force => true do |t|
@@ -285,16 +290,15 @@ ActiveRecord::Schema.define(:version => 38) do
     t.column "direccion",     :string
     t.column "codigo_postal", :string
     t.column "colonia_id",    :integer
-    t.column "st",            :integer
   end
 
   create_table "systables", :force => true do |t|
-    t.column "controller_id", :integer
     t.column "rol_id",        :integer
-    t.column "consultar",     :integer, :default => 1
-    t.column "actualizar",    :integer, :default => 0
-    t.column "insertar",      :integer, :default => 1
-    t.column "eliminar",      :integer, :default => 1
+    t.column "insertar",      :integer
+    t.column "eliminar",      :integer
+    t.column "actualizar",    :integer
+    t.column "consultar",     :integer
+    t.column "controller_id", :integer
   end
 
   create_table "transferencias", :force => true do |t|
@@ -304,7 +308,6 @@ ActiveRecord::Schema.define(:version => 38) do
     t.column "fecha",         :date
     t.column "monto",         :string
     t.column "observaciones", :string
-    t.column "st",            :integer
   end
 
   create_table "users", :force => true do |t|
@@ -312,7 +315,6 @@ ActiveRecord::Schema.define(:version => 38) do
     t.column "password", :string
     t.column "nombre",   :string
     t.column "rol_id",   :integer, :default => 1
-    t.column "st",       :integer
   end
 
   create_table "viviendas", :force => true do |t|
