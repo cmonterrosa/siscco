@@ -2,13 +2,20 @@ require_dependency "user"
 
 module LoginSystem
   #---- Agregado ---------
-    def role_requirements
-      Array.new
+    #def role_requirements
+     #role_requirements||=[]
+    #end
+
+    def logged_in?
+      !!current_user
     end
-  
 
   def current_user
-    session['username']
+    session['usuario']
+  end
+
+  def usuario_actual
+    User.find_by_login(session['usuario'])
   end
   
   protected
@@ -96,6 +103,26 @@ module LoginSystem
     return false
   end
 
+
+   #-------- Inicia adecuacion para filtrar por accion -----
+   #--------------------------------------
+   #--------------------------------------
+   def tiene_permiso?
+    if not protect?(action_name)
+      return true
+    end
+    if @session['user'] and autorizado?(@session['user'], controller_name)
+      return true
+    end
+    store_location
+    access_denied
+    return false
+   end
+
+
+
+
+
   # overwrite if you want to have special behavior in case the user is not authorized
   # to access the current operation. 
   # the default action is to redirect to the login screen
@@ -147,6 +174,8 @@ module LoginSystem
         :for_all_except, :except
       )
 
+      @role_requirements=[]
+
       # only declare that before filter once
       unless (@before_filter_declared||=false)
         @before_filter_declared=true
@@ -167,14 +196,14 @@ module LoginSystem
         end
       end
 
-      self.role_requirements||=[]
-      self.role_requirements << {:roles => roles, :options => options }
+      @role_requirements||=[] #self.
+      @role_requirements << {:roles => roles, :options => options } #self.
     end
 
     # This is the core of RoleRequirement.  Here is where it discerns if a user can access a controller or not./
     def user_authorized_for?(user, params = {}, binding = self.binding)
-      return true unless Array===self.role_requirements
-      self.role_requirements.each{| role_requirement|
+      return true unless Array===@role_requirements
+      @role_requirements.each{| role_requirement|
         roles = role_requirement[:roles]
         options = role_requirement[:options]
         # do the options match the params?
@@ -225,7 +254,7 @@ module LoginSystem
     end
 
     def check_roles
-      return access_denied unless self.class.user_authorized_for?(current_user, params, binding)
+      return access_denied unless self.class.user_authorized_for?(usuario_actual, params, binding)
 
       true
     end

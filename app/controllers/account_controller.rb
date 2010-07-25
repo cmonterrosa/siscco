@@ -12,7 +12,7 @@ class AccountController < ApplicationController
 #    layout 'contenido', :except=>[:login]
 #  end
 #  before_filter :login_required, :except =>[ :login, :signup]
-    before_filter :permiso_requerido, :except =>[ :login]
+    before_filter :permiso_requerido, :except =>[ :login, :logout]
 
   def login
     case request.method
@@ -65,6 +65,10 @@ class AccountController < ApplicationController
         else
            @rol = Rol.find(params['rol_id'])
         end
+#        if @user.save!
+#          flash[:notice]  = "ALTA CORRECTA PARA EL USUARIO: #{@user.nombre} con el perfil de #{@user.rol.nombre}"
+#          redirect_to(:controller => 'home')
+#        end
        
     end
   end

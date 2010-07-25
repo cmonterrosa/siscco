@@ -1,10 +1,17 @@
 
 include LoginSystem
 class BancosController < ApplicationController
-require_role "administradores", :for => [:show]
+#require_role "administradores", :only => [:new]
+
+#require_role "capturistas"
+require_role ["gerentes","administradores"],  :for => [:destroy, :edit, :new]
+#require_role "administradores",  :for => [:destroy, :edit, :new]
 
 
-  def index
+
+#before_filter :check_roles
+
+def index
     list
     render :action => 'list'
   end
