@@ -2,6 +2,9 @@
 # Include this in ApplicationController to activate RoleRequirement
 #
 # See RoleSecurityClassMethods for some methods it provides.
+
+
+
 module RoleRequirementSystem
   def self.included(klass)
     klass.send :class_inheritable_array, :role_requirements
