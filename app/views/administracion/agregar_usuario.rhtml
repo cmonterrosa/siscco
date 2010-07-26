@@ -1,0 +1,18 @@
+
+<h2>Agregar usuario al perfil : <%=@rol.name%></h2>
+<h3>Selecciona al usuario</h3>
+<br />
+
+
+
+
+<% form_tag :action => 'adduser', :rol =>@rol do -%>
+<table  class="botones">
+  <tr class="botones">
+    <th class="botones"><%= link_to 'Regresar', :action => 'roles' %></th>
+    <th class="botones">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+     <th><%= collection_select("user", "user_id", @users, :id, :nombre, :prompt => '>>Usuario')    %></th>
+    <th class="botones"><%= submit_tag "Agregar", :onclick => "return comprobar();" %></th>
+  </tr>
+</table>
+<% end %>

@@ -33,13 +33,18 @@ class AccountController < ApplicationController
   end
 
   def signup
-    @roles = Rol.find(:all)
+        @roles = Role.find(:all)
+        @user = User.new
+        @all_roles=Role.find(:all, :order=>"name")
+        @selected=[]
+        @role_selected=[]
      case request.method
       when :post
         @user = User.new(params['user'])
         #@user.fecha_hora = Time.now
         #@user.user_id = session['user'].id
         #@user.rol = Rol.find(params['rol']['rol_id']) if params['rol']['rol_id']
+        @user.roles=Role.find(params[:roles]) if params[:roles]
         if @user.save
           flash[:notice]  = "ALTA CORRECTA"
           redirect_to(:controller => 'home')

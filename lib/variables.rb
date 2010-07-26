@@ -14,6 +14,7 @@
   $fondeos = Fondeo.find(:all, :order => "fuente")
   $periodos = Periodo.find(:all, :order => "dias")
   $productos = Producto.find(:all, :order => "producto")
+  $users = User.find(:all, :order => "login")
 
 
   #----------- Cambio de idioma de las fechas --------------------

@@ -9,8 +9,10 @@
   <%= password_field "user", "password", :size => 40 %><br/>
   <p><label for="user_password_confirmation">confirmar contraseña:</label><br/></p>
   <%= password_field "user", "password_confirmation", :size => 40 %><br/>
-  <p><label for="creditocliente">Tipo de cuenta:</label><br/>
-  <%=collection_select("user", "rol_id", @roles, :id, :nombre)%></p>
+  <p><label for="creditocliente">Miembro de:</label><br/></p>
+  <select id="roles" name="roles[]" multiple="multiple" size="5" style="width:350px;">
+  <%=options_from_collection_for_select(@all_roles, :id, :name, @role_selected)%> <br />
+  </select>
   <!--[form:account]-->
 
   

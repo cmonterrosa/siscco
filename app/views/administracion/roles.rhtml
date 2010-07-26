@@ -1,0 +1,23 @@
+<h1 style=" text-align: center">Control de usuarios</h1>
+<table>
+  <tr>
+    <th><h3>Perfiles:</h3></th>
+  </tr>
+  <%for rol in Role.find(:all)%>
+  <tr>
+    <td><%=link_to "#{rol.name.to_s.upcase}", :action=>"users_by_rol", :controller=>"administracion", :id => rol%></td>
+  </tr>
+  <%end%>
+</table>
+
+<br />
+
+<table class="botones">
+  <tr class="botones">
+    <th class="botones"><%=link_to 'Regresar', :action => "index", :controller => "home"%></th>
+    <th class="botones">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+    <th class="botones"><%=button_to 'Nuevo Usuario', :action => "signup", :controller => "account"%></th>
+  </tr>
+</table>
+
+

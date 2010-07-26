@@ -5,6 +5,7 @@ class AdministracionController < ApplicationController
   end
   #--- definicion de las acciones principales ----
   def usuarios
+    redirect_to :action => "roles"
   end
 
   def permisos
@@ -38,6 +39,52 @@ class AdministracionController < ApplicationController
     flash[:notice] = "Permisos otorgados"
     redirect_to :action => "verifica_permisos", :id => Rol.find(params[:rol])
   end
+
+   #-------------------------------------------------------------
+   # ADMINISTRACION DE USUARIOS
+   #-------------------------------------------------------------
+
+   def roles
+   end
+
+   def users_by_rol
+#   @user_pages, @usuarios = paginate :users, :per_page => 10
+    @usuarios = User.find(:all, :order => 'nombre')
+    @rol = Role.find(params[:id])
+    @usuarios = @rol.users
+   end
+
+   def agregar_usuario
+     @rol = Role.find(params[:id])
+     @users=[]
+     $users.each do |user|
+       unless user.has_role?(@rol)
+         @users << user
+       end
+     end
+   end
+
+   def adduser
+    @rol = Role.find(params[:rol])
+    @user = User.find(params["user"]["user_id"])
+    @rol.users << @user
+    if @rol.save!
+      redirect_to :action => "users_by_rol", :id => @rol
+    end
+   end
+
+   def edit_usuario
+
+   end
+
+   def quitar_usuario
+     @rol = Role.find(params[:rol])
+     @user = User.find(params[:id])
+     @rol.users.delete(@user)
+     if @rol.save!
+      redirect_to :action => "users_by_rol", :id => @rol
+     end
+   end
 
 
 
