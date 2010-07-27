@@ -4,8 +4,6 @@ class CreateGiros < ActiveRecord::Migration
       t.column :giro, :string
       t.column :codigo, :string
       t.column :subsector, :string
-      #---- campo para historial -----
-      t.column :st, :integer
     end
   end
 

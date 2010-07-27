@@ -1,5 +1,6 @@
 class FondeosController < ApplicationController
    before_filter :login_required
+   
   def index
     list
     render :action => 'list'
@@ -10,11 +11,9 @@ class FondeosController < ApplicationController
          :redirect_to => { :action => :list }
 
   def list
-#    @fondeo_pages, @fondeos = paginate :fondeos, :per_page => 10
      @fondeos = Fondeo.find(:all, :order => 'fuente')
   end
 
- 
   def show
     @fondeo = Fondeo.find(params[:id])
   end
@@ -40,12 +39,9 @@ class FondeosController < ApplicationController
   end
       #-- Ajax --
     def live_search
-#      @estado_pages, @estados = paginate :estado, :per_page => 10
       @fondeos = Fondeo.find(:all, :conditions => ["fuente like ?", "%#{params[:searchtext]}%"])
       return render(:partial => 'filtrofondeo', :layout => false) if request.xhr?
    end
       #--- Funciones ajax para filtrado --
-   
-
 
 end

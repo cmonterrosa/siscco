@@ -1,5 +1,6 @@
 class GirosController < ApplicationController
    before_filter :login_required
+   
   def index
     list
     render :action => 'list'
@@ -10,7 +11,6 @@ class GirosController < ApplicationController
          :redirect_to => { :action => :list }
 
   def list
-#    @giro_pages, @giros = paginate :giros, :per_page => 10
      @giros = Giro.find(:all, :order => 'giro')
   end
 

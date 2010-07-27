@@ -10,7 +10,6 @@ class FestivosController < ApplicationController
          :redirect_to => { :action => :list }
 
   def list
-#    @festivo_pages, @festivos = paginate :festivos, :per_page => 10
      @festivos = Festivo.find(:all, :order => 'fecha')
   end
 
@@ -40,9 +39,8 @@ class FestivosController < ApplicationController
   end
     #-- Ajax --
     def live_search
-#      @estado_pages, @estados = paginate :estado, :per_page => 10
       @festivos = Festivo.find(:all, :conditions => ["descripcion like ?", "%#{params[:searchtext]}%"])
       return render(:partial => 'filtrofestivo', :layout => false) if request.xhr?
    end
-      #--- Funciones ajax para filtrado --
+   #--- Funciones ajax para filtrado --
 end

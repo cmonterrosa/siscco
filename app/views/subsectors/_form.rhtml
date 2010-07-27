@@ -7,8 +7,8 @@
     <th>Sector:</th>
   </tr>
   <tr>
-    <td><%= text_field 'subsector', 'subsector', :onkeypress => "return CharNum(event, 'letra');"  %></td>
-    <td><%= collection_select('subsector','sector_id', Sector.find(:all, :order => "sector"), :id, :sector, :prompt => '>>Sector') %></td>
+    <td><%= text_field 'subsector', 'subsector', :onkeypress => "return CharNum(event, 'letra');", :style => 'font-size:10px'  %></td>
+    <td><%= collection_select('subsector','sector_id', Sector.find(:all, :order => "sector"), :id, :sector, :prompt => '>>Sector') %>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<%= link_to '+', {:controller => 'sectors', :action => 'new'}, :style => 'font-size:14px;font-weight:bold;', :popup => ['new_window_name', 'height=300,width=600'] %>&nbsp;&nbsp;&nbsp;</td>
   </tr>
 </table>
 <!--[eoform:subsector]-->

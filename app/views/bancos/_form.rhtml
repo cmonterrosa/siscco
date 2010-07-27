@@ -9,10 +9,10 @@
     <th>Dirección:</th>
   </tr>
   <tr>
-    <td><%= text_field 'banco', 'nombre', :onkeypress => "return CharNum(event, 'letra');"   %></td>
-    <td><%= text_field 'banco', 'num_cuenta'  %></td>
-    <td><%= text_field 'banco', 'titular', :onkeypress => "return CharNum(event, 'letra');"    %></td>
-    <td><%= text_field 'banco', 'direccion'  %></td>
+    <td><%= text_field 'banco', 'nombre', :onkeypress => "return CharNum(event, 'letra');", :style => "font-size:10px;"  %></td>
+    <td><%= text_field 'banco', 'num_cuenta', {:style => "font-size:10px;"}  %></td>
+    <td><%= text_field 'banco', 'titular', :onkeypress => "return CharNum(event, 'letra');", :style => "font-size:10px;"  %></td>
+    <td><%= text_field 'banco', 'direccion', :style => "font-size:10px;"  %></td>
   </tr>
   <tr>
     <th>Telefono:</th>
@@ -21,16 +21,16 @@
     <th>Ejido:</th>
   </tr>
   <tr>
-    <td><%= text_field 'banco', 'telefono', :onkeypress => "return CharNum(event, 'numero');"    %></td>
-    <td><%=  collection_select("", "estado_id", $estados, :id, :estado, :prompt => '>>Estado')    %></td>
-    <td><%=  select("","municipio_id", ['>>Municipios'])    %></td>
-    <td><%=  select("","ejido_id", ['>>Ejidos'])    %></td>
+    <td><%=  text_field 'banco', 'telefono', :onkeypress => "return CharNum(event, 'numero');", :style => "font-size:10px;"   %></td>
+    <td><%=  collection_select("", "estado_id", $estados, :id, :estado, :prompt => '>>Estado', :style => "font-size:10px;")    %></td>
+    <td><%=  select("","municipio_id", ['>>Municipios'], :prompt => '>>Municipio', :style => "font-size:10px;")    %></td>
+    <td><%=  select("","ejido_id", ['>>Ejidos'], :prompt => '>>Ejidos', :style => "font-size:10px;")    %></td>
   </tr>
   <tr>
     <th>Colonia:</th>
   </tr>
   <tr>
-    <td><%=  collection_select("banco", "colonia_id", $colonias, :id, :colonia, :prompt => '>>Colonia')    %></td>
+    <td><%=  collection_select("banco", "colonia_id", $colonias, :id, :colonia, :prompt => '>>Colonia', :style => "font-size:10px;")    %></td>
   </tr>
 </table>
 

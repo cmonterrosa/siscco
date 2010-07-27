@@ -7,9 +7,6 @@ class CreateBancos < ActiveRecord::Migration
       t.column :direccion, :string
       t.column :telefono, :string
       t.column :colonia_id, :integer
-      t.column :st, :integer, :default => 1
-      #---- campo para historial -----
-      t.column :st, :integer
     end
   end
 

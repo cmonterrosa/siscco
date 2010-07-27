@@ -1,5 +1,6 @@
 class SubsectorsController < ApplicationController
    before_filter :login_required
+
   def index
     list
     render :action => 'list'
@@ -10,7 +11,6 @@ class SubsectorsController < ApplicationController
          :redirect_to => { :action => :list }
 
   def list
-#    @subsector_pages, @subsectors = paginate :subsectors, :per_page => 10
      @subsectors = Subsector.find(:all, :order => "subsector")
   end
 

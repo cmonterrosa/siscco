@@ -2,11 +2,9 @@ class CreateGrupos < ActiveRecord::Migration
   def self.up
     create_table :grupos do |t|
       t.column :nombre, :string
-       #---- campo para historial -----
-      t.column :st, :integer
-    end
+  end
     #--- Por defecto no pertenecen a ningun grupo ---
-    Grupo.create(:nombre =>"Ninguno")
+    Grupo.create(:nombre =>"NINGUNO")
 
 
   end

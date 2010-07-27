@@ -1,15 +1,9 @@
 
 include LoginSystem
 class BancosController < ApplicationController
-#require_role "administradores", :only => [:new]
 
 #require_role "capturistas"
-require_role ["gerentes","administradores"],  :for => [:destroy, :edit, :new]
-#require_role "administradores",  :for => [:destroy, :edit, :new]
-
-
-
-#before_filter :check_roles
+#require_role ["gerentes","administradores"],  :for => [:destroy, :edit, :new]
 
 def index
     list
@@ -21,8 +15,7 @@ def index
          :redirect_to => { :action => :list }
 
   def list
-    #@banco_pages, @bancos = paginate :bancos , :per_page => 10
-    @bancos = Banco.find(:all, :order => 'nombre', :conditions => "st != 0")
+    @bancos = Banco.find(:all, :order => 'nombre')
   end
 
   def show
@@ -35,14 +28,6 @@ def index
 
   def create
    inserta_registro_log(Banco.new(params[:banco]), 'Registro creado satisfactoriamente.')
-
-#    @banco = Banco.new(params[:banco])
-#    if @banco.save
-#      flash[:notice] = 'Registro creado satisfactoriamente.'
-#      redirect_to :action => 'list'
-#    else
-#      render :action => 'new'
-#    end
   end
 
   def edit
@@ -50,26 +35,15 @@ def index
   end
 
   def update
-#    @banco = Banco.update(params[:id].keys, params[:id].values).reject { |p| p.errors.empty? }
     actualiza_registro_log(Banco.find(params[:id]), params[:banco])
-#    @banco = Banco.find(params[:id])
-#    if @banco.update_attributes(params[:banco])
-#      flash[:notice] = 'Registro actuaizado.'
-#      redirect_to :action => 'show', :id => @banco
-#    else
-#      render :action => 'edit'
-#    end
   end
 
   def destroy
-    #Banco.find(params[:id]).destroy
-    #redirect_to :action => 'list'
     elimina_registro_log(Banco.find(params[:id]), session['user'].rol)
   end
 
   #--- Funciones ajax para filtrado --
   def live_search
-#      @banco_pages, @bancos = paginate :bancos, :per_page => 10
       @bancos = Banco.find(:all, :order => 'nombre')
       @bancos = Banco.find(:all, :conditions => ["nombre like ?", "%#{params[:searchtext]}%"])
       return render(:partial => 'filtronombre', :layout => false) if request.xhr?

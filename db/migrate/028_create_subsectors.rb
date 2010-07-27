@@ -3,8 +3,6 @@ class CreateSubsectors < ActiveRecord::Migration
     create_table :subsectors do |t|
       t.column :subsector, :string
       t.column :sector_id, :integer
-      #---- campo para historial -----
-      t.column :st, :integer
     end
   end
 
