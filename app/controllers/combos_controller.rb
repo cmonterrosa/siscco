@@ -24,7 +24,11 @@ class CombosController < ApplicationController
   end
 
   def get_integrantes
-      @integrantes = Cliente.find(:all, :conditions => ["grupo_id = ?", params[:credito_grupo_id]])
+      #@integrantes = Cliente.find(:all, :conditions => ["grupo_id = ?", params[:credito_grupo_id]])
+      @grupo = Grupo.find(params[:credito_grupo_id])
+      session["grupo"] = @grupo
+      @integrantes = @grupo.clientes
+
       unless @integrantes.nil?
         $integrantes = params[:credito_grupo_id]
       end
@@ -32,7 +36,8 @@ class CombosController < ApplicationController
   end
 
   def get_secretario
-      @secretarios = Cliente.find(:all, :conditions => ["id != ? AND grupo_id = ?", params[:miembro_presidente], $integrantes])
+      @secretarios = session["grupo"].clientes.delete(Cliente.find(params[:miembro_presidente]))
+
       unless @secretarios.nil?
         $presidente = params[:miembro_presidente]
       end

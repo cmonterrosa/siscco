@@ -1,8 +1,8 @@
--- MySQL dump 10.13  Distrib 5.1.42, for apple-darwin10.2.0 (i386)
+-- MySQL dump 10.13  Distrib 5.1.35, for apple-darwin9.5.0 (i386)
 --
 -- Host: localhost    Database: ultima
 -- ------------------------------------------------------
--- Server version	5.1.42
+-- Server version	5.1.35
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -14,6 +14,32 @@
 /*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+
+--
+-- Table structure for table `ahorros`
+--
+
+DROP TABLE IF EXISTS `ahorros`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `ahorros` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `monto` varchar(255) DEFAULT NULL,
+  `cliente_id` int(11) DEFAULT NULL,
+  `credito_id` int(11) DEFAULT NULL,
+  `hora_fecha` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `ahorros`
+--
+
+LOCK TABLES `ahorros` WRITE;
+/*!40000 ALTER TABLE `ahorros` DISABLE KEYS */;
+/*!40000 ALTER TABLE `ahorros` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Table structure for table `bancos`
@@ -30,11 +56,9 @@ CREATE TABLE `bancos` (
   `direccion` varchar(255) DEFAULT NULL,
   `telefono` varchar(255) DEFAULT NULL,
   `colonia_id` int(11) DEFAULT NULL,
-  `user_id` int(11) DEFAULT NULL,
-  `fecha_hora` datetime DEFAULT NULL,
-  `st` int(11) DEFAULT '1',
+  `st` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -43,7 +67,7 @@ CREATE TABLE `bancos` (
 
 LOCK TABLES `bancos` WRITE;
 /*!40000 ALTER TABLE `bancos` DISABLE KEYS */;
-INSERT INTO `bancos` VALUES (1,'BANORTE','444',NULL,NULL,NULL,NULL,NULL,NULL,NULL),(2,'BANCOMER','55',NULL,NULL,NULL,NULL,NULL,NULL,NULL),(3,'SANTANDER','666','CARLOS MONTERROSA',NULL,NULL,NULL,NULL,NULL,0),(5,'BANAMEX','787878','JUAN IGNACIO VALLE RUEDA','AV CENTRAL PONIENTE','8787484',10,NULL,NULL,NULL),(6,'BANSEFI','839339','JJDDJ','9389383','88383',10,NULL,NULL,NULL),(7,'BANSEFI','839339','JJDDJ','9389383','88383',10,NULL,NULL,NULL),(8,'OPORTUNIDADES','8787878','LUIS MARTINEZ','9A SUR POTE ','78',10,NULL,NULL,1);
+INSERT INTO `bancos` VALUES (4,'BANORTE','9999','LIC. MENDEZ','9999999','999999',10,1);
 /*!40000 ALTER TABLE `bancos` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -99,11 +123,9 @@ CREATE TABLE `clientes` (
   `escolaridad_id` int(11) DEFAULT NULL,
   `vivienda_id` int(11) DEFAULT NULL,
   `colonia_id` int(11) DEFAULT NULL,
-  `grupo_id` int(11) DEFAULT '1',
-  `user_id` int(11) DEFAULT NULL,
-  `fecha_hora` date DEFAULT NULL,
+  `st` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -112,8 +134,38 @@ CREATE TABLE `clientes` (
 
 LOCK TABLES `clientes` WRITE;
 /*!40000 ALTER TABLE `clientes` DISABLE KEYS */;
-INSERT INTO `clientes` VALUES (1,'monterrosa','loopez','carlos','2010-06-24','MOLC8509121S0','M','M','M','MEXICANA','PRIVADA','M','M','M','99','MMM',1,1,3,10,5,NULL,NULL),(2,'rafa','r','r','2010-06-24','r','r','r','M','MEXICANA','PRIVADA','moral','r','2900','378738','jfjfjf',1,1,1,3,5,NULL,NULL),(3,'MOLINA','NANGO','JUAN JOSE','2010-07-14','MONJ850912187','MONJ850912187333','RRRR','M','MEXICANA','PRIVADA','FISICA CON ACTIVIDAD EMPRESARIAL','4444','44444','4555555','RRRRRRR',1,5,2,10,3,NULL,NULL),(4,'MARTINEZ','JUAREZ','LUIS RODRIGO','2010-07-14','XXXXXXX','XXXX','XXX','M','MEXICANA','PRIVADA','MORAL','XXXX','4444','4444','XXXXXX',1,6,3,10,3,NULL,NULL),(5,'PEREZ','FUENTES','ITZEL','2010-07-14','CCCCCC','CCCCC','CCCCC','M','MEXICANA','PRIVADA','FISICA','CCCCC','CCCCCCC','444444','444444',1,4,3,10,3,NULL,NULL);
+INSERT INTO `clientes` VALUES (5,'MONTERROSA','LOPEZ','CARLOS','2010-07-26','MOLC8509121S0','MOLC850912HCSNPR02','XX','M','MEXICANA','PRIVADA','FISICA','X','9','9','9',1,1,1,10,1),(6,'HERNANDEZ','ESCOBAR','RAFAEL','2010-07-26','XXXXXXXXXX','XXXXXXXXXXXXXXXXXX','CCCCC','M','MEXICANA','PRIVADA','FISICA','xxxxxXX','9','0','0',1,3,1,10,0),(7,'DEL CARPIO','MENDEZ','o','2010-07-26','cccccccccccc9','cccccccccccccccccc','iiiiii','M','MEXICANA','PRIVADA','FISICA','iiii','0999','9','9',1,1,1,10,1),(8,'PEREZ','FUENTES','ITZEL','2010-07-26','PPPPPPPPPPPP','PPPPPPPPPPPPPPPPP5','OPOPOPOP','M','MEXICANA','PRIVADA','FISICA CON ACTIVIDAD EMPRESARIAL','OOOO','9999','4555','XXXXXX',1,6,1,10,1);
 /*!40000 ALTER TABLE `clientes` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `clientes_grupos`
+--
+
+DROP TABLE IF EXISTS `clientes_grupos`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `clientes_grupos` (
+  `cliente_id` int(11) DEFAULT NULL,
+  `grupo_id` int(11) DEFAULT NULL,
+  `activo` int(11) DEFAULT NULL,
+  `fecha_inicio` datetime DEFAULT NULL,
+  `fecha_fin` datetime DEFAULT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  PRIMARY KEY (`id`),
+  KEY `index_clientes_grupos_on_cliente_id` (`cliente_id`),
+  KEY `index_clientes_grupos_on_grupo_id` (`grupo_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `clientes_grupos`
+--
+
+LOCK TABLES `clientes_grupos` WRITE;
+/*!40000 ALTER TABLE `clientes_grupos` DISABLE KEYS */;
+INSERT INTO `clientes_grupos` VALUES (5,2,NULL,NULL,NULL,1),(5,1,1,NULL,NULL,2),(NULL,2,1,'2010-07-26 21:25:57',NULL,4),(NULL,2,1,'2010-07-26 21:27:04',NULL,5),(NULL,2,1,'2010-07-26 21:35:02',NULL,6),(NULL,2,1,'2010-07-26 21:38:48',NULL,7),(NULL,2,1,'2010-07-26 21:40:31',NULL,8),(7,2,1,'2010-07-26 21:43:17',NULL,9),(8,3,1,'2010-07-26 21:56:11',NULL,10);
+/*!40000 ALTER TABLE `clientes_grupos` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -128,6 +180,7 @@ CREATE TABLE `colonias` (
   `colonia` varchar(255) DEFAULT NULL,
   `clave_inegi` varchar(255) DEFAULT NULL,
   `ejido_id` int(11) DEFAULT NULL,
+  `st` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -138,7 +191,7 @@ CREATE TABLE `colonias` (
 
 LOCK TABLES `colonias` WRITE;
 /*!40000 ALTER TABLE `colonias` DISABLE KEYS */;
-INSERT INTO `colonias` VALUES (1,'CENTRO',NULL,1),(2,'LA LOMITA',NULL,1),(3,'24 DE JUNIO',NULL,1),(4,'POTINASPAK',NULL,1),(5,'POMAROSA',NULL,1),(6,'COPOYA',NULL,2),(7,'LAURELES',NULL,3),(8,'CENTRO',NULL,3),(9,'VISTAHERMOSA',NULL,3),(10,'PLAYA LINDA',NULL,4);
+INSERT INTO `colonias` VALUES (1,'CENTRO',NULL,1,NULL),(2,'LA LOMITA',NULL,1,NULL),(3,'24 DE JUNIO',NULL,1,NULL),(4,'POTINASPAK',NULL,1,NULL),(5,'POMAROSA',NULL,1,NULL),(6,'COPOYA',NULL,2,NULL),(7,'LAURELES',NULL,3,NULL),(8,'CENTRO',NULL,3,NULL),(9,'VISTAHERMOSA',NULL,3,NULL),(10,'PLAYA LINDA',NULL,4,NULL);
 /*!40000 ALTER TABLE `colonias` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -151,13 +204,11 @@ DROP TABLE IF EXISTS `configuracion`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `configuracion` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `tasa_interes` varchar(255) DEFAULT NULL,
-  `interes_moratorio` varchar(255) DEFAULT NULL,
-  `multa` varchar(255) DEFAULT NULL,
   `nombre_empresa` varchar(255) DEFAULT NULL,
   `direccion` varchar(255) DEFAULT NULL,
-  `ciudad` varchar(255) DEFAULT NULL,
-  `activo` int(11) DEFAULT NULL,
+  `telefono` varchar(255) DEFAULT NULL,
+  `activo` varchar(255) DEFAULT '1',
+  `st` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -168,7 +219,7 @@ CREATE TABLE `configuracion` (
 
 LOCK TABLES `configuracion` WRITE;
 /*!40000 ALTER TABLE `configuracion` DISABLE KEYS */;
-INSERT INTO `configuracion` VALUES (1,'3.0','2.5','0','SOCAMA CENTRO FRAYLESCA, A.C','13a Avenida Sur Poniente Nu?mero 640, Barrio San Francisco','Tuxtla Gutie?rrez, Chiapas',1);
+INSERT INTO `configuracion` VALUES (1,'SOCAMA FRAYLESCA S.A DE C.V',NULL,NULL,'1',NULL);
 /*!40000 ALTER TABLE `configuracion` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -212,19 +263,17 @@ CREATE TABLE `creditos` (
   `monto` float DEFAULT NULL,
   `tasa_interes` float DEFAULT NULL,
   `interes_moratorio` varchar(255) DEFAULT NULL,
-  `num_pagos` int(11) DEFAULT NULL,
   `linea_id` int(11) DEFAULT NULL,
   `banco_id` int(11) DEFAULT NULL,
   `cliente_id` int(11) DEFAULT NULL,
   `promotor_id` int(11) DEFAULT NULL,
   `destino_id` int(11) DEFAULT NULL,
   `grupo_id` int(11) DEFAULT NULL,
-  `periodo_id` int(11) DEFAULT NULL,
+  `producto_id` int(11) DEFAULT NULL,
   `status` int(11) DEFAULT NULL,
-  `user_id` int(11) DEFAULT NULL,
-  `fecha_hora` datetime DEFAULT NULL,
+  `st` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -233,7 +282,6 @@ CREATE TABLE `creditos` (
 
 LOCK TABLES `creditos` WRITE;
 /*!40000 ALTER TABLE `creditos` DISABLE KEYS */;
-INSERT INTO `creditos` VALUES (1,'2010-06-25','2010-07-01','4444',5000,3,'2.5',5,4,1,NULL,1,1,5,1,0,NULL,NULL),(2,'2010-06-25','2010-06-26','5555',1000,3,'2.5',1,4,1,2,1,1,NULL,1,0,NULL,NULL),(3,'2010-07-02','2010-07-03','455555533',230000,3,'2.5',1,4,2,NULL,1,1,5,1,0,1,'2010-07-02 19:59:31'),(4,'2010-07-02','2010-07-17','4444',30000,3,'2.5',1,4,1,NULL,1,1,5,3,0,1,'2010-07-02 20:15:23');
 /*!40000 ALTER TABLE `creditos` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -247,8 +295,10 @@ DROP TABLE IF EXISTS `destinos`;
 CREATE TABLE `destinos` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `destino` varchar(255) DEFAULT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  `fecha_hora` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -257,7 +307,7 @@ CREATE TABLE `destinos` (
 
 LOCK TABLES `destinos` WRITE;
 /*!40000 ALTER TABLE `destinos` DISABLE KEYS */;
-INSERT INTO `destinos` VALUES (1,'CAPITAL DE NEGOCIO'),(2,'PAGO DE DEUDA'),(3,'CAPITAL PARA AGRICULTURA');
+INSERT INTO `destinos` VALUES (1,'CAPITAL DE NEGOCIO',NULL,NULL),(2,'PAGO DE DEUDA',NULL,NULL);
 /*!40000 ALTER TABLE `destinos` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -273,6 +323,7 @@ CREATE TABLE `ejidos` (
   `ejido` varchar(255) DEFAULT NULL,
   `clave_inegi` varchar(255) DEFAULT NULL,
   `municipio_id` int(11) DEFAULT NULL,
+  `st` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -283,7 +334,7 @@ CREATE TABLE `ejidos` (
 
 LOCK TABLES `ejidos` WRITE;
 /*!40000 ALTER TABLE `ejidos` DISABLE KEYS */;
-INSERT INTO `ejidos` VALUES (1,'TUXTLA GUTIERREZ',NULL,1),(2,'EL JOBO',NULL,1),(3,'LOS NARANJOS',NULL,2),(4,'LAS FLORES',NULL,2);
+INSERT INTO `ejidos` VALUES (1,'TUXTLA GUTIERREZ',NULL,1,NULL),(2,'EL JOBO',NULL,1,NULL),(3,'LOS NARANJOS',NULL,2,NULL),(4,'LAS FLORES',NULL,2,NULL);
 /*!40000 ALTER TABLE `ejidos` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -346,6 +397,7 @@ CREATE TABLE `festivos` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `fecha` date DEFAULT NULL,
   `descripcion` varchar(255) DEFAULT NULL,
+  `st` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -356,7 +408,7 @@ CREATE TABLE `festivos` (
 
 LOCK TABLES `festivos` WRITE;
 /*!40000 ALTER TABLE `festivos` DISABLE KEYS */;
-INSERT INTO `festivos` VALUES (1,'2010-05-01','dia del trabajo');
+INSERT INTO `festivos` VALUES (1,'2010-05-01','dia del trabajo',NULL);
 /*!40000 ALTER TABLE `festivos` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -370,6 +422,8 @@ DROP TABLE IF EXISTS `fondeos`;
 CREATE TABLE `fondeos` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `fuente` varchar(255) DEFAULT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  `fecha_hora` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -380,7 +434,7 @@ CREATE TABLE `fondeos` (
 
 LOCK TABLES `fondeos` WRITE;
 /*!40000 ALTER TABLE `fondeos` DISABLE KEYS */;
-INSERT INTO `fondeos` VALUES (1,'SICCAR');
+INSERT INTO `fondeos` VALUES (1,'FOMMUR',NULL,NULL);
 /*!40000 ALTER TABLE `fondeos` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -441,8 +495,9 @@ CREATE TABLE `giros` (
   `giro` varchar(255) DEFAULT NULL,
   `codigo` varchar(255) DEFAULT NULL,
   `subsector` varchar(255) DEFAULT NULL,
+  `st` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -451,7 +506,7 @@ CREATE TABLE `giros` (
 
 LOCK TABLES `giros` WRITE;
 /*!40000 ALTER TABLE `giros` DISABLE KEYS */;
-INSERT INTO `giros` VALUES (1,'comercio','4444','4'),(2,'agricultura','4','5');
+INSERT INTO `giros` VALUES (1,'primario','78787','RECOLECCION',NULL);
 /*!40000 ALTER TABLE `giros` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -465,8 +520,9 @@ DROP TABLE IF EXISTS `grupos`;
 CREATE TABLE `grupos` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `nombre` varchar(255) DEFAULT NULL,
+  `st` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -475,7 +531,7 @@ CREATE TABLE `grupos` (
 
 LOCK TABLES `grupos` WRITE;
 /*!40000 ALTER TABLE `grupos` DISABLE KEYS */;
-INSERT INTO `grupos` VALUES (1,'Ninguno'),(2,'VILLAFLORES'),(3,'SEF'),(4,'SECH'),(5,'LOS GIRASOLES'),(6,'LOS ALCATRACES'),(7,'COITA ');
+INSERT INTO `grupos` VALUES (1,'Ninguno',NULL),(2,'LOS GIRASOLES',NULL),(3,'LOS PETATES',NULL);
 /*!40000 ALTER TABLE `grupos` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -511,14 +567,15 @@ DROP TABLE IF EXISTS `lineas`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `lineas` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `fondeo_id` int(11) DEFAULT NULL,
   `cuenta_cheques` varchar(255) DEFAULT NULL,
   `fecha_aut` date DEFAULT NULL,
   `autorizado` float DEFAULT NULL,
   `estatus` varchar(255) DEFAULT NULL,
   `gcnf` varchar(255) DEFAULT NULL,
+  `fondeo_id` int(11) DEFAULT NULL,
+  `st` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -527,7 +584,7 @@ CREATE TABLE `lineas` (
 
 LOCK TABLES `lineas` WRITE;
 /*!40000 ALTER TABLE `lineas` DISABLE KEYS */;
-INSERT INTO `lineas` VALUES (4,1,'1111','2010-01-01',2.5e+06,'A','1');
+INSERT INTO `lineas` VALUES (1,'99999999','2010-07-26',300000,'ACTIVA','A',1,NULL);
 /*!40000 ALTER TABLE `lineas` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -543,10 +600,11 @@ CREATE TABLE `logs` (
   `operacion` varchar(255) DEFAULT NULL,
   `fecha_hora` datetime DEFAULT NULL,
   `clase` varchar(255) DEFAULT NULL,
-  `objeto_id` int(11) DEFAULT NULL,
+  `st` int(11) DEFAULT NULL,
   `user_id` int(11) DEFAULT NULL,
+  `objeto_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -555,7 +613,7 @@ CREATE TABLE `logs` (
 
 LOCK TABLES `logs` WRITE;
 /*!40000 ALTER TABLE `logs` DISABLE KEYS */;
-INSERT INTO `logs` VALUES (1,'INSERTAR','2010-07-08 13:38:41','Banco',NULL,1),(2,'INSERTAR','2010-07-08 13:40:09','Banco',0,1),(3,'INSERTAR','2010-07-08 13:47:53','Banco',6,1),(4,'INSERTAR','2010-07-08 13:47:54','Banco',6,1),(5,'INSERTAR','2010-07-08 13:47:54','Banco',6,1),(6,'INSERTAR','2010-07-08 13:49:48','Banco',7,1),(7,'ACTUALIZAR','2010-07-08 13:55:54','Banco',7,1),(8,'ACTUALIZAR','2010-07-08 13:59:06','Banco',6,1),(9,'ELIMINAR','2010-07-09 01:41:43','Banco',3,1),(10,'INSERTAR','2010-07-09 01:46:26','Banco',8,1);
+INSERT INTO `logs` VALUES (1,'INSERTAR','2010-07-26 22:15:03','Banco',NULL,1,3),(2,'INSERTAR','2010-07-26 22:16:35','Banco',NULL,1,4);
 /*!40000 ALTER TABLE `logs` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -571,10 +629,8 @@ CREATE TABLE `miembros` (
   `credito_id` int(11) DEFAULT NULL,
   `jerarquia_id` int(11) DEFAULT NULL,
   `cliente_id` int(11) DEFAULT NULL,
-  `user_id` int(11) DEFAULT NULL,
-  `fecha_hora` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -583,7 +639,6 @@ CREATE TABLE `miembros` (
 
 LOCK TABLES `miembros` WRITE;
 /*!40000 ALTER TABLE `miembros` DISABLE KEYS */;
-INSERT INTO `miembros` VALUES (1,NULL,NULL,NULL,NULL,'2010-06-30 09:58:55');
 /*!40000 ALTER TABLE `miembros` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -603,7 +658,7 @@ CREATE TABLE `movimientos` (
   `concepto` varchar(255) DEFAULT NULL,
   `pago_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -612,7 +667,6 @@ CREATE TABLE `movimientos` (
 
 LOCK TABLES `movimientos` WRITE;
 /*!40000 ALTER TABLE `movimientos` DISABLE KEYS */;
-INSERT INTO `movimientos` VALUES (1,NULL,600,'2010-06-09',150,NULL,NULL),(2,NULL,6000,'2010-06-09',150,NULL,NULL);
 /*!40000 ALTER TABLE `movimientos` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -628,6 +682,8 @@ CREATE TABLE `municipios` (
   `municipio` varchar(255) DEFAULT NULL,
   `clave_inegi` varchar(255) DEFAULT NULL,
   `estado_id` int(11) DEFAULT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  `fecha_hora` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -638,7 +694,7 @@ CREATE TABLE `municipios` (
 
 LOCK TABLES `municipios` WRITE;
 /*!40000 ALTER TABLE `municipios` DISABLE KEYS */;
-INSERT INTO `municipios` VALUES (1,'TUXTLA GUTIERREZ',NULL,1),(2,'TAPACHULA',NULL,1),(3,'SAN CRISTOBAL DE LAS CASAS',NULL,1);
+INSERT INTO `municipios` VALUES (1,'TUXTLA GUTIERREZ',NULL,1,NULL,NULL),(2,'TAPACHULA',NULL,1,NULL,NULL),(3,'SAN CRISTOBAL DE LAS CASAS',NULL,1,NULL,NULL);
 /*!40000 ALTER TABLE `municipios` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -659,7 +715,7 @@ CREATE TABLE `negocios` (
   `cliente_id` int(11) DEFAULT NULL,
   `giro_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -668,7 +724,7 @@ CREATE TABLE `negocios` (
 
 LOCK TABLES `negocios` WRITE;
 /*!40000 ALTER TABLE `negocios` DISABLE KEYS */;
-INSERT INTO `negocios` VALUES (1,'c','c','c','444',4,1,2),(2,'finca','jefe','888','8888',4,2,2),(3,'XXXXX','XXX','XXX','444444',3,3,2),(4,'XXXX','XXX','XXX','44444',4,4,2),(5,'4444','DDDDD','DDDD','333333',4,5,2);
+INSERT INTO `negocios` VALUES (2,'OO','O','O','99',999,6,1),(5,'oo','o','o','0',9,7,1),(6,'OOO','OO','OO','999',999,8,1);
 /*!40000 ALTER TABLE `negocios` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -691,10 +747,11 @@ CREATE TABLE `pagos` (
   `moratorio` varchar(255) DEFAULT NULL,
   `pagado` int(11) DEFAULT NULL,
   `credito_id` int(11) DEFAULT NULL,
-  `descripcion` varchar(255) DEFAULT NULL,
   `cliente_id` int(11) DEFAULT NULL,
+  `descripcion` varchar(255) DEFAULT NULL,
+  `st` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -703,7 +760,6 @@ CREATE TABLE `pagos` (
 
 LOCK TABLES `pagos` WRITE;
 /*!40000 ALTER TABLE `pagos` DISABLE KEYS */;
-INSERT INTO `pagos` VALUES (1,1,'2010-06-26','500.0','15.0','2010-06-25','500','15',NULL,1,1,'Pago 1 de 5 capital minimo 500.0 ',1),(2,2,'2010-06-28','500.0','15.0',NULL,NULL,NULL,NULL,0,1,'Pago 2 de 5 capital minimo 500.0 ',1),(3,3,'2010-06-29','500.0','15.0',NULL,NULL,NULL,NULL,0,1,'Pago 3 de 5 capital minimo 500.0 ',1),(4,4,'2010-06-30','500.0','15.0',NULL,NULL,NULL,NULL,0,1,'Pago 4 de 5 capital minimo 500.0 ',1),(5,5,'2010-07-01','500.0','15.0',NULL,NULL,NULL,NULL,0,1,'Pago 5 de 5 capital minimo 500.0 ',1),(6,1,'2010-06-26','500.0','15.0','2010-06-25','500','15',NULL,1,1,'Pago 1 de 5 capital minimo 500.0 ',2),(7,2,'2010-06-28','500.0','15.0','2010-06-25','500','15',NULL,1,1,'Pago 2 de 5 capital minimo 500.0 ',2),(8,3,'2010-06-29','500.0','15.0',NULL,NULL,NULL,NULL,0,1,'Pago 3 de 5 capital minimo 500.0 ',2),(9,4,'2010-06-30','500.0','15.0',NULL,NULL,NULL,NULL,0,1,'Pago 4 de 5 capital minimo 500.0 ',2),(10,5,'2010-07-01','500.0','15.0',NULL,NULL,NULL,NULL,0,1,'Pago 5 de 5 capital minimo 500.0 ',2),(11,1,'2010-06-26','1000.0','30.0',NULL,NULL,NULL,NULL,0,2,'Pago 1 de 1 capital minimo 1000.0 ',2),(12,1,'2010-07-03','115000.0','3450.0',NULL,NULL,NULL,NULL,0,3,'Pago 1 de 1 capital minimo 115000.0 ',1),(13,1,'2010-07-03','115000.0','3450.0',NULL,NULL,NULL,NULL,0,3,'Pago 1 de 1 capital minimo 115000.0 ',2),(14,1,'2010-07-17','15000.0','450.0',NULL,NULL,NULL,NULL,0,4,'Pago 1 de 1 capital minimo 15000.0 ',1),(15,1,'2010-07-17','15000.0','450.0',NULL,NULL,NULL,NULL,0,4,'Pago 1 de 1 capital minimo 15000.0 ',2);
 /*!40000 ALTER TABLE `pagos` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -720,6 +776,7 @@ CREATE TABLE `pagoslineas` (
   `fecha` date DEFAULT NULL,
   `monto` varchar(255) DEFAULT NULL,
   `observaciones` varchar(255) DEFAULT NULL,
+  `st` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -745,7 +802,7 @@ CREATE TABLE `periodos` (
   `nombre` varchar(255) DEFAULT NULL,
   `dias` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -754,7 +811,7 @@ CREATE TABLE `periodos` (
 
 LOCK TABLES `periodos` WRITE;
 /*!40000 ALTER TABLE `periodos` DISABLE KEYS */;
-INSERT INTO `periodos` VALUES (1,'Dia',1),(2,'Semana',7),(3,'Quincena',15),(4,'Mes',30),(5,'Bimestre',60),(6,'Semestre',180),(7,'AÃ±o',365);
+INSERT INTO `periodos` VALUES (1,'Diarios',1),(2,'Semanales',7),(3,'Quincenales',15),(4,'Mensuales',30),(5,'Bimestrales',60),(6,'Semestrales',180),(7,'Anuales',365),(8,NULL,NULL),(9,NULL,NULL);
 /*!40000 ALTER TABLE `periodos` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -768,14 +825,11 @@ DROP TABLE IF EXISTS `productos`;
 CREATE TABLE `productos` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `producto` varchar(255) DEFAULT NULL,
-  `tipo` varchar(255) DEFAULT NULL,
   `intereses` float DEFAULT NULL,
-  `iva_intereses` float DEFAULT NULL,
   `moratorio` float DEFAULT NULL,
-  `multa` float DEFAULT NULL,
-  `iva_multa` float DEFAULT NULL,
-  `garantia` varchar(255) DEFAULT NULL,
+  `ahorro` float DEFAULT NULL,
   `periodo_id` int(11) DEFAULT NULL,
+  `st` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -786,7 +840,7 @@ CREATE TABLE `productos` (
 
 LOCK TABLES `productos` WRITE;
 /*!40000 ALTER TABLE `productos` DISABLE KEYS */;
-INSERT INTO `productos` VALUES (1,'FOMUR PRIMER CICLO','EFECTIVO',12.3,2.2,1.5,2400,1000,'JDJJDJDJDDD',2);
+INSERT INTO `productos` VALUES (1,'FOMMUR PRIMER CICLO',2.5,2.5,100,2,1);
 /*!40000 ALTER TABLE `productos` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -807,6 +861,7 @@ CREATE TABLE `promotors` (
   `celular` varchar(10) DEFAULT NULL,
   `email` varchar(255) DEFAULT NULL,
   `observaciones` varchar(255) DEFAULT NULL,
+  `st` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -817,7 +872,7 @@ CREATE TABLE `promotors` (
 
 LOCK TABLES `promotors` WRITE;
 /*!40000 ALTER TABLE `promotors` DISABLE KEYS */;
-INSERT INTO `promotors` VALUES (1,'MONTOYA','ROBLES','RAMIRO','CALZADA JUAN E','9872723','839839','cmonterrosa@coreeo.com',NULL);
+INSERT INTO `promotors` VALUES (1,'HERNANDEZ','JIMENEZ','MARIA DOLORES','ooooo','9999','999','999999','jjdjdjdjd',NULL);
 /*!40000 ALTER TABLE `promotors` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -852,6 +907,55 @@ LOCK TABLES `referencias` WRITE;
 UNLOCK TABLES;
 
 --
+-- Table structure for table `roles`
+--
+
+DROP TABLE IF EXISTS `roles`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `roles` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `roles`
+--
+
+LOCK TABLES `roles` WRITE;
+/*!40000 ALTER TABLE `roles` DISABLE KEYS */;
+INSERT INTO `roles` VALUES (1,'fondeos'),(2,'capturistas'),(3,'promotores'),(4,'gerentes'),(5,'administradores');
+/*!40000 ALTER TABLE `roles` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `roles_users`
+--
+
+DROP TABLE IF EXISTS `roles_users`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `roles_users` (
+  `user_id` int(11) DEFAULT NULL,
+  `role_id` int(11) DEFAULT NULL,
+  KEY `index_roles_users_on_role_id` (`role_id`),
+  KEY `index_roles_users_on_user_id` (`user_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `roles_users`
+--
+
+LOCK TABLES `roles_users` WRITE;
+/*!40000 ALTER TABLE `roles_users` DISABLE KEYS */;
+INSERT INTO `roles_users` VALUES (1,5);
+/*!40000 ALTER TABLE `roles_users` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `rols`
 --
 
@@ -861,6 +965,7 @@ DROP TABLE IF EXISTS `rols`;
 CREATE TABLE `rols` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `nombre` varchar(255) DEFAULT NULL,
+  `st` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -871,7 +976,7 @@ CREATE TABLE `rols` (
 
 LOCK TABLES `rols` WRITE;
 /*!40000 ALTER TABLE `rols` DISABLE KEYS */;
-INSERT INTO `rols` VALUES (1,'clientes'),(2,'capturistas'),(3,'promotores'),(4,'gerentes'),(5,'administradores');
+INSERT INTO `rols` VALUES (1,'clientes',NULL),(2,'capturistas',NULL),(3,'promotores',NULL),(4,'gerentes',NULL),(5,'administradores',NULL);
 /*!40000 ALTER TABLE `rols` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -893,7 +998,7 @@ CREATE TABLE `schema_info` (
 
 LOCK TABLES `schema_info` WRITE;
 /*!40000 ALTER TABLE `schema_info` DISABLE KEYS */;
-INSERT INTO `schema_info` VALUES (38);
+INSERT INTO `schema_info` VALUES (40);
 /*!40000 ALTER TABLE `schema_info` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -907,8 +1012,9 @@ DROP TABLE IF EXISTS `sectors`;
 CREATE TABLE `sectors` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `sector` varchar(255) DEFAULT NULL,
+  `st` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -917,6 +1023,7 @@ CREATE TABLE `sectors` (
 
 LOCK TABLES `sectors` WRITE;
 /*!40000 ALTER TABLE `sectors` DISABLE KEYS */;
+INSERT INTO `sectors` VALUES (1,'AGRICULTURA',NULL),(2,'AGRICULTURA',NULL);
 /*!40000 ALTER TABLE `sectors` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -955,8 +1062,9 @@ CREATE TABLE `subsectors` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `subsector` varchar(255) DEFAULT NULL,
   `sector_id` int(11) DEFAULT NULL,
+  `st` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -965,6 +1073,7 @@ CREATE TABLE `subsectors` (
 
 LOCK TABLES `subsectors` WRITE;
 /*!40000 ALTER TABLE `subsectors` DISABLE KEYS */;
+INSERT INTO `subsectors` VALUES (1,'RECOLECCION',1,NULL);
 /*!40000 ALTER TABLE `subsectors` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -983,6 +1092,7 @@ CREATE TABLE `sucursals` (
   `direccion` varchar(255) DEFAULT NULL,
   `codigo_postal` varchar(255) DEFAULT NULL,
   `colonia_id` int(11) DEFAULT NULL,
+  `st` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -1005,14 +1115,14 @@ DROP TABLE IF EXISTS `systables`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `systables` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `rol_id` int(11) DEFAULT NULL,
-  `insertar` int(11) DEFAULT NULL,
-  `eliminar` int(11) DEFAULT NULL,
-  `actualizar` int(11) DEFAULT NULL,
-  `consultar` int(11) DEFAULT NULL,
   `controller_id` int(11) DEFAULT NULL,
+  `rol_id` int(11) DEFAULT NULL,
+  `consultar` int(11) DEFAULT '1',
+  `actualizar` int(11) DEFAULT '0',
+  `insertar` int(11) DEFAULT '1',
+  `eliminar` int(11) DEFAULT '1',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=30 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1021,7 +1131,7 @@ CREATE TABLE `systables` (
 
 LOCK TABLES `systables` WRITE;
 /*!40000 ALTER TABLE `systables` DISABLE KEYS */;
-INSERT INTO `systables` VALUES (1,1,1,0,1,1,1),(2,2,1,0,1,1,2),(3,3,1,0,1,1,1),(6,2,1,0,1,1,1),(8,4,1,1,0,1,1),(29,4,1,1,1,NULL,5);
+INSERT INTO `systables` VALUES (1,1,1,1,0,1,1),(2,1,2,1,0,1,1),(3,1,3,1,0,1,1),(4,1,4,1,0,1,1),(5,1,5,1,0,1,1);
 /*!40000 ALTER TABLE `systables` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1040,6 +1150,7 @@ CREATE TABLE `transferencias` (
   `fecha` date DEFAULT NULL,
   `monto` varchar(255) DEFAULT NULL,
   `observaciones` varchar(255) DEFAULT NULL,
+  `st` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -1066,8 +1177,9 @@ CREATE TABLE `users` (
   `password` varchar(255) DEFAULT NULL,
   `nombre` varchar(255) DEFAULT NULL,
   `rol_id` int(11) DEFAULT '1',
+  `st` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1076,7 +1188,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (1,'administrador','db9c93f05d2e41dc2256c3890d5d78ca6e48d418','administrador del sistema',5),(2,'monterrosa','db9c93f05d2e41dc2256c3890d5d78ca6e48d418','capturista de prueba',2),(3,'jesus','48c71784d78bb3c9e92286a31ba502d4b79be4a7','jesus vazquez',2),(4,'chuy','48c71784d78bb3c9e92286a31ba502d4b79be4a7','chuy',5);
+INSERT INTO `users` VALUES (1,'administrador','db9c93f05d2e41dc2256c3890d5d78ca6e48d418','administrador del sistema',5,NULL);
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1091,7 +1203,7 @@ CREATE TABLE `viviendas` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `tipo_vivienda` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1100,7 +1212,7 @@ CREATE TABLE `viviendas` (
 
 LOCK TABLES `viviendas` WRITE;
 /*!40000 ALTER TABLE `viviendas` DISABLE KEYS */;
-INSERT INTO `viviendas` VALUES (1,'CONTRUIDA'),(2,'OBRA NEGRA'),(3,'PAJA');
+INSERT INTO `viviendas` VALUES (1,'BIOCASA O CASA'),(2,'DE ADOBE'),(3,'DE LADRILLO'),(4,'DE MADERA'),(5,'DE MATERIAL MIXTO'),(6,'DE PAJAS, RAMAS O CAÃ‘AS'),(7,'DE PIEDRA'),(8,'APARTAMENTO'),(9,'DEPARTAMENTO');
 /*!40000 ALTER TABLE `viviendas` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -1113,4 +1225,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2010-07-16 15:53:38
+-- Dump completed on 2010-07-27  5:21:41
