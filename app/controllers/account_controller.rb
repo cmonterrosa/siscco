@@ -15,6 +15,11 @@ class AccountController < ApplicationController
     before_filter :permiso_requerido, :except =>[ :login, :logout]
 
   def login
+
+    if session['user']
+      redirect_to :controller => "home"
+    end
+
     case request.method
       when :post
         if session['user'] = User.authenticate(params['user_login'], params['user_password'])
