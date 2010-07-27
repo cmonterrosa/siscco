@@ -21,13 +21,24 @@ class CreateClientes < ActiveRecord::Migration
       t.column :escolaridad_id, :integer
       t.column :vivienda_id, :integer
       t.column :colonia_id, :integer
-      t.column :grupo_id, :integer, :default => 1
+      #t.column :grupo_id, :integer, :default => 1
       #---- campo para historial -----
       t.column :st, :integer
-end
-  end
+    end
+
+
+       # generate the join table
+    create_table :clientes_grupos  do |t|
+      t.column :cliente_id, :integer
+      t.column :grupo_id, :integer
+     end
+     add_index "clientes_grupos", "cliente_id"
+     add_index "clientes_grupos", "grupo_id"
+    end
+  
 
   def self.down
     drop_table :clientes
+    drop_table :clientes_grupos
   end
 end

@@ -13,7 +13,7 @@
   <tr>
     <td><%= collection_select("credito", "producto_id", $productos, :id, :producto, :prompt => '>>Producto')%></td>
     <td><%= text_field 'credito', 'monto', :onkeypress => "return CharNum(event, 'numero');"  %></td>
-    <td><%=collection_select("credito", "grupo_id", $grupos, :id, :nombre, :prompt => '>>Grupo')%>&nbsp;&nbsp;&nbsp;<%= link_to 'Agregar', :controller => 'grupos', :action => 'new', :id_credito => %></td>
+    <td><%=collection_select("credito", "grupo_id", $grupos, :id, :nombre, :prompt => '>>Grupo')%>&nbsp;&nbsp;&nbsp;<%= link_to 'Agregar', :controller => 'grupos', :action => 'new' %></td>
     <td><%= date_select 'credito', 'fecha_inicio', :order => [:day, :month, :year]  %></td>
   </tr>
   <tr>

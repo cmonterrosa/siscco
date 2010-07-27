@@ -4,7 +4,7 @@ class CreateProductos < ActiveRecord::Migration
       t.column :producto, :string
       t.column :intereses, :float
       t.column :moratorio, :float
-      t.column :garantia, :float
+      t.column :ahorro, :float
       #--- relacion con otras tablas ---
       t.column :periodo_id, :integer
       #---- campo para historial -----

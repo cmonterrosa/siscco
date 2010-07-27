@@ -32,7 +32,7 @@ class FondeosController < ApplicationController
   end
 
   def update
-    actaliza_registro(Fondeo.find(params[:id]), params[:fondeo])
+    actualiza_registro(Fondeo.find(params[:id]), params[:fondeo])
   end
 
   def destroy

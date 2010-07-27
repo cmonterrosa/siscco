@@ -4,27 +4,19 @@
 <table>
   <tr>
     <th>Descripción:</th>
-    <th>Tipo:</th>
     <th>Intereses:</th>
-    <th>Iva Intereses:</th>
   </tr>
   <tr>
     <td><%= text_field 'producto', 'producto', :onkeypress => "return CharNum(event, 'letra');"  %></td>
-    <td><%= text_field 'producto', 'tipo', :onkeypress => "return CharNum(event, 'letra');"  %></td>
     <td><%= text_field 'producto', 'intereses', :onkeypress => "return NumberDec(event, 'si', 'si');"  %></td>
-    <td><%= text_field 'producto', 'iva_intereses', :onkeypress => "return NumberDec(event, 'si', 'si');"  %></td>
   </tr>
   <tr>
     <th>Interes Moratorio:</th>
-    <th>Gastos cobranza:</th>
-    <th>Iva Gastos de Cobranza:</th>
     <th>Ahorro:</th>
   </tr>
   <tr>
     <td><%= text_field 'producto', 'moratorio', :onkeypress => "return NumberDec(event, 'si', 'si');"  %></td>
-    <td><%= text_field 'producto', 'multa', :onkeypress => "return NumberDec(event, 'si', 'si');"  %></td>
-    <td><%= text_field 'producto', 'iva_multa', :onkeypress => "return NumberDec(event, 'si', 'si');"  %></td>
-    <td><%= text_field 'producto', 'garantia', :onkeypress => "return CharNum(event, 'letra');"  %></td>
+    <td><%= text_field 'producto', 'ahorro', :onkeypress => "return CharNum(event, 'letra');"  %></td>
   </tr>
   <tr>
     <th>Periodo:</th>

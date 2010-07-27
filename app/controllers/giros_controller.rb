@@ -23,7 +23,7 @@ class GirosController < ApplicationController
   end
 
   def create
-    inserta_registro(Periodo.new(params[:periodo]), 'Registro creado satisfactoriamente')
+    inserta_registro(Giro.new(params[:giro]), 'Registro creado satisfactoriamente')
   end
 
   def edit
@@ -31,7 +31,7 @@ class GirosController < ApplicationController
   end
 
   def update
-    actualiza_registro(Periodo.find(params[:id]), params[:periodo])
+    actualiza_registro(Giro.find(params[:id]), params[:giro])
   end
 
   def destroy

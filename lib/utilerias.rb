@@ -110,8 +110,7 @@ module Utilerias
   return num + dd.to_s
 end
 
-
-
+ 
 
    #--- combo de semanas, maximo 52 ----
   @semanas = []

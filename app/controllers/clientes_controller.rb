@@ -27,14 +27,11 @@ class ClientesController < ApplicationController
   def new
     @cliente = Cliente.new
     @negocio = Negocio.new
-    #--- Hacemos las consultas para rellenar los combos ----
-    @civiles = Civil.find(:all)
-    @escolaridades = Escolaridad.find(:all)
-    @viviendas = Vivienda.find(:all)
+    @grupo = Grupo.new
   end
 
   def create
-    inserta_cliente(Cliente.new(params[:cliente]), Negocio.new(params[:negocio]), 'Registro creado satisfactoriamente.')
+    inserta_cliente(Cliente.new(params[:cliente]), Negocio.new(params[:negocio]), Grupo.find(params[:grupo][:id]), 'Registro creado satisfactoriamente.')
 #    @cliente = Cliente.new(params[:cliente])
 #    @negocio = Negocio.new(params[:negocio])
 #    @negocio.cliente = @cliente
@@ -85,7 +82,7 @@ class ClientesController < ApplicationController
 
 
   def destroy
-    Negocio.find(:first, :conditions => ["cliente_id = ?", params[:id]]).destroy
+    #Negocio.find(:first, :conditions => ["cliente_id = ?", params[:id]]).destroy
     Cliente.find(params[:id]).destroy
     redirect_to :action => 'list'
   end
@@ -101,6 +98,13 @@ class ClientesController < ApplicationController
   def estado_cuenta
     
   end
+
+  def historial_grupos
+    @cliente = Cliente.find(params[:id])
+    @grupos = Clientegrupo.find(:all, :conditions =>["cliente_id = ? ", @cliente.id], :order => "fecha_inicio, fecha_fin")
+    render :layout=>false
+  end
+
 
   def estado_cuenta_individual
     

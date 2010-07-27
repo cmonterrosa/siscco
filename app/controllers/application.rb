@@ -2,7 +2,7 @@
 class ActiveRecord::RecordInvalid
   def initialize(record)
       @record = record
-      super("Verifique lo siguiente: #{@record.errors.full_messages.join(", ")}")
+      super("Verifique el campo: #{@record.errors.full_messages.join(", ")}")
   end
 end
 

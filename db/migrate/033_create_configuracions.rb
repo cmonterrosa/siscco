@@ -9,9 +9,7 @@ class CreateConfiguracions < ActiveRecord::Migration
       t.column :st, :integer
     end
 
-    Configuracion.create(:tasa_interes=>"2.5",
-                         :interes_moratorio=>"2.5",
-                         :multa=>"0")
+  Configuracion.create(:nombre_empresa => "SOCAMA FRAYLESCA S.A DE C.V")
 
   end
 

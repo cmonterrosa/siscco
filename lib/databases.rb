@@ -55,13 +55,23 @@ module Databases
 
 
 
-  def inserta_cliente(registro, registro2, mensaje)
+  def inserta_cliente(cliente, negocio, grupo, mensaje)
     begin
-      registro2.cliente = registro
-      registro.save!
-      registro2.save!
-        flash[:notice]=mensaje
-        redirect_to :action => 'list', :controller => "#{params[:controller]}"
+      negocio.cliente = cliente
+      #cliente.grupos << grupo
+      @log = Clientegrupo.new
+      @log.cliente= cliente
+      @log.grupo = grupo
+      @log.save!
+
+        if cliente.save && negocio.save
+          flash[:notice]=mensaje
+          redirect_to :action => 'list', :controller => "#{params[:controller]}"
+        else
+           flash[:notice]="No se pudo insertar cliente, verifique los datos"
+           render :action => 'new', :controller => "#{params[:controller]}"
+        end
+      
     rescue ActiveRecord::RecordInvalid => invalid
       flash[:notice] = invalid
       redirect_to :action => 'new', :controller => "#{params[:controller]}"
@@ -73,8 +83,8 @@ module Databases
 
   def actualiza_registro(registro, parametros)
     begin
-      registro.fecha_hora = Time.now
-      registro.user_id = session['user'].id
+      #registro.fecha_hora = Time.now
+      #registro.user_id = session['user'].id
       registro.update_attributes(parametros)
       flash[:notice] = 'Registro actualizado satisfactoriamente'
       redirect_to :controller => params[:controller], :action => 'show', :id => registro

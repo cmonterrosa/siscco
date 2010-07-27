@@ -15,6 +15,9 @@
   $periodos = Periodo.find(:all, :order => "dias")
   $productos = Producto.find(:all, :order => "producto")
   $users = User.find(:all, :order => "login")
+  $civiles = Civil.find(:all)
+  $escolaridades = Escolaridad.find(:all)
+  $viviendas = Vivienda.find(:all)
 
 
   #----------- Cambio de idioma de las fechas --------------------

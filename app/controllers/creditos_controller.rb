@@ -18,6 +18,10 @@ class CreditosController < ApplicationController
     @credito = Credito.find(params[:id])
   end
 
+
+  def finalizar_credito
+    
+  end
   
 
 
