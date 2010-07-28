@@ -1,1 +1,1 @@
-<%= options_for_select(@tesoreros.collect {|p| [ p.nombre_completo, p.id ]}) %> 
+<%= options_for_select(@tesoreros.collect {|p| [ p.cliente.nombre_completo, p.cliente.id ]}) %> 

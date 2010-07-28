@@ -52,7 +52,7 @@
     <th>Tesorero:</th>
   </tr>
   <tr>
-    <td><%=collection_select("miembro","presidente", $clientes, :id, :nombre_completo, :prompt => '>>Presidente', :include_blank => '>>Presidente')%></td>
+    <td><%=collection_select("miembro","presidente", $clientes, :id, :nombre_completo, :prompt => '>>Presidente')%></td>
     <td><%=collection_select("miembro","secretario", $clientes, :id, :nombre_completo, :prompt => '>>Secretario')%></td>
     <td><%=collection_select("miembro","tesorero", $clientes, :id, :nombre_completo, :prompt => '>>Tesorero')%></td>
   </tr>

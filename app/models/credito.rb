@@ -12,14 +12,10 @@ class Credito < ActiveRecord::Base
   has_many :referencias
   has_many :pagos
 
-
     def initialize(params = nil)
     super
       self.st = 0 unless self.st
     end
-
-
- 
 
     #--------- Validaciones ------
     before_save :grupo_unico?
@@ -27,8 +23,7 @@ class Credito < ActiveRecord::Base
     validates_numericality_of :num_referencia, :message => "Debe de ser numero"
     validates_uniqueness_of :num_referencia,  :message => "Ya existe un credito con ese numero de referencia"
 
-  
-      def grupo_unico?
+    def grupo_unico?
       @grupo = Grupo.find(self.grupo_id) if self.grupo_id
       sum=0
       @grupo.creditos.each do |credito|
@@ -42,5 +37,3 @@ class Credito < ActiveRecord::Base
     end
 
 end
-
-

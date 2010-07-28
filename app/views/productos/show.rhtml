@@ -5,12 +5,11 @@
   <b><%= column.human_name %>:</b> <%=h @producto.send(column.name) %>
 </p>
 <% end %>
+<br />
 <p>
   <b>Periodo:</b> <%=h @producto.periodo.nombre %>
 </p>
-<p>
-  <b>Grupo:</b> <%=h @producto.grupo.nombre %>
-</p>
+
 <br />
-<%#= button_to 'Editar', :action => 'edit', :id => @producto %>
+
 <%= link_to 'Regresar', :action => 'list' %>

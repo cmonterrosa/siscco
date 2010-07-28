@@ -35,9 +35,11 @@ class CreateClientes < ActiveRecord::Migration
       t.column :fecha_inicio, :datetime
       t.column :fecha_fin, :datetime
      end
+
      add_index "clientes_grupos", "cliente_id"
      add_index "clientes_grupos", "grupo_id"
-    end
+
+  end
   
 
   def self.down

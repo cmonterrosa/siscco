@@ -24,14 +24,14 @@ module Databases
 #--- Funciones de insercion de registros ------
 
   def inserta_registro(registro, mensaje)
-    begin
+#    begin
       registro.save!
         flash[:notice]=mensaje
         redirect_to :action => 'list', :controller => "#{params[:controller]}"
-    rescue ActiveRecord::RecordInvalid => invalid
-      flash[:notice] = invalid
-      redirect_to :action => 'new', :controller => "#{params[:controller]}"
-    end
+#    rescue ActiveRecord::RecordInvalid => invalid
+#      flash[:notice] = invalid
+#      redirect_to :action => 'new', :controller => "#{params[:controller]}"
+#    end
   end
 
 
@@ -68,7 +68,7 @@ module Databases
           flash[:notice]=mensaje
           redirect_to :action => 'list', :controller => "#{params[:controller]}"
         else
-           flash[:notice]="No se pudo insertar cliente, verifique los datos"
+           flash[:notice]= cliente.errors
            render :action => 'new', :controller => "#{params[:controller]}"
         end
       

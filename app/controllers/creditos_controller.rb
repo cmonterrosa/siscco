@@ -1,5 +1,6 @@
 class CreditosController < ApplicationController
   before_filter :permiso_requerido
+
   def index
     list
     render :action => 'list'
@@ -18,14 +19,10 @@ class CreditosController < ApplicationController
     @credito = Credito.find(params[:id])
   end
 
-
   def finalizar_credito
     
   end
   
-
-
-
   #----- Este metodo aplica todos los movimientos ----
   def abonar
     #params[:pago].delete(:descripcion)
@@ -183,9 +180,6 @@ class CreditosController < ApplicationController
     #@pago = Pago.new
     @pago = proximo_pago(@credito)
   end
-
-
-
 
   #--- Métodos ajax ---
     def live_search_num
