@@ -4,7 +4,7 @@ class CreateGrupos < ActiveRecord::Migration
       t.column :nombre, :string
   end
     #--- Por defecto no pertenecen a ningun grupo ---
-    Grupo.create(:nombre =>"NINGUNO")
+    #Grupo.create(:nombre =>"NINGUNO")
 
 
   end

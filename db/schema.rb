@@ -18,7 +18,6 @@ ActiveRecord::Schema.define(:version => 40) do
     t.column "direccion",  :string
     t.column "telefono",   :string
     t.column "colonia_id", :integer
-    t.column "st",         :integer
   end
 
   create_table "civils", :force => true do |t|
@@ -48,10 +47,9 @@ ActiveRecord::Schema.define(:version => 40) do
     t.column "st",             :integer
   end
 
-  create_table "clientes_grupos", :id => false, :force => true do |t|
+  create_table "clientes_grupos", :force => true do |t|
     t.column "cliente_id", :integer
     t.column "grupo_id",   :integer
-    t.column "activo",     :integer
   end
 
   add_index "clientes_grupos", ["cliente_id"], :name => "index_clientes_grupos_on_cliente_id"
@@ -119,13 +117,10 @@ ActiveRecord::Schema.define(:version => 40) do
   create_table "festivos", :force => true do |t|
     t.column "fecha",       :date
     t.column "descripcion", :string
-    t.column "st",          :integer
   end
 
   create_table "fondeos", :force => true do |t|
-    t.column "fuente",     :string
-    t.column "user_id",    :integer
-    t.column "fecha_hora", :datetime
+    t.column "fuente", :string
   end
 
   create_table "garantias", :force => true do |t|
@@ -141,12 +136,10 @@ ActiveRecord::Schema.define(:version => 40) do
     t.column "giro",      :string
     t.column "codigo",    :string
     t.column "subsector", :string
-    t.column "st",        :integer
   end
 
   create_table "grupos", :force => true do |t|
     t.column "nombre", :string
-    t.column "st",     :integer
   end
 
   create_table "jerarquias", :force => true do |t|
@@ -168,6 +161,8 @@ ActiveRecord::Schema.define(:version => 40) do
     t.column "fecha_hora", :datetime
     t.column "clase",      :string
     t.column "st",         :integer
+    t.column "user_id",    :integer
+    t.column "objeto_id",  :integer
   end
 
   create_table "miembros", :force => true do |t|
@@ -236,7 +231,7 @@ ActiveRecord::Schema.define(:version => 40) do
     t.column "producto",   :string
     t.column "intereses",  :float
     t.column "moratorio",  :float
-    t.column "garantia",   :float
+    t.column "ahorro",     :float
     t.column "periodo_id", :integer
     t.column "st",         :integer
   end
@@ -283,7 +278,6 @@ ActiveRecord::Schema.define(:version => 40) do
 
   create_table "sectors", :force => true do |t|
     t.column "sector", :string
-    t.column "st",     :integer
   end
 
   create_table "status", :force => true do |t|
@@ -293,7 +287,6 @@ ActiveRecord::Schema.define(:version => 40) do
   create_table "subsectors", :force => true do |t|
     t.column "subsector", :string
     t.column "sector_id", :integer
-    t.column "st",        :integer
   end
 
   create_table "sucursals", :force => true do |t|

@@ -31,6 +31,9 @@ class CreateClientes < ActiveRecord::Migration
     create_table :clientes_grupos  do |t|
       t.column :cliente_id, :integer
       t.column :grupo_id, :integer
+      t.column :activo, :integer
+      t.column :fecha_inicio, :datetime
+      t.column :fecha_fin, :datetime
      end
      add_index "clientes_grupos", "cliente_id"
      add_index "clientes_grupos", "grupo_id"

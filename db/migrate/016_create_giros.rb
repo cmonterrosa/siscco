@@ -5,6 +5,9 @@ class CreateGiros < ActiveRecord::Migration
       t.column :codigo, :string
       t.column :subsector, :string
     end
+
+    Giro.create(:giro => "Agricultura", :codigo=>"AGR", :subsector=>"2")
+
   end
 
   def self.down
