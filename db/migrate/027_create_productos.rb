@@ -5,10 +5,9 @@ class CreateProductos < ActiveRecord::Migration
       t.column :intereses, :float
       t.column :moratorio, :float
       t.column :ahorro, :float
+      t.column :num_pagos, :integer
       #--- relacion con otras tablas ---
       t.column :periodo_id, :integer
-      #---- campo para historial -----
-      t.column :st, :integer
     end
   end
 
