@@ -5,11 +5,7 @@
           <th>Nombre:</th>
           <th>RFC:</th>
           <th>CURP:</th>
-          <th>Clave IFE:</th>
-          <th>Tipo Persona:</th>
-          <th>Dirección:</th>
-          <th>Telefono:</th>
-          <th colspan="3">Acciones</th>
+          <th colspan="4">Acciones</th>
         </tr>
 
         <% for cliente in @clientes %>
@@ -22,6 +18,8 @@
           <td><%= cliente.direccion %></td>
           <td><%= cliente.telefono %></td>
           <td><%= button_to 'Detalles', :action => 'show', :id => cliente %></td>
+          <td><%=link_to "Histórico de grupos", { :controller => "clientes", :action => "historial_grupos", :id => cliente}, :popup => ['new_window',
+'height=300,width=600']%></td>
           <td><%= button_to 'Editar', :action => 'edit', :id => cliente %></td>
           <td><%= button_to 'Eliminar', { :action => 'destroy', :id => cliente}, :confirm => 'Estas seguro?', :method => :post %></td>
         </tr>

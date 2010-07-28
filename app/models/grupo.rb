@@ -4,4 +4,5 @@ class Grupo < ActiveRecord::Base
   has_many :creditos
   #---- relacion ficticia -----
    has_many :clientegrupos
+   validates_uniqueness_of :nombre, :message => ", Ese grupo ya esta registrado."
 end

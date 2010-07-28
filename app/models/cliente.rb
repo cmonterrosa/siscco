@@ -25,7 +25,7 @@ validates_uniqueness_of :rfc, :message => ", Ese cliente ya esta registrado."
 validates_uniqueness_of :curp, :message => ", Ese cliente ya esta registrado."
 validates_length_of :rfc, :in => 10..13,  :message => ", Longitud incorrecta"
 validates_length_of :curp, :is => 18,  :message => ", Longitud incorrecta"
-validates_associated :grupos, :message => "existen registros en otras tablas"
+#validates_associated :grupos, :message => "existen registros en otras tablas"
 
 
   def validates_grupo

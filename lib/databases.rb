@@ -118,10 +118,8 @@ module Databases
 
  def actualiza_cliente(registro, parametros, registro2, parametros2)
     begin
-      registro.fecha_hora = Time.now
-      registro.user_id = session['user'].id
-      registro.update_attributes(parametros)
-      registro2.update_attributes(parametros2)
+      registro.update_attributes!(parametros)
+      registro2.update_attributes!(parametros2)
       flash[:notice] = 'Registro actualizado satisfactoriamente'
       redirect_to :controller => params[:controller], :action => 'show', :id => registro
     rescue
@@ -160,7 +158,7 @@ module Databases
 
   def eliminar_registro(registro, rol)
     #------Verifica que se pueda eliminar el registro -----
-   if Systable.find(:first, :conditions=>["rol_id = ? and eliminar=1 and controller=?", rol, params[:controller]])
+   #if Systable.find(:first, :conditions=>["rol_id = ? and eliminar=1 and controller=?", rol, params[:controller]])
       begin
         registro.destroy
         flash[:notice]="Registro eliminado"
@@ -169,16 +167,16 @@ module Databases
         flash[:notice]="No se pudo eliminar, puede que el registro tenga tablas asociadas"
         redirect_to :action => 'list', :controller => params[:controller]
       end
-    else
-     flash[:notice]="No tiene privilegios para eliminar el registro"
-     redirect_to :action => 'list', :controller => params[:controller]
-   end
+#    else
+#     flash[:notice]="No tiene privilegios para eliminar el registro"
+#     redirect_to :action => 'list', :controller => params[:controller]
+#   end
  end
 
     def elimina_registro_log(registro, rol)
     begin
       @controller = Controller.find_by_controller(params[:controller])
-      if Systable.find(:first, :conditions=>["rol_id = ? and eliminar=1 and controller_id=?", rol, @controller.id])
+      #if Systable.find(:first, :conditions=>["rol_id = ? and eliminar=1 and controller_id=?", rol, @controller.id])
         #--- Cambiamos el estatus ----
         registro.st = 0
         registro.save!
@@ -189,10 +187,10 @@ module Databases
                    :user_id => session['user'].id)
         flash[:notice]="Registro eliminado"
         redirect_to :action => 'list', :controller => params[:controller]
-      else
-        flash[:notice]="No tiene privilegios para eliminar el registro"
-        redirect_to :action => 'list', :controller => params[:controller]
-      end
+#      else
+#        flash[:notice]="No tiene privilegios para eliminar el registro"
+#        redirect_to :action => 'list', :controller => params[:controller]
+#      end
 
      rescue ActiveRecord::RecordInvalid => invalid
         flash[:notice] = invalid

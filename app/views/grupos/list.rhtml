@@ -24,6 +24,7 @@
         <td><%=h grupo.send(column.name) %></td>
         <% end %>
         <td><%= button_to 'Detalles', :action => 'show', :id => grupo %></td>
+         <td><%= button_to 'Clientes', :action => 'agregar_clientes', :id => grupo %></td>
         <td><%= button_to 'Editar', :action => 'edit', :id => grupo %></td>
         <td><%= button_to 'Eliminar', { :action => 'destroy', :id => grupo }, :confirm => 'Estas seguro?', :method => :post %></td>
       </tr>

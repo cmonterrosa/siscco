@@ -10,8 +10,8 @@
 <br />
 <h1>Integrantes</h1><br />
 
-<%@grupo.clientes.each do |cliente|%>
-  <h3><%=cliente.nombre_completo%></h3>
+<%@clientegrupos.each do |cliente|%>
+  <h3><%=link_to "#{cliente.cliente.nombre_completo}", :action => "show", :controller=>"clientes", :id=> cliente.cliente%></h3>
   <%end%>
 
 <br />
