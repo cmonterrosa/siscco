@@ -1,10 +1,5 @@
 <%= error_messages_for 'cliente' %>
 
-
-
-
-
-
 <!--[form:cliente]-->
 <div>
   <table>
@@ -56,8 +51,11 @@
      
    </tr>
    <tr>
+<<<<<<< HEAD
    <!--
      <td><= text_field 'cliente', 'tipo_persona', :onkeyup => "CharNum(event, 'letra', this);"  %></td> -->
+=======
+>>>>>>> 5b56d189f2a4b7e0dcc0affa9be4a013ad9a2ab2
      <td><%= select("cliente", "tipo_persona", ["FISICA", "MORAL", "FISICA CON ACTIVIDAD EMPRESARIAL"], {:prompt => '>>Tipo de persona'}, :class => 'text') %></td>
      <td><%= text_field 'cliente', 'telefono', :onkeyup => "CharNum(event, 'numero', this);", :class => 'text'  %></td>
      <td><%= text_field 'cliente', 'email', :class => 'text'  %></td>

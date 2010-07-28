@@ -32,15 +32,6 @@ class ClientesController < ApplicationController
 
   def create
     inserta_cliente(Cliente.new(params[:cliente]), Negocio.new(params[:negocio]), Grupo.find(params[:grupo][:id]), 'Registro creado satisfactoriamente.')
-#    @cliente = Cliente.new(params[:cliente])
-#    @negocio = Negocio.new(params[:negocio])
-#    @negocio.cliente = @cliente
-#    if @cliente.save and @negocio.save
-#      flash[:notice] = 'Registro creado satisfactorimente.'
-#      redirect_to :action => 'list'
-#    else
-#      render :action => 'new'
-#    end
   end
 
   def edit
@@ -60,14 +51,6 @@ class ClientesController < ApplicationController
 
   def update
     actualiza_cliente(Cliente.find(params[:id]), params[:cliente], Negocio.find(params[:id_negocio]), params[:negocio])
-#    @cliente = Cliente.find(params[:id])
-#    @negocio = Negocio.find(params[:id_negocio])
-#    if @cliente.update_attributes(params[:cliente]) && @negocio.update_attributes(params[:negocio])
-#      flash[:notice] = 'Registro actualizado.'
-#      redirect_to :action => 'list', :id => @cliente
-#    else
-#      render :action => 'edit'
-#    end
   end
 
     def updatec
@@ -109,8 +92,6 @@ class ClientesController < ApplicationController
   def estado_cuenta_individual
     
   end
-
-
 
   def consultar
     if Cliente.find_by_rfc(params[:cliente][:rfc]) && params[:cliente][:rfc]

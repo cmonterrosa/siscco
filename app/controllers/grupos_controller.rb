@@ -15,14 +15,11 @@ class GruposController < ApplicationController
     @grupos = Grupo.find(:all, :order => 'nombre')
   end
 
-
   def agregar_clientes
      @grupo = Grupo.find(params[:id])
      @clientes = Cliente.find(:all, :order => 'paterno')
      @clientegrupos = Clientegrupo.find(:all, :conditions => ["grupo_id = ? and activo = 1", @grupo.id])
-     
   end
-
 
   def show
     @grupo = Grupo.find(params[:id])

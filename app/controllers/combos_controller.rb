@@ -25,17 +25,16 @@ class CombosController < ApplicationController
 
   def get_integrantes
       #@integrantes = Cliente.find(:all, :conditions => ["grupo_id = ?", params[:credito_grupo_id]])
-      @grupo = Grupo.find(params[:credito_grupo_id])
-      @integrantes = @grupo.clientes
+      @integrantes = Clientegrupo.find(:all, :conditions => ["grupo_id = ? and activo = 1", params[:credito_grupo_id].to_i])
 
       unless @integrantes.nil?
-        session['integrantes'] = params[:credito_grupo_id]
+        session['grupo'] = params[:credito_grupo_id]
       end
       return render(:partial => 'integrantes', :layout => false) if request.xhr?
   end
 
   def get_secretario
-      @secretarios = Clientegrupos.find(:all, :conditions => ["grupo_id = ? and id != ?", params[:credito_grupo_id], params[:miembro_presidente]])
+      @secretarios = Clientegrupo.find(:all, :conditions => ["grupo_id = ? and cliente_id != ? and activo = 1", session['grupo'].to_i, params[:miembro_presidente].to_i])
 
       unless @secretarios.nil?
         session['presidente'] = params[:miembro_presidente]
@@ -44,7 +43,7 @@ class CombosController < ApplicationController
   end
 
   def get_tesorero
-      @tesoreros = Cliente.find(:all, :conditions => ["id != ? AND id != ? AND grupo_id = ?", params[:miembro_secretario], $presidente, $integrantes])
+      @tesoreros = Clientegrupo.find(:all, :conditions => ["grupo_id = ? and cliente_id != ? and cliente_id != ? and activo = 1", session['grupo'], params[:miembro_secretario], session['presidente']])
       return render(:partial => 'tesorero', :layout => false) if request.xhr?
   end
 
