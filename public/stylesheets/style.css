@@ -316,3 +316,8 @@ width:900px;
 height: 200px;
 text-align: center;
 }
+
+.text{
+    font-size:10px;
+/*    text-transform:uppercase;*/
+}

@@ -5,27 +5,22 @@
   <tr>
     <th>Descripción:</th>
     <th>Intereses:</th>
-  </tr>
-  <tr>
-    <td><%= text_field 'producto', 'producto', :onkeypress => "return CharNum(event, 'letra');"  %></td>
-    <td><%= text_field 'producto', 'intereses', :onkeypress => "return NumberDec(event, 'si', 'si');"  %></td>
-  </tr>
-  <tr>
     <th>Interes Moratorio:</th>
+  </tr>
+  <tr>
+    <td><%= text_field 'producto', 'producto', :onkeypress => "return CharNum(event, 'letra');", :class => 'text'  %></td>
+    <td><%= text_field 'producto', 'intereses', :onkeypress => "return CharNum(event, 'numero');", :class => 'text'  %></td>
+    <td><%= text_field 'producto', 'moratorio', :onkeypress => "return CharNum(event, 'numero');", :class => 'text'  %></td>
+  </tr>
+  <tr>
     <th>Ahorro:</th>
-  </tr>
-  <tr>
-    <td><%= text_field 'producto', 'moratorio', :onkeypress => "return NumberDec(event, 'si', 'si');"  %></td>
-    <td><%= text_field 'producto', 'ahorro', :onkeypress => "return CharNum(event, 'letra');"  %></td>
-  </tr>
-  <tr>
     <th>Periodo:</th>
     <th>Num. de Pagos:</th>
-    <th>Fondeo:</th>
-    <th>Linea de Fondeo:</th>
   </tr>
   <tr>
-    <td><%= collection_select('producto', 'periodo_id', $periodos, :id, :nombre, :prompt => '>>Periodo')  %></td>
+    <td><%= text_field 'producto', 'ahorro', :onkeypress => "return CharNum(event, 'numero');", :class => 'text'  %></td>
+    <td><%= collection_select('producto', 'periodo_id', $periodos, :id, :nombre, {:prompt => '>>Periodo'}, :class => 'text')  %></td>
+    <td><%= select('producto','num_pagos', $semanas, {:prompt => '>>Num pagos'}, :class => 'text') %></td>
   </tr>
 </table>
 <!--[eoform:producto]-->

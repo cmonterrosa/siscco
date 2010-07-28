@@ -1,17 +1,48 @@
 // Place your application-specific JavaScript functions and classes here
 // This file is automatically included by javascript_include_tag :defaults
 //-- Valida campo texto, campo numero -->
-function CharNum(e, modo)
+//function CharNum(e, modo)
+//{
+//    var key = window.event ? e.keyCode : e.which;
+//    var keychar = String.fromCharCode(key);
+//   // document.forms[0].texto.value.toUpperCase();
+//    if (modo=='letra') {
+//        reg = /\D/;
+//        return reg.test(keychar);
+//    }
+//    else {
+//        return (key <= 13 || (key >= 48 && key <= 57) || key == 46 || key == 45);
+//    }
+//}
+//
+//function text(){
+//    txt = document.forms[0].texto.value.toUpperCase();
+//    return txt;
+//}
+
+function CharNum(e, modo, txt)
 {
     var key = window.event ? e.keyCode : e.which;
     var keychar = String.fromCharCode(key);
-    if (modo=='letra') {
-        reg = /\D/;
-        return reg.test(keychar);
-    }
-    else {
-        return (key <= 13 || (key >= 48 && key <= 57) || key == 46);
-    }
+   // document.forms[0].texto.value.toUpperCase();s
+
+   switch(modo){
+        case 'letra':
+                    reg = /\D/;
+                    if(reg.test(keychar))
+                        txt.value = txt.value.toUpperCase();
+                    else
+                        txt.value="";
+                    break;
+        case 'numero':
+                    reg = /\d/;
+                    if(!(reg.test(keychar)))
+                        txt.value="";
+                    break;
+        default:
+                    txt.value = txt.value.toUpperCase();
+                    break;
+   }
 }
 //-- fin valida campo -->
 //-- Comprueba que no se envien campos vacios -->
@@ -20,26 +51,21 @@ function comprobar()
     missinginfo = "";
     var mal=false;
     numero=document.forms[0].elements.length;
-    for(a=0;a<numero;a++)
-    {
-        if(document.forms[0].elements[a].value=="")
-        {
+    for(a=0;a<numero;a++) {
+        if(document.forms[0].elements[a].value=="") {
             document.forms[0].elements[a].style.backgroundColor="#ff9999";
             missinginfo += "\n     - "+document.forms[0].elements[a].name;
             mal=true;
         }
-        else
-        {
+        else {
             document.forms[0].elements[a].style.backgroundColor="white";
         }
     }
-    if(mal)
-    {
+    if(mal) {
         alert("Por favor, rellene los campos:"+'\n'+missinginfo);
         return false;
     }
-    else
-    {
+    else {
         document.forms[0].submit();
         return true;
     }
@@ -97,7 +123,7 @@ function mmLoadMenus() {
 
   window.menu_administracion = new Menu("root",150,20,"Geneva, Arial, Helvetica, sans-serif",14,"#000000","#FFFFFF","#999999","#6699CC","left","middle",3,0,1000,-5,7,true,true,true,0,false,true);
   menu_administracion.addMenuItem("Usuarios","location='/administracion/usuarios'");
-  menu_administracion.addMenuItem("Permisos","location='/administracion/permisos'");
+  //menu_administracion.addMenuItem("Permisos","location='/administracion/permisos'");
   menu_administracion.fontWeight="bold";
   menu_administracion.hideOnMouseOut=true;
   menu_administracion.bgColor='#555555';
