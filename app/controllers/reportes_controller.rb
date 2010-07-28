@@ -33,10 +33,6 @@ end
 
 class ReportesController < ApplicationController
 
-
-
- 
-
     def pagare
     #----- filtrado de registros unicos -----
     @credito = Credito.find(:first, :conditions => ["id = ?", 1])
@@ -49,7 +45,7 @@ class ReportesController < ApplicationController
     _pdf.numeros_pagina(40, 25, 10, pos = nil, pattern = nil)
     #--- logos -----
     _pdf.move_pointer(-80)
-    i0 = _pdf.image "#{RAILS_ROOT}/public/images/SOCAMA.png", :resize => 0.45, :justification=>:left
+    i0 = _pdf.image "#{RAILS_ROOT}/public/images/cresolido_marca.png", :resize => 0.45, :justification=>:left
 
     #---- TITULO -----
     _pdf.move_pointer(-10)

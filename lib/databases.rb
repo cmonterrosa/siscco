@@ -5,17 +5,28 @@ module Databases
         begin
           if tipo == "GRUPAL"
              if credito.grupo.clientes.size >= 2
-                credito.user_id = session['user'].id
-                credito.save!
-                return true
+                 if credito.save!
+                      #--- Guardamos el log ---
+                    Log.create(:operacion => "INSERTAR",
+                    :clase => credito.class.to_s,
+                    :objeto_id => credito.id.to_i,
+                    :user_id => session['user'].id)
+                  return true
+                 end
+                 return false
              else
                return false
              end
           else
             #--- Es individual ----
-            credito.save!
-            return true
-          end
+            if credito.save!
+               Log.create(:operacion => "INSERTAR",
+                    :clase => credito.class.to_s,
+                    :objeto_id => credito.id.to_i,
+                    :user_id => session['user'].id)
+              return true
+            end
+        end
       rescue ActiveRecord::RecordInvalid => invalid
           return false
         end

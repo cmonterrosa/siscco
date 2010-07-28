@@ -96,9 +96,7 @@ class CreditosController < ApplicationController
      end
  end
 
-  def activacion
-
-  end
+ 
 
   def new
     @credito = Credito.new
@@ -106,28 +104,25 @@ class CreditosController < ApplicationController
 
   def create
     @credito = Credito.new(params[:credito])
+    @producto = Producto.find(params[:credito][:producto_id])
     @fecha_inicio = Date.strptime(@credito.fecha_inicio.to_s)
-    #@credito.tasa_interes = Producto.find(params[:producto_id]).tasa_interes
-
-    @credito.tasa_interes = Configuracion.find(:first, :select=>"tasa_interes").tasa_interes
-    @credito.interes_moratorio = Configuracion.find(:first, :select=>"interes_moratorio").interes_moratorio
-    @credito.fecha_hora = Time.now
-    @credito.user_id = session['user'].id
-    #@credito.grupo = Grupo.find(1) if params[:credito][:grupo_id].nil?
+    @credito.tasa_interes = @producto.intereses
+    @credito.interes_moratorio = @producto.moratorio
     if params[:credito][:grupo_id].nil?
       @tipo = "INDIVIDUAL"
     else
       @tipo = "GRUPAL"
+      @credito.grupo = Grupo.find(params[:credito][:grupo_id])
     end
 
-    @credito.fecha_fin = ultimo_pago(@fecha_inicio.year, @fecha_inicio.month, @fecha_inicio.day, params[:credito][:num_pagos], Periodo.find(params[:credito][:periodo_id]))
+    @credito.fecha_fin = ultimo_pago(@fecha_inicio.year, @fecha_inicio.month, @fecha_inicio.day, params[:credito][:num_pagos], @producto.periodo)
     #--- Validamos si la linea de fondeo tiene disponible ----
     if linea_disponible(Linea.find(params[:credito][:linea_id])).to_f >=  params[:credito][:monto].to_f
           if inserta_credito(@credito, @tipo)
           #--- Insertamos el registro de los pagos que debe de realizar -----
            #inserta_pagos(@credito, calcula_pagos(@fecha_inicio.year, @fecha_inicio.month, @fecha_inicio.day, params[:credito][:num_pagos], Periodo.find(params[:credito][:periodo_id])))
                #---- Validamos si es individual o grupal ----
-               inserta_miembros(params[:miembro], @credito)
+               inserta_miembros(params[:miembro], @credito) if params[:miembro]
                 if params[:credito][:grupo_id].nil?
                 #--- Es individual -----
                    inserta_pagos_individuales(@credito, calcula_pagos(@fecha_inicio.year, @fecha_inicio.month, @fecha_inicio.day, params[:credito][:num_pagos], Periodo.find(params[:credito][:periodo_id])))
@@ -139,7 +134,7 @@ class CreditosController < ApplicationController
            redirect_to :action => 'list'
         
           else
-                flash[:notice]="El crédito no pudo ser grabado, verifique que el grupo tenga clientes asociados"
+                flash[:notice]="El crédito no pudo ser grabado, verifique que el grupo tenga al menos dos clientes asociados"
                 redirect_to :action => 'list'
           end
     else
@@ -180,7 +175,6 @@ class CreditosController < ApplicationController
   def transaccion_grupal
     @credito = Credito.find(params[:id])
     @fecha_inicio = Date.strptime(Credito.find(params[:id]).fecha_inicio.to_s)
-    #@pago = Pago.new
     @pago = proximo_pago(@credito)
   end
 
@@ -211,7 +205,6 @@ class CreditosController < ApplicationController
 
 
   def inserta_miembros(miembros , credito)
-
     miembros.each do |miembro, cliente|
       @miembro = Miembro.new
       @jerarquia = Jerarquia.find(:first, :conditions => ["jerarquia = ?", miembro])
@@ -220,6 +213,17 @@ class CreditosController < ApplicationController
       @miembro.jerarquia = @jerarquia
       @miembro.save!
     end
+  end
+
+  def new_grupal
+     @filtrados = Grupo.find(:all, :select=> "distinct(g.id)",  :joins => "g, clientes_grupos cg, clientes c",
+                         :conditions => "g.id = cg.grupo_id and cg.cliente_id = c.id")
+     @grupos = Grupo.find(@filtrados)
+  end
+
+
+    def activacion
+    @credito = Credito.find(params[:id])
   end
 
 end
