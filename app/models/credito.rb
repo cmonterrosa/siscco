@@ -20,8 +20,8 @@ class Credito < ActiveRecord::Base
     #--------- Validaciones ------
     before_save :grupo_unico?
     before_create :grupo_unico?
-    validates_numericality_of :num_referencia, :message => "Debe de ser numero"
-    validates_uniqueness_of :num_referencia,  :message => "Ya existe un credito con ese numero de referencia"
+    #validates_numericality_of :num_referencia, :message => "Debe de ser numero"
+    #validates_uniqueness_of :num_referencia,  :message => "Ya existe un credito con ese numero de referencia"
 
     def grupo_unico?
       @grupo = Grupo.find(self.grupo_id) if self.grupo_id

@@ -50,7 +50,7 @@ class ClientesController < ApplicationController
   end
 
   def update
-    actualiza_cliente(Cliente.find(params[:id]), params[:cliente], Negocio.find(params[:id_negocio]), params[:negocio])
+    actualiza_cliente(Cliente.find(params[:id]), params[:cliente], Negocio.find(params[:id_negocio]), params[:negocio], Grupo.find(params[:grupo][:id]))
   end
 
     def updatec

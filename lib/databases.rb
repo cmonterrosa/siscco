@@ -4,7 +4,7 @@ module Databases
       def inserta_credito(credito, tipo)
         begin
           if tipo == "GRUPAL"
-             if credito.grupo.clientes.size >= 2
+             if credito.grupo.clientes.size >= 1 #-- aqui deberiamos de validar que sean 3
                  if credito.save!
                       #--- Guardamos el log ---
                     Log.create(:operacion => "INSERTAR",
@@ -12,8 +12,10 @@ module Databases
                     :objeto_id => credito.id.to_i,
                     :user_id => session['user'].id)
                   return true
+                 else
+                   return false
                  end
-                 return false
+                 
              else
                return false
              end
@@ -79,7 +81,7 @@ module Databases
           flash[:notice]=mensaje
           redirect_to :action => 'list', :controller => "#{params[:controller]}"
         else
-           flash[:notice]= cliente.errors
+           flash[:notice]= "Alguno de los campos no esta formado correctamente, verifica rfc y curp"
            render :action => 'new', :controller => "#{params[:controller]}"
         end
       
@@ -127,10 +129,24 @@ module Databases
 
 
 
- def actualiza_cliente(registro, parametros, registro2, parametros2)
+ def actualiza_cliente(cliente, parametros_cliente, negocio, parametros_negocio, grupo_nuevo)
     begin
-      registro.update_attributes!(parametros)
-      registro2.update_attributes!(parametros2)
+#      @grupo_viejo = Clientegrupo.find(:first, :conditions => ["cliente_id = ? and activo = 1",cliente.id])
+      cliente.update_attributes!(parametros_cliente)
+      #---- Comparamos si el registro qie se quiere actualizar difiere en el grupo ------
+#      @clientegrupo = Clientegrupo.find(:first, :conditions => ["grupo_id = ? and activo = 1 and cliente_id = ?", grupo_nuevo.id, cliente.id])
+#
+#        @clientegrupo = Clientegrupo.find(:first, :conditions => ["grupo_id = ? and activo = 0 and cliente_id = ?", grupo_nuevo.id, cliente.id])
+#
+#        #--- cambio
+#      else
+
+#      if @clientegrupo.desactivar
+#        Clientegrupo.create(:grupo_id => grupo.id, :cliente_id => cliente.id)
+#      end
+
+
+      negocio.update_attributes!(parametros_negocio)
       flash[:notice] = 'Registro actualizado satisfactoriamente'
       redirect_to :controller => params[:controller], :action => 'show', :id => registro
     rescue
