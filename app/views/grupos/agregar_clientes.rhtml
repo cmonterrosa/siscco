@@ -1,19 +1,15 @@
-
-
-<h1> <%=link_to 'Grupos', :action => "list", :controller=>"grupos"%> >> <%=link_to "#{@grupo.nombre}", :action=>"show", :controller=>"grupos", :id=>@grupo%></h1>
+<h4> <%=link_to 'Grupos', :action => "list", :controller=>"grupos"%> >> <%=link_to "#{@grupo.nombre}", :action=>"show", :controller=>"grupos", :id=>@grupo%></h4>
 <br />
-
-
    <%unless @clientegrupos.empty?%>
   <br /><h2>Clientes Actuales:</h2>
       <div id="scroll">
-       <div id="search_hits2">
+       <%#*<div id="search_hits2">%>
       <table>
         <tr>
           <th>Nombre:</th>
           <th>RFC:</th>
           <th>CURP:</th>
-        <th colspan="5">Acciones</th>
+        <th colspan="3">Acciones</th>
         </tr>
 
         <% for cliente in @clientegrupos %>
@@ -23,18 +19,18 @@
           <td><%= cliente.cliente.curp %></td>
           <td><%= button_to 'Detalles', :controller => "clientes", :action => 'show', :id => cliente.cliente %></td>
            <td><%= button_to 'Quitar', {:action => 'quitar', :controller => "grupos", :id => cliente.cliente, :grupo => @grupo}, :confirm => "¿Desea eliminarlo?", :method => :post %></td>
-          <td><%=link_to "Histórico de grupos", { :controller => "clientes", :action => "historial_grupos", :id => cliente}, :popup => ['new_window',
-'height=300,width=600']%></td>
-          <td><%= button_to 'Editar', :action => 'edit', :controller => "clientes",  :id => cliente.cliente %></td>
-          <td><%= button_to 'Eliminar', { :controller => "clientes", :action => 'destroy', :id => cliente.cliente }, :confirm => 'Se eliminarán también los negocios vinculados al cliente?', :method => :post %></td>
+          <td><%=link_to "Histórico de grupos", { :controller => "clientes", :action => "historial_grupos", :id => cliente},
+                                                  :popup => ['height=300,width=600,left=300,top=300,scrollbars=no']%></td>
+          <!-- <td><= button_to 'Editar', :action => 'edit', :controller => "clientes",  :id => cliente.cliente %></td>
+          <td><= button_to 'Eliminar', { :controller => "clientes", :action => 'destroy', :id => cliente.cliente }, :confirm => 'Se eliminarán también los negocios vinculados al cliente?', :method => :post %></td>-->
         </tr>
         <% end %>
       </table>
     </div>
-  </div>
+  <%#*</div>%>
 <%end%>
 <!--inicia ajax -->
-<h2>Agregar Cliente</h2>
+<h2>Clientes:</h2>
 <label for="searchtext">Búsqueda por nombre:</label>
 <%= text_field_tag :searchtext %>
 <%= observe_field(:searchtext,
@@ -54,7 +50,7 @@
           <th>Nombre:</th>
           <th>RFC:</th>
           <th>CURP:</th>
-          <th colspan="4">Acciones</th>
+          <th colspan="3">Acciones</th>
         </tr>
 
         <% for cliente in @clientes %>
@@ -64,18 +60,18 @@
           <td><%= cliente.curp %></td>
           <td><%= button_to 'Detalles', :controller => "clientes", :action => 'show', :id => cliente %></td>
           <td><%= button_to 'Agregar', :controller =>"grupos", :action => 'agregar', :id => cliente, :grupo => @grupo %></td>
-          <td><%=link_to "Histórico de grupos", { :controller => "clientes", :action => "historial_grupos", :id => cliente}, :popup => ['new_window',
-'height=300,width=600']%></td>
-          <td><%= button_to 'Editar', :controller => "clientes", :action => 'edit', :id => cliente %></td>
-          <td><%= button_to 'Eliminar', { :controller =>"clientes", :action => 'destroy', :id => cliente }, :confirm => 'Se eliminarán también los negocios vinculados al cliente?', :method => :post %></td>
+          <td><%=link_to "Histórico de grupos", { :controller => "clientes", :action => "historial_grupos", :id => cliente},
+                                                  :popup => ['height=300,width=600,left=300,top=300,scrollbars=no']%></td>
+          <!--<td><= button_to 'Editar', :controller => "clientes", :action => 'edit', :id => cliente %></td>
+          <td><= button_to 'Eliminar', { :controller =>"clientes", :action => 'destroy', :id => cliente }, :confirm => 'Se eliminarán también los negocios vinculados al cliente?', :method => :post %></td>-->
         </tr>
         <% end %>
       </table>
     </div>
   </div>
 
-<table  class="botones">
+<!--<table  class="botones">
   <tr class="botones">
-    <th class="botones"><h4><%= button_to 'Agregar Clientes', :action => 'new' %></h4></th>
+    <th class="botones"><h4><= button_to 'Agregar Clientes', :controller => 'clientes', :action => 'new' %></h4></th>
   </tr>
-</table>
+</table>-->
