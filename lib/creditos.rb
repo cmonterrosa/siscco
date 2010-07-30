@@ -198,11 +198,30 @@ module Creditos
 
 
     def linea_disponible(linea)
-        if linea.creditos.empty?
-           return linea.autorizado
+    if linea.creditos.empty?
+           return linea.autorizado.to_f + total_recibido(linea) - total_transferido(linea)
         else
-           return (linea.autorizado - Credito.sum(:monto, :conditions=>["linea_id = ?", linea.id])/1.0)
+           return (linea.autorizado.to_f - total_otorgado_creditos(linea) + total_recibido(linea) - total_transferido(linea))
         end
+    end
+
+    def total_otorgado_creditos(linea)
+        @total = Credito.sum(:monto, :conditions=>["linea_id = ?", 1])/1.0
+        return @total
+    end
+
+    def total_transferido(linea)
+        sum_otorgadas = 0
+        @t_otorgadas = Transferencia.find(:all, :conditions => ["origen_id = ?", linea.id])
+        @t_otorgadas.each{|otorgada| sum_otorgadas += otorgada.monto.to_f }
+        return sum_otorgadas * 1.0
+    end
+
+    def total_recibido(linea)
+      sum_recibidas=0
+      @t_recibidas = Transferencia.find(:all, :conditions => ["destino_id = ?", linea.id])
+      @t_recibidas.each{|recibida| sum_recibidas += recibida.monto.to_f }
+      return sum_recibidas * 1.0
     end
 
    
@@ -226,5 +245,24 @@ module Creditos
              end
              return @clientes
          end
+
+
+         def aplicar_transferencia(transferencia)
+           #----- Primero restamos agregamos el total ---
+
+##           Linea.transaction do
+##             @linea_origen.
+##           end
+
+
+           Transferencia.transaction do
+              Transferencia.create(:title => 'en la transaccion', :content => 'texto')
+              Post.create(:content => 'texto')
+           end
+
+           
+         end
+
+
 
 end

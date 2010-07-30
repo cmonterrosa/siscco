@@ -5,15 +5,19 @@
     <th>Fondeo</th>
     <th>Num de cuenta</th>
     <th>Total Autorizado</th>
-    <th>Total Otorgado</th>
+    <th>Total Otorgado a creditos</th>
+    <th>Total transferido</th>
+    <th>Total Recibido</th>
     <th>Total Final</th>
   </tr>
   <tr>
     <td><%=@linea.fondeo.fuente%></td>
     <td><%=@linea.cuenta_cheques%></td>
     <td><%=@linea.autorizado%></td>
-    <td><%=@linea.autorizado.to_f - @disponible.to_f%></td>
-    <td><%=@disponible%></td>
+    <td><%=total_otorgado_creditos(@linea).to_s%></td>
+    <td><%=total_transferido(@linea)%></td>
+    <td><%=total_recibido(@linea)%></td>
+    <td><%=linea_disponible(@linea)%></td>
   </tr>
 </table>
 <table class="botones">

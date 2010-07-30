@@ -19,7 +19,7 @@
           <td><%= cliente.cliente.curp %></td>
           <td><%= button_to 'Detalles', :controller => "clientes", :action => 'show', :id => cliente.cliente %></td>
            <td><%= button_to 'Quitar', {:action => 'quitar', :controller => "grupos", :id => cliente.cliente, :grupo => @grupo}, :confirm => "¿Desea eliminarlo?", :method => :post %></td>
-          <td><%=link_to "Histórico de grupos", { :controller => "clientes", :action => "historial_grupos", :id => cliente},
+          <td><%=link_to "Histórico de grupos", { :controller => "clientes", :action => "historial_grupos", :id => cliente.cliente},
                                                   :popup => ['height=300,width=600,left=300,top=300,scrollbars=no']%></td>
           <!-- <td><= button_to 'Editar', :action => 'edit', :controller => "clientes",  :id => cliente.cliente %></td>
           <td><= button_to 'Eliminar', { :controller => "clientes", :action => 'destroy', :id => cliente.cliente }, :confirm => 'Se eliminarán también los negocios vinculados al cliente?', :method => :post %></td>-->
