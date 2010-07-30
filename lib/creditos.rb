@@ -46,40 +46,45 @@ module Creditos
   end
 
   def pago_minimo(credito)
+        @producto = Producto.find(credito.producto_id)
           #--- Verificamos si el credito ha sido cubierto ----
-       @interes_moratorio = Configuracion.find(:first, :select=>"interes_moratorio").interes_moratorio.to_f / 100.0
        @proximo_pago= proximo_pago(credito)
        if Time.now.to_date <= @proximo_pago.fecha_limite
          return @proximo_pago.capital_minimo.to_f + @proximo_pago.interes_minimo.to_f
        else
-         return ((@proximo_pago.capital_minimo.to_f + @proximo_pago.interes_minimo.to_f)*(@interes_moratorio)) + @proximo_pago.capital_minimo.to_f + @proximo_pago.interes_minimo.to_f
+         return ((@proximo_pago.capital_minimo.to_f + @proximo_pago.interes_minimo.to_f)*(@producto.interes_moratorio)) + @proximo_pago.capital_minimo.to_f + @proximo_pago.interes_minimo.to_f
        end
   end
 
 
-#  def capital_minimo(credito)
-#      return credito.monto / @credito.num_pagos.to_f
-#  end
 
-#  def interes_minimo(credito)
-#          @monto = credito.monto
-#          @interes = credito.tasa_interes / 100.0
-#          return(@monto * @interes) / @credito.num_pagos
-#  end
-
-
-  #---- Funciones grupales------
-  def capital_minimo_grupal(credito)
-      @miembros = credito.grupo.clientes.size
-      return (credito.monto / @miembros) / @credito.num_pagos.to_f
+  #---- Funciones de calculos -----
+  def calcula_capital_minimo(credito)
+      @producto = Producto.find(credito.producto_id)
+      #---- si es grupal -------
+      if credito.grupo_id
+        @miembros = Grupo.find(credito.grupo_id).clientes.size
+        return (credito.monto.to_f / @miembros) / @producto.num_pagos.to_f
+      else
+      #----- si es individual -----
+        return (credito.monto.to_f) / @producto.num_pagos.to_f
+      end
   end
 
-  def interes_minimo_grupal(credito)
-          @miembros = credito.grupo.clientes.size
-          @monto = credito.monto
-          @interes = credito.tasa_interes / 100.0
-          return((@monto / @miembros) * @interes) / @credito.num_pagos
+  def calcula_interes_minimo(credito)
+    @producto = Producto.find(credito.producto_id)
+    @tasa_interes = (( credito.tasa_interes / 100.0) / @producto.periodo.pagos_mes).to_f
+    if credito.grupo_id
+      @miembros = Grupo.find(credito.grupo_id).clientes.size
+      return (credito.monto.to_f / @miembros)  * @tasa_interes
+    else
+      return (credito.monto.to_f)  * @tasa_interes
+    end
   end
+
+
+
+
 
   def proximo_pago(credito)
           @proximo = Pago.find(:first, :conditions=>["credito_id = ? AND
@@ -157,10 +162,10 @@ module Creditos
                              :credito_id => credito.id.to_i,
                              :cliente_id => credito.cliente_id,
                              :fecha_limite => x,
-                             :capital_minimo => capital_minimo(credito),
-                             :interes_minimo => interes_minimo(credito),
+                             :capital_minimo => calcula_capital_minimo(credito),
+                             :interes_minimo => calcula_interes_minimo(credito),
                              :pagado => 0,
-                             :descripcion => "Pago #{contador} de #{arreglo_pagos.size} capital minimo #{capital_minimo(credito)} ")
+                             :descripcion => "Pago #{contador} de #{arreglo_pagos.size} capital minimo #{calcula_capital_minimo(credito)} ")
                  contador+=1
             end
          else
@@ -172,17 +177,17 @@ module Creditos
   def inserta_pagos_grupales(credito, arreglo_pagos)
        if credito.pagos.size == 0
          #--- Hacemos una iteracion por todos los miembros del grupo y dividimos el total del credito ---
-         credito.grupo.clientes.each do |y|
+         clientes_activos_grupo(Grupo.find(credito.grupo_id)).each do |y|
            contador=1
             arreglo_pagos.each do |x|
                    Pago.create(:num_pago => contador,
-                             :credito_id => credito.id.to_i,
+                             :credito_id => credito.id,
                              :fecha_limite => x,
                              :cliente_id => y.id.to_i,
-                             :capital_minimo => capital_minimo_grupal(credito),
-                             :interes_minimo => interes_minimo_grupal(credito),
+                             :capital_minimo => calcula_capital_minimo(credito),
+                             :interes_minimo => calcula_interes_minimo(credito),
                              :pagado => 0,
-                             :descripcion => "Pago #{contador} de #{arreglo_pagos.size} capital minimo #{capital_minimo_grupal(credito)} ")
+                             :descripcion => "Pago #{contador} de #{arreglo_pagos.size} capital minimo")
                  contador+=1
                end
             end
@@ -211,6 +216,15 @@ module Creditos
              @pago.save!
              return true
            end
+         end
+
+         def clientes_activos_grupo(grupo)
+             @clientes = []
+             @cg = Clientegrupo.find(:all, :conditions => ["grupo_id = ? and activo = 1", grupo.id])
+             @cg.each do |cliente|
+                 @clientes << cliente.cliente
+             end
+             return @clientes
          end
 
 end

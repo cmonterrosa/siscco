@@ -4,11 +4,10 @@
   <tr><th>Grupo: <%=@credito.grupo.nombre%></th></tr>
   <tr><td>Oficial de Credito: <%=@credito.promotor.nombre_completo%></td></tr>
   <tr><td>Número de credito: <%=@credito.id%></td></tr>
-  <tr><td>Monto inicial: <%="$%.2f" % @credito.monto.to_s%></td></tr>
+  <tr><td>Monto inicial: <%=separar_miles(@credito.monto.to_s)%></td></tr>
   <tr><td>Fecha de inicio: <%=@credito.fecha_inicio%></td></tr>
   <tr><td>Tasa de interés: <%=@credito.tasa_interes.to_s + " %" %></td></tr>
-  <tr><td>Pago minimo: <%=pago_minimo(@credito)%></td></tr>
-  <tr><td>Número de pagos: <%=@credito.num_pagos%></td></tr>
+  <tr><td>Número de pagos: <%=@credito.producto.num_pagos%></td></tr>
   <tr><td>Próximo Pago: <%=proximo_pago(@credito).fecha_limite%></td></tr>
 
   <!--
