@@ -15,60 +15,30 @@
   -->
 </table>
 
-<h3>Calendario de pagos</h3>
-<table>
-  <tr>
-    <th>Num de pago</th>
-    <th>Fecha Limite</th>
-    <th>Capital minimo</th>
-    <th>Interes minimo</th>
-    <th>Moratorio</th>
-    <th>Pagado</th>
-    <th>Cliente</th>
-  </tr>
-  <%@credito.pagos.each do |pago|%>
-  <tr>
-     <td><%=pago.num_pago%></td>
-     <td><%=pago.fecha_limite%></td>
-     <td><%="$%.2f" % pago.capital_minimo%></td>
-      <td><%="$%.2f" % pago.interes_minimo%></td>
-      <td><%=("$%.2f" % pago.moratorio) unless pago.moratorio.nil?%></td>
-     <%if pago.pagado == 1%>
-        <td>SI</td>
-     <%else%>
-        <td>NO</td>
-     <%end%>
-        <td><%=pago.cliente.nombre_completo%></td>
 
-  </tr>
-  <%end%>
 
-</table>
+<h2>Integrantes del grupo</h2> <br />
+
+<%clientes_activos_grupo(@credito.grupo).each do |cliente|%>
+<h3><%=link_to_remote "#{cliente.nombre_completo}",
+   :url => { :action => "show_pagos_cliente", :id => cliente.id, :credito => @credito.id },
+   :update => { :success => "divcliente", :failure => "error" }%></h3><br />
+<%end%>
+
+
+
+
+<div id="divcliente">
+
+</div>
+
+<div id="error">
+
+</div>
 
 
 <br />
 
-<h3>Ingresar Pago</h3>
-
-<!-- Form para agregar un pago -->
-<% form_tag :action => 'abonar2', :credito=>@credito, :pago_id=>@pago do -%>
-<%= error_messages_for 'pago' %>
-<p><label for="movimiento_capital">Capital</label><br/>
-<%= text_field 'pago', 'capital'  %></p>
-
-<p><label for="movimiento_capital">Interes</label><br/>
-<%= text_field 'pago', 'interes'  %></p>
-
-<p><label for="movimiento_fecha">Fecha</label><br/>
-<%= date_select 'pago', 'fecha'  %></p>
-<br />
-<h3>Cliente que realiza el pago</h3>
-
-<p><%= collection_select("pago", "cliente_id", @credito.grupo.clientes, :id, :nombre_completo) %></p>
-
-<!--[eoform:movimiento]-->
-<%= submit_tag "Aplicar" %>
-<% end %>
 
 <br />
 
@@ -80,3 +50,4 @@
 <=image_tag "pdf.jpg", :size =>"15x15"%>
 <=link_to 'Imprimir Estado de Cuenta', :action => "pdf", :controller =>"informacion", :id => @credito.id %>
 <!-- end -->
+

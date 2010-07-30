@@ -15,15 +15,15 @@ module Creditos
   end
 
 
-  def cargos(credito)
-      @pagos = Pago.find(:all,
-                         :conditions=>["credito_id = ? AND pagado= 1", credito.id])
-    sum=0
-    @pagos.each do |pago|
-      sum +=  pago.interes.to_f
-    end
-    return sum
-  end
+#  def cargos(credito)
+#      @pagos = Pago.find(:all,
+#                         :conditions=>["credito_id = ? AND pagado= 1", credito.id])
+#    sum=0
+#    @pagos.each do |pago|
+#      sum +=  pago.interes.to_f
+#    end
+#    return sum
+#  end
 
 
  def total(credito)
@@ -227,7 +227,7 @@ module Creditos
    
         def cargos?(pago, fecha)
            @pago= Pago.find(pago)
-           @interes_moratorio = Configuracion.find(:first, :select=>"interes_moratorio").interes_moratorio.to_f / 100.0
+           @interes_moratorio = pago.credito.producto.moratorio
            if @fecha <= @pago.fecha_limite
              return false
            else
