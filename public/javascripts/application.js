@@ -1,51 +1,30 @@
 // Place your application-specific JavaScript functions and classes here
 // This file is automatically included by javascript_include_tag :defaults
 //-- Valida campo texto, campo numero -->
-//function CharNum(e, modo)
-//{
-//    var key = window.event ? e.keyCode : e.which;
-//    var keychar = String.fromCharCode(key);
-//   // document.forms[0].texto.value.toUpperCase();
-//    if (modo=='letra') {
-//        reg = /\D/;
-//        return reg.test(keychar);
-//    }
-//    else {
-//        return (key <= 13 || (key >= 48 && key <= 57) || key == 46 || key == 45);
-//    }
-//}
-//
-//function text(){
-//    txt = document.forms[0].texto.value.toUpperCase();
-//    return txt;
-//}
-
-function CharNum(e, modo, txt)
+function CharNum(e, modo)
 {
     var key = window.event ? e.keyCode : e.which;
     var keychar = String.fromCharCode(key);
-   // document.forms[0].texto.value.toUpperCase();s
-
-   switch(modo){
-        case 'letra':
-                    reg = /\D/;
-                    if(reg.test(keychar))
-                        txt.value = txt.value.toUpperCase();
-                    else
-                        txt.value="";
-                    break;
-        case 'numero':
-                    reg = /\d/;
-                    if(!(reg.test(keychar)))
-                        txt.value="";
-                    break;
-        default:
-                    txt.value = txt.value.toUpperCase();
-                    break;
-   }
+   // document.forms[0].texto.value.toUpperCase();
+    if (modo=='letra') {
+        reg = /\D/;
+        return reg.test(keychar);
+    }
+    else {
+        return (key <= 13 || (key >= 48 && key <= 57) || key == 46 || key == 45);
+    }
 }
 //-- fin valida campo -->
+//
 //-- Comprueba que no se envien campos vacios -->
+function confirma()
+{
+  if ( window.confirm("¿Desea habilitar este Crédito?") == true )
+      document.forms.elements[0].value = 1;
+  else
+      document.forms.elements[0].value = 0;
+}
+
 function comprobar()
 {
     missinginfo = "";
@@ -59,6 +38,7 @@ function comprobar()
         }
         else {
             document.forms[0].elements[a].style.backgroundColor="white";
+            document.forms[0].elements[a].value = document.forms[0].elements[a].value.toUpperCase();
         }
     }
     if(mal) {
@@ -70,32 +50,6 @@ function comprobar()
         return true;
     }
 }
-
-function comprobar2()
-{
-    missinginfo = "";
-    var mal=false;
-    numero=document.forms[0].elements.length;
-    for(a=0;a<numero;a++) {
-        if(document.forms[0].elements[a].value=="") {
-            document.forms[0].elements[a].style.backgroundColor="#ff9999";
-            missinginfo += "\n     - "+document.forms[0].elements[a].name;
-            mal=true;
-        }
-        else {
-            document.forms[0].elements[a].style.backgroundColor="white";
-        }
-    }
-    if(mal) {
-        alert("Por favor, rellene los campos:"+'\n'+missinginfo);
-        return false;
-    }
-    else {
-        document.forms[0].submit();
-        return true;
-    }
-}
-//-- fin comprobar-->
 
 //-- Carga los menu -->
 function mmLoadMenus() {

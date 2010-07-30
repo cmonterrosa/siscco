@@ -1,7 +1,7 @@
-<!--<h2>El credito numero: <=@credito.id%> ha sido activado</h2>-->
 <h2>Activar/Desactivar Creditos</h2>
 <br />
-<table>
+<div class="scroll">
+ <table>
   <tr>
     <th>Credito</th>
     <th>Referencia</th>
@@ -17,10 +17,11 @@
       <td><%=  credito.monto %></td>
       <td><%=  credito.grupo.nombre %></td>
       <td><%=  credito.promotor.nombre_completo %></td>
-    <% end %>
-      <td><%=check_box('credito', 'status', :confirm => 'Are you sure?')%></td>
+      <td><%=check_box('credito', 'status', :onclick => 'confirma()' )%></td>
+     <% end %>
   </tr>
 </table>
+</div>
 
 <table  class="botones">
   <tr class="botones">
@@ -30,12 +31,13 @@
   </tr>
 </table>
 <br /><br />
-
+<!--
 <h2>Reportes</h2><br />
 
-<h3><%=link_to 'Acta constitutiva'%></h3><br />
-<h3><%=link_to 'Carta Compromiso'%></h3><br />
+<h3><=link_to 'Acta constitutiva'%></h3><br />
+<h3><=link_to 'Carta Compromiso'%></h3><br />
 <h3>Contrato</h3<br />
 <h3>Pagare</h3><br />
 <h3>Recibo</h3><br />
 <h3>Reglamento</h3><br />
+-->
