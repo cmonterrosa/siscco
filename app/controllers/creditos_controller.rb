@@ -178,13 +178,13 @@ class CreditosController < ApplicationController
   end
 
   #--- Métodos ajax ---
-    def live_search_num
-      @credito_pages, @creditos = paginate :creditos, :per_page => 20
-      @creditos = Credito.find(:all, :conditions => ["id like ?", "%#{params[:num_credito]}%"])
-      return render(:partial => 'filtrados', :layout => false) if request.xhr?
-    end
+  def live_search_num
+     @credito_pages, @creditos = paginate :creditos, :per_page => 20
+     @creditos = Credito.find(:all, :conditions => ["id like ?", "%#{params[:num_credito]}%"])
+     return render(:partial => 'filtrados', :layout => false) if request.xhr?
+  end
 
-    def live_search_rfc
+  def live_search_rfc
       @cliente = Cliente.find(:first, :conditions => ["rfc like ?", "%#{params[:rfc_credito]}%" ])
       @credito_pages, @creditos = paginate :creditos, :per_page => 20
       if @cliente.nil? || @cliente.creditos.empty?
@@ -193,11 +193,11 @@ class CreditosController < ApplicationController
          @creditos = @cliente.creditos
       end
       return render(:partial => 'filtrados', :layout => false) if request.xhr?
-    end
+  end
 
-    def nuevo_abono
+  def nuevo_abono
       render :text => params[:id]
-    end
+  end
 
 
   def inserta_miembros(miembros , credito)
@@ -217,9 +217,8 @@ class CreditosController < ApplicationController
      @grupos = Grupo.find(@filtrados)
   end
 
-
-    def activacion
-    @credito = Credito.find(params[:id])
+  def activacion
+    @creditos = Credito.find(:all)
   end
 
 end

@@ -16,8 +16,6 @@ class CreateCreditos < ActiveRecord::Migration
       t.column :grupo_id, :integer
       t.column :producto_id, :integer
       t.column :status, :integer
-      #---- campo para historial -----
-      t.column :st, :integer
     end
   end
 
