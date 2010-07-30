@@ -10,10 +10,7 @@ class ClientesController < ApplicationController
          :redirect_to => { :action => :list }
 
   def list
-#    @cliente_pages, @clientes = paginate :clientes, :per_page => 10
      @clientes = Cliente.find(:all, :order => 'paterno')
-#     @negocio = Negocio.find(:all, :order => 'nombre')
-#     @negocio.cliente_id = @cliente
   end
 
   def show
@@ -42,7 +39,7 @@ class ClientesController < ApplicationController
     @viviendas = Vivienda.find(:all)
   end
 
-    def editc
+  def editc
     @cliente = Cliente.find(params[:id])
     @civiles = Civil.find(:all)
     @escolaridades = Escolaridad.find(:all)
@@ -53,7 +50,7 @@ class ClientesController < ApplicationController
     actualiza_cliente(Cliente.find(params[:id]), params[:cliente], Negocio.find(params[:id_negocio]), params[:negocio], Grupo.find(params[:grupo][:id]))
   end
 
-    def updatec
+  def updatec
     @cliente = Cliente.find(params[:id])
     if @cliente.update_attributes(params[:cliente])
       flash[:notice] = 'Registro actualizado.'
@@ -63,9 +60,7 @@ class ClientesController < ApplicationController
     end
   end
 
-
   def destroy
-    #Negocio.find(:first, :conditions => ["cliente_id = ?", params[:id]]).destroy
     Cliente.find(params[:id]).destroy
     redirect_to :action => 'list'
   end
@@ -102,7 +97,7 @@ class ClientesController < ApplicationController
     end
   end
 
-    def consultar_individual
+  def consultar_individual
     if Cliente.find_by_rfc(params[:cliente][:rfc]) && params[:cliente][:rfc]
       @cliente= Cliente.find_by_rfc(params[:cliente][:rfc])
     else
@@ -111,10 +106,7 @@ class ClientesController < ApplicationController
     end
   end
 
-    def xml
+  def xml
       render :xml => Cliente.find(:all).to_xml
-    end
-
-
-
+  end
 end

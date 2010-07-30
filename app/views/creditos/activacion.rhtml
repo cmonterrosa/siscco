@@ -1,13 +1,43 @@
-<h2>El credito numero: <%=@credito.id%> ha sido activado</h2>
+<h2>Activar/Desactivar Creditos</h2>
+<br />
+<div class="scroll">
+ <table>
+  <tr>
+    <th>Credito</th>
+    <th>Referencia</th>
+    <th>Monto</th>
+    <th>Grupo</th>
+    <th>Promotor</th>
+    <th>Estatus</th>
+  </tr>
+  <tr>
+    <% for credito in @creditos %>
+      <td><%=  credito.id %></td>
+      <td><%=  credito.num_referencia %></td>
+      <td><%=  credito.monto %></td>
+      <td><%=  credito.grupo.nombre %></td>
+      <td><%=  credito.promotor.nombre_completo %></td>
+      <td><%=check_box('credito', 'status', :onclick => 'confirma()' )%></td>
+     <% end %>
+  </tr>
+</table>
+</div>
+
+<table  class="botones">
+  <tr class="botones">
+    <th class="botones"><%= link_to 'Regresar', :controller => 'home', :action => 'index' %></th>
+    <th class="botones">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+    <th class="botones"><%= button_to "Guardar" %></th>
+  </tr>
+</table>
 <br /><br />
-
-
-
+<!--
 <h2>Reportes</h2><br />
 
-<h3><%=link_to 'Acta constitutiva'%></h3><br />
-<h3><%=link_to 'Carta Compromiso'%></h3><br />
+<h3><=link_to 'Acta constitutiva'%></h3><br />
+<h3><=link_to 'Carta Compromiso'%></h3><br />
 <h3>Contrato</h3<br />
 <h3>Pagare</h3><br />
 <h3>Recibo</h3><br />
 <h3>Reglamento</h3><br />
+-->
