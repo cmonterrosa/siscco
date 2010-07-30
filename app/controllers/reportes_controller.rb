@@ -35,8 +35,9 @@ class ReportesController < ApplicationController
 
     def pagare
     #----- filtrado de registros unicos -----
-    @credito = Credito.find(:first, :conditions => ["id = ?", 1])
+    @credito = Credito.find(:first, :conditions => ["id = ?", params[:id]])
     @pagos =Pago.find(:all, :group => "num_pago",  :conditions=>["credito_id = ?", @credito.id])
+    
 
     _pdf = PDF::Writer.new(:paper => "LETTER")
     _pdf.select_font "Times-Roman"
@@ -45,7 +46,7 @@ class ReportesController < ApplicationController
     _pdf.numeros_pagina(40, 25, 10, pos = nil, pattern = nil)
     #--- logos -----
     _pdf.move_pointer(-80)
-    i0 = _pdf.image "#{RAILS_ROOT}/public/images/cresolido_marca.png", :resize => 0.45, :justification=>:left
+    #i0 = _pdf.image "#{RAILS_ROOT}/public/images/cresolido_marca.png", :resize => 0.45, :justification=>:left
 
     #---- TITULO -----
     _pdf.move_pointer(-10)
@@ -64,11 +65,12 @@ class ReportesController < ApplicationController
     _pdf.move_pointer(10)
     _pdf.text to_iso(total_adeudado_por_persona(@credito).to_s), :font_size => 14, :justification => :center
     _pdf.move_pointer(10)
+
     _pdf.text to_iso(total_adeudado_por_persona(@credito).to_words.to_s), :font_size => 14, :justification => :center
 
     _pdf.move_pointer(15)
     @leyenda2=<<-EOS
-    Mediante #{@credito.num_pagos} Pagos #{@credito.periodo.nombre}, pago por la cantidad de #{pago_minimo_informativo(@credito)} y pagandoce las amortizaciones con vencimientos consecutivos, mismas que se señalan de la siguiente manera:
+    Mediante #{@credito.producto.num_pagos} Pagos #{@credito.producto.periodo.nombre}, pago por la cantidad de #{pago_minimo_informativo(@credito)} y pagandoce las amortizaciones con vencimientos consecutivos, mismas que se señalan de la siguiente manera:
     EOS
 
       #---- Imprimos la leyenda 2 ---
@@ -174,7 +176,7 @@ class ReportesController < ApplicationController
     def tarjeta_pagos
     #----- filtrado de registros unicos -----
     @cliente = Cliente.find(:first, :conditions => ["id = ?", 1])
-    @credito = Credito.find(:first, :conditions => ["id = ?", 1])
+    @credito = Credito.find(:first, :conditions => ["id = ?", params[:id]])
     @pagos =Pago.find(:all, :conditions=>["credito_id = ? and cliente_id = ?", @credito.id, @cliente.id])
     @sum_intereses = Pago.sum(:interes_minimo, :conditions=>["credito_id = ? and cliente_id = ?", @credito.id, @cliente.id])
     @sum_capital = Pago.sum(:capital_minimo, :conditions=>["credito_id = ? and cliente_id = ?", @credito.id, @cliente.id])
@@ -234,7 +236,7 @@ class ReportesController < ApplicationController
     _pdf.move_pointer(5)
     _pdf.text to_iso("<b>Grupo: </b>#{@credito.grupo.nombre}"), :font_size => 12, :justification => :left, :left => 10
     _pdf.move_pointer(5)
-    _pdf.text to_iso("<b>Plazo: </b> #{@credito.num_pagos}"), :font_size => 12, :justification => :left, :left => 10
+    _pdf.text to_iso("<b>Plazo: </b> #{@credito.producto.num_pagos}"), :font_size => 12, :justification => :left, :left => 10
     _pdf.move_pointer(5)
     _pdf.text to_iso("<b>Adeudo: </b> $ #{total_adeudado_por_persona(@credito)}"), :font_size => 12, :justification => :left, :left => 10
     _pdf.move_pointer(5)
