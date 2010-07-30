@@ -85,7 +85,7 @@ class ClientesController < ApplicationController
   def historial_grupos
     @cliente = Cliente.find(params[:id])
     @grupos = Clientegrupo.find(:all, :conditions =>["cliente_id = ? ", @cliente.id], :order => "fecha_inicio, fecha_fin")
-    render :layout=>"cresolido"
+    render :layout=>"index_1"
   end
 
 

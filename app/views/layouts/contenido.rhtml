@@ -6,11 +6,9 @@
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
 
   <%= stylesheet_link_tag "style"%>
-  <%= stylesheet_link_tag "validaciones"%>
   <%= stylesheet_link_tag "miestilo"%>
   
   <%= javascript_include_tag 'prototype' %>
-  <%= javascript_include_tag 'misfunciones' %>
   <%= javascript_include_tag 'mm_menu' %>
   <%= javascript_include_tag :defaults %>
 
@@ -28,22 +26,9 @@
                 <li><a href="" class="but3"><img src="/images/mac/spacer.gif" alt="" name="operacion" width="106" height="42" id="operacion" onMouseOver="MM_showMenu(window.menu_operacion,0,42,null,'operacion')" onMouseOut="MM_startTimeout();" /></a></li>
                 <li><a href="" class="but4"><img src="/images/mac/spacer.gif" alt="" name="reportes" width="99" height="42" id="reportes" onMouseOver="MM_showMenu(window.menu_reporte,0,42,null,'reportes')" onMouseOut="MM_startTimeout();" /></a></li>
                 <li><a href="" class="but5"><img src="/images/mac/spacer.gif" alt="" name="administracion" width="154" height="42" id="administracion" onMouseOver="MM_showMenu(window.menu_administracion,0,42,null,'administracion')" onMouseOut="MM_startTimeout();" /></a></li>
-
-                <%#*<li><a href="" class="but1"><img src="/images/mac/spacer.gif" alt="" width="106" height="42" /></a></li>%>
-		<%#*<li><a href="/catalogos" class="but2" ><img src="/images/mac/spacer.gif" alt="" width="118" height="42" /></a></li>%>
-		<%#*<li><a href="/creditos/menu" class="but3"><img src="/images/mac/spacer.gif" alt="" width="106" height="42" /></a></li>%>
-		<%#*<li><a href="/informacion" class="but4"><img src="/images/mac/spacer.gif" alt="" width="99" height="42" /></a></li>%>
-		<%#*<li><a href="/administracion" class="but5"><img src="/images/mac/spacer.gif" alt="" width="154" height="42" /></a></li>%>
-
-              <%if session['user']%>
                 <li><a href="/account/logout" class="but7"><img src="/images/mac/spacer.gif" alt="" width="129" height="42" /></a></li>
-              <%else%>
-                <%#*<li><a href="#" class="but6"><img src="/images/mac/spacer.gif" alt="" width="129" height="42" /></a></li>%>
-              <%end%>
             </ul>
-		<%#*<form action="#">%>
-                  <%#*<input type="text" value="Buscar" />%>
-		<%#*</form>%>
+            <label>Conectado como: <%=session['user'].login%></label>
           </div>
           <ul id="meta">
             <li><a href="#" class="meta1"><img src="/images/mac/spacer.gif" alt="" width="37" height="39" /></a></li>
@@ -53,14 +38,13 @@
 	</div>
 	<div id="content">
             <div id="maincompleto">																																																																																																																											<div class="inner_copy"><a href="http://www.bestfreetemplates.org/">free templates</a><a href="http://www.bannermoz.com/">banner templates</a></div>
-		Conectado como: <%=session['user'].login%>
-                <div class="post2">
+		<div class="post2">
                        <p style="color: navy"><%= flash[:notice] %></p>
                      <%=yield%>
                 </div>
             </div>
 	<div id="sidebar">
-            <div class="block">
+             <div class="block">
                 <div class="news">
                     <% unless session['user']%>
                     <!-- formulario para inicio de sesion -->

@@ -51,11 +51,6 @@
      
    </tr>
    <tr>
-<<<<<<< HEAD
-   <!--
-     <td><= text_field 'cliente', 'tipo_persona', :onkeyup => "CharNum(event, 'letra', this);"  %></td> -->
-=======
->>>>>>> 5b56d189f2a4b7e0dcc0affa9be4a013ad9a2ab2
      <td><%= select("cliente", "tipo_persona", ["FISICA", "MORAL", "FISICA CON ACTIVIDAD EMPRESARIAL"], {:prompt => '>>Tipo de persona'}, :class => 'text') %></td>
      <td><%= text_field 'cliente', 'telefono', :onkeyup => "CharNum(event, 'numero', this);", :class => 'text'  %></td>
      <td><%= text_field 'cliente', 'email', :class => 'text'  %></td>
@@ -71,7 +66,7 @@
    <tr>
      <td><%= collection_select("cliente", "escolaridad_id", $escolaridades, :id, :escolaridad, {:prompt => '>>Escolaridad'}, :class => 'text') %></td>
      <td> <%= collection_select("cliente", "vivienda_id", $viviendas, :id, :tipo_vivienda, {:prompt => '>>Vivienda'}, :class => 'text') %></td>
-     <td><%= collection_select("grupo", "id", $grupos, :id, :nombre, {:prompt => '>>Grupo'}, :class => 'text')%>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<%= link_to '+', {:controller => 'grupos', :action => 'new'}, :style => 'font-size:14px;font-weight:bold;', :popup => ['new_window_name', 'height=300,width=600'] %>&nbsp;&nbsp;&nbsp;</td>
+     <td><%= collection_select("grupo", "id", $grupos, :id, :nombre, {:prompt => '>>Grupo'}, :class => 'text')%>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<%= link_to '+', {:controller => 'grupos', :action => 'newgrupo'}, :style => 'font-size:14px;font-weight:bold;', :popup => ['height=300,width=600,left=300,top=300,scrollbars=no'] %>&nbsp;&nbsp;&nbsp;</td>
      <td><%= collection_select("", "estado_id", $estados, :id, :estado, {:prompt => '>>Estado'}, :class => 'text')  %></td>
    </tr>
    <tr>

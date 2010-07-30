@@ -30,9 +30,18 @@ class GruposController < ApplicationController
     @grupo = Grupo.new
   end
 
+  def newgrupo
+    @grupo = Grupo.new
+    render :layout=>"index_1"
+  end
+
   def create
     inserta_registro(Grupo.new(params[:grupo]), 'Registro creado satisfactoriamente')
   end
+
+#  def create2
+#    inserta_registro(Grupo.new(params[:grupo]), 'Registro creado satisfactoriamente')
+#  end
 
   def edit
     @grupo = Grupo.find(params[:id])
@@ -106,7 +115,7 @@ class GruposController < ApplicationController
   def live_search_clientes
       @clientes = Cliente.find(:all, :conditions => "nombre like '%#{params[:searchtext]}%' or
                                                      paterno like '%#{params[:searchtext]}%' or
-                                                     materno like '%#{params[:searchtext]}%'")
+                                                     materno like '%#{params[:searchtext]}%' ")
       return render(:partial => 'filtrocliente', :layout => false) if request.xhr?
   end
       #--- Funciones ajax para filtrado --
