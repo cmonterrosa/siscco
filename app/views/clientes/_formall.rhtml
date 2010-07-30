@@ -128,4 +128,13 @@
         :update => 'cliente_colonia_id',
         :with => '_ejido_id' %>
 
+
+      <%= observe_field 'grupo_id',
+        :url => {:controller => 'combos',
+        :action => 'get_grupos'},
+        :frecuency => 0.2,
+        :update => 'grupo_id',
+        :with => 'grupo_id' %>
+
+
 <!--[eoform:cliente]-->

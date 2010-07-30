@@ -13,6 +13,14 @@ class CombosController < ApplicationController
       return render(:partial => 'ejidos', :layout => false) if request.xhr?
   end
 
+  def get_grupos
+#     @filtrados = Grupo.find(:all, :select=> "distinct(g.id)",  :joins => "g, clientes_grupos cg, clientes c",
+#                         :conditions => "g.id = cg.grupo_id and cg.cliente_id = c.id")
+#     @grupos = Grupo.find(@filtrados)
+      @grupos = Grupo.find(:all, :order => "nombre")
+      return render(:partial => 'grupos', :layout => false) if request.xhr?
+  end
+
     def get_colonias
       @colonias= Colonia.find(:all, :conditions => ["ejido_id = ?",params[:_ejido_id] ])
       return render(:partial => 'colonias', :layout => false) if request.xhr?

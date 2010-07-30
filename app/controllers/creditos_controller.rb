@@ -64,7 +64,7 @@ class CreditosController < ApplicationController
        @credito = Credito.find(params[:credito])
     @num_pagos = Pago.count(:id, :conditions=>["credito_id = ? AND pagado = 1", @credito.id]).to_i
 
-    if @num_pagos == @credito.num_pagos
+    if @num_pagos == @credito.producto.num_pagos
       #---- Ya se liquido el credito ----
         flash[:notice] = "Su credito ha sido liquidado"
         redirect_to :action => "transaccion_grupal", :id=>@credito
@@ -102,6 +102,7 @@ class CreditosController < ApplicationController
   def create
     @credito = Credito.new(params[:credito])
     @producto = Producto.find(params[:credito][:producto_id])
+    @credito.producto = @producto
     @fecha_inicio = Date.strptime(@credito.fecha_inicio.to_s)
     @credito.tasa_interes = @producto.intereses
     @credito.interes_moratorio = @producto.moratorio
@@ -122,9 +123,10 @@ class CreditosController < ApplicationController
                inserta_miembros(params[:miembro], @credito) if params[:miembro]
                 if params[:credito][:grupo_id].nil?
                 #--- Es individual -----
-                   inserta_pagos_individuales(@credito, calcula_pagos(@fecha_inicio.year, @fecha_inicio.month, @fecha_inicio.day, params[:credito][:num_pagos], Periodo.find(params[:credito][:periodo_id])))
+                   inserta_pagos_individuales(@credito, calcula_pagos(@fecha_inicio.year, @fecha_inicio.month, @fecha_inicio.day, @producto.num_pagos, @producto.periodo))
                 else
-                   inserta_pagos_grupales(@credito, calcula_pagos(@fecha_inicio.year, @fecha_inicio.month, @fecha_inicio.day, params[:credito][:num_pagos], Periodo.find(params[:credito][:periodo_id])))
+                  
+                   inserta_pagos_grupales(@credito, calcula_pagos(@fecha_inicio.year, @fecha_inicio.month, @fecha_inicio.day, @producto.num_pagos, @producto.periodo))
                 end
            
            flash[:notice]="El crédito #{@credito.id} ha sido capturado"

@@ -14,6 +14,8 @@ module Utilerias
     return ( @registro.nil? ) ? false : true
   end
 
+ 
+
 
 
   def tiene_permiso_accion?(rol, controlador,accion)

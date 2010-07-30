@@ -320,7 +320,7 @@ class ReportesController < ApplicationController
 
     def jasper
       #--- Llenamos los parametros -------
-      @xml = Grupo.find(5).clientes.to_xml
+      @xml = Grupo.find(9).clientes.to_xml
        param=Hash.new {|k, v| k[v] = {:tipo=>"",:valor=>""}}
        param["EMPRESA"]={:tipo=>"String", :valor=>NOMBRE_EMPRESA}
        param["FINANCIAMIENTO"]={:tipo=>"String", :valor=>"ABC PRIMER CICLO"}
