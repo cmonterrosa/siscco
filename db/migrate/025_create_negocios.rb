@@ -8,7 +8,6 @@ class CreateNegocios < ActiveRecord::Migration
       t.column :num_empleados, :integer
       t.column :cliente_id, :integer
       t.column :giro_id, :integer
-
     end
   end
 

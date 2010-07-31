@@ -6,7 +6,7 @@ class CreateGiros < ActiveRecord::Migration
       t.column :subsector, :string
     end
 
-    Giro.create(:giro => "Agricultura", :codigo=>"AGR", :subsector=>"2")
+    Giro.create(:giro => "AGRICULTURA", :codigo=>"AGR", :subsector=>"2")
 
   end
 

@@ -54,8 +54,7 @@ class CreditosController < ApplicationController
           redirect_to :action => "transaccion_grupal", :id=>@credito
         end
      end
- end
-
+  end
 
   def abonar_grupal #--- pago modificado
        @credito = Credito.find(params[:credito])
@@ -89,9 +88,7 @@ class CreditosController < ApplicationController
           redirect_to :action => "transaccion_grupal", :id=>@credito
         end
      end
- end
-
- 
+  end
 
   def new
     @credito = Credito.new
@@ -184,12 +181,6 @@ class CreditosController < ApplicationController
 
         when 'GRUPO'
           @creditos = Credito.find_by_sql("select * from creditos inner join grupos on grupos.id = creditos.grupo_id and grupos.nombre like '%#{params[:_opcionc]}%'")
-#          unless @grupo.empty?
-#            @grupo.each do |grupo|
-#                @creditos <<
-#                @a=1
-#              end
-#          end
           return render(:partial => 'filtrados', :layout => false) if request.xhr?
 
         when 'REFERENCIA'
@@ -198,14 +189,7 @@ class CreditosController < ApplicationController
 
         when 'RFC'
           @creditos = Credito.find_by_sql("select * from creditos inner join clientes on clientes.id = creditos.cliente_id and clientes.rfc like '%#{params[:_opcionc]}%'")
-#           @cliente = Cliente.find(:all, :conditions => ["rfc like ?", params[:_opcionc]])
-#          if @cliente.nil? || @cliente.creditos.empty?
-#             @creditos=[]
-#          else
-#             @creditos = @cliente.creditos
-#          end
           return render(:partial => 'filtrados', :layout => false) if request.xhr?
-        
      end
   end
 

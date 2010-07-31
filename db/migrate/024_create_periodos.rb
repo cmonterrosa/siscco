@@ -6,9 +6,9 @@ class CreatePeriodos < ActiveRecord::Migration
       t.column :pagos_mes, :integer
     end
 
-    Periodo.create(:nombre => "Semanales", :dias => 7, :pagos_mes => 4)
-    Periodo.create(:nombre => "Quincenales", :dias => 15, :pagos_mes => 2)
-    Periodo.create(:nombre => "Mensuales", :dias => 30, :pagos_mes => 1)
+    Periodo.create(:nombre => "SEMANALES", :dias => 7, :pagos_mes => 4)
+    Periodo.create(:nombre => "QUINCENALES", :dias => 15, :pagos_mes => 2)
+    Periodo.create(:nombre => "MENSUALES", :dias => 30, :pagos_mes => 1)
 
   end
 

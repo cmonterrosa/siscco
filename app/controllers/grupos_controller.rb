@@ -39,10 +39,6 @@ class GruposController < ApplicationController
     inserta_registro(Grupo.new(params[:grupo]), 'Registro creado satisfactoriamente')
   end
 
-#  def create2
-#    inserta_registro(Grupo.new(params[:grupo]), 'Registro creado satisfactoriamente')
-#  end
-
   def edit
     @grupo = Grupo.find(params[:id])
   end

@@ -17,7 +17,7 @@
       <td><%=  credito.monto %></td>
       <td><%=  credito.grupo.nombre %></td>
       <td><%=  credito.promotor.nombre_completo %></td>
-      <td><%=check_box('credito', 'status', :onclick => 'confirma()' )%></td>
+      <td><%=check_box('credito', 'status', :onclick => 'confirma();' )%></td>
      <% end %>
   </tr>
 </table>

@@ -19,10 +19,22 @@ function CharNum(e, modo)
 //-- Comprueba que no se envien campos vacios -->
 function confirma()
 {
-  if ( window.confirm("¿Desea habilitar este Crédito?") == true )
-      document.forms.elements[0].value = 1;
-  else
-      document.forms.elements[0].value = 0;
+    if ( document.forms[0].elements['credito_status'].checked == false ){
+        if ( window.confirm("¿Desea deshabilitar este Crédito?") == true ){
+            document.forms[0].elements['credito_status'].checked = false;
+        }
+        else{
+            document.forms[0].elements['credito_status'].checked = true;
+        }
+    }
+    else{
+        if ( window.confirm("¿Desea habilitar este Crédito?") == true ){
+            document.forms[0].elements['credito_status'].checked = true;
+        }
+        else{
+            document.forms[0].elements['credito_status'].checked = false;
+        }
+    }
 }
 
 function comprobar()
@@ -50,6 +62,35 @@ function comprobar()
         return true;
     }
 }
+
+function comprobar_cerrar()
+{
+    missinginfo = "";
+    var mal=false;
+    numero=document.forms[0].elements.length;
+    for(a=0;a<numero;a++) {
+        if(document.forms[0].elements[a].value=="") {
+            document.forms[0].elements[a].style.backgroundColor="#ff9999";
+            missinginfo += "\n     - "+document.forms[0].elements[a].name;
+            mal=true;
+        }
+        else {
+            document.forms[0].elements[a].style.backgroundColor="white";
+            document.forms[0].elements[a].value = document.forms[0].elements[a].value.toUpperCase();
+        }
+    }
+    if(mal) {
+        alert("Por favor, rellene los campos:"+'\n'+missinginfo);
+        return false;
+    }
+    else {
+        document.forms[0].submit();
+        return true;
+    }
+}
+
+
+
 
 //-- Carga los menu -->
 function mmLoadMenus() {

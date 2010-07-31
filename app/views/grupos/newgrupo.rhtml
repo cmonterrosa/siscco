@@ -1,13 +1,10 @@
+<h1>Alta Grupo</h1>
 
-      <h1>Alta Grupo</h1>
-
-      <% form_tag :action => 'create' do %>
-          <%= render :partial => 'form' %>
-
-          <table  class="botones">
-              <tr class="botones">
-                  <th class="botones"><%= submit_tag "Agregar", :onclick => "self.close();" %></th>
-              </tr>
-          </table>
-
-      <% end %>
+  <% form_tag :action => 'create' do %>
+    <%= render :partial => 'form' %>
+      <table  class="botones">
+         <tr class="botones">
+            <th class="botones"><%= submit_tag "Agregar", :onclick => "return comprobar();",  :after => "self.close();" %></th>
+         </tr>
+      </table>
+  <% end %>
