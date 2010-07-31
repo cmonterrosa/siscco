@@ -13,9 +13,9 @@
     <th>Fecha de Nac:</th>
   </tr>
   <tr>
-    <td><%= text_field 'cliente', 'paterno', :onkeyup => "CharNum(event, 'letra', this);", :class => 'text' %></td>
-    <td><%= text_field 'cliente', 'materno', :onkeyup => "CharNum(event, 'letra', this);", :class => 'text'  %></td>
-    <td><%= text_field 'cliente', 'nombre', :onkeyup => "CharNum(event, 'letra', this);", :class => 'text'  %></td>
+    <td><%= text_field 'cliente', 'paterno', :onkeypress => "return CharNum(event, 'letra');", :class => "text" %></td>
+    <td><%= text_field 'cliente', 'materno', :onkeypress => "return CharNum(event, 'letra');", :class => "text"  %></td>
+    <td><%= text_field 'cliente', 'nombre', :onkeypress => "return CharNum(event, 'letra');", :class => "text"  %></td>
     <td><%= date_select( 'cliente', 'fecha_nac', :order => [:day, :month, :year], :start_year => 1950, :class => 'text'  )%></td>
   </tr>
   <tr>
@@ -25,10 +25,10 @@
     <th>Dirección:</th>
   </tr>
   <tr>
-    <td><%= text_field 'cliente', 'rfc', :onkeyup => "CharNum(event, '', this);", :class => 'text'  %></td>
-    <td><%= text_field 'cliente', 'curp', :onkeyup => "CharNum(event, '', this);", :class => 'text'  %></td>
-    <td><%= text_field 'cliente', 'clave_ife', :onkeyup => "CharNum(event, '', this);", :class => 'text'  %></td>
-    <td><%= text_field 'cliente', 'direccion', :onkeyup => "CharNum(event, '', this);", :class => 'text'  %></td>
+    <td><%= text_field 'cliente', 'rfc', :class => "text"  %></td>
+    <td><%= text_field 'cliente', 'curp', :class => 'text'  %></td>
+    <td><%= text_field 'cliente', 'clave_ife', :class => 'text'  %></td>
+    <td><%= text_field 'cliente', 'direccion', :onkeypress => "return CharNum(event, 'letra');", :class => "text"  %></td>
   </tr>
   <tr>
     <th>Cod. Postal</th>
@@ -38,7 +38,7 @@
     
   </tr>
   <tr>
-    <td><%= text_field 'cliente', 'codigo_postal', :onkeyup => "CharNum(event, 'numero', this);", :class => 'text'  %></td>
+    <td><%= text_field 'cliente', 'codigo_postal', :onkeypress => "return CharNum(event, 'numero');", :class => "text"  %></td>
     <td><%= select("cliente", "sexo", ['MASCULINO', 'FEMENINO'], {:prompt => '>>Sexo'}, :class => 'text')  %></td>
     <td><%= select("cliente", "nacionalidad", ['MEXICANA', 'EXTRANJERA'], {:prompt => '>>Nacionalidad'}, :class => 'text')  %></td>
     <td><%= select("cliente", "tipo_propiedad", ['PRIVADA','RENTADA'], {:prompt => '>>Tipo de vivienda'}, :class => 'text') %></td>
@@ -52,7 +52,7 @@
    </tr>
    <tr>
      <td><%= select("cliente", "tipo_persona", ["FISICA", "MORAL", "FISICA CON ACTIVIDAD EMPRESARIAL"], {:prompt => '>>Tipo de persona'}, :class => 'text') %></td>
-     <td><%= text_field 'cliente', 'telefono', :onkeyup => "CharNum(event, 'numero', this);", :class => 'text'  %></td>
+     <td><%= text_field 'cliente', 'telefono', :onkeypress => "return CharNum(event, 'numero');", :class => "text"  %></td>
      <td><%= text_field 'cliente', 'email', :class => 'text'  %></td>
      <td><%= collection_select("cliente", "civil_id", $civiles, :id, :civil, {:prompt => '>>Estado civil'}, :class => 'text') %></td>
      
@@ -86,23 +86,23 @@
      <th colspan="4" style=" text-align: left">>>Datos Negocio:</th>
    </tr>
    <tr>
-     <th>Nombre:</th>
+     <th>Negocio:</th>
      <th>Puesto:</th>
      <th>Dirección:</th>
      <th>Teléfono:</th>
    </tr>
    <tr>
-     <td><%= text_field 'negocio', 'nombre', :class => 'text'  %></td>
-     <td><%= text_field 'negocio', 'puesto', :onkeyup => "CharNum(event, 'letra', this);", :class => 'text'  %></td>
+     <td><%= text_field 'negocio', 'nombre', :onkeypress => "return CharNum(event, 'letra');", :class => "text"  %></td>
+     <td><%= text_field 'negocio', 'puesto', :onkeypress => "return CharNum(event, 'letra');", :class => "text"  %></td>
      <td><%= text_field 'negocio', 'direccion', :class => 'text'  %></td>
-     <td><%= text_field 'negocio', 'telefono', :onkeyup => "CharNum(event, 'numero', this);", :class => 'text'  %></td>
+     <td><%= text_field 'negocio', 'telefono', :onkeypress => "return CharNum(event, 'numero');", :class => "text"  %></td>
    </tr>
    <tr>
      <th>Num Empleados:</th>
      <th>Giro:</th>
    </tr>
    <tr>
-     <td><%= text_field 'negocio', 'num_empleados', :onkeyup => "CharNum(event, 'numero', this);", :class => 'text'  %></td>
+     <td><%= text_field 'negocio', 'num_empleados', :onkeypress => "return CharNum(event, 'numero');", :class => "text"  %></td>
      <td><%= collection_select('negocio', 'giro_id', Giro.find(:all,:order => 'giro'), :id, :giro, {:prompt => '>>Giro'}, :class => 'text')  %></td>
    </tr>
 </table>

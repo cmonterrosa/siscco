@@ -2,22 +2,21 @@
 <h2>Búsqueda por:</h2><br />
 
 <h3><label for="searchtext">Número de Crédito:</label><br />
-<%= text_field_tag :num_credito %></h3>
-<br />
-<h3><label for="searchtext">RFC:</label><br />
-<%= text_field_tag :rfc_credito %></h3>
+<%= select('', 'opcion', ['GRUPO', 'NUM. CREDITO', 'REFERENCIA', 'RFC'], {:prompt => '>>Opción'}, :class => 'text' ) %>
+<%= text_field '', 'opcionc', :class => 'text' %></h3>
 <br />
 
-<%= observe_field(:num_credito,
+<br />
+<%= observe_field(:_opcionc,
                  :frequency => 0.25,
                  :update => :search_hits,
-                 :with  => "num_credito",
-                 :url => { :action => :live_search_num }) %>
-<%= observe_field(:rfc_credito,
+                 :with  => :_opcionc,
+                 :url => { :action => :live_search_op }) %>
+
+<%= observe_field(:_opcion,
                  :frequency => 0.25,
-                 :update => :search_hits,
-                 :with  => "rfc_credito",
-                 :url => { :action => :live_search_rfc }) %>
+                 :with  => :_opcion,
+                 :url => { :action => :opcionc }) %>
 <p>Resultados:</p>
 <div id="search_hits" style=" width: 900px"></div>
 

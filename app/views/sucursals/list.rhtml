@@ -1,7 +1,7 @@
 <h1>Sucursales</h1>
 
 <label for="searchtext">Búsqueda por Sucursal:</label>
-  <%= text_field_tag :searchtext %>
+  <%= text_field_tag :searchtext, '', :class => 'text' %>
   <%= observe_field(:searchtext,
                  :frequency => 0.25,
                  :update => :search_hits,

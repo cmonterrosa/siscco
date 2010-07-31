@@ -9,8 +9,8 @@
     <th>Colonia:</th>
   </tr>
   <tr>
-    <td><%= text_field 'colonia', 'colonia', :onkeypress => "return CharNum(event, 'letra');"    %></td>
-    <td><%= text_field 'colonia', 'clave_inegi'  %></td>
+    <td><%= text_field 'colonia', 'colonia', :onkeypress => "return CharNum(event, 'letra');", :class => "text" %></td>
+    <td><%= text_field 'colonia', 'clave_inegi', :class => 'text'  %></td>
     <td><%=  collection_select("", "estado_id", $estados, :id, :estado, :prompt => '>>Estado')    %></td>
     <td><%=  select("", "municipio_id", ['>>Municipio'])    %></td>
     <td><%=  collection_select("colonia", "ejido_id", $ejidos, :id, :ejido, :prompt => '>>Ejido')    %></td>

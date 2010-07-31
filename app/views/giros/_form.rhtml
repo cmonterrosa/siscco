@@ -9,7 +9,7 @@
   </tr>
   <tr>
     <td><%= text_field 'giro', 'giro', :onkeypress => "return CharNum(event, 'letra');", :style => 'font-size:10px'  %></td>
-    <td><%= text_field 'giro', 'codigo', :style => 'font-size:10px'  %></td>
+    <td><%= text_field 'giro', 'codigo', :class => 'text'  %></td>
     <td><%= collection_select('giro', 'subsector', Subsector.find(:all, :order => 'subsector'), :subsector, :subsector, :prompt => '>>Subsector', :style => 'font-size:10px') %>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<%= link_to '+', {:controller => 'subsectors', :action => 'new'}, :style => 'font-size:14px;font-weight:bold;', :popup => ['new_window_name', 'height=300,width=600']%>&nbsp;&nbsp;&nbsp;</td>
   </tr>
 </table>

@@ -227,4 +227,8 @@ module Creditos
              return @clientes
          end
 
+         def creditos_activos_grupo(grupo)
+           Credito.find(:all, :conditions => ["grupo_id = ? and st = 1", grupo.id])
+         end
+
 end

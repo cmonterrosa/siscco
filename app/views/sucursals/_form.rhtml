@@ -9,10 +9,10 @@
     <th>Direccion</th>
   </tr>
   <tr>
-    <td><%= text_field 'sucursal', 'nombre'  %></td>
-    <td><%= text_field 'sucursal', 'gerente'  %></td>
-    <td><%= text_field 'sucursal', 'telefono'  %></td>
-    <td><%= text_field 'sucursal', 'direccion'  %></td>
+    <td><%= text_field 'sucursal', 'nombre', :onkeypress => "return CharNum(event, 'letra');", :class => "text"  %></td>
+    <td><%= text_field 'sucursal', 'gerente', :onkeypress => "return CharNum(event, 'letra');", :class => "text"  %></td>
+    <td><%= text_field 'sucursal', 'telefono', :onkeypress => "return CharNum(event, 'numero');", :class => "text"  %></td>
+    <td><%= text_field 'sucursal', 'direccion', :class => 'text'  %></td>
   </tr>
   <tr>
     <th>Codigo postal</th>
@@ -21,7 +21,7 @@
      <th>Ejido</th>
   </tr>
   <tr>
-    <td><%= text_field 'sucursal', 'codigo_postal'  %></td>
+    <td><%= text_field 'sucursal', 'codigo_postal', :onkeypress => "return CharNum(event, 'numero');", :class => "text"  %></td>
     <td><%= collection_select('', 'estado_id', $estados, :id, :estado, :prompt => ">> Estado") %></td>
     <td><%= select('', 'municipio_id', [">> Municipio"]) %></td>
     <td><%= select('', 'ejido_id', [">> Ejido"]) %></td>

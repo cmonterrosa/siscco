@@ -1,7 +1,7 @@
 <h1>Giros</h1>
 <!--inicia ajax -->
 <label for="searchtext">Búsqueda por nombre:</label>
-  <%= text_field_tag :searchtext %>
+  <%= text_field_tag :searchtext, '', :class => 'text' %>
   <%= observe_field(:searchtext,
                  :frequency => 0.25,
                  :update => :search_hits,

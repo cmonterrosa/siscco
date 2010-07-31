@@ -178,6 +178,43 @@ class CreditosController < ApplicationController
   end
 
   #--- Métodos ajax ---
+  def live_search_op
+     case session['opcion']
+        when 'NUM. CREDITO'
+          @creditos = Credito.find(:all, :conditions => ["id like ?", "%#{params[:_opcionc]}%"])
+          return render(:partial => 'filtrados', :layout => false) if request.xhr?
+
+        when 'GRUPO'
+          @creditos = Credito.find_by_sql("select * from creditos inner join grupos on grupos.id = creditos.grupo_id and grupos.nombre like '%#{params[:_opcionc]}%'")
+#          unless @grupo.empty?
+#            @grupo.each do |grupo|
+#                @creditos <<
+#                @a=1
+#              end
+#          end
+          return render(:partial => 'filtrados', :layout => false) if request.xhr?
+
+        when 'REFERENCIA'
+          @creditos = Credito.find(:all, :conditions => ["num_referencia like ?", params[:_opcionc]])
+          return render(:partial => 'filtrados', :layout => false) if request.xhr?
+
+        when 'RFC'
+          @creditos = Credito.find_by_sql("select * from creditos inner join clientes on clientes.id = creditos.cliente_id and clientes.rfc like '%#{params[:_opcionc]}%'")
+#           @cliente = Cliente.find(:all, :conditions => ["rfc like ?", params[:_opcionc]])
+#          if @cliente.nil? || @cliente.creditos.empty?
+#             @creditos=[]
+#          else
+#             @creditos = @cliente.creditos
+#          end
+          return render(:partial => 'filtrados', :layout => false) if request.xhr?
+        
+     end
+  end
+
+  def opcionc
+    session['opcion'] = params[:_opcion]
+  end
+
   def live_search_num
      @credito_pages, @creditos = paginate :creditos, :per_page => 20
      @creditos = Credito.find(:all, :conditions => ["id like ?", "%#{params[:num_credito]}%"])

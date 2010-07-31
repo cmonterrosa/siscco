@@ -7,8 +7,8 @@
     <th>Dias:</th>
   </tr>
   <tr>
-    <td><%= text_field 'periodo', 'nombre', :onkeypress => "return CharNum(event, 'letra');"  %></td>
-    <td><%= text_field 'periodo', 'dias'  %></td>
+    <td><%= text_field 'periodo', 'nombre', :onkeypress => "return CharNum(event, 'letra');", :class => "text"  %></td>
+    <td><%= text_field 'periodo', 'dias', :onkeypress => "return CharNum(event, 'numero');", :class => "text"  %></td>
   </tr>
 </table>
 <!--[eoform:periodo]-->
