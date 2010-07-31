@@ -27,7 +27,7 @@ def index
   end
 
   def create
-   inserta_registro_log(Banco.new(params[:banco]), 'Registro creado satisfactoriamente.')
+   inserta_registro(Banco.new(params[:banco]), 'Registro creado satisfactoriamente.')
   end
 
   def edit
@@ -39,7 +39,8 @@ def index
   end
 
   def destroy
-    elimina_registro_log(Banco.find(params[:id]), session['user'].rol)
+    Banco.find(params[:id]).destroy
+    redirect_to :action => "list" 
   end
 
   #--- Funciones ajax para filtrado --

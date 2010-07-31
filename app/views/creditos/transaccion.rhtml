@@ -48,7 +48,7 @@
 <h3>Ingresar Pago</h3>
 
 <!-- Form para agregar un pago -->
-<% form_tag :action => 'abonar', :credito=>@credito do -%>
+<% form_tag :action => 'abonar_individual', :credito=>@credito do -%>
 <%= error_messages_for 'pago' %>
 <p><label for="movimiento_capital">Capital</label><br/>
 <%= text_field 'pago', 'capital'  %></p>

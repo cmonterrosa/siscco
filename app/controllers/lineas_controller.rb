@@ -57,7 +57,6 @@ class LineasController < ApplicationController
 
   def consultar
     @linea= Linea.find(params[:linea][:cuenta_cheques])
-    @disponible = linea_disponible(@linea)
   end
 
   #--- Funciones para transferencia ----

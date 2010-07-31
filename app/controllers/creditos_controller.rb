@@ -1,5 +1,5 @@
 class CreditosController < ApplicationController
-  before_filter :permiso_requerido
+  #before_filter :permiso_requerido
 
   def index
     list
@@ -12,7 +12,7 @@ class CreditosController < ApplicationController
 
   def list
     @credito_pages, @creditos = paginate :creditos, :per_page => 10
-    render :action => 'menu'
+  
   end
 
   def show
@@ -24,17 +24,14 @@ class CreditosController < ApplicationController
   end
   
   #----- Este metodo aplica todos los movimientos ----
-  def abonar
-    #params[:pago].delete(:descripcion)
-    #@movimiento = Movimiento.new(params[:pago])
-    #@movimiento.save
+  def abonar_individual
     @credito = Credito.find(params[:credito])
     @num_pagos = Pago.count(:id, :conditions=>["credito_id = ? AND pagado = 1", @credito.id]).to_i
 
     if @num_pagos == @credito.num_pagos
       #---- Ya se liquido el credito ----
         flash[:notice] = "Su credito ha sido liquidado"
-        redirect_to :action => "transaccion_grupal", :id=>@credito
+        redirect_to :action => "transaccion", :id=>@credito
     else
 
         if (params[:pago][:capital].to_f + params[:pago][:interes].to_f) < pago_minimo(@credito).to_f
@@ -60,9 +57,10 @@ class CreditosController < ApplicationController
  end
 
 
-  def abonar2 #--- pago modificado
+  def abonar_grupal #--- pago modificado
        @credito = Credito.find(params[:credito])
-    @num_pagos = Pago.count(:id, :conditions=>["credito_id = ? AND pagado = 1", @credito.id]).to_i
+       @cliente = Cliente.find(params[:cliente])
+       @num_pagos = Pago.count(:id, :conditions=>["credito_id = ? AND pagado = 1", @credito.id]).to_i
 
     if @num_pagos == @credito.producto.num_pagos
       #---- Ya se liquido el credito ----
@@ -77,7 +75,7 @@ class CreditosController < ApplicationController
 
         else
         #---- Se aplican pagos ----
-        @pago =  proximo_pago_grupal(@credito, Cliente.find(params[:pago][:cliente_id]))
+        @pago =  proximo_pago_grupal(@credito, @cliente.id)
         #@pago = Pago.find(:first, params[:pago_id])
         @fecha = Date.civil(params[:pago][:"fecha(1i)"].to_i,params[:pago][:"fecha(2i)"].to_i,params[:pago][:"fecha(3i)"].to_i)
         cargos?(@pago, @fecha)
@@ -167,7 +165,7 @@ class CreditosController < ApplicationController
   def transaccion
     @credito = Credito.find(params[:id])
     @fecha_inicio = Date.strptime(Credito.find(params[:id]).fecha_inicio.to_s)
-    @pago = proximo_pago(@credito)
+    #@pago = proximo_pago(@credito)
 
   end
 
@@ -257,5 +255,16 @@ class CreditosController < ApplicationController
   def activacion
     @creditos = Credito.find(:all)
   end
+
+
+  def show_pagos_cliente
+    @pagos = Pago.find(:all, :conditions => ["cliente_id = ? and credito_id = ?",params[:id], params[:credito]])
+    @credito = Credito.find(params[:credito])
+    @pago = proximo_pago(@credito)
+    @cliente = Cliente.find(params[:id])
+    render :layout => false
+  end
+
+
 
 end

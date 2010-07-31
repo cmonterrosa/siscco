@@ -15,15 +15,15 @@ module Creditos
   end
 
 
-  def cargos(credito)
-      @pagos = Pago.find(:all,
-                         :conditions=>["credito_id = ? AND pagado= 1", credito.id])
-    sum=0
-    @pagos.each do |pago|
-      sum +=  pago.interes.to_f
-    end
-    return sum
-  end
+#  def cargos(credito)
+#      @pagos = Pago.find(:all,
+#                         :conditions=>["credito_id = ? AND pagado= 1", credito.id])
+#    sum=0
+#    @pagos.each do |pago|
+#      sum +=  pago.interes.to_f
+#    end
+#    return sum
+#  end
 
 
  def total(credito)
@@ -198,17 +198,36 @@ module Creditos
 
 
     def linea_disponible(linea)
-        if linea.creditos.empty?
-           return linea.autorizado
+    if linea.creditos.empty?
+           return linea.autorizado.to_f + total_recibido(linea) - total_transferido(linea)
         else
-           return (linea.autorizado - Credito.sum(:monto, :conditions=>["linea_id = ?", linea.id])/1.0)
+           return (linea.autorizado.to_f - total_otorgado_creditos(linea) + total_recibido(linea) - total_transferido(linea))
         end
+    end
+
+    def total_otorgado_creditos(linea)
+        @total = Credito.sum(:monto, :conditions=>["linea_id = ?", 1])/1.0
+        return @total
+    end
+
+    def total_transferido(linea)
+        sum_otorgadas = 0
+        @t_otorgadas = Transferencia.find(:all, :conditions => ["origen_id = ?", linea.id])
+        @t_otorgadas.each{|otorgada| sum_otorgadas += otorgada.monto.to_f }
+        return sum_otorgadas * 1.0
+    end
+
+    def total_recibido(linea)
+      sum_recibidas=0
+      @t_recibidas = Transferencia.find(:all, :conditions => ["destino_id = ?", linea.id])
+      @t_recibidas.each{|recibida| sum_recibidas += recibida.monto.to_f }
+      return sum_recibidas * 1.0
     end
 
    
         def cargos?(pago, fecha)
            @pago= Pago.find(pago)
-           @interes_moratorio = Configuracion.find(:first, :select=>"interes_moratorio").interes_moratorio.to_f / 100.0
+           @interes_moratorio = pago.credito.producto.moratorio
            if @fecha <= @pago.fecha_limite
              return false
            else
@@ -231,4 +250,16 @@ module Creditos
            Credito.find(:all, :conditions => ["grupo_id = ? and st = 1", grupo.id])
          end
 
+         def aplicar_transferencia(transferencia)
+           #----- Primero restamos agregamos el total ---
+
+##           Linea.transaction do
+##             @linea_origen.
+##           end
+           Transferencia.transaction do
+              Transferencia.create(:title => 'en la transaccion', :content => 'texto')
+              Post.create(:content => 'texto')
+           end
+           
+         end
 end

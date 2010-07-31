@@ -1,0 +1,52 @@
+<h2>Cliente: <%=@cliente.nombre_completo%></h2>
+<h3>Calendario de pagos</h3>
+<table>
+  <tr>
+    <th>Num de pago</th>
+    <th>Fecha Limite</th>
+    <th>Capital minimo</th>
+    <th>Interes minimo</th>
+    <th>Moratorio</th>
+    <th>Pagado</th>
+    <th>Cliente</th>
+  </tr>
+  <%@pagos.each do |pago|%>
+  <tr>
+     <td><%=pago.num_pago%></td>
+     <td><%=pago.fecha_limite%></td>
+     <td><%="$%.2f" % pago.capital_minimo%></td>
+      <td><%="$%.2f" % pago.interes_minimo%></td>
+      <td><%=("$%.2f" % pago.moratorio) unless pago.moratorio.nil?%></td>
+     <%if pago.pagado == 1%>
+        <td>SI</td>
+     <%else%>
+        <td>NO</td>
+     <%end%>
+        <td><%=pago.cliente.nombre_completo%></td>
+
+  </tr>
+  <%end%>
+
+</table>
+
+
+<!---- Ingreamos el pago -->
+
+<h3>Ingresar Pago</h3>
+
+<!-- Form para agregar un pago -->
+<% form_tag :action => 'abonar_grupal', :credito=>@credito, :cliente => @cliente do -%>
+<%= error_messages_for 'pago' %>
+<p><label for="movimiento_capital">Capital</label><br/>
+<%= text_field 'pago', 'capital'  %></p>
+
+<p><label for="movimiento_capital">Interes</label><br/>
+<%= text_field 'pago', 'interes'  %></p>
+
+<p><label for="movimiento_fecha">Fecha</label><br/>
+<%= date_select 'pago', 'fecha'  %></p>
+<br />
+
+<!--[eoform:movimiento]-->
+<%= submit_tag "Aplicar" %>
+<% end %>
