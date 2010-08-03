@@ -206,8 +206,12 @@ module Creditos
     end
 
     def total_otorgado_creditos(linea)
-        @total = Credito.sum(:monto, :conditions=>["linea_id = ?", 1])/1.0
-        return @total
+       if Credito.count(:monto, :conditions=>["linea_id = ?", linea.id]) > 0
+           return Credito.sum(:monto, :conditions=>["linea_id = ?", linea.id])/1.0
+          return @credito
+       else
+          return 0
+       end
     end
 
     def total_transferido(linea)

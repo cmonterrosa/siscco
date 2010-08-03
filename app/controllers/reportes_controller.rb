@@ -347,4 +347,38 @@ class ReportesController < ApplicationController
 
 
 
+    def reporte_promotores
+       @xml = Grupo.find(9).clientes.to_xml
+       param=Hash.new {|k, v| k[v] = {:tipo=>"",:valor=>""}}
+       param["EMPRESA"]={:tipo=>"String", :valor=>NOMBRE_EMPRESA}
+       param["FINANCIAMIENTO"]={:tipo=>"String", :valor=>"ABC PRIMER CICLO"}
+       param["CIUDAD"]={:tipo=>"String", :valor=>CIUDAD_EMPRESA}
+       param["FINANCIAMIENTO"]={:tipo=>"String", :valor=>Time.now.strftime("%d de %B de %Y")}
+       param["GRUPO"]={:tipo=>"String", :valor=>"LOS GIRASOLES"}
+       param["ABONO"]={:tipo=>"String", :valor=>"1,594.00"}
+       param["ABONOLETRA"]={:tipo=>"String", :valor=>"UN MIL QUINIENTOS NOVENTA Y CUATRO PESOS OO/100 M.N"}
+       param["FONDEO"]={:tipo=>"String", :valor=>"FOMMUR"}
+       param["AHORRO"]={:tipo=>"String", :valor=>"157.00"}
+       param["AHORROLETRA"]={:tipo=>"String", :valor=>"CIENTO CINCUENTA Y SIETE PESOS"}
+       param["PRESIDENTE"]={:tipo=>"String", :valor=>"CARLOS AUGUSTO MONTERROSA LOPEZ"}
+       param["TESORERO"]={:tipo=>"String", :valor=>"JUAN IGNACIO MORENO SUAREZ"}
+       param["SECRETARIO"]={:tipo=>"String", :valor=>"HILDA CACERES RUIZ"}
+       send_doc_xml(@xml,
+       '/clientes/cliente',
+      'acta',
+      'acta',
+       param,
+      'pdf')
+     end
+
+
+
+    def promotors_xml
+      @promotors = Promotor.find(:all, :select => "c.*",
+                                 :joins => "p inner join creditos c on c.promotor_id = p.id")
+                               render :xml => @promotors.to_xml
+    end
+
+
+
 end
