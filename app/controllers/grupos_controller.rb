@@ -17,8 +17,14 @@ class GruposController < ApplicationController
 
   def agregar_clientes
      @grupo = Grupo.find(params[:id])
-     @clientes = Cliente.find(:all, :order => 'paterno')
      @clientegrupos = Clientegrupo.find(:all, :conditions => ["grupo_id = ? and activo = 1", @grupo.id])
+     @clientes = Cliente.find(:all, :order => "paterno")
+     if @clientes.empty?
+       redirect_to :action => "list"
+     else
+       #--- Quitamos a los actuales
+       @clientegrupos.each do |cliente| @clientes.delete(cliente.cliente) end
+     end
   end
 
   def show
@@ -60,9 +66,6 @@ class GruposController < ApplicationController
 
   #----------- Métodos para agregar y quitar usuarios de un grupo ---------
   def agregar
-  #  render :text => "Vamos a agregar al cliente #{params[:id]} en el grupo #{params[:grupo]}"
-  #--- Primero validamos si el usuario no es parte de otro grupo ----
-  
     #--- primero validaremos si el grupo ya tiene otro credito -----
     @cliente = Cliente.find(params[:id])
     @grupo = Grupo.find(params[:grupo])
@@ -109,6 +112,8 @@ class GruposController < ApplicationController
 
     #-- Ajax --
   def live_search_clientes
+      @parametro =~/search/
+      @clientegrupos = Clientegrupo.find(:all, :conditions => ["grupo_id = ? and activo = 1", @grupo.id])
       @clientes = Cliente.find(:all, :conditions => "nombre like '%#{params[:searchtext]}%' or
                                                      paterno like '%#{params[:searchtext]}%' or
                                                      materno like '%#{params[:searchtext]}%' ")
