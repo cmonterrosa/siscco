@@ -1,8 +1,8 @@
 <h2>Histórico de créditos</h2>
 
 <% form_for :credito, @credito, :url => { :controller => "creditos", :action => "busca_credito" } do |f| %>
-      Numero de credito: <%= f.text_field :id %><br>
-      RFC del cliente: <%= f.text_field :rfc %> <br>
+      Numero de credito: <%= f.text_field :id %><br />
+      RFC del cliente: <%= f.text_field :rfc %> <br />
       <%= submit_tag 'Buscar' %>
 <% end %>
 
@@ -11,7 +11,7 @@
 
 
 
-Resultados encontrados: <br>
+Resultados encontrados: <br />
 <%unless @creditos.nil?%>
 <table>
   <tr>
@@ -21,8 +21,8 @@ Resultados encontrados: <br>
 
   <tr>
     <%@creditos.each do |credito|%>
-        <td><%=link_to "#{credito.cliente.nombre_completo}", :controller => "creditos", :action => "consulta", :id => credito.id%><br></td>
-        <td><%=link_to "#{credito.id}", :controller => "creditos", :action => "consulta", :id => credito%><br></td>
+        <td><%=link_to "#{credito.cliente.nombre_completo}", :controller => "creditos", :action => "consulta", :id => credito.id%><br /></td>
+        <td><%=link_to "#{credito.id}", :controller => "creditos", :action => "consulta", :id => credito%><br /></td>
     <%end%>
   </tr>
 </table>
@@ -37,8 +37,8 @@ Resultados encontrados: <br>
   </tr>
 
   <tr>
-    <td><%=link_to "#{@credito_unico.cliente.nombre_completo}", :controller => "creditos", :action => "consulta", :id => @credito_unico%><br></td>
-    <td><%=link_to "#{@credito_unico.id}", :controller => "creditos", :action => "consulta", :id => @credito_unico%><br></td>
+    <td><%=link_to "#{@credito_unico.cliente.nombre_completo}", :controller => "creditos", :action => "consulta", :id => @credito_unico%><br /></td>
+    <td><%=link_to "#{@credito_unico.id}", :controller => "creditos", :action => "consulta", :id => @credito_unico%><br /></td>
   </tr>
 </table>
 <%end%>

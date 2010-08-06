@@ -190,10 +190,15 @@ class CreditosController < ApplicationController
         when 'RFC'
           @creditos = Credito.find_by_sql("select * from creditos inner join clientes on clientes.id = creditos.cliente_id and clientes.rfc like '%#{params[:_opcionc]}%'")
           return render(:partial => 'filtrados', :layout => false) if request.xhr?
+
+        when nil
+          flash[:notice] = 'Seleccione alguna opción de Búsqueda...'
+          return render(:partial => 'filtrados', :layout => false) if request.xhr?
      end
   end
 
   def opcionc
+#    session['opcion'] = nil
     session['opcion'] = params[:_opcion]
   end
 

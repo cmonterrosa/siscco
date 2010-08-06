@@ -5,7 +5,6 @@ function CharNum(e, modo)
 {
     var key = window.event ? e.keyCode : e.which;
     var keychar = String.fromCharCode(key);
-   // document.forms[0].texto.value.toUpperCase();
     if (modo=='letra') {
         reg = /\D/;
         return reg.test(keychar);
@@ -15,28 +14,8 @@ function CharNum(e, modo)
     }
 }
 //-- fin valida campo -->
-//
-//-- Comprueba que no se envien campos vacios -->
-function confirma()
-{
-    if ( document.forms[0].elements['credito_status'].checked == false ){
-        if ( window.confirm("¿Desea deshabilitar este Crédito?") == true ){
-            document.forms[0].elements['credito_status'].checked = false;
-        }
-        else{
-            document.forms[0].elements['credito_status'].checked = true;
-        }
-    }
-    else{
-        if ( window.confirm("¿Desea habilitar este Crédito?") == true ){
-            document.forms[0].elements['credito_status'].checked = true;
-        }
-        else{
-            document.forms[0].elements['credito_status'].checked = false;
-        }
-    }
-}
 
+//-- Comprueba que no se envien campos vacios -->
 function comprobar()
 {
     missinginfo = "";
@@ -62,6 +41,29 @@ function comprobar()
         return true;
     }
 }
+// fin de funcion comprobar campos vacios
+
+//-- Confirma activar/desactivar el checkbox de creditos
+function confirma()
+{
+    if ( document.forms[0].elements['credito_status'].checked == false ){
+        if ( window.confirm("¿Desea deshabilitar este Crédito?") == true ){
+            document.forms[0].elements['credito_status'].checked = false;
+        }
+        else{
+            document.forms[0].elements['credito_status'].checked = true;
+        }
+    }
+    else{
+        if ( window.confirm("¿Desea habilitar este Crédito?") == true ){
+            document.forms[0].elements['credito_status'].checked = true;
+        }
+        else{
+            document.forms[0].elements['credito_status'].checked = false;
+        }
+    }
+}
+// fin de confirma checkbox
 
 function comprobar_cerrar()
 {
@@ -88,9 +90,6 @@ function comprobar_cerrar()
         return true;
     }
 }
-
-
-
 
 //-- Carga los menu -->
 function mmLoadMenus() {
