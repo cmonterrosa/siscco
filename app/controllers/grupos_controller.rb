@@ -18,10 +18,12 @@ class GruposController < ApplicationController
   def agregar_clientes
      @grupo = Grupo.find(params[:id])
      @clientegrupos = Clientegrupo.find(:all, :conditions => ["grupo_id = ? and activo = 1", @grupo.id])
-     if @clientegrupos.empty?
-        redirect_to :action => "list"
+     @clientes = Cliente.find(:all, :order => "paterno")
+     if @clientes.empty?
+       redirect_to :action => "list"
      else
-        @clientes = Cliente.find(:all, :order => 'paterno')
+       #--- Quitamos a los actuales
+       @clientegrupos.each do |cliente| @clientes.delete(cliente.cliente) end
      end
   end
 
@@ -110,6 +112,8 @@ class GruposController < ApplicationController
 
     #-- Ajax --
   def live_search_clientes
+      @parametro =~/search/
+      @clientegrupos = Clientegrupo.find(:all, :conditions => ["grupo_id = ? and activo = 1", @grupo.id])
       @clientes = Cliente.find(:all, :conditions => "nombre like '%#{params[:searchtext]}%' or
                                                      paterno like '%#{params[:searchtext]}%' or
                                                      materno like '%#{params[:searchtext]}%' ")
