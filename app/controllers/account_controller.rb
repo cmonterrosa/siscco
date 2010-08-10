@@ -122,7 +122,7 @@ class AccountController < ApplicationController
   end
 
   def logout
-    @user=User.find(:first, :conditions=>["login = ?", session['user']['login']])
+    @user=User.find(:first, :conditions=>["login = ?", session['user']['login']]) if session['user']
     session['user'] = nil
     @user.save unless @user.nil?
     $usuario=""

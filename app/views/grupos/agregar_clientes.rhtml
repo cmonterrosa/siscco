@@ -36,9 +36,10 @@
 <%= observe_field(:searchtext,
                  :frequency => 0.25,
                  :update => :search_hits,
-                 :with  => "searchtext" + "|" + "#{@grupo.id}",
+                 :with  => :searchtext,
                  :url => { :action => :live_search_clientes }) %><br />
 
+                 <%session["grupo_online"] = @grupo%>
 
 
   <br /><p>Resultado de Busqueda:</p>
