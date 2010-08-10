@@ -48,8 +48,11 @@ ActiveRecord::Schema.define(:version => 40) do
   end
 
   create_table "clientes_grupos", :force => true do |t|
-    t.column "cliente_id", :integer
-    t.column "grupo_id",   :integer
+    t.column "cliente_id",   :integer
+    t.column "grupo_id",     :integer
+    t.column "activo",       :integer
+    t.column "fecha_inicio", :datetime
+    t.column "fecha_fin",    :datetime
   end
 
   add_index "clientes_grupos", ["cliente_id"], :name => "index_clientes_grupos_on_cliente_id"
@@ -90,7 +93,6 @@ ActiveRecord::Schema.define(:version => 40) do
     t.column "grupo_id",          :integer
     t.column "producto_id",       :integer
     t.column "status",            :integer
-    t.column "st",                :integer
   end
 
   create_table "destinos", :force => true do |t|
@@ -160,7 +162,6 @@ ActiveRecord::Schema.define(:version => 40) do
     t.column "operacion",  :string
     t.column "fecha_hora", :datetime
     t.column "clase",      :string
-    t.column "st",         :integer
     t.column "user_id",    :integer
     t.column "objeto_id",  :integer
   end
@@ -223,8 +224,9 @@ ActiveRecord::Schema.define(:version => 40) do
   end
 
   create_table "periodos", :force => true do |t|
-    t.column "nombre", :string
-    t.column "dias",   :integer
+    t.column "nombre",    :string
+    t.column "dias",      :integer
+    t.column "pagos_mes", :integer
   end
 
   create_table "productos", :force => true do |t|
@@ -232,8 +234,8 @@ ActiveRecord::Schema.define(:version => 40) do
     t.column "intereses",  :float
     t.column "moratorio",  :float
     t.column "ahorro",     :float
+    t.column "num_pagos",  :integer
     t.column "periodo_id", :integer
-    t.column "st",         :integer
   end
 
   create_table "promotors", :force => true do |t|

@@ -6,8 +6,8 @@
   <% end %>
     <th colspan="4">Acciones</th>
   </tr>
-
-<% for credito in @creditos %>
+<% if @creditos %>
+<% for credito in @creditos%>
   <tr>
   <% for column in Credito.content_columns %>
     <td><%=h credito.send(column.name) %></td>
@@ -21,6 +21,7 @@
     <td><%= button_to 'Editar', :action => 'edit', :id => credito %></td>
     <td><%= button_to 'Eliminar', { :action => 'destroy', :id => credito }, :confirm => '¿Esta seguro?', :method => :post %></td>
   </tr>
+<% end %>
 <% end %>
 </table>
 </div>
