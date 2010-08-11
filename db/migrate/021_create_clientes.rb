@@ -9,7 +9,6 @@ class CreateClientes < ActiveRecord::Migration
       t.column :curp , :string , :limit => 18
       t.column :clave_ife, :string
       t.column :sexo, :string, :limit => 1
-      t.column :nacionalidad, :string
       t.column :tipo_propiedad, :string
       t.column :tipo_persona, :string
       t.column :direccion, :string
@@ -21,7 +20,8 @@ class CreateClientes < ActiveRecord::Migration
       t.column :escolaridad_id, :integer
       t.column :vivienda_id, :integer
       t.column :colonia_id, :integer
-      #t.column :grupo_id, :integer, :default => 1
+      t.column :nacionalidad_id, :integer
+      
       #---- campo para historial -----
       t.column :st, :integer
     end

@@ -11,15 +11,10 @@ class ApplicationController < ActionController::Base
   # --- Plantilla por defecto ------
   layout 'contenido'
 
-  #---- Incluimos a los roles ---
-  #include RoleSecurityClassMethods
-  #model :role
-
   # ---  Incluimos la libreria para el acceso ---
   include LoginSystem
   model :user
-  
-  
+
   #---- Incluimos las Variables Globales ---
   include Variables
   #---- Incluimos las utilerias

@@ -112,11 +112,12 @@ class GruposController < ApplicationController
 
     #-- Ajax --
   def live_search_clientes
-      @parametro =~/search/
+      @grupo = session["grupo_online"]
       @clientegrupos = Clientegrupo.find(:all, :conditions => ["grupo_id = ? and activo = 1", @grupo.id])
       @clientes = Cliente.find(:all, :conditions => "nombre like '%#{params[:searchtext]}%' or
                                                      paterno like '%#{params[:searchtext]}%' or
                                                      materno like '%#{params[:searchtext]}%' ")
+      @clientegrupos.each do |cliente| @clientes.delete(cliente.cliente) end
       return render(:partial => 'filtrocliente', :layout => false) if request.xhr?
   end
       #--- Funciones ajax para filtrado --

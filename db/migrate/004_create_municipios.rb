@@ -4,9 +4,19 @@ class CreateMunicipios < ActiveRecord::Migration
       t.column :municipio, :string
       t.column :clave_inegi, :string
       t.column :estado_id, :integer
-      t.column :user_id, :integer
-      t.column :fecha_hora, :datetime
     end
+
+
+  #---- Cargamos el catalogo de municipios de chiapas------
+    File.open("#{RAILS_ROOT}/db/migrate/catalogos/municipioschiapas.csv").each { |line|
+      clave_inegi, edo, municipio = line.split("|")
+      @estado = Estado.find(:first, :conditions => ["edo_inegi = ?", edo])
+      Municipio.create(:municipio => municipio, :clave_inegi => clave_inegi, :estado_id => @estado.id.to_i)
+    }
+
+
+
+
   end
 
   def self.down

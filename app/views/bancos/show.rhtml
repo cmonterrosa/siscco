@@ -5,18 +5,13 @@
 </p>
 <% end %>
 <p>
-  <b>Estado: </b> <%= @banco.colonia.ejido.municipio.estado.estado %>
+  <b>Estado: </b> <%= @banco.municipio.estado.estado if @banco.municipio.estado%>
 </p>
 <p>
-  <b>Municipio: </b> <%= @banco.colonia.ejido.municipio.municipio %>
+  <b>Municipio: </b> <%= @banco.municipio.municipio if @banco.municipio %>
 </p>
-<p>
-  <b>Ejido: </b> <%= @banco.colonia.ejido.ejido %>
-</p>
-<p>
-  <b>Colonia: </b> <%= @banco.colonia.colonia %>
-</p>
+
 <br />
-<%#= button_to 'Editar', :action => 'edit', :id => @banco %>
+
 <p><%= link_to 'Regresar', :action => 'list' %></p>
 

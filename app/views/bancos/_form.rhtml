@@ -18,20 +18,26 @@
     <th>Telefono:</th>
     <th>Estado:</th>
     <th>Municipio:</th>
+    <!--
     <th>Ejido:</th>
+    -->
   </tr>
   <tr>
     <td><%=  text_field 'banco', 'telefono', :onkeypress => "return CharNum(event, 'numero');", :class => "text"   %></td>
     <td><%=  collection_select("", "estado_id", $estados, :id, :estado, {:prompt => '>>Estado'}, {:class => "text"} )    %></td>
-    <td><%=  select("","municipio_id", ['>>Municipios'], {:prompt => '>>Municipio'}, {:class => "text"} )    %></td>
-    <td><%=  select("","ejido_id", ['>>Ejidos'], {:prompt => '>>Ejidos'}, {:class => "text"} )    %></td>
+    <td><%=  select("banco","municipio_id", ['>>Municipios'], {:prompt => '>>Municipio'}, {:class => "text"} )    %></td>
+    <!--
+    <td><=  select("","ejido_id", ['>>Ejidos'], {:prompt => '>>Ejidos'}, {:class => "text"} )    %></td>
+    -->
   </tr>
+  <!--
   <tr>
     <th>Colonia:</th>
   </tr>
   <tr>
-    <td><%=  collection_select("banco", "colonia_id", $colonias, :id, :colonia, {:prompt => '>>Colonia'}, {:class => "text"} )    %></td>
+    <td><=  collection_select("banco", "colonia_id", $colonias, :id, :colonia, {:prompt => '>>Colonia'}, {:class => "text"} )    %></td>
   </tr>
+  -->
 </table>
 
 
@@ -40,19 +46,21 @@
       <%= observe_field '_estado_id',
         :url => {:controller => 'combos',
         :action => 'get_municipios'},
-        :update => '_municipio_id',
+        :update => 'banco_municipio_id',
         :with => '_estado_id' %>
 
+<!--
 
-      <%= observe_field '_municipio_id',
+      <= observe_field '_municipio_id',
         :url => {:controller => 'combos',
         :action => 'get_ejidos'},
         :update => '_ejido_id',
         :with => '_municipio_id' %>
 
 
-      <%= observe_field '_ejido_id',
+      <= observe_field '_ejido_id',
         :url => {:controller => 'combos',
         :action => 'get_colonias'},
         :update => 'banco_colonia_id',
         :with => '_ejido_id' %>
+-->

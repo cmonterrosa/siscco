@@ -16,7 +16,7 @@
     <td><%= text_field 'cliente', 'paterno', :onkeypress => "return CharNum(event, 'letra');", :class => "text" %></td>
     <td><%= text_field 'cliente', 'materno', :onkeypress => "return CharNum(event, 'letra');", :class => "text"  %></td>
     <td><%= text_field 'cliente', 'nombre', :onkeypress => "return CharNum(event, 'letra');", :class => "text"  %></td>
-    <td><%= date_select( 'cliente', 'fecha_nac', :order => [:day, :month, :year], :start_year => 1950, :class => 'text'  )%></td>
+    <td><%= date_select( 'cliente', 'fecha_nac', :order => [:day, :month, :year], :start_year => 1930, :class => 'text'  )%></td>
   </tr>
   <tr>
     <th>RFC:</th>
@@ -33,14 +33,17 @@
   <tr>
     <th>Cod. Postal</th>
     <th>Sexo:</th>
-    <th>Nacionalidad</th>
+    <th>Pais de Origen</th>
     <th>Tipo Propiedad:</th>
     
   </tr>
   <tr>
     <td><%= text_field 'cliente', 'codigo_postal', :onkeypress => "return CharNum(event, 'numero');", :class => "text"  %></td>
     <td><%= select("cliente", "sexo", ['MASCULINO', 'FEMENINO'], {:prompt => '>>Sexo'}, :class => 'text')  %></td>
+    <!--
     <td><%= select("cliente", "nacionalidad", ['MEXICANA', 'EXTRANJERA'], {:prompt => '>>Nacionalidad'}, :class => 'text')  %></td>
+    -->
+    <td><%= collection_select("cliente", "nacionalidad_id", $nacionalidades, :id, :pais, {:prompt => "MEXICO"}, :class => 'text') %></td>
     <td><%= select("cliente", "tipo_propiedad", ['PRIVADA','RENTADA'], {:prompt => '>>Tipo de vivienda'}, :class => 'text') %></td>
    </tr>
    <tr>
