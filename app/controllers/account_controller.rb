@@ -57,6 +57,7 @@ class AccountController < ApplicationController
       when :get
         @user = User.new
     end
+       render :layout=>"contenido"
   end
 #--- el mismo metodo para dar de alta, solo que este recibe el rol de parametro ----
   def signup_perfil
@@ -81,6 +82,7 @@ class AccountController < ApplicationController
 #        end
        
     end
+       render :layout=>"contenido"
   end
 
 

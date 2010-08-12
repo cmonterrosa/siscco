@@ -56,7 +56,11 @@ class LineasController < ApplicationController
   end
 
   def consultar
-    @linea= Linea.find(params[:linea][:cuenta_cheques])
+    if params[:linea]
+      @linea= Linea.find(params[:linea][:cuenta_cheques])
+    else
+      @linea = Linea.find(params[:id])
+    end
   end
 
   #--- Funciones para transferencia ----
