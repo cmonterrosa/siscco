@@ -1,9 +1,58 @@
-2 de julio de 2010
+12 de Agosto de 2010
 
-La ultima modificacion fue agregar a unos campos al archivo ultima.sql
-para poder llevar a cabo la insercion de los campos user_id y fecha_hora. 
-Hay que empezar a trabajar con los reportes, te reenvio a tu correo
-los reportes necesitamos tambien que cuando se de de alra un nuevo credito
-este pueda seleccionar quien es el presidente, tesorero, vocal del grupo.
-Falta tambien vincular el credito con el producto, en el producto hay que
-ir a traer el numero de pagos, la fecha de inicio y de fin etc...
+===== Modificaciones a Realizar dentro de la primera etapa ----
+
+Normalización de Campos con el layout de fommur que es enviado en excel
+
+Clientes => Los id no deben de ser consecutivos y deben de ser unicos, por ejemplo podemos asignarle un prefijo  id del registro + 2 digitos aleatorios
+            Al momento de agregar los clientes quitar la opcion de agregar grupos, agregar el combo para las actividades de acuerdo al catalogo fommur y agregar el campo
+            descripcion para que teclean la actividad especifica
+
+Bancos => Agregar los campos Sucursal y Cuenta_contable con longitud de 12 y quitar el campo titular
+
+
+Creditos => Si el cliente esta en un grupo y quiere un nuevo credito con otro grupo,
+                no debe de permitirse, solo se podrá un crédito individual.
+
+Lineas => Agregar el campo "cuenta concentradora" para efectos contables
+
+
+Subsectores, Sectores => Quitar los catalogos y cargar unicamente las actividades del catalogo de fommur
+
+
+Generación Automatica de Numero de Referencia Númerica y Alfanumérica => Implementar funcion que reciba num_sucursal, banco y genere los digitos verificados de acuerdo al algoritmo de Banamex
+
+
+Complementar reportes que se generan cuando el crédito se va a iniciar
+
+
+
+==== Modificaciones para la version 1.1 ============
+
+
+Cuestiones contables => Generar intereses devengados (interes total que es cobrado por mes dividido entre el numero de dias), si el cliente paga antes
+                        o despues se le cobrará o descontará el importe del día de intereses, esto hay que generarlo cada 28 dias.
+
+Intereses Moratorios => Se aplica el porcentaje adicionalmente al interes mensual sobre el importe de la deuda y es combinado con fecha_valor
+
+Amortizacion => Pendiente explicación muy vaga....
+
+Implementación de Fecha Valor => Esto significa que solo 2 dias puede pasarse si aplicarse el cargo de moratorio (Opcional para la captura, hay que preguntarlo)
+
+Generación de Lista Negra o Buró de Crédito => Generar un historial mensual de las personas o grupos que cuentan con adeudo y los días de vencimiento
+
+Pago a linea de fondeo => Agregar a que banco y a que cuenta se esta pagando, además de verificar que al realizar la transferencia no afecté otras cuentas
+
+Reporte de Vencimientos => Generar un reporte con los créditos vencidos ya sea ordenado por municipio, por oficial de crédito o por producto
+
+
+
+
+
+
+
+
+
+
+
+
