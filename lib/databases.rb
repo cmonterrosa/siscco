@@ -78,6 +78,7 @@ module Databases
       @log.save!
 
         if cliente.save && negocio.save
+          cliente.generar_id!
           flash[:notice]=mensaje
           redirect_to :action => 'list', :controller => "#{params[:controller]}"
         else

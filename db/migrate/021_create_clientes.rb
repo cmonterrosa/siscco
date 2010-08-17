@@ -1,6 +1,8 @@
 class CreateClientes < ActiveRecord::Migration
   def self.up
     create_table :clientes do |t|
+      #--- Identificador unico no secuencial de fommur
+      t.column :identificador, :string, :limit => 18
       t.column :paterno, :string
       t.column :materno, :string
       t.column :nombre , :string
