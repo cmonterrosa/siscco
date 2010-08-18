@@ -3,6 +3,8 @@ class CreateBancos < ActiveRecord::Migration
     create_table :bancos do |t|
       t.column :nombre, :string
       t.column :num_cuenta, :string
+      t.column :sucursal, :string
+      t.column :cta_contable, :string
       t.column :titular, :string
       t.column :direccion, :string
       t.column :telefono, :string

@@ -7,6 +7,7 @@ class CreateLineas < ActiveRecord::Migration
       t.column :estatus, :string
       t.column :gcnf, :string
       t.column :fondeo_id, :integer
+      t.column :cta_concentradora, :string
       #---- campo para historial -----
       t.column :st, :integer
     end

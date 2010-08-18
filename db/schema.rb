@@ -49,8 +49,13 @@ ActiveRecord::Schema.define(:version => 43) do
     t.column "escolaridad_id",  :integer
     t.column "vivienda_id",     :integer
     t.column "colonia_id",      :integer
+<<<<<<< HEAD
+    t.column "nacionalidad_id", :integer
+    t.column "st",              :integer
+=======
     t.column "st",              :integer
     t.column "identificador",   :string,  :limit => 18
+>>>>>>> f3188dd9250abf03c1cd812dc8564d044ec941f2
   end
 
   create_table "clientes_grupos", :force => true do |t|
@@ -98,7 +103,6 @@ ActiveRecord::Schema.define(:version => 43) do
     t.column "grupo_id",          :integer
     t.column "producto_id",       :integer
     t.column "status",            :integer
-    t.column "st",                :integer
   end
 
   create_table "destinos", :force => true do |t|
@@ -116,6 +120,7 @@ ActiveRecord::Schema.define(:version => 43) do
 
   create_table "escolaridads", :force => true do |t|
     t.column "escolaridad", :string
+    t.column "estudios_id", :integer
   end
 
   create_table "estados", :force => true do |t|
@@ -146,12 +151,10 @@ ActiveRecord::Schema.define(:version => 43) do
     t.column "giro",      :string
     t.column "codigo",    :string
     t.column "subsector", :string
-    t.column "st",        :integer
   end
 
   create_table "grupos", :force => true do |t|
     t.column "nombre", :string
-    t.column "st",     :integer
   end
 
   create_table "jerarquias", :force => true do |t|
@@ -177,7 +180,6 @@ ActiveRecord::Schema.define(:version => 43) do
     t.column "operacion",  :string
     t.column "fecha_hora", :datetime
     t.column "clase",      :string
-    t.column "st",         :integer
     t.column "user_id",    :integer
     t.column "objeto_id",  :integer
   end
@@ -244,8 +246,9 @@ ActiveRecord::Schema.define(:version => 43) do
   end
 
   create_table "periodos", :force => true do |t|
-    t.column "nombre", :string
-    t.column "dias",   :integer
+    t.column "nombre",    :string
+    t.column "dias",      :integer
+    t.column "pagos_mes", :integer
   end
 
   create_table "productos", :force => true do |t|
@@ -253,9 +256,13 @@ ActiveRecord::Schema.define(:version => 43) do
     t.column "intereses",  :float
     t.column "moratorio",  :float
     t.column "ahorro",     :float
+    t.column "num_pagos",  :integer
     t.column "periodo_id", :integer
+<<<<<<< HEAD
+=======
     t.column "st",         :integer
     t.column "num_pagos",  :integer
+>>>>>>> f3188dd9250abf03c1cd812dc8564d044ec941f2
   end
 
   create_table "promotors", :force => true do |t|
@@ -300,7 +307,6 @@ ActiveRecord::Schema.define(:version => 43) do
 
   create_table "sectors", :force => true do |t|
     t.column "sector", :string
-    t.column "st",     :integer
   end
 
   create_table "status", :force => true do |t|
@@ -310,7 +316,6 @@ ActiveRecord::Schema.define(:version => 43) do
   create_table "subsectors", :force => true do |t|
     t.column "subsector", :string
     t.column "sector_id", :integer
-    t.column "st",        :integer
   end
 
   create_table "sucursals", :force => true do |t|

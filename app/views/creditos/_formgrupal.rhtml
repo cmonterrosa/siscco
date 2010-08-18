@@ -33,12 +33,12 @@
   <tr>
     <th>Destino:</th>
     <th colspan="2">Promotor:</th>
-    <th>Status:</th>
+    <%#*<th>Status:</th>%>
   </tr>
   <tr>
     <td><%=collection_select("credito", "destino_id", $destinos, :id, :destino, :prompt => '>>Destino')%></td>
     <td colspan="2"><%=collection_select("credito", "promotor_id", $promotores, :id, :nombre_completo)%></td>
-    <td><%=check_box('credito', 'status', :onclick => 'confirma();') %></td>
+    <%#*<td><%=check_box('credito', 'status', :onclick => 'confirma();') %></td>%>
   </tr>
 </table>
 <%=%>

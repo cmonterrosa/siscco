@@ -33,12 +33,12 @@
     <td><%=collection_select("credito", "destino_id", $destinos, :id, :destino, :prompt => '>>Destino')%></td>
     <td colspan="2"><%=collection_select("credito", "promotor_id", $promotores, :id, :nombre_completo)%></td>
   </tr>
-  <tr>
-    <th>Status:</th>
-  </tr>
-  <tr>
-    <td><%=check_box('credito', 'status') %></td>
-  </tr>
+  <%#*<tr>%>
+    <%#*<th>Status:</th>%>
+  <%#*</tr>%>
+  <%#*<tr>%>
+    <%#*<td><%check_box('credito', 'status') ></td>%>
+  <%#*</tr>%>
 </table>
 <!--[eoform:credito]-->
 <%= observe_field '_fondeo_id',
