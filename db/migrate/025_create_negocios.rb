@@ -4,8 +4,10 @@ class CreateNegocios < ActiveRecord::Migration
       t.column :nombre, :string
       t.column :puesto, :string
       t.column :direccion, :string
+      t.column :descripcion, :string
       t.column :telefono, :string, :limit => 10
       t.column :num_empleados, :integer
+      #---- Relaciones con otras tablas ---
       t.column :cliente_id, :integer
       t.column :actividad_id, :integer
     end

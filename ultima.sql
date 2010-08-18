@@ -790,6 +790,7 @@ CREATE TABLE `negocios` (
   `num_empleados` int(11) DEFAULT NULL,
   `cliente_id` int(11) DEFAULT NULL,
   `actividad_id` int(11) DEFAULT NULL,
+  `descripcion` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -800,7 +801,7 @@ CREATE TABLE `negocios` (
 
 LOCK TABLES `negocios` WRITE;
 /*!40000 ALTER TABLE `negocios` DISABLE KEYS */;
-INSERT INTO `negocios` VALUES (2,'OO','O','O','99',999,6,1),(5,'oo','o','o','0',9,7,1),(6,'OOO','OO','OO','999',999,8,1),(7,'DDDD','DDD','DDDD','34444',444,9,1),(8,'REDDDD','DDD','DDDD','33333',33333,10,2),(9,'DDDD','DDDD','DDDDD','4444',2,11,1);
+INSERT INTO `negocios` VALUES (2,'OO','O','O','99',999,6,1,NULL),(5,'oo','o','o','0',9,7,1,NULL),(6,'OOO','OO','OO','999',999,8,1,NULL),(7,'DDDD','DDD','DDDD','34444',444,9,1,NULL),(8,'REDDDD','DDD','DDDD','33333',33333,10,2,NULL),(9,'DDDD','DDDD','DDDDD','4444',2,11,1,NULL);
 /*!40000 ALTER TABLE `negocios` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1303,4 +1304,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2010-08-17 20:26:33
+-- Dump completed on 2010-08-17 20:43:05

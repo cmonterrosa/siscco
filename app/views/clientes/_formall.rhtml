@@ -105,11 +105,13 @@
    </tr>
    <tr>
      <th>Num Empleados:</th>
-     <th colspan="3">Giro:</th>
+     <th colspan="2">Actividad:</th>
+     <th>Descripcion</th>
    </tr>
    <tr>
      <td><%= text_field 'negocio', 'num_empleados', :onkeypress => "return CharNum(event, 'numero');", :class => "text"  %></td>
-     <td colspan="3"><%= collection_select('negocio', 'actividad_id', Actividad.find(:all,:order => 'actividad'), :id, :actividad, {:prompt => '>>Actividad'}, :class => 'text')  %></td>
+     <td colspan="2"><%= collection_select('negocio', 'actividad_id', Actividad.find(:all,:order => 'actividad'), :id, :actividad, {:prompt => '>>Actividad'}, :class => 'text')  %></td>
+     <td><%= text_field 'negocio', 'descripcion', :onkeypress => "return CharNum(event, 'letra');", :class => "text"  %></td>
    </tr>
 </table>
 </div>
