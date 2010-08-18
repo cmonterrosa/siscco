@@ -8,9 +8,9 @@ class CombosController < ApplicationController
   end
 
 
-   def get_ejidos
-      @ejidos= Ejido.find(:all, :conditions => ["municipio_id = ?",params[:_municipio_id] ])
-      return render(:partial => 'ejidos', :layout => false) if request.xhr?
+   def get_localidades
+      @localidades= Localidad.find(:all, :conditions => ["municipio_id = ?",params[:_municipio_id] ])
+      return render(:partial => 'localidades', :layout => false) if request.xhr?
   end
 
   def get_grupos

@@ -1,6 +1,8 @@
 class CreateClientes < ActiveRecord::Migration
   def self.up
     create_table :clientes do |t|
+      #--- Identificador unico no secuencial de fommur
+      t.column :identificador, :string, :limit => 18
       t.column :paterno, :string
       t.column :materno, :string
       t.column :nombre , :string
@@ -12,6 +14,7 @@ class CreateClientes < ActiveRecord::Migration
       t.column :tipo_propiedad, :string
       t.column :tipo_persona, :string
       t.column :direccion, :string
+      t.column :colonia, :string
       t.column :codigo_postal , :string
       t.column :telefono, :string, :limit => 10
       t.column :email, :string
@@ -19,7 +22,7 @@ class CreateClientes < ActiveRecord::Migration
       t.column :civil_id, :integer
       t.column :escolaridad_id, :integer
       t.column :vivienda_id, :integer
-      t.column :colonia_id, :integer
+      t.column :localidad_id, :integer
       t.column :nacionalidad_id, :integer
       
       #---- campo para historial -----

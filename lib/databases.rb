@@ -68,16 +68,17 @@ module Databases
 
 
 
-  def inserta_cliente(cliente, negocio, grupo, mensaje)
+  def inserta_cliente(cliente, negocio, mensaje)
     begin
       negocio.cliente = cliente
       #cliente.grupos << grupo
-      @log = Clientegrupo.new
-      @log.cliente= cliente
-      @log.grupo = grupo
-      @log.save!
+      # @log = Clientegrupo.new
+#      @log.cliente= cliente
+#      @log.grupo = grupo
+#      @log.save!
 
         if cliente.save && negocio.save
+          cliente.generar_id!
           flash[:notice]=mensaje
           redirect_to :action => 'list', :controller => "#{params[:controller]}"
         else

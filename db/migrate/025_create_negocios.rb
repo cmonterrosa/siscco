@@ -7,7 +7,7 @@ class CreateNegocios < ActiveRecord::Migration
       t.column :telefono, :string, :limit => 10
       t.column :num_empleados, :integer
       t.column :cliente_id, :integer
-      t.column :giro_id, :integer
+      t.column :actividad_id, :integer
     end
   end
 

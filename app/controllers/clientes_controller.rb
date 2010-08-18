@@ -28,7 +28,7 @@ class ClientesController < ApplicationController
   end
 
   def create
-    inserta_cliente(Cliente.new(params[:cliente]), Negocio.new(params[:negocio]), Grupo.find(params[:grupo][:id]), 'Registro creado satisfactoriamente.')
+    inserta_cliente(Cliente.new(params[:cliente]), Negocio.new(params[:negocio]),  'Registro creado satisfactoriamente.')
   end
 
   def edit
