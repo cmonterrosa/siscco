@@ -6,7 +6,7 @@ class CreateLocalidads < ActiveRecord::Migration
       t.column :localidad, :string
     end
 
-      #---- Cargamos el catalogo de municipios de chiapas------
+      #---- Cargamos el catalogo de localidades de chiapas------
     File.open("#{RAILS_ROOT}/db/migrate/catalogos/localidades.csv").each { |line|
       loc_id, municipio_id, localidad = line.split("|")
       @municipio= Municipio.find(:first, :conditions => ["clave_inegi = ?", municipio_id])

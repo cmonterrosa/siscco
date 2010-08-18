@@ -1,4 +1,4 @@
 class Negocio < ActiveRecord::Base
   belongs_to :cliente
-  belongs_to :giro
+  belongs_to :actividad
 end

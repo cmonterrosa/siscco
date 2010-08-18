@@ -69,18 +69,21 @@
    <tr>
      <td><%= collection_select("cliente", "escolaridad_id", $escolaridades, :id, :escolaridad, {:prompt => '>>Escolaridad'}, :class => 'text') %></td>
      <td> <%= collection_select("cliente", "vivienda_id", $viviendas, :id, :tipo_vivienda, {:prompt => '>>Vivienda'}, :class => 'text') %></td>
-     <td><%= collection_select("grupo", "id", $grupos, :id, :nombre, {:prompt => '>>Grupo'}, :class => 'text')%>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<%= link_to '+', {:controller => 'grupos', :action => 'newgrupo'}, :style => 'font-size:14px;font-weight:bold;', :popup => ['height=300,width=600,left=300,top=300,scrollbars=no'] %>&nbsp;&nbsp;&nbsp;</td>
+
+     <!--
+     <td><= collection_select("grupo", "id", $grupos, :id, :nombre, {:prompt => '>>Grupo'}, :class => 'text')%>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<= link_to '+', {:controller => 'grupos', :action => 'newgrupo'}, :style => 'font-size:14px;font-weight:bold;', :popup => ['height=300,width=600,left=300,top=300,scrollbars=no'] %>&nbsp;&nbsp;&nbsp;</td>
+     -->
      <td><%= collection_select("", "estado_id", $estados, :id, :estado, {:prompt => '>>Estado'}, :class => 'text')  %></td>
    </tr>
    <tr>
      <th>Municipio:</th>
-     <th>Ejido:</th>
+     <th colspan="2">Localidad:</th>
      <th>Colonia:</th>
    </tr>
    <tr>
      <td><%=  select("", "municipio_id", ['>>Municipio'], {:prompt => '>>Municipio'}, :class => 'text')    %></td>
-     <td><%=  select("", "ejido_id", ['>>Ejido'], {:prompt => '>>Ejido'}, :class => 'text')    %></td>
-     <td><%=  collection_select("cliente", "colonia_id", $colonias, :id, :colonia, {:prompt => '>>Colonia'}, :class => 'text')    %></td>
+     <td colspan="2"><%=  select("cliente", "localidad_id", ['>>Localidad'], {:prompt => '>>Localidad'}, :class => 'text')    %></td>
+     <td><%= text_field 'cliente', 'colonia', :onkeypress => "return CharNum(event, 'letra');", :class => "text"  %></td>
    </tr>
    <tr>
      <th colspan="4"></th>
@@ -102,11 +105,11 @@
    </tr>
    <tr>
      <th>Num Empleados:</th>
-     <th>Giro:</th>
+     <th colspan="3">Giro:</th>
    </tr>
    <tr>
      <td><%= text_field 'negocio', 'num_empleados', :onkeypress => "return CharNum(event, 'numero');", :class => "text"  %></td>
-     <td><%= collection_select('negocio', 'giro_id', Giro.find(:all,:order => 'giro'), :id, :giro, {:prompt => '>>Giro'}, :class => 'text')  %></td>
+     <td colspan="3"><%= collection_select('negocio', 'actividad_id', Actividad.find(:all,:order => 'actividad'), :id, :actividad, {:prompt => '>>Actividad'}, :class => 'text')  %></td>
    </tr>
 </table>
 </div>
@@ -120,24 +123,18 @@
 
       <%= observe_field '_municipio_id',
         :url => {:controller => 'combos',
-        :action => 'get_ejidos'},
-        :update => '_ejido_id',
+        :action => 'get_localidades'},
+        :update => 'cliente_localidad_id',
         :with => '_municipio_id' %>
 
 
-      <%= observe_field '_ejido_id',
-        :url => {:controller => 'combos',
-        :action => 'get_colonias'},
-        :update => 'cliente_colonia_id',
-        :with => '_ejido_id' %>
-
-
-      <%= observe_field 'grupo_id',
+ <!--
+      <= observe_field 'grupo_id',
         :url => {:controller => 'combos',
         :action => 'get_grupos'},
         :frecuency => 0.2,
         :update => 'grupo_id',
         :with => 'grupo_id' %>
-
+-->
 
 <!--[eoform:cliente]-->

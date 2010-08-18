@@ -2,7 +2,7 @@ class Cliente < ActiveRecord::Base
   belongs_to :civil
   belongs_to :escolaridad
   belongs_to :vivienda
-  belongs_to :colonia
+  belongs_to :localidad
   belongs_to :nacionalidad
   has_and_belongs_to_many :grupos
   has_many :negocios

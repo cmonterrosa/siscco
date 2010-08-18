@@ -8,6 +8,7 @@ Clientes => Los id no deben de ser consecutivos y deben de ser unicos, por ejemp
             Al momento de agregar los clientes quitar la opcion de agregar grupos, agregar el combo para las actividades de acuerdo al catalogo fommur y agregar el campo
             descripcion para que teclean la actividad especifica
 
+---Realizado por Rafael Hernandez ----
 Bancos => Agregar los campos Sucursal y Cuenta_contable con longitud de 12 y quitar el campo titular
 
 
