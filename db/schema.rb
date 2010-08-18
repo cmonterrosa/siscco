@@ -12,13 +12,12 @@ ActiveRecord::Schema.define(:version => 41) do
   end
 
   create_table "bancos", :force => true do |t|
-    t.column "nombre",     :string
-    t.column "num_cuenta", :string
-    t.column "titular",    :string
-    t.column "direccion",  :string
-    t.column "telefono",   :string
-    t.column "colonia_id", :integer
-    t.column "st",         :integer
+    t.column "nombre",       :string
+    t.column "num_cuenta",   :string
+    t.column "titular",      :string
+    t.column "direccion",    :string
+    t.column "telefono",     :string
+    t.column "municipio_id", :integer
   end
 
   create_table "civils", :force => true do |t|
@@ -26,26 +25,26 @@ ActiveRecord::Schema.define(:version => 41) do
   end
 
   create_table "clientes", :force => true do |t|
-    t.column "paterno",        :string
-    t.column "materno",        :string
-    t.column "nombre",         :string
-    t.column "fecha_nac",      :date
-    t.column "rfc",            :string,  :limit => 13
-    t.column "curp",           :string,  :limit => 18
-    t.column "clave_ife",      :string
-    t.column "sexo",           :string,  :limit => 1
-    t.column "nacionalidad",   :string
-    t.column "tipo_propiedad", :string
-    t.column "tipo_persona",   :string
-    t.column "direccion",      :string
-    t.column "codigo_postal",  :string
-    t.column "telefono",       :string,  :limit => 10
-    t.column "email",          :string
-    t.column "civil_id",       :integer
-    t.column "escolaridad_id", :integer
-    t.column "vivienda_id",    :integer
-    t.column "colonia_id",     :integer
-    t.column "st",             :integer
+    t.column "paterno",         :string
+    t.column "materno",         :string
+    t.column "nombre",          :string
+    t.column "fecha_nac",       :date
+    t.column "rfc",             :string,  :limit => 13
+    t.column "curp",            :string,  :limit => 18
+    t.column "clave_ife",       :string
+    t.column "sexo",            :string,  :limit => 1
+    t.column "tipo_propiedad",  :string
+    t.column "tipo_persona",    :string
+    t.column "direccion",       :string
+    t.column "codigo_postal",   :string
+    t.column "telefono",        :string,  :limit => 10
+    t.column "email",           :string
+    t.column "civil_id",        :integer
+    t.column "escolaridad_id",  :integer
+    t.column "vivienda_id",     :integer
+    t.column "colonia_id",      :integer
+    t.column "nacionalidad_id", :integer
+    t.column "st",              :integer
   end
 
   create_table "clientes_grupos", :force => true do |t|
@@ -94,7 +93,6 @@ ActiveRecord::Schema.define(:version => 41) do
     t.column "grupo_id",          :integer
     t.column "producto_id",       :integer
     t.column "status",            :integer
-    t.column "st",                :integer
   end
 
   create_table "destinos", :force => true do |t|
@@ -112,6 +110,7 @@ ActiveRecord::Schema.define(:version => 41) do
 
   create_table "escolaridads", :force => true do |t|
     t.column "escolaridad", :string
+    t.column "estudios_id", :integer
   end
 
   create_table "estados", :force => true do |t|
@@ -123,13 +122,10 @@ ActiveRecord::Schema.define(:version => 41) do
   create_table "festivos", :force => true do |t|
     t.column "fecha",       :date
     t.column "descripcion", :string
-    t.column "st",          :integer
   end
 
   create_table "fondeos", :force => true do |t|
-    t.column "fuente",     :string
-    t.column "user_id",    :integer
-    t.column "fecha_hora", :datetime
+    t.column "fuente", :string
   end
 
   create_table "garantias", :force => true do |t|
@@ -145,12 +141,10 @@ ActiveRecord::Schema.define(:version => 41) do
     t.column "giro",      :string
     t.column "codigo",    :string
     t.column "subsector", :string
-    t.column "st",        :integer
   end
 
   create_table "grupos", :force => true do |t|
     t.column "nombre", :string
-    t.column "st",     :integer
   end
 
   create_table "jerarquias", :force => true do |t|
@@ -171,7 +165,6 @@ ActiveRecord::Schema.define(:version => 41) do
     t.column "operacion",  :string
     t.column "fecha_hora", :datetime
     t.column "clase",      :string
-    t.column "st",         :integer
     t.column "user_id",    :integer
     t.column "objeto_id",  :integer
   end
@@ -238,8 +231,9 @@ ActiveRecord::Schema.define(:version => 41) do
   end
 
   create_table "periodos", :force => true do |t|
-    t.column "nombre", :string
-    t.column "dias",   :integer
+    t.column "nombre",    :string
+    t.column "dias",      :integer
+    t.column "pagos_mes", :integer
   end
 
   create_table "productos", :force => true do |t|
@@ -247,8 +241,8 @@ ActiveRecord::Schema.define(:version => 41) do
     t.column "intereses",  :float
     t.column "moratorio",  :float
     t.column "ahorro",     :float
+    t.column "num_pagos",  :integer
     t.column "periodo_id", :integer
-    t.column "st",         :integer
   end
 
   create_table "promotors", :force => true do |t|
@@ -293,7 +287,6 @@ ActiveRecord::Schema.define(:version => 41) do
 
   create_table "sectors", :force => true do |t|
     t.column "sector", :string
-    t.column "st",     :integer
   end
 
   create_table "status", :force => true do |t|
@@ -303,7 +296,6 @@ ActiveRecord::Schema.define(:version => 41) do
   create_table "subsectors", :force => true do |t|
     t.column "subsector", :string
     t.column "sector_id", :integer
-    t.column "st",        :integer
   end
 
   create_table "sucursals", :force => true do |t|
