@@ -1,8 +1,8 @@
--- MySQL dump 10.13  Distrib 5.1.42, for apple-darwin10.2.0 (i386)
+-- MySQL dump 10.13  Distrib 5.1.35, for apple-darwin9.5.0 (i386)
 --
 -- Host: localhost    Database: ultima
 -- ------------------------------------------------------
--- Server version	5.1.42
+-- Server version	5.1.35
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -76,13 +76,14 @@ DROP TABLE IF EXISTS `bancos`;
 CREATE TABLE `bancos` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `nombre` varchar(255) DEFAULT NULL,
-  `num_cuenta` varchar(255) DEFAULT NULL,
-  `titular` varchar(255) DEFAULT NULL,
+  `cta_contable` varchar(255) DEFAULT NULL,
   `direccion` varchar(255) DEFAULT NULL,
   `telefono` varchar(255) DEFAULT NULL,
   `municipio_id` int(11) DEFAULT NULL,
+  `num_sucursal` varchar(4) DEFAULT NULL,
+  `num_cuenta` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -91,7 +92,7 @@ CREATE TABLE `bancos` (
 
 LOCK TABLES `bancos` WRITE;
 /*!40000 ALTER TABLE `bancos` DISABLE KEYS */;
-INSERT INTO `bancos` VALUES (4,'BANORTE','9999','LIC. MENDEZ','9999999','999999',6),(5,'BANAMEX','7878','LIC. DOMINGUEZ PARRA','7373737','87373',13);
+INSERT INTO `bancos` VALUES (4,'BANORTE','9999','9999999','999999',10,'1234',993939393),(5,'BANAMEX','7878','7373737','87373',13,NULL,NULL),(6,'BANCOMER','888838383','883838383','8888',79,'8888',988888888);
 /*!40000 ALTER TABLE `bancos` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -233,7 +234,9 @@ CREATE TABLE `configuracion` (
   `direccion` varchar(255) DEFAULT NULL,
   `telefono` varchar(255) DEFAULT NULL,
   `activo` varchar(255) DEFAULT '1',
-  `st` int(11) DEFAULT NULL,
+  `prefijo` varchar(255) DEFAULT NULL,
+  `ciudad` varchar(255) DEFAULT NULL,
+  `ultima_referencia` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -244,7 +247,7 @@ CREATE TABLE `configuracion` (
 
 LOCK TABLES `configuracion` WRITE;
 /*!40000 ALTER TABLE `configuracion` DISABLE KEYS */;
-INSERT INTO `configuracion` VALUES (1,'SOCAMA FRAYLESCA S.A DE C.V',NULL,NULL,'1',NULL);
+INSERT INTO `configuracion` VALUES (1,'SOCAMA FRAYLESCA S.A DE C.V','13a Avenida Sur Poniente Nœmero 640, Barrio San Francisco','9616112840','1','TGZ','Tuxtla GutiŽrrez, Chiapas',1);
 /*!40000 ALTER TABLE `configuracion` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -655,7 +658,7 @@ CREATE TABLE `logs` (
   `user_id` int(11) DEFAULT NULL,
   `objeto_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -664,7 +667,7 @@ CREATE TABLE `logs` (
 
 LOCK TABLES `logs` WRITE;
 /*!40000 ALTER TABLE `logs` DISABLE KEYS */;
-INSERT INTO `logs` VALUES (1,'INSERTAR','2010-07-26 22:15:03','Banco',NULL,1,3),(2,'INSERTAR','2010-07-26 22:16:35','Banco',NULL,1,4),(3,'ACTUALIZAR','2010-08-11 12:27:29','Banco',NULL,1,4),(4,'INSERTAR','2010-08-11 14:42:34','Credito',NULL,1,1),(5,'INSERTAR','2010-08-11 14:43:44','Credito',NULL,1,2);
+INSERT INTO `logs` VALUES (1,'INSERTAR','2010-07-26 22:15:03','Banco',NULL,1,3),(2,'INSERTAR','2010-07-26 22:16:35','Banco',NULL,1,4),(3,'ACTUALIZAR','2010-08-11 12:27:29','Banco',NULL,1,4),(4,'INSERTAR','2010-08-11 14:42:34','Credito',NULL,1,1),(5,'INSERTAR','2010-08-11 14:43:44','Credito',NULL,1,2),(6,'ACTUALIZAR','2010-08-18 21:18:39','Banco',NULL,1,4);
 /*!40000 ALTER TABLE `logs` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1304,4 +1307,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2010-08-17 20:43:05
+-- Dump completed on 2010-08-19  3:13:41

@@ -15,12 +15,13 @@ Bancos => Agregar los campos Sucursal y Cuenta_contable con longitud de 12 y qui
 Creditos => Si el cliente esta en un grupo y quiere un nuevo credito con otro grupo,
                 no debe de permitirse, solo se podrá un crédito individual.
 
+#------- Realizado por Rafael Hernandez -----
 Lineas => Agregar el campo "cuenta concentradora" para efectos contables
 
 
 Subsectores, Sectores => Quitar los catalogos y cargar unicamente las actividades del catalogo de fommur
 
-
+#-------- Realizado por Carlos Monterrosa ------
 Generación Automatica de Numero de Referencia Númerica y Alfanumérica => Implementar funcion que reciba num_sucursal, banco y genere los digitos verificados de acuerdo al algoritmo de Banamex
 
 

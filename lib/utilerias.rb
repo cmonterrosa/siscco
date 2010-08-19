@@ -112,6 +112,85 @@ module Utilerias
   return num + dd.to_s
 end
 
+
+    def valida_referencia_alfa(num)
+    if num.size < 29
+      return false
+    end
+    sucursal = num[0..3]
+    cuenta = num[4..10]
+    ref_numerica = num[11..28]
+    digito = num[29..30]
+    #--- conversion de letras a numeros ----
+    num.gsub!(/A|B|C/, '2')
+    num.gsub!(/D|E|F/, '3')
+    num.gsub!(/G|H|I/, '4')
+    num.gsub!(/J|K|L/, '5')
+    num.gsub!(/M|N|O/, '6')
+    num.gsub!(/P|Q|R/, '7')
+    num.gsub!(/S|T|U/, '8')
+    num.gsub!(/V|W|X/, '9')
+    num.gsub!(/Y|Z/, '0')
+    #----- multiplicadores -----
+    sumatoria = 0
+    m = %w{23 29 31 37 13 17 19 23 29 31 37 19 23 29 31 37 1 2 3 5 7 11 13 17 19 23 29 31 37}
+    contador = 0
+    num.each_char do |char|
+      sumatoria += char.to_i * m[contador].to_i
+      contador+=1
+    end
+
+    ponderador = sumatoria%97
+    dd = 99 - ponderador
+  return num + dd.to_s
+end
+
+
+    def genera_referencia_alfa(sucursal, cuenta)
+    if sucursal.to_s.size == 4 && cuenta.to_s.size == 7
+      @configuracion = Configuracion.find(:first, :conditions => "activo = 1")
+      prefijo = @configuracion.prefijo
+      @configuracion.ultima_referencia += 1
+      @configuracion.save!
+      ultima_referencia = @configuracion.ultima_referencia.to_s.rjust(15, "0")
+      ref_numerica = prefijo + ultima_referencia
+      num = sucursal.to_s + cuenta.to_s + ref_numerica
+      #---- Posiciones ------
+      #sucursal = num[0..3]
+      #cuenta = num[4..10]
+      #ref_numerica = num[11..28]
+      #digito = num[29..30]
+
+      #--- conversion de letras a numeros ----
+      num.gsub!(/A|B|C/, '2')
+      num.gsub!(/D|E|F/, '3')
+      num.gsub!(/G|H|I/, '4')
+      num.gsub!(/J|K|L/, '5')
+      num.gsub!(/M|N|O/, '6')
+      num.gsub!(/P|Q|R/, '7')
+      num.gsub!(/S|T|U/, '8')
+      num.gsub!(/V|W|X/, '9')
+      num.gsub!(/Y|Z/, '0')
+      #----- multiplicadores -----
+      sumatoria = 0
+      m = %w{23 29 31 37 13 17 19 23 29 31 37 19 23 29 31 37 1 2 3 5 7 11 13 17 19 23 29 31 37}
+      contador = 0
+      num.each_char do |char|
+        sumatoria += char.to_i * m[contador].to_i
+        contador+=1
+      end
+
+      ponderador = sumatoria%97
+      dd = 99 - ponderador
+      return num + dd.to_s
+    else
+      return nil
+    end
+      
+end
+
+
+
  
 
    #--- combo de semanas, maximo 52 ----

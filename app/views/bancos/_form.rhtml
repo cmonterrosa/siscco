@@ -11,17 +11,15 @@
   <tr>
     <td><%= text_field 'banco', 'nombre', :onkeypress => "return CharNum(event, 'letra');", :class => "text"  %></td>
     <td><%= text_field 'banco', 'num_cuenta', :class => "text"  %></td>
-    <td><%= text_field 'banco', 'sucursal', :class => "text"  %></td>
+    <td><%= text_field 'banco', 'num_sucursal', :class => "text"  %></td>
     <td><%= text_field 'banco', 'cta_contable', :class => "text"  %></td>
   </tr>
   <tr>
-    <th>Titular:</th>
     <th>Dirección:</th>
     <th>Telefono:</th>
     <th>Estado:</th>
   </tr>
   <tr>
-    <td><%= text_field 'banco', 'titular', :onkeypress => "return CharNum(event, 'letra');", :class => "text"  %></td>
     <td><%= text_field 'banco', 'direccion', :class => "text"  %></td>
     <td><%=  text_field 'banco', 'telefono', :onkeypress => "return CharNum(event, 'numero');", :class => "text"   %></td>
     <td><%=  collection_select("", "estado_id", $estados, :id, :estado, {:prompt => '>>Estado'}, {:class => "text"} )    %></td>
