@@ -245,6 +245,10 @@ class CreditosController < ApplicationController
     @creditos = Credito.find(:all)
   end
 
+  def activar
+    @credito = Credito.find(:all)
+  end
+
 
   def show_pagos_cliente
     @pagos = Pago.find(:all, :conditions => ["cliente_id = ? and credito_id = ?",params[:id], params[:credito]])
