@@ -2,6 +2,7 @@ require "pdf/writer"
 require 'pdf/simpletable'
 require 'date'
 require 'iconv'
+require 'fastercsv'
 
 
 #---- Modificamos la clase PDF_Writer
@@ -379,6 +380,20 @@ class ReportesController < ApplicationController
                                render :xml => @promotors.to_xml
     end
 
+
+  
+   def plantilla_clientes
+      clientes = Cliente.find(:all)
+      csv_string = FasterCSV.generate do |csv|
+            csv << ["PRIM_AP","SEGUNDO_AP", "NOMBRE", "RFC"]
+            clientes.each do |c|
+              csv << [c.paterno,c.materno, c.nombre, c.rfc]
+            end
+          end
+          send_data csv_string, :type => "text/plain",
+           :filename=>"entries.csv",
+           :disposition => 'attachment'
+   end
 
 
 end
