@@ -19,7 +19,8 @@ ActiveRecord::Schema.define(:version => 43) do
   create_table "bancos", :force => true do |t|
     t.column "nombre",       :string
     t.column "num_cuenta",   :string
-    t.column "titular",      :string
+    t.column "num_sucursal", :string,  :limit => 4
+    t.column "cta_contable", :string,  :limit => 12
     t.column "direccion",    :string
     t.column "telefono",     :string
     t.column "municipio_id", :integer
@@ -30,6 +31,7 @@ ActiveRecord::Schema.define(:version => 43) do
   end
 
   create_table "clientes", :force => true do |t|
+    t.column "identificador",   :string,  :limit => 18
     t.column "paterno",         :string
     t.column "materno",         :string
     t.column "nombre",          :string
@@ -38,24 +40,19 @@ ActiveRecord::Schema.define(:version => 43) do
     t.column "curp",            :string,  :limit => 18
     t.column "clave_ife",       :string
     t.column "sexo",            :string,  :limit => 1
-    t.column "nacionalidad_id", :integer
     t.column "tipo_propiedad",  :string
     t.column "tipo_persona",    :string
     t.column "direccion",       :string
+    t.column "colonia",         :string
     t.column "codigo_postal",   :string
     t.column "telefono",        :string,  :limit => 10
     t.column "email",           :string
     t.column "civil_id",        :integer
     t.column "escolaridad_id",  :integer
     t.column "vivienda_id",     :integer
-    t.column "colonia_id",      :integer
-<<<<<<< HEAD
+    t.column "localidad_id",    :integer
     t.column "nacionalidad_id", :integer
     t.column "st",              :integer
-=======
-    t.column "st",              :integer
-    t.column "identificador",   :string,  :limit => 18
->>>>>>> f3188dd9250abf03c1cd812dc8564d044ec941f2
   end
 
   create_table "clientes_grupos", :force => true do |t|
@@ -73,14 +70,17 @@ ActiveRecord::Schema.define(:version => 43) do
     t.column "colonia",     :string
     t.column "clave_inegi", :string
     t.column "ejido_id",    :integer
+    t.column "st",          :integer
   end
 
   create_table "configuracion", :force => true do |t|
-    t.column "nombre_empresa", :string
-    t.column "direccion",      :string
-    t.column "telefono",       :string
-    t.column "activo",         :string,  :default => "1"
-    t.column "st",             :integer
+    t.column "nombre_empresa",    :string
+    t.column "direccion",         :string
+    t.column "ciudad",            :string
+    t.column "prefijo",           :string
+    t.column "telefono",          :string
+    t.column "activo",            :string,  :default => "1"
+    t.column "ultima_referencia", :integer
   end
 
   create_table "controllers", :force => true do |t|
@@ -162,12 +162,14 @@ ActiveRecord::Schema.define(:version => 43) do
   end
 
   create_table "lineas", :force => true do |t|
-    t.column "cuenta_cheques", :string
-    t.column "fecha_aut",      :date
-    t.column "autorizado",     :float
-    t.column "estatus",        :string
-    t.column "gcnf",           :string
-    t.column "fondeo_id",      :integer
+    t.column "cuenta_cheques",    :string
+    t.column "fecha_aut",         :date
+    t.column "autorizado",        :float
+    t.column "estatus",           :string
+    t.column "gcnf",              :string
+    t.column "fondeo_id",         :integer
+    t.column "cta_concentradora", :string
+    t.column "st",                :integer
   end
 
   create_table "localidads", :force => true do |t|
@@ -215,10 +217,11 @@ ActiveRecord::Schema.define(:version => 43) do
     t.column "nombre",        :string
     t.column "puesto",        :string
     t.column "direccion",     :string
+    t.column "descripcion",   :string
     t.column "telefono",      :string,  :limit => 10
     t.column "num_empleados", :integer
     t.column "cliente_id",    :integer
-    t.column "giro_id",       :integer
+    t.column "actividad_id",  :integer
   end
 
   create_table "pagos", :force => true do |t|
@@ -258,11 +261,6 @@ ActiveRecord::Schema.define(:version => 43) do
     t.column "ahorro",     :float
     t.column "num_pagos",  :integer
     t.column "periodo_id", :integer
-<<<<<<< HEAD
-=======
-    t.column "st",         :integer
-    t.column "num_pagos",  :integer
->>>>>>> f3188dd9250abf03c1cd812dc8564d044ec941f2
   end
 
   create_table "promotors", :force => true do |t|
