@@ -385,9 +385,13 @@ class ReportesController < ApplicationController
    def plantilla_clientes
       clientes = Cliente.find(:all)
       csv_string = FasterCSV.generate do |csv|
-            csv << ["PRIM_AP","SEGUNDO_AP", "NOMBRE", "RFC"]
+            csv << ["ORG_ID", "ACRED_ID", "CURP", "IFE", "PRIM_AP","SEGUNDO_AP", "NOMBRE", "FECHA_NAC", "EDO_NAC", "SEXO",
+                    "TEL", "FAX", "CORREO_ELEC", "NACIONALIDAD_ORIGEN", "CVE_EDO_CIVIL", "FECHA_NAC_TXT", "EDO_RES", "MUNICIPIO", "LOCALIDAD", "DIRECCION",
+                    "COLONIA", "CP", "METODOLOGIA", "NOM_GRUPO", "ESTUDIOS", "ACTIVIDAD", "INGRESO_SEMANAL", "SUCURSAL"]
             clientes.each do |c|
-              csv << [c.paterno,c.materno, c.nombre, c.rfc]
+              csv << [" ", " ", c.curp, c.clave_ife, c.paterno, c.materno, c.nombre, c.fecha_nac,  c.localidad.municipio.estado.edo_inegi, c.sexo,
+                      c.telefono, c.fax, c.email, c.nacionalidad.pais_agent, c.civil.civil, " ", c.edo_residencia, c.localidad.municipio.clave_inegi, c.localidad.loc_id, c.direccion,  
+                      c.colonia, c.codigo_postal, " ", " ", c.escolaridad, c.negocio.actividad.clave_inegi, c.negocio.ing_semanal, " "]
             end
           end
           send_data csv_string, :type => "text/plain",

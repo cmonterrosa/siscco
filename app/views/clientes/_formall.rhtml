@@ -62,28 +62,23 @@
      <th>Escolaridad:</th>
      <th>Tipo Vivienda:</th>
      <th>Estado:</th>
-     <th></th>
+     <th>Municipio:</th>
    </tr>
    <tr>
      <td><%= collection_select("cliente", "escolaridad_id", $escolaridades, :id, :escolaridad, {:prompt => '>>Escolaridad'}, :class => 'text') %></td>
      <td> <%= collection_select("cliente", "vivienda_id", $viviendas, :id, :tipo_vivienda, {:prompt => '>>Vivienda'}, :class => 'text') %></td>
      <td><%= collection_select("", "estado_id", $estados, :id, :estado, {:prompt => '>>Estado'}, :class => 'text')  %></td>
-     <td></td>
-   </tr>
-   <tr>
-     <th>Municipio:</th>
-     <th>Localidad:</th>
-     <th>Colonia:</th>
-     <th></th>
-   </tr>
-   <tr>
      <td><%=  select("", "municipio_id", ['>>Municipio'], {:prompt => '>>Municipio'}, :class => 'text')    %></td>
-     <td><%=  select("cliente", "localidad_id", ['>>Localidad'], {:prompt => '>>Localidad'}, :class => 'text')    %></td>
-     <td><%= text_field 'cliente', 'colonia', :onkeypress => "return CharNum(event, 'letra');", :class => "text"  %></td>
-     <td></td>
    </tr>
    <tr>
-     <th colspan="4"></th>
+     <th colspan="2">Localidad:</th>
+     <th>Colonia:</th>
+     <th>Edo Residencia:</th>
+   </tr>
+   <tr>
+     <td colspan="2"><%=  select("cliente", "localidad_id", ['>>Localidad'], {:prompt => '>>Localidad'}, :class => 'text')    %></td>
+     <td><%= text_field 'cliente', 'colonia', :onkeypress => "return CharNum(event, 'letra');", :class => "text"  %></td>
+     <td><%= collection_select("cliente", "edo_residencia", $estados, :id, :estado, {:prompt => '>>Estado'}, :class => 'text')  %></td>
    </tr>
    <tr>
      <th colspan="4" style=" text-align: left">>>Datos Negocio:</th>
@@ -103,18 +98,22 @@
    <tr>
      <th>Num Empleados:</th>
      <th colspan="3">Actividad:</th>
-     
    </tr>
    <tr>
      <td><%= text_field 'negocio', 'num_empleados', :onkeypress => "return CharNum(event, 'numero');", :class => "text"  %></td>
      <td colspan="3"><%= collection_select('negocio', 'actividad_id', Actividad.find(:all,:order => 'actividad'), :id, :actividad, {:prompt => '>>Actividad'}, :class => 'text')  %></td>
-     
    </tr>
    <tr>
-     <th>Descripcion</th>
+     <th>Descripcion:</th>
+     <th>Ing Semanal:</th>
+     <th></th>
+     <th></th>
    </tr>
    <tr>
    <td><%= text_field 'negocio', 'descripcion', :onkeypress => "return CharNum(event, 'letra');", :class => "text"  %></td>
+   <td><%= text_field 'negocio', 'ing_semanal', :onkeypress => "return CharNum(event, 'numero');", :class => "text"  %></td>
+   <td></td>
+   <td></td>
    </tr>
 </table>
 </div>

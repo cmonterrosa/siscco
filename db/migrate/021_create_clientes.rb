@@ -17,6 +17,7 @@ class CreateClientes < ActiveRecord::Migration
       t.column :colonia, :string
       t.column :codigo_postal , :string
       t.column :telefono, :string, :limit => 10
+      t.column :fax, :string, :limit => 10
       t.column :email, :string
       #--- Relaciones con otras tablas ---
       t.column :civil_id, :integer
@@ -24,6 +25,7 @@ class CreateClientes < ActiveRecord::Migration
       t.column :vivienda_id, :integer
       t.column :localidad_id, :integer
       t.column :nacionalidad_id, :integer
+      t.column :edo_residencia, :string
       
       #---- campo para historial -----
       t.column :st, :integer
