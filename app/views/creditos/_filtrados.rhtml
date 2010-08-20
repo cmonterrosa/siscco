@@ -4,7 +4,7 @@
   <% for column in Credito.content_columns %>
     <th><%= column.human_name %></th>
   <% end %>
-    <th colspan="4">Acciones</th>
+    <th colspan="5">Acciones</th>
   </tr>
 <% if @creditos %>
 <% for credito in @creditos%>
@@ -18,10 +18,10 @@
       <td><%= button_to 'Aplicar movimiento', :action => 'transaccion_grupal', :id => credito %></td>
     <%end%>
 
-      <%if credito.st = 0%>
-      <td><%= button_to 'Activar', :action => 'activar', :id => credito %></td>
+      <%if credito.activado?%>
+        <td><%= button_to 'Desactivar',  { :action => 'desactivar', :id => credito }, :confirm => '¿Esta seguro?', :method => :post %></td>
       <%else%>
-      <td><%= button_to 'Desactivar', :action => 'desactivar', :id => credito %></td>
+        <td><%= button_to 'Activar',  { :action => 'activar', :id => credito }, :confirm => '¿Esta seguro?', :method => :post  %></td>
       <%end%>
 
     <td><%= button_to 'Detalles', :action => 'show', :id => credito %></td>

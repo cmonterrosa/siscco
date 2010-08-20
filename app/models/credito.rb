@@ -30,7 +30,7 @@ class Credito < ActiveRecord::Base
 
       if @grupo
          @grupo.creditos.each do |credito|
-          sum+=1 if credito.st == 1
+          sum+=1 if credito.status == 1
          end
          if sum > 0
           return false
@@ -38,5 +38,35 @@ class Credito < ActiveRecord::Base
           return true
          end
       end
+      return true
     end
+
+    def activar
+      self.status = 1
+      if self.save!
+        return true
+      else
+        return false
+      end
+    end
+
+     def desactivar
+      self.status = 1
+      if self.save!
+        return true
+      else
+        return false
+      end
+    end
+
+     def activado?
+       return true if self.status = 1
+       return false if self.status != 1
+     end
+
+      def desactivado?
+       return true if self.status = 1
+       return false if self.status != 1
+     end
+
    end
