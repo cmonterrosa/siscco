@@ -3,7 +3,7 @@
 ===== Modificaciones a Realizar dentro de la primera etapa ----
  #---- En proceso -----
 
-Normalización de Campos con el layout de fommur que es enviado en excel
+Normalización de Campos con el layout de fommur que es enviado en excel (plantilla de clientes y de creditos)
 
 #----- Realizado por Carlos Monterrosa -------
 Clientes => Los id no deben de ser consecutivos y deben de ser unicos, por ejemplo podemos asignarle un prefijo  id del registro + 2 digitos aleatorios

@@ -19,7 +19,7 @@ class Credito < ActiveRecord::Base
     end
 
     #--------- Validaciones ------
-    before_save :grupo_unico?
+    #before_save :grupo_unico?
     before_create :grupo_unico?
     #validates_numericality_of :num_referencia, :message => "Debe de ser numero"
     #validates_uniqueness_of :num_referencia,  :message => "Ya existe un credito con ese numero de referencia"
@@ -51,7 +51,7 @@ class Credito < ActiveRecord::Base
     end
 
      def desactivar
-      self.status = 1
+      self.status = 0
       if self.save!
         return true
       else
