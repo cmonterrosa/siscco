@@ -19,7 +19,7 @@ class Credito < ActiveRecord::Base
     end
 
     #--------- Validaciones ------
-    before_save :grupo_unico?
+    #before_save :grupo_unico?
     before_create :grupo_unico?
     #validates_numericality_of :num_referencia, :message => "Debe de ser numero"
     #validates_uniqueness_of :num_referencia,  :message => "Ya existe un credito con ese numero de referencia"
@@ -30,7 +30,7 @@ class Credito < ActiveRecord::Base
 
       if @grupo
          @grupo.creditos.each do |credito|
-          sum+=1 if credito.st == 1
+          sum+=1 if credito.status == 1
          end
          if sum > 0
           return false
@@ -38,5 +38,35 @@ class Credito < ActiveRecord::Base
           return true
          end
       end
+      return true
     end
+
+    def activar
+      self.status = 1
+      if self.save!
+        return true
+      else
+        return false
+      end
+    end
+
+     def desactivar
+      self.status = 0
+      if self.save!
+        return true
+      else
+        return false
+      end
+    end
+
+     def activado?
+       return true if self.status = 1
+       return false if self.status != 1
+     end
+
+      def desactivado?
+       return true if self.status = 1
+       return false if self.status != 1
+     end
+
    end

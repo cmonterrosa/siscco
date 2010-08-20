@@ -28,8 +28,10 @@
                 <li><a href="" class="but5"><img src="/images/mac/spacer.gif" alt="" name="administracion" width="154" height="42" id="administracion" onMouseOver="MM_showMenu(window.menu_administracion,0,42,null,'administracion')" onMouseOut="MM_startTimeout();" /></a></li>
                 <li><a href="/account/logout" class="but7"><img src="/images/mac/spacer.gif" alt="" width="129" height="42" /></a></li>
             </ul>
+            <%if session['user']%>
             <label>Conectado como: <%=session['user'].login%></label>
-          </div>
+            <%end%>
+            </div>
           <ul id="meta">
             <li><a href="#" class="meta1"><img src="/images/mac/spacer.gif" alt="" width="37" height="39" /></a></li>
             <li><a href="#" class="meta2"><img src="/images/mac/spacer.gif" alt="" width="37" height="39" /></a></li>

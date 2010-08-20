@@ -1,8 +1,9 @@
 12 de Agosto de 2010
 
 ===== Modificaciones a Realizar dentro de la primera etapa ----
+ #---- En proceso -----
 
-Normalización de Campos con el layout de fommur que es enviado en excel
+Normalización de Campos con el layout de fommur que es enviado en excel (plantilla de clientes y de creditos)
 
 #----- Realizado por Carlos Monterrosa -------
 Clientes => Los id no deben de ser consecutivos y deben de ser unicos, por ejemplo podemos asignarle un prefijo  id del registro + 2 digitos aleatorios
@@ -12,19 +13,21 @@ Clientes => Los id no deben de ser consecutivos y deben de ser unicos, por ejemp
 ---Realizado por Rafael Hernandez ----
 Bancos => Agregar los campos Sucursal y Cuenta_contable con longitud de 12 y quitar el campo titular
 
+
 Creditos => Si el cliente esta en un grupo y quiere un nuevo credito con otro grupo,
                 no debe de permitirse, solo se podrá un crédito individual.
 
 #------- Realizado por Rafael Hernandez -----
 Lineas => Agregar el campo "cuenta concentradora" para efectos contables
 
-
+#--- Realizado por Carlos Monterrosa -----
 Subsectores, Sectores => Quitar los catalogos y cargar unicamente las actividades del catalogo de fommur
 
 #-------- Realizado por Carlos Monterrosa ------
 Generación Automatica de Numero de Referencia Númerica y Alfanumérica => Implementar funcion que reciba num_sucursal, banco y genere los digitos verificados de acuerdo al algoritmo de Banamex
 
 
+#----- En proceso --------
 Complementar reportes que se generan cuando el crédito se va a iniciar
 
 
