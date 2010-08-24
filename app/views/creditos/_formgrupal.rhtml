@@ -21,15 +21,13 @@
     <th>Fondeo:</th>
     <th>Linea:</th>
     <th>Banco:</th>
-    <th>Referencia:</th>
   </tr>
   <tr>
     
     <td><%= collection_select("", "fondeo_id", $fondeos, :id, :fuente, :prompt => '>> Fondeo')%></td>
     <td><%= collection_select("credito", "linea_id", $lineas, :id, :cuenta_cheques, :prompt => '>> Linea')%></td>
     <td><%= collection_select("credito", "banco_id", $bancos, :id, :banco_cuenta,  :prompt => '>> Banco')%></td>
-    <td><%= text_field 'credito', 'num_referencia', :onkeypress => "return CharNum(event, 'numero');"  %></td>
- </tr>
+  </tr>
   <tr>
     <th>Destino:</th>
     <th colspan="2">Promotor:</th>

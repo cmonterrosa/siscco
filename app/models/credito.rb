@@ -15,12 +15,12 @@ class Credito < ActiveRecord::Base
 
     def initialize(params = nil)
     super
-      self.st = 0 unless self.st
+      self.status = 0 unless self.status
     end
 
     #--------- Validaciones ------
     #before_save :grupo_unico?
-    before_create :grupo_unico?
+    #before_create :grupo_unico?
     #validates_numericality_of :num_referencia, :message => "Debe de ser numero"
     #validates_uniqueness_of :num_referencia,  :message => "Ya existe un credito con ese numero de referencia"
 

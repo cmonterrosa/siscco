@@ -3,10 +3,13 @@ module Databases
    #--- Verificamos que el usuario tenga acceso a eliminar registro -----
       def inserta_credito(credito, tipo)
         begin
-          if tipo == "GRUPAL"
+          #----- Creamos el numero de referencia automaticamente --------
+          @banco = Banco.find(credito.banco)
+           credito.num_referencia = genera_referencia_alfa(@banco.num_sucursal, @banco.num_cuenta)
+           if tipo == "GRUPAL"
              if credito.grupo.clientes.size >= 1 #-- aqui deberiamos de validar que sean 3
                  if credito.save!
-                      #--- Guardamos el log ---
+                    #--- Guardamos el log ---
                     Log.create(:operacion => "INSERTAR",
                     :clase => credito.class.to_s,
                     :objeto_id => credito.id.to_i,
