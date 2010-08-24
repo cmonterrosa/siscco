@@ -402,9 +402,11 @@ class ReportesController < ApplicationController
    def plantilla_creditos
      creditos = Credito.find(:all)
      csv_string = FasterCSV.generate do |csv|
-       csv << []
+       csv << ["ORG_ID", "ACRED_ID", "CRÉDITO_ID", "DESCRIPCIÓN", "MONTO_CRÉDITO", "FECHA_ENTREGA", "FECHA_VENCIMIENTO", "TASA_MENSUAL", "TIPO_TASA", "FRECUENCIA_PAGOS",
+               "TIPO_CREDITO", "BLOQUE", "CICLO"]
        creditos.each do |c|
-         csv << []
+         csv << [" ", " ", c.id, c.destino.destino, c.monto, c.fecha_inicio, c.fecha_fin, "tasa_mensual", "tipo_tasa", c.producto.num_pagos,
+                 "Tipo_Crédito", "Bloque", "Ciclo"]
        end
      end
      sen_data csv_string, type => "text/plain",

@@ -192,8 +192,6 @@ class CreditosController < ApplicationController
           return render(:partial => 'filtrados', :layout => false) if request.xhr?
 
         when 'LINEA'
-         # @linea = Linea.find(:first, :conditions => ["cuenta_cheques = ?", params[:_opcionc]])
-          #@creditos = Credito.find_by_sql("select * from creditos inner join clientes on clientes.id = creditos.cliente_id and clientes.rfc like '%#{params[:_opcionc]}%'")
           @creditos = Credito.find(:all, :select => "c.*", :joins =>"c, lineas l", :conditions => ["l.cuenta_cheques = ? and c.linea_id = l.id", params[:_opcionc]])
           return render(:partial => 'filtrados', :layout => false) if request.xhr?
 
