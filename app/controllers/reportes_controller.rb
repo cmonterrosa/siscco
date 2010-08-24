@@ -399,5 +399,18 @@ class ReportesController < ApplicationController
            :disposition => 'attachment'
    end
 
+   def plantilla_creditos
+     creditos = Credito.find(:all)
+     csv_string = FasterCSV.generate do |csv|
+       csv << []
+       creditos.each do |c|
+         csv << []
+       end
+     end
+     sen_data csv_string, type => "text/plain",
+       :filename => "credits.csv",
+       :disposition => "attachment"
+   end
+
 
 end
