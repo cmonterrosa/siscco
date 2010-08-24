@@ -2,7 +2,7 @@ class CreatePeriodos < ActiveRecord::Migration
   def self.up
     create_table :periodos do |t|
       t.column :nombre, :string
-      t.column  :dias, :integer
+      t.column :dias, :integer
       t.column :pagos_mes, :integer
     end
 

@@ -24,12 +24,11 @@
     <td><%= collection_select("credito", "banco_id", $bancos, :id, :banco_cuenta,  :prompt => '>> Banco')%></td>
  </tr>
   <tr>
-    <th>Referencia:</th>
+ 
     <th>Destino:</th>
     <th colspan="2">Promotor:</th>
   </tr>
   <tr>
-    <td><%= text_field 'credito', 'num_referencia', :onkeypress => "return CharNum(event, 'numero');"  %></td>
     <td><%=collection_select("credito", "destino_id", $destinos, :id, :destino, :prompt => '>>Destino')%></td>
     <td colspan="2"><%=collection_select("credito", "promotor_id", $promotores, :id, :nombre_completo)%></td>
   </tr>
