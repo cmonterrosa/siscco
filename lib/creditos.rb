@@ -250,6 +250,10 @@ module Creditos
              return @clientes
          end
 
+         def grupo_activo_cliente(cliente)
+           return Clientegrupo.find(:first, :conditions => ["cliente_id = ? and activo = 1", cliente.id]).grupo
+         end
+
          def creditos_activos_grupo(grupo)
            Credito.find(:all, :conditions => ["grupo_id = ? and st = 1", grupo.id])
          end

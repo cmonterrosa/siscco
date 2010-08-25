@@ -60,12 +60,12 @@ class Credito < ActiveRecord::Base
     end
 
      def activado?
-       return true if self.status = 1
+       return true if self.status == 1
        return false if self.status != 1
      end
 
       def desactivado?
-       return true if self.status = 1
+       return true if self.status == 0
        return false if self.status != 1
      end
 

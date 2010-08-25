@@ -18,41 +18,11 @@
     <td><%=@cliente.nombre_completo%></td>
     <td><%=@cliente.curp%></td>
     <td><%=@cliente.telefono%></td>
-    <td><%=@cliente.grupo.nombre%></td>
+    <td><%=link_to grupo_activo_cliente(@cliente).nombre, :action => "show", :controller => "grupos", :id => grupo_activo_cliente(@cliente)%></td>
   </tr>
 </table>
 
-
-
-
-<h2>Pagos de los créditos Grupales para el cliente <%=@cliente.nombre_completo%></h2>
-
-<%@cliente.grupo.creditos.each  do |credito|%>
-  <h3>Credito num: <%=credito.id%></h3>
-  <h3>Monto: <%=credito.monto%></h3>
-  <h3>Fecha_inicio: <%=credito.fecha_inicio%></h3>
-  <h3>Fecha fin: <%=credito.fecha_fin%></h3>
- <br />
-  <%credito.pagos.each do |pago|%>
-    <%if pago.pagado == 1 && pago.cliente_id == @cliente.id%>
-   <h2>Detalle de los pagos</h2><br />
-        <table>
-          <tr>
-            <th>Num pago</th>
-            <th>Capital</th>
-            <th>Interes</th>
-            <th>Cliente</th>
-          </tr>
-          <tr>
-            <td><%=pago.num_pago%></td>
-            <td><%=pago.capital%></td>
-            <td><%=pago.interes%></td>
-            <td><%=pago.cliente.nombre_completo%></td>
-          </tr>
-        </table>
-    <%end%>
-  <%end%>
-<%end%>
+<%=link_to 'Atras', :action => "estado_cuenta", :controller => "clientes" %>
 
 
 
@@ -65,29 +35,3 @@
 
 
 
-
-<h2>Datos de los créditos</h2>
-
-<table>
-  <tr>
-    <th>Id</th>
-    <th>Monto</th>
-    <th>Abonos</th>
-    <th>Cargo</th>
-    <th>Total</th>
-    <th>Fecha Inicio</th>
-    <th>Fecha Fin</th>
-  </tr>
-
-  <%@cliente.grupo.creditos.each do |credito|%>
-   <tr>
-    <td><%=credito.id%></td>
-    <td><%=credito.monto%></td>
-    <td><%=abonos(credito)%></td>
-    <td><%=cargos(credito)%></td>
-    <td><%=total(credito)%></td>
-    <td><%=credito.fecha_inicio%></td>
-    <td><%=credito.fecha_fin%></td>
-  </tr>
- <%end%>
- </table>

@@ -138,16 +138,6 @@ module Databases
 #      @grupo_viejo = Clientegrupo.find(:first, :conditions => ["cliente_id = ? and activo = 1",cliente.id])
       cliente.update_attributes!(parametros_cliente)
       #---- Comparamos si el registro qie se quiere actualizar difiere en el grupo ------
-#      @clientegrupo = Clientegrupo.find(:first, :conditions => ["grupo_id = ? and activo = 1 and cliente_id = ?", grupo_nuevo.id, cliente.id])
-#
-#        @clientegrupo = Clientegrupo.find(:first, :conditions => ["grupo_id = ? and activo = 0 and cliente_id = ?", grupo_nuevo.id, cliente.id])
-#
-#        #--- cambio
-#      else
-
-#      if @clientegrupo.desactivar
-#        Clientegrupo.create(:grupo_id => grupo.id, :cliente_id => cliente.id)
-#      end
 
 
       negocio.update_attributes!(parametros_negocio)
@@ -173,17 +163,7 @@ module Databases
   end
 
 
-#  def eliminar_registro(registro)
-#    #------Verifica que se pueda eliminar el registro -----
-#   begin
-#    registro.destroy
-#      flash[:notice]="Registro eliminado"
-#      redirect_to :action => 'list', :controller => "#{params[:controller]}"
-#    rescue
-#      flash[:notice]="No se pudo eliminar, puede que el registro tenga tablas asociadas"
-#      redirect_to :action => 'list', :controller => "#{params[:controller]}"
-#    end
-#  end
+
 
 #---------- Funciones de eliminacion de registros------
 
