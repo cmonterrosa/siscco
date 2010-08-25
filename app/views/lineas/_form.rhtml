@@ -17,9 +17,9 @@
     <th>Cta Concentradora:</th>
   </tr>
   <tr>
-    <td><%= text_field 'linea', 'gcnf', :onkeypress => "return CharNum(event, 'letra');"    %></td>
+    <td><%= text_field 'linea', 'gcnf', :onkeypress => "return CharNum(event, 'letra');", :class => 'text'    %></td>
     <td><%= collection_select('linea', 'fondeo_id', $fondeos, :id, :fuente, :prompt => '>>Fondeo') %></td>
-    <td><%= text_field 'linea', 'cta_concentradora', :onkeypress => "return CharNum(event, 'letra');"    %></td>
+    <td><%= text_field 'linea', 'cta_concentradora', :onkeypress => "return CharNum(event, 'letra');", :class => 'text'    %></td>
   </tr>
 </table>
 <%= hidden_field 'linea', 'estatus', :value => "ACTIVA"  %>
