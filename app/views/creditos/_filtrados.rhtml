@@ -4,6 +4,7 @@
           <th>Fecha Inicio</th>
           <th>Fecha Fin</th>
           <th>Referencia</th>
+          <th>Id</th>
           <th>Grupo</th>
           <th colspan="5">Acciones</th>
         </tr>
@@ -13,6 +14,7 @@
                 <td><%=credito.fecha_inicio%></td>
                 <td><%=credito.fecha_fin%></td>
                 <td><%=credito.num_referencia%></td>
+                <td><%=credito.identificador%></td>
                 <%if credito.grupo%>
                   <td><%=credito.grupo.nombre%></td>
                 <%else%>
