@@ -16,6 +16,7 @@ class Credito < ActiveRecord::Base
     def initialize(params = nil)
     super
       self.status = 0 unless self.status
+      self.identificador = self.id.to_i + rand(100) unless self.identificador
     end
 
     #--------- Validaciones ------
@@ -68,5 +69,12 @@ class Credito < ActiveRecord::Base
        return true if self.status == 0
        return false if self.status != 1
      end
+
+    def generar_id!
+      id = self.id.to_i + rand(100)
+      self.identificador = id
+      self.save!
+    end
+
 
    end
