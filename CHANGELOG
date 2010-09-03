@@ -1,32 +1,58 @@
 1 de Septiembre de 2010
 
 ====== Modificaciones a realizar =======
+(Rafa)
+Crear la tabla cuentas, con los campos siguientes y su formulario correspondiente:
+(el acceso estará desde el menu catalogos)
 
-Crear la tabla cuentas, con los campos siguientes:
 
+Descripcion                                       Nombre y tipo del campo
 
+Ejercicio                                         iEjer : Integer
+Mes                                               iMes : Integer
+Tipo de póliza                                    sTpPol : String[3]
+Núm. De póliza                                    sPolNum : String[6]
+Movimiento                                        sPolMov : String[6]
+Día                                               iDia : Integer
+Número de cuenta                                  sCtaNum : String[20]
+Descripción                                       sNombre : String[50]
+Nat. Del mov. Contable                            iNatura : Integer
+Importe del mov                                   rImpMov : Real
+Clave de IVA                                      sCvIVA : String[1]
+Pólizas por aplicar                               iAplica : Integer
+Conceptos en movs. Contables                      sCnc : String[3]
+Referencia en Movs. Contables                     sRefere : String[8]
+Clave del concepto Régimen simplificado           sClvCnc:String[3]
+Naturaleza del mov.Rég. Simplificado              sNatMov : String[1]
+Importe mov. Régimen simplificado                 rImpMovRS : Real
+Nombre cuenta                                     sCtaNom : String[30]
 
+(Cmonterrosa)
 Productos => Agregar el campo tasa_anualizada
 
+(rafa)
 Pagos => Agregaremos el campo intereses_devengados, quedamos a la espera de una hoja de excel para realizar
          el calculo correspondiente por pago semanal.
 
+(Cmonterrosa)
 Credito => Una vez que se haya liberado el pago del credito grupal, permitir que los usuarios vuelvan a
            a asignarse a otros grupos.
-
+(Cmonterrosa)
 Promotores => Es necesario que cada uno de ellos esté vinculado con una sucursal, por lo que se creará la
               columna sucursal_id para promotors, al momento de dar de alta se seleccionará de un cobo
-
+(Rafa)
 Bancos => Debe de tener dos campos "cuenta_concentradora" y "cuenta_liquidadora, la cuenta concentrada se
           utiliza  para generar el numero de referencia alfanumerico (donde los clientes van a depositar),
           y le otro campo sirve para saber de que cuenta se obtuvo el dinero
 
+(Cmonterrosa & Rafa)
 Credito => Cuando el cliente llego al 8 y no ha realizado el pago correspondiente, se calcula el moratorio
 
            Al dia 15 se le debe de generar el gasto de cobranza automaticamente, es una tasa fija de 200 pesos,
            + IVA, ese valor se alojará como un campo más del producto.
 
-
+(JVazquez)
+(Realizar el diagrama de flujo de un pago que entra y como lo aplicaremos de acuerdo al orden de abajo)
 ORDEN DE COBRO
 
 IVA (COMISIONES)
@@ -37,7 +63,7 @@ IVA. INTERESES NORMALES
 CAPITAL
 
 
-
+(Pendiente)
 CONCEPTO DE ABONO A CAPITAL => Se calcula el interes diario y unicamente se cobran hasta el dia que pague
 
 Se puede realizar, ya sea recalculando el pago minimo, a descontar las ultimas mensualidades.
