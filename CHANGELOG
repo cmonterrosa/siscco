@@ -27,7 +27,7 @@ Naturaleza del mov.Rég. Simplificado              sNatMov : String[1]
 Importe mov. Régimen simplificado                 rImpMovRS : Real
 Nombre cuenta                                     sCtaNom : String[30]
 
-(Cmonterrosa)
+(Cmonterrosa => Realizado)
 Productos => Agregar el campo tasa_anualizada
 
 (rafa)
@@ -37,7 +37,8 @@ Pagos => Agregaremos el campo intereses_devengados, quedamos a la espera de una 
 (Cmonterrosa)
 Credito => Una vez que se haya liberado el pago del credito grupal, permitir que los usuarios vuelvan a
            a asignarse a otros grupos.
-(Cmonterrosa)
+
+(Cmonterrosa => Realizado)
 Promotores => Es necesario que cada uno de ellos esté vinculado con una sucursal, por lo que se creará la
               columna sucursal_id para promotors, al momento de dar de alta se seleccionará de un cobo
 (Rafa)

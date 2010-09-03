@@ -19,6 +19,7 @@
   $escolaridades = Escolaridad.find(:all)
   $viviendas = Vivienda.find(:all)
   $nacionalidades = Nacionalidad.find(:all, :order => "pais_gent")
+  $sucursales = Sucursal.find(:all, :order => "nombre")
 
   #----------- Cambio de idioma de las fechas --------------------
   Date::MONTHNAMES = [nil] + %w(Enero Febrero Marzo Abril Mayo Junio Julio Agosto Septiembre Octubre Noviembre Diciembre)

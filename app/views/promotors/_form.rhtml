@@ -25,7 +25,13 @@
     <td><%= text_field 'promotor', 'telefono', :onkeypress => "return CharNum(event, 'numero');", :class => "text"  %></td>
     <td><%= text_field 'promotor', 'celular', :onkeypress => "return CharNum(event, 'numero');", :class => "text"  %></td>
     <td><%= text_field 'promotor', 'email', :class => 'text'  %></td>
-    <td><%= text_field 'promotor', 'observaciones', :class =>'text'  %></td>
+    <td><%= collection_select("promotor", "sucursal_id", $sucursales, :id, :nombre, :prompt => ">>Sucursal") %></td>
+  </tr>
+  <tr>
+    <th colspan="4">Observaciones:</th>
+  </tr>
+  <tr>
+      <th colspan="4"><%=text_area 'promotor', 'observaciones'%></th>
   </tr>
 </table>
 <!--[eoform:promotor]-->

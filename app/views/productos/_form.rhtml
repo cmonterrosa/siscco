@@ -22,5 +22,11 @@
     <td><%= collection_select('producto', 'periodo_id', $periodos, :id, :nombre, {:prompt => '>>Periodo'}, :class => 'text')  %></td>
     <td><%= select('producto','num_pagos', $semanas, {:prompt => '>>Num pagos'}, :class => 'text') %></td>
   </tr>
+  <tr>
+    <th>Interes Anualizado</th>
+  </tr>
+  <tr>
+      <td><%= text_field 'producto', 'tasa_anualizada', :onkeypress => "return CharNum(event, 'numero');", :class => 'text'  %></td>
+  </tr>
 </table>
 <!--[eoform:producto]-->
