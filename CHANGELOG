@@ -1,3 +1,50 @@
+1 de Septiembre de 2010
+
+====== Modificaciones a realizar =======
+
+Crear la tabla cuentas, con los campos siguientes:
+
+
+
+Productos => Agregar el campo tasa_anualizada
+
+Pagos => Agregaremos el campo intereses_devengados, quedamos a la espera de una hoja de excel para realizar
+         el calculo correspondiente por pago semanal.
+
+Credito => Una vez que se haya liberado el pago del credito grupal, permitir que los usuarios vuelvan a
+           a asignarse a otros grupos.
+
+Promotores => Es necesario que cada uno de ellos esté vinculado con una sucursal, por lo que se creará la
+              columna sucursal_id para promotors, al momento de dar de alta se seleccionará de un cobo
+
+Bancos => Debe de tener dos campos "cuenta_concentradora" y "cuenta_liquidadora, la cuenta concentrada se
+          utiliza  para generar el numero de referencia alfanumerico (donde los clientes van a depositar),
+          y le otro campo sirve para saber de que cuenta se obtuvo el dinero
+
+Credito => Cuando el cliente llego al 8 y no ha realizado el pago correspondiente, se calcula el moratorio
+
+           Al dia 15 se le debe de generar el gasto de cobranza automaticamente, es una tasa fija de 200 pesos,
+           + IVA, ese valor se alojará como un campo más del producto.
+
+
+ORDEN DE COBRO
+
+IVA (COMISIONES)
+COMISIONES (GASTOS DE COBRANZA)
+IVA (INTERES MORATORIOS)
+INTERESES MORATORIOS
+IVA. INTERESES NORMALES
+CAPITAL
+
+
+
+CONCEPTO DE ABONO A CAPITAL => Se calcula el interes diario y unicamente se cobran hasta el dia que pague
+
+Se puede realizar, ya sea recalculando el pago minimo, a descontar las ultimas mensualidades.
+
+
+
+
 12 de Agosto de 2010
 
 ===== Modificaciones a Realizar dentro de la primera etapa ----
