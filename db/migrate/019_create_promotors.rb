@@ -9,6 +9,8 @@ class CreatePromotors < ActiveRecord::Migration
       t.column :celular, :string, :limit => 10
       t.column :email, :string
       t.column :observaciones, :string
+      #------ Relaciones con otras tablas --------
+      t.column :sucursal_id, :integer
        #---- campo para historial -----
       t.column :st, :integer
     end
