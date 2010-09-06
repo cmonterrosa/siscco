@@ -96,6 +96,7 @@ function mmLoadMenus() {
   if (window.menu_catalogo) return;
   window.menu_catalogo = new Menu("root",118,20,"Geneva, Arial, Helvetica, sans-serif",14,"#000000","#FFFFFF","#999999","#6699CC","left","middle",3,0,1000,-5,7,true,true,true,0,false,true);
   menu_catalogo.addMenuItem("Bancos","location='/bancos'");
+  menu_catalogo.addMenuItem("Cuentas","location='/cuentas'");
   menu_catalogo.addMenuItem("Clientes","location='/clientes'");
   menu_catalogo.addMenuItem("Festivos","location='/festivos'");
   menu_catalogo.addMenuItem("Fondeos","location='/fondeos'");

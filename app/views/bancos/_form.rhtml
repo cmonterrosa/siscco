@@ -15,20 +15,30 @@
     <td><%= text_field 'banco', 'cta_contable', :class => "text"  %></td>
   </tr>
   <tr>
+    <th>Cta. Concentradora:</th>
+    <th>Cta. Liquidadora:</th>
     <th>Dirección:</th>
-    <th>Telefono:</th>
-    <th>Estado:</th>
-    <th>Municipio:</th>
+    <th>Teléfono:</th>
   </tr>
   <tr>
+    <td><%= text_field 'banco', 'cta_concentradora', :class => "text"  %></td>
+    <td><%= text_field 'banco', 'cta_liquidadora', :class => "text"  %></td>
     <td><%= text_field 'banco', 'direccion', :class => "text"  %></td>
     <td><%=  text_field 'banco', 'telefono', :onkeypress => "return CharNum(event, 'numero');", :class => "text"   %></td>
+  </tr>
+  <tr>
+    <th>Estado:</th>
+    <th>Municipio:</th>
+    <th></th>
+    <th></th>
+  </tr>
+  <tr>
     <td><%=  collection_select("", "estado_id", $estados, :id, :estado, {:prompt => '>>Estado'}, {:class => "text"} )    %></td>
     <td><%=  select("banco","municipio_id", ['>>Municipios'], {:prompt => '>>Municipio'}, {:class => "text"} )    %></td>
+    <td></td>
+    <td></td>
   </tr>
-  </table>
-
-
+</table>
 <!--[eoform:banco]-->
 <!--------- funciones cargar combos ------------->
       <%= observe_field '_estado_id',

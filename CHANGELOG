@@ -1,7 +1,7 @@
 1 de Septiembre de 2010
 
 ====== Modificaciones a realizar =======
-(Rafa)
+(Rafa => Realizado)
 Crear la tabla cuentas, con los campos siguientes y su formulario correspondiente:
 (el acceso estará desde el menu catalogos)
 
@@ -30,7 +30,7 @@ Nombre cuenta                                     sCtaNom : String[30]
 (Cmonterrosa => Realizado)
 Productos => Agregar el campo tasa_anualizada
 
-(rafa)
+(rafa => Realizado)
 Pagos => Agregaremos el campo intereses_devengados, quedamos a la espera de una hoja de excel para realizar
          el calculo correspondiente por pago semanal.
 
@@ -41,7 +41,7 @@ Credito => Una vez que se haya liberado el pago del credito grupal, permitir que
 (Cmonterrosa => Realizado)
 Promotores => Es necesario que cada uno de ellos esté vinculado con una sucursal, por lo que se creará la
               columna sucursal_id para promotors, al momento de dar de alta se seleccionará de un cobo
-(Rafa)
+(Rafa => Realizado)
 Bancos => Debe de tener dos campos "cuenta_concentradora" y "cuenta_liquidadora, la cuenta concentrada se
           utiliza  para generar el numero de referencia alfanumerico (donde los clientes van a depositar),
           y le otro campo sirve para saber de que cuenta se obtuvo el dinero

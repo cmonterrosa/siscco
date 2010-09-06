@@ -15,6 +15,7 @@ class CreatePagos < ActiveRecord::Migration
       t.column :credito_id, :integer
       t.column :cliente_id, :integer
       t.column :descripcion, :string
+      t.column :int_devengados, :float
       #---- campo para historial -----
       t.column :st, :integer
     end

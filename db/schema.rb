@@ -2,7 +2,7 @@
 # migrations feature of ActiveRecord to incrementally modify your database, and
 # then regenerate this schema definition.
 
-ActiveRecord::Schema.define(:version => 43) do
+ActiveRecord::Schema.define(:version => 44) do
 
   create_table "actividads", :force => true do |t|
     t.column "clave_inegi", :string
@@ -17,13 +17,15 @@ ActiveRecord::Schema.define(:version => 43) do
   end
 
   create_table "bancos", :force => true do |t|
-    t.column "nombre",       :string
-    t.column "num_cuenta",   :string
-    t.column "num_sucursal", :string,  :limit => 4
-    t.column "cta_contable", :string,  :limit => 12
-    t.column "direccion",    :string
-    t.column "telefono",     :string
-    t.column "municipio_id", :integer
+    t.column "nombre",            :string
+    t.column "num_cuenta",        :string
+    t.column "num_sucursal",      :string,  :limit => 4
+    t.column "cta_contable",      :string,  :limit => 12
+    t.column "direccion",         :string
+    t.column "telefono",          :string
+    t.column "cta_concentradora", :string
+    t.column "cta_liquidadora",   :string
+    t.column "municipio_id",      :integer
   end
 
   create_table "civils", :force => true do |t|
@@ -46,12 +48,14 @@ ActiveRecord::Schema.define(:version => 43) do
     t.column "colonia",         :string
     t.column "codigo_postal",   :string
     t.column "telefono",        :string,  :limit => 10
+    t.column "fax",             :string,  :limit => 10
     t.column "email",           :string
     t.column "civil_id",        :integer
     t.column "escolaridad_id",  :integer
     t.column "vivienda_id",     :integer
     t.column "localidad_id",    :integer
     t.column "nacionalidad_id", :integer
+    t.column "edo_residencia",  :string
     t.column "st",              :integer
   end
 
@@ -95,6 +99,7 @@ ActiveRecord::Schema.define(:version => 43) do
     t.column "monto",             :float
     t.column "tasa_interes",      :float
     t.column "interes_moratorio", :string
+    t.column "identificador",     :string
     t.column "linea_id",          :integer
     t.column "banco_id",          :integer
     t.column "cliente_id",        :integer
@@ -103,6 +108,27 @@ ActiveRecord::Schema.define(:version => 43) do
     t.column "grupo_id",          :integer
     t.column "producto_id",       :integer
     t.column "status",            :integer
+  end
+
+  create_table "cuentas", :force => true do |t|
+    t.column "iEjer",     :integer
+    t.column "iMes",      :integer
+    t.column "sTpPol",    :string,  :limit => 3
+    t.column "sPolNum",   :string,  :limit => 6
+    t.column "sPolMov",   :string,  :limit => 6
+    t.column "iDia",      :integer
+    t.column "sCtaNum",   :string,  :limit => 20
+    t.column "sNombre",   :string,  :limit => 50
+    t.column "iNatura",   :integer
+    t.column "rImpMov",   :float
+    t.column "sCvIVA",    :string,  :limit => 1
+    t.column "iAplica",   :integer
+    t.column "sCnc",      :string,  :limit => 3
+    t.column "sRefere",   :string,  :limit => 8
+    t.column "sClvCnc",   :string,  :limit => 3
+    t.column "sNatMov",   :string,  :limit => 1
+    t.column "rImpMovRS", :float
+    t.column "sCtaNom",   :string,  :limit => 30
   end
 
   create_table "destinos", :force => true do |t|
@@ -220,6 +246,7 @@ ActiveRecord::Schema.define(:version => 43) do
     t.column "descripcion",   :string
     t.column "telefono",      :string,  :limit => 10
     t.column "num_empleados", :integer
+    t.column "ing_semanal",   :float
     t.column "cliente_id",    :integer
     t.column "actividad_id",  :integer
   end
@@ -237,6 +264,7 @@ ActiveRecord::Schema.define(:version => 43) do
     t.column "credito_id",     :integer
     t.column "cliente_id",     :integer
     t.column "descripcion",    :string
+    t.column "int_devengados", :float
     t.column "st",             :integer
   end
 

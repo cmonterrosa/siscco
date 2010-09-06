@@ -1,6 +1,4 @@
-
 <h2>Pagos del día <%=@fecha.strftime("%d/%m/%Y")%> </h2>
-
 <table>
   <tr>
     <th>Grupo o Cliente</th>
@@ -18,5 +16,4 @@
     </tr>
   <%end%>
 </table>
-
 <%=button_to 'IMPRIMIR REPORTE', :action => "reporte", :fecha=>@fecha%>

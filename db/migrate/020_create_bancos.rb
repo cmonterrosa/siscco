@@ -7,6 +7,8 @@ class CreateBancos < ActiveRecord::Migration
       t.column :cta_contable, :string, :limit => 12
       t.column :direccion, :string
       t.column :telefono, :string
+      t.column :cta_concentradora, :string
+      t.column :cta_liquidadora, :string
       t.column :municipio_id, :integer
     end
   end

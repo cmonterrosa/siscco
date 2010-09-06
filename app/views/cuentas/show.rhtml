@@ -1,0 +1,10 @@
+<h1>Cuentas</h1>
+<br />
+<% for column in Cuenta.content_columns %>
+<p>
+  <b><%= column.human_name %>:</b> <%=h @cuenta.send(column.name) %>
+</p>
+<% end %>
+<br />
+<%#= button_to 'Editar', :action => 'edit', :id => @giro %>
+<%= link_to 'Regresar', :action => 'list' %>
