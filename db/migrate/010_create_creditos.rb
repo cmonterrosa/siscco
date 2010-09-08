@@ -8,6 +8,7 @@ class CreateCreditos < ActiveRecord::Migration
       t.column :tasa_interes, :float
       t.column :interes_moratorio, :string
       t.column :identificador, :string
+      t.column :tipo_interes, :string
       #--- aqui van las relaciones con las otras tablas ----
       t.column :linea_id, :integer
       t.column :banco_id, :integer
