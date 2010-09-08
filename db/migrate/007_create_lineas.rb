@@ -11,6 +11,11 @@ class CreateLineas < ActiveRecord::Migration
       #---- campo para historial -----
       t.column :st, :integer
     end
+
+    @fondeo = Fondeo.find_by_fuente("RECURSOS PROPIOS")
+    Linea.create(:cuenta_cheques=> "RECURSOS PROPIOS", :fecha_aut => Time.now,
+                 :fondeo_id => @fondeo.id)
+
   end
 
   def self.down
