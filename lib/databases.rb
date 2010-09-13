@@ -74,8 +74,9 @@ module Databases
   def inserta_cliente(cliente, negocio, mensaje)
     begin
       negocio.cliente = cliente
-      #cliente.grupos << grupo
-      # @log = Clientegrupo.new
+
+#      cliente.grupos << grupo
+#      @log = Clientegrupo.new
 #      @log.cliente= cliente
 #      @log.grupo = grupo
 #      @log.save!

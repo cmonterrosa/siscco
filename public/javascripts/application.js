@@ -101,7 +101,7 @@ function mmLoadMenus() {
   menu_catalogo.addMenuItem("Festivos","location='/festivos'");
   menu_catalogo.addMenuItem("Fondeos","location='/fondeos'");
 //  menu_catalogo.addMenuItem("Garantías","location='/garantias'");
-  menu_catalogo.addMenuItem("Giros","location='/giros'");
+//  menu_catalogo.addMenuItem("Giros","location='/giros'");
   menu_catalogo.addMenuItem("Grupos","location='/grupos'");
   menu_catalogo.addMenuItem("Líneas","location='/lineas'");
 //  menu_catalogo.addMenuItem("Periodos","location='/periodos'");

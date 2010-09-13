@@ -8,6 +8,7 @@
   $bancos = Banco.find(:all)
   $ejidos = Ejido.find(:all)
   $lineas = Linea.find(:all)
+  $localidades = Localidad.find(:all)
   $promotores = Promotor.find(:all, :order => "nombre")
   $destinos = Destino.find(:all)
   $grupos = Grupo.find(:all, :order => "nombre")

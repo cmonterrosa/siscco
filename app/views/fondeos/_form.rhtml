@@ -3,10 +3,16 @@
 <!--[form:fondeo]-->
 <table>
   <tr>
-    <th>Fuente:</th>
+    <th>Acrónimo:</th>
+    <th>Nombre de la Fuente:</th>
+    <th>Dirección:</th>
+    <th>Teléfono:</th>
   </tr>
   <tr>
-    <td><%= text_field 'fondeo', 'fuente', :onkeypress => "return CharNum(event, 'letra');", :class => "text" %></td>
+    <td><%= text_field 'fondeo', 'acronimo', :class => "text" %></td>
+    <td><%= text_field 'fondeo', 'fuente', :class => "text" %></td>
+    <td><%= text_field 'fondeo', 'domicilio', :class => "no_require" %></td>
+    <td><%= text_field 'fondeo', 'telefono', :onkeypress => "return CharNum(event, 'numero');", :class => "no_require" %></td>
   </tr>
 </table>
 <!--[eoform:fondeo]-->

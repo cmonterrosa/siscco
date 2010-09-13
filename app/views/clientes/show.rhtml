@@ -9,7 +9,19 @@
           <td><b><%= column.human_name %>:</b> <%=h @cliente.send(column.name) %></td>
         </tr>
         <% end %>
-    <!--    <tr>
+        <tr>
+          <td><b>Pais:</b> <%=h @cliente.nacionalidad.pais %></td>
+        </tr>
+        <tr>
+          <td><b>Estado:</b> <%=h @cliente.localidad.municipio.estado.estado %></td>
+        </tr>
+        <tr>
+          <td><b>Municipio:</b> <%=h @cliente.localidad.municipio.municipio %></td>
+        </tr>
+        <tr>
+          <td><b>Localidad:</b> <%=h @cliente.localidad.localidad %></td>
+        </tr>
+        <!--    <tr>
           <td class="center"><  button_to 'Editar', :action => 'editc', :controller => 'clientes', :id => @cliente %></td>
         </tr>  -->
       </table>
@@ -22,6 +34,10 @@
           <td><b><%= column.human_name %>:</b> <%=h @negocio.send(column.name) %></td>
         </tr>
         <% end %>
+        <tr><td>&nbsp</td></tr>
+        <tr><td>&nbsp</td></tr>
+        <tr><td>&nbsp</td></tr>
+        <tr><td>&nbsp</td></tr>
         <tr><td>&nbsp</td></tr>
         <tr><td>&nbsp</td></tr>
         <tr><td>&nbsp</td></tr>

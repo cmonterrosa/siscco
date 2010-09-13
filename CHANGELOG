@@ -1,3 +1,30 @@
+Modificaciones 11 Septiembre del 2010
+
+=> Corrección del error en nacionalidad
+
+=> Modificación de catalogo Fondeo, se agregaron los campos Acronimo, Domicilio y Telefono
+
+=> Quitar del menu el catalogo Giros (No se eliminó)
+
+=> Corrección que al momento editar un cliente aparezca la localidad, el estado no ha parece por que esta
+   vinculado al municipio, el cual esta vinculado a la localidad, solucionado que al editarlo y al guardar no marque
+   error
+
+=> Correcion que al momento de seleccionar detalles de un cliente muestre el estado, municipio, localidad
+
+=> Criterio de búsqueda por id_grupo, referencia (Catalogo Grupo), no es necesario ya que la referencia se
+   genera y se guarda al crear un credito, en la tabla credito
+
+== Pendiente validar que no se repita el CURP al momento de dar de alta a un cliente, mandar un aviso de que existe
+   (Catalogo Cliente)
+
+== Pendiente hacer que aparezca otro text-box al seleccionar tipo de persona, en caso de seleccionar tipo de
+   persona moral o fisica con act. empresarial (Catalogo Cliente)
+
+== Pendiente corregir accion editar, marcar error al actualizar el registro (update)
+
+
+
 1 de Septiembre de 2010
 
 ====== Modificaciones a realizar =======

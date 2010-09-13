@@ -41,7 +41,7 @@
     <td><%= text_field 'cliente', 'codigo_postal', :onkeypress => "return CharNum(event, 'numero');", :class => "text"  %></td>
     <td><%= select("cliente", "sexo", ['MASCULINO', 'FEMENINO'], {:prompt => '>>Sexo'}, :class => 'text')  %></td>
     <!--<td><= select("cliente", "nacionalidad", ['MEXICANA', 'EXTRANJERA'], {:prompt => '>>Nacionalidad'}, :class => 'text')  %></td>-->
-    <td><%= collection_select("cliente", "nacionalidad_id", $nacionalidades, :id, :pais, {:prompt => "PAIS"}, :class => 'text') %></td>
+    <td><%= collection_select("cliente", "nacionalidad_id", $nacionalidades, :id, :pais, {:prompt => "MEXICO"}, :class => 'no_require') %></td>
     <td><%= select("cliente", "tipo_propiedad", ['PRIVADA','RENTADA'], {:prompt => '>>Tipo de vivienda'}, :class => 'text') %></td>
    </tr>
    <tr>
@@ -67,16 +67,18 @@
    <tr>
      <td><%= collection_select("cliente", "escolaridad_id", $escolaridades, :id, :escolaridad, {:prompt => '>>Escolaridad'}, :class => 'text') %></td>
      <td> <%= collection_select("cliente", "vivienda_id", $viviendas, :id, :tipo_vivienda, {:prompt => '>>Vivienda'}, :class => 'text') %></td>
-     <td><%= collection_select("", "estado_id", $estados, :id, :estado, {:prompt => '>>Estado'}, :class => 'text')  %></td>
-     <td><%=  select("", "municipio_id", ['>>Municipio'], {:prompt => '>>Municipio'}, :class => 'text')    %></td>
+     <td><%= collection_select("", "estado_id", $estados, :id, :estado, {:prompt => '>>ESTADO'}, :class => 'no_require')  %></td>
+     <td><%= collection_select("", "municipio_id", $municipios, :id, :municipio, {:prompt => '>>MUNICIPIO'}, :class => 'no_require')  %></td>
+     <!--<td><=  select("", "municipio_id", ['>>Municipio'], {:prompt => '>>Municipio'}, :class => 'text')    %></td>-->
    </tr>
    <tr>
      <th colspan="2">Localidad:</th>
      <th>Colonia:</th>
-     <th>Edo Residencia:</th>
+     <th>Edo Nacimiento:</th>
    </tr>
    <tr>
-     <td colspan="2"><%=  select("cliente", "localidad_id", ['>>Localidad'], {:prompt => '>>Localidad'}, :class => 'text')    %></td>
+     <td colspan="2"><%=  collection_select("cliente", "localidad_id", $localidades, :id, :localidad, {:prompt => '>>LOCALIDAD'}, :class => 'text')    %></td>
+     <!--<td colspan="2"><=  select("cliente", "localidad_id", ['>>Localidad'], {:prompt => '>>Localidad'}, :class => 'text')    %></td>-->
      <td><%= text_field 'cliente', 'colonia', :onkeypress => "return CharNum(event, 'letra');", :class => "text"  %></td>
      <td><%= collection_select("cliente", "edo_residencia", $estados, :id, :estado, {:prompt => '>>Estado'}, :class => 'text')  %></td>
    </tr>
