@@ -19,9 +19,6 @@ class CreditosController < ApplicationController
     @credito = Credito.find(params[:id])
   end
 
-  def finalizar_credito
-    
-  end
   
   #----- Este metodo aplica todos los movimientos ----
   def abonar_individual
@@ -103,6 +100,8 @@ class CreditosController < ApplicationController
     @credito.interes_moratorio = @producto.moratorio
     if params[:credito][:grupo_id].nil?
       @tipo = "INDIVIDUAL"
+      #--- Los creditos individuales siempre son con recursos propios ------
+      @credito.linea = Linea.find(:first, :conditions => ["cuenta_cheques = ?", "RECURSOS PROPIOS"])
     else
       @tipo = "GRUPAL"
       @credito.grupo = Grupo.find(params[:credito][:grupo_id])
@@ -110,7 +109,7 @@ class CreditosController < ApplicationController
 
     @credito.fecha_fin = ultimo_pago(@fecha_inicio.year, @fecha_inicio.month, @fecha_inicio.day, params[:credito][:num_pagos], @producto.periodo)
     #--- Validamos si la linea de fondeo tiene disponible ----
-    if linea_disponible(Linea.find(params[:credito][:linea_id])).to_f >=  params[:credito][:monto].to_f
+    if linea_disponible(Linea.find(params[:credito][:linea_id])).to_f >=  params[:credito][:monto].to_f || @tipo == "INDIVIDUAL"
           if inserta_credito(@credito, @tipo)
           #--- Insertamos el registro de los pagos que debe de realizar -----
            #inserta_pagos(@credito, calcula_pagos(@fecha_inicio.year, @fecha_inicio.month, @fecha_inicio.day, params[:credito][:num_pagos], Periodo.find(params[:credito][:periodo_id])))

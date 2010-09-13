@@ -100,6 +100,7 @@ ActiveRecord::Schema.define(:version => 44) do
     t.column "tasa_interes",      :float
     t.column "interes_moratorio", :string
     t.column "identificador",     :string
+    t.column "tipo_interes",      :string
     t.column "linea_id",          :integer
     t.column "banco_id",          :integer
     t.column "cliente_id",        :integer
@@ -283,12 +284,13 @@ ActiveRecord::Schema.define(:version => 44) do
   end
 
   create_table "productos", :force => true do |t|
-    t.column "producto",   :string
-    t.column "intereses",  :float
-    t.column "moratorio",  :float
-    t.column "ahorro",     :float
-    t.column "num_pagos",  :integer
-    t.column "periodo_id", :integer
+    t.column "producto",        :string,  :limit => 100
+    t.column "intereses",       :float
+    t.column "moratorio",       :float
+    t.column "ahorro",          :float
+    t.column "num_pagos",       :integer
+    t.column "tasa_anualizada", :string,  :limit => 10
+    t.column "periodo_id",      :integer
   end
 
   create_table "promotors", :force => true do |t|
@@ -300,6 +302,7 @@ ActiveRecord::Schema.define(:version => 44) do
     t.column "celular",       :string,  :limit => 10
     t.column "email",         :string
     t.column "observaciones", :string
+    t.column "sucursal_id",   :integer
     t.column "st",            :integer
   end
 

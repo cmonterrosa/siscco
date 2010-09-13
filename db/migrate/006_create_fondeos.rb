@@ -5,7 +5,7 @@ class CreateFondeos < ActiveRecord::Migration
     end
 
     Fondeo.create(:fuente => "FOMMUR")
-    Fondeo.create(:fuente => "PROPIO")
+
 
   end
 

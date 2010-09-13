@@ -8,7 +8,7 @@
     <th>Producto:</th>
     <th>Monto:</th>
     <th>Grupo:</th>
-    <th>Fecha Inicio:</th>
+    <th>Fecha Entrega:</th>
   </tr>
   <tr>
     <td><%= collection_select("credito", "producto_id", $productos, :id, :producto, :prompt => '>>Producto')%></td>
@@ -31,12 +31,12 @@
   <tr>
     <th>Destino:</th>
     <th colspan="2">Promotor:</th>
-    <!--<th>Status:</th>-->
+    <th>Tipo de Interes:</th>
   </tr>
   <tr>
     <td><%=collection_select("credito", "destino_id", $destinos, :id, :destino, :prompt => '>>Destino')%></td>
     <td colspan="2"><%=collection_select("credito", "promotor_id", $promotores, :id, :nombre_completo)%></td>
-    <!--<td><=check_box('credito', 'status', :onclick => 'confirma();') %></td>-->
+    <td><%= select("credito", "tipo_interes",$tipos_interes, {:prompt => '>>Tipo de interes'}, :class => 'text') %></td>
   </tr>
 </table>
 <table>
