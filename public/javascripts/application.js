@@ -22,7 +22,7 @@ function comprobar()
     var mal=false;
     numero=document.forms[0].elements.length;
     for(a=0;a<numero;a++) {
-        if(document.forms[0].elements[a].value=="") {
+        if(document.forms[0].elements[a].value=="" && document.forms[0].elements[a].className=="text") {
             document.forms[0].elements[a].style.backgroundColor="#ff9999";
             missinginfo += "\n     - "+document.forms[0].elements[a].name;
             mal=true;

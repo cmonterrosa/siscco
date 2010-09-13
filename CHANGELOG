@@ -1,6 +1,10 @@
 1 de Septiembre de 2010
 
 ====== Modificaciones a realizar =======
+
+(Rafa => Realizado)
+Que no valide cuando un campo no sea requerido
+
 (Rafa => Realizado)
 Crear la tabla cuentas, con los campos siguientes y su formulario correspondiente:
 (el acceso estará desde el menu catalogos)
