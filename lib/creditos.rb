@@ -190,12 +190,36 @@ module Creditos
     @producto = Producto.find(credito.producto_id)
     @capital = (credito.monto / credito.grupo.clientes.size)
     @capital_semanal = @capital / @producto.num_pagos
+    @tasa_semanal =   ((@producto.intereses.to_f / 100.0 ) / 30.0) * 7
     case tipos_interes
       when "Pagos iguales con decremento de interes e incremento de capital"
-       puts "nada"
-      when "Pagos iguales de capital"
+        @pago_semanal = @capital * (@tasa_semanal/(1-(1 + @tasa_semanal)**(@producto.num_pagos*-1)))
+        @pago_semanal =  Integer(@pago_semanal * 100) / Float(100)
+        clientes_activos_grupo(Grupo.find(credito.grupo_id)).each do |y|
+              contador=1
+              saldo_inicial = @capital
+              arreglo_pagos.each do |x|
+                   @interes_minimo = round(saldo_inicial * @tasa_semanal)
+                   @principal_recuperado = round(@pago_semanal - @interes_minimo)
+                   Pago.create(:num_pago => contador,
+                             :credito_id => credito.id,
+                             :fecha_limite => x,
+                             :cliente_id => y.id.to_i,
+                             :capital_minimo => @principal_recuperado,
+                             :principal_recuperado => @principal_recuperado,
+                             :interes_minimo => @interes_minimo,
+                             :saldo_inicial => saldo_inicial,
+                             :saldo_final => round(saldo_inicial - @principal_recuperado),
+                             :pagado => 0,
+                             :descripcion => tipos_interes)
+                   contador+=1
+                   saldo_inicial -= @principal_recuperado
+               end
+            end
+
+         when "Pagos iguales de capital"
               #-- Hacemos los calculos correspondientes ----
-              @tasa_semanal =   ((@producto.intereses.to_f / 100.0 ) / 30.0) * 7
+              
               #--- Hacemos una iteracion por todos los miembros del grupo y dividimos el total del credito ---
               clientes_activos_grupo(Grupo.find(credito.grupo_id)).each do |y|
               contador=1
