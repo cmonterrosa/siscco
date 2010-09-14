@@ -134,7 +134,7 @@ module Databases
 
 
 
- def actualiza_cliente(cliente, parametros_cliente, negocio, parametros_negocio, grupo_nuevo)
+ def actualiza_cliente(cliente, parametros_cliente, negocio, parametros_negocio)
     begin
 #      @grupo_viejo = Clientegrupo.find(:first, :conditions => ["cliente_id = ? and activo = 1",cliente.id])
       cliente.update_attributes!(parametros_cliente)
@@ -143,10 +143,10 @@ module Databases
 
       negocio.update_attributes!(parametros_negocio)
       flash[:notice] = 'Registro actualizado satisfactoriamente'
-      redirect_to :controller => params[:controller], :action => 'show', :id => registro
+      redirect_to :controller => params[:controller], :action => 'show', :id => cliente
     rescue
       flash[:notice] = 'No se pudo actualizar verifique los datos'
-      redirect_to :action => 'edit', :controller => params[:controller], :id=> registro
+      redirect_to :action => 'edit', :controller => params[:controller], :id=> cliente
     end
   end
 

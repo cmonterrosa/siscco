@@ -43,6 +43,43 @@ function comprobar()
 }
 // fin de funcion comprobar campos vacios
 
+//-- Habilita-Deshabilita textbox de tipo de persona
+function habilita_des(){
+    if (document.forms[0].elements['cliente_tipo_persona'].value != "FISICA"){
+        document.forms[0].elements['cliente_folio_rfc'].disabled = false;
+        document.forms[0].elements['cliente_folio_rfc'].value = "";
+    }
+    else{
+        document.forms[0].elements['cliente_folio_rfc'].value = "0";
+        document.forms[0].elements['cliente_folio_rfc'].disabled = true;
+    }
+}
+// fin habilita deshabilita tipo de persona
+
+
+function longitud(texto,maxlong) {
+    if (texto.value.length != maxlong){
+        alert ("Verifique longitud del Folio RFC");
+        texto.focus();
+    }
+}
+
+
+
+//-- Limita caracteres escritos en textbox
+//function longitud(texto,maxlong) {
+//    var in_value, out_value;
+//
+//    if (texto.value.length > maxlong) {
+//        in_value = texto.value;
+//        out_value = in_value.substring(0,maxlong);
+//        texto.value = out_value;
+//        return false;
+//    }
+//    return true;
+//}
+// fin limita caracteres introducidos
+
 //-- Confirma activar/desactivar el checkbox de creditos
 function confirma()
 {

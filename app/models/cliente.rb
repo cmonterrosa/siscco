@@ -14,6 +14,7 @@ class Cliente < ActiveRecord::Base
    def initialize(params = nil)
     super
       self.st = 1 unless self.st
+      self.nacionalidad_id = 140 unless self.nacionalidad_id
     end
 
 

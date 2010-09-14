@@ -33,10 +33,10 @@ Modificaciones 11 Septiembre del 2010
 == Pendiente validar que no se repita el CURP al momento de dar de alta a un cliente, mandar un aviso de que existe
    (Catalogo Cliente)
 
-== Pendiente hacer que aparezca otro text-box al seleccionar tipo de persona, en caso de seleccionar tipo de
+=> hacer que aparezca otro text-box al seleccionar tipo de persona, en caso de seleccionar tipo de
    persona moral o fisica con act. empresarial (Catalogo Cliente)
 
-== Pendiente corregir accion editar, marcar error al actualizar el registro (update)
+=> corrige accion editar, marcar error al actualizar el registro (update)
 
 
 
