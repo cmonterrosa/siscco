@@ -1,11 +1,3 @@
-# ---- Personalizacion de la clase ----
-class ActiveRecord::RecordInvalid
-  def initialize(record)
-      @record = record
-      super("Verifique el campo: #{@record.errors.full_messages.join(", ")}")
-  end
-end
-
 class ApplicationController < ActionController::Base
   require 'date'
   # --- Plantilla por defecto ------
@@ -30,5 +22,14 @@ class ApplicationController < ActionController::Base
   end
   filter_parameter_logging :password
 end
+
+# ---- Personalizacion de las clases ----
+class ActiveRecord::RecordInvalid
+  def initialize(record)
+      @record = record
+      super("Verifique el campo: #{@record.errors.full_messages.join(", ")}")
+  end
+end
+
 
 

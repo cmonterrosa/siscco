@@ -8,6 +8,15 @@ module Utilerias
     int.reverse + dec.ljust(2,'0')
   end
 
+
+  def round(float, num_of_decimal_places=0)
+      exponent = num_of_decimal_places + 2
+      @float = float*(10**exponent)
+      @float = @float.round
+      @float = @float / (10.0**exponent)
+  end
+
+
   def tiene_permiso?(rol, controlador)
     @controlador = Controller.find(controlador)
     @registro = Systable.find(:first, :conditions => ["rol_id = ? and controller_id = ? ", Rol.find(rol).id, @controlador.id])
@@ -157,9 +166,6 @@ end
       
 end
 
-
-
- 
 
    #--- combo de semanas, maximo 52 ----
   @semanas = []
