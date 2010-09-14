@@ -15,17 +15,6 @@ module Creditos
   end
 
 
-#  def cargos(credito)
-#      @pagos = Pago.find(:all,
-#                         :conditions=>["credito_id = ? AND pagado= 1", credito.id])
-#    sum=0
-#    @pagos.each do |pago|
-#      sum +=  pago.interes.to_f
-#    end
-#    return sum
-#  end
-
-
  def total(credito)
     @total =  (credito.monto * (credito.tasa_interes / 100.0)) + credito.monto
     return @total - abonos(credito)
@@ -260,14 +249,19 @@ module Creditos
 
          def aplicar_transferencia(transferencia)
            #----- Primero restamos agregamos el total ---
-
-##           Linea.transaction do
-##             @linea_origen.
-##           end
            Transferencia.transaction do
               Transferencia.create(:title => 'en la transaccion', :content => 'texto')
               Post.create(:content => 'texto')
            end
+         end
+
+         def pagos_capital_igual()
            
          end
+
+
+
+         
+
+
 end

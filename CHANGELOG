@@ -1,3 +1,18 @@
+Modificaciones 14 de septiembre de 2010
+
+=> Correcion al iniciar sesion para desplegar mensaje de login erroneo
+
+=> Seleccion del municipio para la sucursal
+
+=> Visualizar el municipio al que pertenece la sucursal
+
+=> Generación automatica del prefijo para la generacion del numero de referencia alfanumerica del banco
+
+
+
+
+
+
 Modificaciones 11 Septiembre del 2010
 
 => Corrección del error en nacionalidad

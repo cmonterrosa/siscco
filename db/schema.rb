@@ -162,7 +162,10 @@ ActiveRecord::Schema.define(:version => 44) do
   end
 
   create_table "fondeos", :force => true do |t|
-    t.column "fuente", :string
+    t.column "acronimo",  :string
+    t.column "fuente",    :string
+    t.column "domicilio", :string
+    t.column "telefono",  :string
   end
 
   create_table "garantias", :force => true do |t|

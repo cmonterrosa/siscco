@@ -32,7 +32,7 @@ class AccountController < ApplicationController
           @message  = "Login incorrecto"
           $usuario= params['user_login'] 
           flash['notice'] ="Login incorrecto" 
-          render :action =>signup  
+          render :action => signup
         end
    end
   end
@@ -56,8 +56,9 @@ class AccountController < ApplicationController
         end
       when :get
         @user = User.new
+        render :layout=>"contenido"
     end
-       render :layout=>"contenido"
+      # 
   end
 #--- el mismo metodo para dar de alta, solo que este recibe el rol de parametro ----
   def signup_perfil
