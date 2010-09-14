@@ -186,6 +186,63 @@ module Creditos
     end
 
 
+  def inserta_pagos_grupales_por_tipo(credito, arreglo_pagos, tipos_interes)
+    @producto = Producto.find(credito.producto_id)
+    @capital = (credito.monto / credito.grupo.clientes.size)
+    @capital_semanal = @capital / @producto.num_pagos
+    case tipos_interes
+      when "Pagos iguales con decremento de interes e incremento de capital"
+       puts "nada"
+      when "Pagos iguales de capital"
+              #-- Hacemos los calculos correspondientes ----
+              @tasa_semanal =   ((@producto.intereses.to_f / 100.0 ) / 30.0) * 7
+              #--- Hacemos una iteracion por todos los miembros del grupo y dividimos el total del credito ---
+              clientes_activos_grupo(Grupo.find(credito.grupo_id)).each do |y|
+              contador=1
+              saldo_inicial = @capital
+              arreglo_pagos.each do |x|
+                   Pago.create(:num_pago => contador,
+                             :credito_id => credito.id,
+                             :fecha_limite => x,
+                             :cliente_id => y.id.to_i,
+                             :capital_minimo => @capital_semanal,
+                             :interes_minimo => saldo_inicial * @tasa_semanal,
+                             :saldo_inicial => saldo_inicial,
+                             :saldo_final => saldo_inicial - @capital_semanal,
+                             :pagado => 0,
+                             :descripcion => tipos_interes)
+                   contador+=1
+                   saldo_inicial -= @capital_semanal
+               end
+            end
+      when "Pagos con tasa flat (calculo sobre el saldo global de credito)"
+         @meses = @producto.num_pagos / 4
+         @total_interes = @capital * (@producto.intereses.to_f / 100) * @meses
+         @interes_semanal = @total_interes / @producto.num_pagos
+              clientes_activos_grupo(Grupo.find(credito.grupo_id)).each do |y|
+                contador=1
+                saldo_inicial = @capital
+                arreglo_pagos.each do |x|
+                    Pago.create(:num_pago => contador,
+                               :credito_id => credito.id,
+                               :fecha_limite => x,
+                               :cliente_id => y.id.to_i,
+                               :capital_minimo => @capital_semanal,
+                               :interes_minimo => @interes_semanal,
+                               :saldo_inicial => saldo_inicial,
+                              :saldo_final => saldo_inicial - @capital_semanal,
+                              :pagado => 0,
+                              :descripcion => tipos_interes)
+                    contador+=1
+                    saldo_inicial -= @capital_semanal
+                end
+             end
+    end
+  end
+
+
+
+
     def linea_disponible(linea)
     if linea.creditos.empty?
            return linea.autorizado.to_f + total_recibido(linea) - total_transferido(linea)

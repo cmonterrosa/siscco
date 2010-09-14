@@ -119,8 +119,7 @@ class CreditosController < ApplicationController
                 #--- Es individual -----
                    inserta_pagos_individuales(@credito, calcula_pagos(@fecha_inicio.year, @fecha_inicio.month, @fecha_inicio.day, @producto.num_pagos, @producto.periodo))
                 else
-                  
-                   inserta_pagos_grupales(@credito, calcula_pagos(@fecha_inicio.year, @fecha_inicio.month, @fecha_inicio.day, @producto.num_pagos, @producto.periodo))
+                   inserta_pagos_grupales_por_tipo(@credito, calcula_pagos(@fecha_inicio.year, @fecha_inicio.month, @fecha_inicio.day, @producto.num_pagos, @producto.periodo), @credito.tipo_interes)
                 end
            
            flash[:notice]="El crédito #{@credito.id} ha sido capturado"
