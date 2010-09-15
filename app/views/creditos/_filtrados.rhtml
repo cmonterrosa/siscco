@@ -6,7 +6,7 @@
           <th>Referencia</th>
           <th>Id</th>
           <th>Grupo</th>
-          <th colspan="5">Acciones</th>
+          <th colspan="6">Acciones</th>
         </tr>
         <% if @creditos %>
             <% for credito in @creditos%>
@@ -30,11 +30,12 @@
               <%else%>
                 <td><%= button_to 'Activar',  { :action => 'activar', :id => credito }, :confirm => '¿Esta seguro?', :method => :post  %></td>
               <%end%>
-          <td><%= button_to 'Detalles', :action => 'show', :id => credito %></td>
-          <td><%= button_to 'Editar', :action => 'edit', :id => credito %></td>
-          <td><%= button_to 'Eliminar', { :action => 'destroy', :id => credito }, :confirm => '¿Esta seguro?', :method => :post %></td>
-        </tr>
-            <% end %>
+                <td><%=button_to 'Reportes', :action => "menu", :controller=> "reportes", :id => credito%></td>
+                <td><%= button_to 'Detalles', :action => 'show', :id => credito %></td>
+                <td><%= button_to 'Editar', :action => 'edit', :id => credito %></td>
+                <td><%= button_to 'Eliminar', { :action => 'destroy', :id => credito }, :confirm => '¿Esta seguro?', :method => :post %></td>
+            </tr>
+          <% end %>
         <% end %>
     </table>
 </div>

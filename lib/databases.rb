@@ -83,7 +83,7 @@ module Databases
 
         if cliente.save && negocio.save
           cliente.generar_id!
-          flash[:notice]=mensaje
+          flash[:notice]=mensaje + "con el identificador = #{cliente.identificador}"
           redirect_to :action => 'list', :controller => "#{params[:controller]}"
         else
            flash[:notice]= "Alguno de los campos no esta formado correctamente, verifica rfc y curp"

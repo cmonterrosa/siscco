@@ -36,7 +36,12 @@
   <tr>
     <td><%=collection_select("credito", "destino_id", $destinos, :id, :destino, :prompt => '>>Destino')%></td>
     <td colspan="2"><%=collection_select("credito", "promotor_id", $promotores, :id, :nombre_completo)%></td>
-    <td><%= select("credito", "tipo_interes",$tipos_interes, {:prompt => '>>Tipo de interes'}, :class => 'text') %></td>
+
+    
+
+    <%if params[:action] == "new_grupal"%>
+      <td><%= select("credito", "tipo_interes",$tipos_interes, {:prompt => '>>Tipo de interes'}, :class => 'text') %></td>
+    <%end%>
   </tr>
 </table>
 <table>

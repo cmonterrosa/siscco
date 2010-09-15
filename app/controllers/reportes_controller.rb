@@ -176,7 +176,7 @@ class ReportesController < ApplicationController
 
     def tarjeta_pagos
     #----- filtrado de registros unicos -----
-    @cliente = Cliente.find(:first, :conditions => ["id = ?", 1])
+    @cliente = Cliente.find(:first, :conditions => ["id = ?", params[:cliente][:id]])
     @credito = Credito.find(:first, :conditions => ["id = ?", params[:id]])
     @pagos =Pago.find(:all, :conditions=>["credito_id = ? and cliente_id = ?", @credito.id, @cliente.id])
     @sum_intereses = Pago.sum(:interes_minimo, :conditions=>["credito_id = ? and cliente_id = ?", @credito.id, @cliente.id])
@@ -321,57 +321,146 @@ class ReportesController < ApplicationController
       render :text =>  Grupo.find(5).clientes.to_xml
     end
 
-    def jasper
-      #--- Llenamos los parametros -------
-      @xml = Grupo.find(9).clientes.to_xml
-       param=Hash.new {|k, v| k[v] = {:tipo=>"",:valor=>""}}
-       param["EMPRESA"]={:tipo=>"String", :valor=>NOMBRE_EMPRESA}
-       param["FINANCIAMIENTO"]={:tipo=>"String", :valor=>"ABC PRIMER CICLO"}
-       param["CIUDAD"]={:tipo=>"String", :valor=>CIUDAD_EMPRESA}
-       param["FINANCIAMIENTO"]={:tipo=>"String", :valor=>Time.now.strftime("%d de %B de %Y")}
-       param["GRUPO"]={:tipo=>"String", :valor=>"LOS GIRASOLES"}
-       param["ABONO"]={:tipo=>"String", :valor=>"1,594.00"}
-       param["ABONOLETRA"]={:tipo=>"String", :valor=>"UN MIL QUINIENTOS NOVENTA Y CUATRO PESOS OO/100 M.N"}
-       param["FONDEO"]={:tipo=>"String", :valor=>"FOMMUR"}
-       param["AHORRO"]={:tipo=>"String", :valor=>"157.00"}
-       param["AHORROLETRA"]={:tipo=>"String", :valor=>"CIENTO CINCUENTA Y SIETE PESOS"}
-       param["PRESIDENTE"]={:tipo=>"String", :valor=>"CARLOS AUGUSTO MONTERROSA LOPEZ"}
-       param["TESORERO"]={:tipo=>"String", :valor=>"JUAN IGNACIO MORENO SUAREZ"}
-       param["SECRETARIO"]={:tipo=>"String", :valor=>"HILDA CACERES RUIZ"}
-       send_doc_xml(@xml,
-       '/clientes/cliente',
-      'acta',
-      'acta',
-       param,
-      'pdf')
+
+    def menu
+      @credito = Credito.find(params[:id])
     end
 
 
 
-    def reporte_promotores
-       @xml = Grupo.find(9).clientes.to_xml
-       param=Hash.new {|k, v| k[v] = {:tipo=>"",:valor=>""}}
-       param["EMPRESA"]={:tipo=>"String", :valor=>NOMBRE_EMPRESA}
-       param["FINANCIAMIENTO"]={:tipo=>"String", :valor=>"ABC PRIMER CICLO"}
-       param["CIUDAD"]={:tipo=>"String", :valor=>CIUDAD_EMPRESA}
-       param["FINANCIAMIENTO"]={:tipo=>"String", :valor=>Time.now.strftime("%d de %B de %Y")}
-       param["GRUPO"]={:tipo=>"String", :valor=>"LOS GIRASOLES"}
-       param["ABONO"]={:tipo=>"String", :valor=>"1,594.00"}
-       param["ABONOLETRA"]={:tipo=>"String", :valor=>"UN MIL QUINIENTOS NOVENTA Y CUATRO PESOS OO/100 M.N"}
-       param["FONDEO"]={:tipo=>"String", :valor=>"FOMMUR"}
-       param["AHORRO"]={:tipo=>"String", :valor=>"157.00"}
-       param["AHORROLETRA"]={:tipo=>"String", :valor=>"CIENTO CINCUENTA Y SIETE PESOS"}
-       param["PRESIDENTE"]={:tipo=>"String", :valor=>"CARLOS AUGUSTO MONTERROSA LOPEZ"}
-       param["TESORERO"]={:tipo=>"String", :valor=>"JUAN IGNACIO MORENO SUAREZ"}
-       param["SECRETARIO"]={:tipo=>"String", :valor=>"HILDA CACERES RUIZ"}
-       send_doc_xml(@xml,
-       '/clientes/cliente',
-      'acta',
-      'acta',
-       param,
-      'pdf')
-     end
 
+    def acta
+      #--- Llenamos los parametros -------
+       if params[:id] && Credito.find(params[:id])
+        @credito = Credito.find(params[:id])
+        @xml = clientes_activos_grupo(@credito.grupo).to_xml
+        #----- Parametros del credito -------
+        param=Hash.new {|k, v| k[v] = {:tipo=>"",:valor=>""}}
+        param["EMPRESA"]={:tipo=>"String", :valor=>NOMBRE_EMPRESA}
+        param["FINANCIAMIENTO"]={:tipo=>"String", :valor=>@credito.producto.producto}
+        param["CIUDAD"]={:tipo=>"String", :valor=>CIUDAD_EMPRESA}
+        param["FINANCIAMIENTO"]={:tipo=>"String", :valor=>DateTime.now.strftime("%d de %B de %Y")}
+        param["GRUPO"]={:tipo=>"String", :valor=>@credito.grupo.nombre}
+        param["ABONO"]={:tipo=>"String", :valor=>pago_minimo_informativo(@credito)}
+        param["ABONOLETRA"]={:tipo=>"String", :valor=> pago_minimo_informativo(@credito).to_words}
+        param["FONDEO"]={:tipo=>"String", :valor=>@credito.linea.fondeo.fuente}
+        param["AHORRO"]={:tipo=>"String", :valor=>@credito.producto.ahorro}
+        param["AHORROLETRA"]={:tipo=>"String", :valor=>@credito.producto.ahorro.to_words}
+        #---- Jerarquias -------
+        @credito.miembros.each do |miembro|
+          param["#{miembro.jerarquia.jerarquia.upcase}"] = {:tipo => "String", :valor => "#{miembro.cliente.nombre_completo.upcase}"}
+        end
+        #param["PRESIDENTE"]={:tipo=>"String", :valor=>"CARLOS AUGUSTO MONTERROSA LOPEZ"}
+        #param["TESORERO"]={:tipo=>"String", :valor=>"JUAN IGNACIO MORENO SUAREZ"}
+        #param["SECRETARIO"]={:tipo=>"String", :valor=>"HILDA CACERES RUIZ"}
+        send_doc_xml(@xml,
+        '/clientes/cliente',
+        'acta',
+        'acta',
+        param,
+        'pdf')
+       else
+          flash[:notice] = "No se encontro un credito válido"
+          redirect_to :action => "menu"
+       end
+    end
+
+
+    #-- carta compromiso ----
+
+
+    def carta_compromiso
+    if params[:id] && Credito.find(params[:id])
+        @credito = Credito.find(:first, :conditions => ["id = ?", params[:id]])
+        @empresa = NOMBRE_EMPRESA
+        @miembros = {}
+        @credito.miembros.each do |miembro|
+          @miembros["#{miembro.jerarquia.jerarquia.upcase}"] = "#{miembro.cliente.nombre_completo.upcase}"
+        end
+        @ahorro = @credito.producto.ahorro
+        @pago_minimo = pago_minimo_informativo(@credito)
+        _pdf = PDF::Writer.new(:paper => "LETTER")
+        _pdf.select_font "Times-Roman"
+        _pdf.margins_cm(2,2,2,2)
+
+        #--- Numeros de pagina ---
+        _pdf.numeros_pagina(40, 25, 10, pos = nil, pattern = nil)
+
+        #------ Encabezado --------
+        _pdf.open_object do |heading|
+        _pdf.save_state
+        _pdf.stroke_color! Color::Black
+        _pdf.stroke_style! PDF::Writer::StrokeStyle::DEFAULT
+        #---- Imagen de la empresa ----
+        s= 8
+        t = to_iso(NOMBRE_EMPRESA)
+        w = _pdf.text_width(t, s) / 2.0
+        x = _pdf.margin_x_middle
+        y = _pdf.absolute_top_margin
+        _pdf.add_text(x - w, y, t, s)
+        #--- direccion de la empresa ---
+        t2 = to_iso(DIRECCION_EMPRESA + ", " + CIUDAD_EMPRESA)
+        w = _pdf.text_width(t2, s) / 2.0
+        x = _pdf.margin_x_middle - 12
+        y = _pdf.absolute_top_margin - 12
+        _pdf.add_text(x - w, y, t2, s)
+
+        x = _pdf.absolute_left_margin
+        w = _pdf.absolute_right_margin
+        y -= (_pdf.font_height(s) * 1.01)
+        _pdf.line(x, y, w, y).stroke
+        _pdf.restore_state
+        _pdf.close_object
+        _pdf.add_object(heading, :all_pages)
+        end
+
+        #--- logos -----
+        #_pdf.move_pointer(-80)
+        #i0 = _pdf.image "#{RAILS_ROOT}/public/images/SOCAMA.png", :resize => 0.45, :justification=>:left
+
+        #---- TITULO -----
+        _pdf.move_pointer(60)
+        _pdf.text to_iso("<b>CARTA COMPROMISO</b>"), :font_size => 14, :justification => :center
+        _pdf.move_pointer(15)
+
+        #--- Cuerpo del texto ----
+        leyenda=<<-EOS
+          POR ESTE MEDIO NOS COMPROMETEMOS SOLIDARIAMENTE A PAGAR PUNTUALMENTE EL MICROFINANCIAMIENTO RECIBIDO DEL FOMMUR A TRAVEZ DE #{@empresa}, EN ABONOS SEMANALES DE $#{@pago_minimo} , (#{@pago_minimo.to_words}) ASI MISMO NOS COMPROMETEMOS A AHORRAR EL IMPORTE MINIMO DE #{@ahorro} (#{@ahorro.to_words}) SEÑALADO EN NUESTRO REGLAMENTO INTERNO
+        EOS
+        #---- Imprimos la leyenda 2 ---
+        leyenda2 = leyenda.split($/).join(" ").squeeze(" ")
+        _pdf.text to_iso(leyenda2), :justification => :full, :font_size => 12, :left => 10, :right => 12
+        _pdf.move_pointer(15)
+        _pdf.text to_iso("<b>GRUPO SOLIDARIO:</b> #{@credito.grupo.nombre.upcase}"), :font_size => 14, :justification => :center
+
+        #--- Presidente ---
+        _pdf.move_pointer(70)
+        _pdf.text to_iso("<b>PRESIDENTE</b>"), :font_size => 11, :justification => :center
+        _pdf.move_pointer(15)
+        _pdf.text to_iso(@miembros["PRESIDENTE"]), :font_size => 12, :justification => :center
+
+        #--- Secretario ---
+        _pdf.move_pointer(40)
+        _pdf.text to_iso("<b>SECRETARIO                                                                     TESORERO </b>"), :font_size => 11, :justification => :left, :left => 20
+        _pdf.move_pointer(15)
+        _pdf.text to_iso(@miembros["SECRETARIO"]), :font_size => 12, :justification => :left, :left => 20
+
+        # ---- Tesorero ----
+        _pdf.move_pointer(-14)
+        _pdf.text to_iso(@miembros["TESORERO"]), :font_size => 12, :justification => :right, :right => 50
+
+
+        send_data _pdf.render, :filename => "carta_compromiso_#{@credito.grupo.nombre.upcase}.pdf",
+                               :type => "application/pdf"
+
+   else
+        flash[:notice] = "Imposible encontrar registros, verifique"
+        redirect_to :action => "menu"
+   end
+
+ end
+
+ 
 
 
     def promotors_xml
