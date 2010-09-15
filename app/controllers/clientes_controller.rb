@@ -10,7 +10,7 @@ class ClientesController < ApplicationController
          :redirect_to => { :action => :list }
 
   def list
-     @clientes = Cliente.find(:all, :order => 'paterno')
+     @clientes = Cliente.find(:all, :order => 'paterno', :conditions => "st = 1")
   end
 
   def show
@@ -28,7 +28,7 @@ class ClientesController < ApplicationController
   end
 
   def create
-    inserta_cliente(Cliente.new(params[:cliente]), Negocio.new(params[:negocio]),  'Registro creado satisfactoriamente.')
+    inserta_cliente(Cliente.new(params[:cliente]), Negocio.new(params[:negocio]),  "Registro creado satisfactoriamente")
   end
 
   def edit

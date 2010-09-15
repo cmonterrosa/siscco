@@ -1,3 +1,20 @@
+Modificaciones 15 de septiembre de 2010
+
+=> Aumentamos el tamaño del identificador del cliente, incoporando letras para evitar duplicidad
+
+=> Agregamos el boton reportes, a la busqueda de credito
+
+=> Generamos el reporte "pagare" para el credito seleccionado
+
+=> Generacion del reporte "tarjeta de pagos" para el cliente seleccionado del credito
+
+=> Generacion del reporte "carta_compromiso" para el grupo
+
+=> Mostramos el identificador del cliente al momento de dar de alta
+
+
+
+
 Modificaciones 14 de septiembre de 2010
 
 => Correcion al iniciar sesion para desplegar mensaje de login erroneo
@@ -8,7 +25,7 @@ Modificaciones 14 de septiembre de 2010
 
 => Generación automatica del prefijo para la generacion del numero de referencia alfanumerica del banco
 
-=> Calculo de los importes de los pagos para tasa de capital iguales y tasa flat
+=> Calculo de los importes de los pagos para tasa de capital iguales y tasa flat y con incremento de capital, asi como sus amortizaciones
 
 
 

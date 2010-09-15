@@ -123,7 +123,7 @@ class CreditosController < ApplicationController
                 end
            
            flash[:notice]="El crédito #{@credito.id} ha sido capturado"
-           redirect_to :action => 'list'
+           redirect_to :action => 'menu', :controller => "reportes", :id => @credito
         
           else
                 flash[:notice]="El crédito no pudo ser grabado, verifique que el grupo tenga al menos dos clientes asociados"
