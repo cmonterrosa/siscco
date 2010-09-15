@@ -37,8 +37,14 @@ function comprobar()
         return false;
     }
     else {
+        if(valida_curp()){
+            alert("Verifica CURP");
+            return false;
+        }
+        else {
         document.forms[0].submit();
         return true;
+        }
     }
 }
 // fin de funcion comprobar campos vacios
@@ -59,12 +65,12 @@ function habilita_des(){
 
 // Valida CURP
 function valida_curp(){
-    if(document.forms[0].elements['cliente_curp'].length != 13){
+    if(document.forms[0].elements['cliente_curp'].value.length != 13){
         alert ("Verifique la CURP");
-        return false;
+        return true;
     }
     else
-        return true;
+        return false;
 }
 
 
