@@ -7,26 +7,26 @@
     <th colspan="4" style="text-align: left">.: DATOS CLIENTES :.</th>
   </tr>
   <tr>
+    <th>CURP:</th>
     <th>Primer Apellido:</th>
     <th>Segundo Apellido:</th>
     <th>Nombre(s):</th>
-    <th>Fecha de Nac:</th>
   </tr>
   <tr>
+    <td><%= text_field 'cliente', 'curp', :class => 'text'  %></td>
     <td><%= text_field 'cliente', 'paterno', :onkeypress => "return CharNum(event, 'letra');", :class => "text" %></td>
     <td><%= text_field 'cliente', 'materno', :onkeypress => "return CharNum(event, 'letra');", :class => "text"  %></td>
     <td><%= text_field 'cliente', 'nombre', :onkeypress => "return CharNum(event, 'letra');", :class => "text"  %></td>
-    <td><%= date_select( 'cliente', 'fecha_nac', :order => [:day, :month, :year], :start_year => 1930, :class => 'text'  )%></td>
   </tr>
   <tr>
+    <th>Fecha de Nac:</th>
     <th>RFC:</th>
-    <th>CURP:</th>
     <th>Clave IFE:</th>
     <th>Dirección:</th>
   </tr>
   <tr>
+    <td><%= date_select( 'cliente', 'fecha_nac', :order => [:day, :month, :year], :start_year => 1930, :class => 'text'  )%></td>
     <td><%= text_field 'cliente', 'rfc', :class => "text"  %></td>
-    <td><%= text_field 'cliente', 'curp', :class => 'text'  %></td>
     <td><%= text_field 'cliente', 'clave_ife', :class => 'text'  %></td>
     <td><%= text_field 'cliente', 'direccion', :class => "text"  %></td>
   </tr>
@@ -52,11 +52,9 @@
    </tr>
    <tr>
      <td><%= select("cliente", "tipo_persona", ["FISICA", "MORAL", "FISICA CON ACTIVIDAD EMPRESARIAL"], {:prompt => '>>TIPO DE PERSONA'}, :class => 'text', :onchange => "habilita_des();") %></td>
-     <td><%= text_field 'cliente', 'folio_rfc', :onkeypress => "return CharNum(event, 'numero');", :class => "text", :disabled => true, :value => "0", :onblur => "longitud(this,13)" %></td>
+     <td><%= text_field 'cliente', 'folio_rfc', :class => "text", :disabled => true, :value => "0"%></td>
      <td><%= text_field 'cliente', 'telefono', :onkeypress => "return CharNum(event, 'numero');", :class => "text"  %></td>
      <td><%= text_field 'cliente', 'email', :class => 'text'  %></td>
-     
-     
    </tr>
    <tr>
      <th>Estado Civil:</th>
@@ -69,7 +67,6 @@
      <td><%= collection_select("cliente", "escolaridad_id", $escolaridades, :id, :escolaridad, {:prompt => '>>ESCOLARIDAD'}, :class => 'text') %></td>
      <td> <%= collection_select("cliente", "vivienda_id", $viviendas, :id, :tipo_vivienda, {:prompt => '>>VIVIENDA'}, :class => 'text') %></td>
      <td><%= collection_select("", "estado_id", $estados, :id, :estado, {:prompt => '>>ESTADO'}, :class => 'no_require')  %></td>
-     
      <!--<td><=  select("", "municipio_id", ['>>Municipio'], {:prompt => '>>Municipio'}, :class => 'text')    %></td>-->
    </tr>
    <tr>
@@ -82,7 +79,6 @@
      <td colspan="2"><%=  collection_select("cliente", "localidad_id", $localidades, :id, :localidad, {:prompt => '>>LOCALIDAD'}, :class => 'text')    %></td>
      <!--<td colspan="2"><=  select("cliente", "localidad_id", ['>>Localidad'], {:prompt => '>>Localidad'}, :class => 'text')    %></td>-->
      <td><%= text_field 'cliente', 'colonia', :onkeypress => "return CharNum(event, 'letra');", :class => "text"  %></td>
-     
    </tr>
    <tr>
      <th>Edo Nacimiento:</th>
