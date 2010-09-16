@@ -311,6 +311,51 @@ module Creditos
            end
          end
 
+       #----- Calculo de impores por retraso en pagos ---------
+
+        def calcula_comisiones(pago, fecha_pago)
+          comisiones = 0.0
+          #---- Se calculan los gastos de cobranza ------
+          if fecha_pago.yday - (pago.fecha_limite.yday)  >= 8 # 8 dias despues
+             comisiones =  200 #if pago.comisiones != "0"
+          end
+          return comisiones
+        end
+
+        def calcula_iva_comisiones(pago, fecha_pago)
+          iva_comisiones = 0.0
+          #---- Se calculan los gastos de cobranza ------
+          if fecha_pago.yday - (pago.fecha_limite.yday)  >= 8 # 8 dias despues
+             iva_comisiones = 200 * 0.16 #if pago.iva_comisiones != "0"
+          end
+          return iva_comisiones
+        end
+
+        def calcula_moratorio(pago, fecha_pago)
+            interes_moratorio = pago.credito.producto.moratorio / 100.0
+            moratorio = 0.0
+            if fecha_pago.yday - (pago.fecha_limite.yday)  >= 3 # 8 dias despues
+              cm = pago.capital_minimo.to_f
+              im = pago.interes_minimo.to_f
+              moratorio = (cm + im) * interes_moratorio # if pago.moratorio != "0"
+            end
+            return moratorio
+        end
+
+
+       def proximo_pago_minimo_por_cliente_a_la_fecha(cliente, credito, fecha)
+          @proximo = Pago.find(:first, :conditions=>["credito_id = ? AND
+                                                   cliente_id = ? AND
+                                                   pagado=0", credito.id, cliente.id],
+                                                   :order=>"fecha_limite")
+          return (@proximo.capital_minimo.to_f) + (@proximo.interes_minimo.to_f) + calcula_moratorio(@proximo, fecha) + calcula_comisiones(@proximo, fecha) + calcula_iva_comisiones(@proximo, fecha)
+       end
+        
+
+
+ 
+
+
          def clientes_activos_grupo(grupo)
              @clientes = []
              @cg = Clientegrupo.find(:all, :conditions => ["grupo_id = ? and activo = 1", grupo.id])

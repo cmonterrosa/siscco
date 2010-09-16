@@ -16,6 +16,9 @@ class CreatePagos < ActiveRecord::Migration
       t.column :cliente_id, :integer
       t.column :descripcion, :string
       t.column :int_devengados, :float
+      t.column :comisiones, :string
+      t.column :iva_comisiones, :string
+      t.column :iva_moratorio, :string
       #---- Datos informativos -----
       t.column :saldo_inicial, :string
       t.column :saldo_final, :string
