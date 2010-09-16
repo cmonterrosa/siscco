@@ -19,6 +19,7 @@ class CreateClientes < ActiveRecord::Migration
       t.column :telefono, :string, :limit => 10
       t.column :fax, :string, :limit => 10
       t.column :email, :string
+      t.column :folio_rfc, :string, :limit => 13
       #--- Relaciones con otras tablas ---
       t.column :civil_id, :integer
       t.column :escolaridad_id, :integer

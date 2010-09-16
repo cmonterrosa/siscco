@@ -19,49 +19,71 @@ function CharNum(e, modo)
 function comprobar()
 {
     missinginfo = "";
-    var mal=false;
+    var vacio=false;
     numero=document.forms[0].elements.length;
     for(a=0;a<numero;a++) {
         if(document.forms[0].elements[a].value=="" && document.forms[0].elements[a].className=="text") {
             document.forms[0].elements[a].style.backgroundColor="#ff9999";
             missinginfo += "\n     - "+document.forms[0].elements[a].name;
-            mal=true;
+            vacio=true;
         }
         else {
             document.forms[0].elements[a].style.backgroundColor="white";
             document.forms[0].elements[a].value = document.forms[0].elements[a].value.toUpperCase();
         }
     }
-    if(mal) {
+    if(vacio) {
         alert("Por favor, rellene los campos:"+'\n'+missinginfo);
         return false;
     }
     else {
+        if(valida_curp()){
+            alert("Verifica CURP");
+            return false;
+        }
+        else {
         document.forms[0].submit();
         return true;
+        }
     }
 }
 // fin de funcion comprobar campos vacios
 
 //-- Habilita-Deshabilita textbox de tipo de persona
 function habilita_des(){
-    if (document.forms[0].elements['cliente_tipo_persona'].value != "FISICA"){
-        document.forms[0].elements['cliente_folio_rfc'].disabled = false;
-        document.forms[0].elements['cliente_folio_rfc'].value = "";
-    }
-    else{
+    if ((document.forms[0].elements['cliente_tipo_persona'].value == "FISICA") || (document.forms[0].elements['cliente_tipo_persona'].value == "")){
         document.forms[0].elements['cliente_folio_rfc'].value = "0";
         document.forms[0].elements['cliente_folio_rfc'].disabled = true;
     }
+    else{
+        document.forms[0].elements['cliente_folio_rfc'].disabled = false;
+        document.forms[0].elements['cliente_folio_rfc'].value = "";
+    }
 }
 // fin habilita deshabilita tipo de persona
+
+
+// Valida CURP
+function valida_curp(){
+    if(document.forms[0].elements['cliente_curp'].value.length != 13){
+        alert ("Verifique la CURP");
+        return true;
+    }
+    else
+        return false;
+}
+
 
 
 function longitud(texto,maxlong) {
     if (texto.value.length != maxlong){
         alert ("Verifique longitud del Folio RFC");
         texto.focus();
+//        return false;
     }
+//    else {
+//        return true;
+//    }
 }
 
 
