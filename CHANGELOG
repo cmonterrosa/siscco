@@ -1,3 +1,17 @@
+Modificaciones 16 de septiembre de 2010
+
+=> Funcion que calcula moratorio
+
+=> Funcion que calcula comisiones (gastos de cobranza)
+
+=> Funcion que calcula iva de las comisiones (gastos de cobranza)
+
+=> Funcion que despliega la sumatoria de los anteriores y me muestra "el pago minimo"
+
+
+
+
+
 Modificaciones 15 de septiembre de 2010
 
 => Aumentamos el tamaño del identificador del cliente, incoporando letras para evitar duplicidad

@@ -1,3 +1,7 @@
+<STYLE>H5 {FONT-SIZE: 21pt; COLOR: #000080};</STYLE>
+
+
+
 <h2>Cliente: <%=@cliente.nombre_completo%></h2>
 <h3>Calendario de pagos</h3>
 <table>
@@ -7,6 +11,8 @@
     <th>Capital minimo</th>
     <th>Interes minimo</th>
     <th>Moratorio</th>
+    <th>Gastos de Cobranza</th>
+    <th>Iva Gastos de Cobranza</th>
     <th>Pagado</th>
     <th>Cliente</th>
   </tr>
@@ -15,8 +21,10 @@
      <td><%=pago.num_pago%></td>
      <td><%=pago.fecha_limite%></td>
      <td><%="$%.2f" % pago.capital_minimo%></td>
-      <td><%="$%.2f" % pago.interes_minimo%></td>
-      <td><%=("$%.2f" % pago.moratorio) unless pago.moratorio.nil?%></td>
+     <td><%="$%.2f" % pago.interes_minimo%></td>
+     <td><%=(calcula_moratorio(pago, Time.now))%></td>
+     <td><%=(calcula_comisiones(pago, Time.now))%></td>
+     <td><%=(calcula_iva_comisiones(pago, Time.now))%></td>
      <%if pago.pagado == 1%>
         <td>SI</td>
      <%else%>
@@ -30,9 +38,14 @@
 </table>
 
 
+
 <!---- Ingreamos el pago -->
 
-<h3>Ingresar Pago</h3>
+<h5>El pago minimo es de <%=  proximo_pago_minimo_por_cliente_a_la_fecha(@cliente, @credito, Time.now)%></h5>
+
+<br />
+
+<h3>Ingresar Pago Individual</h3>
 
 <!-- Form para agregar un pago -->
 <% form_tag :action => 'abonar_grupal', :credito=>@credito, :cliente => @cliente do -%>
