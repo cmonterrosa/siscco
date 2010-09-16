@@ -49,6 +49,32 @@ function comprobar()
 }
 // fin de funcion comprobar campos vacios
 
+// Valida CURP
+function valida_curp(){
+    if(document.forms[0].elements['cliente_curp'].value.length != 18){
+        document.forms[0].elements['cliente_curp'].style.backgroundColor="#ff9999";
+        return true;
+    }
+    else {
+        document.forms[0].elements['cliente_curp'].style.backgroundColor="white";
+        return false;
+    }
+}
+
+//-- Limita caracteres escritos en textbox
+function longitud(texto,maxlong) {
+    var in_value, out_value;
+
+    if (texto.value.length > maxlong) {
+        in_value = texto.value;
+        out_value = in_value.substring(0,maxlong);
+        texto.value = out_value;
+        return false;
+    }
+    return true;
+}
+// fin limita caracteres introducidos
+
 //-- Habilita-Deshabilita textbox de tipo de persona
 function habilita_des(){
     if ((document.forms[0].elements['cliente_tipo_persona'].value == "FISICA") || (document.forms[0].elements['cliente_tipo_persona'].value == "")){
@@ -62,93 +88,53 @@ function habilita_des(){
 }
 // fin habilita deshabilita tipo de persona
 
-
-// Valida CURP
-function valida_curp(){
-    if(document.forms[0].elements['cliente_curp'].value.length != 13){
-        alert ("Verifique la CURP");
-        return true;
-    }
-    else
-        return false;
-}
-
-
-
-function longitud(texto,maxlong) {
-    if (texto.value.length != maxlong){
-        alert ("Verifique longitud del Folio RFC");
-        texto.focus();
+//-- Confirma activar/desactivar el checkbox de creditos
+//function confirma()
+//{
+//    if ( document.forms[0].elements['credito_status'].checked == false ){
+//        if ( window.confirm("¿Desea deshabilitar este Crédito?") == true ){
+//            document.forms[0].elements['credito_status'].checked = false;
+//        }
+//        else{
+//            document.forms[0].elements['credito_status'].checked = true;
+//        }
+//    }
+//    else{
+//        if ( window.confirm("¿Desea habilitar este Crédito?") == true ){
+//            document.forms[0].elements['credito_status'].checked = true;
+//        }
+//        else{
+//            document.forms[0].elements['credito_status'].checked = false;
+//        }
+//    }
+//}
+// fin de confirma checkbox
+//
+//function comprobar_cerrar()
+//{
+//    missinginfo = "";
+//    var mal=false;
+//    numero=document.forms[0].elements.length;
+//    for(a=0;a<numero;a++) {
+//        if(document.forms[0].elements[a].value=="") {
+//            document.forms[0].elements[a].style.backgroundColor="#ff9999";
+//            missinginfo += "\n     - "+document.forms[0].elements[a].name;
+//            mal=true;
+//        }
+//        else {
+//            document.forms[0].elements[a].style.backgroundColor="white";
+//            document.forms[0].elements[a].value = document.forms[0].elements[a].value.toUpperCase();
+//        }
+//    }
+//    if(mal) {
+//        alert("Por favor, rellene los campos:"+'\n'+missinginfo);
 //        return false;
-    }
+//    }
 //    else {
+//        document.forms[0].submit();
 //        return true;
 //    }
-}
-
-
-
-//-- Limita caracteres escritos en textbox
-//function longitud(texto,maxlong) {
-//    var in_value, out_value;
-//
-//    if (texto.value.length > maxlong) {
-//        in_value = texto.value;
-//        out_value = in_value.substring(0,maxlong);
-//        texto.value = out_value;
-//        return false;
-//    }
-//    return true;
 //}
-// fin limita caracteres introducidos
-
-//-- Confirma activar/desactivar el checkbox de creditos
-function confirma()
-{
-    if ( document.forms[0].elements['credito_status'].checked == false ){
-        if ( window.confirm("¿Desea deshabilitar este Crédito?") == true ){
-            document.forms[0].elements['credito_status'].checked = false;
-        }
-        else{
-            document.forms[0].elements['credito_status'].checked = true;
-        }
-    }
-    else{
-        if ( window.confirm("¿Desea habilitar este Crédito?") == true ){
-            document.forms[0].elements['credito_status'].checked = true;
-        }
-        else{
-            document.forms[0].elements['credito_status'].checked = false;
-        }
-    }
-}
-// fin de confirma checkbox
-
-function comprobar_cerrar()
-{
-    missinginfo = "";
-    var mal=false;
-    numero=document.forms[0].elements.length;
-    for(a=0;a<numero;a++) {
-        if(document.forms[0].elements[a].value=="") {
-            document.forms[0].elements[a].style.backgroundColor="#ff9999";
-            missinginfo += "\n     - "+document.forms[0].elements[a].name;
-            mal=true;
-        }
-        else {
-            document.forms[0].elements[a].style.backgroundColor="white";
-            document.forms[0].elements[a].value = document.forms[0].elements[a].value.toUpperCase();
-        }
-    }
-    if(mal) {
-        alert("Por favor, rellene los campos:"+'\n'+missinginfo);
-        return false;
-    }
-    else {
-        document.forms[0].submit();
-        return true;
-    }
-}
 
 //-- Carga los menu -->
 function mmLoadMenus() {
