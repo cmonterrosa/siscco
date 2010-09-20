@@ -6,7 +6,7 @@
     <tr class="botones">
       <th class="botones"><%= link_to 'Regresar', :controller => 'home', :action => 'index' %></th>
       <th class="botones">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
-      <th class="botones"><%= submit_tag "Agregar" %></th>
+      <th class="botones"><%= submit_tag "Agregar", :onclick => "return comprobar();"%></th>
     </tr>
   </table>
 <% end %>

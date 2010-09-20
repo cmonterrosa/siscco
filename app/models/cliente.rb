@@ -37,8 +37,9 @@ validates_uniqueness_of :curp, :message => ", Ese cliente ya esta registrado."
   end
 
   def destroy
-    self.st=0
-    self.save!
+    #self.st=0
+    #self.save!
+    super
     unless self.clientegrupos.empty?
       self.clientegrupos.each do |clientegrupo|
         clientegrupo.activo=0

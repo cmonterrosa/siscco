@@ -167,6 +167,8 @@ function mmLoadMenus() {
 //  menu_operacion.addMenuItem("Listado&nbsp;de&nbsp;Créditos","location='#'");
   menu_operacion.addMenuItem("Pago&nbsp;Línea&nbsp;Fondeo","location='/pagoslineas/new'");
   menu_operacion.addMenuItem("Transferir&nbsp;Fondos","location='/lineas/transferir_fondos'");
+  menu_operacion.addMenuItem("Cargar&nbsp;Layout","location='/upload'");
+  menu_operacion.addMenuItem("Histórico&nbsp;de&nbsp;Cargas","location='/upload/historico'");
   menu_operacion.fontWeight="bold";
   menu_operacion.hideOnMouseOut=true;
   menu_operacion.bgColor='#555555';

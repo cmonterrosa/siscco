@@ -1,3 +1,17 @@
+Modificaciones 19 de septiembre de 2010
+
+=> Corregimos que se pueda eliminar completamente al cliente y eliminamos el registro de la tabla clientegrupos
+
+=> Generamos metodo que carga el archivo de texto, valida extension, procesa y guarda
+   la información sobre el archivo para llevar el control, verifica que tenga la estuctura valida
+
+=> Generamos el historico de los archivos de layouts que se han cargado en el sistema
+
+=> Generamos el acceso directo desde el menu
+
+
+
+
 Modificaciones 16 de septiembre de 2010
 
 => Funcion que calcula moratorio
