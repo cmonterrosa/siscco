@@ -54,7 +54,10 @@ class GruposController < ApplicationController
   end
 
   def destroy
-    Grupo.find(params[:id]).destroy
+    @grupo = Grupo.find(params[:id])
+    @clientegrupos = Clientegrupo.find(:all, :conditions => ["grupo_id = ? ", @grupo.id])
+    @clientegrupos.each do |cg| cg.destroy end  
+    @grupo.destroy 
     redirect_to :action => 'list'
   end
 
