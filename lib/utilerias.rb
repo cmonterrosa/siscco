@@ -49,7 +49,6 @@ module Utilerias
             num, clave = linea.split("/")
             return false unless clave =~ /^[A-Z]{4}/
             return false unless num =~/\d{4}/
-            return num, clave
         end
         num_linea+=1
       end
@@ -76,11 +75,16 @@ module Utilerias
         end
         num_linea+=1
       end
-      #--- Asignacion de metadatos
-       datafile.fecha_hora_archivo = DateTime.new(@anio.to_i, @mes.to_i, @dia.to_i, @hora.to_i, @minutos.to_i).strftime("%Y-%m-%d %H:%M:%S")
-       datafile.num_lineas = num_linea - 6
-       datafile.save
-      # datafile.save
+      #--- Validamos si ya existe -------
+      if Datafile.find(:first, :conditions => ["clave = ? AND numero = ?", datafile.clave, datafile.numero])
+         return false
+      else
+        #--- Asignacion de metadatos
+        datafile.fecha_hora_archivo = DateTime.new(@anio.to_i, @mes.to_i, @dia.to_i, @hora.to_i, @minutos.to_i).strftime("%Y-%m-%d %H:%M:%S")
+        datafile.num_lineas = num_linea - 6
+        datafile.save
+        return true
+      end
    end
 
 
