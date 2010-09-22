@@ -1,3 +1,63 @@
+Modificaciones 19 de septiembre de 2010
+
+=> Corregimos que se pueda eliminar completamente al cliente y eliminamos el registro de la tabla clientegrupos
+
+=> Generamos metodo que carga el archivo de texto, valida extension, procesa y guarda
+   la información sobre el archivo para llevar el control, verifica que tenga la estuctura valida
+
+=> Generamos el historico de los archivos de layouts que se han cargado en el sistema
+
+=> Generamos el acceso directo desde el menu
+
+
+
+
+Modificaciones 16 de septiembre de 2010
+
+=> Funcion que calcula moratorio
+
+=> Funcion que calcula comisiones (gastos de cobranza)
+
+=> Funcion que calcula iva de las comisiones (gastos de cobranza)
+
+=> Funcion que despliega la sumatoria de los anteriores y me muestra "el pago minimo"
+
+
+
+
+
+Modificaciones 15 de septiembre de 2010
+
+=> Aumentamos el tamaño del identificador del cliente, incoporando letras para evitar duplicidad
+
+=> Agregamos el boton reportes, a la busqueda de credito
+
+=> Generamos el reporte "pagare" para el credito seleccionado
+
+=> Generacion del reporte "tarjeta de pagos" para el cliente seleccionado del credito
+
+=> Generacion del reporte "carta_compromiso" para el grupo
+
+=> Mostramos el identificador del cliente al momento de dar de alta
+
+
+
+
+Modificaciones 14 de septiembre de 2010
+
+=> Correcion al iniciar sesion para desplegar mensaje de login erroneo
+
+=> Seleccion del municipio para la sucursal
+
+=> Visualizar el municipio al que pertenece la sucursal
+
+=> Generación automatica del prefijo para la generacion del numero de referencia alfanumerica del banco
+
+=> Calculo de los importes de los pagos para tasa de capital iguales y tasa flat y con incremento de capital, asi como sus amortizaciones
+
+
+
+
 Modificaciones 11 Septiembre del 2010
 
 => Corrección del error en nacionalidad
@@ -18,10 +78,10 @@ Modificaciones 11 Septiembre del 2010
 == Pendiente validar que no se repita el CURP al momento de dar de alta a un cliente, mandar un aviso de que existe
    (Catalogo Cliente)
 
-== Pendiente hacer que aparezca otro text-box al seleccionar tipo de persona, en caso de seleccionar tipo de
+=> hacer que aparezca otro text-box al seleccionar tipo de persona, en caso de seleccionar tipo de
    persona moral o fisica con act. empresarial (Catalogo Cliente)
 
-== Pendiente corregir accion editar, marcar error al actualizar el registro (update)
+=> corrige accion editar, marcar error al actualizar el registro (update)
 
 
 

@@ -19,77 +19,122 @@ function CharNum(e, modo)
 function comprobar()
 {
     missinginfo = "";
-    var mal=false;
+    var vacio=false;
     numero=document.forms[0].elements.length;
     for(a=0;a<numero;a++) {
         if(document.forms[0].elements[a].value=="" && document.forms[0].elements[a].className=="text") {
             document.forms[0].elements[a].style.backgroundColor="#ff9999";
             missinginfo += "\n     - "+document.forms[0].elements[a].name;
-            mal=true;
+            vacio=true;
         }
         else {
             document.forms[0].elements[a].style.backgroundColor="white";
             document.forms[0].elements[a].value = document.forms[0].elements[a].value.toUpperCase();
         }
     }
-    if(mal) {
+    if(vacio) {
         alert("Por favor, rellene los campos:"+'\n'+missinginfo);
         return false;
     }
     else {
+        if(valida_curp()){
+            alert("Verifica CURP");
+            return false;
+        }
+        else {
         document.forms[0].submit();
         return true;
+        }
     }
 }
 // fin de funcion comprobar campos vacios
 
-//-- Confirma activar/desactivar el checkbox de creditos
-function confirma()
-{
-    if ( document.forms[0].elements['credito_status'].checked == false ){
-        if ( window.confirm("¿Desea deshabilitar este Crédito?") == true ){
-            document.forms[0].elements['credito_status'].checked = false;
-        }
-        else{
-            document.forms[0].elements['credito_status'].checked = true;
-        }
-    }
-    else{
-        if ( window.confirm("¿Desea habilitar este Crédito?") == true ){
-            document.forms[0].elements['credito_status'].checked = true;
-        }
-        else{
-            document.forms[0].elements['credito_status'].checked = false;
-        }
-    }
-}
-// fin de confirma checkbox
-
-function comprobar_cerrar()
-{
-    missinginfo = "";
-    var mal=false;
-    numero=document.forms[0].elements.length;
-    for(a=0;a<numero;a++) {
-        if(document.forms[0].elements[a].value=="") {
-            document.forms[0].elements[a].style.backgroundColor="#ff9999";
-            missinginfo += "\n     - "+document.forms[0].elements[a].name;
-            mal=true;
-        }
-        else {
-            document.forms[0].elements[a].style.backgroundColor="white";
-            document.forms[0].elements[a].value = document.forms[0].elements[a].value.toUpperCase();
-        }
-    }
-    if(mal) {
-        alert("Por favor, rellene los campos:"+'\n'+missinginfo);
-        return false;
-    }
-    else {
-        document.forms[0].submit();
+// Valida CURP
+function valida_curp(){
+    if(document.forms[0].elements['cliente_curp'].value.length != 18){
+        document.forms[0].elements['cliente_curp'].style.backgroundColor="#ff9999";
         return true;
     }
+    else {
+        document.forms[0].elements['cliente_curp'].style.backgroundColor="white";
+        return false;
+    }
 }
+
+//-- Limita caracteres escritos en textbox
+function longitud(texto,maxlong) {
+    var in_value, out_value;
+
+    if (texto.value.length > maxlong) {
+        in_value = texto.value;
+        out_value = in_value.substring(0,maxlong);
+        texto.value = out_value;
+        return false;
+    }
+    return true;
+}
+// fin limita caracteres introducidos
+
+//-- Habilita-Deshabilita textbox de tipo de persona
+function habilita_des(){
+    if ((document.forms[0].elements['cliente_tipo_persona'].value == "FISICA") || (document.forms[0].elements['cliente_tipo_persona'].value == "")){
+        document.forms[0].elements['cliente_folio_rfc'].value = "0";
+        document.forms[0].elements['cliente_folio_rfc'].disabled = true;
+    }
+    else{
+        document.forms[0].elements['cliente_folio_rfc'].disabled = false;
+        document.forms[0].elements['cliente_folio_rfc'].value = "";
+    }
+}
+// fin habilita deshabilita tipo de persona
+
+//-- Confirma activar/desactivar el checkbox de creditos
+//function confirma()
+//{
+//    if ( document.forms[0].elements['credito_status'].checked == false ){
+//        if ( window.confirm("¿Desea deshabilitar este Crédito?") == true ){
+//            document.forms[0].elements['credito_status'].checked = false;
+//        }
+//        else{
+//            document.forms[0].elements['credito_status'].checked = true;
+//        }
+//    }
+//    else{
+//        if ( window.confirm("¿Desea habilitar este Crédito?") == true ){
+//            document.forms[0].elements['credito_status'].checked = true;
+//        }
+//        else{
+//            document.forms[0].elements['credito_status'].checked = false;
+//        }
+//    }
+//}
+// fin de confirma checkbox
+//
+//function comprobar_cerrar()
+//{
+//    missinginfo = "";
+//    var mal=false;
+//    numero=document.forms[0].elements.length;
+//    for(a=0;a<numero;a++) {
+//        if(document.forms[0].elements[a].value=="") {
+//            document.forms[0].elements[a].style.backgroundColor="#ff9999";
+//            missinginfo += "\n     - "+document.forms[0].elements[a].name;
+//            mal=true;
+//        }
+//        else {
+//            document.forms[0].elements[a].style.backgroundColor="white";
+//            document.forms[0].elements[a].value = document.forms[0].elements[a].value.toUpperCase();
+//        }
+//    }
+//    if(mal) {
+//        alert("Por favor, rellene los campos:"+'\n'+missinginfo);
+//        return false;
+//    }
+//    else {
+//        document.forms[0].submit();
+//        return true;
+//    }
+//}
 
 //-- Carga los menu -->
 function mmLoadMenus() {
@@ -122,6 +167,8 @@ function mmLoadMenus() {
 //  menu_operacion.addMenuItem("Listado&nbsp;de&nbsp;Créditos","location='#'");
   menu_operacion.addMenuItem("Pago&nbsp;Línea&nbsp;Fondeo","location='/pagoslineas/new'");
   menu_operacion.addMenuItem("Transferir&nbsp;Fondos","location='/lineas/transferir_fondos'");
+  menu_operacion.addMenuItem("Cargar&nbsp;Layout","location='/upload'");
+  menu_operacion.addMenuItem("Histórico&nbsp;de&nbsp;Cargas","location='/upload/historico'");
   menu_operacion.fontWeight="bold";
   menu_operacion.hideOnMouseOut=true;
   menu_operacion.bgColor='#555555';

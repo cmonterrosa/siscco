@@ -12,11 +12,12 @@ class Credito < ActiveRecord::Base
   has_many :movimientos
   has_many :referencias
   has_many :pagos
+  has_many :miembros
 
     def initialize(params = nil)
     super
       self.status = 0 unless self.status
-      self.identificador = self.id.to_i + rand(100) unless self.identificador
+      self.identificador = (rand(10)).to_s + Array.new(4) { (rand(122-97) + 97).chr }.join + (rand(10000)).to_s unless self.identificador
     end
 
     #--------- Validaciones ------
@@ -24,7 +25,7 @@ class Credito < ActiveRecord::Base
     #before_create :grupo_unico?
     #validates_numericality_of :num_referencia, :message => "Debe de ser numero"
     #validates_uniqueness_of :num_referencia,  :message => "Ya existe un credito con ese numero de referencia"
-    validates_uniqueness_of :identificador, :message => ", Ese cliente ya esta registrado."
+    #validates_uniqueness_of :identificador, :message => ", Ese cliente ya esta registrado."
 
     def grupo_unico?
       @grupo = Grupo.find(self.grupo_id) if self.grupo_id
@@ -71,11 +72,15 @@ class Credito < ActiveRecord::Base
        return false if self.status != 1
      end
 
-    def generar_id!
-      id = self.id.to_i + rand(100)
-      self.identificador = id
-      self.save!
+
+  def generar_id!
+    id = (rand(10)).to_s + Array.new(4) { (rand(122-97) + 97).chr }.join + (rand(10000)).to_s
+    if Credito.find_by_identificador(id)
+       id = (rand(10)).to_s Array.new(4) { (rand(122-97) + 97).chr }.join + (rand(10000)).to_s
     end
+    self.identificador = id
+    self.save!
+  end
 
 
    end

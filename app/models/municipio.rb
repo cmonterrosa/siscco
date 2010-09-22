@@ -3,4 +3,5 @@ class Municipio < ActiveRecord::Base
   has_many :ejidos
   has_many :localidades
   has_many :bancos
+  has_many :sucursales
 end

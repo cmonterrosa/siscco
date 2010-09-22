@@ -1,3 +1,5 @@
+require 'date'
+
 module Utilerias
 
   def separar_miles(n)
@@ -8,13 +10,86 @@ module Utilerias
     int.reverse + dec.ljust(2,'0')
   end
 
+
+  def round(float, num_of_decimal_places=0)
+      exponent = num_of_decimal_places + 2
+      @float = float*(10**exponent)
+      @float = @float.round
+      @float = @float / (10.0**exponent)
+  end
+
+
   def tiene_permiso?(rol, controlador)
     @controlador = Controller.find(controlador)
     @registro = Systable.find(:first, :conditions => ["rol_id = ? and controller_id = ? ", Rol.find(rol).id, @controlador.id])
     return ( @registro.nil? ) ? false : true
   end
 
- 
+
+  def procesar_archivo_texto(name)
+      num = clave = 0
+      num_linea = 1
+      File.open("#{RAILS_ROOT}/public/tmp/#{name}").each do |linea|
+        if num_linea == 1
+            num, clave = linea.split("/")
+            return false unless clave =~ /^[A-Z]{4}/
+        end
+        num_linea+=1
+      end
+  end
+
+
+  #-------- Funciones para la manipulacion del layout (archivo de texto) ----
+
+  def encabezado_valido?(name)
+      num = clave = 0
+      num_linea = 1
+      File.open("#{RAILS_ROOT}/public/tmp/#{name}").each do |linea|
+        if num_linea == 1
+            num, clave = linea.split("/")
+            return false unless clave =~ /^[A-Z]{4}/
+            return false unless num =~/\d{4}/
+        end
+        num_linea+=1
+      end
+      return true
+   end
+
+    def inserta_metadatos(name, datafile)
+      num_linea = 1
+      File.open("#{RAILS_ROOT}/public/tmp/#{name}").each do |linea|
+        if num_linea == 1
+            numero, clave = linea.split("/")
+            if clave =~ /^[A-Z]{4}/
+               datafile.clave = clave
+            end
+            if numero =~/\d{4}/
+               datafile.numero = numero
+            end
+        end
+        if num_linea == 5
+          cadena = linea.split("|")
+          fecha, hora_completa = cadena[0], cadena[1]
+          @dia, @mes, @anio = fecha.split("/")
+          @hora, @minutos = hora_completa.split(":")
+        end
+        num_linea+=1
+      end
+      #--- Validamos si ya existe -------
+      if Datafile.find(:first, :conditions => ["clave = ? AND numero = ?", datafile.clave, datafile.numero])
+         return false
+      else
+        #--- Asignacion de metadatos
+        datafile.fecha_hora_archivo = DateTime.new(@anio.to_i, @mes.to_i, @dia.to_i, @hora.to_i, @minutos.to_i).strftime("%Y-%m-%d %H:%M:%S")
+        datafile.num_lineas = num_linea - 6
+        datafile.save
+        return true
+      end
+   end
+
+
+
+
 
 
 
@@ -157,9 +232,6 @@ end
       
 end
 
-
-
- 
 
    #--- combo de semanas, maximo 52 ----
   @semanas = []

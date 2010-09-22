@@ -2,7 +2,7 @@
 # migrations feature of ActiveRecord to incrementally modify your database, and
 # then regenerate this schema definition.
 
-ActiveRecord::Schema.define(:version => 44) do
+ActiveRecord::Schema.define(:version => 45) do
 
   create_table "actividads", :force => true do |t|
     t.column "clave_inegi", :string
@@ -50,6 +50,7 @@ ActiveRecord::Schema.define(:version => 44) do
     t.column "telefono",        :string,  :limit => 10
     t.column "fax",             :string,  :limit => 10
     t.column "email",           :string
+    t.column "folio_rfc",       :string,  :limit => 13
     t.column "civil_id",        :integer
     t.column "escolaridad_id",  :integer
     t.column "vivienda_id",     :integer
@@ -132,6 +133,14 @@ ActiveRecord::Schema.define(:version => 44) do
     t.column "sCtaNom",   :string,  :limit => 30
   end
 
+  create_table "datafiles", :force => true do |t|
+    t.column "numero",             :string,   :limit => 4
+    t.column "clave",              :string,   :limit => 4
+    t.column "fecha_hora_archivo", :datetime
+    t.column "fecha_hora_carga",   :datetime
+    t.column "nombre_archivo",     :string
+  end
+
   create_table "destinos", :force => true do |t|
     t.column "destino",    :string
     t.column "user_id",    :integer
@@ -162,7 +171,10 @@ ActiveRecord::Schema.define(:version => 44) do
   end
 
   create_table "fondeos", :force => true do |t|
-    t.column "fuente", :string
+    t.column "acronimo",  :string
+    t.column "fuente",    :string
+    t.column "domicilio", :string
+    t.column "telefono",  :string
   end
 
   create_table "garantias", :force => true do |t|
@@ -253,20 +265,26 @@ ActiveRecord::Schema.define(:version => 44) do
   end
 
   create_table "pagos", :force => true do |t|
-    t.column "num_pago",       :integer
-    t.column "fecha_limite",   :date
-    t.column "capital_minimo", :string
-    t.column "interes_minimo", :string
-    t.column "fecha",          :date
-    t.column "capital",        :string
-    t.column "interes",        :string
-    t.column "moratorio",      :string
-    t.column "pagado",         :integer
-    t.column "credito_id",     :integer
-    t.column "cliente_id",     :integer
-    t.column "descripcion",    :string
-    t.column "int_devengados", :float
-    t.column "st",             :integer
+    t.column "num_pago",             :integer
+    t.column "fecha_limite",         :date
+    t.column "capital_minimo",       :string
+    t.column "interes_minimo",       :string
+    t.column "fecha",                :date
+    t.column "capital",              :string
+    t.column "interes",              :string
+    t.column "moratorio",            :string
+    t.column "pagado",               :integer
+    t.column "credito_id",           :integer
+    t.column "cliente_id",           :integer
+    t.column "descripcion",          :string
+    t.column "int_devengados",       :float
+    t.column "comisiones",           :string
+    t.column "iva_comisiones",       :string
+    t.column "iva_moratorio",        :string
+    t.column "saldo_inicial",        :string
+    t.column "saldo_final",          :string
+    t.column "principal_recuperado", :string
+    t.column "st",                   :integer
   end
 
   create_table "pagoslineas", :force => true do |t|
@@ -353,7 +371,7 @@ ActiveRecord::Schema.define(:version => 44) do
     t.column "telefono",      :string
     t.column "direccion",     :string
     t.column "codigo_postal", :string
-    t.column "colonia_id",    :integer
+    t.column "municipio_id",  :integer
     t.column "st",            :integer
   end
 

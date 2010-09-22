@@ -1,0 +1,10 @@
+<h1>Carga de Layouts Bancario</h1>
+
+<br />
+
+<% form_for :uploadform, :url => { :action => 'upload'}, :html => {:multipart => true} do%>
+  <%= file_field(:datafile, :file)%><br /> <br />
+  <%= submit_tag 'Cargar' %>
+<% end %>
+
+

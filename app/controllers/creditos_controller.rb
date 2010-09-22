@@ -24,7 +24,6 @@ class CreditosController < ApplicationController
   def abonar_individual
     @credito = Credito.find(params[:credito])
     @num_pagos = Pago.count(:id, :conditions=>["credito_id = ? AND pagado = 1", @credito.id]).to_i
-
     if @num_pagos == @credito.num_pagos
       #---- Ya se liquido el credito ----
         flash[:notice] = "Su credito ha sido liquidado"
@@ -58,15 +57,21 @@ class CreditosController < ApplicationController
        @cliente = Cliente.find(params[:cliente])
        @num_pagos = Pago.count(:id, :conditions=>["credito_id = ? AND pagado = 1", @credito.id]).to_i
 
+       #--- Generamos importes -----
+       calcula_iva_comisiones(pago, fecha_pago) + calcula_
+
+
+
+
     if @num_pagos == @credito.producto.num_pagos
       #---- Ya se liquido el credito ----
         flash[:notice] = "Su credito ha sido liquidado"
         redirect_to :action => "transaccion_grupal", :id=>@credito
     else
 
-        if (params[:pago][:capital].to_f + params[:pago][:interes].to_f) < pago_minimo(@credito).to_f
+        if (params[:pago][:capital].to_f + params[:pago][:interes].to_f) < pago_minimo_informativo(@credito).to_f
            #--- Si Se intenta pagar menos el minimo
-           flash[:notice] = "Su pago minimo es de #{pago_minimo(@credito)}"
+           flash[:notice] = "Su pago minimo es de #{pago_minimo_informativo(@credito)}"
            redirect_to :action => "transaccion_grupal", :id=>@credito
 
         else
@@ -119,12 +124,11 @@ class CreditosController < ApplicationController
                 #--- Es individual -----
                    inserta_pagos_individuales(@credito, calcula_pagos(@fecha_inicio.year, @fecha_inicio.month, @fecha_inicio.day, @producto.num_pagos, @producto.periodo))
                 else
-                  
-                   inserta_pagos_grupales(@credito, calcula_pagos(@fecha_inicio.year, @fecha_inicio.month, @fecha_inicio.day, @producto.num_pagos, @producto.periodo))
+                   inserta_pagos_grupales_por_tipo(@credito, calcula_pagos(@fecha_inicio.year, @fecha_inicio.month, @fecha_inicio.day, @producto.num_pagos, @producto.periodo), @credito.tipo_interes)
                 end
            
            flash[:notice]="El crédito #{@credito.id} ha sido capturado"
-           redirect_to :action => 'list'
+           redirect_to :action => 'menu', :controller => "reportes", :id => @credito
         
           else
                 flash[:notice]="El crédito no pudo ser grabado, verifique que el grupo tenga al menos dos clientes asociados"

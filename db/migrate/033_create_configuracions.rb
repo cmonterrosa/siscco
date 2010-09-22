@@ -14,6 +14,7 @@ class CreateConfiguracions < ActiveRecord::Migration
                        :ciudad => "Tuxtla Gutiérrez, Chiapas",
                        :direccion => "13a Avenida Sur Poniente Número 640, Barrio San Francisco",
                        :telefono => "9616112840",
+                       :prefijo => "SOC",
                        :ultima_referencia => 0)
    end
 

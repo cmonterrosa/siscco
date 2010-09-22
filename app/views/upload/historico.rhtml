@@ -1,0 +1,25 @@
+<h1>Histórico de Archivos Cargados</h1>
+<br />
+<div id="scroll">
+      <table>
+        <tr>
+          <th>Numero:</th>
+          <th>Clave:</th>
+          <th>Fecha proceso:</th>
+          <th>Fecha de carga:</th>
+          <th>Nombre</th>
+          <th>Numero de Lineas</th>
+        </tr>
+
+        <% for file in @datafiles %>
+        <tr>
+          <td><%=file.numero %></td>
+          <td><%= file.clave %></td>
+          <td><%= file.fecha_hora_archivo.strftime("%Y-%m-%d %H:%M:%S") %></td>
+          <td><%= file.fecha_hora_carga.strftime("%Y-%m-%d %H:%M:%S") %></td>
+           <td><%= file.nombre_archivo %></td>
+          <td><%= file.num_lineas %></td>
+        </tr>
+        <% end %>
+      </table>
+ </div>

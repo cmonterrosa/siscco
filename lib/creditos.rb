@@ -15,17 +15,6 @@ module Creditos
   end
 
 
-#  def cargos(credito)
-#      @pagos = Pago.find(:all,
-#                         :conditions=>["credito_id = ? AND pagado= 1", credito.id])
-#    sum=0
-#    @pagos.each do |pago|
-#      sum +=  pago.interes.to_f
-#    end
-#    return sum
-#  end
-
-
  def total(credito)
     @total =  (credito.monto * (credito.tasa_interes / 100.0)) + credito.monto
     return @total - abonos(credito)
@@ -197,6 +186,87 @@ module Creditos
     end
 
 
+  def inserta_pagos_grupales_por_tipo(credito, arreglo_pagos, tipos_interes)
+    @producto = Producto.find(credito.producto_id)
+    @capital = (credito.monto / credito.grupo.clientes.size)
+    @capital_semanal = @capital / @producto.num_pagos
+    @tasa_semanal =   ((@producto.intereses.to_f / 100.0 ) / 30.0) * 7
+    case tipos_interes
+      when "Pagos iguales con decremento de interes e incremento de capital"
+        @pago_semanal = @capital * (@tasa_semanal/(1-(1 + @tasa_semanal)**(@producto.num_pagos*-1)))
+        @pago_semanal =  Integer(@pago_semanal * 100) / Float(100)
+        clientes_activos_grupo(Grupo.find(credito.grupo_id)).each do |y|
+              contador=1
+              saldo_inicial = @capital
+              arreglo_pagos.each do |x|
+                   @interes_minimo = round(saldo_inicial * @tasa_semanal)
+                   @principal_recuperado = round(@pago_semanal - @interes_minimo)
+                   Pago.create(:num_pago => contador,
+                             :credito_id => credito.id,
+                             :fecha_limite => x,
+                             :cliente_id => y.id.to_i,
+                             :capital_minimo => @principal_recuperado,
+                             :principal_recuperado => @principal_recuperado,
+                             :interes_minimo => @interes_minimo,
+                             :saldo_inicial => saldo_inicial,
+                             :saldo_final => round(saldo_inicial - @principal_recuperado),
+                             :pagado => 0,
+                             :descripcion => tipos_interes)
+                   contador+=1
+                   saldo_inicial -= @principal_recuperado
+               end
+            end
+
+         when "Pagos iguales de capital"
+              #-- Hacemos los calculos correspondientes ----
+              
+              #--- Hacemos una iteracion por todos los miembros del grupo y dividimos el total del credito ---
+              clientes_activos_grupo(Grupo.find(credito.grupo_id)).each do |y|
+              contador=1
+              saldo_inicial = @capital
+              arreglo_pagos.each do |x|
+                   Pago.create(:num_pago => contador,
+                             :credito_id => credito.id,
+                             :fecha_limite => x,
+                             :cliente_id => y.id.to_i,
+                             :capital_minimo => @capital_semanal,
+                             :interes_minimo => saldo_inicial * @tasa_semanal,
+                             :saldo_inicial => saldo_inicial,
+                             :saldo_final => saldo_inicial - @capital_semanal,
+                             :pagado => 0,
+                             :descripcion => tipos_interes)
+                   contador+=1
+                   saldo_inicial -= @capital_semanal
+               end
+            end
+      when "Pagos con tasa flat (calculo sobre el saldo global de credito)"
+         @meses = @producto.num_pagos / 4
+         @total_interes = @capital * (@producto.intereses.to_f / 100) * @meses
+         @interes_semanal = @total_interes / @producto.num_pagos
+              clientes_activos_grupo(Grupo.find(credito.grupo_id)).each do |y|
+                contador=1
+                saldo_inicial = @capital
+                arreglo_pagos.each do |x|
+                    Pago.create(:num_pago => contador,
+                               :credito_id => credito.id,
+                               :fecha_limite => x,
+                               :cliente_id => y.id.to_i,
+                               :capital_minimo => @capital_semanal,
+                               :interes_minimo => @interes_semanal,
+                               :saldo_inicial => saldo_inicial,
+                              :saldo_final => saldo_inicial - @capital_semanal,
+                              :pagado => 0,
+                              :descripcion => tipos_interes)
+                    contador+=1
+                    saldo_inicial -= @capital_semanal
+                end
+             end
+    end
+  end
+
+
+
+
     def linea_disponible(linea)
     if linea.creditos.empty?
            return linea.autorizado.to_f + total_recibido(linea) - total_transferido(linea)
@@ -241,6 +311,51 @@ module Creditos
            end
          end
 
+       #----- Calculo de impores por retraso en pagos ---------
+
+        def calcula_comisiones(pago, fecha_pago)
+          comisiones = 0.0
+          #---- Se calculan los gastos de cobranza ------
+          if fecha_pago.yday - (pago.fecha_limite.yday)  >= 8 # 8 dias despues
+             comisiones =  200 #if pago.comisiones != "0"
+          end
+          return comisiones
+        end
+
+        def calcula_iva_comisiones(pago, fecha_pago)
+          iva_comisiones = 0.0
+          #---- Se calculan los gastos de cobranza ------
+          if fecha_pago.yday - (pago.fecha_limite.yday)  >= 8 # 8 dias despues
+             iva_comisiones = 200 * 0.16 #if pago.iva_comisiones != "0"
+          end
+          return iva_comisiones
+        end
+
+        def calcula_moratorio(pago, fecha_pago)
+            interes_moratorio = pago.credito.producto.moratorio / 100.0
+            moratorio = 0.0
+            if fecha_pago.yday - (pago.fecha_limite.yday)  >= 3 # 8 dias despues
+              cm = pago.capital_minimo.to_f
+              im = pago.interes_minimo.to_f
+              moratorio = (cm + im) * interes_moratorio # if pago.moratorio != "0"
+            end
+            return moratorio
+        end
+
+
+       def proximo_pago_minimo_por_cliente_a_la_fecha(cliente, credito, fecha)
+          @proximo = Pago.find(:first, :conditions=>["credito_id = ? AND
+                                                   cliente_id = ? AND
+                                                   pagado=0", credito.id, cliente.id],
+                                                   :order=>"fecha_limite")
+          return (@proximo.capital_minimo.to_f) + (@proximo.interes_minimo.to_f) + calcula_moratorio(@proximo, fecha) + calcula_comisiones(@proximo, fecha) + calcula_iva_comisiones(@proximo, fecha)
+       end
+        
+
+
+ 
+
+
          def clientes_activos_grupo(grupo)
              @clientes = []
              @cg = Clientegrupo.find(:all, :conditions => ["grupo_id = ? and activo = 1", grupo.id])
@@ -260,14 +375,19 @@ module Creditos
 
          def aplicar_transferencia(transferencia)
            #----- Primero restamos agregamos el total ---
-
-##           Linea.transaction do
-##             @linea_origen.
-##           end
            Transferencia.transaction do
               Transferencia.create(:title => 'en la transaccion', :content => 'texto')
               Post.create(:content => 'texto')
            end
+         end
+
+         def pagos_capital_igual()
            
          end
+
+
+
+         
+
+
 end
