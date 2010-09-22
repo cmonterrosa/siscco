@@ -133,6 +133,11 @@
         :update => 'cliente_localidad_id',
         :with => '_municipio_id' %>
 
+      <%= observe_field(:folio_rfc,
+                 :frequency => 0.25,
+                 :update => :search_hits,
+                 :with  => "folio_rfc",
+                 :url => { :action => :muestra_folio }) %>
 
  <!--
       <= observe_field 'grupo_id',
