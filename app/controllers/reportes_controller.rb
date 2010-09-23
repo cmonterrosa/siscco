@@ -64,10 +64,10 @@ class ReportesController < ApplicationController
     _pdf.move_pointer(15)
     _pdf.text to_iso("La suma de"), :font_size => 14, :justification => :center
     _pdf.move_pointer(10)
-    _pdf.text to_iso(total_adeudado_por_persona(@credito).to_s), :font_size => 14, :justification => :center
+    _pdf.text to_iso("$" + total_adeudado_por_persona(@credito).to_s), :font_size => 14, :justification => :center
     _pdf.move_pointer(10)
 
-    _pdf.text to_iso(total_adeudado_por_persona(@credito).to_words.to_s), :font_size => 14, :justification => :center
+    _pdf.text to_iso("$" + total_adeudado_por_persona(@credito).to_words.to_s), :font_size => 14, :justification => :center
 
     _pdf.move_pointer(15)
     @leyenda2=<<-EOS
@@ -216,7 +216,7 @@ class ReportesController < ApplicationController
        _pdf.line(x, y, w, y).stroke
        _pdf.restore_state
        _pdf.close_object
-       _pdf.add_object(heading, :all_pages)
+       _pdf.add_object(heading, :this_page)
        end
 
     #--- logos -----
@@ -498,8 +498,21 @@ class ReportesController < ApplicationController
                  "Tipo_Crédito", "Bloque", "Ciclo"]
        end
      end
-     sen_data csv_string, type => "text/plain",
-       :filename => "credits.csv",
+     send_data csv_string, type => "text/plain",
+       :filename => "creditos.csv",
+       :disposition => "attachment"
+   end
+
+   def exportacion_cuentas
+     cuentas = Cuenta.find(:all)
+     csv_string = FasterCSV.generate do |csv|
+       csv << ["NUM_CUENTA", "DESCRIPCION"]
+       cuentas.each do |c|
+         csv << [c.sCtaNum, c.sNombre]
+       end
+     end
+        send_data csv_string, type => "text/plain",
+       :filename => "cuentas.csv",
        :disposition => "attachment"
    end
 

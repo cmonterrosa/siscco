@@ -141,6 +141,7 @@ function mmLoadMenus() {
   if (window.menu_catalogo) return;
   window.menu_catalogo = new Menu("root",118,20,"Geneva, Arial, Helvetica, sans-serif",14,"#000000","#FFFFFF","#999999","#6699CC","left","middle",3,0,1000,-5,7,true,true,true,0,false,true);
   menu_catalogo.addMenuItem("Bancos","location='/bancos'");
+  menu_catalogo.addMenuItem("Polizas","location='/polizas'");
   menu_catalogo.addMenuItem("Cuentas","location='/cuentas'");
   menu_catalogo.addMenuItem("Clientes","location='/clientes'");
   menu_catalogo.addMenuItem("Festivos","location='/festivos'");
@@ -167,6 +168,7 @@ function mmLoadMenus() {
 //  menu_operacion.addMenuItem("Listado&nbsp;de&nbsp;Créditos","location='#'");
   menu_operacion.addMenuItem("Pago&nbsp;Línea&nbsp;Fondeo","location='/pagoslineas/new'");
   menu_operacion.addMenuItem("Transferir&nbsp;Fondos","location='/lineas/transferir_fondos'");
+    menu_operacion.addMenuItem("Exportacion&nbsp;de&nbsp;Cuentas","location='/reportes/exportacion_cuentas'");
   menu_operacion.addMenuItem("Cargar&nbsp;Layout","location='/upload'");
   menu_operacion.addMenuItem("Histórico&nbsp;de&nbsp;Cargas","location='/upload/historico'");
   menu_operacion.fontWeight="bold";

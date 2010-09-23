@@ -22,7 +22,7 @@
   $nacionalidades = Nacionalidad.find(:all, :order => "pais_gent")
   $sucursales = Sucursal.find(:all, :order => "nombre")
   $tipos_interes = ["Pagos iguales con decremento de interes e incremento de capital", "Pagos iguales de capital", "Pagos con tasa flat (calculo sobre el saldo global de credito)"]
-
+  $cuentas = Cuenta.find(:all)
 
   #----------- Cambio de idioma de las fechas --------------------
   Date::MONTHNAMES = [nil] + %w(Enero Febrero Marzo Abril Mayo Junio Julio Agosto Septiembre Octubre Noviembre Diciembre)
