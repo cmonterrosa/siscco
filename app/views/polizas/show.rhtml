@@ -1,0 +1,10 @@
+<h1>Polizas</h1>
+<br />
+<% for column in Poliza.content_columns %>
+<p>
+  <b><%= column.human_name %>:</b> <%=h @poliza.send(column.name) %>
+</p>
+<% end %>
+<br />
+<%#= button_to 'Editar', :action => 'edit', :id => @giro %>
+<%= link_to 'Regresar', :action => 'list' %>

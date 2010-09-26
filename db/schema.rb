@@ -2,7 +2,7 @@
 # migrations feature of ActiveRecord to incrementally modify your database, and
 # then regenerate this schema definition.
 
-ActiveRecord::Schema.define(:version => 45) do
+ActiveRecord::Schema.define(:version => 46) do
 
   create_table "actividads", :force => true do |t|
     t.column "clave_inegi", :string
@@ -113,24 +113,8 @@ ActiveRecord::Schema.define(:version => 45) do
   end
 
   create_table "cuentas", :force => true do |t|
-    t.column "iEjer",     :integer
-    t.column "iMes",      :integer
-    t.column "sTpPol",    :string,  :limit => 3
-    t.column "sPolNum",   :string,  :limit => 6
-    t.column "sPolMov",   :string,  :limit => 6
-    t.column "iDia",      :integer
-    t.column "sCtaNum",   :string,  :limit => 20
-    t.column "sNombre",   :string,  :limit => 50
-    t.column "iNatura",   :integer
-    t.column "rImpMov",   :float
-    t.column "sCvIVA",    :string,  :limit => 1
-    t.column "iAplica",   :integer
-    t.column "sCnc",      :string,  :limit => 3
-    t.column "sRefere",   :string,  :limit => 8
-    t.column "sClvCnc",   :string,  :limit => 3
-    t.column "sNatMov",   :string,  :limit => 1
-    t.column "rImpMovRS", :float
-    t.column "sCtaNom",   :string,  :limit => 30
+    t.column "sCtaNum", :string, :limit => 20
+    t.column "sNombre", :string, :limit => 50
   end
 
   create_table "datafiles", :force => true do |t|
@@ -139,6 +123,7 @@ ActiveRecord::Schema.define(:version => 45) do
     t.column "fecha_hora_archivo", :datetime
     t.column "fecha_hora_carga",   :datetime
     t.column "nombre_archivo",     :string
+    t.column "num_lineas",         :integer
   end
 
   create_table "destinos", :force => true do |t|
@@ -299,6 +284,26 @@ ActiveRecord::Schema.define(:version => 45) do
     t.column "nombre",    :string
     t.column "dias",      :integer
     t.column "pagos_mes", :integer
+  end
+
+  create_table "polizas", :force => true do |t|
+    t.column "iEjer",     :integer
+    t.column "iMes",      :integer
+    t.column "sTpPol",    :string,  :limit => 3
+    t.column "sPolNum",   :string,  :limit => 6
+    t.column "sPolMov",   :string,  :limit => 6
+    t.column "iDia",      :integer
+    t.column "iNatura",   :integer
+    t.column "rImpMov",   :float
+    t.column "sCvIVA",    :string,  :limit => 1
+    t.column "iAplica",   :integer
+    t.column "sCnc",      :string,  :limit => 3
+    t.column "sRefere",   :string,  :limit => 8
+    t.column "sClvCnc",   :string,  :limit => 3
+    t.column "sNatMov",   :string,  :limit => 1
+    t.column "rImpMovRS", :float
+    t.column "sCtaNom",   :string,  :limit => 30
+    t.column "cuenta_id", :integer
   end
 
   create_table "productos", :force => true do |t|

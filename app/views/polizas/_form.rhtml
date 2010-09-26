@@ -1,0 +1,71 @@
+<%= error_messages_for 'poliza' %>
+<!--[form:poliza]-->
+<div>
+  <table>
+  <tr>
+    <th>Ejercicio:</th>
+    <th>Mes:</th>
+    <th>Tipo de Póliza:</th>
+    <th>Número de Póliza:</th>
+  </tr>
+  <tr>
+    <td><%= text_field 'poliza', 'iEjer', :onkeypress => "return CharNum(event, 'numero');", :class => "text" %></td>
+    <td><%= text_field 'poliza', 'iMes', :onkeypress => "return CharNum(event, 'numero');", :class => "text" %></td>
+    <td><%= text_field 'poliza', 'sTpPol', :onkeypress => "return CharNum(event, 'letra');", :class => "text" %></td>
+    <td><%= text_field 'poliza', 'sPolNum', :onkeypress => "return CharNum(event, 'letra');", :class => "text" %></td>
+  </tr>
+  <tr>
+    <th>Movimiento:</th>
+    <th>Día:</th>
+    <th>Número de cuenta:</th>
+    <!-- <th>Descripción:</th> -->
+  </tr>
+  <tr>
+    <td><%= text_field 'poliza', 'sPolMov', :onkeypress => "return CharNum(event, 'letra');", :class => "text" %></td>
+    <td><%= text_field 'poliza', 'iDia', :onkeypress => "return CharNum(event, 'numero');", :class => "text" %></td>
+      <td><%=  collection_select("poliza", "cuenta_id", $cuentas, :id, :sNombre, {:prompt => '>>Cuenta'}, {:class => "text"} )    %></td>
+    <!--
+    <td><= text_field 'poliza', 'sCtaNum', :onkeypress => "return CharNum(event, 'letra');", :class => "text" %></td>
+    <td><= text_field 'poliza', 'sNombre', :onkeypress => "return CharNum(event, 'letra');", :class => "text" %></td>
+    -->
+  </tr>
+  <tr>
+    <th>Nat. del Mov. Contable</th>
+    <th>Importe del Mov:</th>
+    <th>Clave del IVA:</th>
+    <th>Pólizas por Aplicar:</th>
+  </tr>
+  <tr>
+    <td><%= text_field 'poliza', 'iNatura', :onkeypress => "return CharNum(event, 'numero');", :class => "text" %></td>
+    <td><%= text_field 'poliza', 'rImpMov', :onkeypress => "return CharNum(event, 'numero');", :class => "text" %></td>
+    <td><%= text_field 'poliza', 'sCvIVA', :onkeypress => "return CharNum(event, 'letra');", :class => "text" %></td>
+    <td><%= text_field 'poliza', 'iAplica', :onkeypress => "return CharNum(event, 'numero');", :class => "text" %></td>
+   </tr>
+   <tr>
+     <th>Cptos en Movs. Contables:</th>
+     <th>Ref. en Movs. Contables:</th>
+     <th>Clave de Cpto de Reg. Simp.:</th>
+     <th>Nat. de Reg. Simp.:</th>
+   </tr>
+   <tr>
+     <td><%= text_field 'poliza', 'sCnc', :onkeypress => "return CharNum(event, 'letra');", :class => "text" %></td>
+     <td><%= text_field 'poliza', 'sRefere', :onkeypress => "return CharNum(event, 'letra');", :class => "text" %></td>
+     <td><%= text_field 'poliza', 'sClvCnc', :onkeypress => "return CharNum(event, 'letra');", :class => "text" %></td>
+     <td><%= text_field 'poliza', 'sNatMov', :onkeypress => "return CharNum(event, 'letra');", :class => "text" %></td>
+   </tr>
+   <tr>
+     <th>Imp. de Mov. de Reg. Simp.:</th>
+     <th>Nombre de Cta.:</th>
+     <th></th>
+     <th></th>
+   </tr>
+   <tr>
+     <td><%= text_field 'poliza', 'rImpMovRS', :onkeypress => "return CharNum(event, 'numero');", :class => "text" %></td>
+     <td><%= text_field 'poliza', 'sCtaNom', :onkeypress => "return CharNum(event, 'letra');", :class => "text" %></td>
+     <td></td>
+     <td></td>
+   </tr>
+  </table>
+</div>
+
+<!--[eoform:cliente]-->

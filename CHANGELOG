@@ -1,3 +1,18 @@
+Modificaciones 23 de septiembre de 2010
+
+=> Corregimos duplicidad del fondeo
+
+=> Corregimos el eliminar o consultar a través del filtro grupo cuando se hace la busqueda
+
+=> Agregamos el simbolo de pesos al reporte de pagaré
+
+=> Corregimos sobreposición del titulo en el reporte "pagaré"
+
+=> Exportacion del Catalogo de Cuentas a Excel
+
+
+
+
 Modificaciones 19 de septiembre de 2010
 
 => Corregimos que se pueda eliminar completamente al cliente y eliminamos el registro de la tabla clientegrupos
