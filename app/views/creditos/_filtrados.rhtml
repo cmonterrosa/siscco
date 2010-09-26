@@ -30,7 +30,7 @@
               <%else%>
                 <td><%= button_to 'Activar',  { :action => 'activar', :id => credito }, :confirm => '¿Esta seguro?', :method => :post  %></td>
               <%end%>
-                <td><%=button_to 'Reportes', :action => "menu", :controller=> "reportes", :id => credito%></td>
+                <td><%=button_to 'Reportes', {:action => "menu", :controller=> "reportes", :id => credito}, :method => :post%></td>
                 <td><%= button_to 'Detalles', :action => 'show', :id => credito %></td>
                 <td><%= button_to 'Editar', :action => 'edit', :id => credito %></td>
                 <td><%= button_to 'Eliminar', { :action => 'destroy', :id => credito }, :confirm => '¿Esta seguro?', :method => :post %></td>

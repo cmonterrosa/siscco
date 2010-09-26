@@ -40,14 +40,14 @@ module Databases
 #--- Funciones de insercion de registros ------
 
   def inserta_registro(registro, mensaje)
-#    begin
+    begin
       registro.save!
         flash[:notice]=mensaje
         redirect_to :action => 'list', :controller => "#{params[:controller]}"
-#    rescue ActiveRecord::RecordInvalid => invalid
-#      flash[:notice] = invalid
-#      redirect_to :action => 'new', :controller => "#{params[:controller]}"
-#    end
+    rescue ActiveRecord::RecordInvalid => invalid
+      flash[:notice] = invalid
+      redirect_to :action => 'new', :controller => "#{params[:controller]}"
+    end
   end
 
 
@@ -139,8 +139,6 @@ module Databases
 #      @grupo_viejo = Clientegrupo.find(:first, :conditions => ["cliente_id = ? and activo = 1",cliente.id])
       cliente.update_attributes!(parametros_cliente)
       #---- Comparamos si el registro qie se quiere actualizar difiere en el grupo ------
-
-
       negocio.update_attributes!(parametros_negocio)
       flash[:notice] = 'Registro actualizado satisfactoriamente'
       redirect_to :controller => params[:controller], :action => 'show', :id => cliente

@@ -1,6 +1,4 @@
 class CuentasController < ApplicationController
-  before_filter :login_required
-
   def index
     list
     render :action => 'list'
@@ -11,7 +9,7 @@ class CuentasController < ApplicationController
          :redirect_to => { :action => :list }
 
   def list
-     @cuentas = Cuenta.find(:all)
+    @cuenta_pages, @cuentas = paginate :cuentas, :per_page => 10
   end
 
   def show
@@ -23,7 +21,13 @@ class CuentasController < ApplicationController
   end
 
   def create
-    inserta_registro(Cuenta.new(params[:cuenta]), 'Registro creado satisfactoriamente')
+    @cuenta = Cuenta.new(params[:cuenta])
+    if @cuenta.save
+      flash[:notice] = 'Cuenta creada correctamente'
+      redirect_to :action => 'list'
+    else
+      render :action => 'new'
+    end
   end
 
   def edit
@@ -31,17 +35,17 @@ class CuentasController < ApplicationController
   end
 
   def update
-    actualiza_registro(Cuenta.find(params[:id]), params[:cuenta])
+    @cuenta = Cuenta.find(params[:id])
+    if @cuenta.update_attributes(params[:cuenta])
+      flash[:notice] = 'Cuenta actualizada correctamente'
+      redirect_to :action => 'show', :id => @cuenta
+    else
+      render :action => 'edit'
+    end
   end
 
   def destroy
     Cuenta.find(params[:id]).destroy
     redirect_to :action => 'list'
   end
-          #-- Ajax --
-  def live_search
-    @cuentas = Cuenta.find(:all, :conditions => [" iEjer like ?", "%#{params[:searchtext]}%"])
-    return render(:partial => 'filtrocuenta', :layout => false) if request.xhr?
-  end
-      #--- Funciones ajax para filtrado --
 end

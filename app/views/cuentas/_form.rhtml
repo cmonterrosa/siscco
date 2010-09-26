@@ -1,68 +1,10 @@
 <%= error_messages_for 'cuenta' %>
-<!--[form:cuenta]-->
-<div>
-  <table>
-  <tr>
-    <th>Ejercicio:</th>
-    <th>Mes:</th>
-    <th>Tipo de Póliza:</th>
-    <th>Número de Póliza:</th>
-  </tr>
-  <tr>
-    <td><%= text_field 'cuenta', 'iEjer', :onkeypress => "return CharNum(event, 'numero');", :class => "text" %></td>
-    <td><%= text_field 'cuenta', 'iMes', :onkeypress => "return CharNum(event, 'numero');", :class => "text" %></td>
-    <td><%= text_field 'cuenta', 'sTpPol', :onkeypress => "return CharNum(event, 'letra');", :class => "text" %></td>
-    <td><%= text_field 'cuenta', 'sPolNum', :onkeypress => "return CharNum(event, 'letra');", :class => "text" %></td>
-  </tr>
-  <tr>
-    <th>Movimiento:</th>
-    <th>Día:</th>
-    <th>Número de Cuenta:</th>
-    <th>Descripción:</th>
-  </tr>
-  <tr>
-    <td><%= text_field 'cuenta', 'sPolMov', :onkeypress => "return CharNum(event, 'letra');", :class => "text" %></td>
-    <td><%= text_field 'cuenta', 'iDia', :onkeypress => "return CharNum(event, 'numero');", :class => "text" %></td>
-    <td><%= text_field 'cuenta', 'sCtaNum', :onkeypress => "return CharNum(event, 'letra');", :class => "text" %></td>
-    <td><%= text_field 'cuenta', 'sNombre', :onkeypress => "return CharNum(event, 'letra');", :class => "text" %></td>
-  </tr>
-  <tr>
-    <th>Nat. del Mov. Contable</th>
-    <th>Importe del Mov:</th>
-    <th>Clave del IVA:</th>
-    <th>Pólizas por Aplicar:</th>
-  </tr>
-  <tr>
-    <td><%= text_field 'cuenta', 'iNatura', :onkeypress => "return CharNum(event, 'numero');", :class => "text" %></td>
-    <td><%= text_field 'cuenta', 'rImpMov', :onkeypress => "return CharNum(event, 'numero');", :class => "text" %></td>
-    <td><%= text_field 'cuenta', 'sCvIVA', :onkeypress => "return CharNum(event, 'letra');", :class => "text" %></td>
-    <td><%= text_field 'cuenta', 'iAplica', :onkeypress => "return CharNum(event, 'numero');", :class => "text" %></td>
-   </tr>
-   <tr>
-     <th>Cptos en Movs. Contables:</th>
-     <th>Ref. en Movs. Contables:</th>
-     <th>Clave de Cpto de Reg. Simp.:</th>
-     <th>Nat. de Reg. Simp.:</th>
-   </tr>
-   <tr>
-     <td><%= text_field 'cuenta', 'sCnc', :onkeypress => "return CharNum(event, 'letra');", :class => "text" %></td>
-     <td><%= text_field 'cuenta', 'sRefere', :onkeypress => "return CharNum(event, 'letra');", :class => "text" %></td>
-     <td><%= text_field 'cuenta', 'sClvCnc', :onkeypress => "return CharNum(event, 'letra');", :class => "text" %></td>
-     <td><%= text_field 'cuenta', 'sNatMov', :onkeypress => "return CharNum(event, 'letra');", :class => "text" %></td>
-   </tr>
-   <tr>
-     <th>Imp. de Mov. de Reg. Simp.:</th>
-     <th>Nombre de Cta.:</th>
-     <th></th>
-     <th></th>
-   </tr>
-   <tr>
-     <td><%= text_field 'cuenta', 'rImpMovRS', :onkeypress => "return CharNum(event, 'numero');", :class => "text" %></td>
-     <td><%= text_field 'cuenta', 'sCtaNom', :onkeypress => "return CharNum(event, 'letra');", :class => "text" %></td>
-     <td></td>
-     <td></td>
-   </tr>
-  </table>
-</div>
 
-<!--[eoform:cliente]-->
+<!--[form:cuenta]-->
+<p><label for="cuenta_sCtaNum">Numero de Cuenta:</label><br/>
+<%= text_field 'cuenta', 'sCtaNum'  %></p>
+
+<p><label for="cuenta_sNombre">Nombre de la Cuenta</label><br/>
+<%= text_field 'cuenta', 'sNombre'  %></p>
+<!--[eoform:cuenta]-->
+

@@ -18,14 +18,11 @@ class Datafile < ActiveRecord::Base
     @data = Datafile.new(:nombre_archivo => name)
     #---- Primero vamos a verificar si el encabezado es correcto y no se repite ------
     if encabezado_valido?(name) && @data
-       #----- Vamos a insertar los metadatos ------
-       inserta_metadatos(name, @data)
-       if Datafile.find(:first, :conditions => ["numero = ? AND clave = ?", @data.numero, @data.clave])
-         #--- Ya existe el archivo ----
-          File.delete("#{RAILS_ROOT}/public/tmp/#{name}") if File.exists?("#{RAILS_ROOT}/public/tmp/#{name}")
-         return false
+       if inserta_metadatos(name, @data)
+          return true
        else
-         return true
+          File.delete("#{RAILS_ROOT}/public/tmp/#{name}") if File.exists?("#{RAILS_ROOT}/public/tmp/#{name}")
+          return false
        end
     else
       File.delete("#{RAILS_ROOT}/public/tmp/#{name}") if File.exists?("#{RAILS_ROOT}/public/tmp/#{name}")
@@ -33,8 +30,4 @@ class Datafile < ActiveRecord::Base
     end
   end
 
- 
-
-
-
-end
+end #-- Termina clase
