@@ -6,13 +6,13 @@ class ApplicationController < ActionController::Base
   # ---  Incluimos la libreria para el acceso ---
   include LoginSystem
   model :user
-
-  #---- Incluimos las Variables Globales ---
-  include Variables
-  #---- Incluimos las utilerias
-  include Utilerias
-  #---- Incluimos Base de Datos ---
-  include Databases
+#
+#  #---- Incluimos las Variables Globales ---
+#  include Variables
+#  #---- Incluimos las utilerias
+#  include Utilerias
+#  #---- Incluimos Base de Datos ---
+#  include Databases
   #--- Incluimos la clase para generar los reportes ----
   helper :send_doc
   include SendDocHelper

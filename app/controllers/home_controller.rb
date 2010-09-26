@@ -1,10 +1,12 @@
 class HomeController < ApplicationController
   before_filter :login_required, :except =>[ :index]
-#  if $usuario.nil?
-#    layout 'inicio'
-#  else
-#    layout 'contenido'
-#  end
+
+  #---- Incluimos las Variables Globales ---
+  include Variables
+  #---- Incluimos las utilerias
+  include Utilerias
+  #---- Incluimos Base de Datos ---
+  include Databases
 
   def index
   end
