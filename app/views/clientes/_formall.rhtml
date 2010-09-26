@@ -13,7 +13,7 @@
     <th>Nombre(s):</th>
   </tr>
   <tr>
-    <td><%= text_field 'cliente', 'curp', :class => 'text'  %></td>
+    <td><%= text_field 'cliente', 'curp', :class => 'text'  %><%= submit_tag "Comprobar", :onclick => "return comprobar();" %></td>
     <td><%= text_field 'cliente', 'paterno', :onkeypress => "return CharNum(event, 'letra');", :class => "text" %></td>
     <td><%= text_field 'cliente', 'materno', :onkeypress => "return CharNum(event, 'letra');", :class => "text"  %></td>
     <td><%= text_field 'cliente', 'nombre', :onkeypress => "return CharNum(event, 'letra');", :class => "text"  %></td>
