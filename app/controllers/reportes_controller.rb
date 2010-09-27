@@ -517,4 +517,52 @@ class ReportesController < ApplicationController
    end
 
 
+      def exportacion_polizas
+        string = ""
+        polizas = Poliza.find(:all)
+        polizas.each do |p|
+        string <<  p.iEjer.to_s.rjust(4) #1 -4
+        string <<  p.iMes.to_s.rjust(2) # 5-6
+        string <<  p.sTpPol.to_s.rjust(2) #7-9
+        string <<  p.sTpPolNum.to_s.rjust(6) #10-15
+        string <<  p.sTpPolmov.to_s.rjust(6) #10-15
+     end
+#
+#         t.column :iEjer, :integer
+#      t.column :iMes, :integer
+#      t.column :sTpPol, :string, :limit => 3
+#      t.column :sPolNum, :string, :limit => 6
+#      t.column :sPolMov, :string, :limit => 6
+#      t.column :iDia, :integer
+#      t.column :iNatura, :integer
+#      t.column :rImpMov, :real
+#      t.column :sCvIVA, :string, :limit => 1
+#      t.column :iAplica, :integer
+#      t.column :sCnc, :string, :limit => 3
+#      t.column :sRefere, :string,:limit => 8
+#      t.column :sClvCnc, :string, :limit => 3
+#      t.column :sNatMov, :string, :limit => 1
+#      t.column :rImpMovRS, :real
+#      t.column :sCtaNom, :string, :limit => 30
+#
+#
+#
+
+
+
+
+
+
+
+
+
+
+
+
+        send_data string, type => "text/plain",
+        :filename => "cuentas.txt",
+        :disposition => "attachment"
+      end
+
+
 end

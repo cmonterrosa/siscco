@@ -168,7 +168,8 @@ function mmLoadMenus() {
 //  menu_operacion.addMenuItem("Listado&nbsp;de&nbsp;Créditos","location='#'");
   menu_operacion.addMenuItem("Pago&nbsp;Línea&nbsp;Fondeo","location='/pagoslineas/new'");
   menu_operacion.addMenuItem("Transferir&nbsp;Fondos","location='/lineas/transferir_fondos'");
-    menu_operacion.addMenuItem("Exportacion&nbsp;de&nbsp;Cuentas","location='/reportes/exportacion_cuentas'");
+  menu_operacion.addMenuItem("Exportacion&nbsp;de&nbsp;Polizas&nbsp;ASCII","location='/reportes/exportacion_polizas'");
+  menu_operacion.addMenuItem("Exportacion&nbsp;de&nbsp;Cuentas","location='/reportes/exportacion_cuentas'");
   menu_operacion.addMenuItem("Cargar&nbsp;Layout","location='/upload'");
   menu_operacion.addMenuItem("Histórico&nbsp;de&nbsp;Cargas","location='/upload/historico'");
   menu_operacion.fontWeight="bold";

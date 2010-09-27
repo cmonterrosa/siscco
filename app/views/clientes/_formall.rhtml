@@ -1,4 +1,9 @@
+
+
+
 <%= error_messages_for 'cliente' %>
+
+<div id ="mensaje"></div>
 
 <!--[form:cliente]-->
 <div>
@@ -13,7 +18,14 @@
     <th>Nombre(s):</th>
   </tr>
   <tr>
-    <td><%= text_field 'cliente', 'curp', :class => 'text'  %></td>
+      <td><%= text_field 'cliente', 'curp', :class => 'text'  %>
+      <!-- ponemos ajax -->
+      <%= link_to_remote image_tag('check.jpg', :size => "16x14", :id => "check"),
+      {:url => { :controller => "clientes", :action => "verify_curp"},
+      :with => "cliente_curp", :update => { :success => "mensaje", :failure => "error" }}
+      %>
+     
+    </td>
     <td><%= text_field 'cliente', 'paterno', :onkeypress => "return CharNum(event, 'letra');", :class => "text" %></td>
     <td><%= text_field 'cliente', 'materno', :onkeypress => "return CharNum(event, 'letra');", :class => "text"  %></td>
     <td><%= text_field 'cliente', 'nombre', :onkeypress => "return CharNum(event, 'letra');", :class => "text"  %></td>
