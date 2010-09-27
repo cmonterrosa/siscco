@@ -24,7 +24,6 @@
       {:url => { :controller => "clientes", :action => "verify_curp"},
       :with => "cliente_curp", :update => { :success => "mensaje", :failure => "error" }}
       %>
-     
     </td>
     <td><%= text_field 'cliente', 'paterno', :onkeypress => "return CharNum(event, 'letra');", :class => "text" %></td>
     <td><%= text_field 'cliente', 'materno', :onkeypress => "return CharNum(event, 'letra');", :class => "text"  %></td>
@@ -88,7 +87,7 @@
    </tr>
    <tr>
      <td><%= collection_select("", "municipio_id", $municipios, :id, :municipio, {:prompt => '>>MUNICIPIO'}, :class => 'no_require')  %></td>
-     <td colspan="2"><%=  collection_select("cliente", "localidad_id", $localidades, :id, :localidad, {:prompt => '>>LOCALIDAD'}, :class => 'text')    %></td>
+     <td colspan="2"><%=  collection_select("cliente", "localidad_id", @localidades, :id, :localidad, {:prompt => '>>LOCALIDAD'}, :class => 'text')    %></td>
      <!--<td colspan="2"><=  select("cliente", "localidad_id", ['>>Localidad'], {:prompt => '>>Localidad'}, :class => 'text')    %></td>-->
      <td><%= text_field 'cliente', 'colonia', :onkeypress => "return CharNum(event, 'letra');", :class => "text"  %></td>
    </tr>

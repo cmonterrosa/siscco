@@ -24,6 +24,7 @@ class ClientesController < ApplicationController
   def new
     @cliente = Cliente.new
     @negocio = Negocio.new
+    @localidades = Localidad.find_by_sql("select * from localidads LIMIT 0")
     @grupo = Grupo.new
   end
 
@@ -37,6 +38,7 @@ class ClientesController < ApplicationController
     @civiles = Civil.find(:all)
     @escolaridades = Escolaridad.find(:all)
     @viviendas = Vivienda.find(:all)
+    @localidades = Localidad.find_by_sql("select * from localidads")
   end
 
   def editc
@@ -120,7 +122,6 @@ class ClientesController < ApplicationController
       else
          @mensaje = "El formato de la Curp es incorrecto"
       end
-  
     end
       render :layout => false
   end

@@ -1,3 +1,16 @@
+Modificaciones 27 de septiembre de 2010
+
+=> Agregamos la imagen y la funcionalidad para validar formato y existencia de curp, al dar de alta clientes
+
+=> Optimizamos el servidor web, creando un cluster para balancerar la carga del procesamiento
+
+=> Agregamos algunos indices (curp, nombre, etc) para optimizar las consultas a la base de datos
+
+=> Implementamos un programa que realiza diariamente el respaldo automatico y compacta la base de datos
+
+
+
+
 Modificaciones 23 de septiembre de 2010
 
 => Corregimos duplicidad del fondeo

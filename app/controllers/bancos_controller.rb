@@ -2,6 +2,8 @@
 include LoginSystem
 class BancosController < ApplicationController
 
+before_filter :login_required
+
 #require_role "capturistas"
 #require_role ["gerentes","administradores"],  :for => [:destroy, :edit, :new]
 
