@@ -24,6 +24,7 @@ class ClientesController < ApplicationController
   def new
     @cliente = Cliente.new
     @negocio = Negocio.new
+    @localidades = Localidad.find_by_sql("select * from localidads LIMIT 0")
     @grupo = Grupo.new
   end
 
@@ -37,6 +38,7 @@ class ClientesController < ApplicationController
     @civiles = Civil.find(:all)
     @escolaridades = Escolaridad.find(:all)
     @viviendas = Vivienda.find(:all)
+    @localidades = Localidad.find_by_sql("select * from localidads")
   end
 
   def editc
@@ -108,5 +110,19 @@ class ClientesController < ApplicationController
 
   def xml
       render :xml => Cliente.find(:all).to_xml
+  end
+
+  def verify_curp
+    @cliente = Cliente.find_by_curp(params[:value].strip)
+    if @cliente
+      @mensaje = "El CURP Ya existe"
+    else
+      if params[:value].strip =~/[A-Z][A-Z][A-Z][A-Z][0-9][0-9][0-9][0-9][0-9][0-9][H,M][A-Z][A-Z][A-Z][A-Z][A-Z][0-9][0-9]/
+         @mensaje = "Curp Correcto"
+      else
+         @mensaje = "El formato de la Curp es incorrecto"
+      end
+    end
+      render :layout => false
   end
 end
