@@ -3,13 +3,13 @@
 <table>
   <tr>
     <th>Cuenta Cheque:</th>
-    <th>Fecha Autorización:</th>
+    <th>Fecha de Autorización:</th>
     <th>Línea Autorizada:</th>
     <th>Gcnf:</th>
   </tr>
   <tr>
     <td><%= text_field 'linea', 'cuenta_cheques', :class => "text"  %></td>
-    <td><%= date_select 'linea', 'fecha_aut', :class => 'text'  %></td>
+    <td><%= date_select 'linea', 'fecha_aut', :order => [:day, :month, :year], :class => 'text' %></td>
     <td><%= text_field 'linea', 'autorizado', :onkeypress => "return CharNum(event, 'numero');", :class => "text"    %></td>
     <td><%= text_field 'linea', 'gcnf', :onkeypress => "return CharNum(event, 'letra');", :class => 'text'    %></td>
   </tr>
@@ -17,11 +17,13 @@
     <th>Fondeo:</th>
     <th>Cta Concentradora:</th>
     <th>Cta Liquidadora:</th>
+    <th></th>
   </tr>
   <tr>
     <td><%= collection_select('linea', 'fondeo_id', $fondeos, :id, :fuente, {:prompt => '>>FONDEO'}, :class => 'text') %></td>
     <td><%= collection_select('linea', 'ctaconcentradora_id', $ctaconcentradoras, :id, :num_cta, {:prompt => '>>CUENTA'}, :class => 'text') %></td>
     <td><%= collection_select('linea', 'ctaliquidadora_id', $ctaliquidadoras, :id, :num_cta, {:prompt => '>>CUENTA'}, :class => 'text') %></td>
+    <td></td>
   </tr>
 </table>
 <%= hidden_field 'linea', 'estatus', :value => "ACTIVA"  %>

@@ -139,10 +139,23 @@ function habilita_des(){
 //-- Carga los menu -->
 function mmLoadMenus() {
   if (window.menu_catalogo) return;
+
+// Submenu de Catalogos de Cuentas
+  window.menu_cuentas = new Menu("Cuentas",140,20,"Geneva, Arial, Helvetica, sans-serif",14,"#000000","#FFFFFF","#999999","#6699CC","left","middle",3,0,1000,-5,7,true,true,true,0,false,true);
+  menu_cuentas.addMenuItem("Concentradoras","location='/ctaconcentradoras'");
+  menu_cuentas.addMenuItem("Liquidadoras","location='/ctaliquidadoras'");
+  menu_cuentas.fontWeight="bold";
+  menu_cuentas.hideOnMouseOut=true;
+  menu_cuentas.bgColor='#555555';
+  menu_cuentas.menuBorder=1;
+  menu_cuentas.menuLiteBgColor='#FFFFFF';
+  menu_cuentas.menuBorderBgColor='#777777';
+
+// Menú de Catalogos
   window.menu_catalogo = new Menu("root",118,20,"Geneva, Arial, Helvetica, sans-serif",14,"#000000","#FFFFFF","#999999","#6699CC","left","middle",3,0,1000,-5,7,true,true,true,0,false,true);
   menu_catalogo.addMenuItem("Bancos","location='/bancos'");
   menu_catalogo.addMenuItem("Polizas","location='/polizas'");
-  menu_catalogo.addMenuItem("Cuentas","location='/cuentas'");
+  menu_catalogo.addMenuItem(menu_cuentas);
   menu_catalogo.addMenuItem("Clientes","location='/clientes'");
   menu_catalogo.addMenuItem("Festivos","location='/festivos'");
   menu_catalogo.addMenuItem("Fondeos","location='/fondeos'");
@@ -161,6 +174,7 @@ function mmLoadMenus() {
   menu_catalogo.menuLiteBgColor='#FFFFFF';
   menu_catalogo.menuBorderBgColor='#777777';
 
+// Menú de Operación
   window.menu_operacion = new Menu("root",210,20,"Geneva, Arial, Helvetica, sans-serif",14,"#000000","#FFFFFF","#999999","#6699CC","left","middle",3,0,1000,-5,7,true,true,true,0,true,true);
   menu_operacion.addMenuItem("Créditos","location='/creditos/movimiento_credito'");
   menu_operacion.addMenuItem("Alta&nbsp;Crédito&nbsp;Individual","location='/creditos/new_individual'");
@@ -179,6 +193,7 @@ function mmLoadMenus() {
   menu_operacion.menuLiteBgColor='#FFFFFF';
   menu_operacion.menuBorderBgColor='#777777';
 
+// Menú de Reportes
   window.menu_reporte = new Menu("root",240,20,"Geneva, Arial, Helvetica, sans-serif",14,"#000000","#FFFFFF","#999999","#6699CC","left","middle",3,0,1000,-5,7,true,true,true,0,true,true);
   menu_reporte.addMenuItem("Pagos&nbsp;del&nbsp;día","location='/pagos/index'");
   menu_reporte.addMenuItem("Estado&nbsp;de&nbsp;Cuenta&nbsp;del&nbsp;Cliente","location='/clientes/estado_cuenta'");
@@ -191,6 +206,8 @@ function mmLoadMenus() {
   menu_reporte.menuLiteBgColor='#FFFFFF';
   menu_reporte.menuBorderBgColor='#777777';
 
+
+// Menú de Administración
   window.menu_administracion = new Menu("root",150,20,"Geneva, Arial, Helvetica, sans-serif",14,"#000000","#FFFFFF","#999999","#6699CC","left","middle",3,0,1000,-5,7,true,true,true,0,false,true);
   menu_administracion.addMenuItem("Usuarios","location='/administracion/usuarios'");
   //menu_administracion.addMenuItem("Permisos","location='/administracion/permisos'");
