@@ -1,3 +1,10 @@
+Modificaciones 28 de septiembre de 2010
+
+=> Modificamos la funcion que genera la llave alfanumerica, le quitamos el prefijo
+
+
+
+
 Modificaciones 27 de septiembre de 2010
 
 => Agregamos la imagen y la funcionalidad para validar formato y existencia de curp, al dar de alta clientes

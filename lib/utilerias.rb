@@ -195,9 +195,9 @@ end
       prefijo = @configuracion.prefijo
       @configuracion.ultima_referencia += 1
       @configuracion.save!
-      ultima_referencia = @configuracion.ultima_referencia.to_s.rjust(15, "0")
-      ref_numerica = prefijo + ultima_referencia
-      num = sucursal.to_s + cuenta.to_s + ref_numerica
+      ultima_referencia = @configuracion.ultima_referencia.to_s.rjust(18, "0")
+      #ref_numerica = prefijo + ultima_referencia
+      num = sucursal.to_s + cuenta.to_s + ultima_referencia
       #---- Posiciones ------
       #sucursal = num[0..3]
       #cuenta = num[4..10]
@@ -225,7 +225,7 @@ end
 
       ponderador = sumatoria%97
       dd = 99 - ponderador
-      return num + dd.to_s
+      return num + dd.to_s.rjust(2,"0")
     else
       return nil
     end
