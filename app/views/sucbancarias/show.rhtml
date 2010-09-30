@@ -1,0 +1,10 @@
+<h1>Sucursales Bancarias</h1>
+<br />
+<% for column in Sucbancaria.content_columns %>
+<p>
+  <b><%= column.human_name %>:</b> <%=h @sucbancaria.send(column.name) %>
+</p>
+<% end %>
+<br />
+<%#= button_to 'Editar', :action => 'edit', :id => @sector %>
+<%= link_to 'Regresar', :action => 'list' %>

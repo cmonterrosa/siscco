@@ -1,0 +1,17 @@
+<%= error_messages_for 'ctaliquidadora' %>
+
+<!--[form:sector]-->
+<table>
+  <tr>
+    <th>Num. Cuenta:</th>
+    <th>Cta. Contable:</th>
+    <th>Sucursal:</th>
+  </tr>
+  <tr>
+    <td><%= text_field 'ctaliquidadora', 'num_cta', :class => "text"  %></td>
+    <td><%= text_field 'ctaliquidadora', 'cta_contable', :class => "text"  %></td>
+    <td><%= collection_select("ctaliquidadora", "sucbancaria_id", $bancos, :id, :nombre, {:prompt => "BANCOS"}, :class => 'text') %></td>
+  </tr>
+</table>
+<!--[eoform:sector]-->
+

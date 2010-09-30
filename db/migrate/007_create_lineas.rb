@@ -7,9 +7,10 @@ class CreateLineas < ActiveRecord::Migration
       t.column :estatus, :string
       t.column :gcnf, :string
       t.column :fondeo_id, :integer
-      t.column :cta_concentradora, :string
+      t.column :ctaconcentradora_id, :integer
+      t.column :ctaliquidadora_id, :integer
       #---- campo para historial -----
-      t.column :st, :integer
+      t.column :estatus, :integer
     end
     @fondeo = Fondeo.create(:fuente => "RECURSOS PROPIOS")
     Linea.create(:cuenta_cheques=> "RECURSOS PROPIOS", :fecha_aut => Time.now,

@@ -20,7 +20,7 @@
   <tr>
       <td><%= text_field 'cliente', 'curp', :class => 'text'  %>
       <!-- ponemos ajax -->
-      <%= link_to_remote image_tag('check.jpg', :size => "16x14", :id => "check"),
+      <%= link_to_remote image_tag('check.png', :size => "16x14", :id => "check"),
       {:url => { :controller => "clientes", :action => "verify_curp"},
       :with => "cliente_curp", :update => { :success => "mensaje", :failure => "error" }}
       %>

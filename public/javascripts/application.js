@@ -161,7 +161,7 @@ function mmLoadMenus() {
   menu_catalogo.menuLiteBgColor='#FFFFFF';
   menu_catalogo.menuBorderBgColor='#777777';
 
-  window.menu_operacion = new Menu("root",190,20,"Geneva, Arial, Helvetica, sans-serif",14,"#000000","#FFFFFF","#999999","#6699CC","left","middle",3,0,1000,-5,7,true,true,true,0,true,true);
+  window.menu_operacion = new Menu("root",210,20,"Geneva, Arial, Helvetica, sans-serif",14,"#000000","#FFFFFF","#999999","#6699CC","left","middle",3,0,1000,-5,7,true,true,true,0,true,true);
   menu_operacion.addMenuItem("Créditos","location='/creditos/movimiento_credito'");
   menu_operacion.addMenuItem("Alta&nbsp;Crédito&nbsp;Individual","location='/creditos/new_individual'");
   menu_operacion.addMenuItem("Alta&nbsp;Crédito&nbsp;Grupal","location='/creditos/new_grupal'");
