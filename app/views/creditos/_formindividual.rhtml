@@ -15,11 +15,10 @@
     <th>Fecha:</th>
     <!--
     <th>Fondeo:</th>
-    
     <th>Linea:</th>
-    -->
     <th>Banco:</th>
-  </tr>
+    --> 
+</tr>
   <tr>
     <td><%= date_select 'credito', 'fecha_inicio', :order => [:day, :month, :year]  %></td>
 
@@ -27,9 +26,9 @@
     <!--
     <td><= collection_select("", "fondeo_id", $fondeos, :id, :fuente, :prompt => '>> Fondeo')%></td>
     <td><= collection_select("credito", "linea_id", $lineas, :id, :cuenta_cheques, :prompt => '>> Linea')%></td>
-    -->
-    <td><%= collection_select("credito", "banco_id", $bancos, :id, :banco_cuenta,  :prompt => '>> Banco')%></td>
- </tr>
+    <td><= collection_select("credito", "banco_id", $bancos, :id, :banco_cuenta,  :prompt => '>> Banco')%></td>
+    --> 
+</tr>
   <tr>
  
     <th>Destino:</th>
