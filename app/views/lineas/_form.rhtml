@@ -15,14 +15,14 @@
   </tr>
   <tr>
     <th>Fondeo:</th>
-    <th>Cta Concentradora:</th>
-    <th>Cta Liquidadora:</th>
+    <th>Banco / Sucursal / Cta Concentradora:</th>
+    <th>Banco / Sucursal / Cta Liquidadora:</th>
     <th></th>
   </tr>
   <tr>
-    <td><%= collection_select('linea', 'fondeo_id', $fondeos, :id, :fuente, {:prompt => '>>FONDEO'}, :class => 'text') %></td>
-    <td><%= collection_select('linea', 'ctaconcentradora_id', $ctaconcentradoras, :id, :num_cta, {:prompt => '>>CUENTA'}, :class => 'text') %></td>
-    <td><%= collection_select('linea', 'ctaliquidadora_id', $ctaliquidadoras, :id, :num_cta, {:prompt => '>>CUENTA'}, :class => 'text') %></td>
+    <td><%= collection_select('linea', 'fondeo_id', $fondeos, :id, :acronimo, {:prompt => '>>FONDEO'}, :class => 'text') %></td>
+    <td><%= collection_select('linea', 'ctaconcentradora_id', $ctaconcentradoras, :id, :descripcion, {:prompt => '>>CUENTA'}, :class => 'text') %></td>
+    <td><%= collection_select('linea', 'ctaliquidadora_id', $ctaliquidadoras, :id, :descripcion, {:prompt => '>>CUENTA'}, :class => 'text') %></td>
     <td></td>
   </tr>
 </table>

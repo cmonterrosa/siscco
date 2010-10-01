@@ -14,6 +14,11 @@
     <td><%= promotor.direccion %></td>
     <td><%= promotor.telefono %></td>
     <td><%= promotor.celular %></td>
+    <%unless promotor.creditos.empty?%>
+      <td><%= button_to 'Creditos', :action => 'show_creditos', :id => promotor %></td>
+    <%else%>
+      <td></td>
+    <%end%>
     <td><%= button_to 'Detalles', :action => 'show', :id => promotor %></td>
     <td><%= button_to 'Editar', :action => 'edit', :id => promotor %></td>
     <td><%= button_to 'Eliminar', { :action => 'destroy', :id => promotor }, :confirm => 'Estas seguro?', :method => :post %></td>

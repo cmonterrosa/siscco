@@ -7,7 +7,7 @@ class CreateFondeos < ActiveRecord::Migration
       t.column :telefono, :string
     end
 
-    Fondeo.create(:fuente => "FOMMUR")
+    Fondeo.create(:fuente => "Fondo de Microfinanciamiento a Mujeres Rurales".upcase, :acronimo => "FOMMUR")
 
 
   end

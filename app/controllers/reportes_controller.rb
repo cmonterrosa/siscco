@@ -67,7 +67,7 @@ class ReportesController < ApplicationController
     _pdf.text to_iso("$" + total_adeudado_por_persona(@credito).to_s), :font_size => 14, :justification => :center
     _pdf.move_pointer(10)
 
-    _pdf.text to_iso("$" + total_adeudado_por_persona(@credito).to_words.to_s), :font_size => 14, :justification => :center
+    _pdf.text to_iso("(" + total_adeudado_por_persona(@credito).to_words.to_s + ")"), :font_size => 14, :justification => :center
 
     _pdf.move_pointer(15)
     @leyenda2=<<-EOS

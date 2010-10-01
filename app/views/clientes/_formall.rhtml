@@ -18,7 +18,7 @@
     <th>Nombre(s):</th>
   </tr>
   <tr>
-      <td><%= text_field 'cliente', 'curp', :class => 'text'  %>
+      <td><%= text_field 'cliente', 'curp', :onkeyup => "return longitud(this,18);", :class => 'text'%>
       <!-- ponemos ajax -->
       <%= link_to_remote image_tag('check.png', :size => "16x14", :id => "check"),
       {:url => { :controller => "clientes", :action => "verify_curp"},
@@ -37,8 +37,8 @@
   </tr>
   <tr>
     <td><%= date_select( 'cliente', 'fecha_nac', :order => [:day, :month, :year], :start_year => 1930, :class => 'text'  )%></td>
-    <td><%= text_field 'cliente', 'rfc', :class => "text"  %></td>
-    <td><%= text_field 'cliente', 'clave_ife', :class => 'text'  %></td>
+    <td><%= text_field 'cliente', 'rfc', :onkeyup => "return longitud(this,13);", :class => "text"  %></td>
+    <td><%= text_field 'cliente', 'clave_ife', :onkeyup => "return longitud(this,18);", :class => 'text'  %></td>
     <td><%= text_field 'cliente', 'direccion', :class => "text"  %></td>
   </tr>
   <tr>
@@ -49,11 +49,11 @@
     
   </tr>
   <tr>
-    <td><%= text_field 'cliente', 'codigo_postal', :onkeypress => "return CharNum(event, 'numero');", :class => "text"  %></td>
+    <td><%= text_field 'cliente', 'codigo_postal', :onkeyup => "return longitud(this,5);", :onkeypress => "return CharNum(event, 'numero');", :class => "text"  %></td>
     <td><%= select("cliente", "sexo", ['MASCULINO', 'FEMENINO'], {:prompt => '>>SEXO'}, :class => 'text')  %></td>
     <!--<td><= select("cliente", "nacionalidad", ['MEXICANA', 'EXTRANJERA'], {:prompt => '>>Nacionalidad'}, :class => 'text')  %></td>-->
     <td><%= collection_select("cliente", "nacionalidad_id", $nacionalidades, :id, :pais, {:prompt => "MEXICO"}, :class => 'no_require') %></td>
-    <td><%= select("cliente", "tipo_propiedad", ['PRIVADA','RENTADA'], {:prompt => '>>TIPO DE VIVIENDA'}, :class => 'text') %></td>
+    <td><%= select("cliente", "tipo_propiedad", ['PROPIA','RENTADA'], {:prompt => '>>TIPO DE VIVIENDA'}, :class => 'text') %></td>
    </tr>
    <tr>
      <th>Tipo Persona:</th>
@@ -65,7 +65,7 @@
      <td><%= select("cliente", "tipo_persona", ["FISICA", "MORAL", "FISICA CON ACTIVIDAD EMPRESARIAL"], {:prompt => '>>TIPO DE PERSONA'}, :class => 'text', :onchange => "habilita_des();") %></td>
      <td><%= text_field 'cliente', 'folio_rfc', :class => "text", :disabled => true, :value => "0"%></td>
      <td><%= text_field 'cliente', 'telefono', :onkeypress => "return CharNum(event, 'numero');", :class => "text"  %></td>
-     <td><%= text_field 'cliente', 'email', :class => 'text'  %></td>
+     <td><%= text_field 'cliente', 'email', :class => 'no_require'  %></td>
    </tr>
    <tr>
      <th>Estado Civil:</th>

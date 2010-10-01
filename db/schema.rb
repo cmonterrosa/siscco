@@ -2,7 +2,7 @@
 # migrations feature of ActiveRecord to incrementally modify your database, and
 # then regenerate this schema definition.
 
-ActiveRecord::Schema.define(:version => 50) do
+ActiveRecord::Schema.define(:version => 49) do
 
   create_table "actividads", :force => true do |t|
     t.column "clave_inegi", :string
@@ -42,6 +42,7 @@ ActiveRecord::Schema.define(:version => 50) do
     t.column "telefono",        :string,  :limit => 10
     t.column "fax",             :string,  :limit => 10
     t.column "email",           :string
+    t.column "folio_rfc",       :string,  :limit => 13
     t.column "civil_id",        :integer
     t.column "escolaridad_id",  :integer
     t.column "vivienda_id",     :integer
@@ -92,22 +93,14 @@ ActiveRecord::Schema.define(:version => 50) do
     t.column "tasa_interes",      :float
     t.column "interes_moratorio", :string
     t.column "identificador",     :string
+    t.column "tipo_interes",      :string
     t.column "linea_id",          :integer
-    t.column "banco_id",          :integer
     t.column "cliente_id",        :integer
     t.column "promotor_id",       :integer
     t.column "destino_id",        :integer
     t.column "grupo_id",          :integer
     t.column "producto_id",       :integer
     t.column "status",            :integer
-  end
-
-  create_table "ctabancarias", :force => true do |t|
-    t.column "cta_concentradora", :string
-    t.column "cta_liquidadora",   :string
-    t.column "num_cta",           :string
-    t.column "cta_contable",      :string
-    t.column "sucbancaria_id",    :integer
   end
 
   create_table "ctaconcentradoras", :force => true do |t|
@@ -123,24 +116,8 @@ ActiveRecord::Schema.define(:version => 50) do
   end
 
   create_table "cuentas", :force => true do |t|
-    t.column "iEjer",     :integer
-    t.column "iMes",      :integer
-    t.column "sTpPol",    :string,  :limit => 3
-    t.column "sPolNum",   :string,  :limit => 6
-    t.column "sPolMov",   :string,  :limit => 6
-    t.column "iDia",      :integer
-    t.column "sCtaNum",   :string,  :limit => 20
-    t.column "sNombre",   :string,  :limit => 50
-    t.column "iNatura",   :integer
-    t.column "rImpMov",   :float
-    t.column "sCvIVA",    :string,  :limit => 1
-    t.column "iAplica",   :integer
-    t.column "sCnc",      :string,  :limit => 3
-    t.column "sRefere",   :string,  :limit => 8
-    t.column "sClvCnc",   :string,  :limit => 3
-    t.column "sNatMov",   :string,  :limit => 1
-    t.column "rImpMovRS", :float
-    t.column "sCtaNom",   :string,  :limit => 30
+    t.column "sCtaNum", :string, :limit => 20
+    t.column "sNombre", :string, :limit => 50
   end
 
   create_table "datafiles", :force => true do |t|
@@ -182,8 +159,8 @@ ActiveRecord::Schema.define(:version => 50) do
   end
 
   create_table "fondeos", :force => true do |t|
-    t.column "fuente",    :string
     t.column "acronimo",  :string
+    t.column "fuente",    :string
     t.column "domicilio", :string
     t.column "telefono",  :string
   end
@@ -212,14 +189,14 @@ ActiveRecord::Schema.define(:version => 50) do
   end
 
   create_table "lineas", :force => true do |t|
-    t.column "cuenta_cheques",    :string
-    t.column "fecha_aut",         :date
-    t.column "autorizado",        :float
-    t.column "estatus",           :string
-    t.column "gcnf",              :string
-    t.column "fondeo_id",         :integer
-    t.column "cta_concentradora", :string
-    t.column "st",                :integer
+    t.column "cuenta_cheques",      :string
+    t.column "fecha_aut",           :date
+    t.column "autorizado",          :float
+    t.column "estatus",             :string,  :limit => 11
+    t.column "gcnf",                :string
+    t.column "fondeo_id",           :integer
+    t.column "ctaconcentradora_id", :integer
+    t.column "ctaliquidadora_id",   :integer
   end
 
   create_table "localidads", :force => true do |t|
@@ -276,20 +253,26 @@ ActiveRecord::Schema.define(:version => 50) do
   end
 
   create_table "pagos", :force => true do |t|
-    t.column "num_pago",       :integer
-    t.column "fecha_limite",   :date
-    t.column "capital_minimo", :string
-    t.column "interes_minimo", :string
-    t.column "fecha",          :date
-    t.column "capital",        :string
-    t.column "interes",        :string
-    t.column "moratorio",      :string
-    t.column "pagado",         :integer
-    t.column "credito_id",     :integer
-    t.column "cliente_id",     :integer
-    t.column "descripcion",    :string
-    t.column "int_devengados", :float
-    t.column "st",             :integer
+    t.column "num_pago",             :integer
+    t.column "fecha_limite",         :date
+    t.column "capital_minimo",       :string
+    t.column "interes_minimo",       :string
+    t.column "fecha",                :date
+    t.column "capital",              :string
+    t.column "interes",              :string
+    t.column "moratorio",            :string
+    t.column "pagado",               :integer
+    t.column "credito_id",           :integer
+    t.column "cliente_id",           :integer
+    t.column "descripcion",          :string
+    t.column "int_devengados",       :float
+    t.column "comisiones",           :string
+    t.column "iva_comisiones",       :string
+    t.column "iva_moratorio",        :string
+    t.column "saldo_inicial",        :string
+    t.column "saldo_final",          :string
+    t.column "principal_recuperado", :string
+    t.column "st",                   :integer
   end
 
   create_table "pagoslineas", :force => true do |t|
@@ -327,12 +310,13 @@ ActiveRecord::Schema.define(:version => 50) do
   end
 
   create_table "productos", :force => true do |t|
-    t.column "producto",   :string
-    t.column "intereses",  :float
-    t.column "moratorio",  :float
-    t.column "ahorro",     :float
-    t.column "num_pagos",  :integer
-    t.column "periodo_id", :integer
+    t.column "producto",        :string,  :limit => 100
+    t.column "intereses",       :float
+    t.column "moratorio",       :float
+    t.column "ahorro",          :float
+    t.column "num_pagos",       :integer
+    t.column "tasa_anualizada", :string,  :limit => 10
+    t.column "periodo_id",      :integer
   end
 
   create_table "promotors", :force => true do |t|
@@ -344,6 +328,7 @@ ActiveRecord::Schema.define(:version => 50) do
     t.column "celular",       :string,  :limit => 10
     t.column "email",         :string
     t.column "observaciones", :string
+    t.column "sucursal_id",   :integer
     t.column "st",            :integer
   end
 
@@ -389,8 +374,9 @@ ActiveRecord::Schema.define(:version => 50) do
   end
 
   create_table "sucbancarias", :force => true do |t|
-    t.column "nombre",   :string
-    t.column "banco_id", :integer
+    t.column "num_sucursal", :string,  :limit => 4
+    t.column "nombre",       :string
+    t.column "banco_id",     :integer
   end
 
   create_table "sucursals", :force => true do |t|
@@ -399,7 +385,7 @@ ActiveRecord::Schema.define(:version => 50) do
     t.column "telefono",      :string
     t.column "direccion",     :string
     t.column "codigo_postal", :string
-    t.column "colonia_id",    :integer
+    t.column "municipio_id",  :integer
     t.column "st",            :integer
   end
 

@@ -4,6 +4,7 @@
   <% for column in Ctaconcentradora.content_columns %>
     <th><%= column.human_name %></th>
   <% end %>
+    <th>Banco / Sucursal</th>
     <th colspan="3">Acciones</th>
   </tr>
 
@@ -12,6 +13,12 @@
   <% for column in Ctaconcentradora.content_columns %>
     <td><%=h ctaconcentradora.send(column.name) %></td>
   <% end %>
+
+  <%if ctaconcentradora.sucbancaria%>
+       <td><%= ctaconcentradora.sucbancaria.descripcion%></td>
+  <%else%>
+       <td> - </td>
+  <%end%>
     <td><%= button_to 'Detalles', :action => 'show', :id => ctaconcentradora %></td>
     <td><%= button_to 'Editar', :action => 'edit', :id => ctaconcentradora %></td>
     <td><%= button_to 'Eliminar', { :action => 'destroy', :id => ctaconcentradora }, :confirm => 'Estas seguro?', :method => :post %></td>

@@ -31,7 +31,8 @@ module Creditos
     @num_personas = credito.grupo.clientes.size
     @interes = Pago.sum(:interes_minimo, :conditions=>["credito_id = ?", credito.id]).to_f / @num_personas.to_f
     @capital = Pago.sum(:capital_minimo, :conditions=>["credito_id = ?", credito.id]).to_f / @num_personas.to_f
-    return @interes + @capital
+    return round(@interes + @capital)
+
   end
 
   def pago_minimo(credito)
@@ -316,30 +317,63 @@ module Creditos
         def calcula_comisiones(pago, fecha_pago)
           comisiones = 0.0
           #---- Se calculan los gastos de cobranza ------
-          if fecha_pago.yday - (pago.fecha_limite.yday)  >= 8 # 8 dias despues
-             comisiones =  200 #if pago.comisiones != "0"
+          #---- si es el mismo anio -----
+          if fecha_pago.year == pago.fecha_limite.year
+            if fecha_pago.yday - (pago.fecha_limite.yday)  >= 8 # 8 dias despues
+               comisiones =  200 #if pago.comisiones != "0"
+            end
+          else
+            #---- Es otro anio
+            if fecha_pago.year - pago.fecha_limite.year == 1
+              if (fecha_pago.yday + 365) - (pago.fecha_limite.yday)  >= 8 # 8 dias despues
+                 comisiones = 200
+              end
+            end
           end
-          return comisiones
+         return comisiones
         end
 
-        def calcula_iva_comisiones(pago, fecha_pago)
-          iva_comisiones = 0.0
-          #---- Se calculan los gastos de cobranza ------
-          if fecha_pago.yday - (pago.fecha_limite.yday)  >= 8 # 8 dias despues
-             iva_comisiones = 200 * 0.16 #if pago.iva_comisiones != "0"
+          def calcula_iva_comisiones(pago, fecha_pago)
+            iva_comisiones = 0.0
+            #---- Se calculan los gastos de cobranza ------
+            #---- si es el mismo anio -----
+            if fecha_pago.year == pago.fecha_limite.year
+                if fecha_pago.yday - (pago.fecha_limite.yday)  >= 8 # 8 dias despues
+                  iva_comisiones = 200 * 0.16
+                end
+            else
+                #---- Es otro anio
+                if fecha_pago.year - pago.fecha_limite.year == 1
+                  if (fecha_pago.yday + 365) - (pago.fecha_limite.yday)  >= 8 # 8 dias despues
+                     iva_comisiones = 200 * 0.16
+                  end
+                end
+            end
+            return iva_comisiones
           end
-          return iva_comisiones
-        end
+
 
         def calcula_moratorio(pago, fecha_pago)
             interes_moratorio = pago.credito.producto.moratorio / 100.0
             moratorio = 0.0
-            if fecha_pago.yday - (pago.fecha_limite.yday)  >= 3 # 8 dias despues
-              cm = pago.capital_minimo.to_f
-              im = pago.interes_minimo.to_f
-              moratorio = (cm + im) * interes_moratorio # if pago.moratorio != "0"
+            #--- checamos que sean del mismo año ----
+            if fecha_pago.year == pago.fecha_limite.year
+                if fecha_pago.yday - (pago.fecha_limite.yday)  >= 3 # 8 dias despues
+                  cm = pago.capital_minimo.to_f
+                  im = pago.interes_minimo.to_f
+                  moratorio = (cm + im) * interes_moratorio # if pago.moratorio != "0"
+                end
+            else
+              #---- Es un año despues ------
+              if fecha_pago.year - pago.fecha_limite.year == 1
+                  if fecha_pago.yday + 365 - (pago.fecha_limite.yday)  >= 3 # 8 dias despues
+                    cm = pago.capital_minimo.to_f
+                    im = pago.interes_minimo.to_f
+                    moratorio = (cm + im) * interes_moratorio # if pago.moratorio != "0"
+                  end
+              end
             end
-            return moratorio
+          return moratorio
         end
 
 

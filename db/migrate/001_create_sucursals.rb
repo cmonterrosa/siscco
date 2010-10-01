@@ -7,8 +7,6 @@ class CreateSucursals < ActiveRecord::Migration
       t.column :direccion, :string
       t.column :codigo_postal, :string
       t.column :municipio_id, :integer
-      #---- campo para historial -----
-      t.column :st, :integer
      end
   end
 

@@ -4,8 +4,8 @@ module Databases
       def inserta_credito(credito, tipo)
         begin
           #----- Creamos el numero de referencia automaticamente --------
-          @banco = Banco.find(credito.banco)
-           credito.num_referencia = genera_referencia_alfa(@banco.num_sucursal, @banco.num_cuenta)
+          @c_concentradora= Linea.find(credito.linea).ctaconcentradora
+           credito.num_referencia = genera_referencia_alfa(@c_concentradora.sucbancaria.num_sucursal, @c_concentradora.num_cta)
            if tipo == "GRUPAL"
              if credito.grupo.clientes.size >= 1 #-- aqui deberiamos de validar que sean 3
                  if credito.save!

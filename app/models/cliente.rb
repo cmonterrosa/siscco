@@ -53,7 +53,7 @@ validates_uniqueness_of :curp, :message => ", Ese cliente ya esta registrado."
     if Cliente.find_by_identificador(id)
        id = Array.new(4) { (rand(122-97) + 97).chr }.join + (rand(10000)).to_s
     end
-    self.identificador = id
+    self.identificador = id.to_s.ljust(8, "0")
     self.save!
   end
 

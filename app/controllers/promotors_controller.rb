@@ -22,6 +22,10 @@ class PromotorsController < ApplicationController
     @promotor = Promotor.find(params[:id])
   end
 
+  def show_creditos
+    @promotor = Promotor.find(params[:id])
+  end
+
   def new
     @promotor = Promotor.new
   end

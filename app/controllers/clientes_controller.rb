@@ -114,11 +114,13 @@ class ClientesController < ApplicationController
 
   def verify_curp
     @cliente = Cliente.find_by_curp(params[:value].strip)
+    @curp_correcta = false
     if @cliente
       @mensaje = "El CURP Ya existe"
     else
       if params[:value].strip =~/[A-Z][A-Z][A-Z][A-Z][0-9][0-9][0-9][0-9][0-9][0-9][H,M][A-Z][A-Z][A-Z][A-Z][A-Z][0-9][0-9]/
          @mensaje = "Curp Correcto"
+         @curp_correcta = true
       else
          @mensaje = "El formato de la Curp es incorrecto"
       end

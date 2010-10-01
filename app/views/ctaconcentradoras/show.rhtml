@@ -5,6 +5,11 @@
   <b><%= column.human_name %>:</b> <%=h @ctaconcentradora.send(column.name) %>
 </p>
 <% end %>
+
+<%if @ctaconcentradora.sucbancaria%>
+    <p><b>Banco / Sucursal: </b><%= @ctaconcentradora.sucbancaria.descripcion%></p>
+<%end%>
+
 <br />
 <%#= button_to 'Editar', :action => 'edit', :id => @sector %>
 <%= link_to 'Regresar', :action => 'list' %>

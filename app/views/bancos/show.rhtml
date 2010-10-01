@@ -4,12 +4,16 @@
   <b><%= column.human_name %>:</b> <%=h @banco.send(column.name) %>
 </p>
 <% end %>
-<p>
-  <b>Estado: </b> <%= @banco.municipio.estado.estado if @banco.municipio.estado%>
-</p>
-<p>
-  <b>Municipio: </b> <%= @banco.municipio.municipio if @banco.municipio %>
-</p>
+
+<%unless @banco.sucbancarias.empty?%>
+<br />
+<p><b>Sucursales: </b></p>
+  <%@banco.sucbancarias.each do |sucursal|%>
+  <p><%=link_to "#{sucursal.nombre}", :action => "show", :controller => "sucbancarias", :id => sucursal%></p>
+  <%end%>
+
+<%end%>
+
 
 <br />
 

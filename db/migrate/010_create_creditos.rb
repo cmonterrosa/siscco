@@ -11,7 +11,7 @@ class CreateCreditos < ActiveRecord::Migration
       t.column :tipo_interes, :string
       #--- aqui van las relaciones con las otras tablas ----
       t.column :linea_id, :integer
-      t.column :banco_id, :integer
+     # t.column :banco_id, :integer
       t.column :cliente_id, :integer
       t.column :promotor_id, :integer
       t.column :destino_id, :integer

@@ -1,6 +1,9 @@
 // Place your application-specific JavaScript functions and classes here
 // This file is automatically included by javascript_include_tag :defaults
 //-- Valida campo texto, campo numero -->
+
+//Limite de caracteres
+
 function CharNum(e, modo)
 {
     var key = window.event ? e.keyCode : e.which;
@@ -152,8 +155,10 @@ function mmLoadMenus() {
   menu_cuentas.menuBorderBgColor='#777777';
 
 // Menú de Catalogos
-  window.menu_catalogo = new Menu("root",118,20,"Geneva, Arial, Helvetica, sans-serif",14,"#000000","#FFFFFF","#999999","#6699CC","left","middle",3,0,1000,-5,7,true,true,true,0,false,true);
+  window.menu_catalogo = new Menu("root",138,20,"Geneva, Arial, Helvetica, sans-serif",14,"#000000","#FFFFFF","#999999","#6699CC","left","middle",3,0,1000,-5,7,true,true,true,0,false,true);
   menu_catalogo.addMenuItem("Bancos","location='/bancos'");
+  menu_catalogo.addMenuItem("Suc. Bancarias","location='/sucbancarias'");
+
   menu_catalogo.addMenuItem("Polizas","location='/polizas'");
   menu_catalogo.addMenuItem(menu_cuentas);
   menu_catalogo.addMenuItem("Clientes","location='/clientes'");

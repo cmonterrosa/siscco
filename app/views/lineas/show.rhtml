@@ -5,6 +5,18 @@
   <b><%= column.human_name %>:</b> <%=h @linea.send(column.name) %>
 </p>
 <% end %>
+
+<%if @linea.ctaconcentradora%>
+<p>
+  <b>Banco / Sucursal / Cta. Concentradora: </b> <%=@linea.ctaconcentradora.descripcion%>
+</p>
+<%end%>
+<%if @linea.ctaliquidadora%>
+<p>
+  <b>Banco / Sucursal / Cta. Liquidadora: </b> <%=@linea.ctaliquidadora.descripcion%>
+</p>
+<%end%>
+
 <br />
 <%#= button_to 'Editar', :action => 'edit', :id => @linea %>
 <%= link_to 'Regresar', :action => 'list' %>

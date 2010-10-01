@@ -12,8 +12,8 @@ class CreateLineas < ActiveRecord::Migration
       #---- campo para historial -----
       t.column :estatus, :integer
     end
-    @fondeo = Fondeo.create(:fuente => "RECURSOS PROPIOS")
-    Linea.create(:cuenta_cheques=> "RECURSOS PROPIOS", :fecha_aut => Time.now,
+    @fondeo = Fondeo.create(:fuente => "RECURSOS PROPIOS", :acronimo => "RECURSOS PROPIOS")
+    Linea.create(:cuenta_cheques=> "RECURSOS PROPIOS", :fecha_aut => Time.now.strftime("%Y-%m-%d %H:%M:%S"),
                  :fondeo_id => @fondeo.id.to_i)
 
   end
