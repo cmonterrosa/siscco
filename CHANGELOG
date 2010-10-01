@@ -1,3 +1,7 @@
+Modificaciones 29 de Septiembre del 2010
+=> Se crearon los catalogos ctaconcentradoras, ctaliquidadoras, sucbancarias, se modificó el catalogo de bancos,
+   el catalogo de lineas, y se creo un submenú para los catalogos de ctas concentradoras y liquidadoras
+
 Modificaciones 28 de septiembre de 2010
 
 => Modificamos la funcion que genera la llave alfanumerica, le quitamos el prefijo

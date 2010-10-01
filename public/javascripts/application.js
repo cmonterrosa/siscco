@@ -141,7 +141,7 @@ function mmLoadMenus() {
   if (window.menu_catalogo) return;
 
 // Submenu de Catalogos de Cuentas
-  window.menu_cuentas = new Menu("Cuentas",140,20,"Geneva, Arial, Helvetica, sans-serif",14,"#000000","#FFFFFF","#999999","#6699CC","left","middle",3,0,1000,-5,7,true,true,true,0,false,true);
+  window.menu_cuentas = new Menu("Cuentas",140,20,"Geneva, Arial, Helvetica, sans-serif",14,"#000000","#FFFFFF","#ADADAD","#6699CC","left","middle",3,0,1000,-5,7,true,true,true,0,false,true);
   menu_cuentas.addMenuItem("Concentradoras","location='/ctaconcentradoras'");
   menu_cuentas.addMenuItem("Liquidadoras","location='/ctaliquidadoras'");
   menu_cuentas.fontWeight="bold";
