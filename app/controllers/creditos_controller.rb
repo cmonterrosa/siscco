@@ -58,7 +58,7 @@ class CreditosController < ApplicationController
        @num_pagos = Pago.count(:id, :conditions=>["credito_id = ? AND pagado = 1", @credito.id]).to_i
 
        #--- Generamos importes -----
-       calcula_iva_comisiones(pago, fecha_pago) + calcula_
+      # calcula_iva_comisiones(pago, fecha_pago) + calcula_
 
 
 
@@ -286,6 +286,10 @@ class CreditosController < ApplicationController
     @pago = proximo_pago(@credito)
     @cliente = Cliente.find(params[:id])
     render :layout => false
+  end
+
+  def show_devengos
+    @devengos = Devengo.find(:all, :conditions => ["credito_id = ?",params[:id]])
   end
 
 

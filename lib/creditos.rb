@@ -431,10 +431,12 @@ module Creditos
         def calcula_devengo_intereses(credito)
         @fecha_inicio = credito.fecha_inicio
         @mes = @fecha_inicio.month
+        @tasa_diaria =  ((credito.producto.intereses.to_f / 100.0 ) / 30.0)
+        @capital = (credito.monto / credito.grupo.clientes.size)
        # @fecha_inicio = DateTime.new(@anio.to_i, @mes.to_i, @dia.to_i, @hora.to_i, @minutos.to_i).strftime("%Y-%m-%d %H:%M:%S")
-        pago_semanal = 1000
-        tasa_interes = 0.03
-        interes_diario = pago_semanal * tasa_interes
+        #pago_semanal = 1000
+        #tasa_interes = 0.03
+        interes_diario = @capital * @tasa_diaria
         dia = 0
         semana = 1
         #---- Calculamos fechas de corte ---
@@ -471,9 +473,7 @@ module Creditos
 
           @fecha_inicio -= 1
            if (semana*7).to_i != dias_mes((@fecha_inicio).month).to_i
-#            if  (@fecha_inicio - 1).day == dias_mes(credito.fecha_inicio.month)
               @devengo = Devengo.create(:generacion_obligacion => sum_intereses, :fecha => @fecha_inicio, :dia => dia-1, :credito_id => credito, :semana => semana )
-#            end
            end
         end
 
