@@ -415,9 +415,123 @@ module Creditos
            end
          end
 
-         def pagos_capital_igual()
-           
-         end
+        def inserta_poliza(importe, cta, naturaleza)
+    #      fecha, tipo_poliza, num_poliza, cta, naturaleza, importe, descripcion, identificador
+           @num_poliza = Configuracion.find(:first, :select => "ultima_poliza", :conditions => "activo = 1").ultima_poliza += 1
+           @poliza = Poliza.new
+           @poliza.num_poliza = @num_poliza
+           @poliza.fecha = DateTime.now.strftime("%Y-%m-%d %H:%M:%S")
+           @poliza.naturaleza = naturaleza
+           @poliza.importe = importe.to_s
+           @poliza.cuenta = cta
+           @poliza.descripcion = cta.sNombre
+           @poliza.save!
+        end
+
+        def calcula_devengo_intereses(credito)
+        @fecha_inicio = credito.fecha_inicio
+        @mes = @fecha_inicio.month
+       # @fecha_inicio = DateTime.new(@anio.to_i, @mes.to_i, @dia.to_i, @hora.to_i, @minutos.to_i).strftime("%Y-%m-%d %H:%M:%S")
+        pago_semanal = 1000
+        tasa_interes = 0.03
+        interes_diario = pago_semanal * tasa_interes
+        dia = 0
+        semana = 1
+        #---- Calculamos fechas de corte ---
+        case dias_mes(@mes)
+        when 31
+          fechas_corte = [7, 14, 21, 28, 31]
+        when 30
+          fechas_corte = [7, 14, 21, 28, 30]
+        when 28
+          fechas_corte = [7, 14, 21, 28]
+        else
+          fechas_corte = [7, 14, 21, 28, 30]
+        end
+
+          sum_intereses = 0#interes_diario
+          while dia <= dias_mes(@mes) && @fecha_inicio.month == credito.fecha_inicio.month && @fecha_inicio.year == credito.fecha_inicio.year do
+                  if fechas_corte.include?(dia) && (@fecha_inicio.day <= dias_mes(@mes)) && @fecha_inicio.month == credito.fecha_inicio.month && @fecha_inicio.year == credito.fecha_inicio.year
+                       @devengo = Devengo.new
+                       @devengo.credito_id = credito
+                       @devengo.dia = dia
+                       @devengo.semana = semana
+                       @devengo.fecha = @fecha_inicio
+                       @devengo.generacion_obligacion = sum_intereses
+                       @devengo.save!
+                       @mes = @fecha_inicio.month
+                       semana+=1
+                       sum_intereses = 0
+                  end
+                #--- Incrementos ----
+                dia += 1
+                sum_intereses += interes_diario
+                @fecha_inicio += 1
+          end
+
+          @fecha_inicio -= 1
+           if (semana*7).to_i != dias_mes((@fecha_inicio).month).to_i
+#            if  (@fecha_inicio - 1).day == dias_mes(credito.fecha_inicio.month)
+              @devengo = Devengo.create(:generacion_obligacion => sum_intereses, :fecha => @fecha_inicio, :dia => dia-1, :credito_id => credito, :semana => semana )
+#            end
+           end
+        end
+
+
+#--- respaldo de la funcion ---
+def calcula_devengo_intereses_resp(credito)
+        @fecha_inicio = credito.fecha_inicio
+        @mes = @fecha_inicio.month
+       # @fecha_inicio = DateTime.new(@anio.to_i, @mes.to_i, @dia.to_i, @hora.to_i, @minutos.to_i).strftime("%Y-%m-%d %H:%M:%S")
+        pago_semanal = 1000
+        tasa_interes = 0.03
+        interes_diario = pago_semanal * tasa_interes
+        dia = 1
+        semana = 1
+        #---- Calculamos fechas de corte ---
+        case dias_mes(@mes)
+        when 31
+          fechas_corte = [7, 14, 21, 28, 31]
+        when 30
+          fechas_corte = [7, 14, 21, 28, 30]
+        when 28
+          fechas_corte = [7, 14, 21, 28]
+        else
+          fechas_corte = [7, 14, 21, 28, 30]
+        end
+
+          sum_intereses = interes_diario
+          while dia <= dias_mes(@mes) do
+                  if fechas_corte.include?(dia)
+                       @devengo = Devengo.new
+                       @devengo.credito_id = credito
+                       @devengo.dia = dia
+                       @devengo.semana = semana
+                       @devengo.fecha = @fecha_inicio
+                       @devengo.generacion_obligacion = sum_intereses
+                       @devengo.save!
+                       #@mes = @fecha_inicio.month
+                       semana+=1
+                       sum_intereses = 0
+                  end
+                #--- Incrementos ----
+                dia += 1
+                sum_intereses += interes_diario
+#   case dias_mes(@mes)
+#        when 31
+#          fechas_corte = [7, 14, 21, 28, 31]
+#        when 30
+#          fechas_corte = [7, 14, 21, 28, 30]
+#        when 28
+#          fechas_corte = [7, 14, 21, 28]
+#        else
+#          fechas_corte = [7, 14, 21, 28, 30]
+#    end
+#
+                @fecha_inicio += 1
+#
+          end
+        end
 
 
 

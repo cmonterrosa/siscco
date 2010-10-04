@@ -238,4 +238,8 @@ end
   (1..52).each do |x| @semanas << x end
   $semanas = @semanas
 
+    def dias_mes(numero_mes)
+      return (Date.new(Time.now.year,12,31)<<(12-numero_mes)).day.to_i
+    end
+
 end

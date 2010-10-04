@@ -2,7 +2,7 @@
 # migrations feature of ActiveRecord to incrementally modify your database, and
 # then regenerate this schema definition.
 
-ActiveRecord::Schema.define(:version => 49) do
+ActiveRecord::Schema.define(:version => 50) do
 
   create_table "actividads", :force => true do |t|
     t.column "clave_inegi", :string
@@ -78,6 +78,7 @@ ActiveRecord::Schema.define(:version => 49) do
     t.column "telefono",          :string
     t.column "activo",            :string,  :default => "1"
     t.column "ultima_referencia", :integer
+    t.column "ultima_poliza",     :integer
   end
 
   create_table "controllers", :force => true do |t|
@@ -133,6 +134,16 @@ ActiveRecord::Schema.define(:version => 49) do
     t.column "destino",    :string
     t.column "user_id",    :integer
     t.column "fecha_hora", :datetime
+  end
+
+  create_table "devengos", :force => true do |t|
+    t.column "fecha",                   :date
+    t.column "dia",                     :integer
+    t.column "semana",                  :integer
+    t.column "generacion_obligacion",   :string,  :limit => 18
+    t.column "vto_amortizacion",        :string,  :limit => 18
+    t.column "cuenta_contable_interes", :string,  :limit => 18
+    t.column "credito_id",              :integer
   end
 
   create_table "ejidos", :force => true do |t|
@@ -290,23 +301,14 @@ ActiveRecord::Schema.define(:version => 49) do
   end
 
   create_table "polizas", :force => true do |t|
-    t.column "iEjer",     :integer
-    t.column "iMes",      :integer
-    t.column "sTpPol",    :string,  :limit => 3
-    t.column "sPolNum",   :string,  :limit => 6
-    t.column "sPolMov",   :string,  :limit => 6
-    t.column "iDia",      :integer
-    t.column "iNatura",   :integer
-    t.column "rImpMov",   :float
-    t.column "sCvIVA",    :string,  :limit => 1
-    t.column "iAplica",   :integer
-    t.column "sCnc",      :string,  :limit => 3
-    t.column "sRefere",   :string,  :limit => 8
-    t.column "sClvCnc",   :string,  :limit => 3
-    t.column "sNatMov",   :string,  :limit => 1
-    t.column "rImpMovRS", :float
-    t.column "sCtaNom",   :string,  :limit => 30
-    t.column "cuenta_id", :integer
+    t.column "fecha",         :date
+    t.column "tipo_poliza",   :string,  :limit => 1
+    t.column "num_poliza",    :string,  :limit => 6
+    t.column "importe",       :string,  :limit => 18
+    t.column "descripcion",   :string,  :limit => 60
+    t.column "identificador", :string,  :limit => 3
+    t.column "cuenta_id",     :integer
+    t.column "naturaleza",    :string
   end
 
   create_table "productos", :force => true do |t|

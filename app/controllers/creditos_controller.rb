@@ -125,7 +125,9 @@ class CreditosController < ApplicationController
                    inserta_pagos_individuales(@credito, calcula_pagos(@fecha_inicio.year, @fecha_inicio.month, @fecha_inicio.day, @producto.num_pagos, @producto.periodo))
                 else
                    inserta_pagos_grupales_por_tipo(@credito, calcula_pagos(@fecha_inicio.year, @fecha_inicio.month, @fecha_inicio.day, @producto.num_pagos, @producto.periodo), @credito.tipo_interes)
+                   inserta_poliza(params[:credito][:monto], Cuenta.find(1), "ABONO")
                 end
+                calcula_devengo_intereses(@credito)
            
            flash[:notice]="El crédito #{@credito.id} ha sido capturado"
            redirect_to :action => 'menu', :controller => "reportes", :id => @credito
@@ -157,8 +159,15 @@ class CreditosController < ApplicationController
   end
 
   def destroy
-    Credito.find(params[:id]).destroy
-    redirect_to :action => 'list'
+    #---- Verificamos si el credito tiene pagos pendientes ----
+    unless Pago.find(:all, :conditions => ["credito_id = ?", params[:id]]).empty?
+        Credito.find(params[:id]).destroy
+        redirect_to :action => 'list'
+    else
+      flash[:notice] = "no se puede eliminar"
+      redirect_to :action => 'list'
+    end
+  
   end
 
 
@@ -187,7 +196,6 @@ class CreditosController < ApplicationController
         when 'REFERENCIA'
           @creditos = Credito.find(:all, :conditions => ["num_referencia like ?", params[:_opcionc]])
           return render(:partial => 'filtrados', :layout => false) if request.xhr?
-
         when 'RFC'
           @creditos = Credito.find_by_sql("select * from creditos inner join clientes on clientes.id = creditos.cliente_id and clientes.rfc like '%#{params[:_opcionc]}%'")
           return render(:partial => 'filtrados', :layout => false) if request.xhr?

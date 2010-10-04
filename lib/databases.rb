@@ -14,7 +14,7 @@ module Databases
                     :clase => credito.class.to_s,
                     :objeto_id => credito.id.to_i,
                     :user_id => session['user'].id)
-                  return true
+                    return true
                  else
                    return false
                  end

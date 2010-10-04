@@ -144,7 +144,7 @@ function mmLoadMenus() {
   if (window.menu_catalogo) return;
 
 // Submenu de Catalogos de Cuentas
-  window.menu_cuentas = new Menu("Cuentas",140,20,"Geneva, Arial, Helvetica, sans-serif",14,"#000000","#FFFFFF","#ADADAD","#6699CC","left","middle",3,0,1000,-5,7,true,true,true,0,false,true);
+  window.menu_cuentas = new Menu("Ctas Bancarias",140,20,"Geneva, Arial, Helvetica, sans-serif",14,"#000000","#FFFFFF","#ADADAD","#6699CC","left","middle",3,0,1000,-5,7,true,true,true,0,false,true);
   menu_cuentas.addMenuItem("Concentradoras","location='/ctaconcentradoras'");
   menu_cuentas.addMenuItem("Liquidadoras","location='/ctaliquidadoras'");
   menu_cuentas.fontWeight="bold";
@@ -155,17 +155,16 @@ function mmLoadMenus() {
   menu_cuentas.menuBorderBgColor='#777777';
 
 // Menú de Catalogos
-  window.menu_catalogo = new Menu("root",138,20,"Geneva, Arial, Helvetica, sans-serif",14,"#000000","#FFFFFF","#999999","#6699CC","left","middle",3,0,1000,-5,7,true,true,true,0,false,true);
+  window.menu_catalogo = new Menu("root",148,20,"Geneva, Arial, Helvetica, sans-serif",14,"#000000","#FFFFFF","#999999","#6699CC","left","middle",3,0,1000,-5,7,true,true,true,0,false,true);
   menu_catalogo.addMenuItem("Bancos","location='/bancos'");
   menu_catalogo.addMenuItem("Suc. Bancarias","location='/sucbancarias'");
-
-  menu_catalogo.addMenuItem("Polizas","location='/polizas'");
+  //menu_catalogo.addMenuItem("Polizas","location='/polizas'");
   menu_catalogo.addMenuItem(menu_cuentas);
   menu_catalogo.addMenuItem("Clientes","location='/clientes'");
   menu_catalogo.addMenuItem("Festivos","location='/festivos'");
   menu_catalogo.addMenuItem("Fondeos","location='/fondeos'");
 //  menu_catalogo.addMenuItem("Garantías","location='/garantias'");
-//  menu_catalogo.addMenuItem("Giros","location='/giros'");
+  menu_catalogo.addMenuItem("Cuentas&nbsp;Contables","location='/cuentas'");
   menu_catalogo.addMenuItem("Grupos","location='/grupos'");
   menu_catalogo.addMenuItem("Líneas","location='/lineas'");
 //  menu_catalogo.addMenuItem("Periodos","location='/periodos'");
@@ -187,7 +186,7 @@ function mmLoadMenus() {
 //  menu_operacion.addMenuItem("Listado&nbsp;de&nbsp;Créditos","location='#'");
   menu_operacion.addMenuItem("Pago&nbsp;Línea&nbsp;Fondeo","location='/pagoslineas/new'");
   menu_operacion.addMenuItem("Transferir&nbsp;Fondos","location='/lineas/transferir_fondos'");
-  menu_operacion.addMenuItem("Exportacion&nbsp;de&nbsp;Polizas&nbsp;ASCII","location='/reportes/exportacion_polizas'");
+  menu_operacion.addMenuItem("Exportacion&nbsp;de&nbsp;Polizas&nbsp;","location='/reportes/exportacion_polizas'");
   menu_operacion.addMenuItem("Exportacion&nbsp;de&nbsp;Cuentas","location='/reportes/exportacion_cuentas'");
   menu_operacion.addMenuItem("Cargar&nbsp;Layout","location='/upload'");
   menu_operacion.addMenuItem("Histórico&nbsp;de&nbsp;Cargas","location='/upload/historico'");
