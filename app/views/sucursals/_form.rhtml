@@ -21,8 +21,8 @@
   </tr>
   <tr>
     <td><%= text_field 'sucursal', 'codigo_postal', :onkeypress => "return CharNum(event, 'numero');", :class => "text"  %></td>
-    <td><%= collection_select('', 'estado_id', $estados, :id, :estado, :prompt => ">> Estado") %></td>
-    <td><%= select('sucursal', 'municipio_id', [">> Municipio"]) %></td>
+    <td><%= collection_select('', 'estado_id', $estados, :id, :estado, {:prompt => ">> Estado"}, :class => "text") %></td>
+    <td><%= select('sucursal', 'municipio_id', [">> Municipio"], :class => "text") %></td>
     <!--
     <td><= select('', 'ejido_id', [">> Ejido"]) %></td>
     -->

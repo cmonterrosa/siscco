@@ -15,7 +15,7 @@
   $localidades = Localidad.find_by_sql("select * from localidads LIMIT 0")
   $promotores = Promotor.find(:all, :order => "nombre")
   $destinos = Destino.find(:all)
-  $grupos = Grupo.find(:all, :order => "nombre")
+  $grupos = todos_grupos_conclientes
   $fondeos = Fondeo.find(:all, :order => "fuente")
   $periodos = Periodo.find(:all, :order => "dias")
   $productos = Producto.find(:all, :order => "producto")

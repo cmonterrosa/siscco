@@ -24,7 +24,9 @@
   
       <% for linea in @lineas %>
       <tr>
-        <td><%= linea.fondeo.fuente %> </td>
+        <%if linea.fondeo%>
+          <td><%= linea.fondeo.fuente %> </td>
+        <%end%>
         <% for column in Linea.content_columns %>
         <td><%=h linea.send(column.name) %></td>
         <% end %>
@@ -33,7 +35,9 @@
        
         <td><%= button_to 'Detalles', :action => 'show', :id => linea %></td>
         <td><%= button_to 'Editar', :action => 'edit', :id => linea %></td>
-        <td><%= button_to 'Eliminar', { :action => 'destroy', :id => linea }, :confirm => 'Estas suguro?', :method => :post %></td>
+        <!--
+        <td><= button_to 'Eliminar', { :action => 'destroy', :id => linea }, :confirm => 'Estas suguro?', :method => :post %></td>
+        -->
         <td><%= button_to 'Transferir Fondos',  :action => 'transferir_fondos', :id => linea %></td>
          <td><%=button_to 'Estado de Cuenta',  :action => 'consultar', :id => linea %></td>
       </tr>

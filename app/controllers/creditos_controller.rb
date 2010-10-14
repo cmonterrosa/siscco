@@ -125,8 +125,8 @@ class CreditosController < ApplicationController
                    inserta_pagos_individuales(@credito, calcula_pagos(@fecha_inicio.year, @fecha_inicio.month, @fecha_inicio.day, @producto.num_pagos, @producto.periodo))
                 else
                    inserta_pagos_grupales_por_tipo(@credito, calcula_pagos(@fecha_inicio.year, @fecha_inicio.month, @fecha_inicio.day, @producto.num_pagos, @producto.periodo), @credito.tipo_interes)
-                    if Cuenta.find(1) #--- Si existe alguna cuenta
-                      inserta_poliza(params[:credito][:monto], Cuenta.find(1), "ABONO")
+                    unless Cuenta.find(:all).empty? #--- Si existe alguna cuenta
+                      inserta_poliza(params[:credito][:monto], Cuenta.find(:first), "ABONO")
                     end
                 end
                 calcula_devengo_intereses(@credito)

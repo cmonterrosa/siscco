@@ -71,7 +71,7 @@ class ReportesController < ApplicationController
 
     _pdf.move_pointer(15)
     @leyenda2=<<-EOS
-    Mediante #{@credito.producto.num_pagos} Pagos #{@credito.producto.periodo.nombre}, pago por la cantidad de #{pago_minimo_informativo(@credito)} y pagandoce las amortizaciones con vencimientos consecutivos, mismas que se señalan de la siguiente manera:
+    Mediante #{@credito.producto.num_pagos} Pagos #{@credito.producto.periodo.nombre}, pago por la cantidad de #{round(pago_minimo_informativo(@credito))} y pagandoce las amortizaciones con vencimientos consecutivos, mismas que se señalan de la siguiente manera:
     EOS
 
       #---- Imprimos la leyenda 2 ---
@@ -97,7 +97,7 @@ class ReportesController < ApplicationController
               #tab.orientation   = :center
               tab.position      = :center
               @pagos.each do |pago|
-                pagos << {"monto" => (pago.capital_minimo.to_f + pago.interes_minimo.to_f).to_s,
+                pagos << {"monto" => "$" + round(pago.capital_minimo.to_f + pago.interes_minimo.to_f).to_s,
                           "fecha" => pago.fecha_limite.strftime("%d de %B de %Y")}
                 end
               tab.data.replace pagos
@@ -174,8 +174,24 @@ class ReportesController < ApplicationController
       end
 
 
+    def default
+      render  :controller =>"home"
+    end
+
+
+
     def tarjeta_pagos
     #----- filtrado de registros unicos -----
+    if params[:cliente][:id].size < 1
+       flash[:notice] = "Seleccione un cliente valido"
+       default
+      # redirect_to :action => "menu", :controller=> "reportes", :id => params[:id]
+    elsif params[:id].size < 1
+        flash[:notice] = "No se puedo realizar la busqueda, verifique"
+        default
+      #  redirect_to :action => "index", :controller=> "home"
+    end
+
     @cliente = Cliente.find(:first, :conditions => ["id = ?", params[:cliente][:id]])
     @credito = Credito.find(:first, :conditions => ["id = ?", params[:id]])
     @pagos =Pago.find(:all, :conditions=>["credito_id = ? and cliente_id = ?", @credito.id, @cliente.id])
@@ -229,9 +245,20 @@ class ReportesController < ApplicationController
     _pdf.move_pointer(15)
 
     #---- Datos del crédito ----
-    _pdf.text to_iso("<b>Banco:</b> #{@credito.banco.nombre}"), :font_size => 12, :justification => :left, :left => 10
+    #--- Validamos que tenga asignada una sucursal bancaria ---
+    if @credito.linea.ctaconcentradora.sucbancaria.banco
+      _pdf.text to_iso("<b>Banco:</b> #{@credito.linea.ctaconcentradora.sucbancaria.banco.nombre}"), :font_size => 12, :justification => :left, :left => 10
+    else
+      _pdf.text to_iso("<b>Banco:</b>  - "), :font_size => 12, :justification => :left, :left => 10
+    end
     _pdf.move_pointer(5)
-    _pdf.text to_iso("<b>Cuenta:</b> #{@credito.banco.num_cuenta}"), :font_size => 12, :justification => :left, :left => 10
+
+    #----- Validamos que tenga asignada una cuenta ----
+     if @credito.linea.ctaconcentradora
+       _pdf.text to_iso("<b>Cuenta:</b> #{@credito.linea.ctaconcentradora.num_cta}"), :font_size => 12, :justification => :left, :left => 10
+     else
+       _pdf.text to_iso("<b>Cuenta:</b> - "), :font_size => 12, :justification => :left, :left => 10
+     end
     _pdf.move_pointer(5)
     _pdf.text to_iso("<b>Contrato: </b> _________"), :font_size => 12, :justification => :left, :left => 10
     _pdf.move_pointer(5)
@@ -272,9 +299,9 @@ class ReportesController < ApplicationController
               @pagos.each do |pago|
                 pagos << {"np" => contador,
                           "fecha" => pago.fecha_limite.strftime("%d/%m/%Y"),
-                          "capital" => pago.capital_minimo,
-                          "interes" => pago.interes_minimo,
-                          "total" => (pago.capital_minimo.to_f + pago.interes_minimo.to_f).to_s,
+                          "capital" => round(pago.capital_minimo.to_f),
+                          "interes" => round(pago.interes_minimo.to_f),
+                          "total" => round(pago.capital_minimo.to_f + pago.interes_minimo.to_f).to_s,
                           "firma" => "_____________________"
                           }
                 # => --------        Agregamos un espacio en blanco ----
