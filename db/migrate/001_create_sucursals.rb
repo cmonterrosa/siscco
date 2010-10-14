@@ -8,6 +8,7 @@ class CreateSucursals < ActiveRecord::Migration
       t.column :codigo_postal, :string
       t.column :municipio_id, :integer
      end
+
   end
 
   def self.down

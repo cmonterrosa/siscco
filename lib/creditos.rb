@@ -399,6 +399,24 @@ module Creditos
              return @clientes
          end
 
+         def todos_grupos_conclientes
+           #---- Validamos que el grupo teng
+           ids = []
+           @c = Clientegrupo.find(:all, :select => "grupo_id", :conditions => "activo = 1", :group => "grupo_id")
+           @c.each{|x| ids << x.grupo_id}
+           return @grupos = Grupo.find(ids)
+         end
+
+         def todos_clientes_singrupo
+           #---- Validamos que el grupo teng
+           ids = []
+           @clientes = Cliente.find(:all, :order => "paterno, materno, nombre")
+           @c = Clientegrupo.find(:all, :select => "cliente_id", :conditions => "activo = 1", :group => "cliente_id")
+           @c.each{|x| @clientes.delete(Cliente.find(x.cliente_id))}
+           return @clientes
+         end
+
+
          def grupo_activo_cliente(cliente)
            return Clientegrupo.find(:first, :conditions => ["cliente_id = ? and activo = 1", cliente.id]).grupo
          end
@@ -455,7 +473,7 @@ module Creditos
           while dia <= dias_mes(@mes) && @fecha_inicio.month == credito.fecha_inicio.month && @fecha_inicio.year == credito.fecha_inicio.year do
                   if fechas_corte.include?(dia) && (@fecha_inicio.day <= dias_mes(@mes)) && @fecha_inicio.month == credito.fecha_inicio.month && @fecha_inicio.year == credito.fecha_inicio.year
                        @devengo = Devengo.new
-                       @devengo.credito_id = credito
+                       @devengo.credito = credito
                        @devengo.dia = dia
                        @devengo.semana = semana
                        @devengo.fecha = @fecha_inicio
@@ -473,8 +491,10 @@ module Creditos
 
           @fecha_inicio -= 1
            if (semana*7).to_i != dias_mes((@fecha_inicio).month).to_i
-              @devengo = Devengo.create(:generacion_obligacion => sum_intereses, :fecha => @fecha_inicio, :dia => dia-1, :credito_id => credito, :semana => semana )
-           end
+              @devengo = Devengo.new(:generacion_obligacion => sum_intereses, :fecha => @fecha_inicio, :dia => dia-1, :semana => semana )
+              @devengo.credito = credito
+              @devengo.save!
+          end
         end
 
 

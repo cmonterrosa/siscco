@@ -32,8 +32,10 @@
            <%end%>
         <td><%= button_to 'Detalles', :action => 'show', :id => ctaliquidadora %></td>
         <td><%= button_to 'Editar', :action => 'edit', :id => ctaliquidadora %></td>
-        <td><%= button_to 'Eliminar', { :action => 'destroy', :id => ctaliquidadora }, :confirm => 'Estas seguro?', :method => :post %></td>
-      </tr>
+        <!--
+        <td><= button_to 'Eliminar', { :action => 'destroy', :id => ctaliquidadora }, :confirm => 'Estas seguro?', :method => :post %></td>
+        -->
+        </tr>
       <% end %>
     </table>
   </div>

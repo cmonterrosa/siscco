@@ -18,7 +18,8 @@ class GruposController < ApplicationController
   def agregar_clientes
      @grupo = Grupo.find(params[:id])
      @clientegrupos = Clientegrupo.find(:all, :conditions => ["grupo_id = ? and activo = 1", @grupo.id])
-     @clientes = Cliente.find(:all, :order => "paterno")
+     #@clientes = Cliente.find(:all, :order => "paterno")
+     @clientes = todos_clientes_singrupo
      if @clientes.empty?
        redirect_to :action => "list"
      else

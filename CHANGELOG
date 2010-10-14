@@ -1,3 +1,15 @@
+Modificaciones 13 de Octubre de 2010
+
+=> Quitar el boton de eliminar para los productos y lineas para evitar inconsitencia de informacion
+
+=> Modificar la vista de clientes, mostrando unicamente los que no pertenecen a un grupo para ser agregados
+
+=> En alta de creditos, filtrado de grupos unicamente los que tienen clientes activos
+
+=> 
+
+
+
 Modificaciones 3 de Octubre de 2010
 
 => Creamos la estructura en la Base de Datos para almacenar los devengos semanales y diarios segun sea el caso automaticemente

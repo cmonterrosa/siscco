@@ -11,7 +11,7 @@
         <tr>
           <td><%=devengo.fecha%></td>
           <td><%=devengo.dia%></td>
-          <td><%=devengo.generacion_obligacion%></td>
+          <td><%=round(devengo.generacion_obligacion.to_f)%></td>
           <td><%=devengo.vto_amortizacion%></td>
         </tr>
         <% end %>
