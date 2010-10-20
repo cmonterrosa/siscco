@@ -36,7 +36,7 @@
     <th>Dirección:</th>
   </tr>
   <tr>
-    <td><%= date_select( 'cliente', 'fecha_nac', :order => [:day, :month, :year], :start_year => 1930, :class => 'text'  )%></td>
+    <td><%= date_select( 'cliente', 'fecha_nac', :order => [:day, :month, :year], :start_year => 1925, :end_year => Time.now.year, :class => 'text'  )%></td>
     <td><%= text_field 'cliente', 'rfc', :onkeyup => "return longitud(this,13);", :class => "text"  %></td>
     <td><%= text_field 'cliente', 'clave_ife', :onkeyup => "return longitud(this,18);", :class => 'text'  %></td>
     <td><%= text_field 'cliente', 'direccion', :class => "text"  %></td>
