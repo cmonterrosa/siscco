@@ -19,6 +19,7 @@ class Credito < ActiveRecord::Base
     super
       self.status = 0 unless self.status
       self.identificador = (rand(10)).to_s + Array.new(4) { (rand(122-97) + 97).chr }.join + (rand(10000)).to_s unless self.identificador
+      self.fecha_captura = Time.now unless self.fecha_captura
     end
 
     #--------- Validaciones ------

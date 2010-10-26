@@ -2,7 +2,7 @@
 # migrations feature of ActiveRecord to incrementally modify your database, and
 # then regenerate this schema definition.
 
-ActiveRecord::Schema.define(:version => 50) do
+ActiveRecord::Schema.define(:version => 51) do
 
   create_table "actividads", :force => true do |t|
     t.column "clave_inegi", :string
@@ -102,6 +102,7 @@ ActiveRecord::Schema.define(:version => 50) do
     t.column "grupo_id",          :integer
     t.column "producto_id",       :integer
     t.column "status",            :integer
+    t.column "fecha_captura",     :date
   end
 
   create_table "ctaconcentradoras", :force => true do |t|
@@ -122,12 +123,24 @@ ActiveRecord::Schema.define(:version => 50) do
   end
 
   create_table "datafiles", :force => true do |t|
-    t.column "numero",             :string,   :limit => 4
-    t.column "clave",              :string,   :limit => 4
+    t.column "numero_cliente",     :string,   :limit => 4
     t.column "fecha_hora_archivo", :datetime
     t.column "fecha_hora_carga",   :datetime
+    t.column "sucursal",           :string,   :limit => 10
+    t.column "cuenta",             :string,   :limit => 10
     t.column "nombre_archivo",     :string
-    t.column "num_lineas",         :integer
+    t.column "num_movimientos",    :integer
+  end
+
+  create_table "depositos", :force => true do |t|
+    t.column "numero",       :string, :limit => 6
+    t.column "sucursal",     :string, :limit => 20
+    t.column "autorizacion", :string, :limit => 20
+    t.column "codigo",       :string, :limit => 20
+    t.column "subcodigo",    :string, :limit => 20
+    t.column "ref_num",      :string, :limit => 20
+    t.column "ref_alfa",     :string, :limit => 20
+    t.column "importe",      :string, :limit => 20
   end
 
   create_table "destinos", :force => true do |t|
@@ -304,11 +317,11 @@ ActiveRecord::Schema.define(:version => 50) do
     t.column "fecha",         :date
     t.column "tipo_poliza",   :string,  :limit => 1
     t.column "num_poliza",    :string,  :limit => 6
+    t.column "cuenta_id",     :integer
+    t.column "naturaleza",    :string,  :limit => 25
     t.column "importe",       :string,  :limit => 18
     t.column "descripcion",   :string,  :limit => 60
     t.column "identificador", :string,  :limit => 3
-    t.column "cuenta_id",     :integer
-    t.column "naturaleza",    :string
   end
 
   create_table "productos", :force => true do |t|
@@ -388,7 +401,6 @@ ActiveRecord::Schema.define(:version => 50) do
     t.column "direccion",     :string
     t.column "codigo_postal", :string
     t.column "municipio_id",  :integer
-    t.column "st",            :integer
   end
 
   create_table "systables", :force => true do |t|

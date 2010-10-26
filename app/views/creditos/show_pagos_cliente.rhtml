@@ -14,7 +14,7 @@
     <th>Gastos de Cobranza</th>
     <th>Iva Gastos de Cobranza</th>
     <th>Pagado</th>
-    <th>Cliente</th>
+   
   </tr>
   <%@pagos.each do |pago|%>
   <tr>
@@ -22,20 +22,26 @@
      <td><%=pago.fecha_limite%></td>
      <td><%="$%.2f" % pago.capital_minimo%></td>
      <td><%="$%.2f" % pago.interes_minimo%></td>
-     <td><%=(calcula_moratorio(pago, Time.now))%></td>
-     <td><%=(calcula_comisiones(pago, Time.now))%></td>
-     <td><%=(calcula_iva_comisiones(pago, Time.now))%></td>
+     <td><%="$%.2f" % (calcula_moratorio(pago, Time.now))%></td>
+     <td><%="$%.2f" % (calcula_comisiones(pago, Time.now))%></td>
+     <td><%="$%.2f" % (calcula_iva_comisiones(pago, Time.now))%></td>
      <%if pago.pagado == 1%>
         <td>SI</td>
      <%else%>
         <td>NO</td>
      <%end%>
-        <td><%=pago.cliente.nombre_completo%></td>
-
   </tr>
   <%end%>
 
 </table>
+<br />
+<h2>Dias del credito: <%=dias_credito(@credito)%></h2>
+<h2>Periodos transcurridos: <%=periodos_transcurridos(@credito)%></h2>
+<h2>Vencimiento capital: </h2>
+<h1>Saldo:</h1>
+
+<br />
+
 
 
 

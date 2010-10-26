@@ -15,6 +15,15 @@ module Creditos
   end
 
 
+  def dias_credito(credito)
+    return Time.now.yday - credito.fecha_inicio.yday
+  end
+
+  def periodos_transcurridos(credito)
+    return (dias_credito(credito).to_i / credito.producto.periodo.dias)
+  end
+
+
  def total(credito)
     @total =  (credito.monto * (credito.tasa_interes / 100.0)) + credito.monto
     return @total - abonos(credito)

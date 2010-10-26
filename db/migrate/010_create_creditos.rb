@@ -2,6 +2,7 @@ class CreateCreditos < ActiveRecord::Migration
   def self.up
     create_table :creditos do |t|
       t.column :fecha_inicio, :date
+      t.column :fecha_captura, :date
       t.column :fecha_fin, :date
       t.column :num_referencia, :string
       t.column :monto, :float
