@@ -23,6 +23,9 @@ module Creditos
     return (dias_credito(credito).to_i / credito.producto.periodo.dias)
   end
 
+ def vencimiento_capital(credito)
+   return periodos_transcurridos(credito) * pago_minimo_informativo(credito)
+ end
 
  def total(credito)
     @total =  (credito.monto * (credito.tasa_interes / 100.0)) + credito.monto
@@ -226,6 +229,10 @@ module Creditos
                    saldo_inicial -= @principal_recuperado
                end
             end
+
+      #---- Aqui vamos a calcular el devengo diario -------
+
+      
 
          when "Pagos iguales de capital"
               #-- Hacemos los calculos correspondientes ----
@@ -564,7 +571,20 @@ def calcula_devengo_intereses_resp(credito)
 
 
 
-         
+#------ Calculo de los devengos diarios de acuerdo al tipo del calculo de intereses --------
 
+def devengo_diario_pagos_iguales_decremento_incremento(tasa_anualizada, num_dias, capital)
+  return ((((tasa_anualizada/360.0)* num_dias) * capital) / num_dias)
+end
+
+
+def devengo_diario_pagos_iguales_capital(tasa_anualizada, num_dias, capital)
+  return ((((tasa_anualizada/360.0)* num_dias) * capital) / num_dias)
+end
+
+
+def devengo_diario_pagos_flat(tasa_mensual, capital)
+  return (tasa_mensual * capital/ 30.0)
+end
 
 end

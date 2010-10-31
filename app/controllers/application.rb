@@ -6,7 +6,6 @@ class ApplicationController < ActionController::Base
   # ---  Incluimos la libreria para el acceso ---
   include LoginSystem
   model :user
-
   #---- Incluimos las Variables Globales ---
   include Variables
   #---- Incluimos las utilerias

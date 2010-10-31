@@ -7,6 +7,10 @@
 # Specifies gem version of Rails to use when vendor/rails is not present
 RAILS_GEM_VERSION = '1.2.6' unless defined? RAILS_GEM_VERSION
 
+#--- Incluimos las tareas automatizadas para que se puedan acceder desde la linea de comando -----
+require "lib/tareas"
+
+
 # Bootstrap the Rails environment, frameworks, and default configuration
 require File.join(File.dirname(__FILE__), 'boot')
 

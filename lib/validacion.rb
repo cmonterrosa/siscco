@@ -1,2 +1,0 @@
-# --- Personalizacion de la clase ----
-

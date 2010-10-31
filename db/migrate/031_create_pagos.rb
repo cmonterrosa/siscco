@@ -23,6 +23,8 @@ class CreatePagos < ActiveRecord::Migration
       t.column :saldo_inicial, :string
       t.column :saldo_final, :string
       t.column :principal_recuperado, :string
+      #------ Relacion con el deposito efectuado ---
+      t.column :deposito_id, :integer
       #---- campo para historial -----
       t.column :st, :integer
     end

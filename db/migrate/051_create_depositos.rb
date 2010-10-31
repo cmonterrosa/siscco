@@ -11,6 +11,7 @@ class CreateDepositos < ActiveRecord::Migration
       t.column :ref_alfa, :string, :limit => 20
       t.column :importe, :string, :limit => 20
       #---- Relaciones con otras tablas -----
+      t.column :datafile_id, :integer
     end
   end
 
