@@ -200,6 +200,7 @@ function mmLoadMenus() {
 // Menú de Reportes
   window.menu_reporte = new Menu("root",240,20,"Geneva, Arial, Helvetica, sans-serif",14,"#000000","#FFFFFF","#999999","#6699CC","left","middle",3,0,1000,-5,7,true,true,true,0,true,true);
   menu_reporte.addMenuItem("Pagos&nbsp;del&nbsp;día","location='/pagos/index'");
+  menu_reporte.addMenuItem("Vencimientos","location='/reportes/vencimientos'");
   menu_reporte.addMenuItem("Estado&nbsp;de&nbsp;Cuenta&nbsp;del&nbsp;Cliente","location='/clientes/estado_cuenta'");
   menu_reporte.addMenuItem("Estado&nbsp;de&nbsp;Cuenta&nbsp;del&nbsp;Grupo","location='/grupos/estado_cuenta'");
   menu_reporte.addMenuItem("Estado&nbsp;de&nbsp;cuenta&nbsp;línea&nbsp;fondeo","location='/lineas/estado_cuenta'");

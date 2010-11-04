@@ -26,13 +26,12 @@ module Creditos
   #---- DIas sin pagar ----
 
    def dias_sin_pagar(credito)
-    #@pago_siguiente = Pago.find(:all, :conditions => ["credito_id = ? AND pagado = 0", credito.id.to_i], :order => "fecha_limite")
-    @pago_siguiente = Pago.find(:first, :conditions => ["pagado = 0 AND credito_id = ?", credito.id], :order =>"num_pago", :group => "cliente_id")
-    return DateTime.now.yday - @pago_siguiente.fecha_limite.yday
+    pago_siguiente = Pago.find(:first, :conditions => ["pagado = 0 AND credito_id = ?", credito.id], :order =>"num_pago", :group => "cliente_id")
+    return DateTime.now.yday - pago_siguiente.fecha_limite.yday
   end
 
    def periodos_sin_pagar(credito)
-     return (dias_sin_pagar(credito).to_i / credito.producto.periodo.dias)
+    return (dias_sin_pagar(credito).to_i / credito.producto.periodo.dias)
    end
 
  def vencimiento_capital(credito)
@@ -101,9 +100,8 @@ module Creditos
 
 
   def proximo_pago(credito)
-          @proximo = Pago.find(:first, :conditions=>["credito_id = ? AND
-                                                   pagado=0", credito.id],
-                                                   :order=>"fecha_limite")
+          @proximo = Pago.find(:first, :conditions=>["credito_id = ? AND pagado=0", credito.id], :order=>"fecha_limite", :group => "cliente_id")
+          puts "no truena aqui"
           return @proximo
   end
 

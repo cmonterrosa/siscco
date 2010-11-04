@@ -15,6 +15,10 @@ class CreditosController < ApplicationController
   
   end
 
+  def vencimiento
+    @credito = Credito.find(params[:id])
+  end
+
   def show
     @credito = Credito.find(params[:id])
   end

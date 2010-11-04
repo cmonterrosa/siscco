@@ -5,6 +5,8 @@ require 'iconv'
 require 'fastercsv'
 
 
+
+
 #---- Modificamos la clase PDF_Writer
 class PDF::Writer
 # ----- Método
@@ -33,6 +35,7 @@ end
 
 
 class ReportesController < ApplicationController
+before_filter :login_required
 
     def pagare
     #----- filtrado de registros unicos -----
@@ -555,6 +558,10 @@ class ReportesController < ApplicationController
         send_data csv_string, type => "text/plain",
        :filename => "polizas.csv",
        :disposition => "attachment"
+   end
+
+   def vencimientos
+     
    end
    
 

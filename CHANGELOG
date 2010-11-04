@@ -1,3 +1,10 @@
+Modificaciones 4 de noviembre de 2010
+
+=> Creamos el acceso para que se calcule el vencimiento por credito especifico
+
+=> Creamos el reporte que calculo el vencimiento general de todos los creditos
+
+
 Modificaciones 29 de Octubre de 2010
 
 => Creamos clase para calcular los vencimientos
