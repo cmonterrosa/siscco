@@ -16,12 +16,24 @@ module Creditos
 
 
   def dias_credito(credito)
-    return Time.now.yday - credito.fecha_inicio.yday
+    return DateTime.now.yday - credito.fecha_inicio.yday
   end
 
   def periodos_transcurridos(credito)
     return (dias_credito(credito).to_i / credito.producto.periodo.dias)
   end
+
+  #---- DIas sin pagar ----
+
+   def dias_sin_pagar(credito)
+    #@pago_siguiente = Pago.find(:all, :conditions => ["credito_id = ? AND pagado = 0", credito.id.to_i], :order => "fecha_limite")
+    @pago_siguiente = Pago.find(:first, :conditions => ["pagado = 0 AND credito_id = ?", credito.id], :order =>"num_pago", :group => "cliente_id")
+    return DateTime.now.yday - @pago_siguiente.fecha_limite.yday
+  end
+
+   def periodos_sin_pagar(credito)
+     return (dias_sin_pagar(credito).to_i / credito.producto.periodo.dias)
+   end
 
  def vencimiento_capital(credito)
    return periodos_transcurridos(credito) * pago_minimo_informativo(credito)
