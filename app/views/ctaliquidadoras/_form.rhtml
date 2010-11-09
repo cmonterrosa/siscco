@@ -10,7 +10,7 @@
   <tr>
     <td><%= text_field 'ctaliquidadora', 'num_cta',  :onkeypress => "return CharNum(event, 'numero');", :class => "text"  %></td>
     <td><%= text_field 'ctaliquidadora', 'cta_contable', :class => "text"  %></td>
-    <td><%= collection_select("ctaliquidadora", "sucbancaria_id", $sucbancarias, :id, :descripcion, {:prompt => "BANCOS"}, :class => 'text') %></td>
+    <td><%= collection_select("ctaliquidadora", "sucbancaria_id", @sucbancarias, :id, :descripcion, {:prompt => "BANCOS"}, :class => 'text') %></td>
   </tr>
 </table>
 <!--[eoform:sector]-->

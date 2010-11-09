@@ -8,7 +8,6 @@
   $bancos = Banco.find(:all)
   $ctaconcentradoras = Ctaconcentradora.find(:all)
   $ctaliquidadoras = Ctaliquidadora.find(:all)
-  $sucbancarias = Sucbancaria.find(:all)
   $ejidos ||= Ejido.find(:all)
   $lineas = Linea.find(:all)
   #$localidades = Localidad.find(:all)

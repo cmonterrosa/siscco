@@ -20,6 +20,7 @@ before_filter :login_required
 
   def new
     @ctaliquidadora = Ctaliquidadora.new
+    @sucbancarias = Sucbancaria.find(:all)
   end
 
   def create
