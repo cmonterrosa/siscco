@@ -25,7 +25,7 @@
     <td><%= text_field 'promotor', 'telefono', :onkeypress => "return CharNum(event, 'numero');", :class => "text"  %></td>
     <td><%= text_field 'promotor', 'celular', :onkeypress => "return CharNum(event, 'numero');", :class => "text"  %></td>
     <td><%= text_field 'promotor', 'email', :class => 'text'  %></td>
-    <td><%= collection_select("promotor", "sucursal_id", $sucursales, :id, :nombre, {:prompt => ">>SUCURSAL"}, :class =>"text") %></td>
+    <td><%= collection_select("promotor", "sucursal_id", @sucursales, :id, :nombre, {:prompt => ">>SUCURSAL"}, :class =>"text") %></td>
   </tr>
   <tr>
     <th colspan="4">Observaciones:</th>

@@ -28,6 +28,7 @@ class PromotorsController < ApplicationController
 
   def new
     @promotor = Promotor.new
+    @sucursales = Sucursal.find(:all)
   end
 
   def create
@@ -36,6 +37,7 @@ class PromotorsController < ApplicationController
 
   def edit
     @promotor = Promotor.find(params[:id])
+    @sucursales = Sucursal.find(:all)
   end
 
   def update

@@ -29,6 +29,7 @@ before_filter :login_required
 
   def edit
     @ctaconcentradora = Ctaconcentradora.find(params[:id])
+    @sucbancarias = Sucbancaria.find(:all)
   end
 
   def update
