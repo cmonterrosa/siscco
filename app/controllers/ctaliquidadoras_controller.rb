@@ -21,6 +21,7 @@ before_filter :login_required
   def new
     @ctaliquidadora = Ctaliquidadora.new
     @sucbancarias = Sucbancaria.find(:all)
+    @cuentas = Cuenta.find(:all)
   end
 
   def create
@@ -30,6 +31,7 @@ before_filter :login_required
   def edit
     @ctaliquidadora = Ctaliquidadora.find(params[:id])
     @sucbancarias = Sucbancaria.find(:all)
+    @cuentas = Cuenta.find(:all)
   end
 
   def update
