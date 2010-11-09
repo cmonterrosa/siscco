@@ -23,6 +23,9 @@ class LineasController < ApplicationController
     # ---- carga combos -----
     @fondeos = Fondeo.find(:all, :order => 'fuente')
     @status = Statu.find(:all, :order => 'statu')
+    #--- Cuentas
+    @ctaconcentradoras = Ctaconcentradora.find(:all)
+    @ctaliquidadoras = Ctaliquidadora.find(:all)
   end
 
   def create
@@ -31,6 +34,9 @@ class LineasController < ApplicationController
 
   def edit
     @linea = Linea.find(params[:id])
+    #--- Cuentas
+    @ctaconcentradoras = Ctaconcentradora.find(:all)
+    @ctaliquidadoras = Ctaliquidadora.find(:all)
   end
 
   def update
