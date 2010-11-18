@@ -1,3 +1,16 @@
+Modificaciones 18 de noviembre de 2010
+
+=> Corregimos, al crear productos o fondeos, estos aparecen inmediatamente en la alta de crédito grupal
+
+=> Agregamos el botón de "SALDO" para verificar el saldo, al hacer la búsqueda del crédito
+
+=> Agregamos el botón "Calendario de Pagos"; para conocer las fechas de pago
+
+=> Optimizamos variables para hacer má rápidas las consultas
+
+=>Definimos esquema para leer el layout
+
+
 Modificaciones 4 de noviembre de 2010
 
 => Creamos el acceso para que se calcule el vencimiento por credito especifico
