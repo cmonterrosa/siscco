@@ -5,10 +5,10 @@
 <%= error_messages_for 'linea' %>
 
 <h3>Fuentes de Fondeo:<br/>
-<%= collection_select("", "fondeo_id", $fondeos, :id, :fuente)%></h3>
+<%= collection_select("", "fondeo_id", @fondeos, :id, :fuente)%></h3>
 <br/>
 <h3>Linea de Fondeo<br/>
-<%= collection_select("linea", "cuenta_cheques", $lineas, :id, :cuenta_cheques)%></h3>
+<%= collection_select("linea", "cuenta_cheques", @lineas, :id, :cuenta_cheques)%></h3>
 <!--[eoform:]-->
 <br />
 <%= submit_tag "Buscar" %>

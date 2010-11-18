@@ -5,7 +5,7 @@
 <%= error_messages_for 'grupo' %>
 <br />
 <h3>Nombre del Grupo:<br/>
-<%= collection_select("grupo", "id", $grupos, :id, :nombre) %></h3>
+<%= collection_select("grupo", "id", Grupo.find(:all), :id, :nombre) %></h3>
 <br />
 <!--[eoform:movimiento]-->
 <%= submit_tag "Buscar" %>

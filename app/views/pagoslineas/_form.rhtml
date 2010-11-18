@@ -3,10 +3,10 @@
 <!--[form:pagoslinea]-->
 <br />
 <h3>Fuentes de Fondeo:<br/>
-<%= collection_select("", "fondeo_id", $fondeos, :id, :fuente, :prompt => '>> Fondeo')%></h3>
+<%= collection_select("", "fondeo_id", @fondeos, :id, :fuente, :prompt => '>> Fondeo')%></h3>
 <br/>
 <h3>Linea de Fondeo<br/>
-<%= collection_select("", "cuenta_cheques", $lineas, :id, :cuenta_cheques)%></h3>
+<%= collection_select("", "cuenta_cheques", @lineas, :id, :cuenta_cheques)%></h3>
 <br />
 <h3><label for="pagoslinea_fecha">Fecha:</label><br/>
 <%= date_select 'pagoslinea', 'fecha'  %></h3>

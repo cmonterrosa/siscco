@@ -97,8 +97,24 @@ class CreditosController < ApplicationController
   end
 
   def new
-    @credito = Credito.new
+      redirect_to :action => "new_grupal"
   end
+
+  def new_individual
+     #--- Variables
+     @productos = Producto.find(:all, :order => "producto")
+     @destinos = Destino.find(:all)
+     @promotores = Promotor.find(:all, :order => "nombre")
+     @fondeos = Fondeo.find(:all, :order => "fuente")
+     @lineas = Linea.find(:all)
+     @clientes = Cliente.find(:all, :order => "paterno, materno, nombre")
+  end
+
+  def under_construction
+    flash[:notice] = "MODULO EN CONSTRUCCION"
+    redirect_to :action => "new_individual"
+  end
+
 
   def create
     @credito = Credito.new(params[:credito])
@@ -150,6 +166,13 @@ class CreditosController < ApplicationController
 
   def edit
     @credito = Credito.find(params[:id])
+    #--- Variables
+     @destinos = Destino.find(:all)
+     @promotores = Promotor.find(:all, :order => "nombre")
+     @fondeos = Fondeo.find(:all, :order => "fuente")
+     @lineas = Linea.find(:all)
+     @productos = Producto.find(:all, :order => "producto")
+     @grupos = todos_grupos_conclientes
   end
 
   def update
@@ -258,6 +281,12 @@ class CreditosController < ApplicationController
      @filtrados = Grupo.find(:all, :select=> "distinct(g.id)",  :joins => "g, clientes_grupos cg, clientes c",
                          :conditions => "g.id = cg.grupo_id and cg.cliente_id = c.id")
      @grupos = Grupo.find(@filtrados)
+     #--- Variables
+     @productos = Producto.find(:all, :order => "producto")
+     @destinos = Destino.find(:all)
+     @promotores = Promotor.find(:all, :order => "nombre")
+     @fondeos = Fondeo.find(:all, :order => "fuente")
+     @lineas = Linea.find(:all)
   end
 
   def activacion

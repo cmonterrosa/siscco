@@ -13,11 +13,11 @@
   <tr>
     <td><%=@linea.fondeo.fuente%></td>
     <td><%=@linea.cuenta_cheques%></td>
-    <td><%=@linea.autorizado%></td>
-    <td><%=total_otorgado_creditos(@linea).to_s%></td>
-    <td><%=total_transferido(@linea)%></td>
-    <td><%=total_recibido(@linea)%></td>
-    <td><%=linea_disponible(@linea)%></td>
+    <td>$<%=separar_miles(@linea.autorizado)%></td>
+    <td>$<%=separar_miles(total_otorgado_creditos(@linea)).to_s%></td>
+    <td>$<%=separar_miles(total_transferido(@linea))%></td>
+    <td>$<%=separar_miles(total_recibido(@linea))%></td>
+    <td>$<%=separar_miles(linea_disponible(@linea))%></td>
   </tr>
 </table>
 <table class="botones">

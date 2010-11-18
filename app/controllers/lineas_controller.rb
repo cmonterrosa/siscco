@@ -59,6 +59,7 @@ class LineasController < ApplicationController
   def estado_cuenta
     @linea = Linea.new
     @lineas = Linea.find(:all)
+    @fondeos = Fondeo.find(:all, :order => "fuente")
   end
 
   def consultar
@@ -71,11 +72,15 @@ class LineasController < ApplicationController
 
   #--- Funciones para transferencia ----
   def transferir_fondos
-    
+     @lineas = Linea.find(:all)
+     @fondeos = Fondeo.find(:all, :order => "fuente")
   end
   
   
   def transferir
+    #--- Variables --
+    @lineas = Linea.find(:all)
+    @fondeos = Fondeo.find(:all, :order => "fuente")
     @transferencia = Transferencia.new(params[:transferencia])
     @transferencia.user = User.find(session['user'])
     if @transferencia.save!

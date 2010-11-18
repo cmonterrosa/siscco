@@ -7,9 +7,9 @@
     <th colspan="2">Cliente:</th>
   </tr>
   <tr>
-    <td><%= collection_select("credito", "producto_id", $productos, :id, :producto, :prompt => '>>Producto')%></td>
+    <td><%= collection_select("credito", "producto_id", @productos, :id, :producto, :prompt => '>>Producto')%></td>
     <td><%= text_field 'credito', 'monto', :onkeypress => "return CharNum(event, 'numero');"  %></td>
-    <td colspan="2"><%= collection_select("credito", "cliente_id", $clientes, :id, :nombre_completo)%></td>
+    <td colspan="2"><%= collection_select("credito", "cliente_id", @clientes, :id, :nombre_completo)%></td>
   </tr>
   <tr>
     <th>Fecha:</th>
@@ -35,8 +35,8 @@
     <th colspan="2">Promotor:</th>
   </tr>
   <tr>
-    <td><%=collection_select("credito", "destino_id", $destinos, :id, :destino, :prompt => '>>Destino')%></td>
-    <td colspan="2"><%=collection_select("credito", "promotor_id", $promotores, :id, :nombre_completo)%></td>
+    <td><%=collection_select("credito", "destino_id", @destinos, :id, :destino, :prompt => '>>Destino')%></td>
+    <td colspan="2"><%=collection_select("credito", "promotor_id", @promotores, :id, :nombre_completo)%></td>
   </tr>
   <%#*<tr>%>
     <%#*<th>Status:</th>%>

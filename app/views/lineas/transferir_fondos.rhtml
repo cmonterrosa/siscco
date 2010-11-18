@@ -2,16 +2,16 @@
 
 <!-- Form para agregar buscar pagos por dia -->
 <% form_tag :action => 'transferir' do -%>
-<%= error_messages_for 'lineas' %>
+<%= error_messages_for 'linea' %>
 <br />
 <h3>Fuentes de Fondeo:<br/>
-<%= collection_select("", "fondeo_id", $fondeos, :id, :fuente)%></h3>
+<%= collection_select("", "fondeo_id", @fondeos, :id, :fuente)%></h3>
 <br/>
 <h3>Linea de Fondeo Origen:<br/>
-<%= collection_select("transferencia", "origen_id", $lineas, :id, :cuenta_cheques)%></h3>
+<%= collection_select("transferencia", "origen_id", @lineas, :id, :cuenta_cheques)%></h3>
 <br/>
 <h3>Linea de Fondeo Destino:<br/>
-<%= collection_select("transferencia", "destino_id", $lineas, :id, :cuenta_cheques)%></h3>
+<%= collection_select("transferencia", "destino_id", @lineas, :id, :cuenta_cheques)%></h3>
 <br />
 <h3>Monto:<br/>
 <%= text_field 'transferencia', 'monto', :onkeypress => "return CharNum(event, 'numero');" %></h3>

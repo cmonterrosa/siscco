@@ -18,6 +18,8 @@ class PagoslineasController < ApplicationController
 
   def new
     @pagoslinea = Pagoslinea.new
+    @fondeos = Fondeo.find(:all, :order =>"fuente")
+    @lineas = Linea.find(:all)
   end
 
   def create
@@ -26,6 +28,8 @@ class PagoslineasController < ApplicationController
 
   def edit
     @pagoslinea = Pagoslinea.find(params[:id])
+    @fondeos = Fondeo.find(:all, :order =>"fuente")
+    @lineas = Linea.find(:all)
   end
 
   def update
