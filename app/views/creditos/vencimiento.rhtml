@@ -7,6 +7,7 @@
         <h1>------------------------------------------------------------------------------------------------</h1>
         <h3>Referencia =>  <%=@credito.num_referencia%></h3>
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<h3>Identificador => <%=@credito.identificador%></h3>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<h3>Fecha del Proximo Pago => <%=proximo_pago(@credito).fecha_limite.strftime("%d de %B de %Y")%></h3>
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<h3>Dias de Atraso =>   <%=credito_vencimiento.dias_atraso%></h3>
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<h3>Interes Diario Devengado => <%=credito_vencimiento.devengo_diario%></h3>
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<h3>Capital  =>  <%=credito_vencimiento.capital_vencido%></h3>
@@ -16,3 +17,5 @@
         <h2>TOTAL VENCIDO => $ <%=credito_vencimiento.gastos_cobranza + credito_vencimiento.moratorio + credito_vencimiento.capital_vencido + credito_vencimiento.intereses_devengados %></h2>
         <h1>------------------------------------------------------------------------------------------------</h1>
 
+        <br />
+        <%=button_to 'Regresar', :action => "movimiento_credito", :controller => "creditos"%>

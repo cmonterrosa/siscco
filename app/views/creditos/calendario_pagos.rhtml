@@ -1,0 +1,14 @@
+<h1>Calendario de Pagos</h1>
+
+
+<table>
+  <tr>
+    <th>Fecha de Pago</th>
+  </tr>
+<%lista_pagos_unicos_credito(@credito).each do |pago|%>
+  <tr>
+    <td><%=pago.fecha_limite.strftime("%d de %B de %Y")%></td>
+  </tr>
+<%end%>
+</table>
+

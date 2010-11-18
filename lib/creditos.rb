@@ -101,7 +101,6 @@ module Creditos
 
   def proximo_pago(credito)
           @proximo = Pago.find(:first, :conditions=>["credito_id = ? AND pagado=0", credito.id], :order=>"fecha_limite", :group => "cliente_id")
-          puts "no truena aqui"
           return @proximo
   end
 
@@ -595,6 +594,11 @@ end
 
 def devengo_diario_pagos_flat(tasa_mensual, capital)
   return (tasa_mensual * capital/ 30.0)
+end
+
+
+def lista_pagos_unicos_credito(credito)
+  return Pago.find(:all, :conditions => ["credito_id = ?", credito.id], :group => "num_pago")
 end
 
 end

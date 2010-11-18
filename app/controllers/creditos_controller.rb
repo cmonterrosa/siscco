@@ -23,6 +23,9 @@ class CreditosController < ApplicationController
     @credito = Credito.find(params[:id])
   end
 
+  def calendario_pagos
+    @credito = Credito.find(params[:id])
+  end
   
   #----- Este metodo aplica todos los movimientos ----
   def abonar_individual
