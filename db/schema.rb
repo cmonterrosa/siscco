@@ -107,13 +107,13 @@ ActiveRecord::Schema.define(:version => 51) do
 
   create_table "ctaconcentradoras", :force => true do |t|
     t.column "num_cta",        :string
-    t.column "cta_contable",   :string
+    t.column "cuenta_id",      :integer
     t.column "sucbancaria_id", :integer
   end
 
   create_table "ctaliquidadoras", :force => true do |t|
     t.column "num_cta",        :string
-    t.column "cta_contable",   :string
+    t.column "cuenta_id",      :integer
     t.column "sucbancaria_id", :integer
   end
 
@@ -123,24 +123,30 @@ ActiveRecord::Schema.define(:version => 51) do
   end
 
   create_table "datafiles", :force => true do |t|
+    t.column "clave",              :string,   :limit => 4
+    t.column "numero",             :string,   :limit => 4
     t.column "numero_cliente",     :string,   :limit => 4
+    t.column "nombre_cliente",     :string,   :limit => 120
+    t.column "codigo",             :string,   :limit => 18
     t.column "fecha_hora_archivo", :datetime
     t.column "fecha_hora_carga",   :datetime
     t.column "sucursal",           :string,   :limit => 10
     t.column "cuenta",             :string,   :limit => 10
+    t.column "nombre_cuenta",      :string,   :limit => 120
     t.column "nombre_archivo",     :string
+    t.column "moneda",             :string,   :limit => 50
     t.column "num_movimientos",    :integer
   end
 
   create_table "depositos", :force => true do |t|
-    t.column "numero",       :string, :limit => 6
-    t.column "sucursal",     :string, :limit => 20
-    t.column "autorizacion", :string, :limit => 20
-    t.column "codigo",       :string, :limit => 20
-    t.column "subcodigo",    :string, :limit => 20
-    t.column "ref_num",      :string, :limit => 20
-    t.column "ref_alfa",     :string, :limit => 20
-    t.column "importe",      :string, :limit => 20
+    t.column "sucursal",     :string,  :limit => 20
+    t.column "autorizacion", :string,  :limit => 20
+    t.column "codigo",       :string,  :limit => 20
+    t.column "subcodigo",    :string,  :limit => 20
+    t.column "ref_num",      :string,  :limit => 20
+    t.column "ref_alfa",     :string,  :limit => 20
+    t.column "importe",      :string,  :limit => 20
+    t.column "datafile_id",  :integer
   end
 
   create_table "destinos", :force => true do |t|

@@ -16,6 +16,8 @@ class ApplicationController < ActionController::Base
   helper :send_doc
   include SendDocHelper
   before_filter :configure_charsets
+
+
   def configure_charsets
    headers["Content-Type"] = "text/html; charset=UTF-8"
   end

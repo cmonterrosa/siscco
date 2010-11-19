@@ -3,9 +3,10 @@ module Databases
    #--- Verificamos que el usuario tenga acceso a eliminar registro -----
       def inserta_credito(credito, tipo)
         begin
-          #----- Creamos el numero de referencia automaticamente --------
-          @c_concentradora= Linea.find(credito.linea).ctaliquidadora
-           credito.num_referencia = genera_referencia_alfa(@c_concentradora.sucbancaria.num_sucursal, @c_concentradora.num_cta)
+        @c_concentradora = Linea.find(credito.linea).ctaliquidadora 
+        return false unless @c_concentradora
+        #----- Creamos el numero de referencia automaticamente --------
+          credito.num_referencia = genera_referencia_alfa(@c_concentradora.sucbancaria.num_sucursal, @c_concentradora.num_cta)
            if tipo == "GRUPAL"
              if credito.grupo.clientes.size >= 1 #-- aqui deberiamos de validar que sean 3
                  if credito.save!

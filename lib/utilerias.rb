@@ -41,10 +41,10 @@ module Utilerias
 
   #-------- Funciones para la manipulacion del layout (archivo de texto) ----
 
-  def encabezado_valido?(name)
+  def encabezado_valido?(filename)
       num = clave = 0
       num_linea = 1
-      File.open("#{RAILS_ROOT}/public/tmp/#{name}").each do |linea|
+      File.open("#{RAILS_ROOT}/public/tmp/#{filename}").each do |linea|
         if num_linea == 1
             num, clave = linea.split("/")
             return false unless clave =~ /^[A-Z]{4}/
@@ -67,21 +67,25 @@ module Utilerias
                datafile.numero = numero
             end
         end
-        if num_linea == 5
+
+       if num_linea == 5
           cadena = linea.split("|")
-          fecha, hora_completa = cadena[0], cadena[1]
+          fecha, hora_completa, datafile.numero_cliente, datafile.nombre_cliente, datafile.codigo,  datafile.sucursal, datafile.cuenta, datafile.nombre_cuenta, datafile.moneda, datafile.num_movimientos = cadena[0], cadena[1], cadena[2], cadena[3], cadena[4], cadena[6], cadena[7], cadena[8], cadena[9], cadena[10].to_i
           @dia, @mes, @anio = fecha.split("/")
           @hora, @minutos = hora_completa.split(":")
         end
         num_linea+=1
       end
+
+
+
+
       #--- Validamos si ya existe -------
       if Datafile.find(:first, :conditions => ["clave = ? AND numero = ?", datafile.clave, datafile.numero])
          return false
       else
         #--- Asignacion de metadatos
         datafile.fecha_hora_archivo = DateTime.new(@anio.to_i, @mes.to_i, @dia.to_i, @hora.to_i, @minutos.to_i).strftime("%Y-%m-%d %H:%M:%S")
-        datafile.num_lineas = num_linea - 6
         datafile.save
         return true
       end

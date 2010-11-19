@@ -9,7 +9,7 @@ class Datafile < ActiveRecord::Base
 
 
 
-    def self.save_file(upload)
+    def self.save_file_csv(upload)
     name =  upload["file"].original_filename
     directory = "public/tmp"
     # ---  Creamos el Path ----
@@ -87,7 +87,7 @@ class Datafile < ActiveRecord::Base
 
 
 
-  def self.save_file_old(upload)
+  def self.save_file_txt(upload)
     name =  upload["file"].original_filename
     directory = "public/tmp"
     # ---  Creamos el Path ----
@@ -99,6 +99,12 @@ class Datafile < ActiveRecord::Base
     if encabezado_valido?(name) && @data
        if inserta_metadatos(name, @data)
           return true
+          #---- Aqui vamos a insertar los pagos -----
+
+
+
+
+        
        else
           File.delete("#{RAILS_ROOT}/public/tmp/#{name}") if File.exists?("#{RAILS_ROOT}/public/tmp/#{name}")
           return false
@@ -108,5 +114,16 @@ class Datafile < ActiveRecord::Base
       return false
     end
   end
+
+
+  def self.inserta_deposito(registro)
+
+    
+  end
+
+
+
+
+
 
 end #-- Termina clase

@@ -34,6 +34,7 @@ class LineasController < ApplicationController
 
   def edit
     @linea = Linea.find(params[:id])
+    @fondeos = Fondeo.find(:all, :order => "fuente")
     #--- Cuentas
     @ctaconcentradoras = Ctaconcentradora.find(:all)
     @ctaliquidadoras = Ctaliquidadora.find(:all)

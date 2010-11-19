@@ -2,7 +2,6 @@ class CreateDepositos < ActiveRecord::Migration
   def self.up
     create_table :depositos do |t|
       #No.,Sucursal,Aut.,Código,SubCódigo,Referencia Númerica,Referencia Alfanúmerica,Importe,
-      t.column :numero, :string, :limit=>6
       t.column :sucursal, :string, :limit => 20
       t.column :autorizacion, :string, :limit => 20
       t.column :codigo, :string, :limit => 20
@@ -19,3 +18,5 @@ class CreateDepositos < ActiveRecord::Migration
     drop_table :depositos
   end
 end
+
+
