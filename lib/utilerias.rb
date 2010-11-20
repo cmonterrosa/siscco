@@ -11,7 +11,7 @@ module Utilerias
   end
 
 
-  def round(float, num_of_decimal_places=0)
+  def round(float, num_of_decimal_places=1)
       exponent = num_of_decimal_places + 2
       @float = float*(10**exponent)
       @float = @float.round

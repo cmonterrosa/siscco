@@ -11,6 +11,7 @@ class Vencimiento
       @dias_atraso = 0
       @intereses_devengados = 0
       @devengo_diario = 0
+      @total_deuda = 0
   end
 
   attr_accessor :credito, :pago_diario, :dias_atraso, :moratorio, :gastos_cobranza, :capital_vencido, :cuota_diaria, :fecha_calculo, :intereses_devengados, :devengo_diario
@@ -57,7 +58,7 @@ class Vencimiento
      periodos_transcurridos_sin_pagar = periodos_sin_pagar(credito)
       todos_los_pagos = Pago.find(:all, :conditions => ["credito_id = ? and pagado = 0", credito.id], :order => "num_pago", :group => "cliente_id")
       pagos_vencidos = todos_los_pagos[0..periodos_transcurridos_sin_pagar - 1]
-      pagos_vencidos.each{|pago| @capital_vencido+=pago.capital_minimo.to_f}
+      pagos_vencidos.each{|pago| @capital_vencido+=pago.principal_recuperado.to_f}
       if dias_transcurridos > 0
        pago_diario = pago_minimo_informativo(credito) / credito.producto.periodo.dias.to_f
        moratorio_diario = ((credito.producto.moratorio / 100.0 ) * proximo_pago(credito).capital_minimo.to_f ) / credito.producto.periodo.dias.to_f
