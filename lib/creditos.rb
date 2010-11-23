@@ -603,4 +603,8 @@ def lista_pagos_unicos_credito(credito)
   return Pago.find(:all, :conditions => ["credito_id = ?", credito.id], :group => "num_pago")
 end
 
+def numero_clientes_grupo(grupo)
+  return Clientegrupo.count(:id, :conditions => ["grupo_id = ? and activo = 1", grupo.id])
+end
+
 end

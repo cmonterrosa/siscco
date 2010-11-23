@@ -23,6 +23,10 @@ class CreditosController < ApplicationController
     @credito = Credito.find(params[:id])
   end
 
+  def modificar_referencia
+    @credito = Credito.find(params[:id])
+  end
+
   def calendario_pagos
     @credito = Credito.find(params[:id])
   end
@@ -180,8 +184,6 @@ class CreditosController < ApplicationController
 
   def update
     @credito = Credito.find(params[:id])
-    @credito.fecha_hora = Time.now
-    @credito.user_id = session['user'].id
     if @credito.update_attributes(params[:credito])
       flash[:notice] = 'Credito actualizado correctamente'
       redirect_to :action => 'show', :id => @credito

@@ -7,6 +7,10 @@
       <td><%=button_to 'SALDO', :controller => "creditos", :action => "vencimiento", :id => @credito, :method => :post%></td>
     </tr>
 
+    <tr>
+      <td><%=button_to 'Modificar/Agregar Referencia Bancaria', :controller => "creditos", :action => "modificar_referencia", :id => @credito, :method => :post%></td>
+    </tr>
+
   <tr>
     <td><%=button_to 'Pagare', :action => "pagare", :id => @credito, :method => :post%></td>
   </tr>

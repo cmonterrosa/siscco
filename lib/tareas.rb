@@ -63,7 +63,7 @@ class Vencimiento
        pago_diario = pago_minimo_informativo(credito) / credito.producto.periodo.dias.to_f
        moratorio_diario = ((credito.producto.moratorio / 100.0 ) * proximo_pago(credito).capital_minimo.to_f ) / credito.producto.periodo.dias.to_f
        @devengo_diario = proximo_pago(credito).interes_minimo.to_f / credito.producto.periodo.dias.to_f
-       @gastos_cobranza = 200 if dias_transcurridos > 8
+       @gastos_cobranza = 200.00 if dias_transcurridos > 8
        #---- Globales --
        @moratorio = moratorio_diario * dias_transcurridos.to_f
        @cuota_diaria = moratorio_diario + pago_diario
