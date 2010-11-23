@@ -64,7 +64,17 @@ class GruposController < ApplicationController
 
   #--- Metodos para realizar la consulta ---
   def consultar
-    @grupo = Grupo.find(params[:grupo][:id])
+    @credito = Credito.find(:first, :conditions =>["grupo_id = ?", params[:grupo][:id] ])
+    if @credito
+       redirect_to :action => "vencimiento", :controller=>"creditos", :id => @credito
+    else
+      flash[:notice] = "El grupo aun no tiene creditos asignados"
+      redirect_to :action => "estado_cuenta", :controller => "grupos"
+    end
+  end
+
+  def estado_cuenta
+    
   end
 
 
