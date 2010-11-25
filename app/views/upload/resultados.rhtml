@@ -1,0 +1,14 @@
+<br /><h1>Resumen</h1><br />
+
+
+<h2>Depositos aplicados: <%=@num_aplicados%></h2><br />
+
+<h2><%=link_to "Ver aplicados", :action => "show_aplicados", :controller=>"upload", :datafile => @datafile%></h2><br />
+
+<h2><%= link_to "Depositos no aplicados", :action => "download_na", :filename=>@archivo_na %></h2><br />
+
+<h2><%= link_to "Errores", :action => "download_na", :filename=>@archivo_err %></h2><br />
+
+<h2><%=link_to "Cargar Nuevo Layout", :action => "index", :controller => "upload"%></h2><br />
+
+

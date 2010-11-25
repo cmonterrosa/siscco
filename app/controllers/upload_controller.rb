@@ -15,24 +15,49 @@ class UploadController < ApplicationController
           #---- Verificamos si guarda correctamente ----
           @post = Datafile.find(:first, :conditions => ["nombre_archivo = ?", @nombre_archivo])
           if (post) && (@post)
-              flash[:notice] = "Archivo #{@nombre_archivo} cargado correctamente"
+              #---- Validamos que el encabezado es correcto, por lo tanto empezamos a insertar los registros que hagan match con los creditos -----
+             if confronta(@nombre_archivo)
+                flash[:notice] = "Archivo #{@nombre_archivo} cargado correctamente"
+                redirect_to :action => "resultados", :datafile => @post
+             end
           else
               flash[:notice] = "Archivo #{@nombre_archivo} ya existe o no contiene la estructura correcta, Verifique"
           end
-          render :action => "index", :controller => "upload"
+          
       else
           flash[:notice] = "La extension del archivo debe de ser txt, verifique"
           render :action => "index", :controller => "upload"
       end
      end
-  end
+    end
+    
+    
+    def resultados
+        @datafile = Datafile.find(params[:datafile])
+        @num_aplicados = Deposito.count(:id, :conditions => ["datafile_id = ?", @datafile.id])
+        @archivo_na = "na_" + @datafile.nombre_archivo
+        @archivo_err = "err_" + @datafile.nombre_archivo
+    end
+
+
+    def download_na
+      send_file(RAILS_ROOT+"/tmp/"+params[:filename] ,
+      :disposition => 'inline')
+    end
+
+    def show_aplicados
+      @datafile = Datafile.find(params[:datafile])
+      @depositos_aplicados = Deposito.find(:all, :conditions => ["datafile_id", @datafile.id])
+    end
 
 
 
 
 
 
-  def upload_old
+
+
+  def upload_csv
     #-- Validamos que el nombre del archivo no exista y sea con extension .txt
      case request.method
       when :get

@@ -208,4 +208,51 @@ module Databases
         redirect_to :action => 'edit', :controller => params[:controller], :id=> registro
      end
     end
+
+
+
+
+    def confronta(nombre_archivo)
+      begin
+        num_linea = 1
+        #--- Obtenemos el id del archivo cargado ---
+        @datafile = Datafile.find(:first, :conditions=>["nombre_archivo = ?", nombre_archivo])
+        #---- Creamos el archivo para los na ---
+        @no_aplicados = File.new("#{RAILS_ROOT}/tmp/na_#{nombre_archivo}", "w+")
+        #---- Creamos el archivo para los errores ---
+        @errores = File.new("#{RAILS_ROOT}/tmp/err_#{nombre_archivo}", "w+")
+        #-- Abrimos el archivo ---
+        File.open("#{RAILS_ROOT}/public/tmp/#{nombre_archivo}").each do |linea|
+          if num_linea >= 6
+              sucursal, autorizacion, codigo, subcodigo, ref_numerica, ref_alfa, importe = linea.split("|")
+              m, u = importe.split(",")
+              unless u.nil?
+                total = (m + u).to_f
+              else
+                total = m.to_f
+              end
+              #--- Aqui vamos a hacer el match -----
+              @credito = Credito.find(:first, :conditions => ["num_referencia = ?", ref_alfa])
+              if @credito
+                  #--- Insertamos el registro correspondiente al pago ---
+                  Deposito.create(:credito_id => @credito.id, :datafile_id => @datafile.id, :sucursal => sucursal, :autorizacion => autorizacion, :codigo => codigo, :subcodigo => subcodigo, :ref_num => ref_numerica, :ref_alfa => ref_alfa, :importe => total)
+              else
+                  #--- Lo insertamos en lo no procesados un archivo de texto ----
+                   @no_aplicados.puts(linea)         # write a line
+              end
+           end
+          num_linea+=1
+        end
+
+        return true
+      rescue Exception => e
+        @errores.puts(e.message)
+        return false
+      end
+    end
+
+
+
+
+
 end
