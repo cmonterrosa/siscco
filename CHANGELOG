@@ -1,3 +1,19 @@
+Modificamos 24 de noviembre de 2010
+
+=>  Creamos funcion que confronta la referencia que recibe del layout con la referencia del credito, si esta es valida inserta el deposito, queda pendiente aplicarlo
+
+=> Creamos funcion que despliega los que se aplicaron y los que no pudieron ser aplicados, se descargan en un archivo de texto, de igual manera se descarga otro archivo si algun error ocurre
+
+=> Validamos la estructura del layout para que unicamente cuando sea correcta pueda procesarse
+
+=> Por seguridad, Validamos que no pueda volverse a subir 2 veces el mismo archivo
+
+=> Vinculamos el deposito con un credito, para acceder más rapido a él
+
+=> En el menu de crédito mostramos todos los depositos que se han recibido via layout
+
+
+
 Modificaciones 18 de noviembre de 2010
 
 => Corregimos, al crear productos o fondeos, estos aparecen inmediatamente en la alta de crédito grupal
