@@ -9,8 +9,11 @@ class CreateDepositos < ActiveRecord::Migration
       t.column :ref_num, :string, :limit => 20
       t.column :ref_alfa, :string, :limit => 20
       t.column :importe, :string, :limit => 20
+      #----- Auditoria -----
+      t.column :fecha_hora, :datetime
       #---- Relaciones con otras tablas -----
       t.column :datafile_id, :integer
+      t.column :credito_id, :integer
     end
   end
 

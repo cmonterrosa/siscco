@@ -139,14 +139,16 @@ ActiveRecord::Schema.define(:version => 51) do
   end
 
   create_table "depositos", :force => true do |t|
-    t.column "sucursal",     :string,  :limit => 20
-    t.column "autorizacion", :string,  :limit => 20
-    t.column "codigo",       :string,  :limit => 20
-    t.column "subcodigo",    :string,  :limit => 20
-    t.column "ref_num",      :string,  :limit => 20
-    t.column "ref_alfa",     :string,  :limit => 20
-    t.column "importe",      :string,  :limit => 20
+    t.column "sucursal",     :string,   :limit => 20
+    t.column "autorizacion", :string,   :limit => 20
+    t.column "codigo",       :string,   :limit => 20
+    t.column "subcodigo",    :string,   :limit => 20
+    t.column "ref_num",      :string,   :limit => 20
+    t.column "ref_alfa",     :string,   :limit => 20
+    t.column "importe",      :string,   :limit => 20
+    t.column "fecha_hora",   :datetime
     t.column "datafile_id",  :integer
+    t.column "credito_id",   :integer
   end
 
   create_table "destinos", :force => true do |t|

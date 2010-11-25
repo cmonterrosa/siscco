@@ -2,6 +2,8 @@ require 'date'
 
 class Datafile < ActiveRecord::Base
 
+  has_many :depositos
+
   def initialize(params = nil)
     super
       self.fecha_hora_carga = Time.now unless self.fecha_hora_carga
@@ -82,11 +84,6 @@ class Datafile < ActiveRecord::Base
   end
 
 
-
-
-
-
-
   def self.save_file_txt(upload)
     name =  upload["file"].original_filename
     directory = "public/tmp"
@@ -100,11 +97,6 @@ class Datafile < ActiveRecord::Base
        if inserta_metadatos(name, @data)
           return true
           #---- Aqui vamos a insertar los pagos -----
-
-
-
-
-        
        else
           File.delete("#{RAILS_ROOT}/public/tmp/#{name}") if File.exists?("#{RAILS_ROOT}/public/tmp/#{name}")
           return false
@@ -116,10 +108,7 @@ class Datafile < ActiveRecord::Base
   end
 
 
-  def self.inserta_deposito(registro)
 
-    
-  end
 
 
 

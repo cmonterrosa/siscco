@@ -1,0 +1,22 @@
+<h1>Depositos del Credito</h1>
+
+<table>
+  <tr>
+    <th>sucursal</th>
+    <th>autorizacion</th>
+    <th>cod</th>
+    <th>subcod</th>
+    <th>ref alfa</th>
+    <th>importe</th>
+  </tr>
+ <%@depositos_aplicados.each do |deposito|%>
+   <tr>
+     <td><%=deposito.sucursal%></td>
+     <td><%=deposito.autorizacion%></td>
+     <td><%=deposito.codigo%></td>
+     <td><%=deposito.subcodigo%></td>
+     <td><%=deposito.ref_alfa%></td>
+     <td>$<%=separar_miles(deposito.importe)%></td>
+   </tr>
+  <%end%>
+</table>

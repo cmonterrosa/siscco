@@ -23,6 +23,11 @@ class CreditosController < ApplicationController
     @credito = Credito.find(params[:id])
   end
 
+  def show_depositos
+    @credito = Credito.find(params[:id])
+    @depositos_aplicados = Deposito.find(:all, :conditions=>["credito_id = ?", @credito.id])
+  end
+
   def modificar_referencia
     @credito = Credito.find(params[:id])
   end
@@ -68,17 +73,11 @@ class CreditosController < ApplicationController
        @cliente = Cliente.find(params[:cliente])
        @num_pagos = Pago.count(:id, :conditions=>["credito_id = ? AND pagado = 1", @credito.id]).to_i
 
-       #--- Generamos importes -----
-      # calcula_iva_comisiones(pago, fecha_pago) + calcula_
-
-
-
-
-    if @num_pagos == @credito.producto.num_pagos
-      #---- Ya se liquido el credito ----
+       if @num_pagos == @credito.producto.num_pagos
+       #---- Ya se liquido el credito ----
         flash[:notice] = "Su credito ha sido liquidado"
         redirect_to :action => "transaccion_grupal", :id=>@credito
-    else
+       else
 
         if (params[:pago][:capital].to_f + params[:pago][:interes].to_f) < pago_minimo_informativo(@credito).to_f
            #--- Si Se intenta pagar menos el minimo
