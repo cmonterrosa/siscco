@@ -16,7 +16,7 @@
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<h3>Dias de Atraso =>  <%=credito_vencimiento.dias_atraso%></h3>
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<h3>Interes Diario Devengado => $<%=separar_miles(credito_vencimiento.devengo_diario)%></h3>
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<h3>Capital  =>  $ <%=separar_miles(credito_vencimiento.capital_vencido)%></h3>
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<h3>Intereses Devengados => <%=separar_miles(credito_vencimiento.intereses_devengados)%></h3>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<h3>Intereses Devengados => $ <%=separar_miles(credito_vencimiento.intereses_devengados)%></h3>
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<h3>Moratorio =>  $ <%=separar_miles(credito_vencimiento.moratorio)%></h3>
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<h3>Gastos de Cobranza => $ <%=separar_miles(credito_vencimiento.gastos_cobranza.to_f)%></h3><br />
         <h2>TOTAL VENCIDO => $ <%=credito_vencimiento.gastos_cobranza + credito_vencimiento.moratorio + credito_vencimiento.capital_vencido + credito_vencimiento.intereses_devengados %></h2>

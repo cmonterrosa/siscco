@@ -1,4 +1,4 @@
-<h1>Clientes</h1>
+<h1>Clientes</h1><br />
 <!--inicia ajax -->
  <label for="searchtext">Búsqueda por nombre:</label>
   <%= text_field_tag :searchtext, '', :class => 'text' %>
@@ -7,6 +7,17 @@
                  :update => :search_hits,
                  :with  => "searchtext",
                  :url => { :action => :live_search }) %><br />
+  <br />
+  <label for="searchtext">Búsqueda por CURP:</label>
+  <%= text_field_tag :searchtextcurp, '', :class => 'text' %>
+  <%= observe_field(:searchtextcurp,
+                 :frequency => 0.25,
+                 :update => :search_hits,
+                 :with  => "curp",
+                 :url => { :action => :live_search_curp }) %><br />
+
+
+
   <br /><p>Resultado de Busqueda:</p>
  
     <div id="scroll">

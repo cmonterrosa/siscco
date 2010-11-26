@@ -221,7 +221,7 @@ class CreditosController < ApplicationController
   def live_search_op
      case session['opcion']
         when 'NUM. CREDITO'
-          @creditos = Credito.find(:all, :conditions => ["id like ?", "%#{params[:_opcionc]}%"])
+          @creditos = Credito.find(:all, :select => "id, fecha_inicio, num_referencia, identificador, status", :conditions => ["id like ?", "%#{params[:_opcionc]}%"])
           return render(:partial => 'filtrados', :layout => false) if request.xhr?
         when 'GRUPO'
           @creditos = Credito.find_by_sql("select creditos.* from creditos inner join grupos on grupos.id = creditos.grupo_id and grupos.nombre like '%#{params[:_opcionc]}%'")

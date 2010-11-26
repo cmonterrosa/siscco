@@ -18,7 +18,8 @@
           <!--<td><= cliente.clave_ife %></td>
           <td><= cliente.tipo_persona %></td>
           <td><= cliente.direccion %></td>
-          <td><%= cliente.telefono %></td>-->
+          <td><= cliente.telefono %></td>-->
+
           <td><%= button_to 'Detalles', :action => 'show', :id => cliente %></td>
           <td><%=link_to "Histórico de grupos", { :controller => "clientes", :action => "historial_grupos", :id => cliente},
                                                   :popup => ['height=300,width=600,left=300,top=300,scrollbars=no']%></td>
