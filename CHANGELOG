@@ -1,3 +1,12 @@
+Modificaciones 25 de noviembre de 2010
+
+=> Optimizamos tamaño de las imagenes para que cargen mas rapido
+
+=> Optimizamos consultas de clientes a la Base de datos
+
+=> Implentamos la busqueda por CURP en los clientes
+
+
 Modificamos 24 de noviembre de 2010
 
 =>  Creamos funcion que confronta la referencia que recibe del layout con la referencia del credito, si esta es valida inserta el deposito, queda pendiente aplicarlo
