@@ -3,7 +3,7 @@ log_file: log/mongrel.log
 cwd: /archivos/siscco
 log_file: /var/log/mongrel.log
 port: "8000"
-environment: development
+environment: production
 group: www
 user: cmonterrosa
 address: 127.0.0.1

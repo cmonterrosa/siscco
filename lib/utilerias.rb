@@ -49,11 +49,16 @@ module Utilerias
             num, clave = linea.split("/")
             return false unless clave =~ /^[A-Z]{4}/
             return false unless num =~/\d{4}/
+        #--- Validamos que no este repetido la clave y numero -----
+            return false if Datafile.find(:all, :conditions => ["clave = ? and numero = ?", clave.strip, num.strip]).size > 0
         end
         num_linea+=1
       end
       return true
    end
+
+
+
 
     def inserta_metadatos(name, datafile)
       num_linea = 1
@@ -77,18 +82,10 @@ module Utilerias
         num_linea+=1
       end
 
-
-
-
-      #--- Validamos si ya existe -------
-      if Datafile.find(:first, :conditions => ["clave = ? AND numero = ?", datafile.clave, datafile.numero])
-         return false
-      else
         #--- Asignacion de metadatos
         datafile.fecha_hora_archivo = DateTime.new(@anio.to_i, @mes.to_i, @dia.to_i, @hora.to_i, @minutos.to_i).strftime("%Y-%m-%d %H:%M:%S")
         datafile.save
         return true
-      end
    end
 
 

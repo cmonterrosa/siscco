@@ -2,7 +2,6 @@
     <table>
         <tr>
           <th>Fecha Inicio</th>
-          <th>Fecha Fin</th>
           <th>Referencia</th>
           <th>Id</th>
           <th>Grupo</th>
@@ -12,7 +11,6 @@
             <% for credito in @creditos%>
               <tr>
                 <td><%=credito.fecha_inicio%></td>
-                <td><%=credito.fecha_fin%></td>
                 <td><%=credito.num_referencia%></td>
                 <td><%=credito.identificador%></td>
                 <%if credito.grupo%>
@@ -37,8 +35,9 @@
                 <!--
                 <td><=button_to 'Devengo Int.', :action => "show_devengos", :controller => "creditos", :id=> credito%></td>
                 -->
-                <td><%=button_to 'Calendario de Pagos', :controller=>"creditos", :action => "calendario_pagos", :id => credito%></td>
+                <td><%=button_to 'Calendario', :controller=>"creditos", :action => "calendario_pagos", :id => credito%></td>
                 <td><%=button_to 'SALDO', :action => "vencimiento", :controller => "creditos", :id=> credito%></td>
+                <td><%=button_to 'Depositos', :action => "show_depositos", :controller => "creditos", :id=> credito%></td>
                 <td><%=button_to 'Reportes', {:action => "menu", :controller=> "reportes", :id => credito}, :method => :post%></td>
                 <td><%= button_to 'Detalles', :action => 'show', :id => credito %></td>
                 <td><%= button_to 'Editar', :action => 'edit', :id => credito %></td>
