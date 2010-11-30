@@ -284,13 +284,14 @@ class CreditosController < ApplicationController
   def new_grupal
      @filtrados = Grupo.find(:all, :select=> "distinct(g.id)",  :joins => "g, clientes_grupos cg, clientes c",
                          :conditions => "g.id = cg.grupo_id and cg.cliente_id = c.id")
-     @grupos = Grupo.find(@filtrados)
+     @grupos = Grupo.find(@filtrados, :select => "id, nombre")
      #--- Variables
      @productos = Producto.find(:all, :order => "producto")
      @destinos = Destino.find(:all)
      @promotores = Promotor.find(:all, :order => "nombre")
      @fondeos = Fondeo.find(:all, :order => "fuente")
      @lineas = Linea.find(:all)
+     @clientes = Cliente.find(:all, :select => "id, paterno, materno, nombre")
   end
 
   def activacion

@@ -434,14 +434,21 @@ module Creditos
            return @grupos = Grupo.find(ids)
          end
 
-         def todos_clientes_singrupo
-           #---- Validamos que el grupo teng
-           ids = []
-           @clientes = Cliente.find(:all, :order => "paterno, materno, nombre")
-           @c = Clientegrupo.find(:all, :select => "cliente_id", :conditions => "activo = 1", :group => "cliente_id")
-           @c.each{|x| @clientes.delete(Cliente.find(x.cliente_id))}
-           return @clientes
+#         def todos_clientes_singrupo
+#           ---- Validamos que el grupo teng
+#           ids = []
+#           @clientes = Cliente.find(:all, :select => "id, paterno, materno, nombre", :order => "paterno, materno, nombre")
+#           @c = Clientegrupo.find(:all, :select => "cliente_id", :conditions => "activo = 1", :group => "cliente_id")
+#           @c.each{|x| @clientes.delete(Cliente.find(x.cliente_id))}
+#           return @clientes
+#         end
+
+
+         def todos_clientes_singrupo_join
+            return Cliente.find_by_sql("select id, rfc, curp, paterno, materno, nombre from clientes where id not in (select c.id from clientes c, clientes_grupos cg where c.id=cg.cliente_id) order by paterno, materno, nombre")
          end
+
+
 
 
          def grupo_activo_cliente(cliente)

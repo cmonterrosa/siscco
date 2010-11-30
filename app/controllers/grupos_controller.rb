@@ -17,14 +17,14 @@ class GruposController < ApplicationController
 
   def agregar_clientes
      @grupo = Grupo.find(params[:id])
-     @clientegrupos = Clientegrupo.find(:all, :conditions => ["grupo_id = ? and activo = 1", @grupo.id])
+     @clientegrupos = Clientegrupo.find(:all, :select => "id, grupo_id, cliente_id", :conditions => ["grupo_id = ? and activo = 1", @grupo.id])
      #@clientes = Cliente.find(:all, :order => "paterno")
-     @clientes = todos_clientes_singrupo
+     @clientes = todos_clientes_singrupo_join
      if @clientes.empty?
        redirect_to :action => "list"
      else
        #--- Quitamos a los actuales
-       @clientegrupos.each do |cliente| @clientes.delete(cliente.cliente) end
+       #@clientegrupos.each do |cliente| @clientes.delete(cliente.cliente) end
      end
   end
 
@@ -83,7 +83,7 @@ class GruposController < ApplicationController
     #--- primero validaremos si el grupo ya tiene otro credito -----
     @cliente = Cliente.find(params[:id])
     @grupo = Grupo.find(params[:grupo])
-    @clientegrupos = Clientegrupo.find(:all, :conditions => ["cliente_id = ? and activo = 1", @cliente.id])
+    @clientegrupos = Clientegrupo.find(:all, :select => "id", :conditions => ["cliente_id = ? and activo = 1", @cliente.id])
     @grupos=[]
     unless @clientegrupos.empty?
       flash[:notice]="El cliente ya es parte de algun grupo"
@@ -110,7 +110,7 @@ class GruposController < ApplicationController
   end
   def quitar
     @cliente = Cliente.find(params[:id])
-    @clientegrupos = Clientegrupo.find(:all, :conditions => ["cliente_id = ? and activo = 1", @cliente.id])
+    @clientegrupos = Clientegrupo.find(:all, :select => "id, activo, fecha_fin", :conditions => ["cliente_id = ? and activo = 1", @cliente.id])
     @clientegrupos.each do |grupo| grupo.activo=0; grupo.fecha_fin= Time.now; grupo.save! end
     redirect_to :action => "agregar_clientes", :id=>params[:grupo]
   end
@@ -127,12 +127,19 @@ class GruposController < ApplicationController
     #-- Ajax --
   def live_search_clientes
       @grupo = session["grupo_online"]
-      @clientegrupos = Clientegrupo.find(:all, :conditions => ["grupo_id = ? and activo = 1", @grupo.id])
-      @clientes = Cliente.find(:all, :conditions => "nombre like '%#{params[:searchtext]}%' or
-                                                     paterno like '%#{params[:searchtext]}%' or
-                                                     materno like '%#{params[:searchtext]}%' ")
-      @clientegrupos.each do |cliente| @clientes.delete(cliente.cliente) end
-      return render(:partial => 'filtrocliente', :layout => false) if request.xhr?
+#      @clientegrupos = Clientegrupo.find(:all, :select => "id, grupo_id, activo",  :conditions => ["grupo_id = ? and activo = 1", @grupo.id])
+#      @clientes = Cliente.find(:all, :conditions => "nombre like '%#{params[:searchtext]}%' or
+#                                                     paterno like '#{params[:searchtext]}%' or
+#                                                     materno like '#{params[:searchtext]}%' ")
+#      @clientegrupos.each do |cliente| @clientes.delete(cliente.cliente) end
+
+   #   @clientes = Cliente.find_by_sql("select id, rfc, curp, paterno, materno, nombre from clientes where id not in (select c.id from clientes c, clientes_grupos cg where
+    #                       c.id=cg.cliente_id) and nombre like '%#{params[:searchtext].strip}%', order by paterno, materno, nombre")
+
+    @clientes = Cliente.find_by_sql("select id, rfc, curp, paterno, materno, nombre from clientes where id not in (select c.id from clientes c, clientes_grupos cg where c.id=cg.cliente_id) and (nombre like '%#{params[:searchtext].strip}%') ")
+
+
+    return render(:partial => 'filtrocliente', :layout => false) if request.xhr?
   end
       #--- Funciones ajax para filtrado --
 end

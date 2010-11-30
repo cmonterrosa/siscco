@@ -59,9 +59,9 @@
     <th>Tesorero:</th>
   </tr>
   <tr>
-    <td><%=collection_select("miembro","presidente", $clientes, :id, :nombre_completo, {:prompt => '>>PRESIDENTE'}, :class => 'text')%></td>
-    <td><%=collection_select("miembro","secretario", $clientes, :id, :nombre_completo, {:prompt => '>>SECRETARIO'}, :class => 'text')%></td>
-    <td><%=collection_select("miembro","tesorero", $clientes, :id, :nombre_completo, {:prompt => '>>TESORERO'}, :class => 'text' )%></td>
+    <td><%=collection_select("miembro","presidente", @clientes, :id, :nombre_completo, {:prompt => '>>PRESIDENTE'}, :class => 'text')%></td>
+    <td><%=collection_select("miembro","secretario", @clientes, :id, :nombre_completo, {:prompt => '>>SECRETARIO'}, :class => 'text')%></td>
+    <td><%=collection_select("miembro","tesorero", @clientes, :id, :nombre_completo, {:prompt => '>>TESORERO'}, :class => 'text' )%></td>
   </tr>
 </table>
 
@@ -70,22 +70,26 @@
     :url => {:controller => 'combos',
     :action => 'get_lineas'},
     :update => 'credito_linea_id',
-    :with => '_fondeo_id' %>
+    :with => '_fondeo_id',
+    :frequency => 0.05%>
 
 <%= observe_field 'credito_grupo_id',
     :url => {:controller => 'combos',
     :action => 'get_integrantes'},
     :update => 'miembro_presidente',
-    :with => 'credito_grupo_id' %>
+    :with => 'credito_grupo_id',
+    :frequency => 0.05 %>
 
 <%= observe_field 'miembro_presidente',
     :url => {:controller => 'combos',
     :action => 'get_secretario'},
     :update => 'miembro_secretario',
-    :with => 'miembro_presidente' %>
+    :with => 'miembro_presidente',
+    :frequency => 0.05 %>
 
 <%= observe_field 'miembro_secretario',
     :url => {:controller => 'combos',
     :action => 'get_tesorero'},
     :update => 'miembro_tesorero',
-    :with => 'miembro_secretario' %>
+    :with => 'miembro_secretario',
+    :frequency => 0.05 %>

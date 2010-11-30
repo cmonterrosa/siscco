@@ -34,7 +34,7 @@
 <label for="searchtext">Búsqueda por nombre:</label>
 <%= text_field_tag :searchtext %>
 <%= observe_field(:searchtext,
-                 :frequency => 0.25,
+                 :frequency => 0.05,
                  :update => :search_hits,
                  :with  => :searchtext,
                  :url => { :action => :live_search_clientes }) %><br />
