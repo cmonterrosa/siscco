@@ -4,7 +4,7 @@
   $ejidos ||= Ejido.find(:all, :order => "ejido")
   $colonias ||= Colonia.find(:all, :order => "colonia")
   $municipios ||= Municipio.find(:all, :order => "municipio")
-  $clientes = Cliente.find(:all, :order => "paterno, materno, nombre")
+  #$clientes = Cliente.find(:all, :select => "id, paterno, materno, nombre", :order => "paterno, materno, nombre")
   $bancos = Banco.find(:all)
   $ctaconcentradoras = Ctaconcentradora.find(:all)
   $ctaliquidadoras = Ctaliquidadora.find(:all)
@@ -22,7 +22,7 @@
   $civiles ||= Civil.find(:all)
   $escolaridades ||= Escolaridad.find(:all)
   $viviendas ||= Vivienda.find(:all)
-  $nacionalidades ||= Nacionalidad.find(:all, :order => "pais_gent")
+  #$nacionalidades ||= Nacionalidad.find(:all, :order => "pais_gent")
   $tipos_interes ||= ["Pagos iguales con decremento de interes e incremento de capital", "Pagos iguales de capital", "Pagos con tasa flat (calculo sobre el saldo global de credito)"]
   $cuentas = Cuenta.find(:all)
 

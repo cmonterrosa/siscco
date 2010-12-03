@@ -22,6 +22,7 @@ class ClientesController < ApplicationController
     @civiles = Civil.find(:all)
     @escolaridades = Escolaridad.find(:all)
     @viviendas = Vivienda.find(:all)
+    @nacionalidades = Nacionalidad.find(:all, :order => "pais_gent")
   end
 
   def new
@@ -29,6 +30,7 @@ class ClientesController < ApplicationController
     @negocio = Negocio.new
     @localidades = Localidad.find_by_sql("select * from localidads LIMIT 0")
     @grupo = Grupo.new
+    @nacionalidades = Nacionalidad.find(:all, :order => "pais_gent")
   end
 
   def create
@@ -42,6 +44,7 @@ class ClientesController < ApplicationController
     @escolaridades = Escolaridad.find(:all)
     @viviendas = Vivienda.find(:all)
     @localidades = Localidad.find_by_sql("select * from localidads")
+     @nacionalidades = Nacionalidad.find(:all, :order => "pais_gent")
   end
 
   def editc
