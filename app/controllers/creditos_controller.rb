@@ -12,7 +12,7 @@ class CreditosController < ApplicationController
 
   def list
     @credito_pages, @creditos = paginate :creditos, :per_page => 10
-  
+    redirect_to :action => "movimiento_credito"
   end
 
   def vencimiento
@@ -179,8 +179,8 @@ class CreditosController < ApplicationController
      @lineas = Linea.find(:all)
      @productos = Producto.find(:all, :order => "producto")
      @grupos = todos_grupos_conclientes
-     @miembro = Miembro.new {|h,k| h[k] = ""}
-     @credito.miembros.collect{|c|@miembro["#{c.jerarquia.jerarquia}"] = c.cliente}
+     @clientes = Cliente.find(:all, :select => "id, paterno, materno, nombre")
+     #@credito.miembros.collect{|c|@miembro["#{c.jerarquia.jerarquia}"] = c.cliente}
      a=10
   end
 
