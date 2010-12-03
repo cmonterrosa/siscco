@@ -179,6 +179,9 @@ class CreditosController < ApplicationController
      @lineas = Linea.find(:all)
      @productos = Producto.find(:all, :order => "producto")
      @grupos = todos_grupos_conclientes
+     @miembro = Miembro.new {|h,k| h[k] = ""}
+     @credito.miembros.collect{|c|@miembro["#{c.jerarquia.jerarquia}"] = c.cliente}
+     a=10
   end
 
   def update

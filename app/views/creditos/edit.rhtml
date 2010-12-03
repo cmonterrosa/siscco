@@ -2,6 +2,11 @@
 
 <% form_tag :action => 'update', :id => @credito do %>
   <%= render :partial => 'formgrupal' %>
+  <table>
+    <tr>
+      <th>Referencia Bancaria</th>
+      <th><%=text_field 'credito', 'num_referencia'%></th></tr>
+  </table>
 <table class="botones">
   <tr class="botones">
     <th class="botones"><%= link_to 'Regresar', :action => 'movimiento_credito' %></th>

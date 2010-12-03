@@ -23,6 +23,12 @@ class Cliente < ActiveRecord::Base
     "#{paterno} #{materno} #{nombre}"
   end
 
+  def like_by_nombre_completo(query)
+    
+  end
+
+
+
 #------- Validaciones -----------
 validates_uniqueness_of :rfc, :message => ", Ese cliente ya esta registrado."
 #validates_uniqueness_of :identificador, :message => ", Ese cliente ya esta registrado."
