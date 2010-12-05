@@ -212,11 +212,12 @@ module Creditos
     @producto = Producto.find(credito.producto_id)
     @capital = (credito.monto / credito.grupo.clientes.size)
     @capital_semanal = @capital / @producto.num_pagos
-    @tasa_semanal =   ((@producto.intereses.to_f / 100.0 ) / 30.0) * 7
+    #@tasa_semanal =   ((@producto.intereses.to_f / 100.0 ) / 30.0) * 7
+    @tasa_semanal = round((((@producto.tasa_anualizada.to_f) / 360.0 ) * 7),2) / 100.0
     case tipos_interes
       when "Pagos iguales con decremento de interes e incremento de capital"
-        @pago_semanal = @capital * (@tasa_semanal/(1-(1 + @tasa_semanal)**(@producto.num_pagos*-1)))
-        @pago_semanal =  Integer(@pago_semanal * 100) / Float(100)
+        @pago_semanal = round(@capital * (@tasa_semanal/(1-(1 + @tasa_semanal)**(@producto.num_pagos*-1))))
+        #@pago_semanal =  Integer(@pago_semanal * 100) / Float(100)
         clientes_activos_grupo(Grupo.find(credito.grupo_id)).each do |y|
               contador=1
               saldo_inicial = @capital

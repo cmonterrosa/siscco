@@ -127,7 +127,7 @@ class CreditosController < ApplicationController
     @producto = Producto.find(params[:credito][:producto_id])
     @credito.producto = @producto
     @fecha_inicio = Date.strptime(@credito.fecha_inicio.to_s)
-    @credito.tasa_interes = @producto.intereses
+    @credito.tasa_interes = @producto.tasa_anualizada
     @credito.interes_moratorio = @producto.moratorio
     if params[:credito][:grupo_id].nil?
       @tipo = "INDIVIDUAL"
