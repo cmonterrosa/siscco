@@ -10,7 +10,8 @@
         <h3>Numero de Pagos => <%=@credito.producto.num_pagos%></h3><br />
         <h3>Grupo => <%=@credito.grupo.nombre%></h3><br />
         <h3>Integrantes del grupo => <%=numero_clientes_grupo(@credito.grupo)%> </h3><br />
-        <h3>Tasa de Interes Mensual => <%=separar_miles(@credito.tasa_interes)%> %</h3>
+        <h3>Tasa de Interes Anualizada => <%=separar_miles(@credito.tasa_interes)%> %</h3><br />
+        <h3>Tasa de Interes Mensual => <%=separar_miles(round((((@credito.producto.tasa_anualizada.to_f) / 360.0 ) * 7),2) / 1.0)%> %</h3>
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<h3>Identificador => <%=@credito.identificador%></h3>
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<h3>Fecha del Proximo Pago =>  <%=proximo_pago(@credito).fecha_limite.strftime("%d de %B de %Y")%></h3>
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<h3>Dias de Atraso =>  <%=credito_vencimiento.dias_atraso%></h3>
