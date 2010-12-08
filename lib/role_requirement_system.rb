@@ -114,15 +114,16 @@ module RoleRequirementSystem
     def render_optional_error_file(status)
       render :text => "You don't have access here.", :status => status
     end
-    
-    def access_denied
-      if logged_in?
-        render_optional_error_file(401)
-        return false
-      else
-        super
-      end
-    end
+
+    #--- Vamos a comentar estas lineas porque tenemos otro metodo llamado igual en login_system ----
+#    def access_denied
+#      if logged_in?
+#        render_optional_error_file(401)
+#        return false
+#      else
+#        super
+#      end
+#    end
     
     def check_roles       
       return access_denied unless self.class.user_authorized_for?(current_user, params, binding)
