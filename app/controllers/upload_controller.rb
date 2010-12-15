@@ -21,6 +21,7 @@ class UploadController < ApplicationController
                 redirect_to :action => "resultados", :datafile => @post
              end
           else
+              redirect_to :action => "index", :controller => "upload"
               flash[:notice] = "Archivo #{@nombre_archivo} ya existe o no contiene la estructura correcta, Verifique"
           end
           
