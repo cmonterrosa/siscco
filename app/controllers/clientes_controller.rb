@@ -1,5 +1,5 @@
 class ClientesController < ApplicationController
-  # before_filter :login_required
+  before_filter :permiso_requerido
   def index
     list
     render :action => 'list'

@@ -236,6 +236,15 @@ module Databases
               if @credito
                   #--- Insertamos el registro correspondiente al pago ---
                   Deposito.create(:credito_id => @credito.id, :datafile_id => @datafile.id, :sucursal => sucursal, :autorizacion => autorizacion, :codigo => codigo, :subcodigo => subcodigo, :ref_num => ref_numerica, :ref_alfa => ref_alfa, :importe => total)
+
+              #-- Aplicar el pago en el siguiente Orden ----
+              #IVA POR COMISIONES COBRADAS
+              #COMISIONES COBRADAS
+              #IVA POR INTERESES MORATORIOS
+              #INTERESES MORATORIOS
+              #IVA POR INTERESES NORMALES
+              #INTERESES NORMALES
+              #CAPITAL
               else
                   #--- Lo insertamos en lo no procesados un archivo de texto ----
                    @no_aplicados.puts(linea)         # write a line

@@ -26,12 +26,22 @@ module Creditos
   #---- DIas sin pagar ----
 
    def dias_sin_pagar(credito)
-    pago_siguiente = Pago.find(:first, :conditions => ["pagado = 0 AND credito_id = ?", credito.id], :order =>"num_pago", :group => "cliente_id")
-    return DateTime.now.yday - pago_siguiente.fecha_limite.yday
-  end
+     pago_siguiente = Pago.find(:first, :conditions => ["pagado = 0 AND credito_id = ?", credito.id], :order =>"num_pago", :group => "cliente_id")
+     hoy = DateTime.now.yday
+     if DateTime.now.year > pago_siguiente.fecha_limite.year
+        hoy+=365 * (DateTime.now.year - pago_siguiente.fecha_limite.year)
+     end
+     return (hoy - pago_siguiente.fecha_limite.yday).to_i
+   end
 
    def periodos_sin_pagar(credito)
-    return (dias_sin_pagar(credito).to_i / credito.producto.periodo.dias)
+     dias = dias_sin_pagar(credito).to_i
+     periodos = dias / (credito.producto.periodo.dias)
+    #--- Verificamos si ya se pago cuando menos un dia --
+    if (dias % (credito.producto.periodo.dias)) > 0
+       periodos+=1
+    end
+    return periodos
    end
 
  def vencimiento_capital(credito)

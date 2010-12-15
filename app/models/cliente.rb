@@ -23,24 +23,15 @@ class Cliente < ActiveRecord::Base
     "#{paterno} #{materno} #{nombre}"
   end
 
-  def like_by_nombre_completo(query)
-    
-  end
-
-
 
 #------- Validaciones -----------
 #validates_uniqueness_of :rfc, :message => ", Ese cliente ya esta registrado."
 #validates_uniqueness_of :identificador, :message => ", Ese cliente ya esta registrado."
 validates_uniqueness_of :curp, :message => ", Ese cliente ya esta registrado."
-#validates_length_of :rfc, :in => 10..13,  :message => ", Longitud incorrecta"
-#validates_length_of :curp, :is => 18,  :message => ", Longitud incorrecta"
+validates_length_of :rfc, :in => 10..13,  :message => ", Longitud incorrecta"
+validates_length_of :curp, :is => 18,  :message => ", Longitud incorrecta"
 #validates_associated :grupos, :message => "existen registros en otras tablas"
 
-
-  def validates_grupo
-    grupos = Grupo.find(:all)
-  end
 
   def destroy
     #self.st=0
@@ -56,15 +47,10 @@ validates_uniqueness_of :curp, :message => ", Ese cliente ya esta registrado."
 
   def generar_id!
     id = Array.new(4) { (rand(122-97) + 97).chr }.join + (rand(10000)).to_s
-    if Cliente.find_by_identificador(id)
-       id = Array.new(4) { (rand(122-97) + 97).chr }.join + (rand(10000)).to_s
-    else
-       id = Array.new(4) { (rand(122-97) + 97).chr }.join + (rand(10000)).to_s
+    while not (Cliente.find_by_identificador(id)).nil?
+      id = Array.new(4) { (rand(122-97) + 97).chr }.join + (rand(10000)).to_s
     end
     self.identificador = id.to_s.ljust(8, "0")
     self.save!
   end
-
-
-   
 end

@@ -1,3 +1,16 @@
+Modificaciones 15 de diciembre de 2010
+
+=> Reajustamos la funcion que calcula el moratorio
+
+=> Reajustamos la funcion de capital vencido
+
+=> Corregimos mensaje que enviaba al cargar nuevamente el layout
+
+=> Se modifico la funcion que calcula los dias de vencimiento sin importar que se incremente el año
+
+
+
+
 Modificaciones 25 de noviembre de 2010
 
 => Optimizamos tamaño de las imagenes para que cargen mas rapido

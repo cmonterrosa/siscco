@@ -1,5 +1,6 @@
 class CreditosController < ApplicationController
   #before_filter :permiso_requerido
+  before_filter :login_required
 
   def index
     list
