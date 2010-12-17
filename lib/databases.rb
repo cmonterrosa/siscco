@@ -245,6 +245,10 @@ module Databases
               #IVA POR INTERESES NORMALES
               #INTERESES NORMALES
               #CAPITAL
+              #--- Identificamos cual es el ultimo pago ---
+              #--- si llegamos a pagar el capital le pones la bandera de pagado ---
+
+
               else
                   #--- Lo insertamos en lo no procesados un archivo de texto ----
                    @no_aplicados.puts(linea)         # write a line

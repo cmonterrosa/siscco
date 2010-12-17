@@ -11,12 +11,14 @@
         <h3>Grupo => <%=@credito.grupo.nombre%></h3><br />
         <h3>Integrantes del grupo => <%=numero_clientes_grupo(@credito.grupo)%> </h3><br />
         <h3>Tasa de Interes Anualizada => <%=separar_miles(@credito.tasa_interes)%> %</h3><br />
-        <h3>Tasa de Interes Mensual => <%=separar_miles(round((((@credito.producto.tasa_anualizada.to_f) / 360.0 ) * 7),2) / 1.0)%> %</h3>
+        <h3>Tasa de Interes Semanal => <%=separar_miles(round((((@credito.producto.tasa_anualizada.to_f) / 360.0 ) * 7),2) / 1.0)%> %</h3>
+        <h3>Tasa de Interes Mensual => <%=separar_miles(round((((@credito.producto.tasa_anualizada.to_f) / 360.0 ) * 30),2) / 1.0)%> %</h3>
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<h3>Identificador => <%=@credito.identificador%></h3>
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<h3>Fecha del Proximo Pago =>  <%=proximo_pago(@credito).fecha_limite.strftime("%d de %B de %Y")%></h3>
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<h3>Dias de Atraso =>  <%=credito_vencimiento.dias_atraso%></h3>
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<h3>Interes Diario Devengado => $<%=separar_miles(credito_vencimiento.devengo_diario)%></h3>
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<h3>Capital  =>  $ <%=separar_miles(credito_vencimiento.capital_vencido)%></h3>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<h3>Capital Vencido  =>  $ <%=separar_miles(credito_vencimiento.capital_vencido)%></h3>
+         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<h3>Intereses Vencidos  =>  $ <%=separar_miles(credito_vencimiento.interes_vencido)%></h3>
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<h3>Intereses Devengados => $ <%=separar_miles(credito_vencimiento.intereses_devengados)%></h3>
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<h3>Moratorio =>  $ <%=separar_miles(credito_vencimiento.moratorio)%></h3>
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<h3>Gastos de Cobranza => $ <%=separar_miles(credito_vencimiento.gastos_cobranza.to_f)%></h3><br />
