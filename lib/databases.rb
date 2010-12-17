@@ -237,6 +237,8 @@ module Databases
                   #--- Insertamos el registro correspondiente al pago ---
                   Deposito.create(:credito_id => @credito.id, :datafile_id => @datafile.id, :sucursal => sucursal, :autorizacion => autorizacion, :codigo => codigo, :subcodigo => subcodigo, :ref_num => ref_numerica, :ref_alfa => ref_alfa, :importe => total)
 
+
+
               #-- Aplicar el pago en el siguiente Orden ----
               #IVA POR COMISIONES COBRADAS
               #COMISIONES COBRADAS
@@ -245,8 +247,24 @@ module Databases
               #IVA POR INTERESES NORMALES
               #INTERESES NORMALES
               #CAPITAL
+              #--- Iniciamos variables ---
+              @iva_gastos_cobranza = @gastos_cobranza = @iva_moratorio = @moratorio = @interes = 0
               #--- Identificamos cual es el ultimo pago ---
+              @proximo_pago = proximo_pago(@credito)
               #--- si llegamos a pagar el capital le pones la bandera de pagado ---
+              @vencimiento = Vencimiento.new(@credito)
+              @vencimiento.procesar
+              #---- Empezamos a calcular ---
+              if total > round((@vencimiento.gastos_cobranza * (0.16))) #--- Iva comisiones(gastos de cobranza)
+                 @iva_gastos_cobranza = round((@vencimiento.gastos_cobranza * (0.16)))
+                 total-=@iva_gastos_cobranza
+                 if total > round((@vencimiento.gastos_cobranza * (0.84))) # ---- comisiones(gastos de cobranza)
+                    @gastos_cobranza = round((@vencimiento.gastos_cobranza * (0.84)))
+                    total-=@gastos_cobranza
+                    if total > round(@vencimiento.moratorio * (0.16)) #--- Iva moratorio
+                 dd=10
+                    end
+                 end
 
 
               else
