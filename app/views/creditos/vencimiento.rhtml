@@ -1,29 +1,117 @@
 
-<h2>Vencimiento del Crédito al día <%=Time.now.strftime("%Y-%m-%d")%></h2>
+<h2>Vencimiento del Crédito al día <%=Time.now.strftime("%d/%m/%Y")%></h2>
+
+<!-- Realizamos el calculo -->
+<%credito_vencimiento = Vencimiento.new(@credito)%>
+<%credito_vencimiento.procesar%> <br />
+
+<br /><h3>Datos Informativos</h3><br />
+<table class="stats" cellspacing="0">
+  <tr>
+    <td class="hed">Referencia: </td>
+    <td><%=@credito.num_referencia%></td>
+  </tr>
+   <tr>
+    <td class="hed">Identificador: </td>
+    <td><%=@credito.identificador%></td>
+  </tr>
+  <tr>
+     <td class="hed">Monto inicial: </td>
+     <td>$<%=separar_miles(@credito.monto)%></td>
+  </tr>
+    <tr>
+     <td class="hed">Numero de pagos: </td>
+     <td><%=@credito.producto.num_pagos%></td>
+  </tr>
+  <tr>
+     <td class="hed">Nombre del grupo</td>
+     <td><%=@credito.grupo.nombre%></td>
+  </tr>
+  <tr>
+     <td class="hed">Integrantes del grupo</td>
+     <td><%=credito_vencimiento.numero_clientes.to_i%></td>
+  </tr>
+
+  <tr>
+     <td class="hed">Tasa de interes anual</td>
+     <td><%=separar_miles(@credito.tasa_interes)%> %</td>
+  </tr>
+  <tr>
+     <td class="hed">Tasa de interes mensual</td>
+     <td><%=separar_miles(round((((@credito.producto.tasa_anualizada.to_f) / 360.0 ) * 30),2) / 1.0)%> %</td>
+  </tr>
+  <tr>
+     <td class="hed">Tasa de interes semanal</td>
+     <td><%=separar_miles(round((((@credito.producto.tasa_anualizada.to_f) / 360.0 ) * 7),2) / 1.0)%> %</td>
+  </tr>
+
+   <tr>
+     <td class="hed">Tasa de interes moratoria</td>
+     <td><%=@credito.producto.moratorio%> %</td>
+  </tr>
+
+</table>
 
 
-        <%credito_vencimiento = Vencimiento.new(@credito)%>
-        <%credito_vencimiento.procesar%> <br />
+<br /><h3>Saldo</h3><br />
+
+<table class="stats" cellspacing="0">
+  <tr>
+    <td class="hed">Fecha del proximo pago: </td>
+    <td> <%=proximo_pago(@credito).fecha_limite.strftime("%d de %B de %Y")%></td>
+  </tr>
+  <tr>
+     <td class="hed">Días de atraso: </td>
+     <td> <%=credito_vencimiento.dias_atraso%></td>
+  </tr>
+    <tr>
+     <td class="hed">Capital Vencido: </td>
+     <td>$ <%=separar_miles(credito_vencimiento.capital_vencido)%></td>
+  </tr>
+  <tr>
+     <td class="hed">Intereses Vencidos:</td>
+     <td>$ <%=separar_miles(credito_vencimiento.interes_vencido)%></td>
+  </tr>
+  <tr>
+     <td class="hed">Intereses Moratorios</td>
+     <td>$ <%=separar_miles(credito_vencimiento.moratorio)%></td>
+  </tr>
+
+  <tr>
+     <td class="hed">Gastos de Cobranza</td>
+     <td>$ <%=separar_miles(credito_vencimiento.gastos_cobranza.to_f)%></td>
+  </tr>
+  <tr>
+     <td class="hed">Total</td>
+     <td>$ <%=separar_miles(round(credito_vencimiento.capital_vencido + credito_vencimiento.interes_vencido + credito_vencimiento.moratorio + credito_vencimiento.gastos_cobranza.to_f, 0 ).to_s)%></td>
+  </tr>
+</table>
+
+
+<!--
+
+        
         <h1>------------------------------------------------------------------------------------------------</h1>
-        <h3>Referencia =>  <%=@credito.num_referencia%></h3><br />
-        <h3>Monto inicial del Credito => $<%=separar_miles(@credito.monto)%></h3><br />
-        <h3>Numero de Pagos => <%=@credito.producto.num_pagos%></h3><br />
-        <h3>Grupo => <%=@credito.grupo.nombre%></h3><br />
-        <h3>Integrantes del grupo => <%=numero_clientes_grupo(@credito.grupo)%> </h3><br />
-        <h3>Tasa de Interes Anualizada => <%=separar_miles(@credito.tasa_interes)%> %</h3><br />
-        <h3>Tasa de Interes Semanal => <%=separar_miles(round((((@credito.producto.tasa_anualizada.to_f) / 360.0 ) * 7),2) / 1.0)%> %</h3>
-        <h3>Tasa de Interes Mensual => <%=separar_miles(round((((@credito.producto.tasa_anualizada.to_f) / 360.0 ) * 30),2) / 1.0)%> %</h3>
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<h3>Identificador => <%=@credito.identificador%></h3>
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<h3>Fecha del Proximo Pago =>  <%=proximo_pago(@credito).fecha_limite.strftime("%d de %B de %Y")%></h3>
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<h3>Dias de Atraso =>  <%=credito_vencimiento.dias_atraso%></h3>
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<h3>Interes Diario Devengado => $<%=separar_miles(credito_vencimiento.devengo_diario)%></h3>
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<h3>Capital Vencido  =>  $ <%=separar_miles(credito_vencimiento.capital_vencido)%></h3>
-         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<h3>Intereses Vencidos  =>  $ <%=separar_miles(credito_vencimiento.interes_vencido)%></h3>
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<h3>Intereses Devengados => $ <%=separar_miles(credito_vencimiento.intereses_devengados)%></h3>
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<h3>Moratorio =>  $ <%=separar_miles(credito_vencimiento.moratorio)%></h3>
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<h3>Gastos de Cobranza => $ <%=separar_miles(credito_vencimiento.gastos_cobranza.to_f)%></h3><br />
-        <h2>TOTAL VENCIDO => $ <%=credito_vencimiento.gastos_cobranza + credito_vencimiento.moratorio + credito_vencimiento.capital_vencido + credito_vencimiento.intereses_devengados %></h2>
+        <h3>Referencia =>  <@credito.num_referencia%></h3><br />
+        <h3>Monto inicial del Credito => $<=separar_miles(@credito.monto)%></h3><br />
+        <h3>Numero de Pagos => <=@credito.producto.num_pagos%></h3><br />
+        <h3>Grupo => <=@credito.grupo.nombre%></h3><br />
+        <h3>Integrantes del grupo => <=numero_clientes_grupo(@credito.grupo)%> </h3><br />
+        <h3>Tasa de Interes Anualizada => <=separar_miles(@credito.tasa_interes)%> %</h3><br />
+        <h3>Tasa de Interes Semanal => <=separar_miles(round((((@credito.producto.tasa_anualizada.to_f) / 360.0 ) * 7),2) / 1.0)%> %</h3>
+        <h3>Tasa de Interes Mensual => <=separar_miles(round((((@credito.producto.tasa_anualizada.to_f) / 360.0 ) * 30),2) / 1.0)%> %</h3>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<h3>Identificador => <=@credito.identificador%></h3>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<h3>Fecha del Proximo Pago =>  <=proximo_pago(@credito).fecha_limite.strftime("%d de %B de %Y")%></h3>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<h3>Dias de Atraso =>  <=credito_vencimiento.dias_atraso%></h3>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<h3>Interes Diario Devengado => $<=separar_miles(credito_vencimiento.devengo_diario)%></h3>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<h3>Capital Vencido  =>  $ <=separar_miles(credito_vencimiento.capital_vencido)%></h3>
+         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<h3>Intereses Vencidos  =>  $ <=separar_miles(credito_vencimiento.interes_vencido)%></h3>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<h3>Intereses Devengados => $ <=separar_miles(credito_vencimiento.intereses_devengados)%></h3>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<h3>Moratorio =>  $ <=separar_miles(credito_vencimiento.moratorio)%></h3>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<h3>Gastos de Cobranza => $ <=separar_miles(credito_vencimiento.gastos_cobranza.to_f)%></h3><br />
+        <h2>TOTAL VENCIDO => $ <=credito_vencimiento.gastos_cobranza + credito_vencimiento.moratorio + credito_vencimiento.capital_vencido + credito_vencimiento.intereses_devengados %></h2>
         <h1>------------------------------------------------------------------------------------------------</h1>
 
         <br />
+-->
         <%=button_to 'Regresar', :action => "movimiento_credito", :controller => "creditos"%>
