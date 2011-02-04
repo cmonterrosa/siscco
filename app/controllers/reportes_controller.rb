@@ -500,21 +500,45 @@ before_filter :login_required
     end
 
 
+  def hoja_calculo
+    @creditos = Credito.find(:all, :select => "c.num_referencia, c.monto, c.fecha_inicio, g.nombre as nombre_grupo, CONCAT(p.nombre,' ',p.paterno, ' ', p.materno) as nombre_promotor", :conditions => ["c.grupo_id=g.id and c.promotor_id = p.id"], :joins => "c, grupos g, promotors p")
+    csv_string = FasterCSV.generate do |csv|
+         csv << ["referencia", "monto", "fecha", "nombre del grupo", "nombre_promotor"]
+         @creditos.each do |c|
+            csv << [c.num_referencia, c.monto, c.fecha_inicio, c.nombre_grupo, c.nombre_promotor]
+         end
+     end
+    send_data csv_string, :type => "application/excel",
+           :filename=>"plantilla_clientes.csv",
+           :disposition => 'attachment'
+  end
+
+
+
   
    def plantilla_clientes
-      clientes = Cliente.find(:all)
+      clientes = Cliente.find(:all, :select => "id, curp, clave_ife, paterno, materno, nombre, fecha_nac, sexo,
+                      telefono, fax, email, nacionalidad_id, civil_id, localidad_id, direccion,  
+                      colonia, codigo_postal, escolaridad_id, edo_residencia")
       csv_string = FasterCSV.generate do |csv|
             csv << ["ORG_ID", "ACRED_ID", "CURP", "IFE", "PRIM_AP","SEGUNDO_AP", "NOMBRE", "FECHA_NAC", "EDO_NAC", "SEXO",
                     "TEL", "FAX", "CORREO_ELEC", "NACIONALIDAD_ORIGEN", "CVE_EDO_CIVIL", "FECHA_NAC_TXT", "EDO_RES", "MUNICIPIO", "LOCALIDAD", "DIRECCION",
                     "COLONIA", "CP", "METODOLOGIA", "NOM_GRUPO", "ESTUDIOS", "ACTIVIDAD", "INGRESO_SEMANAL", "SUCURSAL"]
             clientes.each do |c|
-              csv << [" ", " ", c.curp, c.clave_ife, c.paterno, c.materno, c.nombre, c.fecha_nac,  c.localidad.municipio.estado.edo_inegi, c.sexo,
-                      c.telefono, c.fax, c.email, c.nacionalidad.pais_agent, c.civil.civil, " ", c.edo_residencia, c.localidad.municipio.clave_inegi, c.localidad.loc_id, c.direccion,  
-                      c.colonia, c.codigo_postal, " ", " ", c.escolaridad, c.negocio.actividad.clave_inegi, c.negocio.ing_semanal, " "]
+              negocio = Negocio.find(:first, :select=> "id, actividad_id, ing_semanal", :conditions => ["cliente_id = ?", c.id])
+              cg = Clientegrupo.find(:first, :conditions => ["cliente_id = ? and activo = 1", c.id ],:select=>"cliente_id, grupo_id")
+              if cg == nil || !cg.grupo
+                  grupo = ""
+              else
+                  grupo = cg.grupo.nombre
+              end
+              csv << ["115", c.id, c.curp, c.clave_ife, c.paterno, c.materno, c.nombre, c.fecha_nac,  c.localidad.municipio.estado.edo_inegi, c.sexo,
+                      c.telefono, c.fax, c.email, c.nacionalidad.pais_gent, c.civil.civil, " ", c.edo_residencia, c.localidad.municipio.clave_inegi, c.localidad.loc_id, c.direccion,  
+                      c.colonia, c.codigo_postal, "2,3,4  CICLO GRUPAL", grupo, c.escolaridad.escolaridad, negocio.actividad.clave_inegi, negocio.ing_semanal, SUCURSAL]
             end
           end
-          send_data csv_string, :type => "text/plain",
-           :filename=>"entries.csv",
+          send_data csv_string, :type => "application/excel",
+           :filename=>"plantilla_clientes.csv",
            :disposition => 'attachment'
    end
 
@@ -524,7 +548,7 @@ before_filter :login_required
        csv << ["ORG_ID", "ACRED_ID", "CRÉDITO_ID", "DESCRIPCIÓN", "MONTO_CRÉDITO", "FECHA_ENTREGA", "FECHA_VENCIMIENTO", "TASA_MENSUAL", "TIPO_TASA", "FRECUENCIA_PAGOS",
                "TIPO_CREDITO", "BLOQUE", "CICLO"]
        creditos.each do |c|
-         csv << [" ", " ", c.id, c.destino.destino, c.monto, c.fecha_inicio, c.fecha_fin, "tasa_mensual", "tipo_tasa", c.producto.num_pagos,
+         csv << ["1", c.id, c.id, c.destino.destino, c.monto, c.fecha_inicio, c.fecha_fin, "tasa_mensual", "tipo_tasa", c.producto.num_pagos,
                  "Tipo_Crédito", "Bloque", "Ciclo"]
        end
      end

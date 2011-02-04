@@ -38,4 +38,5 @@
   NOMBRE_EMPRESA = $conf.nombre_empresa
   DIRECCION_EMPRESA = $conf.direccion
   TELEFONO_EMPRESA = $conf.telefono
+  SUCURSAL = "SOCAMA CENTRO FRAYLESCA A.C"
 end
