@@ -1,3 +1,19 @@
+Modificaciones 8 de febrero de 2011
+
+=> Corrección de la exportacion de la información de creditos exportada en csv (agregamos localidad, municipio y num_socias)
+   se encuentra dentro del menú principal en el apartado de reportes
+
+=> Se cargo al sistema la imagen de logo de cresolido
+
+=> Se agrego el reporte "recibo de entrega de fondos en pdf"
+
+=> Se modifico el reporte "carta compromiso de acuerdo al formato dado"
+
+=> Se modifico función que genera la exportación del tarjeton de pagos individual
+
+
+
+
 Modificaciones 15 de diciembre de 2010
 
 => Reajustamos la funcion que calcula el moratorio

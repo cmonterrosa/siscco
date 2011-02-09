@@ -249,16 +249,16 @@ before_filter :login_required
 
     #---- Datos del crédito ----
     #--- Validamos que tenga asignada una sucursal bancaria ---
-    if @credito.linea.ctaconcentradora.sucbancaria.banco
-      _pdf.text to_iso("<b>Banco:</b> #{@credito.linea.ctaconcentradora.sucbancaria.banco.nombre}"), :font_size => 12, :justification => :left, :left => 10
+    if @credito.linea.ctaliquidadora.sucbancaria.banco
+      _pdf.text to_iso("<b>Banco:</b> #{@credito.linea.ctaliquidadora.sucbancaria.banco.nombre}"), :font_size => 12, :justification => :left, :left => 10
     else
       _pdf.text to_iso("<b>Banco:</b>  - "), :font_size => 12, :justification => :left, :left => 10
     end
     _pdf.move_pointer(5)
 
     #----- Validamos que tenga asignada una cuenta ----
-     if @credito.linea.ctaconcentradora
-       _pdf.text to_iso("<b>Cuenta:</b> #{@credito.linea.ctaconcentradora.num_cta}"), :font_size => 12, :justification => :left, :left => 10
+     if @credito.linea.ctaliquidadora
+       _pdf.text to_iso("<b>Cuenta:</b> #{@credito.linea.ctaliquidadora.num_cta}"), :font_size => 12, :justification => :left, :left => 10
      else
        _pdf.text to_iso("<b>Cuenta:</b> - "), :font_size => 12, :justification => :left, :left => 10
      end
@@ -342,8 +342,6 @@ before_filter :login_required
 
     def reglamento
 
-      
-      
     end
 
 
@@ -394,6 +392,98 @@ before_filter :login_required
           redirect_to :action => "menu"
        end
     end
+
+
+
+    def control_pagos_socia
+        if params[:id] && Credito.find(params[:id])
+           @credito = Credito.find(params[:id])
+
+         _pdf = PDF::Writer.new(:paper => "LETTER")
+    _pdf.select_font "Times-Roman"
+    _pdf.margins_cm(2,2,2,2)
+
+
+    #--- Numeros de pagina ---
+    _pdf.numeros_pagina(40, 25, 10, pos = nil, pattern = nil)
+
+
+     #---- Datos generales -----
+        _pdf.move_pointer(7)
+        _pdf.text to_iso("<b>MUNICIPIO: #{municipio_grupo(@credito.grupo)}</b>"), :font_size => 10, :justification => :left
+        _pdf.move_pointer(12)
+        _pdf.text to_iso("<b>COLONIA: #{localidad_grupo(@credito.grupo)}</b>"), :font_size => 10, :justification => :left
+        _pdf.move_pointer(12)
+        _pdf.text to_iso("<b>GRUPO: #{@credito.grupo.nombre}</b>"), :font_size => 10, :justification => :left
+        _pdf.move_pointer(12)
+
+         #------ Detalle de pagos ----
+        PDF::SimpleTable.new do |tab|
+              tab.column_order.push(*%w(np nombre pago_1_parcial interes total firma))
+              tab.font_size=10
+              tab.heading_font_size=9
+              tab.bold_headings = true
+              tab.show_headings = true
+              tab.width=460
+              tab.show_lines =:all
+
+              #----------------- Columnas --------------------
+              tab.columns["np"] = PDF::SimpleTable::Column.new("PAGO") { |col|  col.width=40 }
+              tab.columns["fecha"] = PDF::SimpleTable::Column.new('FECHA') { |col|   col.width=75  }
+              tab.columns["capital"] = PDF::SimpleTable::Column.new('CAPITAL') { |col|   col.width=75  }
+              tab.columns["interes"] = PDF::SimpleTable::Column.new('INTERES') { |col|   col.width=75  }
+              tab.columns["total"] = PDF::SimpleTable::Column.new('TOTAL') { |col|   col.width=75  }
+              tab.columns["firma"] = PDF::SimpleTable::Column.new('FIRMA') { |col|   col.width=120  }
+              tab.show_lines    = :false
+              #tab.orientation   = :center
+              tab.position      = :center
+              @pagos.each do |pago|
+                pagos << {"np" => contador,
+                          "fecha" => pago.fecha_limite.strftime("%d/%m/%Y"),
+                          "capital" => round(pago.capital_minimo.to_f),
+                          "interes" => round(pago.interes_minimo.to_f),
+                          "total" => round(pago.capital_minimo.to_f + pago.interes_minimo.to_f).to_s,
+                          "firma" => "_____________________"
+                          }
+                # => --------        Agregamos un espacio en blanco ----
+                pagos << {"np" => "",
+                          "fecha" => "",
+                          "capital" => "",
+                          "interes" => "",
+                          "total" => "",
+                          "firma" => ""
+                          }
+
+                contador+=1
+                end
+
+                #---- Agregamos los totales -----
+                pagos << {"np" => "",
+                          "fecha" => "",
+                          "capital" => @sum_capital,
+                          "interes" => @sum_intereses,
+                          "total" => (@sum_capital.to_f + @sum_intereses.to_f).to_s
+                          }
+               tab.shade_color = Color::RGB::White
+              tab.data.replace pagos
+              tab.render_on(_pdf)
+              end
+
+
+         send_data _pdf.render, :filename => "entrega_fondos_#{@credito.grupo.nombre.upcase}.pdf",
+                               :type => "application/pdf"
+
+
+
+        else
+          flash[:notice] = "No se encontraron registros"
+          redirect_to :action => "menu"
+        end
+
+    end
+
+
+
 
 
     #-- carta compromiso ----
@@ -682,6 +772,9 @@ EOS
    def vencimientos
      
    end
+
+   
+
    
 
 #
