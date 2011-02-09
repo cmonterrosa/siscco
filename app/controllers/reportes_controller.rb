@@ -507,8 +507,7 @@ before_filter :login_required
          @creditos.each do |c|
              localidad = c.grupo.clientegrupos[0].cliente.localidad.localidad
              municipio = c.grupo.clientegrupos[0].cliente.localidad.municipio.municipio
-             #num_socias = numero_clientes_grupo(c.grupo)
-             num_socias = "33"
+             num_socias = numero_clientes_grupo(c.grupo)
              csv << [c.num_referencia, municipio, localidad, c.nombre_grupo, num_socias, c.monto, c.nombre_promotor]
          end
      end
