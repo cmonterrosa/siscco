@@ -501,15 +501,19 @@ before_filter :login_required
 
 
   def hoja_calculo
-    @creditos = Credito.find(:all, :select => "c.num_referencia, c.monto, c.fecha_inicio, g.nombre as nombre_grupo, CONCAT(p.nombre,' ',p.paterno, ' ', p.materno) as nombre_promotor", :conditions => ["c.grupo_id=g.id and c.promotor_id = p.id"], :joins => "c, grupos g, promotors p")
-    csv_string = FasterCSV.generate do |csv|
-         csv << ["referencia", "monto", "fecha", "nombre del grupo", "nombre_promotor"]
+    @creditos = Credito.find(:all, :select => "c.num_referencia, c.monto, c.fecha_inicio, g.nombre as nombre_grupo, g.id as grupo_id, CONCAT(p.nombre,' ',p.paterno, ' ', p.materno) as nombre_promotor", :conditions => ["c.grupo_id=g.id and c.promotor_id = p.id"], :joins => "c, grupos g, promotors p")
+      csv_string = FasterCSV.generate do |csv|
+         csv << ["referencia", "municipio", "localidad", "nombre_grupo", "num_socias", "credito_otorgado", "nombre_promotor"]
          @creditos.each do |c|
-            csv << [c.num_referencia, c.monto, c.fecha_inicio, c.nombre_grupo, c.nombre_promotor]
+             localidad = c.grupo.clientegrupos[0].cliente.localidad.localidad
+             municipio = c.grupo.clientegrupos[0].cliente.localidad.municipio.municipio
+             #num_socias = numero_clientes_grupo(c.grupo)
+             num_socias = "33"
+             csv << [c.num_referencia, municipio, localidad, c.nombre_grupo, num_socias, c.monto, c.nombre_promotor]
          end
      end
     send_data csv_string, :type => "application/excel",
-           :filename=>"plantilla_clientes.csv",
+           :filename=>"exportacion_creditos.csv",
            :disposition => 'attachment'
   end
 

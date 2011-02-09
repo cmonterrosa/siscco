@@ -190,7 +190,6 @@ function mmLoadMenus() {
   menu_operacion.addMenuItem("Exportacion&nbsp;de&nbsp;Cuentas","location='/reportes/exportacion_cuentas'");
   menu_operacion.addMenuItem("Cargar&nbsp;Layout","location='/upload'");
   menu_operacion.addMenuItem("Histórico&nbsp;de&nbsp;Cargas","location='/upload/historico'");
-  menu_operacion.addMenuItem("Informacion&nbsp;de&nbsp;Créditos","location='/reportes/hoja_calculo'");
   menu_operacion.fontWeight="bold";
   menu_operacion.hideOnMouseOut=true;
   menu_operacion.bgColor='#555555';
@@ -205,6 +204,7 @@ function mmLoadMenus() {
   menu_reporte.addMenuItem("Estado&nbsp;de&nbsp;Cuenta&nbsp;del&nbsp;Cliente","location='/clientes/estado_cuenta'");
   menu_reporte.addMenuItem("Estado&nbsp;de&nbsp;Cuenta&nbsp;del&nbsp;Grupo","location='/grupos/estado_cuenta'");
   menu_reporte.addMenuItem("Estado&nbsp;de&nbsp;cuenta&nbsp;línea&nbsp;fondeo","location='/lineas/estado_cuenta'");
+  menu_reporte.addMenuItem("Exportación&nbsp;de&nbsp;Créditos","location='/reportes/hoja_calculo'");
   menu_reporte.fontWeight="bold";
   menu_reporte.hideOnMouseOut=true;
   menu_reporte.bgColor='#555555';
