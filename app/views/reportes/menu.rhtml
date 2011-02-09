@@ -3,6 +3,10 @@
 
 <table>
 
+  <tr>
+    <td><%=button_to 'Recibo de Entrega de Fondos', :action => "recibo_entrega_fondos", :controller => "reportes", :id => @credito%></td>
+  </tr>
+
     <tr>
       <td><%=button_to 'SALDO', :controller => "creditos", :action => "vencimiento", :id => @credito, :method => :post%></td>
     </tr>

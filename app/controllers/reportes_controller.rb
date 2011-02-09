@@ -491,6 +491,86 @@ before_filter :login_required
  end
 
  
+   #---- Recibo Entrega de Fondos ----
+    def recibo_entrega_fondos
+    if params[:id] && Credito.find(params[:id])
+        @credito = Credito.find(:first, :conditions => ["id = ?", params[:id]])
+        @miembros = {}
+        @credito.miembros.each do |miembro|
+          @miembros["#{miembro.jerarquia.jerarquia.upcase}"] = "#{miembro.cliente.nombre_completo.upcase}"
+        end
+        @pago_minimo = pago_minimo_informativo(@credito)
+        _pdf = PDF::Writer.new(:paper => "LETTER")
+        _pdf.select_font "Times-Roman"
+        _pdf.margins_cm(2,2,2,2)
+
+        #--- Numeros de pagina ---
+        _pdf.numeros_pagina(40, 25, 10, pos = nil, pattern = nil)
+
+        #--- logos -----
+        _pdf.move_pointer(-90)
+        i0 = _pdf.image "#{RAILS_ROOT}/public/images/cresolido_logo.png", :resize => 0.95, :justification=>:center
+
+
+         #---- TITULO -----
+        _pdf.move_pointer(35)
+        _pdf.text to_iso("<b>RECIBO DE ENTREGA DE FONDOS</b>"), :font_size => 14, :justification => :center
+        _pdf.move_pointer(15)
+
+        #---- ASUNTO -----
+        _pdf.move_pointer(30)
+        _pdf.text to_iso("<b>RECIBO NUMERO: ________</b>"), :font_size => 10, :justification => :right
+
+        #---- BUENO POR -----
+        _pdf.move_pointer(20)
+        _pdf.text to_iso("<b>BUENO POR: $#{separar_miles(@credito.monto)} </b>"), :font_size => 12, :justification => :right
+
+         #--- Cuerpo del texto ----
+        _pdf.move_pointer(25)
+
+        leyenda=<<-EOS
+RECIBI LA CANTIDAD DE $#{separar_miles(@credito.monto)}, #{@credito.monto.to_words} QUE CORRESPONDE AL PRESTAMO DEL GRUPO SOLIDARIO #{@credito.grupo.nombre}, DE LA COMUNIDAD DE #{localidad_grupo(@credito.grupo)}, DEL MUNICIPIO DE #{municipio_grupo(@credito.grupo)}, DEL ESTADO DE CHIAPAS, PARA OPERAR EL CICLO _______________ DE ACUERDO A SU SOLICITUD DE PRESTAMO AUTORIZADO POR EL FOMMUR
+EOS
+        #---- Imprimos la leyenda 2 ---
+        leyenda2 = leyenda.split($/).join(" ").squeeze(" ")
+        _pdf.text to_iso(leyenda2), :justification => :full, :font_size => 12, :left => 10, :right => 12
+        _pdf.move_pointer(15)
+
+        #---- Lugar y Fecha ----
+        _pdf.text to_iso("TUXTLA GUTIERREZ, CHIAPAS A #{fecha_sistema.upcase}"), :font_size => 11, :justification => :right
+
+        #--- Recibimos de conformidad ---
+        _pdf.move_pointer(55)
+        _pdf.text to_iso("<b>RECIBIMOS DE CONFORMIDAD</b>"), :font_size => 10, :justification => :center
+        
+
+
+        #--- Presidente ---
+        _pdf.move_pointer(55)
+        _pdf.text to_iso("<b>PRESIDENTE</b>"), :font_size => 11, :justification => :center
+        _pdf.move_pointer(15)
+        _pdf.text to_iso(@miembros["PRESIDENTE"]), :font_size => 12, :justification => :center
+
+        #--- Secretario ---
+        _pdf.move_pointer(40)
+        _pdf.text to_iso("<b>                SECRETARIO                                                                        TESORERO </b>"), :font_size => 11, :justification => :left, :left => 20
+        _pdf.move_pointer(15)
+        _pdf.text to_iso(@miembros["SECRETARIO"]), :font_size => 12, :justification => :left, :left => 20
+
+        # ---- Tesorero ----
+        _pdf.move_pointer(-14)
+        _pdf.text to_iso(@miembros["TESORERO"]), :font_size => 12, :justification => :right, :right => 55
+
+
+        send_data _pdf.render, :filename => "entrega_fondos_#{@credito.grupo.nombre.upcase}.pdf",
+                               :type => "application/pdf"
+
+   else
+        flash[:notice] = "Imposible encontrar registros, verifique"
+        redirect_to :action => "menu"
+   end
+
+ end
 
 
     def promotors_xml
@@ -500,12 +580,16 @@ before_filter :login_required
     end
 
 
+    #-------EXPORTACION DE INFORMACION -----
+
+
+  #----- Exportacion de los creditos ------
   def hoja_calculo
     @creditos = Credito.find(:all, :select => "c.num_referencia, c.monto, c.fecha_inicio, g.nombre as nombre_grupo, g.id as grupo_id, CONCAT(p.nombre,' ',p.paterno, ' ', p.materno) as nombre_promotor", :conditions => ["c.grupo_id=g.id and c.promotor_id = p.id"], :joins => "c, grupos g, promotors p")
       csv_string = FasterCSV.generate do |csv|
          csv << ["referencia", "municipio", "localidad", "nombre_grupo", "num_socias", "credito_otorgado", "nombre_promotor"]
          @creditos.each do |c|
-             localidad = c.grupo.clientegrupos[0].cliente.localidad.localidad
+         localidad, municipio = localidad_grupo(@credito.grupo), municipio_grupo(@credito.grupo)
              municipio = c.grupo.clientegrupos[0].cliente.localidad.municipio.municipio
              num_socias = numero_clientes_grupo(c.grupo)
              csv << [c.num_referencia, municipio, localidad, c.nombre_grupo, num_socias, c.monto, c.nombre_promotor]
