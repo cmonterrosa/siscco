@@ -249,16 +249,16 @@ before_filter :login_required
 
     #---- Datos del crédito ----
     #--- Validamos que tenga asignada una sucursal bancaria ---
-    if @credito.linea.ctaconcentradora.sucbancaria.banco
-      _pdf.text to_iso("<b>Banco:</b> #{@credito.linea.ctaconcentradora.sucbancaria.banco.nombre}"), :font_size => 12, :justification => :left, :left => 10
+    if @credito.linea.ctaliquidadora.sucbancaria.banco
+      _pdf.text to_iso("<b>Banco:</b> #{@credito.linea.ctaliquidadora.sucbancaria.banco.nombre}"), :font_size => 12, :justification => :left, :left => 10
     else
       _pdf.text to_iso("<b>Banco:</b>  - "), :font_size => 12, :justification => :left, :left => 10
     end
     _pdf.move_pointer(5)
 
     #----- Validamos que tenga asignada una cuenta ----
-     if @credito.linea.ctaconcentradora
-       _pdf.text to_iso("<b>Cuenta:</b> #{@credito.linea.ctaconcentradora.num_cta}"), :font_size => 12, :justification => :left, :left => 10
+     if @credito.linea.ctaliquidadora
+       _pdf.text to_iso("<b>Cuenta:</b> #{@credito.linea.ctaliquidadora.num_cta}"), :font_size => 12, :justification => :left, :left => 10
      else
        _pdf.text to_iso("<b>Cuenta:</b> - "), :font_size => 12, :justification => :left, :left => 10
      end
@@ -342,8 +342,6 @@ before_filter :login_required
 
     def reglamento
 
-      
-      
     end
 
 
@@ -396,6 +394,98 @@ before_filter :login_required
     end
 
 
+
+    def control_pagos_socia
+        if params[:id] && Credito.find(params[:id])
+           @credito = Credito.find(params[:id])
+
+         _pdf = PDF::Writer.new(:paper => "LETTER")
+    _pdf.select_font "Times-Roman"
+    _pdf.margins_cm(2,2,2,2)
+
+
+    #--- Numeros de pagina ---
+    _pdf.numeros_pagina(40, 25, 10, pos = nil, pattern = nil)
+
+
+     #---- Datos generales -----
+        _pdf.move_pointer(7)
+        _pdf.text to_iso("<b>MUNICIPIO: #{municipio_grupo(@credito.grupo)}</b>"), :font_size => 10, :justification => :left
+        _pdf.move_pointer(12)
+        _pdf.text to_iso("<b>COLONIA: #{localidad_grupo(@credito.grupo)}</b>"), :font_size => 10, :justification => :left
+        _pdf.move_pointer(12)
+        _pdf.text to_iso("<b>GRUPO: #{@credito.grupo.nombre}</b>"), :font_size => 10, :justification => :left
+        _pdf.move_pointer(12)
+
+         #------ Detalle de pagos ----
+        PDF::SimpleTable.new do |tab|
+              tab.column_order.push(*%w(np nombre pago_1_parcial interes total firma))
+              tab.font_size=10
+              tab.heading_font_size=9
+              tab.bold_headings = true
+              tab.show_headings = true
+              tab.width=460
+              tab.show_lines =:all
+
+              #----------------- Columnas --------------------
+              tab.columns["np"] = PDF::SimpleTable::Column.new("PAGO") { |col|  col.width=40 }
+              tab.columns["fecha"] = PDF::SimpleTable::Column.new('FECHA') { |col|   col.width=75  }
+              tab.columns["capital"] = PDF::SimpleTable::Column.new('CAPITAL') { |col|   col.width=75  }
+              tab.columns["interes"] = PDF::SimpleTable::Column.new('INTERES') { |col|   col.width=75  }
+              tab.columns["total"] = PDF::SimpleTable::Column.new('TOTAL') { |col|   col.width=75  }
+              tab.columns["firma"] = PDF::SimpleTable::Column.new('FIRMA') { |col|   col.width=120  }
+              tab.show_lines    = :false
+              #tab.orientation   = :center
+              tab.position      = :center
+              @pagos.each do |pago|
+                pagos << {"np" => contador,
+                          "fecha" => pago.fecha_limite.strftime("%d/%m/%Y"),
+                          "capital" => round(pago.capital_minimo.to_f),
+                          "interes" => round(pago.interes_minimo.to_f),
+                          "total" => round(pago.capital_minimo.to_f + pago.interes_minimo.to_f).to_s,
+                          "firma" => "_____________________"
+                          }
+                # => --------        Agregamos un espacio en blanco ----
+                pagos << {"np" => "",
+                          "fecha" => "",
+                          "capital" => "",
+                          "interes" => "",
+                          "total" => "",
+                          "firma" => ""
+                          }
+
+                contador+=1
+                end
+
+                #---- Agregamos los totales -----
+                pagos << {"np" => "",
+                          "fecha" => "",
+                          "capital" => @sum_capital,
+                          "interes" => @sum_intereses,
+                          "total" => (@sum_capital.to_f + @sum_intereses.to_f).to_s
+                          }
+               tab.shade_color = Color::RGB::White
+              tab.data.replace pagos
+              tab.render_on(_pdf)
+              end
+
+
+         send_data _pdf.render, :filename => "entrega_fondos_#{@credito.grupo.nombre.upcase}.pdf",
+                               :type => "application/pdf"
+
+
+
+        else
+          flash[:notice] = "No se encontraron registros"
+          redirect_to :action => "menu"
+        end
+
+    end
+
+
+
+
+
     #-- carta compromiso ----
 
 
@@ -416,52 +506,60 @@ before_filter :login_required
         #--- Numeros de pagina ---
         _pdf.numeros_pagina(40, 25, 10, pos = nil, pattern = nil)
 
-        #------ Encabezado --------
-        _pdf.open_object do |heading|
-        _pdf.save_state
-        _pdf.stroke_color! Color::Black
-        _pdf.stroke_style! PDF::Writer::StrokeStyle::DEFAULT
-        #---- Imagen de la empresa ----
-        s= 8
-        t = to_iso(NOMBRE_EMPRESA)
-        w = _pdf.text_width(t, s) / 2.0
-        x = _pdf.margin_x_middle
-        y = _pdf.absolute_top_margin
-        _pdf.add_text(x - w, y, t, s)
-        #--- direccion de la empresa ---
-        t2 = to_iso(DIRECCION_EMPRESA + ", " + CIUDAD_EMPRESA)
-        w = _pdf.text_width(t2, s) / 2.0
-        x = _pdf.margin_x_middle - 12
-        y = _pdf.absolute_top_margin - 12
-        _pdf.add_text(x - w, y, t2, s)
+#        #------ Encabezado --------
+#        _pdf.open_object do |heading|
+#        _pdf.save_state
+#        _pdf.stroke_color! Color::Black
+#        _pdf.stroke_style! PDF::Writer::StrokeStyle::DEFAULT
+#        #---- Imagen de la empresa ----
+#        s= 8
+#        t = to_iso(NOMBRE_EMPRESA)
+#        w = _pdf.text_width(t, s) / 2.0
+#        x = _pdf.margin_x_middle
+#        y = _pdf.absolute_top_margin
+#        _pdf.add_text(x - w, y, t, s)
+#        #--- direccion de la empresa ---
+#        t2 = to_iso(DIRECCION_EMPRESA + ", " + CIUDAD_EMPRESA)
+#        w = _pdf.text_width(t2, s) / 2.0
+#        x = _pdf.margin_x_middle - 12
+#        y = _pdf.absolute_top_margin - 12
+#        _pdf.add_text(x - w, y, t2, s)
+#
+#        x = _pdf.absolute_left_margin
+#        w = _pdf.absolute_right_margin
+#        y -= (_pdf.font_height(s) * 1.01)
+#        _pdf.line(x, y, w, y).stroke
+#        _pdf.restore_state
+#        _pdf.close_object
+#        _pdf.add_object(heading, :all_pages)
+#        end
 
-        x = _pdf.absolute_left_margin
-        w = _pdf.absolute_right_margin
-        y -= (_pdf.font_height(s) * 1.01)
-        _pdf.line(x, y, w, y).stroke
-        _pdf.restore_state
-        _pdf.close_object
-        _pdf.add_object(heading, :all_pages)
-        end
+          #--- logos -----
+        _pdf.move_pointer(-90)
+        i0 = _pdf.image "#{RAILS_ROOT}/public/images/cresolido_logo.png", :resize => 0.95, :justification=>:center
 
-        #--- logos -----
-        #_pdf.move_pointer(-80)
-        #i0 = _pdf.image "#{RAILS_ROOT}/public/images/SOCAMA.png", :resize => 0.45, :justification=>:left
 
-        #---- TITULO -----
-        _pdf.move_pointer(60)
-        _pdf.text to_iso("<b>CARTA COMPROMISO</b>"), :font_size => 14, :justification => :center
-        _pdf.move_pointer(15)
+         #---- TITULO -----
+        _pdf.move_pointer(40)
+        _pdf.text to_iso("<b>CARTA COMPROMISO DE PAGO</b>"), :font_size => 12, :justification => :right
+        _pdf.move_pointer(45)
+
 
         #--- Cuerpo del texto ----
         leyenda=<<-EOS
-          POR ESTE MEDIO NOS COMPROMETEMOS SOLIDARIAMENTE A PAGAR PUNTUALMENTE EL MICROFINANCIAMIENTO RECIBIDO DEL FOMMUR A TRAVEZ DE #{@empresa}, EN ABONOS SEMANALES DE $#{@pago_minimo} , (#{@pago_minimo.to_words}) ASI MISMO NOS COMPROMETEMOS A AHORRAR EL IMPORTE MINIMO DE #{@ahorro} (#{@ahorro.to_words}) SEÑALADO EN NUESTRO REGLAMENTO INTERNO
+          POR ESTE MEDIO NOS COMPROMETEMOS SOLIDARIAMENTE A PAGAR PUNTUALMENTE EL MICROFINANCIAMIENTO RECIBIDO DEL FOMMUR A TRAVEZ DE CRECIMIENTO SOLIDARIO PARA EL DESARROLLO ORGANIZADO S.A DE C.V. EN ABONOS SEMANALES DE $#{separar_miles(@pago_minimo)} , (#{@pago_minimo.to_words.upcase}) ASI MISMO NOS COMPROMETEMOS A AHORRAR EL IMPORTE MINIMO DE $30.00 (TREINTA PESOS 00/100 M.N) SEÑALADO EN NUESTRO REGLAMENTO INTERNO
         EOS
-        #---- Imprimos la leyenda 2 ---
         leyenda2 = leyenda.split($/).join(" ").squeeze(" ")
         _pdf.text to_iso(leyenda2), :justification => :full, :font_size => 12, :left => 10, :right => 12
-        _pdf.move_pointer(15)
-        _pdf.text to_iso("<b>GRUPO SOLIDARIO:</b> #{@credito.grupo.nombre.upcase}"), :font_size => 14, :justification => :center
+
+
+        #---- Lugar y Fecha ----
+        _pdf.move_pointer(25)
+        _pdf.text to_iso("TUXTLA GUTIERREZ, CHIAPAS A #{fecha_sistema.upcase}"), :font_size => 11, :justification => :right
+
+
+        _pdf.move_pointer(55)
+        _pdf.text to_iso("<b>GRUPO SOLIDARIO:</b> #{@credito.grupo.nombre.upcase}"), :font_size => 12, :justification => :center
 
         #--- Presidente ---
         _pdf.move_pointer(70)
@@ -470,8 +568,8 @@ before_filter :login_required
         _pdf.text to_iso(@miembros["PRESIDENTE"]), :font_size => 12, :justification => :center
 
         #--- Secretario ---
-        _pdf.move_pointer(40)
-        _pdf.text to_iso("<b>SECRETARIO                                                                     TESORERO </b>"), :font_size => 11, :justification => :left, :left => 20
+        _pdf.move_pointer(50)
+        _pdf.text to_iso("<b>                  SECRETARIO                                                                     TESORERO </b>"), :font_size => 11, :justification => :left, :left => 20
         _pdf.move_pointer(15)
         _pdf.text to_iso(@miembros["SECRETARIO"]), :font_size => 12, :justification => :left, :left => 20
 
@@ -491,6 +589,86 @@ before_filter :login_required
  end
 
  
+   #---- Recibo Entrega de Fondos ----
+    def recibo_entrega_fondos
+    if params[:id] && Credito.find(params[:id])
+        @credito = Credito.find(:first, :conditions => ["id = ?", params[:id]])
+        @miembros = {}
+        @credito.miembros.each do |miembro|
+          @miembros["#{miembro.jerarquia.jerarquia.upcase}"] = "#{miembro.cliente.nombre_completo.upcase}"
+        end
+        @pago_minimo = pago_minimo_informativo(@credito)
+        _pdf = PDF::Writer.new(:paper => "LETTER")
+        _pdf.select_font "Times-Roman"
+        _pdf.margins_cm(2,2,2,2)
+
+        #--- Numeros de pagina ---
+        _pdf.numeros_pagina(40, 25, 10, pos = nil, pattern = nil)
+
+        #--- logos -----
+        _pdf.move_pointer(-90)
+        i0 = _pdf.image "#{RAILS_ROOT}/public/images/cresolido_logo.png", :resize => 0.95, :justification=>:center
+
+
+         #---- TITULO -----
+        _pdf.move_pointer(35)
+        _pdf.text to_iso("<b>RECIBO DE ENTREGA DE FONDOS</b>"), :font_size => 14, :justification => :center
+        _pdf.move_pointer(15)
+
+        #---- ASUNTO -----
+        _pdf.move_pointer(30)
+        _pdf.text to_iso("<b>RECIBO NUMERO: ________</b>"), :font_size => 10, :justification => :right
+
+        #---- BUENO POR -----
+        _pdf.move_pointer(20)
+        _pdf.text to_iso("<b>BUENO POR: $#{separar_miles(@credito.monto)} </b>"), :font_size => 12, :justification => :right
+
+         #--- Cuerpo del texto ----
+        _pdf.move_pointer(25)
+
+        leyenda=<<-EOS
+RECIBI LA CANTIDAD DE $#{separar_miles(@credito.monto)}, #{@credito.monto.to_words} QUE CORRESPONDE AL PRESTAMO DEL GRUPO SOLIDARIO #{@credito.grupo.nombre}, DE LA COMUNIDAD DE #{localidad_grupo(@credito.grupo)}, DEL MUNICIPIO DE #{municipio_grupo(@credito.grupo)}, DEL ESTADO DE CHIAPAS, PARA OPERAR EL CICLO _______________ DE ACUERDO A SU SOLICITUD DE PRESTAMO AUTORIZADO POR EL FOMMUR
+EOS
+        #---- Imprimos la leyenda 2 ---
+        leyenda2 = leyenda.split($/).join(" ").squeeze(" ")
+        _pdf.text to_iso(leyenda2), :justification => :full, :font_size => 12, :left => 10, :right => 12
+        _pdf.move_pointer(15)
+
+        #---- Lugar y Fecha ----
+        _pdf.text to_iso("TUXTLA GUTIERREZ, CHIAPAS A #{fecha_sistema.upcase}"), :font_size => 11, :justification => :right
+
+        #--- Recibimos de conformidad ---
+        _pdf.move_pointer(55)
+        _pdf.text to_iso("<b>RECIBIMOS DE CONFORMIDAD</b>"), :font_size => 10, :justification => :center
+        
+
+
+        #--- Presidente ---
+        _pdf.move_pointer(55)
+        _pdf.text to_iso("<b>PRESIDENTE</b>"), :font_size => 11, :justification => :center
+        _pdf.move_pointer(15)
+        _pdf.text to_iso(@miembros["PRESIDENTE"]), :font_size => 12, :justification => :center
+
+        #--- Secretario ---
+        _pdf.move_pointer(40)
+        _pdf.text to_iso("<b>                SECRETARIO                                                                        TESORERO </b>"), :font_size => 11, :justification => :left, :left => 20
+        _pdf.move_pointer(15)
+        _pdf.text to_iso(@miembros["SECRETARIO"]), :font_size => 12, :justification => :left, :left => 20
+
+        # ---- Tesorero ----
+        _pdf.move_pointer(-14)
+        _pdf.text to_iso(@miembros["TESORERO"]), :font_size => 12, :justification => :right, :right => 55
+
+
+        send_data _pdf.render, :filename => "entrega_fondos_#{@credito.grupo.nombre.upcase}.pdf",
+                               :type => "application/pdf"
+
+   else
+        flash[:notice] = "Imposible encontrar registros, verifique"
+        redirect_to :action => "menu"
+   end
+
+ end
 
 
     def promotors_xml
@@ -500,16 +678,23 @@ before_filter :login_required
     end
 
 
+    #-------EXPORTACION DE INFORMACION -----
+
+
+  #----- Exportacion de los creditos ------
   def hoja_calculo
-    @creditos = Credito.find(:all, :select => "c.num_referencia, c.monto, c.fecha_inicio, g.nombre as nombre_grupo, CONCAT(p.nombre,' ',p.paterno, ' ', p.materno) as nombre_promotor", :conditions => ["c.grupo_id=g.id and c.promotor_id = p.id"], :joins => "c, grupos g, promotors p")
-    csv_string = FasterCSV.generate do |csv|
-         csv << ["referencia", "monto", "fecha", "nombre del grupo", "nombre_promotor"]
+    @creditos = Credito.find(:all, :select => "c.num_referencia, c.monto, c.fecha_inicio, g.nombre as nombre_grupo, g.id as grupo_id, CONCAT(p.nombre,' ',p.paterno, ' ', p.materno) as nombre_promotor", :conditions => ["c.grupo_id=g.id and c.promotor_id = p.id"], :joins => "c, grupos g, promotors p")
+      csv_string = FasterCSV.generate do |csv|
+         csv << ["referencia", "municipio", "localidad", "nombre_grupo", "num_socias", "credito_otorgado", "nombre_promotor"]
          @creditos.each do |c|
-            csv << [c.num_referencia, c.monto, c.fecha_inicio, c.nombre_grupo, c.nombre_promotor]
+         localidad, municipio = localidad_grupo(@credito.grupo), municipio_grupo(@credito.grupo)
+             municipio = c.grupo.clientegrupos[0].cliente.localidad.municipio.municipio
+             num_socias = numero_clientes_grupo(c.grupo)
+             csv << [c.num_referencia, municipio, localidad, c.nombre_grupo, num_socias, c.monto, c.nombre_promotor]
          end
      end
     send_data csv_string, :type => "application/excel",
-           :filename=>"plantilla_clientes.csv",
+           :filename=>"exportacion_creditos.csv",
            :disposition => 'attachment'
   end
 
@@ -587,6 +772,9 @@ before_filter :login_required
    def vencimientos
      
    end
+
+   
+
    
 
 #

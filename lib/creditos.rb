@@ -625,4 +625,14 @@ def numero_clientes_grupo(grupo)
   return Clientegrupo.count(:id, :conditions => ["grupo_id = ? and activo = 1", grupo.id])
 end
 
+def localidad_grupo(grupo)
+  return (grupo.clientegrupos[0].cliente.localidad.localidad)
+end
+
+def municipio_grupo(grupo)
+  return (grupo.clientegrupos[0].cliente.localidad.municipio.municipio)
+end
+
+
+
 end

@@ -2,6 +2,12 @@ require 'date'
 
 module Utilerias
 
+
+  def fecha_sistema
+    return "#{Time.now.day} de #{Date::MONTHNAMES[Time.now.month]} de #{Time.now.year}"
+  end
+
+
   def separar_miles(n)
     n.to_s =~ /([^\.]*)(\..*)?/
     int, dec = $1.reverse, $2 ? $2 : ""
