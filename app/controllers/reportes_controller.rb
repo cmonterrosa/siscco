@@ -416,52 +416,60 @@ before_filter :login_required
         #--- Numeros de pagina ---
         _pdf.numeros_pagina(40, 25, 10, pos = nil, pattern = nil)
 
-        #------ Encabezado --------
-        _pdf.open_object do |heading|
-        _pdf.save_state
-        _pdf.stroke_color! Color::Black
-        _pdf.stroke_style! PDF::Writer::StrokeStyle::DEFAULT
-        #---- Imagen de la empresa ----
-        s= 8
-        t = to_iso(NOMBRE_EMPRESA)
-        w = _pdf.text_width(t, s) / 2.0
-        x = _pdf.margin_x_middle
-        y = _pdf.absolute_top_margin
-        _pdf.add_text(x - w, y, t, s)
-        #--- direccion de la empresa ---
-        t2 = to_iso(DIRECCION_EMPRESA + ", " + CIUDAD_EMPRESA)
-        w = _pdf.text_width(t2, s) / 2.0
-        x = _pdf.margin_x_middle - 12
-        y = _pdf.absolute_top_margin - 12
-        _pdf.add_text(x - w, y, t2, s)
+#        #------ Encabezado --------
+#        _pdf.open_object do |heading|
+#        _pdf.save_state
+#        _pdf.stroke_color! Color::Black
+#        _pdf.stroke_style! PDF::Writer::StrokeStyle::DEFAULT
+#        #---- Imagen de la empresa ----
+#        s= 8
+#        t = to_iso(NOMBRE_EMPRESA)
+#        w = _pdf.text_width(t, s) / 2.0
+#        x = _pdf.margin_x_middle
+#        y = _pdf.absolute_top_margin
+#        _pdf.add_text(x - w, y, t, s)
+#        #--- direccion de la empresa ---
+#        t2 = to_iso(DIRECCION_EMPRESA + ", " + CIUDAD_EMPRESA)
+#        w = _pdf.text_width(t2, s) / 2.0
+#        x = _pdf.margin_x_middle - 12
+#        y = _pdf.absolute_top_margin - 12
+#        _pdf.add_text(x - w, y, t2, s)
+#
+#        x = _pdf.absolute_left_margin
+#        w = _pdf.absolute_right_margin
+#        y -= (_pdf.font_height(s) * 1.01)
+#        _pdf.line(x, y, w, y).stroke
+#        _pdf.restore_state
+#        _pdf.close_object
+#        _pdf.add_object(heading, :all_pages)
+#        end
 
-        x = _pdf.absolute_left_margin
-        w = _pdf.absolute_right_margin
-        y -= (_pdf.font_height(s) * 1.01)
-        _pdf.line(x, y, w, y).stroke
-        _pdf.restore_state
-        _pdf.close_object
-        _pdf.add_object(heading, :all_pages)
-        end
+          #--- logos -----
+        _pdf.move_pointer(-90)
+        i0 = _pdf.image "#{RAILS_ROOT}/public/images/cresolido_logo.png", :resize => 0.95, :justification=>:center
 
-        #--- logos -----
-        #_pdf.move_pointer(-80)
-        #i0 = _pdf.image "#{RAILS_ROOT}/public/images/SOCAMA.png", :resize => 0.45, :justification=>:left
 
-        #---- TITULO -----
-        _pdf.move_pointer(60)
-        _pdf.text to_iso("<b>CARTA COMPROMISO</b>"), :font_size => 14, :justification => :center
-        _pdf.move_pointer(15)
+         #---- TITULO -----
+        _pdf.move_pointer(40)
+        _pdf.text to_iso("<b>CARTA COMPROMISO DE PAGO</b>"), :font_size => 12, :justification => :right
+        _pdf.move_pointer(45)
+
 
         #--- Cuerpo del texto ----
         leyenda=<<-EOS
-          POR ESTE MEDIO NOS COMPROMETEMOS SOLIDARIAMENTE A PAGAR PUNTUALMENTE EL MICROFINANCIAMIENTO RECIBIDO DEL FOMMUR A TRAVEZ DE #{@empresa}, EN ABONOS SEMANALES DE $#{@pago_minimo} , (#{@pago_minimo.to_words}) ASI MISMO NOS COMPROMETEMOS A AHORRAR EL IMPORTE MINIMO DE #{@ahorro} (#{@ahorro.to_words}) SEÑALADO EN NUESTRO REGLAMENTO INTERNO
+          POR ESTE MEDIO NOS COMPROMETEMOS SOLIDARIAMENTE A PAGAR PUNTUALMENTE EL MICROFINANCIAMIENTO RECIBIDO DEL FOMMUR A TRAVEZ DE CRECIMIENTO SOLIDARIO PARA EL DESARROLLO ORGANIZADO S.A DE C.V. EN ABONOS SEMANALES DE $#{separar_miles(@pago_minimo)} , (#{@pago_minimo.to_words.upcase}) ASI MISMO NOS COMPROMETEMOS A AHORRAR EL IMPORTE MINIMO DE $30.00 (TREINTA PESOS 00/100 M.N) SEÑALADO EN NUESTRO REGLAMENTO INTERNO
         EOS
-        #---- Imprimos la leyenda 2 ---
         leyenda2 = leyenda.split($/).join(" ").squeeze(" ")
         _pdf.text to_iso(leyenda2), :justification => :full, :font_size => 12, :left => 10, :right => 12
-        _pdf.move_pointer(15)
-        _pdf.text to_iso("<b>GRUPO SOLIDARIO:</b> #{@credito.grupo.nombre.upcase}"), :font_size => 14, :justification => :center
+
+
+        #---- Lugar y Fecha ----
+        _pdf.move_pointer(25)
+        _pdf.text to_iso("TUXTLA GUTIERREZ, CHIAPAS A #{fecha_sistema.upcase}"), :font_size => 11, :justification => :right
+
+
+        _pdf.move_pointer(55)
+        _pdf.text to_iso("<b>GRUPO SOLIDARIO:</b> #{@credito.grupo.nombre.upcase}"), :font_size => 12, :justification => :center
 
         #--- Presidente ---
         _pdf.move_pointer(70)
@@ -470,8 +478,8 @@ before_filter :login_required
         _pdf.text to_iso(@miembros["PRESIDENTE"]), :font_size => 12, :justification => :center
 
         #--- Secretario ---
-        _pdf.move_pointer(40)
-        _pdf.text to_iso("<b>SECRETARIO                                                                     TESORERO </b>"), :font_size => 11, :justification => :left, :left => 20
+        _pdf.move_pointer(50)
+        _pdf.text to_iso("<b>                  SECRETARIO                                                                     TESORERO </b>"), :font_size => 11, :justification => :left, :left => 20
         _pdf.move_pointer(15)
         _pdf.text to_iso(@miembros["SECRETARIO"]), :font_size => 12, :justification => :left, :left => 20
 
