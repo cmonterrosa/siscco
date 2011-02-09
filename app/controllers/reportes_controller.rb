@@ -687,7 +687,7 @@ EOS
       csv_string = FasterCSV.generate do |csv|
          csv << ["referencia", "municipio", "localidad", "nombre_grupo", "num_socias", "credito_otorgado", "nombre_promotor"]
          @creditos.each do |c|
-         localidad, municipio = localidad_grupo(@credito.grupo), municipio_grupo(@credito.grupo)
+         localidad, municipio = localidad_grupo(c.grupo), municipio_grupo(c.grupo)
              municipio = c.grupo.clientegrupos[0].cliente.localidad.municipio.municipio
              num_socias = numero_clientes_grupo(c.grupo)
              csv << [c.num_referencia, municipio, localidad, c.nombre_grupo, num_socias, c.monto, c.nombre_promotor]
