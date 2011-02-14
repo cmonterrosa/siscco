@@ -25,7 +25,6 @@
       <table>
         <tr>
           <th>Nombre:</th>
-          <th>RFC:</th>
           <th>CURP:</th>
           <th>Id:</th>
           <th colspan="4">Acciones</th>
@@ -34,7 +33,6 @@
         <% for cliente in @clientes %>
         <tr>
           <td><%= cliente.nombre_completo %></td>
-          <td><%= cliente.rfc %></td>
           <td><%= cliente.curp %></td>
           <td><%= cliente.identificador %></td>
           <td><%= button_to 'Detalles', :action => 'show', :id => cliente %></td>
