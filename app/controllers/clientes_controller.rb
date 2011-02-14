@@ -10,8 +10,8 @@ class ClientesController < ApplicationController
          :redirect_to => { :action => :list }
 
   def list
-     @clientes = Cliente.find(:all, :select => "id, paterno, materno, nombre, rfc, curp, identificador",
-                              :order => 'paterno, materno, nombre', :conditions => "st = 1")
+     @clientes = Cliente.find(:all, :select => "id, paterno, materno, nombre, curp, identificador",
+                              :order => 'paterno, materno, nombre')
 
   
   end
@@ -78,7 +78,7 @@ class ClientesController < ApplicationController
   def live_search
 
     if params[:searchtext].size >= 4
-          @clientes = Cliente.find(:all, :select=> "id, paterno, materno, nombre, rfc, curp, identificador",
+          @clientes = Cliente.find(:all, :select=> "id, paterno, materno, nombre, curp, identificador",
                                :conditions => "(nombre like '%#{params[:searchtext]}%' or paterno like '#{params[:searchtext]}%' or
                                                materno like '#{params[:searchtext]}%')", :order => "paterno, materno, nombre")
           return render(:partial => 'filtrocliente', :layout => false) if request.xhr?
@@ -89,7 +89,7 @@ class ClientesController < ApplicationController
 
     def live_search_curp
         if params[:curp].size >= 4
-           @clientes = Cliente.find(:all, :select=> "id, paterno, materno, nombre, rfc, curp, identificador",
+           @clientes = Cliente.find(:all, :select=> "id, paterno, materno, nombre, curp, identificador",
                                :conditions => "(curp like '#{params[:curp]}%')", :order => "paterno, materno, nombre")
             return render(:partial => 'filtrocliente', :layout => false) if request.xhr?
         else

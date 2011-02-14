@@ -7,7 +7,6 @@
       <table>
         <tr>
           <th>Nombre:</th>
-          <th>RFC:</th>
           <th>CURP:</th>
         <th colspan="3">Acciones</th>
         </tr>
@@ -15,7 +14,6 @@
         <% for cliente in @clientegrupos %>
         <tr>
           <td><%= cliente.cliente.nombre_completo %></td>
-          <td><%= cliente.cliente.rfc %></td>
           <td><%= cliente.cliente.curp %></td>
           <td><%= button_to 'Detalles', :controller => "clientes", :action => 'show', :id => cliente.cliente %></td>
            <td><%= button_to 'Quitar', {:action => 'quitar', :controller => "grupos", :id => cliente.cliente, :grupo => @grupo}, :confirm => "¿Desea quitarlo?", :method => :post %></td>
@@ -49,7 +47,6 @@
       <table>
         <tr>
           <th>Nombre:</th>
-          <th>RFC:</th>
           <th>CURP:</th>
           <th colspan="3">Acciones</th>
         </tr>
@@ -57,7 +54,6 @@
         <% for cliente in @clientes %>
         <tr>
           <td><%= cliente.nombre_completo %></td>
-          <td><%= cliente.rfc %></td>
           <td><%= cliente.curp %></td>
           <td><%= button_to 'Detalles', :controller => "clientes", :action => 'show', :id => cliente %></td>
           <td><%= button_to 'Agregar', :controller =>"grupos", :action => 'agregar', :id => cliente, :grupo => @grupo %></td>
