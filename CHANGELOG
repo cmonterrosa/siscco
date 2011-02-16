@@ -1,3 +1,12 @@
+Modificaciones 16 de febrero de 2011
+
+=> Corregimos la carga de layouts, ya cargan todos y se almacenan en una tabla temporal pendientes de aplicar
+
+=> Agregamos indices para mejorar consulta por curp o apellido paterno
+
+
+
+
 Modificaciones 8 de febrero de 2011
 
 => Corrección de la exportacion de la información de creditos exportada en csv (agregamos localidad, municipio y num_socias)
