@@ -16,10 +16,9 @@ class UploadController < ApplicationController
           @post = Datafile.find(:first, :conditions => ["nombre_archivo = ?", @nombre_archivo])
           if (post) && (@post)
               #---- Validamos que el encabezado es correcto, por lo tanto empezamos a insertar los registros que hagan match con los creditos -----
-             if confronta(@nombre_archivo)
-                flash[:notice] = "Archivo #{@nombre_archivo} cargado correctamente"
-                redirect_to :action => "resultados", :datafile => @post
-             end
+             @st, @num_insertados = confronta(@nombre_archivo)
+             flash[:notice] = "Archivo #{@nombre_archivo} cargado correctamente"
+             redirect_to :action => "resultados", :datafile => @post, :num_insertados=>@num_insertados
           else
               redirect_to :action => "index", :controller => "upload"
               flash[:notice] = "Archivo #{@nombre_archivo} ya existe o no contiene la estructura correcta, Verifique"
@@ -35,9 +34,14 @@ class UploadController < ApplicationController
     
     def resultados
         @datafile = Datafile.find(params[:datafile])
-        @num_aplicados = Deposito.count(:id, :conditions => ["datafile_id = ?", @datafile.id])
-        @archivo_na = "na_" + @datafile.nombre_archivo
-        @archivo_err = "err_" + @datafile.nombre_archivo
+        unless params[:num_insertados] =~ /\d+/
+          @num_aplicados = Deposito.count(:id, :conditions => ["datafile_id = ?", @datafile.id])
+        else
+          @num_aplicados = params[:num_insertados].to_i
+        end
+        
+        @archivo_na = "noaplicados_" + @datafile.nombre_archivo
+        @archivo_err = "errores_" + @datafile.nombre_archivo
     end
 
 

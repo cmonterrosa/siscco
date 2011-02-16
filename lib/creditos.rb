@@ -622,6 +622,7 @@ def lista_pagos_unicos_credito(credito)
 end
 
 def numero_clientes_grupo(grupo)
+  return 0 if grupo.nil?
   return Clientegrupo.count(:id, :conditions => ["grupo_id = ? and activo = 1", grupo.id])
 end
 
