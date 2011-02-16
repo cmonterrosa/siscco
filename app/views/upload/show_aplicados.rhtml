@@ -1,6 +1,7 @@
-
-<h1>Depositos aplicados</h1><br />
-<h2>Fecha de carga: <%=@datafile.fecha_hora_carga.strftime("%Y-%m-%d %H:%M:%S")%></h2><br />s
+<p>
+  <h1>Depositos cargados pendientes por aplicar</h1><br />
+</p>
+<h2>Fecha de carga: <%=@datafile.fecha_hora_carga.strftime("%d/%m/%Y, %H:%M horas")%></h2><br />
 <h2>Numero de Cliente: <%=@datafile.numero_cliente%></h2><br />
 <h2>Nombre del Cliente: <%=@datafile.nombre_cliente%></h2><br /><br />
 
@@ -25,6 +26,7 @@
    </tr>
   <%end%>
 </table>
+
 
 
 <%=button_to 'Regresar al Resumen', :action => "resultados", :datafile => @datafile%> <br />

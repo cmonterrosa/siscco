@@ -56,7 +56,7 @@ module Utilerias
             return false unless clave =~ /^[A-Z]{4}/
             return false unless num =~/\d{4}/
         #--- Validamos que no este repetido la clave y numero -----
-            return false if Datafile.find(:all, :conditions => ["clave = ? and numero = ?", clave.strip, num.strip]).size > 0
+            #return false if Datafile.find(:all, :conditions => ["clave = ? and numero = ?", clave.strip, num.strip]).size > 0
         end
         num_linea+=1
       end
