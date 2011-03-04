@@ -336,6 +336,35 @@ class CreditosController < ApplicationController
     @devengos = Devengo.find(:all, :conditions => ["credito_id = ?",params[:id]])
   end
 
+  def aplica_depositos
+    depositos =Hash.new{|k,v|k[v]}
+    @referencias = Deposito.find(:all, :select => "id, credito_id, st",  :conditions => ["st = ?", "NA"], :group=> "credito_id")
+    @referencias.each do |referencia|
+      depositos["#{referencia.credito_id}"]  = Deposito.sum(:importe, :conditions => ["credito_id = ?", referencia.credito_id])
+    end
 
+    depositos.each{|k,v|
+       v = Vencimiento.new(Credito.find(k))
+       v.procesar
+       #IVA POR COMISIONES COBRADAS
+                  #COMISIONES COBRADAS
+                  #IVA POR INTERESES MORATORIOS
+                  #INTERESES MORATORIOS
+                  #IVA POR INTERESES NORMALES
+                  #INTERESES NORMALES
+                  #CAPITAL
+      #empezamos a aplicar
+      total = depositos["#{k}"].to_f
+      if total > round(v.iva_gastos_cobranza.to_f, 2)
+        #metemos el registro
+        Transaccion.create(:monto => round(v.iva_gastos_cobranza.to_f, 2),
+                           :pago_id => proximo_pago(v.credito).id,
+                           :tipo_transaccion_id => TipoTransaccion.find_by_prioridad(1).id,
+                           :fecha_hora_aplicacion=>Time.now)
+                           total-=round(v.iva_gastos_cobranza.to_f, 2)
+      end
+    }
+    render :text => "total "
+  end
 
 end
