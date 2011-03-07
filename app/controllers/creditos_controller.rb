@@ -152,6 +152,7 @@ class CreditosController < ApplicationController
                    inserta_pagos_individuales(@credito, calcula_pagos(@fecha_inicio.year, @fecha_inicio.month, @fecha_inicio.day, @producto.num_pagos, @producto.periodo))
                 else
                    inserta_pagos_grupales_por_tipo(@credito, calcula_pagos(@fecha_inicio.year, @fecha_inicio.month, @fecha_inicio.day, @producto.num_pagos, @producto.periodo), @credito.tipo_interes)
+                    update_pagos_grupales(@credito) #--- Actualizamos la tabla pagosgrupals
                     unless Cuenta.find(:all).empty? #--- Si existe alguna cuenta
                       inserta_poliza(params[:credito][:monto], Cuenta.find(:first), "ABONO")
                     end
@@ -181,8 +182,6 @@ class CreditosController < ApplicationController
      @productos = Producto.find(:all, :order => "producto")
      @grupos = todos_grupos_conclientes
      @clientes = Cliente.find(:all, :select => "id, paterno, materno, nombre")
-     #@credito.miembros.collect{|c|@miembro["#{c.jerarquia.jerarquia}"] = c.cliente}
-     a=10
   end
 
   def update
@@ -336,35 +335,31 @@ class CreditosController < ApplicationController
     @devengos = Devengo.find(:all, :conditions => ["credito_id = ?",params[:id]])
   end
 
-  def aplica_depositos
+  def aplicar_depositos
     depositos =Hash.new{|k,v|k[v]}
+    @sumatoria = 0
     @referencias = Deposito.find(:all, :select => "id, credito_id, st",  :conditions => ["st = ?", "NA"], :group=> "credito_id")
     @referencias.each do |referencia|
       depositos["#{referencia.credito_id}"]  = Deposito.sum(:importe, :conditions => ["credito_id = ?", referencia.credito_id])
     end
-
     depositos.each{|k,v|
        v = Vencimiento.new(Credito.find(k))
        v.procesar
-       #IVA POR COMISIONES COBRADAS
-                  #COMISIONES COBRADAS
-                  #IVA POR INTERESES MORATORIOS
-                  #INTERESES MORATORIOS
-                  #IVA POR INTERESES NORMALES
-                  #INTERESES NORMALES
-                  #CAPITAL
-      #empezamos a aplicar
-      total = depositos["#{k}"].to_f
-      if total > round(v.iva_gastos_cobranza.to_f, 2)
-        #metemos el registro
-        Transaccion.create(:monto => round(v.iva_gastos_cobranza.to_f, 2),
-                           :pago_id => proximo_pago(v.credito).id,
-                           :tipo_transaccion_id => TipoTransaccion.find_by_prioridad(1).id,
-                           :fecha_hora_aplicacion=>Time.now)
-                           total-=round(v.iva_gastos_cobranza.to_f, 2)
-      end
+       @cantidad = v.aplicar_depositos(depositos["#{k}"].to_f)
+       # si sobra importe
+       if @cantidad
+          if @cantidad.to_f > 0.0
+             @sumatoria+=1
+              Deposito.transaction do
+              Deposito.create(:importe => @cantidad, :ref_num=>v.credito.num_referencia, :credito_id => v.credito.id)
+                Deposito.find(:all, :conditions => ["credito_id = ?", v.credito.id]).each do |deposito|
+                deposito.update_attributes!(:st => "A")
+             end
+            end
+          end
+       end
     }
-    render :text => "total "
   end
+
 
 end

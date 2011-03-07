@@ -33,7 +33,6 @@ class Vencimiento
       if dias_transcurridos > 0
        pago_diario = pago_minimo_informativo(credito) / credito.producto.periodo.dias.to_f
        moratorio_diario = ((credito.producto.moratorio / 100.0 ) * proximo_pago(credito).capital_minimo.to_f ) / credito.producto.periodo.dias.to_f
-       #@gastos_cobranza = 200 if dias_transcurridos > 8
        @gastos_cobranza = (dias_transcurridos / 8) * 200
        #---- Globales --
        moratorio = moratorio_diario * dias_transcurridos.to_f
@@ -49,9 +48,6 @@ class Vencimiento
        puts "Capital Vencido hasta hoy => #{@sumatoria_capital_vencido}"
        puts "------- Total a pagar => #{gastos_cobranza + moratorio + @sumatoria_capital_vencido}"
       end
-
-      #puts periodos_transcurridos(credito)
-
    end
 
 
@@ -62,7 +58,7 @@ class Vencimiento
      credito = @credito
      moratorio_diario = (@credito.producto.moratorio.to_f / 100.0) / 360.0
      tasa_diaria_moratoria = round((@credito.producto.moratorio.to_f / 100.0) / 360.0, 4)
-     @numero_clientes = (numero_clientes_grupo(@credito.grupo)).to_f
+     #@numero_clientes = (numero_clientes_grupo(@credito.grupo)).to_f
      sum_moratorio=0
      #--- Validaremos si es otro año ----
       hoy = DateTime.now.yday
@@ -73,14 +69,15 @@ class Vencimiento
       
       if dias_transcurridos > 0
          periodos_transcurridos_sin_pagar = periodos_sin_pagar(credito)
-         todos_los_pagos = Pago.find(:all, :conditions => ["credito_id = ? and pagado = 0", credito.id], :order => "num_pago", :group => "num_pago")
+         #todos_los_pagos = Pago.find(:all, :conditions => ["credito_id = ? and pagado = 0", credito.id], :order => "num_pago", :group => "num_pago")
+         todos_los_pagos = Pagogrupal.find(:all, :conditions => ["credito_id = ? and pagado = 0", credito.id])
          pagos_vencidos = todos_los_pagos[0..periodos_transcurridos_sin_pagar - 1]
          pagos_vencidos.each{|pago|
            @capital_vencido+=pago.principal_recuperado.to_f #-- sumamos capital vencido
-          @interes_vencido += (pago.interes_minimo.to_f * @numero_clientes)
+          @interes_vencido += (pago.interes_minimo.to_f)
           #--- Calculamos el moratorio para el periodo ---
           dias_por_cobrar = hoy - pago.fecha_limite.yday
-          p_recuperado_global = pago.principal_recuperado.to_f  * @numero_clientes
+          p_recuperado_global = pago.principal_recuperado.to_f 
           sum_moratorio += ((p_recuperado_global * tasa_diaria_moratoria) * dias_por_cobrar)
           puts "tasa diaria moratoria => #{tasa_diaria_moratoria}"
           puts "principal_recuperado => #{p_recuperado_global}"
@@ -90,24 +87,23 @@ class Vencimiento
       @iva_moratorio = round(sum_moratorio * 0.16 ,2)
       #--- Vamos a multiplicarlo por el numero de clientes del grupo --
       @capital_vencido = round(@capital_vencido * @numero_clientes,2)
-      #@pago_diario = pago_minimo_informativo(credito) / credito.producto.periodo.dias.to_f
+      # @pago_diario = pago_minimo_informativo(credito) / credito.producto.periodo.dias.to_f
           #moratorio_diario = ((credito.producto.moratorio / 100.0 ) * proximo_pago(credito).capital_minimo.to_f ) / credito.producto.periodo.dias.to_f
        #   @devengo_diario = proximo_pago(credito).interes_minimo.to_f / credito.producto.periodo.dias.to_f
           #@gastos_cobranza = 200.00 if dias_transcurridos > 8
           @gastos_cobranza = ((dias_transcurridos / 8) * 200)* 0.84
           @iva_gastos_cobranza = ((dias_transcurridos / 8) * 200) * 0.16
           #---- Globales --
-          #@moratorio = moratorio_diario * dias_transcurridos.to_f
           moratorio_diario = 0
           @cuota_diaria = moratorio_diario + @pago_diario
           @intereses_devengados = @devengo_diario * dias_transcurridos.to_f
-        pago_minimo = pago_minimo_informativo(credito)
-        puts "Dias de atraso => #{dias_transcurridos}"
-        puts "Capital Vencido => #{@capital_vencido}"
-        puts "Intereses Vencidos => #{@interes_vencido}"
-        puts "Moratorio => #{@moratorio}"
-        puts "Gastos de Cobranza => #{@gastos_cobranza}"
-        puts "------- Total a pagar => #{@gastos_cobranza + @moratorio + @capital_vencido + @interes_vencido}"
+          @total_deuda = @capital_vencido + @interes_vencido + @iva_gastos_cobranza + @gastos_cobranza + @iva_moratorio
+          puts "Dias de atraso => #{dias_transcurridos}"
+          puts "Capital Vencido => #{@capital_vencido}"
+          puts "Intereses Vencidos => #{@interes_vencido}"
+          puts "Moratorio => #{@moratorio}"
+          puts "Gastos de Cobranza => #{@gastos_cobranza}"
+          puts "------- Total a pagar => #{@gastos_cobranza + @moratorio + @capital_vencido + @interes_vencido}"
       end
       dias_transcurridos = 0 if dias_transcurridos < 0
       @dias_atraso =dias_transcurridos
@@ -115,60 +111,82 @@ class Vencimiento
 
 
 
-  def procesar_grupal
-    credito = @credito
-     moratorio_diario = (@credito.producto.moratorio.to_f / 100.0) / 360.0
-     tasa_diaria_moratoria = round((@credito.producto.moratorio.to_f / 100.0) / 360.0, 4)
-     @numero_clientes = (numero_clientes_grupo(@credito.grupo)).to_f
-     sum_moratorio=0
-     #--- Validaremos si es otro año ----
-      hoy = DateTime.now.yday
-      if DateTime.now.year > proximo_pago(credito).fecha_limite.year
-        hoy+=365 * (DateTime.now.year - proximo_pago(credito).fecha_limite.year)
+ def aplicar_depositos(importe)
+        total=importe
+                  # ......... Orden de Aplicacion ........
+                  #IVA POR COMISIONES COBRADAS
+                  #COMISIONES COBRADAS
+                  #IVA POR INTERESES MORATORIOS
+                  #INTERESES MORATORIOS
+                  #IVA POR INTERESES NORMALES
+                  #INTERESES NORMALES
+                  #CAPITAL
+     if total >= @total_deuda
+        #metemos la transaccion
+        Transaccion.transaction do
+                   #... iva por comisiones
+                   Transaccion.create(:monto => @iva_gastos_cobranza.to_f,
+                                      :pagogrupal_id => proximo_pago(@credito).id,
+                                      :tipo_transaccion_id => TipoTransaccion.find_by_prioridad(1).id,
+                                      :fecha_hora_aplicacion=>Time.now)
+                   total-=@iva_gastos_cobranza
+                   #... comisiones
+                   Transaccion.create(:monto => @gastos_cobranza.to_f,
+                                      :pagogrupal_id => proximo_pago(@credito).id,
+                                      :tipo_transaccion_id => TipoTransaccion.find_by_prioridad(2).id,
+                                      :fecha_hora_aplicacion=>Time.now)
+                   total-=@gastos_cobranza
+                   #.... Iva moratorio
+                   Transaccion.create(:monto => @iva_moratorio.to_f,
+                                      :pagogrupal_id => proximo_pago(@credito).id,
+                                      :tipo_transaccion_id => TipoTransaccion.find_by_prioridad(3).id,
+                                      :fecha_hora_aplicacion=>Time.now)
+                   total-=@iva_moratorio
+                   #.... moratorio
+                   Transaccion.create(:monto => @moratorio.to_f,
+                                      :pagogrupal_id => proximo_pago(@credito).id,
+                                      :tipo_transaccion_id => TipoTransaccion.find_by_prioridad(4).id,
+                                      :fecha_hora_aplicacion=>Time.now)
+                   total-=@moratorio
+                   #.... intereses normales
+                   Transaccion.create(:monto => @interes_vencido.to_f,
+                                      :pagogrupal_id => proximo_pago(@credito).id,
+                                      :tipo_transaccion_id => TipoTransaccion.find_by_prioridad(5).id,
+                                      :fecha_hora_aplicacion=>Time.now)
+                   total-=@interes_vencido
+                   #.... capital
+                   Transaccion.create(:monto => @capital_vencido.to_f,
+                                      :pagogrupal_id => proximo_pago(@credito).id,
+                                      :tipo_transaccion_id => TipoTransaccion.find_by_prioridad(6).id,
+                                      :fecha_hora_aplicacion=>Time.now)
+                   total-=@capital_vencido
+                   #... cambiamos estatus....
+                   update_estatus_pagos
+
+        end
+        
+     else
+     # lo mandamos al reporte no aplicados
+
+     
      end
-     dias_transcurridos = (hoy - proximo_pago(credito).fecha_limite.yday).to_i
 
-      if dias_transcurridos > 0
-         periodos_transcurridos_sin_pagar = periodos_sin_pagar(credito)
-         todos_los_pagos = Pago.find(:all, :conditions => ["credito_id = ? and pagado = 0", credito.id], :order => "num_pago", :group => "num_pago")
-         pagos_vencidos = todos_los_pagos[0..periodos_transcurridos_sin_pagar - 1]
-         pagos_vencidos.each{|pago|
-           @capital_vencido+=pago.principal_recuperado.to_f #-- sumamos capital vencido
-          @interes_vencido += (pago.interes_minimo.to_f * @numero_clientes)
-          #--- Calculamos el moratorio para el periodo ---
-          dias_por_cobrar = hoy - pago.fecha_limite.yday
-          p_recuperado_global = pago.principal_recuperado.to_f  * @numero_clientes
-          sum_moratorio += ((p_recuperado_global * tasa_diaria_moratoria) * dias_por_cobrar)
-          puts "tasa diaria moratoria => #{tasa_diaria_moratoria}"
-          puts "principal_recuperado => #{p_recuperado_global}"
-          puts "moratorio => #{(p_recuperado_global * tasa_diaria_moratoria) * dias_por_cobrar}"
-        }
-      @moratorio = round(sum_moratorio * 0.84,2)
-      @iva_moratorio = round(sum_moratorio * 0.16 ,2)
-      #--- Vamos a multiplicarlo por el numero de clientes del grupo --
-      @capital_vencido = round(@capital_vencido * @numero_clientes,2)
-      #@pago_diario = pago_minimo_informativo(credito) / credito.producto.periodo.dias.to_f
-          #moratorio_diario = ((credito.producto.moratorio / 100.0 ) * proximo_pago(credito).capital_minimo.to_f ) / credito.producto.periodo.dias.to_f
-       #   @devengo_diario = proximo_pago(credito).interes_minimo.to_f / credito.producto.periodo.dias.to_f
-          #@gastos_cobranza = 200.00 if dias_transcurridos > 8
-          @gastos_cobranza = ((dias_transcurridos / 8) * 200)* 0.84
-          @iva_gastos_cobranza = ((dias_transcurridos / 8) * 200) * 0.16
-          #---- Globales --
-          #@moratorio = moratorio_diario * dias_transcurridos.to_f
-          moratorio_diario = 0
-          @cuota_diaria = moratorio_diario + @pago_diario
-          @intereses_devengados = @devengo_diario * dias_transcurridos.to_f
-        pago_minimo = pago_minimo_informativo(credito)
-        puts "Dias de atraso => #{dias_transcurridos}"
-        puts "Capital Vencido => #{@capital_vencido}"
-        puts "Intereses Vencidos => #{@interes_vencido}"
-        puts "Moratorio => #{@moratorio}"
-        puts "Gastos de Cobranza => #{@gastos_cobranza}"
-        puts "------- Total a pagar => #{@gastos_cobranza + @moratorio + @capital_vencido + @interes_vencido}"
-      end
-      dias_transcurridos = 0 if dias_transcurridos < 0
-      @dias_atraso =dias_transcurridos
+  if total > 0
+    return total
+  else
+    return 0
   end
+ end
+
+ protected
+ def update_estatus_pagos
+   @pago =  proximo_pago(@credito)
+   @pago.update_attributes!(:pagado => 1)
+   numpago = @pago.num_pago.to_i
+   Pago.find(:all, :conditions => ["credito_id = ? and num_pago = ?", @credito.id, numpago]).each do |pago|
+      pago.update_attributes!(:pagado => 1)
+   end
+ end
 
 
 
