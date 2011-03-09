@@ -1,0 +1,21 @@
+<h2>Depositos aplicados = <%=@sumatoria%></h2>
+
+<%if @transacciones_aplicadas.size > 0%>
+<table>
+  <%@transacciones_aplicadas.each do |transaccion|%>
+      <%transaccion.each do |row|%>
+        <tr>
+          <td>
+            <%row.tipo_transaccion.descripcion%>
+          </td>
+          <td>
+            <%=row.monto%>
+          </td>
+          <td>
+            <%=row.fecha_hora_aplicacion%>
+          </td>
+        </tr>
+      <%end%>
+  <%end%>
+</table>
+<%end%>

@@ -152,6 +152,7 @@ class CreditosController < ApplicationController
                    inserta_pagos_individuales(@credito, calcula_pagos(@fecha_inicio.year, @fecha_inicio.month, @fecha_inicio.day, @producto.num_pagos, @producto.periodo))
                 else
                    inserta_pagos_grupales_por_tipo(@credito, calcula_pagos(@fecha_inicio.year, @fecha_inicio.month, @fecha_inicio.day, @producto.num_pagos, @producto.periodo), @credito.tipo_interes)
+                    update_pagos_grupales(@credito) #--- Actualizamos la tabla pagosgrupals
                     unless Cuenta.find(:all).empty? #--- Si existe alguna cuenta
                       inserta_poliza(params[:credito][:monto], Cuenta.find(:first), "ABONO")
                     end
@@ -181,8 +182,6 @@ class CreditosController < ApplicationController
      @productos = Producto.find(:all, :order => "producto")
      @grupos = todos_grupos_conclientes
      @clientes = Cliente.find(:all, :select => "id, paterno, materno, nombre")
-     #@credito.miembros.collect{|c|@miembro["#{c.jerarquia.jerarquia}"] = c.cliente}
-     a=10
   end
 
   def update
@@ -336,6 +335,27 @@ class CreditosController < ApplicationController
     @devengos = Devengo.find(:all, :conditions => ["credito_id = ?",params[:id]])
   end
 
+  def aplicar_depositos
+    depositos =Hash.new{|k,v|k[v]}
+    @aplicados = []
+    @sumatoria = 0
+    @referencias = Deposito.find(:all, :select => "id, credito_id, st",  :conditions => ["st = ?", "NA"], :group=> "credito_id")
+    @referencias.each do |referencia|
+      depositos["#{referencia.credito_id}"]  = Deposito.sum(:importe, :conditions => ["credito_id = ?", referencia.credito_id])
+    end
+    depositos.each{|k,v|
+       v = Vencimiento.new(Credito.find(k))
+       v.procesar
+       if v.aplicar_depositos(depositos["#{k}"].to_f)
+         @sumatoria+=1
+         @aplicados << v.credito.id
+       end
+    }
+    @transacciones_aplicadas = []
+      @aplicados.each do |row|
+          @transacciones_aplicadas << Transaccion.find(:all, :select => "t.*", :joins => "t, pagogrupals pg, creditos c",
+                 :conditions => ["t.pagogrupal_id = pg.id AND pg.credito_id = c.id and c.id = ?", row])
 
-
+      end
+  end
 end

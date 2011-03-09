@@ -247,9 +247,13 @@ module Databases
                   unless @deposito.save
                     @no_aplicados.puts(linea)
                   end
-                  num_insertados+=1
-                  num_linea+=1
-                  next
+                    num_insertados+=1
+                    num_linea+=1
+                    #Aqui mandaremos a llamar la funcion que nos devuelve cuando debe el cliente
+
+
+
+                    next
                   #-- Aplicar el pago en el siguiente Orden ----
                   #IVA POR COMISIONES COBRADAS
                   #COMISIONES COBRADAS

@@ -4,6 +4,7 @@
 <!-- Realizamos el calculo -->
 <%credito_vencimiento = Vencimiento.new(@credito)%>
 <%credito_vencimiento.procesar%> <br />
+<%sumatoria=0%>
 
 <br /><h3>Datos Informativos</h3><br />
 <table class="stats" cellspacing="0">
@@ -67,23 +68,39 @@
     <tr>
      <td class="hed">Capital Vencido: </td>
      <td>$ <%=separar_miles(credito_vencimiento.capital_vencido)%></td>
+      <%sumatoria+=credito_vencimiento.capital_vencido.to_f%>
   </tr>
   <tr>
      <td class="hed">Intereses Vencidos:</td>
      <td>$ <%=separar_miles(credito_vencimiento.interes_vencido)%></td>
+     <%sumatoria+=credito_vencimiento.interes_vencido.to_f%>
   </tr>
   <tr>
      <td class="hed">Intereses Moratorios</td>
      <td>$ <%=separar_miles(credito_vencimiento.moratorio)%></td>
+     <%sumatoria+=credito_vencimiento.moratorio.to_f%>
+  </tr>
+
+  <tr>
+     <td class="hed">Iva intereses moratorios</td>
+     <td>$ <%=separar_miles(credito_vencimiento.iva_moratorio)%></td>
+     <%sumatoria+=credito_vencimiento.iva_moratorio.to_f%>
   </tr>
 
   <tr>
      <td class="hed">Gastos de Cobranza</td>
      <td>$ <%=separar_miles(credito_vencimiento.gastos_cobranza.to_f)%></td>
+     <%sumatoria+=credito_vencimiento.gastos_cobranza.to_f%>
+  </tr>
+
+   <tr>
+     <td class="hed">Iva gastos de cobranza</td>
+     <td>$ <%=separar_miles(credito_vencimiento.iva_gastos_cobranza.to_f)%></td>
+     <%sumatoria+=credito_vencimiento.iva_gastos_cobranza.to_f%>
   </tr>
   <tr>
      <td class="hed">Total</td>
-     <td>$ <%=separar_miles(round(credito_vencimiento.capital_vencido + credito_vencimiento.interes_vencido + credito_vencimiento.moratorio + credito_vencimiento.gastos_cobranza.to_f, 0 ).to_s)%></td>
+     <td>$ <%=separar_miles(round(credito_vencimiento.total_deuda))%></td>
   </tr>
 </table>
 

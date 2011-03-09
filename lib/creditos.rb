@@ -5,8 +5,7 @@
 
 module Creditos
   def abonos(credito)
-    @pagos = Pago.find(:all,
-                       :conditions=>["credito_id = ? AND pagado= 1", credito.id])
+    @pagos = Pago.find(:all,:conditions=>["credito_id = ? AND pagado= 1", credito.id])
     sum=0
     @pagos.each do |pago|
       sum +=  pago.capital.to_f
@@ -26,7 +25,8 @@ module Creditos
   #---- DIas sin pagar ----
 
    def dias_sin_pagar(credito)
-     pago_siguiente = Pago.find(:first, :conditions => ["pagado = 0 AND credito_id = ?", credito.id], :order =>"num_pago", :group => "cliente_id")
+     #pago_siguiente = Pago.find(:first, :conditions => ["pagado = 0 AND credito_id = ?", credito.id], :order =>"num_pago", :group => "cliente_id")
+     pago_siguiente = Pagogrupal.find(:first, :conditions => ["pagado = 0 AND credito_id = ?", credito.id], :order =>"num_pago")
      hoy = DateTime.now.yday
      if DateTime.now.year > pago_siguiente.fecha_limite.year
         hoy+=365 * (DateTime.now.year - pago_siguiente.fecha_limite.year)
@@ -109,9 +109,13 @@ module Creditos
 
 
 
+#  def proximo_pago(credito)
+#          @proximo = Pago.find(:first, :conditions=>["credito_id = ? AND pagado=0", credito.id], :order=>"fecha_limite", :group => "cliente_id")
+#          return @proximo
+#  end
+
   def proximo_pago(credito)
-          @proximo = Pago.find(:first, :conditions=>["credito_id = ? AND pagado=0", credito.id], :order=>"fecha_limite", :group => "cliente_id")
-          return @proximo
+    return Pagogrupal.find(:first, :conditions => ["credito_id = ? and pagado = 0", credito.id])
   end
 
 
@@ -250,10 +254,7 @@ module Creditos
                end
             end
 
-      #---- Aqui vamos a calcular el devengo diario -------
-
-      
-
+         #---- Aqui vamos a calcular el devengo diario -------
          when "Pagos iguales de capital"
               #-- Hacemos los calculos correspondientes ----
               
@@ -304,7 +305,23 @@ module Creditos
   end
 
 
-
+  def update_pagos_grupales(credito)
+  @pagos = Pago.find(:all, :conditions => ["credito_id = ?", credito.id], :group=>"num_pago")
+  @numclientes = Pago.count("distinct cliente_id", :conditions=>["credito_id = ?", credito.id])
+  unless @pagos.empty?
+     @pagos.each do |pago|
+             Pagogrupal.create(:fecha_limite => pago.fecha_limite,
+                         :capital_minimo => pago.capital_minimo.to_f * @numclientes,
+                         :interes_minimo => pago.interes_minimo.to_f * @numclientes,
+                         :pagado => pago.pagado,
+                         :credito_id => pago.credito_id,
+                         :saldo_inicial => pago.saldo_inicial.to_f * @numclientes,
+                         :saldo_final => pago.saldo_final.to_f * @numclientes,
+                         :principal_recuperado => pago.principal_recuperado.to_f * @numclientes,
+                         :num_pago => pago.num_pago)
+       end
+    end
+  end
 
     def linea_disponible(linea)
     if linea.creditos.empty?
