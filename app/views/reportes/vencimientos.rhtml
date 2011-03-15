@@ -1,21 +1,47 @@
 
-<h2>Creditos Vencidos</h2>
-
-<%Credito.find(:all, :conditions => "status = 0").each do |credito|%>
+<h2 style="text-align: center;">CREDITOS VENCIDOS</h2>
+<hr></hr>
+<br></br>
+<div id="scroll">
+<%@creditos.each do |credito|%>
         <%credito_vencimiento = Vencimiento.new(credito)%>
         <%credito_vencimiento.procesar%> <br />
-        <h1>------------------------------------------------------------------------------------------------</h1>
-        <h3>Referencia =>  <%=credito.num_referencia%></h3>
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<h3>Identificador => <%=credito.identificador%></h3>
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<h3>Dias de Atraso =>   <%=credito_vencimiento.dias_atraso%></h3>
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<h3>Interes Diario Devengado => <%=credito_vencimiento.devengo_diario%></h3>
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<h3>Capital  =>  <%=credito_vencimiento.capital_vencido%></h3>
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<h3>Intereses Devengados => <%=credito_vencimiento.intereses_devengados%></h3>
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<h3>Moratorio =>  <%=credito_vencimiento.moratorio%></h3>
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<h3>Gastos de Cobranza => <%=credito_vencimiento.gastos_cobranza%></h3><br />
-        <h2>TOTAL VENCIDO => $ <%=credito_vencimiento.gastos_cobranza + credito_vencimiento.moratorio + credito_vencimiento.capital_vencido + credito_vencimiento.intereses_devengados %></h2>
-        <h1>------------------------------------------------------------------------------------------------</h1>
-<%end%>
 
+        <table class="stats">
+          <tr>
+            <td class="hed">Identificador:</td>
+            <td><%=credito.identificador%></td>
+          </tr>
+          <tr>
+            <td class="hed">Dias de Atraso:</td>
+            <td><%=credito_vencimiento.dias_atraso%></td>
+          </tr>
+          <tr>
+            <td class="hed">Interes Diario Devengado:</td>
+            <td><%=credito_vencimiento.devengo_diario%></td>
+          </tr>
+          <tr>
+            <td class="hed">Capital:</td>
+            <td><%=credito_vencimiento.capital_vencido%></td>
+          </tr>
+          <tr>
+            <td class="hed">Intereses Devengados:</td>
+            <td><%=credito_vencimiento.intereses_devengados%></td>
+          </tr>
+          <tr>
+            <td class="hed">Moratorio:</td>
+            <td><%=credito_vencimiento.moratorio%></td>
+          </tr>
+          <tr>
+            <td class="hed">Gastos de Cobranza:</td>
+            <td><%=credito_vencimiento.gastos_cobranza%></td>
+          </tr>
+          <tr>
+            <td class="hed">Total Vencido:</td>
+            <td class="hed">$&nbsp;<%=credito_vencimiento.gastos_cobranza + credito_vencimiento.moratorio + credito_vencimiento.capital_vencido + credito_vencimiento.intereses_devengados %></td>
+          </tr>
+    </table>
+<%end%>
+</div>
 
 

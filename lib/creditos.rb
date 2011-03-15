@@ -79,8 +79,6 @@ module Creditos
        end
   end
 
-
-
   #---- Funciones de calculos -----
   def calcula_capital_minimo(credito)
       @producto = Producto.find(credito.producto_id)
@@ -105,10 +103,6 @@ module Creditos
     end
   end
 
-
-
-
-
 #  def proximo_pago(credito)
 #          @proximo = Pago.find(:first, :conditions=>["credito_id = ? AND pagado=0", credito.id], :order=>"fecha_limite", :group => "cliente_id")
 #          return @proximo
@@ -117,9 +111,6 @@ module Creditos
   def proximo_pago(credito)
     return Pagogrupal.find(:first, :conditions => ["credito_id = ? and pagado = 0", credito.id])
   end
-
-
-  
 
   def proximo_pago_grupal(credito, cliente)
            @proximo = Pago.find(:first, :conditions=>["credito_id = ? AND
@@ -176,8 +167,6 @@ module Creditos
            return @pagos
   end
 
-
-
   def inserta_pagos_individuales(credito, arreglo_pagos)
          if credito.pagos.size == 0
          contador=1
@@ -197,7 +186,6 @@ module Creditos
            return nil
          end
     end
-
 
   def inserta_pagos_grupales(credito, arreglo_pagos)
        if credito.pagos.size == 0
@@ -220,7 +208,6 @@ module Creditos
            return nil
        end
     end
-
 
   def inserta_pagos_grupales_por_tipo(credito, arreglo_pagos, tipos_interes)
     @producto = Producto.find(credito.producto_id)
@@ -304,7 +291,6 @@ module Creditos
     end
   end
 
-
   def update_pagos_grupales(credito)
   @pagos = Pago.find(:all, :conditions => ["credito_id = ?", credito.id], :group=>"num_pago")
   @numclientes = Pago.count("distinct cliente_id", :conditions=>["credito_id = ?", credito.id])
@@ -323,7 +309,7 @@ module Creditos
     end
   end
 
-    def linea_disponible(linea)
+  def linea_disponible(linea)
     if linea.creditos.empty?
            return linea.autorizado.to_f + total_recibido(linea) - total_transferido(linea)
         else
@@ -331,7 +317,7 @@ module Creditos
         end
     end
 
-    def total_otorgado_creditos(linea)
+  def total_otorgado_creditos(linea)
        if Credito.count(:monto, :conditions=>["linea_id = ?", linea.id]) > 0
            return Credito.sum(:monto, :conditions=>["linea_id = ?", linea.id])/1.0
           return @credito
@@ -340,22 +326,21 @@ module Creditos
        end
     end
 
-    def total_transferido(linea)
+  def total_transferido(linea)
         sum_otorgadas = 0
         @t_otorgadas = Transferencia.find(:all, :conditions => ["origen_id = ?", linea.id])
         @t_otorgadas.each{|otorgada| sum_otorgadas += otorgada.monto.to_f }
         return sum_otorgadas * 1.0
     end
 
-    def total_recibido(linea)
+  def total_recibido(linea)
       sum_recibidas=0
       @t_recibidas = Transferencia.find(:all, :conditions => ["destino_id = ?", linea.id])
       @t_recibidas.each{|recibida| sum_recibidas += recibida.monto.to_f }
       return sum_recibidas * 1.0
     end
 
-   
-        def cargos?(pago, fecha)
+  def cargos?(pago, fecha)
            @pago= Pago.find(pago)
            @interes_moratorio = pago.credito.producto.moratorio
            if @fecha <= @pago.fecha_limite
@@ -407,7 +392,6 @@ module Creditos
             return iva_comisiones
           end
 
-
         def calcula_moratorio(pago, fecha_pago)
             interes_moratorio = pago.credito.producto.moratorio / 100.0
             moratorio = 0.0
@@ -431,7 +415,6 @@ module Creditos
           return moratorio
         end
 
-
        def proximo_pago_minimo_por_cliente_a_la_fecha(cliente, credito, fecha)
           @proximo = Pago.find(:first, :conditions=>["credito_id = ? AND
                                                    cliente_id = ? AND
@@ -440,11 +423,6 @@ module Creditos
           return (@proximo.capital_minimo.to_f) + (@proximo.interes_minimo.to_f) + calcula_moratorio(@proximo, fecha) + calcula_comisiones(@proximo, fecha) + calcula_iva_comisiones(@proximo, fecha)
        end
         
-
-
- 
-
-
          def clientes_activos_grupo(grupo)
              @clientes = []
              @cg = Clientegrupo.find(:all, :conditions => ["grupo_id = ? and activo = 1", grupo.id])
@@ -475,9 +453,6 @@ module Creditos
          def todos_clientes_singrupo_join
             return Cliente.find_by_sql("select id, curp, paterno, materno, nombre from clientes where id not in (select c.id from clientes c, clientes_grupos cg where c.id=cg.cliente_id) order by paterno, materno, nombre")
          end
-
-
-
 
          def grupo_activo_cliente(cliente)
            return Clientegrupo.find(:first, :conditions => ["cliente_id = ? and activo = 1", cliente.id]).grupo
@@ -559,7 +534,6 @@ module Creditos
           end
         end
 
-
 #--- respaldo de la funcion ---
 def calcula_devengo_intereses_resp(credito)
         @fecha_inicio = credito.fecha_inicio
@@ -615,24 +589,18 @@ def calcula_devengo_intereses_resp(credito)
           end
         end
 
-
-
 #------ Calculo de los devengos diarios de acuerdo al tipo del calculo de intereses --------
-
 def devengo_diario_pagos_iguales_decremento_incremento(tasa_anualizada, num_dias, capital)
   return ((((tasa_anualizada/360.0)* num_dias) * capital) / num_dias)
 end
-
 
 def devengo_diario_pagos_iguales_capital(tasa_anualizada, num_dias, capital)
   return ((((tasa_anualizada/360.0)* num_dias) * capital) / num_dias)
 end
 
-
 def devengo_diario_pagos_flat(tasa_mensual, capital)
   return (tasa_mensual * capital/ 30.0)
 end
-
 
 def lista_pagos_unicos_credito(credito)
   return Pago.find(:all, :conditions => ["credito_id = ?", credito.id], :group => "num_pago")
@@ -650,7 +618,6 @@ end
 def municipio_grupo(grupo)
   return (grupo.clientegrupos[0].cliente.localidad.municipio.municipio)
 end
-
 
 
 end

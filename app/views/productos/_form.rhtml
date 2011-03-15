@@ -4,17 +4,13 @@
 <table>
   <tr>
     <th>Descripción:</th>
-    <!--
-    <th>Intereses Mensual: (1-100) </th>
-    -->
     <th>Interes Moratorio: (1-100) </th>
+    <th>&nbsp;</th>
   </tr>
   <tr>
     <td><%= text_field 'producto', 'producto', :onkeypress => "return CharNum(event, 'letra');", :class => 'text'  %></td>
-    <!--
-    <td><= text_field 'producto', 'intereses', :onkeypress => "return CharNum(event, 'numero');", :class => 'text'  %></td>
-    -->
     <td><%= text_field 'producto', 'moratorio', :onkeypress => "return CharNum(event, 'numero');", :class => 'text'  %></td>
+    <td>&nbsp;</td>
   </tr>
   <tr>
     <th>Ahorro:</th>
@@ -28,9 +24,13 @@
   </tr>
   <tr>
     <th>Interes Anualizado (1-100)%</th>
+    <th>&nbsp;</th>
+    <th>&nbsp;</th>
   </tr>
   <tr>
-      <td><%= text_field 'producto', 'tasa_anualizada', :onkeypress => "return CharNum(event, 'numero');", :class => 'text'  %></td>
+    <td><%= text_field 'producto', 'tasa_anualizada', :onkeypress => "return CharNum(event, 'numero');", :class => 'text'  %></td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
   </tr>
 </table>
 <!--[eoform:producto]-->

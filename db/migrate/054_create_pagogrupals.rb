@@ -31,9 +31,17 @@ class CreatePagogrupals < ActiveRecord::Migration
                          :num_pago => pago.num_pago)
        end
    end
+
+   add_column :clientes, :num_exterior, :string, :limit => 10
+   add_column :clientes, :num_interior, :string, :limit => 10
+   add_column :clientes, :rol_hogar, :string, :limit => 50
+
  end
 
   def self.down
     drop_table :pagogrupals
+    remove_column :clientes, :num_exterior
+    remove_column :clientes, :num_interior
+    remove_column :clientes, :rol_hogar
   end
 end
