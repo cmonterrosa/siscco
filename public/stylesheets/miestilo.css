@@ -13,7 +13,7 @@ caption{font-weight:bold;margin:0 auto -1em;background:#ac1f0d;color:#efe;border
 th{background:#A9D0F5;color:#333;border-bottom:1px solid #d9d1cc;text-align: center;font-size:12px;}
 tr{background:#E0ECF8;color:#333;hover:expression(this.onmouseover=new Function("this.style.background='#d8d9cc';"),this.onmouseout=new Function("this.style.background='#feffee';"));}
    tr:hover{background:#81BEF7;}
-   td{padding-left:1em;text-align:center;}
+   td{padding-left:1em;text-align:left;}
    a{color:#666;}
    a:hover{color:#000;}
 
