@@ -8,6 +8,7 @@
     <th>subcod</th>
     <th>ref alfa</th>
     <th>importe</th>
+    <th>Estatus</th>
   </tr>
  <%@depositos_aplicados.each do |deposito|%>
    <tr>
@@ -17,6 +18,7 @@
      <td><%=deposito.subcodigo%></td>
      <td><%=deposito.ref_alfa%></td>
      <td>$<%=separar_miles(deposito.importe)%></td>
+     <td><%= (deposito.st == 'A')? "APLICADO" : "NO APLICADO" %></td>
    </tr>
   <%end%>
 </table>

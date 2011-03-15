@@ -122,7 +122,6 @@ class CreditosController < ApplicationController
     redirect_to :action => "new_individual"
   end
 
-
   def create
     @credito = Credito.new(params[:credito])
     @producto = Producto.find(params[:credito][:producto_id])
@@ -206,7 +205,6 @@ class CreditosController < ApplicationController
   
   end
 
-
   def transaccion
     @credito = Credito.find(params[:id])
     @fecha_inicio = Date.strptime(Credito.find(params[:id]).fecha_inicio.to_s)
@@ -272,7 +270,6 @@ class CreditosController < ApplicationController
       render :text => params[:id]
   end
 
-
   def inserta_miembros(miembros , credito)
     miembros.each do |miembro, cliente|
       @miembro = Miembro.new
@@ -311,6 +308,10 @@ class CreditosController < ApplicationController
    render :action => "movimiento_credito", :credito => @credito
   end
 
+  def p_aplicar
+    #--- muestra los pendientes por aplicar---
+    @pendientes = Deposito.find(:all, :select => "ref_alfa, importe, fecha_hora, autorizacion, credito_id", :conditions => "ST='NA'")
+  end
 
    def desactivar
     @credito = Credito.find(params[:id])
@@ -321,7 +322,6 @@ class CreditosController < ApplicationController
     end
    render :action => "movimiento_credito", :credito => @credito
   end
-
 
   def show_pagos_cliente
     @pagos = Pago.find(:all, :conditions => ["cliente_id = ? and credito_id = ?",params[:id], params[:credito]])

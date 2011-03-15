@@ -154,6 +154,17 @@ function mmLoadMenus() {
   menu_cuentas.menuLiteBgColor='#FFFFFF';
   menu_cuentas.menuBorderBgColor='#777777';
 
+ // Submenu de LAyout FOMMUR
+  window.menu_FOMMUR = new Menu("Exportar Layout FOMMUR",140,20,"Geneva, Arial, Helvetica, sans-serif",14,"#000000","#FFFFFF","#ADADAD","#6699CC","left","middle",3,0,1000,-5,7,true,true,true,0,false,true);
+  menu_FOMMUR.addMenuItem("Clientes","location='/reportes/plantilla_clientes'");
+  menu_FOMMUR.addMenuItem("Creditos","location='/reportes/plantilla_creditos'");
+  menu_FOMMUR.fontWeight="bold";
+  menu_FOMMUR.hideOnMouseOut=true;
+  menu_FOMMUR.bgColor='#555555';
+  menu_FOMMUR.menuBorder=1;
+  menu_FOMMUR.menuLiteBgColor='#FFFFFF';
+  menu_FOMMUR.menuBorderBgColor='#777777';
+
 // Menú de Catalogos
   window.menu_catalogo = new Menu("root",148,20,"Geneva, Arial, Helvetica, sans-serif",14,"#000000","#FFFFFF","#999999","#6699CC","left","middle",3,0,1000,-5,7,true,true,true,0,false,true);
   menu_catalogo.addMenuItem("Bancos","location='/bancos'");
@@ -188,7 +199,9 @@ function mmLoadMenus() {
   menu_operacion.addMenuItem("Transferir&nbsp;Fondos","location='/lineas/transferir_fondos'");
   menu_operacion.addMenuItem("Exportacion&nbsp;de&nbsp;Polizas&nbsp;","location='/reportes/exportacion_polizas'");
   menu_operacion.addMenuItem("Exportacion&nbsp;de&nbsp;Cuentas","location='/reportes/exportacion_cuentas'");
+  menu_operacion.addMenuItem("Exportacion&nbsp;de&nbsp;Cuentas","location='/reportes/exportacion_cuentas'");
   menu_operacion.addMenuItem("Cargar&nbsp;Layout","location='/upload'");
+  menu_operacion.addMenuItem("Depositos","location='/creditos/p_aplicar'");
   menu_operacion.addMenuItem("Histórico&nbsp;de&nbsp;Cargas","location='/upload/historico'");
   menu_operacion.fontWeight="bold";
   menu_operacion.hideOnMouseOut=true;
@@ -205,6 +218,7 @@ function mmLoadMenus() {
   menu_reporte.addMenuItem("Estado&nbsp;de&nbsp;Cuenta&nbsp;del&nbsp;Grupo","location='/grupos/estado_cuenta'");
   menu_reporte.addMenuItem("Estado&nbsp;de&nbsp;cuenta&nbsp;línea&nbsp;fondeo","location='/lineas/estado_cuenta'");
   menu_reporte.addMenuItem("Exportación&nbsp;de&nbsp;Créditos","location='/reportes/hoja_calculo'");
+  menu_reporte.addMenuItem(menu_FOMMUR);
   menu_reporte.fontWeight="bold";
   menu_reporte.hideOnMouseOut=true;
   menu_reporte.bgColor='#555555';
