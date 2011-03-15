@@ -311,6 +311,14 @@ class CreditosController < ApplicationController
    render :action => "movimiento_credito", :credito => @credito
   end
 
+  def p_aplicar
+    #--- muestra los pendientes por aplicar---
+    @pendientes = Deposito.find(:all, :select => "ref_alfa, importe, fecha_hora, autorizacion, credito_id", :conditions => "ST='NA'")
+  end
+
+
+
+
 
    def desactivar
     @credito = Credito.find(params[:id])
