@@ -52,6 +52,7 @@
   <br />
 <%=button_to 'Aplicar Depósitos', :action => "aplicar_depositos", :controller => "creditos"-%>&nbsp;<%=button_to 'Cargar nuevo layout', :action => "index", :controller => "upload"%>
 <%else%>
-  <h2>No existen registros por aplicar</h2>
+  <h2>No existen registros por aplicar</h2><br />
+  <%=button_to 'Regresar', :action => "index", :controller => "home"%>
 <%end%>
 
