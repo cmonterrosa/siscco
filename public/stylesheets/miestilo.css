@@ -7,13 +7,13 @@ div#itsthetable{
 
 /*table.catalogos{margin:1em auto;background:#efeeff; text-align: center;font-size: 22px;}*/
 
-table,tr,td,th{border-collapse:collapse;border-spacing:0;border:1px solid #d9d1cc;}
-table{width:auto;margin:1em auto;background:#efeeff; text-align: center;}
+table,tr,td,th{border-collapse:collapse;border-spacing:0px;border:1px solid #d9d1cc;padding: 2px;}
+table{width:auto;background:#efeeff;text-align: center; margin-left: auto; margin-right: auto;}
 caption{font-weight:bold;margin:0 auto -1em;background:#ac1f0d;color:#efe;border-bottom:1px solid #d9d1cc;}
 th{background:#A9D0F5;color:#333;border-bottom:1px solid #d9d1cc;text-align: center;font-size:12px;}
 tr{background:#E0ECF8;color:#333;hover:expression(this.onmouseover=new Function("this.style.background='#d8d9cc';"),this.onmouseout=new Function("this.style.background='#feffee';"));}
    tr:hover{background:#81BEF7;}
-   td{padding-left:1em;text-align:left;}
+   td{padding-left:1em;text-align:center;}
    a{color:#666;}
    a:hover{color:#000;}
 
@@ -32,8 +32,8 @@ font-family: Verdana, Geneva, Arial, Helvetica, sans-serif ;
 font-weight: normal;
 font-size: 11px;
 color: #fff;
-width: 280px;
-background-color: #666;
+width: 90%;
+background-color: #A9A9A9;
 border: 0px;
 border-collapse: collapse;
 border-spacing: 0px;}
@@ -43,14 +43,52 @@ table.stats td
 color: #000;
 padding: 4px;
 text-align: left;
-border: 1px #fff solid;}
+border: 0px;
+}
 
 table.stats td.hed
-{background-color: #666;
-color: #fff;
+{background-color: #A9A9A9;
+color: #000;
 padding: 4px;
 text-align: left;
-border-bottom: 2px #fff solid;
+border-bottom: 1px #fff solid;
 font-size: 12px;
-font-weight: bold;}
+font-weight: bold;
+}
+
+
+table.contenido
+{
+text-align: center;
+font-family: Verdana, Geneva, Arial, Helvetica, sans-serif ;
+font-weight: normal;
+font-size: 12px;
+width: auto;
+border: 0px #ffffff;
+border-spacing: 0px;
+}
+
+table.contenido td
+{
+padding: 4px;
+text-align: left;
+border: 0px #ffffff;
+border-spacing: 0px;
+}
+table.contenido tr
+{
+background-color: #fff;
+padding: 4px;
+text-align: left;
+border: 0px #ffffff;
+border-spacing: 0px;
+}
+
+table.contenido td.cont
+{
+padding: 4px;
+text-align: center;
+font-size: 12px;
+font-weight: bold;
+}
 

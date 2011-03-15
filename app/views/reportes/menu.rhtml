@@ -1,43 +1,24 @@
-
-<h1>Reportes</h1>
-
-<table>
-
-  <tr>
-    <td><%=button_to 'Recibo de Entrega de Fondos', :action => "recibo_entrega_fondos", :controller => "reportes", :id => @credito%></td>
-  </tr>
-
-    <tr>
-      <td><%=button_to 'SALDO', :controller => "creditos", :action => "vencimiento", :id => @credito, :method => :post%></td>
-    </tr>
-
-    <tr>
-      <td><%=button_to 'Modificar/Agregar Referencia Bancaria', :controller => "creditos", :action => "modificar_referencia", :id => @credito, :method => :post%></td>
-    </tr>
-
-  <tr>
-    <td><%=button_to 'Pagare', :action => "pagare", :id => @credito, :method => :post%></td>
-  </tr>
-
-   <tr>
-    <td><%=button_to 'Acta Constitutiva', :action => "acta", :id => @credito, :method => :post%></td>
-  </tr>
-
-     <tr>
-    <td><%=button_to 'Carta Compromiso', :action => "carta_compromiso", :id => @credito, :method => :post%></td>
-  </tr>
-
-
- <tr>
-    <td><%=button_to 'Reglamento', :action => "pagare", :id => @credito, :method => :post%></td>
-  </tr>
-</table>
-
-<% form_tag :action => 'tarjeta_pagos', :id =>@credito do%>
-<table  class="botones">
-  <tr class="botones">
-    <th class="botones"><%= collection_select("cliente", "id", clientes_activos_grupo(@credito.grupo), :id, :nombre_completo, {:prompt => '>>CLIENTE'}, :class => 'text') %></th>
-   <th class="botones"><%= submit_tag "Tarjeton de Pagos"%></th>
-  </tr>
-</table>
-<% end %>
+<a style="text-align: center;"><h2>Reportes</h2></a>
+<br></br>
+<hr></hr>
+<br></br>
+    <a style="text-align: center"><%=button_to 'Recibo de Entrega de Fondos', :action => "recibo_entrega_fondos", :controller => "reportes", :id => @credito%></a>
+<br></br>
+    <a style="text-align: center"><%=button_to 'SALDO', :controller => "creditos", :action => "vencimiento", :id => @credito, :method => :post%></a>
+<br></br>
+    <a style="text-align: center"><%=button_to 'Modificar/Agregar Referencia Bancaria', :controller => "creditos", :action => "modificar_referencia", :id => @credito, :method => :post%></a>
+<br></br>
+    <a style="text-align: center"><%=button_to 'Pagare', :action => "pagare", :id => @credito, :method => :post%></a>
+<br></br>
+    <a style="text-align: center"><%=button_to 'Acta Constitutiva', :action => "acta", :id => @credito, :method => :post%></a>
+<br></br>
+    <a style="text-align: center"><%=button_to 'Carta Compromiso', :action => "carta_compromiso", :id => @credito, :method => :post%></a>
+<br></br>
+    <a style="text-align: center"><%=button_to 'Reglamento', :action => "pagare", :id => @credito, :method => :post%></a>
+<br></br>
+    <a style="text-align: center;">
+      <% form_tag :action => 'tarjeta_pagos', :id =>@credito do%>
+        <%= collection_select("cliente", "id", clientes_activos_grupo(@credito.grupo), :id, :nombre_completo, {:prompt => '>>CLIENTE'}, :class => 'text') %>
+        <%= submit_tag "Tarjeton de Pagos"%>
+      <%end%>
+    </a>

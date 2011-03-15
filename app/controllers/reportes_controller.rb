@@ -4,9 +4,6 @@ require 'date'
 require 'iconv'
 require 'fastercsv'
 
-
-
-
 #---- Modificamos la clase PDF_Writer
 class PDF::Writer
 # ----- Método
@@ -30,9 +27,6 @@ def numeros_pagina(x, y, size, pos = nil, pattern = nil)
      @page_numbering.index(o)
    end
 end
-
-
-
 
 class ReportesController < ApplicationController
 before_filter :login_required
@@ -176,12 +170,9 @@ before_filter :login_required
                              :type => "application/pdf"
       end
 
-
     def default
       render  :controller =>"home"
     end
-
-
 
     def tarjeta_pagos
     #----- filtrado de registros unicos -----
@@ -344,18 +335,13 @@ before_filter :login_required
 
     end
 
-
     def xml
       render :text =>  Grupo.find(5).clientes.to_xml
     end
 
-
     def menu
       @credito = Credito.find(params[:id])
     end
-
-
-
 
     def acta
       #--- Llenamos los parametros -------
@@ -392,8 +378,6 @@ before_filter :login_required
           redirect_to :action => "menu"
        end
     end
-
-
 
     def control_pagos_socia
         if params[:id] && Credito.find(params[:id])
@@ -482,13 +466,7 @@ before_filter :login_required
 
     end
 
-
-
-
-
     #-- carta compromiso ----
-
-
     def carta_compromiso
     if params[:id] && Credito.find(params[:id])
         @credito = Credito.find(:first, :conditions => ["id = ?", params[:id]])
@@ -587,9 +565,8 @@ before_filter :login_required
    end
 
  end
-
  
-   #---- Recibo Entrega de Fondos ----
+    #---- Recibo Entrega de Fondos ----
     def recibo_entrega_fondos
     if params[:id] && Credito.find(params[:id])
         @credito = Credito.find(:first, :conditions => ["id = ?", params[:id]])
@@ -670,19 +647,15 @@ EOS
 
  end
 
-
     def promotors_xml
       @promotors = Promotor.find(:all, :select => "c.*",
                                  :joins => "p inner join creditos c on c.promotor_id = p.id")
                                render :xml => @promotors.to_xml
     end
 
-
-    #-------EXPORTACION DE INFORMACION -----
-
-
-  #----- Exportacion de los creditos ------
-  def hoja_calculo
+    #-------EXPORTACION DE INFORMACION ----
+    #----- Exportacion de los creditos ------
+    def hoja_calculo
     @creditos = Credito.find(:all, :select => "c.num_referencia, c.monto, c.fecha_inicio, g.nombre as nombre_grupo, g.id as grupo_id, CONCAT(p.nombre,' ',p.paterno, ' ', p.materno) as nombre_promotor", :conditions => ["c.grupo_id=g.id and c.promotor_id = p.id"], :joins => "c, grupos g, promotors p")
       csv_string = FasterCSV.generate do |csv|
          csv << ["referencia", "municipio", "localidad", "nombre_grupo", "num_socias", "credito_otorgado", "nombre_promotor"]
@@ -697,44 +670,60 @@ EOS
            :filename=>"exportacion_creditos.csv",
            :disposition => 'attachment'
   end
-
-
-
   
-   def plantilla_clientes
+    def plantilla_clientes
       clientes = Cliente.find(:all, :select => "id, curp, clave_ife, paterno, materno, nombre, fecha_nac, sexo,
-                      telefono, fax, email, nacionalidad_id, civil_id, localidad_id, direccion,  
-                      colonia, codigo_postal, escolaridad_id, edo_residencia")
+                                                telefono, fax, email, nacionalidad_id, civil_id, edo_residencia, localidad_id, direccion,
+                                                num_exterior, num_interior, colonia, codigo_postal, escolaridad_id, rol_hogar")
+
       csv_string = FasterCSV.generate do |csv|
-            csv << ["ORG_ID", "ACRED_ID", "CURP", "IFE", "PRIM_AP","SEGUNDO_AP", "NOMBRE", "FECHA_NAC", "EDO_NAC", "SEXO",
-                    "TEL", "FAX", "CORREO_ELEC", "NACIONALIDAD_ORIGEN", "CVE_EDO_CIVIL", "FECHA_NAC_TXT", "EDO_RES", "MUNICIPIO", "LOCALIDAD", "DIRECCION",
-                    "COLONIA", "CP", "METODOLOGIA", "NOM_GRUPO", "ESTUDIOS", "ACTIVIDAD", "INGRESO_SEMANAL", "SUCURSAL"]
-            clientes.each do |c|
-              negocio = Negocio.find(:first, :select=> "id, actividad_id, ing_semanal", :conditions => ["cliente_id = ?", c.id])
-              cg = Clientegrupo.find(:first, :conditions => ["cliente_id = ? and activo = 1", c.id ],:select=>"cliente_id, grupo_id")
-              if cg == nil || !cg.grupo
-                  grupo = ""
-              else
-                  grupo = cg.grupo.nombre
-              end
-              csv << ["115", c.id, c.curp, c.clave_ife, c.paterno, c.materno, c.nombre, c.fecha_nac,  c.localidad.municipio.estado.edo_inegi, c.sexo,
-                      c.telefono, c.fax, c.email, c.nacionalidad.pais_gent, c.civil.civil, " ", c.edo_residencia, c.localidad.municipio.clave_inegi, c.localidad.loc_id, c.direccion,  
-                      c.colonia, c.codigo_postal, "2,3,4  CICLO GRUPAL", grupo, c.escolaridad.escolaridad, negocio.actividad.clave_inegi, negocio.ing_semanal, SUCURSAL]
+                   csv << ["ORG_ID", "ACRED_ID", "CURP", "IFE", "PRIM_AP","SEGUNDO_AP", "NOMBRE", "FECHA_NAC", "SEXO",
+                           "TEL", "CVE_EDO_CIVIL", "EDO_RES", "MUNICIPIO", "LOCALIDAD", "CALLE", "NUMERO_EXTERIOR", "NUMERO_INTERIOR", "COLONIA",
+                           "CP", "METODOLOGIA", "NOM_GRUPO", "ESTUDIOS", "ACTIVIDAD", "FECHA_INICIO_ACT_PRODUCTIVA", "UBICACION_NEGOCIO", "PERSONAS_TRABAJANDO", "INGRESO_SEMANAL",
+                           "ROL_EN_HOGAR", "SUCURSAL"]
+
+        clientes.each do |c|
+            negocio = Negocio.find(:first, :select=> "id, actividad_id, ing_semanal, direccion, num_empleados", :conditions => ["cliente_id = ?", c.id])
+            credito = Credito.find(:first, :select => "id, fecha_inicio", :conditions => ["cliente_id = ?", c.id])
+            if credito.nil?
+              credito_fecha_inicio = ""
+            else
+              credito_fecha_inicio = credito.fecha_inicio
             end
-          end
-          send_data csv_string, :type => "application/excel",
-           :filename=>"plantilla_clientes.csv",
-           :disposition => 'attachment'
-   end
+            cg = Clientegrupo.find(:first, :conditions => ["cliente_id = ? and activo = 1", c.id ],:select=>"cliente_id, grupo_id")
+            if cg == nil || !cg.grupo
+              grupo = ""
+              modalidad = "INDIVIDUAL"
+            else
+              grupo = cg.grupo.nombre
+              modalidad = "GRUPAL"
+            end
+            csv << ["115", c.id, c.curp, c.clave_ife, c.paterno, c.materno, c.nombre, c.fecha_nac, c.sexo,
+                    c.telefono, c.civil.civil, c.edo_residencia, c.localidad.municipio.clave_inegi, c.localidad.loc_id, c.direccion, c.num_exterior, c.num_interior, c.colonia,
+                    c.codigo_postal, modalidad, grupo, c.escolaridad.escolaridad, negocio.actividad.clave_inegi, credito_fecha_inicio, negocio.direccion, negocio.num_empleados,
+                    negocio.ing_semanal, c.rol_hogar, SUCURSAL]
+        end
+      end
+
+      send_data csv_string, :type => "application/excel",
+                            :filename=>"plantilla_clientes.csv",
+                            :disposition => 'attachment'
+    end
 
    def plantilla_creditos
-     creditos = Credito.find(:all)
+     creditos = Credito.find(:all, :select => "id, destino_id, monto, fecha_inicio, fecha_fin, producto_id, tipo_interes, producto_id")
      csv_string = FasterCSV.generate do |csv|
-       csv << ["ORG_ID", "ACRED_ID", "CRÉDITO_ID", "DESCRIPCIÓN", "MONTO_CRÉDITO", "FECHA_ENTREGA", "FECHA_VENCIMIENTO", "TASA_MENSUAL", "TIPO_TASA", "FRECUENCIA_PAGOS",
-               "TIPO_CREDITO", "BLOQUE", "CICLO"]
+       csv << ["ORG_ID", "ACRED_ID", "CREDITO_ID", "DESCRIPCION", "MONTO_CREDITO", "FECHA_ENTREGA", "FECHA_VENCIMIENTO", "TASA_MENSUAL", "TIPO_TASA", "FRECUENCIA_PAGOS",
+               "BLOQUE", "CICLO"]
+
        creditos.each do |c|
-         csv << ["1", c.id, c.id, c.destino.destino, c.monto, c.fecha_inicio, c.fecha_fin, "tasa_mensual", "tipo_tasa", c.producto.num_pagos,
-                 "Tipo_Crédito", "Bloque", "Ciclo"]
+         if c.producto.tasa_anualizada
+            tasa_mensual = c.producto.tasa_anualizada.to_f / 12
+         else
+            tasa_mensual = ""
+         end
+         csv << ["1", c.id, c.id, c.destino.destino, c.monto, c.fecha_inicio, c.fecha_fin, tasa_mensual, c.tipo_interes, c.producto.num_pagos,
+                 "2,3,4", "CICLO GRUPAL"]
        end
      end
      send_data csv_string, type => "text/plain",
@@ -770,28 +759,7 @@ EOS
    end
 
    def vencimientos
-     
+     @creditos = Credito.find(:all, :conditions => "status = 0")
    end
-
-   
-
-   
-
-#
-#      def exportacion_polizas
-#        string = ""
-#        polizas = Poliza.find(:all)
-#        polizas.each do |p|
-#        string <<  p.iEjer.to_s.rjust(4) #1 -4
-#        string <<  p.iMes.to_s.rjust(2) # 5-6
-#        string <<  p.sTpPol.to_s.rjust(2) #7-9
-#        string <<  p.sTpPolNum.to_s.rjust(6) #10-15
-#        string <<  p.sTpPolmov.to_s.rjust(6) #10-15
-#     end
-#        send_data string, type => "text/plain",
-#        :filename => "cuentas.txt",
-#        :disposition => "attachment"
-#      end
-
 
 end

@@ -6,7 +6,9 @@ class CreateCreditos < ActiveRecord::Migration
       t.column :fecha_fin, :date
       t.column :num_referencia, :string
       t.column :monto, :float
-      t.column :tasa_interes, :float
+
+      t.column :tasa_interes, :float #-- No se usa
+
       t.column :interes_moratorio, :string
       t.column :identificador, :string
       t.column :tipo_interes, :string
