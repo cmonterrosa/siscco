@@ -672,7 +672,7 @@ EOS
   end
   
     def plantilla_clientes
-      clientes = Cliente.find(:all, :select => "id, curp, clave_ife, paterno, materno, nombre, fecha_nac, sexo,
+      clientes = Cliente.find(:all, :select => "id, identificador, curp, clave_ife, paterno, materno, nombre, fecha_nac, sexo,
                                                 telefono, fax, email, nacionalidad_id, civil_id, edo_residencia, localidad_id, direccion,
                                                 num_exterior, num_interior, colonia, codigo_postal, escolaridad_id, rol_hogar")
 
@@ -698,9 +698,9 @@ EOS
               grupo = cg.grupo.nombre
               modalidad = "GRUPAL"
             end
-            csv << ["115", c.id, c.curp, c.clave_ife, c.paterno, c.materno, c.nombre, c.fecha_nac, c.sexo,
-                    c.telefono, c.civil.civil, c.edo_residencia, c.localidad.municipio.clave_inegi, c.localidad.loc_id, c.direccion, c.num_exterior, c.num_interior, c.colonia,
-                    c.codigo_postal, modalidad, grupo, c.escolaridad.escolaridad, negocio.actividad.clave_inegi, credito_fecha_inicio, negocio.direccion, negocio.num_empleados,
+            csv << ["105", c.identificador, c.curp, c.clave_ife, c.paterno, c.materno, c.nombre, c.fecha_nac, c.sexo,
+                    c.telefono, c.civil.civil, c.edo_residencia, c.localidad.municipio.municipio, c.localidad.localidad, c.direccion, c.num_exterior, c.num_interior, c.colonia,
+                    c.codigo_postal, modalidad, grupo, c.escolaridad.escolaridad, negocio.actividad.actividad, credito_fecha_inicio, negocio.direccion, negocio.num_empleados,
                     negocio.ing_semanal, c.rol_hogar, SUCURSAL]
         end
       end
@@ -722,7 +722,8 @@ EOS
          else
             tasa_mensual = ""
          end
-         csv << ["1", c.id, c.id, c.destino.destino, c.monto, c.fecha_inicio, c.fecha_fin, tasa_mensual, c.tipo_interes, c.producto.num_pagos,
+         credito_id = c.id.to_s + rand(999).to_s.rjust(3, "0") #  credito_id se crea al vuelo por que solo se usa para layuot FOMMUR
+         csv << ["105", c.id, credito_id, c.destino.destino, c.monto, c.fecha_inicio, c.fecha_fin, tasa_mensual, c.tipo_interes, c.producto.num_pagos,
                  "2,3,4", "CICLO GRUPAL"]
        end
      end

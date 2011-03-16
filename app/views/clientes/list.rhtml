@@ -20,17 +20,20 @@
 
   <br /><p>Resultado de Busqueda:</p>
  
-    <div id="scroll">
+
+<div id="tableContainer" class="tableContainer">
        <div id="search_hits">
-      <table>
+      <table cellpadding="0" cellspacing="0" width="100%" class="scrollTable">
+         <thead class="fixedHeader">
         <tr>
           <th>Nombre:</th>
           <th>CURP:</th>
           <th>Id:</th>
           <th colspan="4">Acciones</th>
         </tr>
-  
+         </thead>
         <% for cliente in @clientes %>
+        <tbody class="scrollContent">
         <tr>
           <td><%= cliente.nombre_completo %></td>
           <td><%= cliente.curp %></td>
@@ -39,10 +42,8 @@
           <td><%=link_to "Histórico de grupos", { :controller => "clientes", :action => "historial_grupos", :id => cliente}, 
                                                   :popup => ['height=300,width=600,left=300,top=300,scrollbars=no']%></td>
           <td><%= button_to 'Editar', :action => 'edit', :id => cliente %></td>
-          <!--
-          <td><= button_to 'Eliminar', { :action => 'destroy', :id => cliente }, :confirm => 'Se eliminarán también los negocios vinculados al cliente?', :method => :post %></td>
-          -->
          </tr>
+        </tbody>
         <% end %>
       </table>
     </div>
