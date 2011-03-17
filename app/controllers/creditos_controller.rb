@@ -137,8 +137,8 @@ class CreditosController < ApplicationController
       @tipo = "GRUPAL"
       @credito.grupo = Grupo.find(params[:credito][:grupo_id])
     end
-
-    @credito.fecha_fin = ultimo_pago(@fecha_inicio.year, @fecha_inicio.month, @fecha_inicio.day, params[:credito][:num_pagos], @producto.periodo)
+    @n_pagos = Producto.find(:first, :conditions => ["id = ?", params[:credito][:producto_id]])
+    @credito.fecha_fin = ultimo_pago(@fecha_inicio.year, @fecha_inicio.month, @fecha_inicio.day, @n_pagos.num_pagos, @producto.periodo)
     #--- Validamos si la linea de fondeo tiene disponible ----
     if linea_disponible(Linea.find(params[:credito][:linea_id])).to_f >=  params[:credito][:monto].to_f || @tipo == "INDIVIDUAL"
           if inserta_credito(@credito, @tipo)

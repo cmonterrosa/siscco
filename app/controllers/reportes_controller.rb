@@ -685,6 +685,7 @@ EOS
         clientes.each do |c|
             negocio = Negocio.find(:first, :select=> "id, actividad_id, ing_semanal, direccion, num_empleados", :conditions => ["cliente_id = ?", c.id])
             credito = Credito.find(:first, :select => "id, fecha_inicio", :conditions => ["cliente_id = ?", c.id])
+            edo_residencia = Estado.find(:first, :select => "estado", :conditions => ["clave_inegi = ?", c.edo_residencia])
             if credito.nil?
               credito_fecha_inicio = ""
             else
@@ -699,7 +700,7 @@ EOS
               modalidad = "GRUPAL"
             end
             csv << ["105", c.identificador, c.curp, c.clave_ife, c.paterno, c.materno, c.nombre, c.fecha_nac, c.sexo,
-                    c.telefono, c.civil.civil, c.edo_residencia, c.localidad.municipio.municipio, c.localidad.localidad, c.direccion, c.num_exterior, c.num_interior, c.colonia,
+              c.telefono, c.civil.civil, edo_residencia.estado, c.localidad.municipio.municipio, c.localidad.localidad, c.direccion, c.num_exterior, c.num_interior, c.colonia,
                     c.codigo_postal, modalidad, grupo, c.escolaridad.escolaridad, negocio.actividad.actividad, credito_fecha_inicio, negocio.direccion, negocio.num_empleados,
                     negocio.ing_semanal, c.rol_hogar, SUCURSAL]
         end
@@ -711,22 +712,38 @@ EOS
     end
 
    def plantilla_creditos
-     creditos = Credito.find(:all, :select => "id, destino_id, monto, fecha_inicio, fecha_fin, producto_id, tipo_interes, producto_id")
+     creditos = Credito.find(:all, :select => "id, grupo_id, destino_id, monto, fecha_inicio, fecha_fin, producto_id, tipo_interes, producto_id")
      csv_string = FasterCSV.generate do |csv|
        csv << ["ORG_ID", "ACRED_ID", "CREDITO_ID", "DESCRIPCION", "MONTO_CREDITO", "FECHA_ENTREGA", "FECHA_VENCIMIENTO", "TASA_MENSUAL", "TIPO_TASA", "FRECUENCIA_PAGOS",
                "BLOQUE", "CICLO"]
 
-       creditos.each do |c|
-         if c.producto.tasa_anualizada
-            tasa_mensual = c.producto.tasa_anualizada.to_f / 12
+       creditos.each do |cd|
+
+          if cd.producto.tasa_anualizada
+            tasa_mensual = cd.producto.tasa_anualizada.to_f / 12
          else
             tasa_mensual = ""
          end
-         credito_id = c.id.to_s + rand(999).to_s.rjust(3, "0") #  credito_id se crea al vuelo por que solo se usa para layuot FOMMUR
-         csv << ["105", c.id, credito_id, c.destino.destino, c.monto, c.fecha_inicio, c.fecha_fin, tasa_mensual, c.tipo_interes, c.producto.num_pagos,
-                 "2,3,4", "CICLO GRUPAL"]
+
+         clientes = Cliente.find(:all, :select => "identificador, curp, clave_ife, paterno, materno, nombre, fecha_nac, sexo,
+                                                telefono, fax, email, nacionalidad_id, civil_id, edo_residencia, localidad_id, direccion,
+                                                num_exterior, num_interior, colonia, codigo_postal, escolaridad_id, rol_hogar",
+                                       :joins => "cl, clientes_grupos as cg",
+                                       :conditions => ["cl.id = cg.cliente_id and cg.grupo_id = ?", cd.grupo_id])
+
+         monto = cd.monto / clientes_activos_grupo(cd.grupo).size
+         credito_id = cd.id.to_s + rand(999).to_s.rjust(3, "0") #  credito_id se crea al vuelo por que solo se usa para layuot FOMMUR
+
+         clientes.each do |c|
+             #  credito_id se crea al vuelo por que solo se usa para layuot FOMMUR
+            csv << ["105", c.identificador, credito_id, cd.destino.destino, monto, cd.fecha_inicio, cd.fecha_fin, tasa_mensual, cd.tipo_interes, cd.producto.num_pagos,
+                    "2,3,4", "CICLO GRUPAL"]
+         end
+
        end
+
      end
+
      send_data csv_string, type => "text/plain",
        :filename => "creditos.csv",
        :disposition => "attachment"
