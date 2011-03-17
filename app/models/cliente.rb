@@ -4,7 +4,8 @@ class Cliente < ActiveRecord::Base
   belongs_to :vivienda
   belongs_to :localidad
   belongs_to :nacionalidad
-  belongs_to :negocio
+  has_many :negocios
+  belongs_to :rol_hogar
   has_and_belongs_to_many :grupos
   has_many :creditos
   has_many :pagos

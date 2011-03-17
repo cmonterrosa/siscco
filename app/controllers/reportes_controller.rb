@@ -673,8 +673,8 @@ EOS
   
     def plantilla_clientes
       clientes = Cliente.find(:all, :select => "id, identificador, curp, clave_ife, paterno, materno, nombre, fecha_nac, sexo,
-                                                telefono, fax, email, nacionalidad_id, civil_id, edo_residencia, localidad_id, direccion,
-                                                num_exterior, num_interior, colonia, codigo_postal, escolaridad_id, rol_hogar")
+                                                telefono, civil_id, edo_residencia_id, localidad_id, direccion,
+                                                num_exterior, num_interior, colonia, codigo_postal, escolaridad_id, rol_hogar_id")
 
       csv_string = FasterCSV.generate do |csv|
                    csv << ["ORG_ID", "ACRED_ID", "CURP", "IFE", "PRIM_AP","SEGUNDO_AP", "NOMBRE", "FECHA_NAC", "SEXO",
@@ -683,14 +683,14 @@ EOS
                            "ROL_EN_HOGAR", "SUCURSAL"]
 
         clientes.each do |c|
-            negocio = Negocio.find(:first, :select=> "id, actividad_id, ing_semanal, direccion, num_empleados", :conditions => ["cliente_id = ?", c.id])
+            negocio = Negocio.find(:first, :select=> "n.id, n.actividad_id, n.ing_semanal, n.num_empleados, un.ubicacion",
+                                           :joins => "n, ubicacion_negocios as un",
+                                           :conditions => ["n.ubicacion_negocio_id = un.id and n.cliente_id = ?", c.id])
+                                         
             credito = Credito.find(:first, :select => "id, fecha_inicio", :conditions => ["cliente_id = ?", c.id])
-            edo_residencia = Estado.find(:first, :select => "estado", :conditions => ["clave_inegi = ?", c.edo_residencia])
-            if credito.nil?
-              credito_fecha_inicio = ""
-            else
-              credito_fecha_inicio = credito.fecha_inicio
-            end
+            edo_residencia = Estado.find(:first, :select => "estado", :conditions => ["edo_inegi = ?", c.edo_residencia])
+            rol_hogar = RolHogar.find(:first, :select => "rol", :conditions => ["id = ?", c.rol_hogar_id])
+
             cg = Clientegrupo.find(:first, :conditions => ["cliente_id = ? and activo = 1", c.id ],:select=>"cliente_id, grupo_id")
             if cg == nil || !cg.grupo
               grupo = ""
@@ -700,9 +700,9 @@ EOS
               modalidad = "GRUPAL"
             end
             csv << ["105", c.identificador, c.curp, c.clave_ife, c.paterno, c.materno, c.nombre, c.fecha_nac, c.sexo,
-              c.telefono, c.civil.civil, edo_residencia.estado, c.localidad.municipio.municipio, c.localidad.localidad, c.direccion, c.num_exterior, c.num_interior, c.colonia,
-                    c.codigo_postal, modalidad, grupo, c.escolaridad.escolaridad, negocio.actividad.actividad, credito_fecha_inicio, negocio.direccion, negocio.num_empleados,
-                    negocio.ing_semanal, c.rol_hogar, SUCURSAL]
+              c.telefono, c.civil.civil, edo_residencia, c.localidad.municipio.municipio, c.localidad.localidad, c.direccion, c.num_exterior, c.num_interior, c.colonia,
+              c.codigo_postal, modalidad, grupo, c.escolaridad.escolaridad, negocio.actividad.actividad, credito_fecha_inicio, negocio.ubicacion_negocio, negocio.num_empleados,
+                    negocio.ing_semanal, rol_hogar, SUCURSAL]
         end
       end
 
@@ -725,10 +725,7 @@ EOS
             tasa_mensual = ""
          end
 
-         clientes = Cliente.find(:all, :select => "identificador, curp, clave_ife, paterno, materno, nombre, fecha_nac, sexo,
-                                                telefono, fax, email, nacionalidad_id, civil_id, edo_residencia, localidad_id, direccion,
-                                                num_exterior, num_interior, colonia, codigo_postal, escolaridad_id, rol_hogar",
-                                       :joins => "cl, clientes_grupos as cg",
+         clientes = Cliente.find(:all, :select => "id",
                                        :conditions => ["cl.id = cg.cliente_id and cg.grupo_id = ?", cd.grupo_id])
 
          monto = cd.monto / clientes_activos_grupo(cd.grupo).size
