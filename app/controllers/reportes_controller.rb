@@ -671,14 +671,14 @@ EOS
            :disposition => 'attachment'
   end
   
-    def plantilla_clientes
-      clientes = Cliente.find(:all, :select => "cl.id, cl.identificador, cl.curp, cl.clave_ife, cl.paterno, cl.materno, cl.nombre, cl.fecha_nac, cl.sexo,
-                                                cl.telefono, cl.civil_id, cl.edo_residencia_id, cl.localidad_id, cl.direccion,
-                                                cl.num_exterior, cl.num_interior, cl.colonia, cl.codigo_postal, cl.escolaridad_id, cl.rol_hogar_id,
-                                                ro.rol, ac.actividad, esc.escolaridad",
-                                    :joins => "cl, rol_hogars as ro, actividads as ac, escolaridads as esc",
-                                    :conditions => "cl.rol_hogar_id = ro.id and
-                                                    cl.escolaridad_id = esc.id")
+  def plantilla_clientes
+    clientes = Cliente.find(:all,
+                            :select => "cl.id, cl.identificador, cl.curp, cl.clave_ife, cl.paterno, cl.materno, cl.nombre, cl.fecha_nac, cl.sexo,
+                                        cl.telefono, cl.direccion, cl.num_exterior, cl.num_interior, cl.colonia, cl.codigo_postal, cl.rol_hogar_id, esc.escolaridad, ci.civil, ac.actividad,
+                                        ne.ing_semanal, ne.num_empleados, ne.ubicacion_negocio_id, loc.localidad, mu.municipio, es.estado",
+                            :joins => "cl, escolaridads as esc, civils as ci, localidads as loc, municipios as mu, estados as es, negocios as ne, actividads as ac",
+                            :conditions => "cl.escolaridad_id = esc.id and cl.civil_id = ci.id and ne.actividad_id = ac.id and ne.cliente_id = cl.id and
+                                            cl.localidad_id = loc.id and loc.municipio_id = mu.id and mu.estado_id = es.id")
 
       csv_string = FasterCSV.generate do |csv|
                    csv << ["ORG_ID", "ACRED_ID", "CURP", "IFE", "PRIM_AP","SEGUNDO_AP", "NOMBRE", "FECHA_NAC", "SEXO",
@@ -687,18 +687,6 @@ EOS
                            "ROL_EN_HOGAR", "SUCURSAL"]
 
         clientes.each do |c|
-            neg_act_ubic = Negocio.find(:first, :select=> "ne.id, ne.actividad_id, ne.ing_semanal, ne.num_empleados, ne.ubicacion_negocio_id, ub.ubicacion, ac.actividad",
-                                           :joins => "ne, ubicacion_negocios as ub, actividads as ac",
-                                           :conditions => ["ne.ubicacion_negocio_id = ub.id and
-                                                            ne.actividad_id = ac.id and
-                                                            ne.cliente_id = ?", c.id])
-
-            mun_loc_edo = Localidad.find(:first, :select=> "lo.localidad, mu.municipio, es.estado",
-                                                 :joins => "lo, municipios as mu, estados as es",
-                                                 :conditions => ["lo.municipio_id = mu.id and
-                                                                 mu.estado_id = es.id and
-                                                                 lo.id = ?", c.localidad_id])
-
             cg = Clientegrupo.find(:first, :select=>"cliente_id, grupo_id", :conditions => ["cliente_id = ? and activo = 1", c.id ])
             if cg == nil || !cg.grupo
               grupo = ""
@@ -706,20 +694,31 @@ EOS
             else
               grupo = cg.grupo.nombre
               modalidad = "GRUPAL"
-            end
-                                         
+            end                                       
             credito = Credito.find(:first, :select => "id, fecha_inicio", :conditions => ["cliente_id = ?", c.id])
             if credito.nil?
               fecha_inicio = ""
             else
               fecha_inicio = credito.fecha_inicio
             end
+            rol = RolHogar.find(:first, :select => "id, rol", :conditions => ["id = ?", c.rol_hogar_id])
+            if rol.nil?
+              rol_hogar = ""
+            else
+              rol_hogar = rol.rol
+            end
+#            negocio =  Negocio.find(:fisrt, :select => "id, negocio, ubicacion_negocio_id", :conditions => ["cliente_id = ?", c.id])
+            ubicacion = UbicacionNegocio.find(:first, :select => "id, ubicacion", :conditions => ["id = ?", c.ubicacion_negocio_id])
+            if ubicacion.nil?
+              ubicacion_negocio = ""
+            else
+              ubicacion_negocio = ubicacion.ubicacion
+            end
 
-  
             csv << ["105", c.identificador, c.curp, c.clave_ife, c.paterno, c.materno, c.nombre, c.fecha_nac, c.sexo,
-              c.telefono, c.civil.civil, mun_loc_edo.estado, mun_loc_edo.municipio, mun_loc_edo.localidad, c.direccion, c.num_exterior, c.num_interior, c.colonia,
-              c.codigo_postal, modalidad, grupo, c.escolaridad, neg_act_ubic.actividad, fecha_inicio, neg_act_ubic.ubicacion, neg_act_ubic.num_empleados,
-                    neg_act_ubic.ing_semanal, c.rol, SUCURSAL]
+              c.telefono, c.civil, c.estado, c.municipio, c.localidad, c.direccion, c.num_exterior, c.num_interior, c.colonia,
+              c.codigo_postal, modalidad, grupo, c.escolaridad, c.actividad, fecha_inicio, ubicacion_negocio, c.num_empleados,
+                    c.ing_semanal, rol_hogar, SUCURSAL]
         end
 
       end
