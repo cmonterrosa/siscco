@@ -10,10 +10,10 @@ class ClientesController < ApplicationController
          :redirect_to => { :action => :list }
 
   def list
-     @clientes = Cliente.find(:all, :select => "id, paterno, materno, nombre, curp, identificador",
-                              :order => 'paterno, materno, nombre')
-
-  
+#     @clientes = Cliente.find(:all, :select => "id, paterno, materno, nombre, curp, identificador",
+#                              :order => 'paterno, materno, nombre')
+     @clientes = Cliente.find_by_sql("select id, paterno, materno, nombre, curp, identificador from clientes LIMIT 0")
+     
   end
 
   def show
@@ -28,9 +28,8 @@ class ClientesController < ApplicationController
   def new
     @cliente = Cliente.new
     @negocio = Negocio.new
-    @localidades = Localidad.find_by_sql("select * from localidads LIMIT 0")
+    $localidades = Localidad.find_by_sql("select * from localidads LIMIT 0")
     @grupo = Grupo.new
-    @nacionalidades = Nacionalidad.find(:all, :order => "pais_gent")
   end
 
   def create
@@ -43,8 +42,7 @@ class ClientesController < ApplicationController
     @civiles = Civil.find(:all)
     @escolaridades = Escolaridad.find(:all)
     @viviendas = Vivienda.find(:all)
-    @localidades = Localidad.find_by_sql("select * from localidads")
-     @nacionalidades = Nacionalidad.find(:all, :order => "pais_gent")
+    $localidades = Localidad.find_by_sql("select * from localidads")
   end
 
   def editc
@@ -76,7 +74,6 @@ class ClientesController < ApplicationController
   #--------------- Filtrado Ajax -----------------
 
   def live_search
-
     if params[:searchtext].size >= 4
           @clientes = Cliente.find(:all, :select=> "id, paterno, materno, nombre, curp, identificador",
                                :conditions => "(nombre like '%#{params[:searchtext]}%' or paterno like '#{params[:searchtext]}%' or

@@ -77,7 +77,7 @@
    </tr>
    <tr>
      <td><%= collection_select("", "municipio_id", $municipios, :id, :municipio, {:prompt => '>>MUNICIPIO'}, :class => 'no_require')  %></td>
-     <td colspan="2"><%=  collection_select("cliente", "localidad_id", @localidades, :id, :localidad, {:prompt => '>>LOCALIDAD'}, :class => 'text')%></td>
+     <td colspan="2"><%=  collection_select("cliente", "localidad_id", $localidades, :id, :localidad, {:prompt => '>>LOCALIDAD'}, :class => 'text')%></td>
      <td><%= text_field 'cliente', 'colonia', :onkeypress => "return CharNum(event, 'letra');", :class => "text"  %></td>
    </tr>
    <tr>
@@ -88,8 +88,8 @@
    </tr>
    <tr>
      <td><%= select("cliente", "tipo_propiedad", ['PROPIA','RENTADA'], {:prompt => '>>TIPO DE VIVIENDA'}, :class => 'text') %></td>
-     <td><%= collection_select("cliente", "nacionalidad_id", @nacionalidades, :id, :pais, {:prompt => "MEXICO"}, :class => 'no_require') %></td>
-     <td><%= collection_select("cliente", "edo_residencia", $estados, :edo_inegi, :estado, {:prompt => '>>ESTADO'}, :class => 'text')  %></td>
+     <td><%= collection_select("cliente", "nacionalidad_id", $nacionalidades, :id, :pais, {:prompt => "MEXICO"}, :class => 'no_require') %></td>
+     <td><%= collection_select("cliente", "edo_residencia_id", $estados, :id, :estado, {:prompt => '>>ESTADO'}, :class => 'text')  %></td>
      <td><%= collection_select("cliente", "rol_hogar_id", $rol, :id, :rol, {:prompt => '>>ROL EN EL HOGAR'}, :class => 'text')  %></td>
    </tr>
 </table>
@@ -107,7 +107,7 @@
      <td><%= text_field 'negocio', 'nombre', :onkeypress => "return CharNum(event, 'letra');", :class => "text"  %></td>
      <td><%= text_field 'negocio', 'puesto', :onkeypress => "return CharNum(event, 'letra');", :class => "text"  %></td>
      <td><%= collection_select('negocio', 'ubicacion_negocio_id', $ubicacion, :id, :ubicacion, {:prompt => '>>UBICACION'}, :class => 'text')  %></td>
-     <td><%= text_field 'negocio', 'telefono', :onkeypress => "return CharNum(event, 'numero');", :class => "text"  %></td>
+     <td><%= text_field 'negocio', 'telefono', :onkeypress => "return CharNum(event, 'numero');", :class => "text", :size => 25  %></td>
    </tr>
    <tr>
      <th>Dirección:</th>
@@ -126,7 +126,7 @@
    <tr>
       <td><%= text_field 'negocio', 'num_empleados', :onkeypress => "return CharNum(event, 'numero');", :size => 10, :class => "text"  %></td>
       <td><%= text_field 'negocio', 'descripcion', :onkeypress => "return CharNum(event, 'letra');", :class => "text"  %></td>
-      <td><%= text_field 'negocio', 'ing_semanal', :onkeypress => "return CharNum(event, 'numero');", :class => "text"  %></td>
+      <td><%= text_field 'negocio', 'ing_semanal', :onkeypress => "return CharNum(event, 'numero');", :size => 20, :class => "text"  %></td>
       <td>&nbsp;</td>
    </tr>
 </table>

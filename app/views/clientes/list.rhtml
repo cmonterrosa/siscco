@@ -22,13 +22,16 @@
  
 
 <div id="scroll">
+  <div id ="search_hits">
       <table>
+        <%if @clientes.size > 0%>
         <tr>
           <th>Nombre:</th>
           <th>CURP:</th>
           <th>Id:</th>
           <th colspan="4">Acciones</th>
         </tr>
+
         <% for cliente in @clientes %>
         <tr>
           <td><%= cliente.nombre_completo %></td>
@@ -40,8 +43,10 @@
           <td><%= button_to 'Editar', :action => 'edit', :id => cliente %></td>
          </tr>
         <% end %>
+        <%end%>
       </table>
-    </div>
+  </div>
+</div>
 
   <table  class="botones">
   <tr class="botones">

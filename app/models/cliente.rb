@@ -3,10 +3,11 @@ class Cliente < ActiveRecord::Base
   belongs_to :escolaridad
   belongs_to :vivienda
   belongs_to :localidad
+  belongs_to :edo_residencia
   belongs_to :nacionalidad
-  has_many :negocios
   belongs_to :rol_hogar
   has_and_belongs_to_many :grupos
+  has_many :negocios
   has_many :creditos
   has_many :pagos
   has_many :miembros
