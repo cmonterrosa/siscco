@@ -199,8 +199,8 @@ function mmLoadMenus() {
   menu_operacion.addMenuItem("Transferir&nbsp;Fondos","location='/lineas/transferir_fondos'");
   menu_operacion.addMenuItem("Exportacion&nbsp;de&nbsp;Polizas&nbsp;","location='/reportes/exportacion_polizas'");
   menu_operacion.addMenuItem("Exportacion&nbsp;de&nbsp;Cuentas","location='/reportes/exportacion_cuentas'");
-  menu_operacion.addMenuItem("Exportacion&nbsp;de&nbsp;Cuentas","location='/reportes/exportacion_cuentas'");
   menu_operacion.addMenuItem("Cargar&nbsp;Layout","location='/upload'");
+  menu_operacion.addMenuItem("Cargar&nbsp;Layout&nbsp;Fecha&nbsp;Valor","location='/upload/depositos_fecha_valor'");
   menu_operacion.addMenuItem("Depositos","location='/creditos/p_aplicar'");
   menu_operacion.addMenuItem("Histórico&nbsp;de&nbsp;Cargas","location='/upload/historico'");
   menu_operacion.fontWeight="bold";

@@ -92,4 +92,38 @@ class UploadController < ApplicationController
   end
 
 
+  #---- Carga de depositos con fecha valor ----
+
+  def depositos_fecha_valor
+    
+  end
+
+  def upload_fecha_valor
+    case request.method
+      when :post
+      @nombre_archivo = params[:datafile]["file"].original_filename
+      if @nombre_archivo =~ /csv|CSV$/
+          archivo = Datafile.save_file_csv_fecha_valor(params[:datafile])
+          #---- Verificamos si guarda correctamente ----
+          if archivo
+              #---- Validamos que el encabezado es correcto, por lo tanto empezamos a insertar los registros que hagan match con los creditos -----
+             @st, @num_insertados = confronta_fecha_valor(archivo)
+             flash[:notice] = "Archivo #{@nombre_archivo} cargado correctamente"
+             redirect_to :action => "show_depositos_fecha_valor", :datafile => archivo, :num_insertados=>@num_insertados
+          else
+              redirect_to :action => "index", :controller => "upload"
+              flash[:notice] = "Archivo #{@nombre_archivo} no se pudo cargar, Verifique"
+          end
+
+      else
+          flash[:notice] = "La extension del archivo debe de ser csv, verifique"
+          render :action => "index", :controller => "upload"
+      end
+     end
+    end
+
+  def show_depositos_fecha_valor
+    @datafile = Datafile.find(params[:datafile])
+  end
+
 end

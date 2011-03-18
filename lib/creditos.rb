@@ -24,18 +24,27 @@ module Creditos
 
   #---- DIas sin pagar ----
 
-   def dias_sin_pagar(credito)
-     #pago_siguiente = Pago.find(:first, :conditions => ["pagado = 0 AND credito_id = ?", credito.id], :order =>"num_pago", :group => "cliente_id")
+   def dias_sin_pagar(credito,fecha_calculo=nil)
+     if fecha_calculo
+        hoy = fecha_calculo.yday
+     else
+        fecha_calculo=DateTime.now
+        hoy = DateTime.now.yday
+     end
      pago_siguiente = Pagogrupal.find(:first, :conditions => ["pagado = 0 AND credito_id = ?", credito.id], :order =>"num_pago")
-     hoy = DateTime.now.yday
-     if DateTime.now.year > pago_siguiente.fecha_limite.year
-        hoy+=365 * (DateTime.now.year - pago_siguiente.fecha_limite.year)
+     #hoy = DateTime.now.yday
+     if fecha_calculo.year > pago_siguiente.fecha_limite.year
+        hoy+=365 * (fecha_calculo.year - pago_siguiente.fecha_limite.year)
      end
      return (hoy - pago_siguiente.fecha_limite.yday).to_i
    end
 
-   def periodos_sin_pagar(credito)
-     dias = dias_sin_pagar(credito).to_i
+   def periodos_sin_pagar(credito,fecha_calculo=nil)
+     if fecha_calculo
+       dias = dias_sin_pagar(credito,fecha_calculo).to_i
+     else
+       dias = dias_sin_pagar(credito).to_i
+     end
      periodos = dias / (credito.producto.periodo.dias)
     #--- Verificamos si ya se pago cuando menos un dia --
     if (dias % (credito.producto.periodo.dias)) > 0

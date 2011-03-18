@@ -358,4 +358,32 @@ class CreditosController < ApplicationController
 
       end
   end
+
+  #--- aplicacion de depositos con fecha valor -----
+  def aplicar_depositos_fvalor
+    depositos =Hash.new{|k,v|k[v]}
+    @aplicados = []
+    @sumatoria = 0
+    @referencias = Fechavalor.find(:all, :select => "id, credito_id, st",  :conditions => ["st = ?", "NA"], :group=> "credito_id")
+    @referencias.each do |referencia|
+      depositos["#{referencia.credito_id}"]  = Fechavalor.sum(:importe, :conditions => ["credito_id = ?", referencia.credito_id])
+    end
+    depositos.each{|k,v|
+       credito = Credito.find(k)
+       fv = Fechavalor.find_by_credito_id(k).fecha
+       v = Vencimiento.new(credito, fv, "fechavalor")
+       v.procesar
+       if v.aplicar_depositos(depositos["#{k}"].to_f)
+         @sumatoria+=1
+         @aplicados << v.credito.id
+       end
+    }
+    @transacciones_aplicadas = []
+      @aplicados.each do |row|
+          @transacciones_aplicadas << Transaccion.find(:all, :select => "t.*", :joins => "t, pagogrupals pg, creditos c",
+                 :conditions => ["t.pagogrupal_id = pg.id AND pg.credito_id = c.id and c.id = ?", row])
+
+      end
+    
+  end
 end
