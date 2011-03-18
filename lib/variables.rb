@@ -11,7 +11,7 @@
   $ejidos ||= Ejido.find(:all)
   #$lineas = Linea.find(:all)
   #$localidades = Localidad.find(:all)
-  $localidades ||= Localidad.find_by_sql("select * from localidads LIMIT 0")
+  $localidades ||= Localidad.find_by_sql("select * from localidads")
   #$promotores = Promotor.find(:all, :order => "nombre")
   #$destinos = Destino.find(:all)
   #$grupos = todos_grupos_conclientes
@@ -25,9 +25,10 @@
   #$nacionalidades ||= Nacionalidad.find(:all, :order => "pais_gent")
   $tipos_interes ||= ["SALDOS INSOLUTOS (SSI)", "GLOBAL MENSUAL (FLAT)"]
   $cuentas = Cuenta.find(:all)
-  $rol = RolHogar.find(:all)
-  $destino = Destino.find(:all)
-  $ubicacion = UbicacionNegocio.find(:all)
+  $rol ||= RolHogar.find(:all)
+  $destino ||= Destino.find(:all)
+  $ubicacion ||= UbicacionNegocio.find(:all)
+  $nacionalidades ||= Nacionalidad.find_by_sql("select * from nacionalidads")
 
   #----------- Cambio de idioma de las fechas --------------------
   Date::MONTHNAMES = [nil] + %w(Enero Febrero Marzo Abril Mayo Junio Julio Agosto Septiembre Octubre Noviembre Diciembre)

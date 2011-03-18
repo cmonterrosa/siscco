@@ -27,7 +27,7 @@ class CreateClientes < ActiveRecord::Migration
       t.column :localidad_id, :integer
       t.column :nacionalidad_id, :integer
       t.column :rol_hogar_id, :integer
-      t.column :edo_residencia, :string
+      t.column :edo_residencia_id, :integer
       
       #---- campo para historial -----
       t.column :st, :integer

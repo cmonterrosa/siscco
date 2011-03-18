@@ -81,7 +81,6 @@ module Databases
 #      @log.cliente= cliente
 #      @log.grupo = grupo
 #      @log.save!
-
         if cliente.save && negocio.save
           cliente.generar_id!
           flash[:notice]=mensaje + "con el identificador = #{cliente.identificador}"
@@ -90,7 +89,7 @@ module Databases
            flash[:notice]= "Alguno de los campos no esta formado correctamente, verifica rfc y curp"
            render :action => 'new', :controller => "#{params[:controller]}"
         end
-      
+
     rescue ActiveRecord::RecordInvalid => invalid
       flash[:notice] = invalid
       redirect_to :action => 'new', :controller => "#{params[:controller]}"

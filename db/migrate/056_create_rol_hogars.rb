@@ -2,12 +2,13 @@ class CreateRolHogars < ActiveRecord::Migration
   def self.up
     create_table :rol_hogars do |t|
       t.column :rol, :string
+      t.column :alias, :string
     end
 
     #---- Cargamos el catalogo rol_hogar ------
     File.open("#{RAILS_ROOT}/db/migrate/catalogos/rol_hogar.csv").each { |line|
       id, rol, alias0, alias1, alias3 = line.split("|")
-      RolHogar.create(:rol => rol)
+      RolHogar.create(:rol => rol, :alias => alias3)
     }
 
     #    Truncar tabla destinos antes
