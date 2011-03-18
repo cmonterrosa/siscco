@@ -90,7 +90,7 @@
      <td><%= select("cliente", "tipo_propiedad", ['PROPIA','RENTADA'], {:prompt => '>>TIPO DE VIVIENDA'}, :class => 'text') %></td>
      <td><%= collection_select("cliente", "nacionalidad_id", $nacionalidades, :id, :pais, {:prompt => "MEXICO"}, :class => 'no_require') %></td>
      <td><%= collection_select("cliente", "edo_residencia_id", $estados, :id, :estado, {:prompt => '>>ESTADO'}, :class => 'text')  %></td>
-     <td><%= collection_select("cliente", "rol_hogar_id", $rol, :id, :rol, {:prompt => '>>ROL EN EL HOGAR'}, :class => 'text')  %></td>
+     <td><%= collection_select("cliente", "rol_hogar_id", @roles, :id, :roless, {:prompt => '>>ROL EN EL HOGAR'}, :class => 'text')  %></td>
    </tr>
 </table>
   <!--Datos del Negocio -->

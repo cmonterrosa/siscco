@@ -674,9 +674,9 @@ EOS
   def plantilla_clientes
     clientes = Cliente.find(:all,
                             :select => "cl.id, cl.identificador, cl.curp, cl.clave_ife, cl.paterno, cl.materno, cl.nombre, cl.fecha_nac, cl.sexo,
-                                        cl.telefono, cl.direccion, cl.num_exterior, cl.num_interior, cl.colonia, cl.codigo_postal, cl.rol_hogar_id, esc.escolaridad, ci.civil, ac.actividad,
-                                        ne.ing_semanal, ne.num_empleados, ne.ubicacion_negocio_id, loc.localidad, mu.municipio, es.estado",
-                            :joins => "cl, escolaridads as esc, civils as ci, localidads as loc, municipios as mu, estados as es, negocios as ne, actividads as ac",
+                                        cl.telefono, cl.direccion, cl.num_exterior, cl.num_interior, cl.colonia, cl.codigo_postal, cl.rol_hogar_id, esc.escolaridad, cl.civil_id, ac.actividad,
+                                        cl.escolaridad_id, ne.ing_semanal, ne.num_empleados, ne.ubicacion_negocio_id, cl.localidad_id, mu.municipio, es.estado",
+                            :joins => "cl, escolaridads esc, civils ci, localidads loc, municipios mu, estados es, negocios ne, actividads ac",
                             :conditions => "cl.escolaridad_id = esc.id and cl.civil_id = ci.id and ne.actividad_id = ac.id and ne.cliente_id = cl.id and
                                             cl.localidad_id = loc.id and loc.municipio_id = mu.id and mu.estado_id = es.id")
 
@@ -695,18 +695,23 @@ EOS
               grupo = cg.grupo.nombre
               modalidad = "GRUPAL"
             end                                       
-            credito = Credito.find(:first, :select => "id, fecha_inicio", :conditions => ["cliente_id = ?", c.id])
+            credito = Credito.find(:first, 
+                                   :select => "cr.id, cr.fecha_inicio",
+                                   :joins => "cr, grupos gr, clientes_grupos cg",
+                                   :conditions => ["cr.grupo_id = gr.id and gr.id = cg.grupo_id and cg.cliente_id = ?", c.id])
             if credito.nil?
               fecha_inicio = ""
             else
               fecha_inicio = credito.fecha_inicio
             end
+
             rol = RolHogar.find(:first, :select => "id, rol", :conditions => ["id = ?", c.rol_hogar_id])
             if rol.nil?
               rol_hogar = ""
             else
               rol_hogar = rol.rol
             end
+            
 #            negocio =  Negocio.find(:fisrt, :select => "id, negocio, ubicacion_negocio_id", :conditions => ["cliente_id = ?", c.id])
             ubicacion = UbicacionNegocio.find(:first, :select => "id, ubicacion", :conditions => ["id = ?", c.ubicacion_negocio_id])
             if ubicacion.nil?
@@ -716,8 +721,8 @@ EOS
             end
 
             csv << ["105", c.identificador, c.curp, c.clave_ife, c.paterno, c.materno, c.nombre, c.fecha_nac, c.sexo,
-              c.telefono, c.civil, c.estado, c.municipio, c.localidad, c.direccion, c.num_exterior, c.num_interior, c.colonia,
-              c.codigo_postal, modalidad, grupo, c.escolaridad, c.actividad, fecha_inicio, ubicacion_negocio, c.num_empleados,
+              c.telefono, c.civil.civil, c.estado, c.municipio, c.localidad.localidad, c.direccion, c.num_exterior, c.num_interior, c.colonia,
+              c.codigo_postal, modalidad, grupo, c.escolaridad.escolaridad, c.actividad, fecha_inicio, ubicacion_negocio, c.num_empleados,
                     c.ing_semanal, rol_hogar, SUCURSAL]
         end
 
@@ -729,28 +734,33 @@ EOS
     end
 
    def plantilla_creditos
-     creditos = Credito.find(:all, :select => "id, grupo_id, destino_id, monto, fecha_inicio, fecha_fin, producto_id, tipo_interes, producto_id")
+     f_inicio = params[:fechacr]["fecha_inicio_cr(1i)"]+"-"+params[:fechacr]["fecha_inicio_cr(2i)"]+"-"+params[:fechacr]["fecha_inicio_cr(3i)"]
+     f_fin = params[:fechacr]["fecha_fin_cr(1i)"]+"-"+params[:fechacr]["fecha_fin_cr(2i)"]+"-"+params[:fechacr]["fecha_fin_cr(3i)"]
+     creditos = Credito.find(:all, 
+                             :select => "id, identificador, grupo_id, destino_id, monto, fecha_inicio, fecha_fin, producto_id, tipo_interes",
+                             :conditions => ["fecha_inicio >= ? and fecha_inicio <= ?", f_inicio, f_fin])
      csv_string = FasterCSV.generate do |csv|
        csv << ["ORG_ID", "ACRED_ID", "CREDITO_ID", "DESCRIPCION", "MONTO_CREDITO", "FECHA_ENTREGA", "FECHA_VENCIMIENTO", "TASA_MENSUAL", "TIPO_TASA", "FRECUENCIA_PAGOS",
                "BLOQUE", "CICLO"]
 
        creditos.each do |cd|
 
-          if cd.producto.tasa_anualizada
+         if cd.producto.tasa_anualizada
             tasa_mensual = cd.producto.tasa_anualizada.to_f / 12
          else
             tasa_mensual = ""
          end
 
-         clientes = Cliente.find(:all, :select => "id",
+         clientes = Cliente.find(:all, :select => "cl.id, cl.identificador",
+                                       :joins => "cl, clientes_grupos cg",
                                        :conditions => ["cl.id = cg.cliente_id and cg.grupo_id = ?", cd.grupo_id])
 
          monto = cd.monto / clientes_activos_grupo(cd.grupo).size
-         credito_id = cd.id.to_s + rand(999).to_s.rjust(3, "0") #  credito_id se crea al vuelo por que solo se usa para layuot FOMMUR
+#         credito_id = cd.id.to_s + rand(999).to_s.rjust(3, "0") #  credito_id se crea al vuelo por que solo se usa para layuot FOMMUR
 
          clientes.each do |c|
              #  credito_id se crea al vuelo por que solo se usa para layuot FOMMUR
-            csv << ["105", c.identificador, credito_id, cd.destino.destino, monto, cd.fecha_inicio, cd.fecha_fin, tasa_mensual, cd.tipo_interes, cd.producto.num_pagos,
+            csv << ["105", c.identificador, cd.identificador, cd.destino.destino, monto, cd.fecha_inicio, cd.fecha_fin, tasa_mensual, cd.tipo_interes, cd.producto.num_pagos,
                     "2,3,4", "CICLO GRUPAL"]
          end
 
@@ -794,4 +804,7 @@ EOS
      @creditos = Credito.find(:all, :conditions => "status = 0")
    end
 
+   def layout_fommur
+
+   end
 end

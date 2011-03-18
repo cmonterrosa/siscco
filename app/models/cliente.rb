@@ -18,8 +18,8 @@ class Cliente < ActiveRecord::Base
     super
       self.st = 1 unless self.st
       self.nacionalidad_id = 140 unless self.nacionalidad_id #-- Mexico por defecto ----
+      self.fecha_captura = Time.now unless self.fecha_captura
     end
-
 
   def nombre_completo
     "#{paterno} #{materno} #{nombre}"

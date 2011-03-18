@@ -30,6 +30,7 @@ class ClientesController < ApplicationController
     @negocio = Negocio.new
     $localidades = Localidad.find_by_sql("select * from localidads LIMIT 0")
     @grupo = Grupo.new
+    @roles = RolHogar.find(:all)
   end
 
   def create
@@ -43,6 +44,7 @@ class ClientesController < ApplicationController
     @escolaridades = Escolaridad.find(:all)
     @viviendas = Vivienda.find(:all)
     $localidades = Localidad.find_by_sql("select * from localidads")
+    @roles = RolHogar.find(:all)
   end
 
   def editc

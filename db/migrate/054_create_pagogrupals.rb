@@ -36,6 +36,7 @@ class CreatePagogrupals < ActiveRecord::Migration
    add_column :clientes, :num_interior, :string, :limit => 10
    add_column :clientes, :rol_hogar_id, :integer
    add_column :clientes, :edo_residencia_id, :integer
+   add_column :clientes, :fecha_captura, :date
    add_column :negocios, :ubicacion_negocio_id, :integer
     
  end
