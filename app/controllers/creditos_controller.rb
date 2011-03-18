@@ -386,4 +386,9 @@ class CreditosController < ApplicationController
       end
     
   end
+
+  def fv_p_aplicar
+    #--- muestra los pendientes por aplicar---
+    @pendientes = Fechavalor.find(:all, :select => "ref_alfa, importe, fecha_hora, autorizacion, credito_id", :conditions => "ST='NA'")
+  end
 end
