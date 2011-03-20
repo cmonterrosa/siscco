@@ -337,6 +337,7 @@ class CreditosController < ApplicationController
 
   def aplicar_depositos
     depositos =Hash.new{|k,v|k[v]}
+    @aplicados = []
     @sumatoria = 0
     @referencias = Deposito.find(:all, :select => "id, credito_id, st",  :conditions => ["st = ?", "NA"], :group=> "credito_id")
     @referencias.each do |referencia|
@@ -345,21 +346,16 @@ class CreditosController < ApplicationController
     depositos.each{|k,v|
        v = Vencimiento.new(Credito.find(k))
        v.procesar
-       @cantidad = v.aplicar_depositos(depositos["#{k}"].to_f)
-       # si sobra importe
-       if @cantidad
-          if @cantidad.to_f > 0.0
-             @sumatoria+=1
-              Deposito.transaction do
-              Deposito.create(:importe => @cantidad, :ref_num=>v.credito.num_referencia, :credito_id => v.credito.id)
-                Deposito.find(:all, :conditions => ["credito_id = ?", v.credito.id]).each do |deposito|
-                deposito.update_attributes!(:st => "A")
-             end
-            end
-          end
+       if v.aplicar_depositos(depositos["#{k}"].to_f)
+         @sumatoria+=1
+         @aplicados << v.credito.id
        end
     }
+    @transacciones_aplicadas = []
+      @aplicados.each do |row|
+          @transacciones_aplicadas << Transaccion.find(:all, :select => "t.*", :joins => "t, pagogrupals pg, creditos c",
+                 :conditions => ["t.pagogrupal_id = pg.id AND pg.credito_id = c.id and c.id = ?", row])
+
+      end
   end
-
-
 end

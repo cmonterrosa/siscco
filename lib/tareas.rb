@@ -17,9 +17,12 @@ class Vencimiento
       @devengo_diario = 0
       @total_deuda = 0
       @numero_clientes = 0
+      @excendente_deposito=0.0
+      @periodos_sin_pagar = 0
+      @pagos_vencidos = nil
   end
 
-  attr_accessor :credito, :pago_diario, :dias_atraso, :moratorio, :gastos_cobranza, :capital_vencido, :cuota_diaria, :fecha_calculo, :intereses_devengados, :devengo_diario, :interes_vencido, :numero_clientes, :iva_moratorio, :iva_gastos_cobranza
+  attr_accessor :credito, :pago_diario, :dias_atraso, :moratorio, :gastos_cobranza, :capital_vencido, :cuota_diaria, :fecha_calculo, :intereses_devengados, :devengo_diario, :interes_vencido, :numero_clientes, :iva_moratorio, :iva_gastos_cobranza, :total_deuda
   
   def all
    #---- Vamos a contabilizar los dias de atraso ---
@@ -68,25 +71,24 @@ class Vencimiento
      dias_transcurridos = (hoy - proximo_pago(credito).fecha_limite.yday).to_i
       
       if dias_transcurridos > 0
-         periodos_transcurridos_sin_pagar = periodos_sin_pagar(credito)
+         @periodos_sin_pagar = periodos_transcurridos_sin_pagar = periodos_sin_pagar(credito)
          #todos_los_pagos = Pago.find(:all, :conditions => ["credito_id = ? and pagado = 0", credito.id], :order => "num_pago", :group => "num_pago")
-         todos_los_pagos = Pagogrupal.find(:all, :conditions => ["credito_id = ? and pagado = 0", credito.id])
-         pagos_vencidos = todos_los_pagos[0..periodos_transcurridos_sin_pagar - 1]
-         pagos_vencidos.each{|pago|
-           @capital_vencido+=pago.principal_recuperado.to_f #-- sumamos capital vencido
-          @interes_vencido += (pago.interes_minimo.to_f)
+         todos_los_pagos = Pagogrupal.find(:all, :conditions => ["credito_id = ? and pagado = 0", credito.id], :order=>"num_pago")
+         @pagos_vencidos = todos_los_pagos[0..periodos_transcurridos_sin_pagar - 1]
+         @pagos_vencidos.each{|pago|
+         @capital_vencido+=pago.principal_recuperado.to_f #-- sumamos capital vencido
+         @interes_vencido += (pago.interes_minimo.to_f)
           #--- Calculamos el moratorio para el periodo ---
           dias_por_cobrar = hoy - pago.fecha_limite.yday
           p_recuperado_global = pago.principal_recuperado.to_f 
           sum_moratorio += ((p_recuperado_global * tasa_diaria_moratoria) * dias_por_cobrar)
-          puts "tasa diaria moratoria => #{tasa_diaria_moratoria}"
-          puts "principal_recuperado => #{p_recuperado_global}"
-          puts "moratorio => #{(p_recuperado_global * tasa_diaria_moratoria) * dias_por_cobrar}"
-        }
+         }
+      
+
       @moratorio = round(sum_moratorio * 0.84,2)
       @iva_moratorio = round(sum_moratorio * 0.16 ,2)
       #--- Vamos a multiplicarlo por el numero de clientes del grupo --
-      @capital_vencido = round(@capital_vencido * @numero_clientes,2)
+      #@capital_vencido = round(@capital_vencido,2)
       # @pago_diario = pago_minimo_informativo(credito) / credito.producto.periodo.dias.to_f
           #moratorio_diario = ((credito.producto.moratorio / 100.0 ) * proximo_pago(credito).capital_minimo.to_f ) / credito.producto.periodo.dias.to_f
        #   @devengo_diario = proximo_pago(credito).interes_minimo.to_f / credito.producto.periodo.dias.to_f
@@ -97,14 +99,21 @@ class Vencimiento
           moratorio_diario = 0
           @cuota_diaria = moratorio_diario + @pago_diario
           @intereses_devengados = @devengo_diario * dias_transcurridos.to_f
-          @total_deuda = @capital_vencido + @interes_vencido + @iva_gastos_cobranza + @gastos_cobranza + @iva_moratorio
+          @total_deuda=0
           puts "Dias de atraso => #{dias_transcurridos}"
           puts "Capital Vencido => #{@capital_vencido}"
           puts "Intereses Vencidos => #{@interes_vencido}"
           puts "Moratorio => #{@moratorio}"
           puts "Gastos de Cobranza => #{@gastos_cobranza}"
-          puts "------- Total a pagar => #{@gastos_cobranza + @moratorio + @capital_vencido + @interes_vencido}"
+          puts "------- Total a pagar => #{@total_deuda}"
       end
+
+    #--- si no tiene periodos pendientes y esta pagando en la fecha exacta -----
+      if (@periodos_sin_pagar == 0) && (hoy == proximo_pago(credito).fecha_limite.yday)
+          @capital_vencido = proximo_pago(credito).principal_recuperado.to_f
+          @interes_vencido = (proximo_pago(credito).interes_minimo.to_f)
+      end
+      @total_deuda = @capital_vencido + @interes_vencido + @iva_gastos_cobranza + @gastos_cobranza + @iva_moratorio + @moratorio
       dias_transcurridos = 0 if dias_transcurridos < 0
       @dias_atraso =dias_transcurridos
   end
@@ -161,34 +170,47 @@ class Vencimiento
                                       :fecha_hora_aplicacion=>Time.now)
                    total-=@capital_vencido
                    #... cambiamos estatus....
+              end #--- termina la transaccion-------
+              
+                   #---- actualizacion de estatus --------
                    update_estatus_pagos
+                   #---- Aqui cambiamos el estatus del deposito----
+                   update_estatus_deposito
+                   if total > 0
+                      @excedente_deposito=total.to_f.abs
+                      insert_excedente_deposito
+                   end
+              return true
 
-        end
-        
      else
-     # lo mandamos al reporte no aplicados
-
-     
+         return false
      end
-
-  if total > 0
-    return total
-  else
-    return 0
-  end
- end
+end
 
  protected
  def update_estatus_pagos
-   @pago =  proximo_pago(@credito)
-   @pago.update_attributes!(:pagado => 1)
-   numpago = @pago.num_pago.to_i
-   Pago.find(:all, :conditions => ["credito_id = ? and num_pago = ?", @credito.id, numpago]).each do |pago|
-      pago.update_attributes!(:pagado => 1)
+   unless @pagos_vencidos.nil?
+    @pagos_vencidos.each do |pagovencido|
+         pagovencido.update_attributes!(:pagado => 1)
+         @pagos = Pago.find(:all, :conditions => ["credito_id = ? and num_pago = ?", @credito.id, pagovencido.num_pago]).each do |pago|
+            pago.update_attributes!(:pagado => 1)
+         end
+      end
    end
  end
 
+ def update_estatus_deposito
+   Deposito.find(:all, :conditions => ["credito_id = ?", @credito.id]).each do |deposito|
+         deposito.update_attributes!(:st => "A")
+   end
+ end
 
+ def insert_excedente_deposito
+     if @excedente_deposito > 0.0
+         Deposito.create(:importe => @excedente_deposito, :ref_alfa=>@credito.num_referencia, :ref_num=>@credito.num_referencia, :credito_id => @credito.id)
+     end
+ end
 
+ 
 
 end
