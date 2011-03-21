@@ -2,7 +2,7 @@
 # migrations feature of ActiveRecord to incrementally modify your database, and
 # then regenerate this schema definition.
 
-ActiveRecord::Schema.define(:version => 51) do
+ActiveRecord::Schema.define(:version => 57) do
 
   create_table "actividads", :force => true do |t|
     t.column "clave_inegi", :string
@@ -25,32 +25,38 @@ ActiveRecord::Schema.define(:version => 51) do
   end
 
   create_table "clientes", :force => true do |t|
-    t.column "identificador",   :string,  :limit => 18
-    t.column "paterno",         :string
-    t.column "materno",         :string
-    t.column "nombre",          :string
-    t.column "fecha_nac",       :date
-    t.column "rfc",             :string,  :limit => 13
-    t.column "curp",            :string,  :limit => 18
-    t.column "clave_ife",       :string
-    t.column "sexo",            :string,  :limit => 1
-    t.column "tipo_propiedad",  :string
-    t.column "tipo_persona",    :string
-    t.column "direccion",       :string
-    t.column "colonia",         :string
-    t.column "codigo_postal",   :string
-    t.column "telefono",        :string,  :limit => 10
-    t.column "fax",             :string,  :limit => 10
-    t.column "email",           :string
-    t.column "folio_rfc",       :string,  :limit => 13
-    t.column "civil_id",        :integer
-    t.column "escolaridad_id",  :integer
-    t.column "vivienda_id",     :integer
-    t.column "localidad_id",    :integer
-    t.column "nacionalidad_id", :integer
-    t.column "edo_residencia",  :string
-    t.column "st",              :integer
+    t.column "identificador",     :string,  :limit => 18
+    t.column "paterno",           :string
+    t.column "materno",           :string
+    t.column "nombre",            :string
+    t.column "fecha_nac",         :date
+    t.column "rfc",               :string,  :limit => 13
+    t.column "curp",              :string,  :limit => 18
+    t.column "clave_ife",         :string
+    t.column "sexo",              :string,  :limit => 1
+    t.column "tipo_propiedad",    :string
+    t.column "tipo_persona",      :string
+    t.column "direccion",         :string
+    t.column "colonia",           :string
+    t.column "codigo_postal",     :string
+    t.column "telefono",          :string,  :limit => 10
+    t.column "fax",               :string,  :limit => 10
+    t.column "email",             :string
+    t.column "folio_rfc",         :string,  :limit => 13
+    t.column "civil_id",          :integer
+    t.column "escolaridad_id",    :integer
+    t.column "vivienda_id",       :integer
+    t.column "localidad_id",      :integer
+    t.column "nacionalidad_id",   :integer
+    t.column "st",                :integer
+    t.column "num_exterior",      :string,  :limit => 10
+    t.column "num_interior",      :string,  :limit => 10
+    t.column "rol_hogar_id",      :integer
+    t.column "edo_residencia_id", :integer
+    t.column "fecha_captura",     :date
   end
+
+  add_index "clientes", ["paterno", "materno", "nombre"], :name => "clientes_nombrecompleto"
 
   create_table "clientes_grupos", :force => true do |t|
     t.column "cliente_id",   :integer
@@ -146,6 +152,7 @@ ActiveRecord::Schema.define(:version => 51) do
     t.column "ref_num",      :string,   :limit => 20
     t.column "ref_alfa",     :string,   :limit => 20
     t.column "importe",      :string,   :limit => 20
+    t.column "st",           :string,   :limit => 2
     t.column "fecha_hora",   :datetime
     t.column "datafile_id",  :integer
     t.column "credito_id",   :integer
@@ -183,6 +190,20 @@ ActiveRecord::Schema.define(:version => 51) do
     t.column "estado",     :string
     t.column "edo_inegi",  :string
     t.column "edo_renapo", :string
+  end
+
+  create_table "fechavalors", :force => true do |t|
+    t.column "fecha",        :date
+    t.column "sucursal",     :string,   :limit => 20
+    t.column "autorizacion", :string,   :limit => 20
+    t.column "codigo",       :string,   :limit => 20
+    t.column "subcodigo",    :string,   :limit => 20
+    t.column "ref_alfa",     :string,   :limit => 20
+    t.column "importe",      :string,   :limit => 20
+    t.column "st",           :string,   :limit => 2
+    t.column "fecha_hora",   :datetime
+    t.column "datafile_id",  :integer
+    t.column "credito_id",   :integer
   end
 
   create_table "festivos", :force => true do |t|
@@ -273,15 +294,28 @@ ActiveRecord::Schema.define(:version => 51) do
   end
 
   create_table "negocios", :force => true do |t|
-    t.column "nombre",        :string
-    t.column "puesto",        :string
-    t.column "direccion",     :string
-    t.column "descripcion",   :string
-    t.column "telefono",      :string,  :limit => 10
-    t.column "num_empleados", :integer
-    t.column "ing_semanal",   :float
-    t.column "cliente_id",    :integer
-    t.column "actividad_id",  :integer
+    t.column "nombre",               :string
+    t.column "puesto",               :string
+    t.column "direccion",            :string
+    t.column "descripcion",          :string
+    t.column "telefono",             :string,  :limit => 10
+    t.column "num_empleados",        :integer
+    t.column "ing_semanal",          :float
+    t.column "cliente_id",           :integer
+    t.column "actividad_id",         :integer
+    t.column "ubicacion_negocio_id", :integer
+  end
+
+  create_table "pagogrupals", :force => true do |t|
+    t.column "fecha_limite",         :date
+    t.column "capital_minimo",       :float
+    t.column "interes_minimo",       :float
+    t.column "pagado",               :integer
+    t.column "credito_id",           :integer
+    t.column "num_pago",             :integer
+    t.column "saldo_inicial",        :float
+    t.column "saldo_final",          :float
+    t.column "principal_recuperado", :float
   end
 
   create_table "pagos", :force => true do |t|
@@ -366,6 +400,11 @@ ActiveRecord::Schema.define(:version => 51) do
     t.column "credito_id", :integer
   end
 
+  create_table "rol_hogars", :force => true do |t|
+    t.column "rol",   :string
+    t.column "alias", :string
+  end
+
   create_table "roles", :force => true do |t|
     t.column "name", :string
   end
@@ -420,6 +459,18 @@ ActiveRecord::Schema.define(:version => 51) do
     t.column "eliminar",      :integer, :default => 1
   end
 
+  create_table "tipo_transaccions", :force => true do |t|
+    t.column "descripcion", :string
+    t.column "prioridad",   :integer
+  end
+
+  create_table "transaccions", :force => true do |t|
+    t.column "monto",                 :float
+    t.column "pagogrupal_id",         :integer
+    t.column "tipo_transaccion_id",   :integer
+    t.column "fecha_hora_aplicacion", :datetime
+  end
+
   create_table "transferencias", :force => true do |t|
     t.column "origen_id",     :integer
     t.column "destino_id",    :integer
@@ -428,6 +479,10 @@ ActiveRecord::Schema.define(:version => 51) do
     t.column "monto",         :string
     t.column "observaciones", :string
     t.column "st",            :integer
+  end
+
+  create_table "ubicacion_negocios", :force => true do |t|
+    t.column "ubicacion", :string
   end
 
   create_table "users", :force => true do |t|
