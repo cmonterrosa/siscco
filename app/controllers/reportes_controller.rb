@@ -744,8 +744,8 @@ EOS
      creditos = Credito.find(:all, 
                              :select => "cr.id, cr.identificador, cr.grupo_id, cr.destino_id, cr.monto, cr.fecha_inicio, cr.fecha_fin, cr.producto_id, cr.tipo_interes,
                                          fo.acronimo",
-                             :joins => "cr, lineas li, fondeos fo",
-                             :conditions => ["cr.linea_id = li.id and li.fondeo_id = fo.id and fo.acronimo = 'FOMMUR' and cr.fecha_inicio >= ? and cr.fecha_inicio <= ?", f_inicio, f_fin])
+                             :joins => "cr, lineas li, fondeos fo, grupos gr",
+                             :conditions => ["cr.grupo_id = gr.id and cr.linea_id = li.id and li.fondeo_id = fo.id and fo.acronimo = 'FOMMUR' and cr.fecha_inicio >= ? and cr.fecha_inicio <= ?", f_inicio, f_fin])
      csv_string = FasterCSV.generate do |csv|
        csv << ["ORG_ID", "ACRED_ID", "CREDITO_ID", "DESCRIPCION", "MONTO_CREDITO", "FECHA_ENTREGA", "FECHA_VENCIMIENTO", "TASA_MENSUAL", "TIPO_TASA", "FRECUENCIA_PAGOS",
                "BLOQUE", "CICLO"]
