@@ -81,7 +81,6 @@ module Databases
 #      @log.cliente= cliente
 #      @log.grupo = grupo
 #      @log.save!
-
         if cliente.save && negocio.save
           cliente.generar_id!
           flash[:notice]=mensaje + "con el identificador = #{cliente.identificador}"
@@ -90,7 +89,7 @@ module Databases
            flash[:notice]= "Alguno de los campos no esta formado correctamente, verifica rfc y curp"
            render :action => 'new', :controller => "#{params[:controller]}"
         end
-      
+
     rescue ActiveRecord::RecordInvalid => invalid
       flash[:notice] = invalid
       redirect_to :action => 'new', :controller => "#{params[:controller]}"
@@ -149,20 +148,7 @@ module Databases
     end
   end
 
-  def actualiza_configuracion(registro, parametros)
-    begin
-      registro.fecha_hora = Time.now
-      registro.user_id = session['user'].id
-      registro.update_attributes(parametros)
-      flash[:notice] = 'Configuracion actualizada satisfactoriamente'
-      redirect_to :controller => "administracion", :action => 'index'
-    rescue
-      flash[:notice] = 'No se pudo actualizar verifique los datos'
-      redirect_to :action => 'configuracion', :controller => "administracion"
-    end
-  end
-
-
+ 
 
 
 #---------- Funciones de eliminacion de registros------
@@ -302,7 +288,49 @@ module Databases
       end
     end
 
-
+#----- Fecha valor ----
+     def confronta_fecha_valor(archivo)
+      begin
+        num_linea = 1
+        num_insertados = 0
+        nombre_archivo = archivo.nombre_archivo
+        #---- Limpiamos los archivos basura ----
+        File.delete("#{RAILS_ROOT}/tmp/err_fecha_valor_#{nombre_archivo}") if File.exists?("#{RAILS_ROOT}/tmp/err_fecha_valor_#{nombre_archivo}")
+        File.delete("#{RAILS_ROOT}/tmp/na_fecha_valor_#{nombre_archivo}") if File.exists?("#{RAILS_ROOT}/tmp/na_fecha_valor_#{nombre_archivo}")
+        #--- Obtenemos el id del archivo cargado ---
+        @datafile = archivo
+        #---- Creamos el archivo para los na ---
+        @no_aplicados = File.new("#{RAILS_ROOT}/tmp/na_fecha_valor_#{nombre_archivo}", "w+")
+        #---- Creamos el archivo para los errores ---
+        @errores = File.new("#{RAILS_ROOT}/tmp/err_fecha_valor_#{nombre_archivo}", "w+")
+        #-- Abrimos el archivo ---
+        File.open("#{RAILS_ROOT}/public/tmp/#{nombre_archivo}").each do |linea|
+              fecha,sucursal,autorizacion,codigo,subcodigo,ref_alfa, importe = linea.split(",")
+              #--- Aqui vamos a hacer el match -----
+              @credito = Credito.find(:first, :conditions => ["num_referencia = ?", ref_alfa])
+              if @credito
+                  #--- Insertamos el registro correspondiente al pago ---
+                  @deposito = Fechavalor.new(:fecha => fecha.to_date, :credito_id => @credito.id, :datafile_id => @datafile.id, :sucursal => sucursal, :autorizacion => autorizacion, :codigo => codigo, :subcodigo => subcodigo, :ref_alfa => ref_alfa, :importe => importe.to_f)
+                  unless @deposito.save
+                    @no_aplicados.puts(linea)
+                  end
+                    num_insertados+=1
+                    num_linea+=1
+                    next
+              else
+                #--- Lo insertamos en lo no procesados un archivo de texto ----
+                      @no_aplicados.puts(linea)
+                      num_linea+=1
+                      next
+               end
+                      num_linea+=1
+        end
+        return true, num_insertados
+      rescue Exception => e
+        @errores.puts(e.message)
+        return false, num_insertados
+      end
+    end
 
 
 

@@ -1,16 +1,12 @@
 <h2>Configuracion del Sistema</h2>
-<% form_tag :action => 'actualizar_configuracion' do %>
+<% form_tag :action => 'actualizar_refnumerica', :id => @configuracion do %>
 
 <table>
   <tr>
-    <th>Tasa de Interes</th>
-    <th>Interes Moratorio</th>
-    <th>Multa</th>
+    <th>Ultima Referencia de Créditos</th>
   </tr>
   <tr>
-    <td><%= text_field 'configuracion', 'tasa_interes', :onkeypress => "return CharNum(event, 'numero');"   %></td>
-    <td><%= text_field 'configuracion', 'interes_moratorio'  %></td>
-    <td><%= text_field 'configuracion', 'multa', :onkeypress => "return CharNum(event, 'numero');"    %></td>
+    <td><%= text_field 'configuracion', 'ultima_referencia', :onkeypress => "return CharNum(event, 'numero');"    %></td>
   </tr>
 </table>
 

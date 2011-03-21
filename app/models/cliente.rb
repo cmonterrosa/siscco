@@ -3,9 +3,11 @@ class Cliente < ActiveRecord::Base
   belongs_to :escolaridad
   belongs_to :vivienda
   belongs_to :localidad
+  belongs_to :edo_residencia
   belongs_to :nacionalidad
-  belongs_to :negocio
+  belongs_to :rol_hogar
   has_and_belongs_to_many :grupos
+  has_many :negocios
   has_many :creditos
   has_many :pagos
   has_many :miembros
@@ -16,8 +18,8 @@ class Cliente < ActiveRecord::Base
     super
       self.st = 1 unless self.st
       self.nacionalidad_id = 140 unless self.nacionalidad_id #-- Mexico por defecto ----
+      self.fecha_captura = Time.now unless self.fecha_captura
     end
-
 
   def nombre_completo
     "#{paterno} #{materno} #{nombre}"

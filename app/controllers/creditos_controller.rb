@@ -137,8 +137,8 @@ class CreditosController < ApplicationController
       @tipo = "GRUPAL"
       @credito.grupo = Grupo.find(params[:credito][:grupo_id])
     end
-
-    @credito.fecha_fin = ultimo_pago(@fecha_inicio.year, @fecha_inicio.month, @fecha_inicio.day, params[:credito][:num_pagos], @producto.periodo)
+    @n_pagos = Producto.find(:first, :conditions => ["id = ?", params[:credito][:producto_id]])
+    @credito.fecha_fin = ultimo_pago(@fecha_inicio.year, @fecha_inicio.month, @fecha_inicio.day, @n_pagos.num_pagos, @producto.periodo)
     #--- Validamos si la linea de fondeo tiene disponible ----
     if linea_disponible(Linea.find(params[:credito][:linea_id])).to_f >=  params[:credito][:monto].to_f || @tipo == "INDIVIDUAL"
           if inserta_credito(@credito, @tipo)
@@ -357,5 +357,38 @@ class CreditosController < ApplicationController
                  :conditions => ["t.pagogrupal_id = pg.id AND pg.credito_id = c.id and c.id = ?", row])
 
       end
+  end
+
+  #--- aplicacion de depositos con fecha valor -----
+  def aplicar_depositos_fvalor
+    depositos =Hash.new{|k,v|k[v]}
+    @aplicados = []
+    @sumatoria = 0
+    @referencias = Fechavalor.find(:all, :select => "id, credito_id, st",  :conditions => ["st = ?", "NA"], :group=> "credito_id")
+    @referencias.each do |referencia|
+      depositos["#{referencia.credito_id}"]  = Fechavalor.sum(:importe, :conditions => ["credito_id = ?", referencia.credito_id])
+    end
+    depositos.each{|k,v|
+       credito = Credito.find(k)
+       fv = Fechavalor.find_by_credito_id(k).fecha
+       v = Vencimiento.new(credito, fv, "fechavalor")
+       v.procesar
+       if v.aplicar_depositos(depositos["#{k}"].to_f)
+         @sumatoria+=1
+         @aplicados << v.credito.id
+       end
+    }
+    @transacciones_aplicadas = []
+      @aplicados.each do |row|
+          @transacciones_aplicadas << Transaccion.find(:all, :select => "t.*", :joins => "t, pagogrupals pg, creditos c",
+                 :conditions => ["t.pagogrupal_id = pg.id AND pg.credito_id = c.id and c.id = ?", row])
+
+      end
+    
+  end
+
+  def fv_p_aplicar
+    #--- muestra los pendientes por aplicar---
+    @pendientes = Fechavalor.find(:all, :select => "ref_alfa, importe, fecha_hora, autorizacion, credito_id", :conditions => "ST='NA'")
   end
 end

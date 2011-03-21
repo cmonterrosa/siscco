@@ -3,6 +3,7 @@ require 'date'
 class Datafile < ActiveRecord::Base
 
   has_many :depositos
+  has_many :fechavalors
 
   def initialize(params = nil)
     super
@@ -111,8 +112,22 @@ class Datafile < ActiveRecord::Base
 
 
 
-
-
+#--- Lee archivo csv para fecha valor ----
+def self.save_file_csv_fecha_valor(upload)
+  name =  upload["file"].original_filename
+    directory = "public/tmp"
+    # ---  Creamos el Path ----
+    path = File.join(directory, name)
+    # ---- Escribimos el archivo  -----
+    File.open(path, "wb") { |f| f.write(upload['file'].read) }
+    @data = Datafile.new(:nombre_archivo => name)
+    if @data.save
+      return @data
+    else
+      return nil
+    end
+    #---- Primero vamos a verificar si el encabezado es correcto y no se repite ------
+end
 
 
 

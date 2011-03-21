@@ -20,16 +20,18 @@
 
   <br /><p>Resultado de Busqueda:</p>
  
-    <div id="scroll">
-       <div id="search_hits">
+
+<div id="scroll">
+  <div id ="search_hits">
       <table>
+        <%if @clientes.size > 0%>
         <tr>
           <th>Nombre:</th>
           <th>CURP:</th>
           <th>Id:</th>
           <th colspan="4">Acciones</th>
         </tr>
-  
+
         <% for cliente in @clientes %>
         <tr>
           <td><%= cliente.nombre_completo %></td>
@@ -39,16 +41,14 @@
           <td><%=link_to "Histórico de grupos", { :controller => "clientes", :action => "historial_grupos", :id => cliente}, 
                                                   :popup => ['height=300,width=600,left=300,top=300,scrollbars=no']%></td>
           <td><%= button_to 'Editar', :action => 'edit', :id => cliente %></td>
-          <!--
-          <td><= button_to 'Eliminar', { :action => 'destroy', :id => cliente }, :confirm => 'Se eliminarán también los negocios vinculados al cliente?', :method => :post %></td>
-          -->
          </tr>
         <% end %>
+        <%end%>
       </table>
-    </div>
   </div>
+</div>
 
-<table  class="botones">
+  <table  class="botones">
   <tr class="botones">
     <th class="botones"><h4><%= button_to 'Agregar Clientes', :action => 'new' %></h4></th>
   </tr>

@@ -4,13 +4,12 @@ class CreateCivils < ActiveRecord::Migration
       t.column :civil, :string
     end
 
-    Civil.create(:civil => "SOLTERO")
-    Civil.create(:civil => "CASADO")
-    Civil.create(:civil => "VIUDO")
-    Civil.create(:civil => "DIVORCIADO")
-    Civil.create(:civil => "UNION LIBRE")
-    Civil.create(:civil => "SEPARADO")
-    Civil.create(:civil => "SE IGNORA")
+    #---- Cargamos el catalogo edo_civil ------
+    File.open("#{RAILS_ROOT}/db/migrate/catalogos/edo_civil.csv").each { |line|
+      id, civil = line.split("|")
+      Civil.create(:civil => civil)
+    }
+
   end
 
   def self.down

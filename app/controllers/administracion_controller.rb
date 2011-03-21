@@ -93,9 +93,19 @@ class AdministracionController < ApplicationController
     @configuracion = Configuracion.find(:first)
   end
 
-  def actualizar_configuracion
-    actualiza_configuracion(Configuracion.find(:first), params[:configuracion])
+  def actualizar_refnumerica
+    @configuracion = Configuracion.find(params[:id])
+    @configuracion.ultima_referencia = params[:configuracion][:ultima_referencia]
+    if @configuracion.save
+      flash[:notice] = "Configuración actualizada correctamente"
+      redirect_to :action => "configuracion", :controller => "administracion"
+    else
+      flash[:notice] = "No se pudo actualizar la configuración, verifique"
+      render :action => "configuracion", :controller => "administracion"
+    end
   end
+
+  
 
 
 end

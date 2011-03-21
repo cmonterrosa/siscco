@@ -1,8 +1,18 @@
 require 'date'
 class Vencimiento
   
-  def initialize(credito=nil, fecha_calculo=DateTime.now)
-      @fecha_calculo = fecha_calculo
+  def initialize(credito=nil, fecha_calculo=nil, tablaexcedente=nil)
+      if fecha_calculo
+         @fecha_calculo = fecha_calculo#.to_date if fecha_calculo.strftime =~ /^\d{1,2}[-|\/]\d{1,2}[-|\/]\d{2,4}$/
+      else
+         @fecha_calculo = DateTime.now
+      end
+      if tablaexcedente
+        @tabla_excedente=tablaexcedente
+      else
+        @tabla_excedente = "depositos"
+      end
+      
       @credito = credito
       @gastos_cobranza = 0
       @capital_vencido = 0
@@ -16,10 +26,11 @@ class Vencimiento
       @intereses_devengados = 0
       @devengo_diario = 0
       @total_deuda = 0
-      @numero_clientes = 0
+      @numero_clientes = Clientegrupo.count(:id, :conditions => ["grupo_id = ? AND activo=1",credito.grupo.id.to_i])
       @excendente_deposito=0.0
       @periodos_sin_pagar = 0
       @pagos_vencidos = nil
+ 
   end
 
   attr_accessor :credito, :pago_diario, :dias_atraso, :moratorio, :gastos_cobranza, :capital_vencido, :cuota_diaria, :fecha_calculo, :intereses_devengados, :devengo_diario, :interes_vencido, :numero_clientes, :iva_moratorio, :iva_gastos_cobranza, :total_deuda
@@ -61,18 +72,16 @@ class Vencimiento
      credito = @credito
      moratorio_diario = (@credito.producto.moratorio.to_f / 100.0) / 360.0
      tasa_diaria_moratoria = round((@credito.producto.moratorio.to_f / 100.0) / 360.0, 4)
-     #@numero_clientes = (numero_clientes_grupo(@credito.grupo)).to_f
      sum_moratorio=0
      #--- Validaremos si es otro año ----
-      hoy = DateTime.now.yday
-      if DateTime.now.year > proximo_pago(credito).fecha_limite.year
-        hoy+=365 * (DateTime.now.year - proximo_pago(credito).fecha_limite.year)
-     end
+     hoy = @fecha_calculo.yday
+      if @fecha_calculo.year > proximo_pago(credito).fecha_limite.year
+        hoy+=365 * (@fecha_calculo.year - proximo_pago(credito).fecha_limite.year)
+      end
      dias_transcurridos = (hoy - proximo_pago(credito).fecha_limite.yday).to_i
-      
-      if dias_transcurridos > 0
-         @periodos_sin_pagar = periodos_transcurridos_sin_pagar = periodos_sin_pagar(credito)
-         #todos_los_pagos = Pago.find(:all, :conditions => ["credito_id = ? and pagado = 0", credito.id], :order => "num_pago", :group => "num_pago")
+     if dias_transcurridos > 0
+         @periodos_sin_pagar = periodos_transcurridos_sin_pagar = periodos_sin_pagar(credito,@fecha_calculo)
+        #todos_los_pagos = Pago.find(:all, :conditions => ["credito_id = ? and pagado = 0", credito.id], :order => "num_pago", :group => "num_pago")
          todos_los_pagos = Pagogrupal.find(:all, :conditions => ["credito_id = ? and pagado = 0", credito.id], :order=>"num_pago")
          @pagos_vencidos = todos_los_pagos[0..periodos_transcurridos_sin_pagar - 1]
          @pagos_vencidos.each{|pago|
@@ -178,7 +187,7 @@ class Vencimiento
                    update_estatus_deposito
                    if total > 0
                       @excedente_deposito=total.to_f.abs
-                      insert_excedente_deposito
+                      insert_excedente_deposito(@tablaexcedente)
                    end
               return true
 
@@ -205,9 +214,14 @@ end
    end
  end
 
- def insert_excedente_deposito
+ def insert_excedente_deposito(tablaexcedente)
      if @excedente_deposito > 0.0
-         Deposito.create(:importe => @excedente_deposito, :ref_alfa=>@credito.num_referencia, :ref_num=>@credito.num_referencia, :credito_id => @credito.id)
+         case tablaexcedente
+         when "fechavalor"
+              Fechavalor.create(:importe => @excedente_deposito, :ref_alfa=>@credito.num_referencia, :credito_id => @credito.id)
+         else
+              Deposito.create(:importe => @excedente_deposito, :ref_alfa=>@credito.num_referencia, :ref_num=>@credito.num_referencia, :credito_id => @credito.id)
+         end
      end
  end
 

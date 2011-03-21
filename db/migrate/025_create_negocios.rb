@@ -11,6 +11,7 @@ class CreateNegocios < ActiveRecord::Migration
       #---- Relaciones con otras tablas ---
       t.column :cliente_id, :integer
       t.column :actividad_id, :integer
+      t.column :ubicacion_negocio_id, :integer
     end
   end
 

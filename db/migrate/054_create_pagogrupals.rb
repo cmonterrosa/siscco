@@ -34,14 +34,26 @@ class CreatePagogrupals < ActiveRecord::Migration
 
    add_column :clientes, :num_exterior, :string, :limit => 10
    add_column :clientes, :num_interior, :string, :limit => 10
-   add_column :clientes, :rol_hogar, :string, :limit => 50
-
+   add_column :clientes, :rol_hogar_id, :integer
+   add_column :clientes, :edo_residencia_id, :integer
+   add_column :clientes, :fecha_captura, :date
+   add_column :negocios, :ubicacion_negocio_id, :integer
+    
  end
 
   def self.down
     drop_table :pagogrupals
     remove_column :clientes, :num_exterior
     remove_column :clientes, :num_interior
+    remove_column :clientes, :rol_hogar_id
+    remove_column :clientes, :edo_residencia_id
+    remove_column :negocios, :ubicacion_negocio_id
+
     remove_column :clientes, :rol_hogar
+    remove_column :clientes, :edo_residencia
+
+    execute("TRUNCATE TABLE civils")
+    execute("TRUNCATE TABLE destinos")
+
   end
 end

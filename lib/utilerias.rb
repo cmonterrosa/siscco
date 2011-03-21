@@ -199,7 +199,6 @@ end
     def genera_referencia_alfa(sucursal, cuenta)
     if sucursal.to_s.size == 4 && cuenta.to_s.size == 7
       @configuracion = Configuracion.find(:first, :conditions => "activo = 1")
-      prefijo = @configuracion.prefijo
       @configuracion.ultima_referencia += 1
       @configuracion.save!
       ultima_referencia = @configuracion.ultima_referencia.to_s.rjust(18, "0")
