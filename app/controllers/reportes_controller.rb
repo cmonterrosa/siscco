@@ -672,13 +672,18 @@ EOS
   end
   
   def plantilla_clientes
+    f_inicio = params[:fechac]["fecha_inicio_c(1i)"]+"-"+params[:fechac]["fecha_inicio_c(2i)"]+"-"+params[:fechac]["fecha_inicio_c(3i)"]
+     f_fin = params[:fechac]["fecha_fin_c(1i)"]+"-"+params[:fechac]["fecha_fin_c(2i)"]+"-"+params[:fechac]["fecha_fin_c(3i)"]
+
     clientes = Cliente.find(:all,
                             :select => "cl.id, cl.identificador, cl.curp, cl.clave_ife, cl.paterno, cl.materno, cl.nombre, cl.fecha_nac, cl.sexo,
                                         cl.telefono, cl.direccion, cl.num_exterior, cl.num_interior, cl.colonia, cl.codigo_postal, cl.rol_hogar_id, esc.escolaridad, cl.civil_id, ac.actividad,
-                                        cl.escolaridad_id, ne.ing_semanal, ne.num_empleados, ne.ubicacion_negocio_id, cl.localidad_id, mu.municipio, es.estado",
-                            :joins => "cl, escolaridads esc, civils ci, localidads loc, municipios mu, estados es, negocios ne, actividads ac",
-                            :conditions => "cl.escolaridad_id = esc.id and cl.civil_id = ci.id and ne.actividad_id = ac.id and ne.cliente_id = cl.id and
-                                            cl.localidad_id = loc.id and loc.municipio_id = mu.id and mu.estado_id = es.id")
+                                        cl.escolaridad_id, ne.ing_semanal, ne.num_empleados, ne.ubicacion_negocio_id, cl.localidad_id, mu.municipio, es.estado, fo.acronimo",
+                            :joins => "cl, escolaridads esc, civils ci, localidads loc, municipios mu, estados es, negocios ne, actividads ac, clientes_grupos cg, grupos gr, creditos cr, lineas li, fondeos fo",
+                            :conditions => ["cl.escolaridad_id = esc.id and cl.civil_id = ci.id and ne.actividad_id = ac.id and ne.cliente_id = cl.id and
+                                            cl.localidad_id = loc.id and loc.municipio_id = mu.id and mu.estado_id = es.id and
+                                            cl.id = cg.cliente_id and cg.grupo_id = gr.id and cr.grupo_id = gr.id and cr.linea_id = li.id and
+                                            li.fondeo_id = fo.id and fo.acronimo = 'FOMMUR' and cr.fecha_inicio >= ? and cr.fecha_inicio <= ?", f_inicio, f_fin])
 
       csv_string = FasterCSV.generate do |csv|
                    csv << ["ORG_ID", "ACRED_ID", "CURP", "IFE", "PRIM_AP","SEGUNDO_AP", "NOMBRE", "FECHA_NAC", "SEXO",
@@ -737,8 +742,10 @@ EOS
      f_inicio = params[:fechacr]["fecha_inicio_cr(1i)"]+"-"+params[:fechacr]["fecha_inicio_cr(2i)"]+"-"+params[:fechacr]["fecha_inicio_cr(3i)"]
      f_fin = params[:fechacr]["fecha_fin_cr(1i)"]+"-"+params[:fechacr]["fecha_fin_cr(2i)"]+"-"+params[:fechacr]["fecha_fin_cr(3i)"]
      creditos = Credito.find(:all, 
-                             :select => "id, identificador, grupo_id, destino_id, monto, fecha_inicio, fecha_fin, producto_id, tipo_interes",
-                             :conditions => ["fecha_inicio >= ? and fecha_inicio <= ?", f_inicio, f_fin])
+                             :select => "cr.id, cr.identificador, cr.grupo_id, cr.destino_id, cr.monto, cr.fecha_inicio, cr.fecha_fin, cr.producto_id, cr.tipo_interes,
+                                         fo.acronimo",
+                             :joins => "cr, lineas li, fondeos fo",
+                             :conditions => ["cr.linea_id = li.id and li.fondeo_id = fo.id and fo.acronimo = 'FOMMUR' and cr.fecha_inicio >= ? and cr.fecha_inicio <= ?", f_inicio, f_fin])
      csv_string = FasterCSV.generate do |csv|
        csv << ["ORG_ID", "ACRED_ID", "CREDITO_ID", "DESCRIPCION", "MONTO_CREDITO", "FECHA_ENTREGA", "FECHA_VENCIMIENTO", "TASA_MENSUAL", "TIPO_TASA", "FRECUENCIA_PAGOS",
                "BLOQUE", "CICLO"]
@@ -761,7 +768,7 @@ EOS
          clientes.each do |c|
              #  credito_id se crea al vuelo por que solo se usa para layuot FOMMUR
             csv << ["105", c.identificador, cd.identificador, cd.destino.destino, monto, cd.fecha_inicio, cd.fecha_fin, tasa_mensual, cd.tipo_interes, cd.producto.num_pagos,
-                    "2,3,4", "CICLO GRUPAL"]
+                    cd.producto.producto, cd.acronimo]
          end
 
        end
