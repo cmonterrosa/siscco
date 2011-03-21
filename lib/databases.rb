@@ -148,20 +148,7 @@ module Databases
     end
   end
 
-  def actualiza_configuracion(registro, parametros)
-    begin
-      registro.fecha_hora = Time.now
-      registro.user_id = session['user'].id
-      registro.update_attributes(parametros)
-      flash[:notice] = 'Configuracion actualizada satisfactoriamente'
-      redirect_to :controller => "administracion", :action => 'index'
-    rescue
-      flash[:notice] = 'No se pudo actualizar verifique los datos'
-      redirect_to :action => 'configuracion', :controller => "administracion"
-    end
-  end
-
-
+ 
 
 
 #---------- Funciones de eliminacion de registros------
