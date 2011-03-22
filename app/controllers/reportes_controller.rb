@@ -762,7 +762,7 @@ EOS
                                        :joins => "cl, clientes_grupos cg",
                                        :conditions => ["cl.id = cg.cliente_id and cg.grupo_id = ?", cd.grupo_id])
 
-         monto = cd.monto / clientes_activos_grupo(cd.grupo_id).size
+         monto = cd.monto / clientes_activos_grupo(cd.grupo).size
 #         credito_id = cd.id.to_s + rand(999).to_s.rjust(3, "0") #  credito_id se crea al vuelo por que solo se usa para layuot FOMMUR
 
          clientes.each do |c|
