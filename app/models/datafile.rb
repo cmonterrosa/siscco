@@ -8,6 +8,7 @@ class Datafile < ActiveRecord::Base
   def initialize(params = nil)
     super
       self.fecha_hora_carga = Time.now unless self.fecha_hora_carga
+      self.nombre_cliente = "Fecha Valor" unless  self.nombre_cliente 
   end
 
 

@@ -17,7 +17,11 @@
 
         <% for file in @datafiles %>
         <tr>
-          <td><%= file.fecha_hora_archivo.strftime("%Y-%m-%d %H:%M:%S")  %></td>
+          <%if file.fecha_hora_archivo%> 
+           <td><%= file.fecha_hora_archivo.strftime("%Y-%m-%d %H:%M:%S")  %></td>
+          <%else%>
+           <td> -- </td> 
+          <%end%> 
           <td><%= file.fecha_hora_carga.strftime("%Y-%m-%d %H:%M:%S") %></td>
           <td><%=file.numero_cliente%></td>
           <td><%=file.nombre_cliente%></td>

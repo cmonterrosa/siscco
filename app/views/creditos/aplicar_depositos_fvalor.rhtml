@@ -6,13 +6,13 @@
       <%transaccion.each do |row|%>
         <tr>
           <td>
-            <%row.tipo_transaccion.descripcion%>
+            <%=row.tipo_transaccion.descripcion%>
           </td>
           <td>
             <%=row.monto%>
           </td>
           <td>
-            <%=row.fecha_hora_aplicacion%>
+            <%=row.fecha_hora_aplicacion.strftime("%Y-%m-%d")%>
           </td>
         </tr>
       <%end%>
@@ -21,4 +21,4 @@
 <%end%>
 
 
-<%=link_to 'Ver depósitos sin aplicar', :action => "vf_p_aplicar", :controller =>"creditos"%>
+<%=link_to 'Ver depósitos sin aplicar', :action => "fv_p_aplicar", :controller =>"creditos"%>
