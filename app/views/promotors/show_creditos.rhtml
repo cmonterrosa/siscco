@@ -11,11 +11,13 @@
       </tr>
 
       <% for credito in @promotor.creditos %>
-      <tr>
-        <td><%= credito.grupo.nombre%></td>
-        <td><%= "$" + separar_miles(credito.monto.to_f) %></td>
-        <td><%= credito.fecha_inicio %></td>
-      </tr>
+        <%if credito.grupo%>  
+             <tr>
+                 <td><%= credito.grupo.nombre%></td>
+                 <td><%= "$" + separar_miles(credito.monto.to_f) %></td>
+                 <td><%= credito.fecha_inicio %></td>
+             </tr>
+        <% end %>
       <% end %>
     </table>
   </div>
