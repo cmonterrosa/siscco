@@ -27,6 +27,14 @@
           <td class="hed">Monto inicial: </td>
           <td>$<%=separar_miles(@credito.monto)%></td>
         </tr>
+         <tr>
+          <td class="hed">Fecha de entrega: </td>
+          <td><%=@credito.fecha_inicio%></td>
+        </tr>
+         <tr>
+          <td class="hed">Fecha último pago: </td>
+          <td><%=@credito.ultimo_pago.to_s%></td>
+        </tr>
         <tr>
           <td class="hed">Numero de pagos: </td>
           <td><%=@credito.producto.num_pagos%></td>

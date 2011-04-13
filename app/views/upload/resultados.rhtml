@@ -5,7 +5,7 @@
 
 <h2><%=link_to "Ver cargados al sistema a través del archivo", :action => "show_aplicados", :controller=>"upload", :datafile => @datafile%></h2><br />
 
-<h2><%=link_to "Ver depósitos cargados listos para aplicar", :action => "p_aplicar", :controller => "creditos"%></h2><br />
+<h2><%=link_to "Ver depósitos cargados listos para aplicar", :action => "p_aplicar", :controller => "creditos", :datafile => @datafile%></h2><br />
 
 <h2><%= link_to "Depositos no cargados", :action => "download_na", :filename=>@archivo_na %></h2><br />
 

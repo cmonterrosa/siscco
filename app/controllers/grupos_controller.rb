@@ -22,9 +22,6 @@ class GruposController < ApplicationController
      @clientes = todos_clientes_singrupo_join
      if @clientes.empty?
        redirect_to :action => "list"
-     else
-       #--- Quitamos a los actuales
-       #@clientegrupos.each do |cliente| @clientes.delete(cliente.cliente) end
      end
   end
 

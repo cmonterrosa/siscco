@@ -311,6 +311,7 @@ class CreditosController < ApplicationController
   def p_aplicar
     #--- muestra los pendientes por aplicar---
     @pendientes = Deposito.find(:all, :select => "ref_alfa, importe, fecha_hora, autorizacion, credito_id", :conditions => "ST='NA'")
+    @datafile = Datafile.find(params[:id]).id if params[:id]
   end
 
    def desactivar
@@ -337,6 +338,7 @@ class CreditosController < ApplicationController
 
   def aplicar_depositos
     depositos =Hash.new{|k,v|k[v]}
+    datafile = Datafile.find(params[:id]).id if params[:id]
     @aplicados = []
     @sumatoria = 0
     @referencias = Deposito.find(:all, :select => "id, credito_id, st",  :conditions => ["st = ?", "NA"], :group=> "credito_id")
@@ -346,7 +348,7 @@ class CreditosController < ApplicationController
     depositos.each{|k,v|
        v = Vencimiento.new(Credito.find(k))
        v.procesar
-       if v.aplicar_depositos(depositos["#{k}"].to_f)
+       if v.aplicar_depositos(depositos["#{k}"].to_f, datafile)
          @sumatoria+=1
          @aplicados << v.credito.id
        end
@@ -362,6 +364,7 @@ class CreditosController < ApplicationController
   #--- aplicacion de depositos con fecha valor -----
   def aplicar_depositos_fvalor
     depositos =Hash.new{|k,v|k[v]}
+    datafile = Datafile.find(params[:id]).id if params[:id]
     @aplicados = []
     @sumatoria = 0
     @referencias = Fechavalor.find(:all, :select => "id, credito_id, st",  :conditions => ["st = ?", "NA"], :group=> "credito_id")
@@ -373,7 +376,7 @@ class CreditosController < ApplicationController
        fv = Fechavalor.find_by_credito_id(k).fecha
        v = Vencimiento.new(credito, fv, "fechavalor")
        v.procesar
-       if v.aplicar_depositos(depositos["#{k}"].to_f)
+       if v.aplicar_depositos(depositos["#{k}"].to_f, datafile, "fechavalor")
          @sumatoria+=1
          @aplicados << v.credito.id
        end
@@ -381,7 +384,7 @@ class CreditosController < ApplicationController
     @transacciones_aplicadas = []
       @aplicados.each do |row|
           @transacciones_aplicadas << Transaccion.find(:all, :select => "t.*", :joins => "t, pagogrupals pg, creditos c",
-                 :conditions => ["t.pagogrupal_id = pg.id AND pg.credito_id = c.id and c.id = ?", row])
+                 :conditions => ["t.datafile_id = ? AND t.pagogrupal_id = pg.id AND pg.credito_id = c.id and c.id = ?", datafile, row])
 
       end
     

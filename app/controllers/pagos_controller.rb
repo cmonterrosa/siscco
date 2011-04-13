@@ -6,6 +6,7 @@ class PagosController < ApplicationController
   def consultar
     @fecha = Date.civil(params[:pago][:"fecha(1i)"].to_i,params[:pago][:"fecha(2i)"].to_i,params[:pago][:"fecha(3i)"].to_i)
     @pagos = Pago.find(:all, :conditions=>["fecha = ? AND pagado = 1", @fecha])
+  
   end
 
   def xml

@@ -1,9 +1,8 @@
 require 'date'
 class Vencimiento
-  
   def initialize(credito=nil, fecha_calculo=nil, tablaexcedente=nil)
       if fecha_calculo
-         @fecha_calculo = fecha_calculo#.to_date if fecha_calculo.strftime =~ /^\d{1,2}[-|\/]\d{1,2}[-|\/]\d{2,4}$/
+         @fecha_calculo = fecha_calculo
       else
          @fecha_calculo = DateTime.now
       end
@@ -26,7 +25,8 @@ class Vencimiento
       @intereses_devengados = 0
       @devengo_diario = 0
       @total_deuda = 0
-      @numero_clientes = Clientegrupo.count(:id, :conditions => ["grupo_id = ? AND activo=1",credito.grupo.id.to_i])
+      @clientes = Clientegrupo.find(:all, :conditions => ["grupo_id = ? AND activo=1",credito.grupo.id.to_i])
+      @numero_clientes = @clientes.size
       @excendente_deposito=0.0
       @periodos_sin_pagar = 0
       @pagos_vencidos = nil
@@ -74,6 +74,8 @@ class Vencimiento
      # Validaremos si ya termino de pagar
      unless credito_pagado?
         calcular_vencimientos
+     else
+       liberar_credito
      end
      #impresiones en pantalla
           puts "Dias de atraso => #{@dias_atraso}"
@@ -135,8 +137,9 @@ class Vencimiento
    end
 
 
- def aplicar_depositos(importe)
-        total=importe
+ def aplicar_depositos(importe, datafile_id=nil, tipo=nil )
+       tipo="deposito" unless tipo
+       total=importe
                   # ......... Orden de Aplicacion ........
                   #IVA POR COMISIONES COBRADAS
                   #COMISIONES COBRADAS
@@ -152,37 +155,37 @@ class Vencimiento
                    Transaccion.create(:monto => @iva_gastos_cobranza.to_f,
                                       :pagogrupal_id => proximo_pago(@credito).id,
                                       :tipo_transaccion_id => TipoTransaccion.find_by_prioridad(1).id,
-                                      :fecha_hora_aplicacion=>Time.now)
+                                      :fecha_hora_aplicacion=>Time.now, :datafile_id => datafile_id)
                    total-=@iva_gastos_cobranza
                    #... comisiones
                    Transaccion.create(:monto => @gastos_cobranza.to_f,
                                       :pagogrupal_id => proximo_pago(@credito).id,
                                       :tipo_transaccion_id => TipoTransaccion.find_by_prioridad(2).id,
-                                      :fecha_hora_aplicacion=>Time.now)
+                                      :fecha_hora_aplicacion=>Time.now, :datafile_id => datafile_id)
                    total-=@gastos_cobranza
                    #.... Iva moratorio
                    Transaccion.create(:monto => @iva_moratorio.to_f,
                                       :pagogrupal_id => proximo_pago(@credito).id,
                                       :tipo_transaccion_id => TipoTransaccion.find_by_prioridad(3).id,
-                                      :fecha_hora_aplicacion=>Time.now)
+                                      :fecha_hora_aplicacion=>Time.now, :datafile_id => datafile_id)
                    total-=@iva_moratorio
                    #.... moratorio
                    Transaccion.create(:monto => @moratorio.to_f,
                                       :pagogrupal_id => proximo_pago(@credito).id,
                                       :tipo_transaccion_id => TipoTransaccion.find_by_prioridad(4).id,
-                                      :fecha_hora_aplicacion=>Time.now)
+                                      :fecha_hora_aplicacion=>Time.now, :datafile_id => datafile_id)
                    total-=@moratorio
                    #.... intereses normales
                    Transaccion.create(:monto => @interes_vencido.to_f,
                                       :pagogrupal_id => proximo_pago(@credito).id,
                                       :tipo_transaccion_id => TipoTransaccion.find_by_prioridad(5).id,
-                                      :fecha_hora_aplicacion=>Time.now)
+                                      :fecha_hora_aplicacion=>Time.now, :datafile_id => datafile_id)
                    total-=@interes_vencido
                    #.... capital
                    Transaccion.create(:monto => @capital_vencido.to_f,
                                       :pagogrupal_id => proximo_pago(@credito).id,
                                       :tipo_transaccion_id => TipoTransaccion.find_by_prioridad(6).id,
-                                      :fecha_hora_aplicacion=>Time.now)
+                                      :fecha_hora_aplicacion=>Time.now, :datafile_id => datafile_id)
                    total-=@capital_vencido
                    #... cambiamos estatus....
               end #--- termina la transaccion-------
@@ -190,7 +193,12 @@ class Vencimiento
                    #---- actualizacion de estatus --------
                    update_estatus_pagos
                    #---- Aqui cambiamos el estatus del deposito----
-                   update_estatus_deposito
+                   if tipo == "fecha_valor"
+                      update_estatus_fvalor
+                   else
+                      update_estatus_deposito
+                   end
+
                    if total > 0
                       @excedente_deposito=total.to_f.abs
                       insert_excedente_deposito(@tablaexcedente)
@@ -200,9 +208,21 @@ class Vencimiento
      else
          return false
      end
+     #---- Aqui vamos a verificar si ya termino de pagar ----
+     if credito_pagado?
+        liberar_credito
+     end
 end
 
  protected
+
+ def liberar_credito
+        @credito.update_attributes!(:status=>1, :fecha_fin => Date.strptime(@fecha_calculo.to_s))
+        @clientes.each do |cliente|
+            cliente.update_attributes!(:activo => 0, :fecha_fin => @fecha_calculo)
+        end
+ end
+
  def update_estatus_pagos
    unless @pagos_vencidos.nil?
     @pagos_vencidos.each do |pagovencido|
@@ -220,11 +240,17 @@ end
    end
  end
 
+  def update_estatus_fvalor
+   FechaValor.find(:all, :conditions => ["credito_id = ?", @credito.id]).each do |deposito|
+         deposito.update_attributes!(:st => "A")
+   end
+ end
+
  def insert_excedente_deposito(tablaexcedente)
      if @excedente_deposito > 0.0
          case tablaexcedente
          when "fechavalor"
-              Fechavalor.create(:importe => @excedente_deposito, :ref_alfa=>@credito.num_referencia, :credito_id => @credito.id)
+              Fechavalor.create(:importe => @excedente_deposito, :ref_alfa=>@credito.num_referencia, :credito_id => @credito.id, :st => "A")
          else
               Deposito.create(:importe => @excedente_deposito, :ref_alfa=>@credito.num_referencia, :ref_num=>@credito.num_referencia, :credito_id => @credito.id)
          end

@@ -202,6 +202,7 @@ function mmLoadMenus() {
   menu_operacion.addMenuItem("Cargar&nbsp;Layout","location='/upload'");
   menu_operacion.addMenuItem("Cargar&nbsp;Layout&nbsp;Fecha&nbsp;Valor","location='/upload/depositos_fecha_valor'");
   menu_operacion.addMenuItem("Depositos","location='/creditos/p_aplicar'");
+  menu_operacion.addMenuItem("Cargados&nbsp;fecha&nbsp;valor","location='/creditos/fv_p_aplicar'");
   menu_operacion.addMenuItem("Histórico&nbsp;de&nbsp;Cargas","location='/upload/historico'");
   menu_operacion.fontWeight="bold";
   menu_operacion.hideOnMouseOut=true;
