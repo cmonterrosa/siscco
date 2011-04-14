@@ -1,6 +1,9 @@
 <h1>Carga de Layouts para Fecha Valor</h1>
 <h2>Es necesario cargar archivo csv (separado por comas) con la estructura siguiente:</h2><br /><br />
-<h3>fecha (dd/mm/aaaa)|  sucursal  |   autorizacion |  codigo  |  subcodigo |  ref_alfa |  importe</h3>
+<h3>fecha (dd/mm/aaaa)|  sucursal  |   autorizacion |  codigo  |  subcodigo |  ref_alfa  |  importe</h3><br />
+
+<h3>Ejemplo:</h3>
+<h3 style="font-family: Verdana; color:red;">       03/12/2010 | 3454       | 3444           | 934      | 45         | 1234567890 | 12500.50 </h3>
 <br /><br />
 
 <% form_for :uploadform, :url => { :action => 'upload_fecha_valor'}, :html => {:multipart => true} do%>

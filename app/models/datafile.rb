@@ -4,6 +4,7 @@ class Datafile < ActiveRecord::Base
 
   has_many :depositos
   has_many :fechavalors
+  has_many :transaccions
 
   def initialize(params = nil)
     super
@@ -99,7 +100,7 @@ class Datafile < ActiveRecord::Base
     #---- Primero vamos a verificar si el encabezado es correcto y no se repite ------
     if encabezado_valido?(name) && @data
        if inserta_metadatos(name, @data)
-          return true
+          return @data
           #---- Aqui vamos a insertar los pagos -----
        else
           File.delete("#{RAILS_ROOT}/public/tmp/#{name}") if File.exists?("#{RAILS_ROOT}/public/tmp/#{name}")

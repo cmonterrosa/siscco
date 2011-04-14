@@ -4,9 +4,8 @@
 <br></br>
 <div id="scroll">
 <%@creditos.each do |credito|%>
+      
         <%credito_vencimiento = Vencimiento.new(credito)%>
-        <%credito_vencimiento.procesar%> <br />
-
         <table class="stats">
           <tr>
             <td class="hed">Identificador:</td>
@@ -38,10 +37,11 @@
           </tr>
           <tr>
             <td class="hed">Total Vencido:</td>
-            <td class="hed">$&nbsp;<%=credito_vencimiento.gastos_cobranza + credito_vencimiento.moratorio + credito_vencimiento.capital_vencido + credito_vencimiento.intereses_devengados %></td>
+            <td></td>
           </tr>
     </table>
 <%end%>
+
 </div>
 
 

@@ -283,15 +283,15 @@ class CreditosController < ApplicationController
 
   def new_grupal
      @filtrados = Grupo.find(:all, :select=> "distinct(g.id)",  :joins => "g, clientes_grupos cg, clientes c",
-                         :conditions => "g.id = cg.grupo_id and cg.cliente_id = c.id")
-     @grupos = Grupo.find(@filtrados, :select => "id, nombre")
+                         :conditions => "g.id = cg.grupo_id and cg.cliente_id = c.id", :order => "g.nombre")
+     @grupos = Grupo.find(@filtrados, :select => "id, nombre", :order => "nombre")
      #--- Variables
      @productos = Producto.find(:all, :order => "producto")
      @destinos = Destino.find(:all)
      @promotores = Promotor.find(:all, :order => "nombre")
      @fondeos = Fondeo.find(:all, :order => "fuente")
      @lineas = Linea.find(:all)
-     @clientes = Cliente.find(:all, :select => "id, paterno, materno, nombre")
+     @clientes = Cliente.find(:all, :select => "id, paterno, materno, nombre", :order => "paterno, materno")
   end
 
   def activacion
@@ -311,6 +311,7 @@ class CreditosController < ApplicationController
   def p_aplicar
     #--- muestra los pendientes por aplicar---
     @pendientes = Deposito.find(:all, :select => "ref_alfa, importe, fecha_hora, autorizacion, credito_id", :conditions => "ST='NA'")
+    @datafile = Datafile.find(params[:id]).id if params[:id]
   end
 
    def desactivar
@@ -337,6 +338,7 @@ class CreditosController < ApplicationController
 
   def aplicar_depositos
     depositos =Hash.new{|k,v|k[v]}
+    datafile = Datafile.find(params[:id]).id if params[:id]
     @aplicados = []
     @sumatoria = 0
     @referencias = Deposito.find(:all, :select => "id, credito_id, st",  :conditions => ["st = ?", "NA"], :group=> "credito_id")
@@ -346,22 +348,33 @@ class CreditosController < ApplicationController
     depositos.each{|k,v|
        v = Vencimiento.new(Credito.find(k))
        v.procesar
-       if v.aplicar_depositos(depositos["#{k}"].to_f)
+       if v.aplicar_depositos(depositos["#{k}"].to_f, datafile)
          @sumatoria+=1
          @aplicados << v.credito.id
        end
     }
-    @transacciones_aplicadas = []
+
+    if @aplicados.empty? #--- Validamos si al menos hay un aplicado
+       flash[:notice] = "Depositos aplicados"
+       redirect_to :action => "p_aplicar", :controller => "creditos"
+    else
+        @transacciones_aplicadas = []
       @aplicados.each do |row|
           @transacciones_aplicadas << Transaccion.find(:all, :select => "t.*", :joins => "t, pagogrupals pg, creditos c",
                  :conditions => ["t.pagogrupal_id = pg.id AND pg.credito_id = c.id and c.id = ?", row])
 
       end
+
+    end
+
+
+  
   end
 
   #--- aplicacion de depositos con fecha valor -----
   def aplicar_depositos_fvalor
     depositos =Hash.new{|k,v|k[v]}
+    datafile = Datafile.find(params[:id]).id if params[:id]
     @aplicados = []
     @sumatoria = 0
     @referencias = Fechavalor.find(:all, :select => "id, credito_id, st",  :conditions => ["st = ?", "NA"], :group=> "credito_id")
@@ -373,18 +386,22 @@ class CreditosController < ApplicationController
        fv = Fechavalor.find_by_credito_id(k).fecha
        v = Vencimiento.new(credito, fv, "fechavalor")
        v.procesar
-       if v.aplicar_depositos(depositos["#{k}"].to_f)
+       if v.aplicar_depositos(depositos["#{k}"].to_f, datafile, "fechavalor")
          @sumatoria+=1
          @aplicados << v.credito.id
        end
     }
-    @transacciones_aplicadas = []
+
+    if @aplicados.empty? #--- Validamos si al menos hay un aplicado
+       flash[:notice] = "Depositos aplicados"
+       redirect_to :action => "vf_p_aplicar", :controller => "creditos"
+    else
+      @transacciones_aplicadas = []
       @aplicados.each do |row|
           @transacciones_aplicadas << Transaccion.find(:all, :select => "t.*", :joins => "t, pagogrupals pg, creditos c",
-                 :conditions => ["t.pagogrupal_id = pg.id AND pg.credito_id = c.id and c.id = ?", row])
-
+                 :conditions => ["t.datafile_id = ? AND t.pagogrupal_id = pg.id AND pg.credito_id = c.id and c.id = ?", datafile, row])
       end
-    
+    end
   end
 
   def fv_p_aplicar

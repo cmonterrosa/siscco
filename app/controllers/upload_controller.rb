@@ -16,7 +16,7 @@ class UploadController < ApplicationController
           @post = Datafile.find(:first, :conditions => ["nombre_archivo = ?", @nombre_archivo])
           if (post) && (@post)
               #---- Validamos que el encabezado es correcto, por lo tanto empezamos a insertar los registros que hagan match con los creditos -----
-             @st, @num_insertados = confronta(@nombre_archivo)
+             @st, @num_insertados = confronta(post)
              flash[:notice] = "Archivo #{@nombre_archivo} cargado correctamente"
              redirect_to :action => "resultados", :datafile => @post, :num_insertados=>@num_insertados
           else
@@ -50,14 +50,16 @@ class UploadController < ApplicationController
       :disposition => 'inline')
     end
 
+    def download_err_fvalor
+
+      send_file(RAILS_ROOT+"/tmp/" + "err_fecha_valor_" +Datafile.find(params[:id]).nombre_archivo ,
+      :disposition => 'inline')
+    end
+
     def show_aplicados
       @datafile = Datafile.find(params[:datafile])
       @depositos_aplicados = Deposito.find(:all, :conditions => ["datafile_id", @datafile.id])
     end
-
-
-
-
 
 
 
@@ -101,7 +103,7 @@ class UploadController < ApplicationController
   def upload_fecha_valor
     case request.method
       when :post
-      @nombre_archivo = params[:datafile]["file"].original_filename
+      @nombre_archivo = params[:datafile]["file"].original_filename if params[:datafile][:file].size > 0
       if @nombre_archivo =~ /csv|CSV$/
           archivo = Datafile.save_file_csv_fecha_valor(params[:datafile])
           #---- Verificamos si guarda correctamente ----

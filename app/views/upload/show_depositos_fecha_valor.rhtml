@@ -32,9 +32,9 @@
   <%end%>
 </table>
 
+<%=button_to 'Ver errores si existen', :action => "download_err_fvalor", :controller => "upload", :id => @datafile%><br />
 
-
-<%=button_to 'Aplicar', :action => "aplicar_depositos_fvalor", :controller => "creditos"%><br />
+<%=button_to 'Aplicar', :action => "aplicar_depositos_fvalor", :controller => "creditos", :id =>@datafile %><br />
 
 
 <%=button_to 'Inicio', :action => "index", :controller => "home"%>

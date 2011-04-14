@@ -29,8 +29,8 @@
       <div id="content">
           <div id="main">																																																																																																																											<div class="inner_copy"><a href="http://www.bestfreetemplates.org/">free templates</a><a href="http://www.bannermoz.com/">banner templates</a></div>
               <div class="current">
-                  <a href="#"><img src="/images/mac/principal.jpg" alt="" width="659" height="270" /></a>
-                  <p>Sistema de Créditos v1.0</p>
+                  <a href="#"><img src="/images/webapp.gif" alt="bienvenidos" width="459" height="270" /></a>
+                  <p>Sistema de Créditos v1.0 ®</p>
                   <a href="#" class="current_link"><img src="/images/mac/spacer.gif" width="65" height="65" alt="" /></a>
               </div>
           </div>
@@ -40,14 +40,14 @@
                     <% if session['user'].nil?%>
                     <!-- formulario para inicio de sesion -->
                       <% form_tag :action => 'login', :controller=>"account" do%>
-                      <div title="Entrada">
-                          <h2>L o g i n &nbsp d e &nbsp E n t r a d a</h2><br />
+                     <div title="Entrada" style="font-size: 18px; text-align: center">
+                          <h2>Inicio de Sesión</h2><br />
                           <label for="user_login">Usuario:</label><br />
-                          <input type="text" name="user_login" id="user_login" size="25" value=""/><br/>
+                          <input class="form-login" type="text" name="user_login" id="user_login" size="25" value="" style="border-color: green;"/><br/><br />
                           <label for="user_password">Contraseña:</label><br />
-                          <input type="password" name="user_password" id="user_password" size="25" value=""/><br />
-                          <p><input type="submit" name="login" value="E n t r a r" class="primary" /></p>
-                      </div>
+                          <input class="form-login" type="password" name="user_password" id="user_password" size="25" value="" style="border-color: green;"/><br />
+                          <p><input title="inicio de sesión" alt="inicio de sesión" type="image"  src="/images/entrar_boton.png"/></p>
+                    </div>
                       <%end%>
 
                     <%end%>

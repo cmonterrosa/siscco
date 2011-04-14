@@ -809,6 +809,7 @@ EOS
 
    def vencimientos
      @creditos = Credito.find(:all, :conditions => "status = 0")
+     
    end
 
    def layout_fommur

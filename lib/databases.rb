@@ -198,15 +198,15 @@ module Databases
 
 
 
-    def confronta(nombre_archivo)
+    def confronta(datafile)
       begin
+        datafile = Datafile.find(datafile)
+        nombre_archivo = datafile.nombre_archivo
         num_linea = 1
         num_insertados = 0
         #---- Limpiamos los archivos basura ----
         File.delete("#{RAILS_ROOT}/tmp/err_#{nombre_archivo}") if File.exists?("#{RAILS_ROOT}/tmp/err_#{nombre_archivo}")
         File.delete("#{RAILS_ROOT}/tmp/na_#{nombre_archivo}") if File.exists?("#{RAILS_ROOT}/tmp/na_#{nombre_archivo}")
-        #--- Obtenemos el id del archivo cargado ---
-        @datafile = Datafile.find(:first, :conditions=>["nombre_archivo = ?", nombre_archivo])
         #---- Creamos el archivo para los na ---
         @no_aplicados = File.new("#{RAILS_ROOT}/tmp/noaplicados_#{nombre_archivo}", "w+")
         #---- Creamos el archivo para los errores ---
@@ -229,7 +229,7 @@ module Databases
               if @credito
                   
                   #--- Insertamos el registro correspondiente al pago ---
-                  @deposito = Deposito.new(:credito_id => @credito.id, :datafile_id => @datafile.id, :sucursal => sucursal, :autorizacion => autorizacion, :codigo => codigo, :subcodigo => subcodigo, :ref_num => ref_numerica, :ref_alfa => ref_alfa, :importe => total.to_f)
+                  @deposito = Deposito.new(:credito_id => @credito.id, :datafile_id => datafile.id, :sucursal => sucursal, :autorizacion => autorizacion, :codigo => codigo, :subcodigo => subcodigo, :ref_num => ref_numerica, :ref_alfa => ref_alfa, :importe => total.to_f)
                   unless @deposito.save
                     @no_aplicados.puts(linea)
                   end
