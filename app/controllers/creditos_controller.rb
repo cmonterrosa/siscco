@@ -353,12 +353,22 @@ class CreditosController < ApplicationController
          @aplicados << v.credito.id
        end
     }
-    @transacciones_aplicadas = []
+
+    if @aplicados.empty? #--- Validamos si al menos hay un aplicado
+       flash[:notice] = "Depositos aplicados"
+       redirect_to :action => "p_aplicar", :controller => "creditos"
+    else
+        @transacciones_aplicadas = []
       @aplicados.each do |row|
           @transacciones_aplicadas << Transaccion.find(:all, :select => "t.*", :joins => "t, pagogrupals pg, creditos c",
                  :conditions => ["t.pagogrupal_id = pg.id AND pg.credito_id = c.id and c.id = ?", row])
 
       end
+
+    end
+
+
+  
   end
 
   #--- aplicacion de depositos con fecha valor -----
@@ -381,13 +391,17 @@ class CreditosController < ApplicationController
          @aplicados << v.credito.id
        end
     }
-    @transacciones_aplicadas = []
+
+    if @aplicados.empty? #--- Validamos si al menos hay un aplicado
+       flash[:notice] = "Depositos aplicados"
+       redirect_to :action => "vf_p_aplicar", :controller => "creditos"
+    else
+      @transacciones_aplicadas = []
       @aplicados.each do |row|
           @transacciones_aplicadas << Transaccion.find(:all, :select => "t.*", :joins => "t, pagogrupals pg, creditos c",
                  :conditions => ["t.datafile_id = ? AND t.pagogrupal_id = pg.id AND pg.credito_id = c.id and c.id = ?", datafile, row])
-
       end
-    
+    end
   end
 
   def fv_p_aplicar

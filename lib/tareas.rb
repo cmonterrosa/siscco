@@ -75,7 +75,7 @@ class Vencimiento
      unless credito_pagado?
         calcular_vencimientos
      else
-       liberar_credito
+       liberar_credito if @liquidado==false
      end
      #impresiones en pantalla
           puts "Dias de atraso => #{@dias_atraso}"
@@ -148,7 +148,7 @@ class Vencimiento
                   #IVA POR INTERESES NORMALES
                   #INTERESES NORMALES
                   #CAPITAL
-     if total >= @total_deuda
+     if total >= @total_deuda && @liquidado==false
         #metemos la transaccion
         Transaccion.transaction do
                    #... iva por comisiones
@@ -219,7 +219,9 @@ end
  def liberar_credito
         @credito.update_attributes!(:status=>1, :fecha_fin => Date.strptime(@fecha_calculo.to_s))
         @clientes.each do |cliente|
-            cliente.update_attributes!(:activo => 0, :fecha_fin => @fecha_calculo)
+            if cliente.activo == 1 && !cliente.fecha_fin
+              cliente.update_attributes!(:activo => 0, :fecha_fin => Date.strptime(@fecha_calculo.to_s))
+            end
         end
  end
 
