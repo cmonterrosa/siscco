@@ -91,7 +91,10 @@ class Vencimiento
   def calcular_vencimientos
      credito = @credito
      moratorio_diario = (@credito.producto.moratorio.to_f / 100.0) / 360.0
-     tasa_diaria_moratoria = round((@credito.producto.moratorio.to_f / 100.0) / 360.0, 4)
+     #--- tasa_diaria_moratoria = round((@credito.producto.moratorio.to_f / 100.0) / 360.0, 4)
+     #--- nueva tasa diaria moratoria
+     tasa_diaria_moratoria = ((@credito.producto.moratorio.to_f/ 100.0) / 12.0) / 28.0
+
      sum_moratorio=0
      #--- Validaremos si es otro año ----
      hoy = @fecha_calculo.yday
