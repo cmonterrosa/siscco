@@ -32,9 +32,17 @@
   <%end%>
 </table>
 
+<%if @datafile.fechavalors.size > 0%>
 <%=button_to 'Ver errores si existen', :action => "download_err_fvalor", :controller => "upload", :id => @datafile%><br />
+<%end%>
 
-<%=button_to 'Aplicar', :action => "aplicar_depositos_fvalor", :controller => "creditos", :id =>@datafile %><br />
+<%if @datafile.fechavalors.size > 0%>
+  <%=button_to 'Aplicar', :action => "aplicar_depositos_fvalor", :controller => "creditos", :id =>@datafile %><br />
+<%else%>
+  <br /> <br />
+  <h2 style="color: red;"> Ningún registro cargado, verifique el número de referencia corresponda a un crédito</h2>
+
+<%end%>
 
 
 <%=button_to 'Inicio', :action => "index", :controller => "home"%>
