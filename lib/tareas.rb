@@ -11,7 +11,6 @@ class Vencimiento
       else
         @tabla_excedente = "depositos"
       end
-      
       @credito = credito
       @gastos_cobranza = 0
       @capital_vencido = 0
@@ -41,13 +40,11 @@ class Vencimiento
         end
       else
         if @credito.producto.moratorio_flat
-           @tasa_diaria_moratoria = (((@credito.producto.moratorio_flat.to_f / 100.0) / 4.0 )/7.0)
+           @tasa_diaria_moratoria = ((@credito.producto.moratorio_flat.to_f / 100.0) / 30.0)
         else
-           @tasa_diaria_moratoria = (((@credito.producto.moratorio_flat.to_f * 2.0 / 100.0) / 4.0 )/7.0)
+           @tasa_diaria_moratoria = ((@credito.producto.tasa_anualizada.to_f * 2.0 / 100.0) / 30.0)
         end
       end
-a=10
-
   end
 
   attr_accessor :credito, :pago_diario, :dias_atraso, :moratorio, :gastos_cobranza, :capital_vencido, :cuota_diaria, :fecha_calculo, :intereses_devengados, :devengo_diario, :interes_vencido, :numero_clientes, :iva_moratorio, :iva_gastos_cobranza, :total_deuda, :proximo_pago_string, :liquidado
@@ -105,10 +102,6 @@ a=10
 
   def calcular_vencimientos
      credito = @credito
-     #tasa_diaria_moratoria = (@credito.producto.moratorio.to_f / 100.0) / 360.0
-     #--- nueva tasa diaria moratoria
-     #tasa_diaria_moratoria = ((@credito.producto.moratorio.to_f/ 100.0) / 12.0) / 28.0
-
      sum_moratorio=0
      #--- Validaremos si es otro año ----
      hoy = @fecha_calculo.yday
@@ -129,9 +122,8 @@ a=10
           sum_moratorio += ((p_recuperado_global * @tasa_diaria_moratoria) * dias_por_cobrar)
          }
       
-
-          @moratorio = round(sum_moratorio * 0.84,2)
-          @iva_moratorio = round(sum_moratorio * 0.16 ,2)
+          @moratorio = round(sum_moratorio * 0.84,1)
+          @iva_moratorio = round(sum_moratorio * 0.16 ,1)
           @gastos_cobranza = ((dias_transcurridos / 8) * 200)* 0.84
           @iva_gastos_cobranza = ((dias_transcurridos / 8) * 200) * 0.16
           #---- Globales --
