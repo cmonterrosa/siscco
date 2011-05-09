@@ -128,7 +128,6 @@ class CreditosController < ApplicationController
     @credito.producto = @producto
     @fecha_inicio = Date.strptime(@credito.fecha_inicio.to_s)
     @credito.tasa_interes = @producto.tasa_anualizada
-    @credito.interes_moratorio = @producto.moratorio
     if params[:credito][:grupo_id].nil?
       @tipo = "INDIVIDUAL"
       #--- Los creditos individuales siempre son con recursos propios ------
@@ -364,11 +363,7 @@ class CreditosController < ApplicationController
                  :conditions => ["t.pagogrupal_id = pg.id AND pg.credito_id = c.id and c.id = ?", row])
 
       end
-
     end
-
-
-  
   end
 
   #--- aplicacion de depositos con fecha valor -----

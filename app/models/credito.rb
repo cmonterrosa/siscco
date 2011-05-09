@@ -91,4 +91,22 @@ class Credito < ActiveRecord::Base
   end
 
 
+  def tasa_moratoria
+    moratorio=0.0
+        if self.tipo_interes == "SALDOS INSOLUTOS (SSI)"
+          if self.producto.moratorio_ssi
+            moratorio=self.producto.moratorio_ssi
+          else
+            moratorio = ((self.producto.tasa_anualizada.to_f * 2))
+          end
+        else
+          if self.producto.moratorio_flat
+             moratorio = self.producto.moratorio_flat.to_f
+          else
+             moratorio = (self.producto.moratorio_flat.to_f * 2)
+          end
+        end
+        return moratorio
+  end
+
    end

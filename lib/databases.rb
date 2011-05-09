@@ -10,6 +10,8 @@ module Databases
            if tipo == "GRUPAL"
              if credito.grupo.clientes.size >= 1 #-- aqui deberiamos de validar que sean 3
                  if credito.save!
+                    # asignamos la tasa moratoria
+                    credito.update_attributes!(:interes_moratorio => credito.tasa_moratoria)
                     #--- Guardamos el log ---
                     Log.create(:operacion => "INSERTAR",
                     :clase => credito.class.to_s,
@@ -310,6 +312,7 @@ module Databases
               @credito = Credito.find(:first, :conditions => ["num_referencia = ?", ref_alfa])
               if @credito
                   #--- Insertamos el registro correspondiente al pago ---
+
                   @deposito = Fechavalor.new(:fecha => fecha.to_date, :credito_id => @credito.id, :datafile_id => @datafile.id, :sucursal => sucursal, :autorizacion => autorizacion, :codigo => codigo, :subcodigo => subcodigo, :ref_alfa => ref_alfa, :importe => importe.to_f)
                   unless @deposito.save
                     @no_aplicados.puts(linea)

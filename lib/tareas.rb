@@ -32,7 +32,22 @@ class Vencimiento
       @pagos_vencidos = nil
       @proximo_pago_string = " "
       @liquidado=false
- 
+      @tipo_interes = credito.tipo_interes
+      if @tipointeres == "SALDOS INSOLUTOS (SSI)"
+        if @credito.producto.moratorio_ssi
+           @tasa_diaria_moratoria = ((@credito.producto.moratorio_ssi.to_f / 100.0) / 360.0)
+        else
+           @tasa_diaria_moratoria = (((@credito.producto.tasa_anualizada.to_f * 2.0) / 100.0) / 360.0)
+        end
+      else
+        if @credito.producto.moratorio_flat
+           @tasa_diaria_moratoria = (((@credito.producto.moratorio_flat.to_f / 100.0) / 4.0 )/7.0)
+        else
+           @tasa_diaria_moratoria = (((@credito.producto.moratorio_flat.to_f * 2.0 / 100.0) / 4.0 )/7.0)
+        end
+      end
+a=10
+
   end
 
   attr_accessor :credito, :pago_diario, :dias_atraso, :moratorio, :gastos_cobranza, :capital_vencido, :cuota_diaria, :fecha_calculo, :intereses_devengados, :devengo_diario, :interes_vencido, :numero_clientes, :iva_moratorio, :iva_gastos_cobranza, :total_deuda, :proximo_pago_string, :liquidado
@@ -90,10 +105,9 @@ class Vencimiento
 
   def calcular_vencimientos
      credito = @credito
-     moratorio_diario = (@credito.producto.moratorio.to_f / 100.0) / 360.0
-     #--- tasa_diaria_moratoria = round((@credito.producto.moratorio.to_f / 100.0) / 360.0, 4)
+     #tasa_diaria_moratoria = (@credito.producto.moratorio.to_f / 100.0) / 360.0
      #--- nueva tasa diaria moratoria
-     tasa_diaria_moratoria = ((@credito.producto.moratorio.to_f/ 100.0) / 12.0) / 28.0
+     #tasa_diaria_moratoria = ((@credito.producto.moratorio.to_f/ 100.0) / 12.0) / 28.0
 
      sum_moratorio=0
      #--- Validaremos si es otro año ----
@@ -112,7 +126,7 @@ class Vencimiento
           #--- Calculamos el moratorio para el periodo ---
           dias_por_cobrar = hoy - pago.fecha_limite.yday
           p_recuperado_global = pago.principal_recuperado.to_f 
-          sum_moratorio += ((p_recuperado_global * tasa_diaria_moratoria) * dias_por_cobrar)
+          sum_moratorio += ((p_recuperado_global * @tasa_diaria_moratoria) * dias_por_cobrar)
          }
       
 
