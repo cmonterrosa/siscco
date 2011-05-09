@@ -61,7 +61,15 @@
         </tr>
         <tr>
           <td class="hed">Tasa de interes moratoria</td>
-          <td><%=@credito.producto.moratorio%> %</td>
+          <td><%=@credito.tasa_moratoria%> %</td>
+        </tr>
+        <tr>
+          <td class="hed">Producto</td>
+          <td><%=@credito.producto.producto%></td>
+        </tr>
+        <tr>
+          <td class="hed">Tipo de interes</td>
+          <td><%=@credito.tipo_interes%></td>
         </tr>
       </table>
     </td>

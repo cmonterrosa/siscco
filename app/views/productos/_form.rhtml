@@ -4,13 +4,13 @@
 <table>
   <tr>
     <th>Descripción:</th>
-    <th>Interes Moratorio: (1-100) </th>
-    <th>&nbsp;</th>
+    <th>Interes Moratorio Anual: [1-100] (SSI) </th>
+    <th>Interes Moratorio Mensual: [1-100] (FLAT)</th>
   </tr>
   <tr>
     <td><%= text_field 'producto', 'producto', :onkeypress => "return CharNum(event, 'letra');", :class => 'text'  %></td>
-    <td><%= text_field 'producto', 'moratorio', :onkeypress => "return CharNum(event, 'numero');", :class => 'text'  %></td>
-    <td>&nbsp;</td>
+    <td><%= text_field 'producto', 'moratorio_ssi', :onkeypress => "return CharNum(event, 'numero');", :class => 'text'  %></td>
+    <td><%= text_field 'producto', 'moratorio_flat', :onkeypress => "return CharNum(event, 'numero');", :class => 'text'  %></td>
   </tr>
   <tr>
     <th>Ahorro:</th>

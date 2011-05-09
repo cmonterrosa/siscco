@@ -7,7 +7,8 @@ class Producto < ActiveRecord::Base
 
   def initialize(params = nil)
     super
-      self.moratorio = self.intereses.to_f * 2.0 unless self.moratorio
+      self.moratorio_ssi = self.intereses.to_f * 2.0 unless self.moratorio_ssi
+      self.moratorio_flat = self.intereses.to_f * 2.0 unless self.moratorio_flat
     end
 
   def before_save
