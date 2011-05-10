@@ -224,6 +224,11 @@ module Creditos
     @capital_semanal = @capital / @producto.num_pagos
     #@tasa_semanal =   ((@producto.intereses.to_f / 100.0 ) / 30.0) * 7
     @tasa_semanal = round((((@producto.tasa_anualizada.to_f) / 360.0 ) * 7) / 100.0, 4)
+    if credito.tipo_interes == "SALDOS INSOLUTOS (SSI)"
+       @tasa_semanal = round((((@producto.tasa_anualizada.to_f) / 360.0 ) * 7) / 100.0, 4)
+    else
+       @tasa_semanal = round((((@producto.tasa_mensual_flat.to_f) / 30.0 ) * 7) / 100.0, 4)
+    end
     case tipos_interes
       #when "Pagos iguales con decremento de interes e incremento de capital"
        when "SALDOS INSOLUTOS (SSI)"

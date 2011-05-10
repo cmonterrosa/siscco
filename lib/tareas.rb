@@ -31,56 +31,22 @@ class Vencimiento
       @pagos_vencidos = nil
       @proximo_pago_string = " "
       @liquidado=false
-      @tipo_interes = credito.tipo_interes
-      if @tipointeres == "SALDOS INSOLUTOS (SSI)"
+      @tasa_moratoria_mensual= 0
+      if credito.tipo_interes == "SALDOS INSOLUTOS (SSI)"
         if @credito.producto.moratorio_ssi
-           @tasa_diaria_moratoria = ((@credito.producto.moratorio_ssi.to_f / 100.0) / 360.0)
+           @tasa_moratoria_mensual = ((@credito.producto.moratorio_ssi.to_f / 100.0) / 12.0)
         else
-           @tasa_diaria_moratoria = (((@credito.producto.tasa_anualizada.to_f * 2.0) / 100.0) / 360.0)
+           @tasa_moratoria_mensual = (((@credito.producto.tasa_anualizada.to_f * 2.0) / 100.0) / 12.0)
         end
       else
         if @credito.producto.moratorio_flat
-           @tasa_diaria_moratoria = ((@credito.producto.moratorio_flat.to_f / 100.0) / 30.0)
-        else
-           @tasa_diaria_moratoria = ((@credito.producto.tasa_anualizada.to_f * 2.0 / 100.0) / 30.0)
+           @tasa_moratoria_mensual = (@credito.producto.moratorio_flat.to_f / 100.0)
         end
       end
   end
 
   attr_accessor :credito, :pago_diario, :dias_atraso, :moratorio, :gastos_cobranza, :capital_vencido, :cuota_diaria, :fecha_calculo, :intereses_devengados, :devengo_diario, :interes_vencido, :numero_clientes, :iva_moratorio, :iva_gastos_cobranza, :total_deuda, :proximo_pago_string, :liquidado
   
-  def all
-   #---- Vamos a contabilizar los dias de atraso ---
-   #--- Iteramos sobre todos los creditos ---
-   Credito.find(:all, :conditions=> "status=0").each do |credito|
-      dias_transcurridos = DateTime.now.yday - proximo_pago(credito).fecha_limite.yday
-      periodos_transcurridos_sin_pagar = periodos_sin_pagar(credito)
-      todos_los_pagos = Pago.find(:all, :conditions => ["credito_id = ? and pagado = 0", credito.id], :order => "num_pago", :group => "cliente_id")
-      pagos_vencidos = todos_los_pagos[0..periodos_transcurridos_sin_pagar - 1]
-      pagos_vencidos.each{|pago| @sumatoria_capital_vencido+=pago.capital_minimo.to_f}
-      if dias_transcurridos > 0
-       pago_diario = pago_minimo_informativo(credito) / credito.producto.periodo.dias.to_f
-       moratorio_diario = ((credito.producto.moratorio / 100.0 ) * proximo_pago(credito).capital_minimo.to_f ) / credito.producto.periodo.dias.to_f
-       @gastos_cobranza = (dias_transcurridos / 8) * 200
-       #---- Globales --
-       moratorio = moratorio_diario * dias_transcurridos.to_f
-       gastos_cobranza = @gastos_cobranza
-       pago_minimo = pago_minimo_informativo(credito)
-       puts "Capital minimo por periodo => #{proximo_pago(credito).capital_minimo}"
-       puts "Pago diario (C + I) / dias = #{pago_diario}"
-       puts "Couta diaria por atraso => #{moratorio_diario + pago_diario}"
-       puts "Dias de atraso => #{dias_transcurridos}"
-       puts "Moratorio => #{moratorio}"
-       puts "Gastos de Cobranza => #{gastos_cobranza}"
-       puts "Capital + Interes Normales => #{pago_minimo}"
-       puts "Capital Vencido hasta hoy => #{@sumatoria_capital_vencido}"
-       puts "------- Total a pagar => #{gastos_cobranza + moratorio + @sumatoria_capital_vencido}"
-      end
-   end
-
-
-  end
-
 
   def procesar
      # Validaremos si ya termino de pagar
@@ -113,24 +79,23 @@ class Vencimiento
          @periodos_sin_pagar = periodos_transcurridos_sin_pagar = periodos_sin_pagar(credito,@fecha_calculo)
          todos_los_pagos = Pagogrupal.find(:all, :conditions => ["credito_id = ? and pagado = 0", credito.id], :order=>"num_pago")
          @pagos_vencidos = todos_los_pagos[0..periodos_transcurridos_sin_pagar - 1]
+         periodos_vencidos=0
          @pagos_vencidos.each{|pago|
          @capital_vencido+=pago.principal_recuperado.to_f #-- sumamos capital vencido
          @interes_vencido += (pago.interes_minimo.to_f)
-          #--- Calculamos el moratorio para el periodo ---
-          dias_por_cobrar = hoy - pago.fecha_limite.yday
-          p_recuperado_global = pago.principal_recuperado.to_f 
-          sum_moratorio += ((p_recuperado_global * @tasa_diaria_moratoria) * dias_por_cobrar)
+          sum_moratorio += (pago.principal_recuperado.to_f * @tasa_moratoria_mensual / 30.0) * dias_por_cobrar(@fecha_calculo, pago.fecha_limite)
+          periodos_vencidos+=1
          }
       
           @moratorio = round(sum_moratorio * 0.84,1)
           @iva_moratorio = round(sum_moratorio * 0.16 ,1)
-          @gastos_cobranza = ((dias_transcurridos / 8) * 200)* 0.84
-          @iva_gastos_cobranza = ((dias_transcurridos / 8) * 200) * 0.16
+          #@gastos_cobranza = ((dias_transcurridos / 8) * 200)* 0.84
+          @gastos_cobranza = ((periodos_vencidos - 1) * 200 ) *0.84
+          @iva_gastos_cobranza = ((periodos_vencidos -1) * 200) * 0.16
           #---- Globales --
           moratorio_diario = 0
           @cuota_diaria = moratorio_diario + @pago_diario
           @intereses_devengados = @devengo_diario * dias_transcurridos.to_f
-          @total_deuda=0
       end
 
     #--- si no tiene periodos pendientes y esta pagando en la fecha exacta -----
@@ -279,6 +244,19 @@ end
      return false
    end
  end
+
+ #---- Calculo de dias por pagar ---
+  def dias_por_cobrar(hoy, fecha)
+    anio_hoy = hoy.year
+    yday_hoy = hoy.yday
+    anio_fecha = fecha.year
+    yday_fecha = fecha.yday
+    if anio_hoy == anio_fecha
+      return yday_hoy - yday_fecha
+    else
+      return (yday_hoy + 365) - yday_fecha
+    end
+  end
 
  
 

@@ -8,6 +8,5 @@ class ModifyProductos < ActiveRecord::Migration
   def self.down
     remove_column :productos, :moratorio_flat
     rename_column :productos, :moratorio_ssi, :moratorio
-
   end
 end
