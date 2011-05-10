@@ -222,18 +222,11 @@ module Creditos
     @producto = Producto.find(credito.producto_id)
     @capital = (credito.monto.to_f / credito.grupo.clientes.size.to_f)
     @capital_semanal = @capital / @producto.num_pagos
-    #@tasa_semanal =   ((@producto.intereses.to_f / 100.0 ) / 30.0) * 7
-    @tasa_semanal = round((((@producto.tasa_anualizada.to_f) / 360.0 ) * 7) / 100.0, 4)
-    if credito.tipo_interes == "SALDOS INSOLUTOS (SSI)"
-       @tasa_semanal = round((((@producto.tasa_anualizada.to_f) / 360.0 ) * 7) / 100.0, 4)
-    else
-       @tasa_semanal = round((((@producto.tasa_mensual_flat.to_f) / 30.0 ) * 7) / 100.0, 4)
-    end
     case tipos_interes
       #when "Pagos iguales con decremento de interes e incremento de capital"
        when "SALDOS INSOLUTOS (SSI)"
+        @tasa_semanal = round((((@producto.tasa_anualizada.to_f) / 360.0 ) * 7) / 100.0, 4)
         @pago_semanal = round((@capital * (@tasa_semanal/(1-(1 + @tasa_semanal)**(@producto.num_pagos*-1)))),2)
-        #@pago_semanal =  Integer(@pago_semanal * 100) / Float(100)
         clientes_activos_grupo(Grupo.find(credito.grupo_id)).each do |y|
               contador=1
               saldo_inicial = @capital
@@ -258,8 +251,6 @@ module Creditos
 
          #---- Aqui vamos a calcular el devengo diario -------
          when "Pagos iguales de capital"
-              #-- Hacemos los calculos correspondientes ----
-              
               #--- Hacemos una iteracion por todos los miembros del grupo y dividimos el total del credito ---
               clientes_activos_grupo(Grupo.find(credito.grupo_id)).each do |y|
               contador=1
@@ -281,10 +272,9 @@ module Creditos
                end
             end
       when "GLOBAL MENSUAL (FLAT)"
-         @meses = @producto.num_pagos / 4
-         @total_interes = @capital * (@producto.intereses.to_f / 100) * @meses
-         @interes_semanal = @total_interes / @producto.num_pagos
-              clientes_activos_grupo(Grupo.find(credito.grupo_id)).each do |y|
+         @tasa_semanal = (((@producto.tasa_mensual_flat.to_f) / 30.0 ) * 7) / 100.0
+         @interes_semanal = @capital * @tasa_semanal
+             clientes_activos_grupo(Grupo.find(credito.grupo_id)).each do |y|
                 contador=1
                 saldo_inicial = @capital
                 arreglo_pagos.each do |x|

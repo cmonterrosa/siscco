@@ -86,13 +86,11 @@ class Vencimiento
           sum_moratorio += (pago.principal_recuperado.to_f * @tasa_moratoria_mensual / 30.0) * dias_por_cobrar(@fecha_calculo, pago.fecha_limite)
           periodos_vencidos+=1
          }
-      
-          #@moratorio = round(sum_moratorio * 0.84,1)
           @moratorio = round(sum_moratorio / 1.16)
           @iva_moratorio = round(sum_moratorio  - @moratorio)
-          #@gastos_cobranza = ((dias_transcurridos / 8) * 200)* 0.84
-          @gastos_cobranza = ((periodos_vencidos - 1) * 200 ) *0.84
-          @iva_gastos_cobranza = ((periodos_vencidos -1) * 200) * 0.16
+          #--- Gastos de cobranza ---
+          @gastos_cobranza = round(((periodos_vencidos - 1) * 200 ) / 1.16)
+          @iva_gastos_cobranza = round((((periodos_vencidos -1) * 200) - @gastos_cobranza))
           #---- Globales --
           moratorio_diario = 0
           @cuota_diaria = moratorio_diario + @pago_diario
