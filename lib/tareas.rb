@@ -87,8 +87,9 @@ class Vencimiento
           periodos_vencidos+=1
          }
       
-          @moratorio = round(sum_moratorio * 0.84,1)
-          @iva_moratorio = round(sum_moratorio * 0.16 ,1)
+          #@moratorio = round(sum_moratorio * 0.84,1)
+          @moratorio = round(sum_moratorio / 1.16)
+          @iva_moratorio = round(sum_moratorio  - @moratorio)
           #@gastos_cobranza = ((dias_transcurridos / 8) * 200)* 0.84
           @gastos_cobranza = ((periodos_vencidos - 1) * 200 ) *0.84
           @iva_gastos_cobranza = ((periodos_vencidos -1) * 200) * 0.16

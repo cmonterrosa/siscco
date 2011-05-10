@@ -14,8 +14,8 @@
   </tr>
 
   <tr>
-    <th>Interes Normales (Tasa Mensual del 1 al 100%)</th>
-    <th>Intereses Moratorios (Tasa Mensual del 1 al 100%)</th>
+    <th>Interes Normales (Tasa Mensual del 1 al 200%)</th>
+    <th>Intereses Moratorios (Tasa Mensual del 1 al 200%)</th>
   </tr>
   <tr>
     <td><%= text_field 'producto', 'tasa_mensual_flat', :onkeypress => "return CharNum(event, 'numero');", :class => 'text'  %></td>
@@ -29,12 +29,12 @@
   </tr>
 
   <tr>
-    <th>Interes Normales (Tasa anualizada del 1 al 100%)</th>
-    <th>Intereses Moratorios (Tasa anualizada del 1 al 100%) </th>
+    <th>Interes Normales (Tasa anualizada del 1 al 200%)</th>
+    <th>Intereses Moratorios (Tasa anualizada del 1 al 200%) </th>
   </tr>
   <tr>
     <td><%= text_field 'producto', 'tasa_anualizada', :onkeypress => "return CharNum(event, 'numero');", :class => 'text'  %></td>
-    <td><%= text_field 'producto', 'moratorio_flat', :onkeypress => "return CharNum(event, 'numero');", :class => 'text'  %></td>
+    <td><%= text_field 'producto', 'moratorio_ssi', :onkeypress => "return CharNum(event, 'numero');", :class => 'text'  %></td>
   </tr>
 
   <tr>

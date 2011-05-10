@@ -47,18 +47,29 @@
           <td class="hed">Integrantes del grupo</td>
           <td><%=credito_vencimiento.numero_clientes.to_i%></td>
         </tr>
-        <tr>
-          <td class="hed">Tasa de interes anual</td>
-          <td><%=separar_miles(@credito.tasa_interes)%> %</td>
-        </tr>
-        <tr>
-          <td class="hed">Tasa de interes mensual</td>
-          <td><%=separar_miles(round((((@credito.producto.tasa_anualizada.to_f) / 360.0 ) * 30),2) / 1.0)%> %</td>
-        </tr>
-        <tr>
-          <td class="hed">Tasa de interes semanal</td>
-          <td><%=separar_miles(round((((@credito.producto.tasa_anualizada.to_f) / 360.0 ) * 7),2) / 1.0)%> %</td>
-        </tr>
+        <%if @credito.tipo_interes == "SALDOS INSOLUTOS (SSI)"%>
+          <tr>
+            <td class="hed">Tasa de interes anual</td>
+            <td><%=separar_miles(@credito.producto.tasa_anualizada)%> %</td>
+          </tr>
+          <tr>
+            <td class="hed">Tasa de interes mensual</td>
+            <td><%=separar_miles(round((((@credito.producto.tasa_anualizada.to_f) / 360.0 ) * 30),2) / 1.0)%> %</td>
+          </tr>
+          <tr>
+            <td class="hed">Tasa de interes semanal</td>
+            <td><%=separar_miles(round((((@credito.producto.tasa_anualizada.to_f) / 360.0 ) * 7),2) / 1.0)%> %</td>
+          </tr>
+        <%else%>
+          <tr>
+            <td class="hed">Tasa de interes mensual</td>
+            <td><%=separar_miles(round((@credito.producto.tasa_mensual_flat.to_f),2) / 1.0)%> %</td>
+          </tr>
+          <tr>
+            <td class="hed">Tasa de interes semanal</td>
+            <td><%=separar_miles(round((((@credito.producto.tasa_mensual_flat.to_f) / 30.0 ) * 7),2) / 1.0)%> %</td>
+          </tr>
+       <%end%>
         <tr>
           <td class="hed">Tasa de interes moratoria</td>
           <td><%=@credito.tasa_moratoria%> %</td>
