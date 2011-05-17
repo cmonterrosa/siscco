@@ -24,6 +24,17 @@ class Vencimiento
       @intereses_devengados = 0
       @devengo_diario = 0
       @total_deuda = 0
+      #---- Valores dinámicos para iva y gastos de cobranza ---
+      if credito.producto.iva
+        @tasa_iva = (credito.producto.iva / 100.0)
+      else
+        @tasa_iva = 0.16
+      end
+      if credito.producto.gastos_cobranza
+        @cuota_gastos_cobranza = credito.producto.gastos_cobranza.to_f
+      else
+        @cuota_gastos_cobranza = 200
+      end
       @clientes = Clientegrupo.find(:all, :conditions => ["grupo_id = ? AND activo=1",credito.grupo.id.to_i])
       @numero_clientes = @clientes.size
       @excendente_deposito=0.0
@@ -45,7 +56,7 @@ class Vencimiento
       end
   end
 
-  attr_accessor :credito, :pago_diario, :dias_atraso, :moratorio, :gastos_cobranza, :capital_vencido, :cuota_diaria, :fecha_calculo, :intereses_devengados, :devengo_diario, :interes_vencido, :numero_clientes, :iva_moratorio, :iva_gastos_cobranza, :total_deuda, :proximo_pago_string, :liquidado
+  attr_accessor :credito, :pago_diario, :dias_atraso, :moratorio, :gastos_cobranza, :capital_vencido, :cuota_diaria, :fecha_calculo, :intereses_devengados, :devengo_diario, :interes_vencido, :numero_clientes, :iva_moratorio, :iva_gastos_cobranza, :total_deuda, :proximo_pago_string, :liquidado, :tasa_iva, :cuota_gastos_cobranza
   
 
   def procesar
@@ -86,11 +97,11 @@ class Vencimiento
           sum_moratorio += (pago.principal_recuperado.to_f * @tasa_moratoria_mensual / 30.0) * dias_por_cobrar(@fecha_calculo, pago.fecha_limite)
           periodos_vencidos+=1
          }
-          @moratorio = round(sum_moratorio / 1.16)
+          @moratorio = round(sum_moratorio / (1+@tasa_iva))
           @iva_moratorio = round(sum_moratorio  - @moratorio)
           #--- Gastos de cobranza ---
-          @gastos_cobranza = round(((periodos_vencidos - 1) * 200 ) / 1.16)
-          @iva_gastos_cobranza = round((((periodos_vencidos -1) * 200) - @gastos_cobranza))
+          @gastos_cobranza = round(((periodos_vencidos - 1) * (@cuota_gastos_cobranza) ) / (1+@tasa_iva))
+          @iva_gastos_cobranza = round((((periodos_vencidos -1) * (@cuota_gastos_cobranza)) - @gastos_cobranza))
           #---- Globales --
           moratorio_diario = 0
           @cuota_diaria = moratorio_diario + @pago_diario
