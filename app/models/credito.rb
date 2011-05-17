@@ -87,7 +87,12 @@ class Credito < ActiveRecord::Base
 
   def ultimo_pago
       num_pago = Pagogrupal.maximum(:num_pago, :conditions => ["credito_id=?", self.id])
-      return Pagogrupal.find(:first, :conditions => ["credito_id = ? and num_pago = ?", self.id, num_pago]).fecha_limite
+      @pago = Pagogrupal.find(:first, :conditions => ["credito_id = ? and num_pago = ?", self.id, num_pago])
+      if @pago
+        return @pago.fecha_limite
+      else
+        return "--"
+      end
   end
 
 

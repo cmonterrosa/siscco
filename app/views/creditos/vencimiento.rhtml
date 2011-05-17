@@ -47,6 +47,18 @@
           <td class="hed">Integrantes del grupo</td>
           <td><%=credito_vencimiento.numero_clientes.to_i%></td>
         </tr>
+        <!-- IVA-->
+        <tr>
+          <td class="hed">IVA</td>
+          <td><%=credito_vencimiento.tasa_iva%> %</td>
+        </tr>
+         <!-- Gastos de Cobranza -->
+        <tr>
+          <td class="hed">Cuota de Gastos de Cobranza</td>
+          <td>$<%=credito_vencimiento.cuota_gastos_cobranza%></td>
+        </tr>
+        
+
         <%if @credito.tipo_interes == "SALDOS INSOLUTOS (SSI)"%>
           <tr>
             <td class="hed">Tasa de interes anual</td>
