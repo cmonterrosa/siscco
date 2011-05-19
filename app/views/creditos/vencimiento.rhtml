@@ -57,6 +57,17 @@
           <td class="hed">Cuota de Gastos de Cobranza</td>
           <td>$<%=credito_vencimiento.cuota_gastos_cobranza%></td>
         </tr>
+         <!-- Proporcion Capital -->
+        <tr>
+          <td class="hed">Proporción de Capital</td>
+          <td><%=credito_vencimiento.proporcion_capital%></td>
+        </tr>
+
+         <!--Proporcion de Interes -->
+        <tr>
+          <td class="hed">Proporcion de Interés</td>
+          <td><%=credito_vencimiento.proporcion_interes%></td>
+        </tr>
         
 
         <%if @credito.tipo_interes == "SALDOS INSOLUTOS (SSI)"%>

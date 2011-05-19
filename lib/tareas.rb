@@ -46,20 +46,27 @@ class Vencimiento
       if credito.tipo_interes == "SALDOS INSOLUTOS (SSI)"
         if @credito.producto.moratorio_ssi
            @tasa_moratoria_mensual = ((@credito.producto.moratorio_ssi.to_f / 100.0) / 12.0)
+           
         else
            @tasa_moratoria_mensual = (((@credito.producto.tasa_anualizada.to_f * 2.0) / 100.0) / 12.0)
         end
+        @tasa_normal_mensual = round((((@credito.producto.tasa_anualizada.to_f) / 360.0 ) * 30), 4)
       else
         if @credito.producto.moratorio_flat
            @tasa_moratoria_mensual = (@credito.producto.moratorio_flat.to_f / 100.0)
         end
+        @tasa_normal_mensual = @credito.producto.tasa_mensual_flat.to_f
       end
+      #---- Proporciones ---
+      @proporcion_capital = 0
+      @proporcion_interes = 0
   end
 
-  attr_accessor :credito, :pago_diario, :dias_atraso, :moratorio, :gastos_cobranza, :capital_vencido, :cuota_diaria, :fecha_calculo, :intereses_devengados, :devengo_diario, :interes_vencido, :numero_clientes, :iva_moratorio, :iva_gastos_cobranza, :total_deuda, :proximo_pago_string, :liquidado, :tasa_iva, :cuota_gastos_cobranza
+  attr_accessor :credito, :pago_diario, :dias_atraso, :moratorio, :gastos_cobranza, :capital_vencido, :cuota_diaria, :fecha_calculo, :intereses_devengados, :devengo_diario, :interes_vencido, :numero_clientes, :iva_moratorio, :iva_gastos_cobranza, :total_deuda, :proximo_pago_string, :liquidado, :tasa_iva, :cuota_gastos_cobranza, :proporcion_interes, :proporcion_capital
   
 
   def procesar
+     calcular_proporciones
      # Validaremos si ya termino de pagar
      unless credito_pagado?
         calcular_vencimientos
@@ -67,6 +74,8 @@ class Vencimiento
        liberar_credito if @liquidado==false
      end
      #impresiones en pantalla
+          puts "Proporcion Capital => #{@proporcion_capital}"
+          puts "Proporcion Interes => #{@proporcion_interes}"
           puts "Dias de atraso => #{@dias_atraso}"
           puts "Capital Vencido => #{@capital_vencido}"
           puts "Intereses Vencidos => #{@interes_vencido}"
@@ -267,6 +276,17 @@ end
       return (yday_hoy + 365) - yday_fecha
     end
   end
+
+  #--- Calculo de proporciones ---
+  def calcular_proporciones
+    meses = @credito.producto.num_pagos / @credito.producto.periodo.pagos_mes
+    interes_total_vida_credito = @tasa_normal_mensual * meses
+    total_recuperar = 100 + interes_total_vida_credito
+    @proporcion_capital = (@credito.monto / total_recuperar) / 100.0
+   # @proporcion_interes = ((Pagogrupal.sum(:interes_minimo, :conditions => ["credito_id = ?", @credito.id]) / total_recuperar) / 100.0)
+    @proporcion_interes = ((@credito.monto * (interes_total_vida_credito / 100.0) / total_recuperar) )/ 100.0
+  end
+
 
  
 
