@@ -282,9 +282,8 @@ end
     meses = @credito.producto.num_pagos / @credito.producto.periodo.pagos_mes
     interes_total_vida_credito = @tasa_normal_mensual * meses
     total_recuperar = 100 + interes_total_vida_credito
-    @proporcion_capital = (@credito.monto / total_recuperar) / 100.0
-   # @proporcion_interes = ((Pagogrupal.sum(:interes_minimo, :conditions => ["credito_id = ?", @credito.id]) / total_recuperar) / 100.0)
-    @proporcion_interes = ((@credito.monto * (interes_total_vida_credito / 100.0) / total_recuperar) )/ 100.0
+    @proporcion_capital = (100.0 / total_recuperar)
+    @proporcion_interes = (interes_total_vida_credito / total_recuperar)
   end
 
 
