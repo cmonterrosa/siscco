@@ -621,5 +621,25 @@ def municipio_grupo(grupo)
   return (grupo.clientegrupos[0].cliente.localidad.municipio.municipio)
 end
 
+def inserta_credito_extraordinario(credito)
+    if credito.tipo_interes == "SALDOS INSOLUTOS (SSI)"
+       @tasa_normal_mensual = round((((credito.producto.tasa_anualizada.to_f) / 360.0 ) * 30), 4)
+    else
+       @tasa_normal_mensual = credito.producto.tasa_mensual_flat.to_f
+    end
+    meses = @credito.producto.num_pagos / @credito.producto.periodo.pagos_mes
+    interes_total_vida_credito = @tasa_normal_mensual * meses
+    total_interes = @credito.monto * (interes_total_vida_credito / 100.0)
+    total_recuperar = 100 + interes_total_vida_credito
+    @proporcion_capital = (100.0 / total_recuperar)
+    @proporcion_interes = (interes_total_vida_credito / total_recuperar)
+    Extraordinario.transaction do
+       Extraordinario.create(:credito_id=> @credito.id, :capital => @credito.monto,
+                             :interes => total_interes, :proporcion_capital => @proporcion_capital,
+                             :proporcion_interes => @proporcion_interes)
+    end
+
+end
+
 
 end

@@ -111,50 +111,80 @@
       &nbsp;
     </td>
     <td>
-      <table class="stats" cellspacing="0">
-        <tr>
-          <td class="hed">Fecha del proximo pago: </td>
-          <td> <%=credito_vencimiento.proximo_pago_string%></td>
-        </tr>
-        <tr>
-          <td class="hed">Días de atraso: </td>
-          <td> <%=credito_vencimiento.dias_atraso%></td>
-        </tr>
-        <tr>
-          <td class="hed">Capital Vencido: </td>
-          <td>$ <%=separar_miles(credito_vencimiento.capital_vencido)%></td>
-          <%sumatoria+=credito_vencimiento.capital_vencido.to_f%>
-        </tr>
-        <tr>
-          <td class="hed">Intereses Vencidos:</td>
-          <td>$ <%=separar_miles(credito_vencimiento.interes_vencido)%></td>
-          <%sumatoria+=credito_vencimiento.interes_vencido.to_f%>
-        </tr>
-        <tr>
-          <td class="hed">Intereses Moratorios</td>
-          <td>$ <%=separar_miles(credito_vencimiento.moratorio)%></td>
-          <%sumatoria+=credito_vencimiento.moratorio.to_f%>
-        </tr>
-        <tr>
-          <td class="hed">Iva intereses moratorios</td>
-          <td>$ <%=separar_miles(credito_vencimiento.iva_moratorio)%></td>
-          <%sumatoria+=credito_vencimiento.iva_moratorio.to_f%>
-        </tr>
-        <tr>
-          <td class="hed">Gastos de Cobranza</td>
-          <td>$ <%=separar_miles(credito_vencimiento.gastos_cobranza.to_f)%></td>
-          <%sumatoria+=credito_vencimiento.gastos_cobranza.to_f%>
-        </tr>
-        <tr>
-          <td class="hed">Iva gastos de cobranza</td>
-          <td>$ <%=separar_miles(credito_vencimiento.iva_gastos_cobranza.to_f)%></td>
-          <%sumatoria+=credito_vencimiento.iva_gastos_cobranza.to_f%>
-        </tr>
-        <tr>
-          <td class="hed">Total</td>
-          <td>$ <%=separar_miles(round(credito_vencimiento.total_deuda))%></td>
-        </tr>
-      </table>
+        <%if @credito.tipo_aplicacion == "NORMAL"%>
+          <table class="stats" cellspacing="0">
+            <tr>
+              <td class="hed">Fecha del proximo pago: </td>
+              <td> <%=credito_vencimiento.proximo_pago_string%></td>
+            </tr>
+            <tr>
+              <td class="hed">Días de atraso: </td>
+              <td> <%=credito_vencimiento.dias_atraso%></td>
+            </tr>
+            <tr>
+              <td class="hed">Capital Vencido: </td>
+              <td>$ <%=separar_miles(credito_vencimiento.capital_vencido)%></td>
+              <%sumatoria+=credito_vencimiento.capital_vencido.to_f%>
+            </tr>
+            <tr>
+              <td class="hed">Intereses Vencidos:</td>
+              <td>$ <%=separar_miles(credito_vencimiento.interes_vencido)%></td>
+              <%sumatoria+=credito_vencimiento.interes_vencido.to_f%>
+            </tr>
+            <tr>
+              <td class="hed">Intereses Moratorios</td>
+              <td>$ <%=separar_miles(credito_vencimiento.moratorio)%></td>
+              <%sumatoria+=credito_vencimiento.moratorio.to_f%>
+            </tr>
+            <tr>
+              <td class="hed">Iva intereses moratorios</td>
+              <td>$ <%=separar_miles(credito_vencimiento.iva_moratorio)%></td>
+              <%sumatoria+=credito_vencimiento.iva_moratorio.to_f%>
+            </tr>
+            <tr>
+              <td class="hed">Gastos de Cobranza</td>
+              <td>$ <%=separar_miles(credito_vencimiento.gastos_cobranza.to_f)%></td>
+              <%sumatoria+=credito_vencimiento.gastos_cobranza.to_f%>
+            </tr>
+            <tr>
+              <td class="hed">Iva gastos de cobranza</td>
+              <td>$ <%=separar_miles(credito_vencimiento.iva_gastos_cobranza.to_f)%></td>
+              <%sumatoria+=credito_vencimiento.iva_gastos_cobranza.to_f%>
+            </tr>
+            <tr>
+              <td class="hed">Total</td>
+              <td>$ <%=separar_miles(round(credito_vencimiento.total_deuda))%></td>
+            </tr>
+           </table>
+
+      <%else%>
+         <%@extraordinario = Extraordinario.find(:first, :conditions => ["credito_id = ?", @credito.id])%>
+         <table class="stats" cellspacing="0">
+
+           <tr>
+             <td class="hed" colspan="2">Tipo de Crédito Extraordinario</td>
+           </tr>
+           <tr>
+              <td class="hed">Capital : </td>
+              <td>$<%=@extraordinario.capital%></td>
+              <%sumatoria+=@extraordinario.capital%>
+            </tr>
+            <tr>
+              <td class="hed">Intereses:</td>
+              <td>$ <%=@extraordinario.interes%></td>
+               <%sumatoria+=@extraordinario.interes%>
+            </tr>
+            <tr>
+              <td class="hed">Total</td>
+              <td>$ <%=sumatoria%></td>
+            </tr>
+           </table>
+     <%end%>
+
+  
+
+
+
     </td>
   </tr>
 </table>

@@ -128,4 +128,40 @@ class UploadController < ApplicationController
     @datafile = Datafile.find(params[:datafile])
   end
 
+  #------- Fecha valor de extraordinarios ----
+
+    def depositos_fecha_valor_extras
+    
+    end
+
+    def show_depositos_fecha_valor_extras
+      @datafile = Datafile.find(params[:datafile])
+    end
+
+
+    def upload_fecha_valor_extras
+    case request.method
+      when :post
+      @nombre_archivo = params[:datafile]["file"].original_filename if params[:datafile][:file].size > 0
+      if @nombre_archivo =~ /csv|CSV$/
+          archivo = Datafile.save_file_csv_fecha_valor(params[:datafile])
+          #---- Verificamos si guarda correctamente ----
+          if archivo
+              #---- Validamos que el encabezado es correcto, por lo tanto empezamos a insertar los registros que hagan match con los creditos -----
+              confronta_fecha_valor_extras(archivo)
+              flash[:notice] = "Archivo #{@nombre_archivo} cargado correctamente"
+              redirect_to :action => "show_depositos_fecha_valor_extras", :datafile => archivo, :num_insertados=>@num_insertados
+          else
+              redirect_to :action => "index", :controller => "upload"
+              flash[:notice] = "Archivo #{@nombre_archivo} no se pudo cargar, Verifique"
+          end
+
+      else
+          flash[:notice] = "La extension del archivo debe de ser csv, verifique"
+          render :action => "index", :controller => "upload"
+      end
+     end
+    end
+
+
 end
