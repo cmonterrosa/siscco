@@ -1,0 +1,41 @@
+<p>
+  <h1>Depósitos aplicados directamente a través de proporciones </h1><br />
+</p>
+<h2>Fecha de carga: <%=@datafile.fecha_hora_carga.strftime("%d/%m/%Y, %H:%M horas")%></h2><br />
+
+<table>
+  <tr>
+    <th>fecha</th>
+    <th>sucursal</th>
+    <th>autorizacion</th>
+    <th>cod</th>
+    <th>subcod</th>
+    <th>ref alfa</th>
+    <th>importe</th>
+    <th>&nbsp;</th>
+  </tr>
+ <%@datafile.fechavalors.each do |deposito|%>
+   <tr>
+     <td><%=deposito.fecha%></td>
+     <td><%=deposito.sucursal%></td>
+     <td><%=deposito.autorizacion%></td>
+     <td><%=deposito.codigo%></td>
+     <td><%=deposito.subcodigo%></td>
+     <td><%=deposito.ref_alfa%></td>
+     <td><%=deposito.importe%></td>
+     <td><%=button_to "Ver Saldo", :action => "vencimiento", :controller => "creditos", :id => Credito.find(:first, :conditions => ["num_referencia = ?", deposito.ref_alfa])%></td>
+   </tr>
+  <%end%>
+</table>
+
+
+<%if @datafile.fechavalors.size > 0%>
+  
+<%else%>
+  <br /> <br />
+  <h2 style="color: red;"> Ningún registro cargado, verifique el número de referencia corresponda a un crédito</h2>
+
+<%end%>
+
+
+<%=button_to 'Inicio', :action => "index", :controller => "home"%>

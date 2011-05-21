@@ -1,0 +1,14 @@
+<h1>Carga de Layouts para Fecha Valor de Pagos Extraordinarios</h1>
+<h2>Es necesario cargar archivo csv (separado por comas) con la estructura siguiente:</h2><br /><br />
+<h3>fecha (aaaa/mm/dd)|  sucursal  |   autorizacion |  codigo  |  subcodigo |  ref_alfa  |  importe</h3><br />
+
+<h3>Ejemplo:</h3>
+<h3 style="font-family: Verdana; color:red;">       2010/03/11 , 3454       , 3444           , 934      , 45         , 1234567890 , 12500.50 </h3>
+<br /><br />
+
+<% form_for :uploadform, :url => { :action => 'upload_fecha_valor_extras'}, :html => {:multipart => true} do%>
+  <%= file_field(:datafile, :file)%><br /> <br />
+  <%= submit_tag 'Cargar' %>
+<% end %>
+
+
