@@ -629,7 +629,10 @@ def inserta_credito_extraordinario(credito)
     end
     meses = @credito.producto.num_pagos / @credito.producto.periodo.pagos_mes
     interes_total_vida_credito = @tasa_normal_mensual * meses
-    total_interes = @credito.monto * (interes_total_vida_credito / 100.0)
+    total_interes= Pagogrupal.sum(:interes_minimo, :conditions => ["credito_id= ?", @credito.id])
+
+
+    #total_interes = @credito.monto * (interes_total_vida_credito / 100.0)
     total_recuperar = 100 + interes_total_vida_credito
     @proporcion_capital = (100.0 / total_recuperar)
     @proporcion_interes = (interes_total_vida_credito / total_recuperar)
