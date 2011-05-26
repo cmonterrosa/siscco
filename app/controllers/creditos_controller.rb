@@ -149,19 +149,14 @@ class CreditosController < ApplicationController
                 #--- Es individual -----
                    inserta_pagos_individuales(@credito, calcula_pagos(@fecha_inicio.year, @fecha_inicio.month, @fecha_inicio.day, @producto.num_pagos, @producto.periodo))
                 else
-          
-                #--- Validaremos si la aplicacion sera normal -----
-       
-                    if params[:credito][:tipo_aplicacion]=="NORMAL"
-                       inserta_pagos_grupales_por_tipo(@credito, calcula_pagos(@fecha_inicio.year, @fecha_inicio.month, @fecha_inicio.day, @producto.num_pagos, @producto.periodo), @credito.tipo_interes)
+                    
+                    inserta_pagos_grupales_por_tipo(@credito, calcula_pagos(@fecha_inicio.year, @fecha_inicio.month, @fecha_inicio.day, @producto.num_pagos, @producto.periodo), @credito.tipo_interes)
                        update_pagos_grupales(@credito) #--- Actualizamos la tabla pagosgrupals
                        unless Cuenta.find(:all).empty? #--- Si existe alguna cuenta
                           inserta_poliza(params[:credito][:monto], Cuenta.find(:first), "ABONO")
                        end
-                    else
-                      #----------- Si el tipo de aplicacion es extraordinaria -------
-                      inserta_credito_extraordinario(@credito)
-                    end
+                       inserta_credito_extraordinario(@credito) if params[:credito][:tipo_aplicacion]=="EXTRAORDINARIO" #----------- Si el tipo de aplicacion es extraordinaria -------
+
                 end
                 calcula_devengo_intereses(@credito)
            

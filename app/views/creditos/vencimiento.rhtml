@@ -111,7 +111,7 @@
       &nbsp;
     </td>
     <td>
-        <%if @credito.tipo_aplicacion == "NORMAL"%>
+        <%if @credito.tipo_aplicacion == "NORMAL" || @credito.tipo_aplicacion == "EXTRAORDINARIO" %>
           <table class="stats" cellspacing="0">
             <tr>
               <td class="hed">Fecha del proximo pago: </td>
@@ -158,27 +158,31 @@
            </table>
 
       <%else%>
-         <%@extraordinario = Extraordinario.find(:first, :conditions => ["credito_id = ?", @credito.id])%>
-         <table class="stats" cellspacing="0">
-
+         <!--
+          <@extraordinario = Extraordinario.find(:first, :conditions => ["credito_id = ?", @credito.id])%>
+          <table class="stats" cellspacing="0">
            <tr>
              <td class="hed" colspan="2">Tipo de Crédito Extraordinario</td>
            </tr>
            <tr>
               <td class="hed">Capital : </td>
-              <td>$<%=@extraordinario.capital%></td>
-              <%sumatoria+=@extraordinario.capital%>
+              <td>$<=@extraordinario.capital%></td>
+              <sumatoria+=@extraordinario.capital%>
             </tr>
             <tr>
               <td class="hed">Intereses:</td>
-              <td>$ <%=@extraordinario.interes%></td>
-               <%sumatoria+=@extraordinario.interes%>
+              <td>$ <=@extraordinario.interes%></td>
+               <sumatoria+=@extraordinario.interes%>
             </tr>
             <tr>
               <td class="hed">Total</td>
-              <td>$ <%=sumatoria%></td>
+              <td>$ <=sumatoria%></td>
             </tr>
            </table>
+          -->∫
+
+
+
      <%end%>
 
   

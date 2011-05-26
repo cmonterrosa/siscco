@@ -359,16 +359,52 @@ module Databases
           if @credito
               #--- Insertamos el registro correspondiente al pago ---
               if @credito.tipo_aplicacion=="EXTRAORDINARIO"
-                Pagoextraordinario.transaction do
+                #Pagoextraordinario.transaction do
                   @deposito = Fechavalor.create(:fecha => fecha.to_date, :credito_id => @credito.id, :datafile_id => @datafile.id, :sucursal => sucursal, :autorizacion => autorizacion, :codigo => codigo, :subcodigo => subcodigo, :ref_alfa => ref_alfa, :importe => importe.to_f)
                   @extra = Extraordinario.find(:first, :conditions=> ["credito_id = ?", @credito.id])
                   Pagoextraordinario.create(:fecha => fecha.to_date, :cantidad => importe.to_f, :extraordinario_id => @extra)
-                  @extra.update_attributes!(:capital => @extra.capital-=(importe.to_f * @extra.proporcion_capital),
-                                            :interes => @extra.interes-=(importe.to_f* @extra.proporcion_interes))
-
+                  total_capital = importe.to_f * @extra.proporcion_capital
+                  total_interes = importe.to_f * @extra.proporcion_interes
+                  #@extra.update_attributes!(:capital => @extra.capital-=(total_capital),
+                  #                          :interes => @extra.interes-=(total_interes))
+                  #-- Aqui recalculamos los pagos ----
+                  vencimiento = Vencimiento.new(@credito, fecha.to_date, "fechavalor")
+                  vencimiento.procesar
+                  pagos_vencidos = vencimiento.pagos_vencidos
+                  #--- recorremos los pagos vencidos----
+                  pagos_vencidos.each do |pago|
+                    #--- empieza algoritmo transaccional----
+                    Transaccion.transaction do
+                        #--- Guardamos la transaccion ---
+                        Transaccion.create(:monto => total_capital, :pagogrupal_id => pago.id, :tipo_transaccion_id=>1, :datafile_id=>@datafile.id, :fecha_hora_aplicacion => fecha.to_date)
+                        Transaccion.create(:monto => total_interes, :pagogrupal_id => pago.id, :tipo_transaccion_id=>2, :datafile_id=>@datafile.id, :fecha_hora_aplicacion => fecha.to_date)
+                        if total_capital >= pago.capital_minimo
+                              if total_interes >= pago.interes_minimo
+                                pago.update_attributes!(:pagado =>1)
+                                total_capital-=pago.capital_minimo
+                                total_interes-=pago.interes_minimo
+                              else
+                                total_capital-=pago.capital_minimo
+                                pago.update_attributes!(:capital_minimo => 0, :interes_minimo => pago.interes_minimo-=total_interes)
+                                total_interes=0
+                              end
+                        else
+                            if total_interes >= pago.interes_minimo
+                                total_interes-=pago.interes_minimo
+                                pago.update_attributes!(:interes_minimo => 0, :capital_minimo => pago.capital_minimo-=total_capital)
+                                total_capital=0
+                            else
+                                pago.update_attributes!(:capital_minimo => pago.capital_minimo-=total_capital)
+                                pago.update_attributes!(:interes_minimo => pago.interes_minimo-=total_interes)
+                                total_capital=0
+                                total_interes=0
+                            end
+                        end
+                    end #--- termina la transaccion --
+                 pago.update_attributes!(:principal_recuperado=>pago.capital_minimo)
+              end
                   extras+=1
                   num_insertados+=1
-                end
               end
 
                 num_linea+=1
