@@ -677,7 +677,7 @@ EOS
 
     clientes = Cliente.find(:all,
                             :select => "cl.id, cl.identificador, cl.curp, cl.clave_ife, cl.paterno, cl.materno, cl.nombre, cl.fecha_nac, cl.sexo,
-                                        cl.telefono, cl.direccion, cl.num_exterior, cl.num_interior, cl.colonia, cl.codigo_postal, cl.rol_hogar_id, esc.escolaridad, cl.civil_id, ac.actividad,
+                                        cl.telefono, cl.direccion, cl.num_exterior, cl.num_interior, cl.colonia, cl.codigo_postal, cl.rol_hogar_id, esc.escolaridad, cl.civil_id, ac.actividad, ac.clave_inegi,
                                         cl.escolaridad_id, ne.ing_semanal, ne.num_empleados, ne.ubicacion_negocio_id, cl.localidad_id, mu.municipio, es.estado, fo.acronimo",
                             :joins => "cl, escolaridads esc, civils ci, localidads loc, municipios mu, estados es, negocios ne, actividads ac, clientes_grupos cg, grupos gr, creditos cr, lineas li, fondeos fo",
                             :conditions => ["cl.escolaridad_id = esc.id and cl.civil_id = ci.id and ne.actividad_id = ac.id and ne.cliente_id = cl.id and
@@ -727,7 +727,7 @@ EOS
 
             csv << ["105", c.identificador, c.curp, c.clave_ife, c.paterno, c.materno, c.nombre, c.fecha_nac, c.sexo,
               c.telefono, c.civil.civil, c.estado, c.municipio, c.localidad.localidad, c.direccion, c.num_exterior, c.num_interior, c.colonia,
-              c.codigo_postal, modalidad, grupo, c.escolaridad.escolaridad, c.actividad, fecha_inicio, ubicacion_negocio, c.num_empleados,
+              c.codigo_postal, modalidad, grupo, c.escolaridad.escolaridad, c.clave_inegi, fecha_inicio, ubicacion_negocio, c.num_empleados,
                     c.ing_semanal, rol_hogar, SUCURSAL]
         end
 
