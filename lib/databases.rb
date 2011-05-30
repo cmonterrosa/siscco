@@ -9,6 +9,7 @@ module Databases
           credito.num_referencia = genera_referencia_alfa(@c_concentradora.sucbancaria.num_sucursal, @c_concentradora.num_cta)
            if tipo == "GRUPAL"
              if credito.grupo.clientes.size >= 1 #-- aqui deberiamos de validar que sean 3
+                 credito.monto_inicial = credito.monto unless credito.monto_inicial
                  if credito.save!
                     # asignamos la tasa moratoria
                     credito.update_attributes!(:interes_moratorio => credito.tasa_moratoria)
