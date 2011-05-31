@@ -284,9 +284,7 @@ class CreditosController < ApplicationController
   end
 
   def new_grupal
-     @filtrados = Grupo.find(:all, :select=> "distinct(g.id)",  :joins => "g, clientes_grupos cg, clientes c",
-                         :conditions => "g.id = cg.grupo_id and cg.cliente_id = c.id", :order => "g.nombre")
-     @grupos = Grupo.find(@filtrados, :select => "id, nombre", :order => "nombre")
+     @grupos = Grupo.find(:all, :conditions => ["id NOT IN (select g.id from grupos g, creditos c where g.id = c.grupo_id AND status=0)"], :select => "id, nombre", :order =>"nombre")
      #--- Variables
      @productos = Producto.find(:all, :order => "producto")
      @destinos = Destino.find(:all)
