@@ -1,5 +1,6 @@
 class LineasController < ApplicationController
-   before_filter :login_required
+   #before_filter :login_required
+    require_role "administradores", :except =>[:list, :index, :show]
   def index
     list
     render :action => 'list'

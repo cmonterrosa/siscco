@@ -1,4 +1,5 @@
 class PromotorsController < ApplicationController
+  require_role "administradores", :except =>[:list, :index, :show]
   helper :send_doc
   include SendDocHelper
 

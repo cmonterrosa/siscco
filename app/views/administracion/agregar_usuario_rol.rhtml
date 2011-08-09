@@ -1,0 +1,21 @@
+
+<h2>Perfil: <%=@rol.name%></h2><br />
+<%= error_messages_for 'account' %>
+<% form_tag :action => 'signup_perfil', :controller => "account", :rol => @rol do %>
+  <!--[form:account]-->
+  <p><label for="user_password">Nombre completo:</label><br/></p>
+  <%= text_field "user", "nombre", :size => 40 %><br/>
+  <p><label for="user_login">Usuario:</label><br/></p>
+  <%= text_field "user", "login", :size => 40 %><br/>
+  <p><label for="user_password">contraseña:</label><br/></p>
+  <%= password_field "user", "password", :size => 40 %><br/>
+  <p><label for="user_password_confirmation">confirmar contraseña:</label><br/></p>
+  <%= password_field "user", "password_confirmation", :size => 40 %><br/><br />
+  <p>
+    <%= submit_tag "Agregar Usuario", :onclick => "return comprobar();" %>
+  </p>
+  <!--[form:account]-->
+<% end %>
+
+
+

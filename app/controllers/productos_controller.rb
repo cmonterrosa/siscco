@@ -1,5 +1,5 @@
 class ProductosController < ApplicationController
-   before_filter :login_required
+      require_role "administradores", :except =>[:list, :index, :show]
   def index
     list
     render :action => 'list'

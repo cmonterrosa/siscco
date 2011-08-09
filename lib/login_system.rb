@@ -129,6 +129,7 @@ module LoginSystem
   # example use :
   # a popup window might just close itself for instance
   def access_denied
+    flash[:notice] = "No tiene permisos de acceso"
     redirect_to :controller=>"home", :action =>"index"
   end  
   

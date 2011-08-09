@@ -1,5 +1,6 @@
+include LoginSystem
 class AdministracionController < ApplicationController
- before_filter :permiso_requerido
+ require_role "administradores", :except =>["change_password", "update_password"]
 
   def index
   end
@@ -22,23 +23,9 @@ class AdministracionController < ApplicationController
 #     @user_pages, @usuarios = paginate :users, :per_page => 10
     @usuarios = User.find(:all, :order => 'nombre')
     @rol = Rol.find(params[:id])
-     @usuarios = @rol.users
+    @usuarios = @rol.users
   end
 
-
-   def update_permisos
-   asigna_permisos(Rol.find(params[:rol]), params[:rols][:systable_ids], params[:rols][:insertar], params[:rols][:actualizar], params[:rols][:eliminar])
-#    @controllers = Controller.find(params[:rols][:systable_ids])
-#    @rol = Rol.find(params[:rol])
-#    @controllers.each do |controller|
-#      #---- Validamos si ya lo tiene ----
-#      unless Systable.find(:first, :conditions =>["controller_id = ? and rol_id = ?", controller.id, @rol.id ])
-#           Systable.create(:controller_id => controller.id, :rol_id => @rol.id)
-#      end
-#    end
-    flash[:notice] = "Permisos otorgados"
-    redirect_to :action => "verifica_permisos", :id => Rol.find(params[:rol])
-  end
 
    #-------------------------------------------------------------
    # ADMINISTRACION DE USUARIOS
@@ -55,6 +42,18 @@ class AdministracionController < ApplicationController
    end
 
    def agregar_usuario
+     @rol = Role.find(params[:id])
+     @users=[]
+     $users.each do |user|
+       unless user.has_role?(@rol)
+         @users << user
+       end
+     end
+   end
+
+   def agregar_usuario_rol
+     @user = User.new
+     @all_roles = Role.find(params[:id])
      @rol = Role.find(params[:id])
      @users=[]
      $users.each do |user|
@@ -105,6 +104,27 @@ class AdministracionController < ApplicationController
     end
   end
 
+
+#--- Cambio de contraseña --
+
+  def change_password
+    @user = session.data["user"]
+    @user.password=""
+  end
+
+  def update_password
+    if params[:user][:password] == params[:user][:password_confirmation]
+       @user = session.data["user"]
+       if @user.change_password("solaris")
+          flash[:notice] = "Contraseña cambiada correctamente"
+          redirect_to :action => "index", :controller => "home"
+       end
+    else
+      @user = session.data["user"]
+      flash[:notice] = "La confirmación no coincide con el password"
+      render :action => "change_password"
+    end
+  end
   
 
 
