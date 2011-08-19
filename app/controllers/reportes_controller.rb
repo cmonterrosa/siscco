@@ -815,4 +815,13 @@ EOS
    def layout_fommur
 
    end
+
+   def layout_burocredito
+     reporte = Buro.new
+     reporte.calcular
+     send_data reporte.s_total, type => "text/plain",
+       :filename => "layoutburo.txt",
+       :disposition => "attachment"
+
+   end
 end

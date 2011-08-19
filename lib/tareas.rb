@@ -24,6 +24,7 @@ class Vencimiento
       @intereses_devengados = 0
       @devengo_diario = 0
       @total_deuda = 0
+      @total_deuda_individual = 0
       #---- Valores dinámicos para iva y gastos de cobranza ---
       if credito.producto.iva
         @tasa_iva = (credito.producto.iva / 100.0)
@@ -62,7 +63,7 @@ class Vencimiento
       @proporcion_interes = 0
   end
 
-  attr_accessor :credito, :pago_diario, :dias_atraso, :moratorio, :gastos_cobranza, :capital_vencido, :cuota_diaria, :fecha_calculo, :intereses_devengados, :devengo_diario, :interes_vencido, :numero_clientes, :iva_moratorio, :iva_gastos_cobranza, :total_deuda, :proximo_pago_string, :liquidado, :tasa_iva, :cuota_gastos_cobranza, :proporcion_interes, :proporcion_capital, :pagos_vencidos
+  attr_accessor :credito, :pago_diario, :dias_atraso, :moratorio, :gastos_cobranza, :capital_vencido, :cuota_diaria, :fecha_calculo, :intereses_devengados, :devengo_diario, :interes_vencido, :numero_clientes, :iva_moratorio, :iva_gastos_cobranza, :total_deuda, :proximo_pago_string, :liquidado, :tasa_iva, :cuota_gastos_cobranza, :proporcion_interes, :proporcion_capital, :pagos_vencidos, :total_deuda_individual
   
 
   def procesar
@@ -73,15 +74,15 @@ class Vencimiento
      else
        liberar_credito if @liquidado==false
      end
-     #impresiones en pantalla
-          puts "Proporcion Capital => #{@proporcion_capital}"
-          puts "Proporcion Interes => #{@proporcion_interes}"
-          puts "Dias de atraso => #{@dias_atraso}"
-          puts "Capital Vencido => #{@capital_vencido}"
-          puts "Intereses Vencidos => #{@interes_vencido}"
-          puts "Moratorio => #{@moratorio}"
-          puts "Gastos de Cobranza => #{@gastos_cobranza}"
-          puts "------- Total a pagar => #{@total_deuda}"
+          #impresiones en pantalla
+#          puts "Proporcion Capital => #{@proporcion_capital}"
+#          puts "Proporcion Interes => #{@proporcion_interes}"
+#          puts "Dias de atraso => #{@dias_atraso}"
+#          puts "Capital Vencido => #{@capital_vencido}"
+#          puts "Intereses Vencidos => #{@interes_vencido}"
+#          puts "Moratorio => #{@moratorio}"
+#          puts "Gastos de Cobranza => #{@gastos_cobranza}"
+#          puts "------- Total a pagar => #{@total_deuda}"
   end
 
 
@@ -123,6 +124,7 @@ class Vencimiento
           @interes_vencido = (proximo_pago(credito).interes_minimo.to_f)
       end
       @total_deuda = @capital_vencido + @interes_vencido + @iva_gastos_cobranza + @gastos_cobranza + @iva_moratorio + @moratorio
+      @total_deuda_individual = @total_deuda / @numero_clientes
       dias_transcurridos = 0 if dias_transcurridos < 0
       @dias_atraso =dias_transcurridos
       @proximo_pago_string = proximo_pago(credito).fecha_limite.to_s
