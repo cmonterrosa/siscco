@@ -1,6 +1,6 @@
+include LoginSystem
 class CreditosController < ApplicationController
-  #before_filter :permiso_requerido
-  before_filter :login_required
+  require_role "administradores", :for =>[:p_aplicar, :modificar_referencia]
 
   def index
     list
@@ -336,6 +336,8 @@ class CreditosController < ApplicationController
     @devengos = Devengo.find(:all, :conditions => ["credito_id = ?",params[:id]])
   end
 
+
+  #----- Aplica depositos normales cargador por layout ------
   def aplicar_depositos
     depositos =Hash.new{|k,v|k[v]}
     datafile = Datafile.find(params[:id]).id if params[:id]
@@ -373,9 +375,17 @@ class CreditosController < ApplicationController
     datafile = Datafile.find(params[:id]).id if params[:id]
     @aplicados = []
     @sumatoria = 0
-    @referencias = Fechavalor.find(:all, :select => "id, credito_id, st",  :conditions => ["st = ?", "NA"], :group=> "credito_id")
+    if datafile #--- Si corresponde a un datafile en especial
+       @referencias = Fechavalor.find(:all, :select => "id, credito_id, st",  :conditions => ["st = ? AND datafile_id = ?", "NA", datafile.id], :group=> "credito_id")
+    else
+       @referencias = Fechavalor.find(:all, :select => "id, credito_id, st",  :conditions => ["st = ?", "NA"], :group=> "credito_id")
+    end
     @referencias.each do |referencia|
+    if datafile #--- Si corresponde a un datafile en especial
+      depositos["#{referencia.credito_id}"]  = Fechavalor.sum(:importe, :conditions => ["credito_id = ? AND datafile_id = ?", referencia.credito_id, datafile.id])
+    else
       depositos["#{referencia.credito_id}"]  = Fechavalor.sum(:importe, :conditions => ["credito_id = ?", referencia.credito_id])
+    end
     end
     depositos.each{|k,v|
        credito = Credito.find(k)
@@ -390,7 +400,7 @@ class CreditosController < ApplicationController
 
     if @aplicados.empty? #--- Validamos si al menos hay un aplicado
        flash[:notice] = "Depositos aplicados"
-       redirect_to :action => "vf_p_aplicar", :controller => "creditos"
+       redirect_to :action => "fv_p_aplicar", :controller => "creditos"
     else
       @transacciones_aplicadas = []
       @aplicados.each do |row|

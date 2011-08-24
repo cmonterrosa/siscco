@@ -1,5 +1,6 @@
+include LoginSystem
 class UploadController < ApplicationController
-
+    require_role "administradores", :except =>[:show_aplicados]
   def index
      
   end

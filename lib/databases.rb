@@ -361,7 +361,9 @@ module Databases
               #--- Insertamos el registro correspondiente al pago ---
               if @credito.tipo_aplicacion=="EXTRAORDINARIO"
                 #Pagoextraordinario.transaction do
-                  @deposito = Fechavalor.create(:fecha => fecha.to_date, :credito_id => @credito.id, :datafile_id => @datafile.id, :sucursal => sucursal, :autorizacion => autorizacion, :codigo => codigo, :subcodigo => subcodigo, :ref_alfa => ref_alfa, :importe => importe.to_f)
+                  Fechavalor.transaction do
+                    @deposito = Fechavalor.create(:fecha => fecha.to_date, :credito_id => @credito.id, :datafile_id => @datafile.id, :sucursal => sucursal, :autorizacion => autorizacion, :codigo => codigo, :subcodigo => subcodigo, :ref_alfa => ref_alfa, :importe => importe.to_f)
+                  end
                   @extra = Extraordinario.find(:first, :conditions=> ["credito_id = ?", @credito.id])
                   Pagoextraordinario.create(:fecha => fecha.to_date, :cantidad => importe.to_f, :extraordinario_id => @extra)
                   total_capital = importe.to_f * @extra.proporcion_capital
@@ -408,15 +410,16 @@ module Databases
                   num_insertados+=1
               end
 
-                num_linea+=1
-                next
+                #num_linea+=1
+                #next
           else
             #--- Lo insertamos en lo no procesados un archivo de texto ----
                   @no_aplicados.puts(linea)
                   num_linea+=1
-                  next
+                  #next
            end
                   num_linea+=1
+                  next
     end
     return true, num_insertados
   rescue Exception => e

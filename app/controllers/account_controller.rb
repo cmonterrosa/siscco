@@ -77,10 +77,16 @@ class AccountController < ApplicationController
         else
            @rol = Rol.find(params['rol_id'])
         end
-#        if @user.save!
-#          flash[:notice]  = "ALTA CORRECTA PARA EL USUARIO: #{@user.nombre} con el perfil de #{@user.rol.nombre}"
-#          redirect_to(:controller => 'home')
-#        end
+        begin
+          @user.save!
+          flash[:notice]  = "ALTA CORRECTA PARA EL USUARIO: #{@user.nombre} con el perfil de #{@user.rol.nombre}"
+          redirect_to(:controller => 'administracion', :action => "users_by_rol", :id => @rol)
+        rescue ActiveRecord::RecordInvalid => invalid
+          flash[:notice] = invalid
+          redirect_to :action => 'new', :controller => "#{params[:controller]}"
+        end
+
+        
        
     end
        render :layout=>"contenido"

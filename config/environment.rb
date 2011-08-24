@@ -9,6 +9,7 @@ RAILS_GEM_VERSION = '1.2.6' unless defined? RAILS_GEM_VERSION
 
 #--- Incluimos las tareas automatizadas para que se puedan acceder desde la linea de comando -----
 require "lib/tareas"
+require "lib/burocredito"
 
 
 # Bootstrap the Rails environment, frameworks, and default configuration

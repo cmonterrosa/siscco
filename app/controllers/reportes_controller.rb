@@ -815,4 +815,37 @@ EOS
    def layout_fommur
 
    end
+
+   def layout_burocredito
+     reporte = Buro.new
+     reporte.calcular
+     send_data reporte.s_total, type => "text/plain",
+       :filename => "layoutburo.txt",
+       :disposition => "attachment"
+
+   end
+
+   
+   #---- Buro de crédito
+   #--- calculamos
+   def index_buro
+     
+   end
+
+
+   #--- Mostramos URL ----
+   def buro
+     reporte = Buro.new
+     reporte.calcular
+     @nombre_archivo = (rand(10)).to_s + Array.new(4) { (rand(122-97) + 97).chr }.join + (rand(10000)).to_s
+     f = File.new("#{RAILS_ROOT}/public/data/#{@nombre_archivo}.txt",  "w+")
+     f.puts(reporte.s_total)
+     render :layout => false
+   end
+
+   #--- Descargamos archivo -----
+   def download_buro
+      @archivo = params[:file]
+      send_file "#{RAILS_ROOT}/public/data/#{@archivo}.txt", :type=>"application/txt"
+   end
 end

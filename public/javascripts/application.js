@@ -221,6 +221,7 @@ function mmLoadMenus() {
   menu_reporte.addMenuItem("Estado&nbsp;de&nbsp;cuenta&nbsp;línea&nbsp;fondeo","location='/lineas/estado_cuenta'");
   menu_reporte.addMenuItem("Exportación&nbsp;de&nbsp;Créditos","location='/reportes/hoja_calculo'");
   menu_reporte.addMenuItem("Layout&nbsp; FOMMUR","location='/reportes/layout_fommur'");
+  menu_reporte.addMenuItem("Layout&nbsp;Buro","location='/reportes/index_buro'");
   menu_reporte.fontWeight="bold";
   menu_reporte.hideOnMouseOut=true;
   menu_reporte.bgColor='#555555';
@@ -233,6 +234,7 @@ function mmLoadMenus() {
   window.menu_administracion = new Menu("root",150,20,"Geneva, Arial, Helvetica, sans-serif",14,"#000000","#FFFFFF","#999999","#6699CC","left","middle",3,0,1000,-5,7,true,true,true,0,false,true);
   menu_administracion.addMenuItem("Usuarios","location='/administracion/usuarios'");
   menu_administracion.addMenuItem("Referencia","location='/administracion/configuracion'");
+  menu_administracion.addMenuItem("Cambiar&nbsp;password","location='/administracion/change_password'");
   menu_administracion.fontWeight="bold";
   menu_administracion.hideOnMouseOut=true;
   menu_administracion.bgColor='#555555';
