@@ -221,6 +221,7 @@ function mmLoadMenus() {
   menu_reporte.addMenuItem("Estado&nbsp;de&nbsp;cuenta&nbsp;línea&nbsp;fondeo","location='/lineas/estado_cuenta'");
   menu_reporte.addMenuItem("Exportación&nbsp;de&nbsp;Créditos","location='/reportes/hoja_calculo'");
   menu_reporte.addMenuItem("Layout&nbsp; FOMMUR","location='/reportes/layout_fommur'");
+  menu_reporte.addMenuItem("Layout&nbsp;Buro","location='/reportes/index_buro'");
   menu_reporte.fontWeight="bold";
   menu_reporte.hideOnMouseOut=true;
   menu_reporte.bgColor='#555555';
