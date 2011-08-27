@@ -840,6 +840,7 @@ EOS
      @nombre_archivo = (rand(10)).to_s + Array.new(4) { (rand(122-97) + 97).chr }.join + (rand(10000)).to_s
      f = File.new("#{RAILS_ROOT}/public/data/#{@nombre_archivo}.txt",  "w+")
      f.puts(reporte.s_total)
+     @porcentaje = reporte.porcentaje
      render :layout => false
    end
 
