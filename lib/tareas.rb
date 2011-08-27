@@ -36,7 +36,7 @@ class Vencimiento
       else
         @cuota_gastos_cobranza = 200
       end
-      @clientes = Clientegrupo.find(:all, :conditions => ["grupo_id = ? AND activo=1",credito.grupo.id.to_i])
+      @clientes = Clientegrupo.find(:all, :select => "id, fecha_fin, activo", :conditions => ["grupo_id = ? AND activo=1",credito.grupo.id.to_i])
       @numero_clientes = @clientes.size
       @excendente_deposito=0.0
       @periodos_sin_pagar = 0
