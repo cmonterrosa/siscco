@@ -2,12 +2,13 @@ require 'date'
 
 
 class Buro
-  attr_accessor :nombre_empresa, :string, :clave_usuario, :s_total
+  attr_accessor :nombre_empresa, :string, :clave_usuario, :s_total, :porcentaje
   
  def initialize(fecha=Time.now)
     #---- Datos del control -----
     @clientes_procesados=0
     @total_clientes = 0
+    @porcentaje=0
     #--- Configuracion inicial ---
     $conf ||= Configuracion.find(:first, :conditions => "activo = 1")
     @nombre_empresa = $conf.nombre_empresa.upcase
@@ -241,9 +242,9 @@ class Buro
           @clientes_procesados+=1
           #puts("Total de clientes : #{@total_clientes }")
           #puts("Clientes procesados : #{@clientes_procesados }")
-          print("\rProcesado: #{((@clientes_procesados / @total_clientes.to_f) * 100.0).truncate }  %")
-          
-    end
+          @porcentaje = ((@clientes_procesados / @total_clientes.to_f) * 100.0).truncate
+          #print("\rProcesado: #{((@clientes_procesados / @total_clientes.to_f) * 100.0).truncate }  %")
+end
     #------ Segmento de cifras de control ------
     etiqueta_segmento ="TRL"
     @s_pie = etiqueta_segmento + total_saldos_vencidos.to_s.rjust(14, "0") + total_saldos_actuales.to_s.rjust(14, "0") + total_segmentos_intf.to_s.rjust(3,"0") + total_segmentos_nombre.to_s.rjust(9,"0") + total_segmentos_direccion.to_s.rjust(9,"0") + total_segmentos_empleo.to_s.rjust(9,"0") + total_segmentos_cuentas.to_s.rjust(9,"0") + contador_bloques.to_s.rjust(6, "0") + @nombre_empresa.rjust(16, " ") + @direccion_empresa.rjust(160, " ")
