@@ -344,14 +344,14 @@ module Databases
     extras = 0
     nombre_archivo = archivo.nombre_archivo
     #---- Limpiamos los archivos basura ----
-    File.delete("#{RAILS_ROOT}/tmp/err_fecha_valor_extras_#{nombre_archivo}") if File.exists?("#{RAILS_ROOT}/tmp/err_fecha_valor_extras_#{nombre_archivo}")
-    File.delete("#{RAILS_ROOT}/tmp/na_fecha_valor_extras_#{nombre_archivo}") if File.exists?("#{RAILS_ROOT}/tmp/na_fecha_valor_extras_#{nombre_archivo}")
+    File.delete("#{RAILS_ROOT}/tmp/err_fecha_valor_extras") if File.exists?("#{RAILS_ROOT}/tmp/err_fecha_valor_extras")
+    File.delete("#{RAILS_ROOT}/tmp/na_fecha_valor_extras") if File.exists?("#{RAILS_ROOT}/tmp/na_fecha_valor_extras")
     #--- Obtenemos el id del archivo cargado ---
     @datafile = archivo
     #---- Creamos el archivo para los na ---
-    @no_aplicados = File.new("#{RAILS_ROOT}/tmp/na_fecha_valor_extras_#{nombre_archivo}", "w+")
+    @no_aplicados = File.new("#{RAILS_ROOT}/tmp/na_fecha_valor_extras", "w+")
     #---- Creamos el archivo para los errores ---
-    @errores = File.new("#{RAILS_ROOT}/tmp/err_fecha_valor_extras_#{nombre_archivo}", "w+")
+    @errores = File.new("#{RAILS_ROOT}/tmp/err_fecha_valor_extras", "w+")
     #-- Abrimos el archivo ---
     File.open("#{RAILS_ROOT}/public/tmp/#{nombre_archivo}").each do |linea|
           fecha,sucursal,autorizacion,codigo,subcodigo,ref_alfa, importe = linea.split(",")
@@ -362,23 +362,24 @@ module Databases
               if @credito.tipo_aplicacion=="EXTRAORDINARIO"
                 #Pagoextraordinario.transaction do
                   Fechavalor.transaction do
-                    @deposito = Fechavalor.create(:fecha => fecha.to_date, :credito_id => @credito.id, :datafile_id => @datafile.id, :sucursal => sucursal, :autorizacion => autorizacion, :codigo => codigo, :subcodigo => subcodigo, :ref_alfa => ref_alfa, :importe => importe.to_f)
+                    @deposito = Fechavalor.new(:fecha => fecha.to_date, :credito_id => @credito.id, :datafile_id => @datafile.id, :sucursal => sucursal, :autorizacion => autorizacion, :codigo => codigo, :subcodigo => subcodigo, :ref_alfa => ref_alfa, :importe => importe.to_f, :st => "A", :tipo => "EXTRAORDINARIO" )
                   end
                   @extra = Extraordinario.find(:first, :conditions=> ["credito_id = ?", @credito.id])
                   Pagoextraordinario.create(:fecha => fecha.to_date, :cantidad => importe.to_f, :extraordinario_id => @extra)
                   total_capital = importe.to_f * @extra.proporcion_capital
                   total_interes = importe.to_f * @extra.proporcion_interes
-                  #@extra.update_attributes!(:capital => @extra.capital-=(total_capital),
-                  #                          :interes => @extra.interes-=(total_interes))
                   #-- Aqui recalculamos los pagos ----
                   vencimiento = Vencimiento.new(@credito, fecha.to_date, "fechavalor")
                   vencimiento.procesar
                   pagos_vencidos = vencimiento.pagos_vencidos
                   #--- recorremos los pagos vencidos----
+
+           if pagos_vencidos
                   pagos_vencidos.each do |pago|
                     #--- empieza algoritmo transaccional----
                     Transaccion.transaction do
-                        #--- Guardamos la transaccion ---
+                    #--- Guardamos la transaccion ---
+                    begin
                         Transaccion.create(:monto => total_capital, :pagogrupal_id => pago.id, :tipo_transaccion_id=>1, :datafile_id=>@datafile.id, :fecha_hora_aplicacion => fecha.to_date)
                         Transaccion.create(:monto => total_interes, :pagogrupal_id => pago.id, :tipo_transaccion_id=>2, :datafile_id=>@datafile.id, :fecha_hora_aplicacion => fecha.to_date)
                         if total_capital >= pago.capital_minimo
@@ -403,23 +404,34 @@ module Databases
                                 total_interes=0
                             end
                         end
-                    end #--- termina la transaccion --
+                      rescue ActiveRecord::StatementInvalid
+                           @errores.puts(linea + "| Se produjo un error al insertar registro verifique")
+                          next
+                    end # termina bloque
+                  end #--- termina la transaccion --
+                  @deposito.save
                  pago.update_attributes!(:principal_recuperado=>pago.capital_minimo)
               end
+
+           else
+             @no_aplicados.puts(linea + "| a la fecha del deposito el credito no tenia vencimiento")
+           end
+
+
                   extras+=1
                   num_insertados+=1
               end
 
-                #num_linea+=1
+                num_linea+=1
                 #next
           else
             #--- Lo insertamos en lo no procesados un archivo de texto ----
-                  @no_aplicados.puts(linea)
+                  @no_aplicados.puts(linea + "| No existe un credito asociado a la referencia")
                   num_linea+=1
                   #next
            end
                   num_linea+=1
-                  next
+                  #next
     end
     return true, num_insertados
   rescue Exception => e

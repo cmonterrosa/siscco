@@ -52,10 +52,16 @@ class UploadController < ApplicationController
     end
 
     def download_err_fvalor
-
-      send_file(RAILS_ROOT+"/tmp/" + "err_fecha_valor_" +Datafile.find(params[:id]).nombre_archivo ,
+       send_file(RAILS_ROOT+"/tmp/" + "err_fecha_valor_" +Datafile.find(params[:id]).nombre_archivo ,
       :disposition => 'inline')
     end
+    
+     def download_err_fvalor_extras
+       send_file(RAILS_ROOT+"/tmp/" + "na_fecha_valor_extras",
+      :disposition => 'inline')
+    end
+
+
 
     def show_aplicados
       @datafile = Datafile.find(params[:datafile])

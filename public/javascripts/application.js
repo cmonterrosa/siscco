@@ -204,6 +204,7 @@ function mmLoadMenus() {
   menu_operacion.addMenuItem("Cargar&nbsp;Layout&nbsp;Fecha&nbsp;Valor&nbsp;Extras","location='/upload/depositos_fecha_valor_extras'");
   menu_operacion.addMenuItem("Depositos","location='/creditos/p_aplicar'");
   menu_operacion.addMenuItem("Cargados&nbsp;fecha&nbsp;valor","location='/creditos/fv_p_aplicar'");
+  menu_operacion.addMenuItem("Aplicados&nbsp;fecha&nbsp;valor&nbsp;extraordinarios","location='/creditos/fv_extras_aplicados'");
   menu_operacion.addMenuItem("Histórico&nbsp;de&nbsp;Cargas","location='/upload/historico'");
   menu_operacion.fontWeight="bold";
   menu_operacion.hideOnMouseOut=true;

@@ -196,7 +196,7 @@ class Vencimiento
 
                    if total > 0
                       @excedente_deposito=total.to_f.abs
-                      insert_excedente_deposito(@tablaexcedente)
+                      insert_excedente_deposito(@tablaexcedente) if @excedente_deposito > 0
                    end
               return true
 
