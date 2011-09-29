@@ -6,5 +6,6 @@ class Fechavalor < ActiveRecord::Base
     super
       self.fecha_hora = Time.now unless self.fecha_hora
       self.st = "NA" unless self.st
+      self.tipo = "NORMAL" unless self.tipo
     end
 end
