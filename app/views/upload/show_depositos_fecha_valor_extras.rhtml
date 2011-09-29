@@ -28,6 +28,12 @@
   <%end%>
 </table>
 
+<br />
+<%if @datafile.fechavalors.size > 0%>
+  <%=button_to 'Ver registros no aplicados', :action => "download_err_fvalor_extras", :controller => "upload"%><br />
+<%end%>
+
+
 
 <%if @datafile.fechavalors.size > 0%>
   
