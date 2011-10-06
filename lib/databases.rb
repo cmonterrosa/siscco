@@ -365,7 +365,7 @@ module Databases
                     @deposito = Fechavalor.new(:fecha => fecha.to_date, :credito_id => @credito.id, :datafile_id => @datafile.id, :sucursal => sucursal, :autorizacion => autorizacion, :codigo => codigo, :subcodigo => subcodigo, :ref_alfa => ref_alfa, :importe => importe.to_f, :st => "A", :tipo => "EXTRAORDINARIO" )
                   end
                   @extra = Extraordinario.find(:first, :conditions=> ["credito_id = ?", @credito.id])
-                  Pagoextraordinario.create(:fecha => fecha.to_date, :cantidad => importe.to_f, :extraordinario_id => @extra)
+                  @pagoextra = Pagoextraordinario.new(:fecha => fecha.to_date, :cantidad => importe.to_f, :extraordinario_id => @extra)
                   total_capital = importe.to_f * @extra.proporcion_capital
                   total_interes = importe.to_f * @extra.proporcion_interes
                   #-- Aqui recalculamos los pagos ----
@@ -403,6 +403,7 @@ module Databases
                                 total_capital=0
                                 total_interes=0
                             end
+                        @pagoextra.save
                         end
                       rescue ActiveRecord::StatementInvalid
                            @errores.puts(linea + "| Se produjo un error al insertar registro verifique")
