@@ -171,8 +171,8 @@ class UploadController < ApplicationController
     end
 
     def show_aplicados_extras
-      @depositos = Pagoextraordinario.find :all, :order => "fecha"
-      if @depositos.empty?
+      @depositos = Pagoextraordinario.find(:all, :order => "fecha")
+      if @depositos.nil?
         redirect_to :action => "index", :controller => "home"
       end
     end
