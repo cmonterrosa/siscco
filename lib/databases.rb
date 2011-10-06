@@ -403,8 +403,8 @@ module Databases
                                 total_capital=0
                                 total_interes=0
                             end
-                        @pagoextra.save
                         end
+                        @pagoextra.save
                       rescue ActiveRecord::StatementInvalid
                            @errores.puts(linea + "| Se produjo un error al insertar registro verifique")
                           next
