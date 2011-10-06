@@ -206,6 +206,7 @@ function mmLoadMenus() {
   menu_operacion.addMenuItem("Cargados&nbsp;fecha&nbsp;valor","location='/creditos/fv_p_aplicar'");
   menu_operacion.addMenuItem("Aplicados&nbsp;fecha&nbsp;valor&nbsp;extraordinarios","location='/creditos/fv_extras_aplicados'");
   menu_operacion.addMenuItem("Histórico&nbsp;de&nbsp;Cargas","location='/upload/historico'");
+  menu_operacion.addMenuItem("Reg.&nbsp;depósitos&nbsp;créditos&nbsp;extraordinarios","location='/upload/show_aplicados_extras'");
   menu_operacion.fontWeight="bold";
   menu_operacion.hideOnMouseOut=true;
   menu_operacion.bgColor='#555555';

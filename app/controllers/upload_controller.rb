@@ -170,5 +170,9 @@ class UploadController < ApplicationController
      end
     end
 
+    def show_aplicados_extras
+      @depositos = Pagoextraordinario.find :all, :order => "fecha"
+    end
+
 
 end

@@ -1,0 +1,22 @@
+<p>
+  <h1>Registro detallado de depositos de créditos extraordinarios aplicados</h1><br />
+</p>
+
+
+<table>
+  <tr>
+    <th>Referencia Credito</th>
+    <th>Cantidad</th>
+    <th>Fecha</th>
+  </tr>
+ <%@depositos.each do |deposito|%>
+   <tr>
+     <td><%=link_to "#{deposito.extraordinario.credito.num_referencia}", :action => "vencimiento", :controller => "creditos", :id => deposito.extraordinario.credito%></td>
+     <td><%=deposito.cantidad%></td>
+     <td><%=deposito.fecha%></td>
+   </tr>
+  <%end%>
+</table>
+
+
+<%=button_to 'Inicio', :action => "index", :controller => "home"%>
