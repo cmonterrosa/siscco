@@ -115,7 +115,7 @@ module Creditos
 
 
   def proximo_pago(credito)
-    return Pagogrupal.find(:first, :conditions => ["credito_id = ? and pagado = 0", credito.id])
+    return Pagogrupal.find(:first, :conditions => ["credito_id = ? and pagado = 0", credito.id], :order => "num_pago")
   end
 
   def proximo_pago_grupal(credito, cliente)
