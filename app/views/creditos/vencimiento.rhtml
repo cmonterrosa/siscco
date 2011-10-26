@@ -27,6 +27,12 @@
           <td class="hed">Monto inicial: </td>
           <td>$<%=separar_miles(@credito.monto)%></td>
         </tr>
+
+        <tr>
+          <td class="hed">Capital total restante: </td>
+          <td>$<%=separar_miles(credito_vencimiento.capital_total)%></td>
+        </tr>
+        
          <tr>
           <td class="hed">Fecha de entrega: </td>
           <td><%=@credito.fecha_inicio%></td>

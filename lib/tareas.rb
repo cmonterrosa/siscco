@@ -61,13 +61,17 @@ class Vencimiento
       #---- Proporciones ---
       @proporcion_capital = 0
       @proporcion_interes = 0
+      #---- importes de las proporciones ---
+      @importe = 0
+      @capital_total = 0
   end
 
-  attr_accessor :credito, :pago_diario, :dias_atraso, :moratorio, :gastos_cobranza, :capital_vencido, :cuota_diaria, :fecha_calculo, :intereses_devengados, :devengo_diario, :interes_vencido, :numero_clientes, :iva_moratorio, :iva_gastos_cobranza, :total_deuda, :proximo_pago_string, :liquidado, :tasa_iva, :cuota_gastos_cobranza, :proporcion_interes, :proporcion_capital, :pagos_vencidos, :total_deuda_individual
+  attr_accessor :credito, :pago_diario, :dias_atraso, :moratorio, :gastos_cobranza, :capital_vencido, :cuota_diaria, :fecha_calculo, :intereses_devengados, :devengo_diario, :interes_vencido, :numero_clientes, :iva_moratorio, :iva_gastos_cobranza, :total_deuda, :proximo_pago_string, :liquidado, :tasa_iva, :cuota_gastos_cobranza, :proporcion_interes, :proporcion_capital, :pagos_vencidos, :total_deuda_individual, :capital_total
   
 
   def procesar
      calcular_proporciones
+     calcular_capital_total
      # Validaremos si ya termino de pagar
      unless credito_pagado?
         calcular_vencimientos
@@ -86,17 +90,86 @@ class Vencimiento
   end
 
 
+  #-- metodo que calculo vencimientos adelantados para pronto pago ---
+
+  def procesar_pagos_adelantados(importe)
+    @importe = importe.to_f
+    @pagado_bandera=false
+    calcular_proporciones
+    @pagos_sin_liquidar = Pagogrupal.find(:all, :conditions => ["credito_id = ? AND pagado = 0", @credito.id], :order => "num_pago")
+    @pagos_sin_liquidar.each do |pago|
+      #---- vamos a ver si alcanza para pagar algo adelantado ----
+      #--- buscamos el detalle de los pagos ----
+      detalle_pagos = Pago.find(:all, :conditions => [" credito_id = ? and num_pago = ?", @credito.id, pago.num_pago])
+      if @importe >= (pago.capital_minimo + pago.interes_minimo)
+        #---- Capital e interes -----
+        Pago.transaction do
+          begin
+            pago.update_attributes!(:pagado => 1)
+            detalle_pagos.each do |p| p.update_attributes!(:pagado => 1) end
+            @importe-=pago.capital_minimo
+            @importe-=pago.interes_minimo
+            @pagado_bandera=true
+          rescue ActiveRecord::StatementInvalid
+          end
+        end
+
+      else
+
+       #--- hacemos el calculo de proporciones para el sobrante ----
+       Pago.transaction do
+         begin
+          importe_capital = @proporcion_capital * @importe
+          importe_interes = @proporcion_interes * @importe
+          importe_individual_capital = importe_capital / @numero_clientes * 1.0
+          importe_individual_interes = importe_interes / @numero_clientes * 1.0
+          #---- lo aplicamos ---
+          p_capital_minimo = pago.capital_minimo.to_f - importe_capital.to_f
+          p_interes_minimo = pago.interes_minimo.to_f - importe_interes.to_f
+          pago.update_attributes!(:capital_minimo => p_capital_minimo, :interes_minimo => p_interes_minimo)
+          detalle_pagos.each{|p|
+              p_capital_minimo_individual = p.capital_minimo.to_f - importe_individual_capital.to_f
+              p_interes_minimo_individual = p.interes_minimo.to_f - importe_individual_interes.to_f
+              p.update_attributes!(:capital_minimo => p_capital_minimo_individual, :interes_minimo => p_interes_minimo_individual)
+              p.update_attributes!(:principal_recuperado => p.capital_minimo)
+          }
+          @importe-= importe_capital
+          @importe-= importe_interes
+          @pagado_bandera=true
+          rescue ActiveRecord::StatementInvalid
+          end
+         
+       end
+     end
+    end
+    calcular_capital_total
+    return @pagado_bandera
+  end
+
+ 
 
   def calcular_vencimientos
      credito = @credito
      sum_moratorio=0
      #--- Validaremos si es otro año ----
      hoy = @fecha_calculo.yday
-      if @fecha_calculo.year > proximo_pago(credito).fecha_limite.year
-        hoy+=365 * (@fecha_calculo.year - proximo_pago(credito).fecha_limite.year)
+     anio_calculo = @fecha_calculo.year
+     anio_proximo_pago = proximo_pago(credito).fecha_limite.year
+     dia_proximo_pago = proximo_pago(credito).fecha_limite.yday
+    if anio_proximo_pago > anio_calculo
+      # el proximo pago es del siguiente anio
+      dias_transcurridos = 0
+    else
+      if anio_proximo_pago < anio_calculo
+        # el proximo pago es del aaños anteriores, es decir esta vencido
+        dias_transcurridos = ((365 * (anio_calculo - anio_proximo_pago)) - dia_proximo_pago + hoy).to_i
+      else
+        #--- son del mismo año --
+        dias_transcurridos = (hoy - dia_proximo_pago).to_i
       end
-     dias_transcurridos = (hoy - proximo_pago(credito).fecha_limite.yday).to_i
-     if dias_transcurridos > 0
+    end
+
+      if dias_transcurridos > 0
          @periodos_sin_pagar = periodos_transcurridos_sin_pagar = periodos_sin_pagar(credito,@fecha_calculo)
          todos_los_pagos = Pagogrupal.find(:all, :conditions => ["credito_id = ? and pagado = 0", credito.id], :order=>"num_pago")
          @pagos_vencidos = todos_los_pagos[0..periodos_transcurridos_sin_pagar - 1]
@@ -204,6 +277,7 @@ class Vencimiento
          return false
      end
      #---- Aqui vamos a verificar si ya termino de pagar ----
+     calcular_capital_total
      if credito_pagado?
         liberar_credito
      end
@@ -257,7 +331,9 @@ end
  def credito_pagado?
    globales = Pagogrupal.find(:all, :conditions => ["pagado = 0 and credito_id = ?", @credito])
    detallados = Pago.find(:all, :conditions => ["pagado = 0 and credito_id = ?", @credito])
-   if detallados.empty? && globales.empty?
+   if globales.empty?
+     #--- actualizamos la tabla de pagos detallados --
+     detallados.each{|d|d.update_attributes!(:pagado=>1)} unless detallados.empty?
      @proximo_pago_string = "Crédito liquidado"
      @liquidado=true
      return true
@@ -275,7 +351,7 @@ end
     if anio_hoy == anio_fecha
       return yday_hoy - yday_fecha
     else
-      return (yday_hoy + 365) - yday_fecha
+      return (yday_hoy + 365 * (hoy.year - fecha.year)) - yday_fecha
     end
   end
 
@@ -287,6 +363,12 @@ end
     @proporcion_capital = (100.0 / total_recuperar)
     @proporcion_interes = (interes_total_vida_credito / total_recuperar)
   end
+
+  def calcular_capital_total
+    @capital_total = Pagogrupal.sum(:capital_minimo, :conditions => ["credito_id = ? and pagado=0", @credito.id])
+  end
+
+
 
 
  

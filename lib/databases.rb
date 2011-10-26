@@ -365,7 +365,7 @@ module Databases
                     @deposito = Fechavalor.new(:fecha => fecha.to_date, :credito_id => @credito.id, :datafile_id => @datafile.id, :sucursal => sucursal, :autorizacion => autorizacion, :codigo => codigo, :subcodigo => subcodigo, :ref_alfa => ref_alfa, :importe => importe.to_f, :st => "A", :tipo => "EXTRAORDINARIO" )
                   end
                   @extra = Extraordinario.find(:first, :conditions=> ["credito_id = ?", @credito.id])
-                  @pagoextra = Pagoextraordinario.new(:fecha => fecha.to_date, :cantidad => importe.to_f, :extraordinario_id => @extra)
+                  @pagoextra = Pagoextraordinario.new(:fecha => fecha.to_date, :cantidad => importe.to_f, :extraordinario_id => @extra.id)
                   total_capital = importe.to_f * @extra.proporcion_capital
                   total_interes = importe.to_f * @extra.proporcion_interes
                   #-- Aqui recalculamos los pagos ----
@@ -415,10 +415,16 @@ module Databases
               end
 
            else
-             @no_aplicados.puts(linea + "| a la fecha del deposito el credito no tenia vencimiento")
-           end
-
-
+             #---- Puede ser un pago adelantado ----
+             #--- calculamos el siguiente pago-----
+             @registro =  Vencimiento.new(@credito, fecha.to_date, "fechavalor")
+             if @registro.procesar_pagos_adelantados(importe)
+               @pagoextra.save
+               @deposito.save
+             else
+               @no_aplicados.puts(linea + "| ocurrio un error al intentar aplicar un pago adelantado, verifique los datos")
+             end
+             end
                   extras+=1
                   num_insertados+=1
               end
