@@ -11,7 +11,7 @@
   </tr>
  <%@depositos.each do |deposito|%>
    <tr>
-     <td><%=link_to "#{deposito.extraordinario.credito.num_referencia}", :action => "vencimiento", :controller => "creditos", :id => deposito.extraordinario.credito%></td>
+     <td><%=link_to "#{deposito.extraordinario.credito.num_referencia}", :action => "vencimiento", :controller => "creditos", :id => deposito.extraordinario.credito.id%></td>
      <td><%=deposito.cantidad%></td>
      <td><%=deposito.fecha%></td>
    </tr>
