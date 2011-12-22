@@ -61,12 +61,6 @@ class Datafile < ActiveRecord::Base
          else
          
           #--- Aqui va a insertar los registros en la tabla depositos ---
-
-
-
-
-
-
         end
         num_linea+= 1
 
@@ -74,18 +68,6 @@ class Datafile < ActiveRecord::Base
             @data = Datafile.create(:nombre_archivo => name, :numero_cliente => @numero_cliente,
                                 :fecha_hora_archivo => @fecha_hora_archivo, :sucursal => @sucursal,
                                 :cuenta => @cuenta, :num_movimientos => @num_movimientos)
-  
-#      if encabezado_valido?(name) && @data
-#       if inserta_metadatos(name, @data)
-#          return true
-#       else
-#          File.delete("#{RAILS_ROOT}/public/tmp/#{name}") if File.exists?("#{RAILS_ROOT}/public/tmp/#{name}")
-#          return false
-#       end
-#    else
-#      File.delete("#{RAILS_ROOT}/public/tmp/#{name}") if File.exists?("#{RAILS_ROOT}/public/tmp/#{name}")
-#      return false
-#    end
   end
 
 
@@ -122,16 +104,6 @@ def self.save_file_csv_fecha_valor(upload)
     path = File.join(directory, name)
     # ---- Escribimos el archivo  -----
     File.open(path, "wb") { |f| f.write(upload['file'].read) }
-    @data = Datafile.new(:nombre_archivo => name)
-    if @data.save
-      return @data
-    else
-      return nil
-    end
-    #---- Primero vamos a verificar si el encabezado es correcto y no se repite ------
+    return @data = Datafile.create(:nombre_archivo => name)
 end
-
-
-
-
 end #-- Termina clase
