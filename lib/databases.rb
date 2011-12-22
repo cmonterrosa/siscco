@@ -173,7 +173,7 @@ module Databases
 #   end
  end
 
-    def elimina_registro_log(registro, rol)
+  def elimina_registro_log(registro, rol)
     begin
       @controller = Controller.find_by_controller(params[:controller])
       #if Systable.find(:first, :conditions=>["rol_id = ? and eliminar=1 and controller_id=?", rol, @controller.id])
@@ -199,9 +199,7 @@ module Databases
     end
 
 
-
-
-    def confronta(datafile)
+  def confronta(datafile)
       begin
         datafile = Datafile.find(datafile)
         nombre_archivo = datafile.nombre_archivo
@@ -336,120 +334,7 @@ module Databases
       end
     end
 
- #---- Fecha valor para extras ---
-=begin
- def confronta_fecha_valor_extras(archivo)
-  begin
-    num_linea = 1
-    num_insertados = 0
-    extras = 0
-    nombre_archivo = archivo.nombre_archivo
-    #---- Limpiamos los archivos basura ----
-    File.delete("#{RAILS_ROOT}/tmp/err_fecha_valor_extras") if File.exists?("#{RAILS_ROOT}/tmp/err_fecha_valor_extras")
-    File.delete("#{RAILS_ROOT}/tmp/na_fecha_valor_extras") if File.exists?("#{RAILS_ROOT}/tmp/na_fecha_valor_extras")
-    #--- Obtenemos el id del archivo cargado ---
-    @datafile = archivo
-    #---- Creamos el archivo para los na ---
-    @no_aplicados = File.new("#{RAILS_ROOT}/tmp/na_fecha_valor_extras", "w+")
-    #---- Creamos el archivo para los errores ---
-    @errores = File.new("#{RAILS_ROOT}/tmp/err_fecha_valor_extras", "w+")
-    #-- Abrimos el archivo ---
-    File.open("#{RAILS_ROOT}/public/tmp/#{nombre_archivo}").each do |linea|
-          fecha,sucursal,autorizacion,codigo,subcodigo,ref_alfa, importe = linea.split(",")
-          #--- Aqui vamos a hacer el match -----
-          @credito = Credito.find(:first, :conditions => ["num_referencia = ?", ref_alfa])
-          if @credito
-              #--- Insertamos el registro correspondiente al pago ---
-              if @credito.tipo_aplicacion=="EXTRAORDINARIO"
-                #Pagoextraordinario.transaction do
-                  Fechavalor.transaction do
-                    @deposito = Fechavalor.new(:fecha => fecha.to_date, :credito_id => @credito.id, :datafile_id => @datafile.id, :sucursal => sucursal, :autorizacion => autorizacion, :codigo => codigo, :subcodigo => subcodigo, :ref_alfa => ref_alfa, :importe => importe.to_f, :st => "A", :tipo => "EXTRAORDINARIO" )
-                  end
-                  @extra = Extraordinario.find(:first, :conditions=> ["credito_id = ?", @credito.id])
-                  @pagoextra = Pagoextraordinario.new(:fecha => fecha.to_date, :cantidad => importe.to_f, :extraordinario_id => @extra.id)
-                  total_capital = importe.to_f * @extra.proporcion_capital
-                  total_interes = importe.to_f * @extra.proporcion_interes
-                  #-- Aqui recalculamos los pagos ----
-                  vencimiento = Vencimiento.new(@credito, fecha.to_date, "fechavalor")
-                  vencimiento.procesar
-                  pagos_vencidos = vencimiento.pagos_vencidos
-                  #--- recorremos los pagos vencidos----
 
-           if pagos_vencidos
-                  pagos_vencidos.each do |pago|
-                    #--- empieza algoritmo transaccional----
-                    Transaccion.transaction do
-                    #--- Guardamos la transaccion ---
-                    begin
-                        Transaccion.create(:monto => total_capital, :pagogrupal_id => pago.id, :tipo_transaccion_id=>1, :datafile_id=>@datafile.id, :fecha_hora_aplicacion => fecha.to_date)
-                        Transaccion.create(:monto => total_interes, :pagogrupal_id => pago.id, :tipo_transaccion_id=>2, :datafile_id=>@datafile.id, :fecha_hora_aplicacion => fecha.to_date)
-                        if total_capital >= pago.capital_minimo
-                              if total_interes >= pago.interes_minimo
-                                pago.update_attributes!(:pagado =>1)
-                                total_capital-=pago.capital_minimo
-                                total_interes-=pago.interes_minimo
-                              else
-                                total_capital-=pago.capital_minimo
-                                pago.update_attributes!(:capital_minimo => 0, :interes_minimo => pago.interes_minimo-=total_interes)
-                                total_interes=0
-                              end
-                        else
-                            if total_interes >= pago.interes_minimo
-                                total_interes-=pago.interes_minimo
-                                pago.update_attributes!(:interes_minimo => 0, :capital_minimo => pago.capital_minimo-=total_capital)
-                                total_capital=0
-                            else
-                                pago.update_attributes!(:capital_minimo => pago.capital_minimo-=total_capital)
-                                pago.update_attributes!(:interes_minimo => pago.interes_minimo-=total_interes)
-                                total_capital=0
-                                total_interes=0
-                            end
-                        end
-                        @pagoextra.save
-                      rescue ActiveRecord::StatementInvalid
-                           @errores.puts(linea + "| Se produjo un error al insertar registro verifique")
-                          next
-                    end # termina bloque
-                  end #--- termina la transaccion --
-                  @deposito.save
-                 pago.update_attributes!(:principal_recuperado=>pago.capital_minimo)
-              end
-
-           else
-             #---- Puede ser un pago adelantado ----
-             #--- calculamos el siguiente pago-----
-             @registro =  Vencimiento.new(@credito, fecha.to_date, "fechavalor")
-             if @registro.procesar_pagos_adelantados(importe)
-               @pagoextra.save
-               @deposito.save
-             else
-               @no_aplicados.puts(linea + "| ocurrio un error al intentar aplicar un pago adelantado, verifique los datos")
-             end
-             end
-                  extras+=1
-                  num_insertados+=1
-              end
-
-                num_linea+=1
-                #next
-          else
-            #--- Lo insertamos en lo no procesados un archivo de texto ----
-                  @no_aplicados.puts(linea + "| No existe un credito asociado a la referencia")
-                  num_linea+=1
-                  #next
-           end
-                  num_linea+=1
-                  #next
-    end
-    return true, num_insertados
-  rescue Exception => e
-    @errores.puts(e.message)
-    return false, num_insertados
-  end
-end
-=end
-
- #---- Fecha valor extra de prueba ---
   #---- Fecha valor para extras ---
  def confronta_fecha_valor_extras(archivo)
   begin
@@ -469,11 +354,10 @@ end
     @creditos_hash = Hash.new
     @info_hash = Hash.new
 
-
     #--- Primero verificamos si el cliente va a liquidar el credito -----
      File.open("#{RAILS_ROOT}/public/tmp/#{nombre_archivo}").each do |linea|
      fecha,sucursal,autorizacion,codigo,subcodigo,ref_alfa, importe = linea.split(",")
-     @credito = Credito.find(:first, :conditions => ["num_referencia = ? and status=0", ref_alfa])
+     @credito = Credito.find(:first, :conditions => ["num_referencia = ? and status=0 and tipo_aplicacion = 'EXTRAORDINARIO'", ref_alfa])
           if @credito
             @creditos_hash["#{@credito.id}"] ||= 0
             @creditos_hash["#{@credito.id}"] += importe.to_f
@@ -495,54 +379,28 @@ end
          Credito.find(credito).update_attributes!(:status => 1)
          #--- Insertamos un registro para el control interno de las transacciones ----
          @deposito = Fechavalor.create(:fecha => Time.now, :credito_id => credito, :datafile_id => @datafile.id, :sucursal => @info_hash["#{credito}"][:sucursal], :autorizacion => @info_hash["#{credito}"][:autorizacion], :codigo => @info_hash["#{credito}"][:codigo], :subcodigo => @info_hash["#{credito}"][:subcodigo], :ref_alfa => @info_hash["#{credito}"][:ref_alfa], :importe => valor, :st => "A", :tipo => "EXTRAORDINARIO" )
-       end
-     end
-
-
-    #-- Abrimos el archivo ---
-    File.open("#{RAILS_ROOT}/public/tmp/#{nombre_archivo}").each do |linea|
-          fecha,sucursal,autorizacion,codigo,subcodigo,ref_alfa, importe = linea.split(",")
-          #--- Aqui vamos a hacer el match -----
-          @credito = Credito.find(:first, :conditions => ["num_referencia = ? and status=0", ref_alfa])
-          if @credito
-              #--- Insertamos el registro correspondiente al pago ---
-              if @credito.tipo_aplicacion=="EXTRAORDINARIO"
-                #Pagoextraordinario.transaction do
-                  Fechavalor.transaction do
-                    @deposito = Fechavalor.new(:fecha => fecha.to_date, :credito_id => @credito.id, :datafile_id => @datafile.id, :sucursal => sucursal, :autorizacion => autorizacion, :codigo => codigo, :subcodigo => subcodigo, :ref_alfa => ref_alfa, :importe => importe.to_f, :st => "A", :tipo => "EXTRAORDINARIO" )
-                  end
-                  @extra = Extraordinario.find(:first, :conditions=> ["credito_id = ?", @credito.id])
-                  @pagoextra = Pagoextraordinario.new(:fecha => fecha.to_date, :cantidad => importe.to_f, :extraordinario_id => @extra.id)
-                  total_capital = importe.to_f * @extra.proporcion_capital
-                  total_interes = importe.to_f * @extra.proporcion_interes
-                  #-- Aqui recalculamos los pagos ----
-                  vencimiento = Vencimiento.new(@credito, fecha.to_date, "fechavalor")
-                  vencimiento.procesar
-                  pagos_vencidos = vencimiento.pagos_vencidos
-                  #--- recorremos los pagos vencidos----
-
-           if pagos_vencidos
-                  pagos_vencidos.each do |pago|
-                    #--- empieza algoritmo transaccional----
-                    Transaccion.transaction do
-                    #--- Guardamos la transaccion ---
-                    begin
-                        Transaccion.create(:monto => total_capital, :pagogrupal_id => pago.id, :tipo_transaccion_id=>1, :datafile_id=>@datafile.id, :fecha_hora_aplicacion => fecha.to_date)
-                        Transaccion.create(:monto => total_interes, :pagogrupal_id => pago.id, :tipo_transaccion_id=>2, :datafile_id=>@datafile.id, :fecha_hora_aplicacion => fecha.to_date)
-                        if total_capital >= pago.capital_minimo
+       else
+         #--- Se pagara parcialmente
+         # Calculamos si todos sus pagos estan vencidos
+         @extra = Extraordinario.find(:first, :conditions=> ["credito_id = ?", credito])
+         total_capital = valor.to_f * @extra.proporcion_capital
+         total_interes = valor.to_f * @extra.proporcion_interes
+         pagos_grupales = Pagogrupal.find(:all, :conditions => ["credito_id = ? and pagado=0", credito], :order=> "num_pago")
+         pagos_grupales.each do |pago|
+              if total_capital >= pago.capital_minimo
                               if total_interes >= pago.interes_minimo
                                 pago.update_attributes!(:pagado =>1)
                                 total_capital-=pago.capital_minimo
                                 total_interes-=pago.interes_minimo
                               else
                                 total_capital-=pago.capital_minimo
-                                pago.update_attributes!(:capital_minimo => 0, :interes_minimo => pago.interes_minimo-=total_interes)
+                                pago.update_attributes!(:capital_minimo => 0, :interes_minimo => pago.interes_minimo-=total_interes, :principal_recuperado=> 0)
                                 total_interes=0
                               end
-                        else
+              else
                             if total_interes >= pago.interes_minimo
                                 total_interes-=pago.interes_minimo
-                                pago.update_attributes!(:interes_minimo => 0, :capital_minimo => pago.capital_minimo-=total_capital)
+                                pago.update_attributes!(:interes_minimo => 0, :capital_minimo => pago.capital_minimo-=total_capital, :principal_recuperado => pago.principal_recuperado-=total_capital)
                                 total_capital=0
                             else
                                 pago.update_attributes!(:capital_minimo => pago.capital_minimo-=total_capital)
@@ -550,50 +408,32 @@ end
                                 total_capital=0
                                 total_interes=0
                             end
+              end
+                        # si es el ultimo pago y nos queda excedente
+                        if pago.num_pago == Pagogrupal.maximum(:num_pago, :conditions => ["credito_id = ?", credito])
+                            residuo = total_capital + total_interes
+                            if pago.capital_minimo==0 #-- ya se liquido el capital
+                                pago.update_attributes!(:interes_minimo => pago.interes_minimo-=residuo)
+                            else
+                                if pago.interes_minimo==0 #-- ya se liquido el interes
+                                    pago.update_attributes!(:capital_minimo => pago.capital_minimo-=residuo,  :principal_recuperado=> pago.principal_recuperado-=residuo)
+                                end
+                            end
                         end
-                        @pagoextra.save
-                      rescue ActiveRecord::StatementInvalid
-                           @errores.puts(linea + "| Se produjo un error al insertar registro verifique")
-                          next
-                    end # termina bloque
-                  end #--- termina la transaccion --
-                  @deposito.save
-                 pago.update_attributes!(:principal_recuperado=>pago.capital_minimo)
-              end
-
-           else
-             #---- Puede ser un pago adelantado ----
-             #--- calculamos el siguiente pago-----
-             @registro =  Vencimiento.new(@credito, fecha.to_date, "fechavalor")
-             if @registro.procesar_pagos_adelantados(importe)
-               @pagoextra.save
-               @deposito.save
-             else
-               @no_aplicados.puts(linea + "| ocurrio un error al intentar aplicar un pago adelantado, verifique los datos")
-             end
-             end
-                  extras+=1
-                  num_insertados+=1
-              end
-
-                num_linea+=1
-                #next
-          else
-            #--- Lo insertamos en lo no procesados un archivo de texto ----
-                  @no_aplicados.puts(linea + "| No existe un credito asociado a la referencia o ya ha sido liquidado")
-                  num_linea+=1
-                  #next
-           end
-                  num_linea+=1
-                  #next
-    end
+        end
+        
+        @credito = Credito.find(credito)
+        @deposito = Fechavalor.create(:fecha => Time.now, :credito_id => credito, :datafile_id => @datafile.id, :sucursal => @info_hash["#{credito}"][:sucursal], :autorizacion => @info_hash["#{credito}"][:autorizacion], :codigo => @info_hash["#{credito}"][:codigo], :subcodigo => @info_hash["#{credito}"][:subcodigo], :ref_alfa => @info_hash["#{credito}"][:ref_alfa], :importe => valor, :st => "A", :tipo => "EXTRAORDINARIO" )
+        Pagoextraordinario.create(:fecha => Time.now, :cantidad => valor.to_f, :extraordinario_id => @extra.id)
+       end
+     end
+     num_insertados = @creditos_hash.size
     return true, num_insertados
   rescue Exception => e
     @errores.puts(e.message)
     return false, num_insertados
   end
 end
-
 
 
 
