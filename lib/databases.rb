@@ -379,6 +379,8 @@ module Databases
          Credito.find(credito).update_attributes!(:status => 1)
          #--- Insertamos un registro para el control interno de las transacciones ----
          @deposito = Fechavalor.create(:fecha => Time.now, :credito_id => credito, :datafile_id => @datafile.id, :sucursal => @info_hash["#{credito}"][:sucursal], :autorizacion => @info_hash["#{credito}"][:autorizacion], :codigo => @info_hash["#{credito}"][:codigo], :subcodigo => @info_hash["#{credito}"][:subcodigo], :ref_alfa => @info_hash["#{credito}"][:ref_alfa], :importe => valor, :st => "A", :tipo => "EXTRAORDINARIO" )
+         @credito = Credito.find(credito)
+         liberar_credito_grupal(@credito) if @credito.liquidado?
        else
          #--- Se pagara parcialmente
          # Calculamos si todos sus pagos estan vencidos

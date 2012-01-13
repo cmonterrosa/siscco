@@ -10,7 +10,7 @@ class Clientegrupo < ActiveRecord::Base
     end
 
      def desactivar
-        self.st=0
+        self.activo=0
         self.fecha_fin = Time.now
         if self.save!
           return true
