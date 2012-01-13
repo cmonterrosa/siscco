@@ -644,5 +644,14 @@ def inserta_credito_extraordinario(credito)
 
 end
 
+def liberar_credito_grupal(credito)
+#indentificamos al grupo
+grupo = credito.grupo
+clientes = Clientegrupo.find(:all, :conditions => ["grupo_id = ?", grupo.id])
+ clientes.each do |c|
+  c.desactivar
+ end
+end
+
 
 end
