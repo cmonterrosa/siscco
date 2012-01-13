@@ -9,8 +9,7 @@ class CombosController < ApplicationController
 
 
    def get_localidades
-#      @localidades= Localidad.find(:all, :conditions => ["municipio_id = ?",params[:_municipio_id] ])
-      $localidades = Localidad.find(:all, :conditions => ["municipio_id = ?",params[:_municipio_id] ])
+       $localidades = Localidad.find(:all, :conditions => ["municipio_id = ?",params[:_municipio_id] ], :order => "localidad")
       return render(:partial => 'localidades', :layout => false) if request.xhr?
   end
 
