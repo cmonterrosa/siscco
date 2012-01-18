@@ -14,15 +14,15 @@ class CreateCambiodatos < ActiveRecord::Migration
   end
 
   def self.down
-#    change_column :fechavalors, :importe, :string
-#    change_column :pagos, :capital_minimo, :string
-#    change_column :pagos, :interes_minimo, :string
-#    change_column :pagos, :moratorio, :string
-#    change_column :pagos, :saldo_inicial, :string
-#    change_column :pagos, :saldo_final, :string
-#    change_column :pagos, :principal_recuperado, :string
-#    change_column :pagogrupals, :capital_minimo, :float
-#    change_column :pagogrupals, :interes_minimo, :float
-#    change_column :pagogrupals, :principal_recuperado, :float
+    change_column :fechavalors, :importe, :string
+    change_column :pagos, :capital_minimo, :string
+    change_column :pagos, :interes_minimo, :string
+    change_column :pagos, :moratorio, :string
+    change_column :pagos, :saldo_inicial, :string
+    change_column :pagos, :saldo_final, :string
+    change_column :pagos, :principal_recuperado, :string
+    change_column :pagogrupals, :capital_minimo, :float
+    change_column :pagogrupals, :interes_minimo, :float
+    change_column :pagogrupals, :principal_recuperado, :float
   end
 end

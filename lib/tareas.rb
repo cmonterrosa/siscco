@@ -25,6 +25,7 @@ class Vencimiento
       @devengo_diario = 0
       @total_deuda = 0
       @total_deuda_individual = 0
+      @pago_excedente = 0
       #---- Valores dinámicos para iva y gastos de cobranza ---
       if credito.producto.iva
         @tasa_iva = (credito.producto.iva / 100.0)
@@ -66,12 +67,13 @@ class Vencimiento
       @capital_total = 0
   end
 
-  attr_accessor :credito, :pago_diario, :dias_atraso, :moratorio, :gastos_cobranza, :capital_vencido, :cuota_diaria, :fecha_calculo, :intereses_devengados, :devengo_diario, :interes_vencido, :numero_clientes, :iva_moratorio, :iva_gastos_cobranza, :total_deuda, :proximo_pago_string, :liquidado, :tasa_iva, :cuota_gastos_cobranza, :proporcion_interes, :proporcion_capital, :pagos_vencidos, :total_deuda_individual, :capital_total
+  attr_accessor :credito, :pago_diario, :dias_atraso, :moratorio, :gastos_cobranza, :capital_vencido, :cuota_diaria, :fecha_calculo, :intereses_devengados, :devengo_diario, :interes_vencido, :numero_clientes, :iva_moratorio, :iva_gastos_cobranza, :total_deuda, :proximo_pago_string, :liquidado, :tasa_iva, :cuota_gastos_cobranza, :proporcion_interes, :proporcion_capital, :pagos_vencidos, :total_deuda_individual, :capital_total, :pago_excedente
   
 
   def procesar
      calcular_proporciones
      calcular_capital_total
+     calcular_pagos_excedentes #-- si existen
      # Validaremos si ya termino de pagar
      unless credito_pagado?
         calcular_vencimientos
@@ -366,6 +368,11 @@ end
 
   def calcular_capital_total
     @capital_total = Pagogrupal.sum(:capital_minimo, :conditions => ["credito_id = ? and pagado=0", @credito.id])
+  end
+
+  def calcular_pagos_excedentes
+    @pago_excedente = Excedente.sum(:monto, :conditions => ["credito_id = ?", @credito.id])
+    @pago_excedente = 0 if @pago_excedente.nil?
   end
 
 
