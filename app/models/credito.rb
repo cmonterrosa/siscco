@@ -15,6 +15,7 @@ class Credito < ActiveRecord::Base
   has_many :miembros
   has_many :devengos
   has_many :depositos
+  has_many :excedentes
 
     def initialize(params = nil)
     super
