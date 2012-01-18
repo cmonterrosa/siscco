@@ -157,11 +157,19 @@
               <td>$ <%=separar_miles(credito_vencimiento.iva_gastos_cobranza.to_f)%></td>
               <%sumatoria+=credito_vencimiento.iva_gastos_cobranza.to_f%>
             </tr>
-            <tr>
-              <td class="hed">Total</td>
-              <td>$ <%=separar_miles(round(credito_vencimiento.total_deuda))%></td>
+
+            <%if credito_vencimiento.pago_excedente > 0%>
+              <tr>
+                <td class="hed">Saldo a favor:</td>
+              <td>$ <%=separar_miles(round(credito_vencimiento.pago_excedente))%></td>
             </tr>
-           </table>
+            <%else%>
+              <tr>
+                <td class="hed">Total</td>
+                <td>$ <%=separar_miles(round(credito_vencimiento.total_deuda))%></td>
+              </tr>
+            <%end%>
+      </table>
 
       <%else%>
          <!--
@@ -185,7 +193,7 @@
               <td>$ <=sumatoria%></td>
             </tr>
            </table>
-          -->∫
+          -->
 
 
 
