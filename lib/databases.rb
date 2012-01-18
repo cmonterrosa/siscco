@@ -357,7 +357,7 @@ module Databases
     #--- Primero verificamos si el cliente va a liquidar el credito -----
      File.open("#{RAILS_ROOT}/public/tmp/#{nombre_archivo}").each do |linea|
      fecha,sucursal,autorizacion,codigo,subcodigo,ref_alfa, importe = linea.split(",")
-     @credito = Credito.find(:first, :conditions => ["num_referencia = ? and status=0 and tipo_aplicacion = 'EXTRAORDINARIO'", ref_alfa])
+     @credito = Credito.find(:first, :conditions => ["num_referencia = ? and tipo_aplicacion = 'EXTRAORDINARIO'", ref_alfa])
           if @credito
             @creditos_hash["#{@credito.id}"] ||= 0
             @creditos_hash["#{@credito.id}"] += importe.to_f
@@ -365,22 +365,26 @@ module Databases
           end
      end
      @creditos_hash.each do |credito, valor|
-       calculo = Vencimiento.new(Credito.find(credito))
+       @credito = Credito.find(credito)
+       calculo = Vencimiento.new(@credito)
        calculo.procesar
-       if valor >= calculo.total_deuda
-         #---- alcanza para liquidar la deuda, por lo que aplicamos todo el pago del credito ----
-         pagosgrupals = Pagogrupal.find(:all, :conditions => ["credito_id = ?", credito])
-         pagosgrupalsindividuales = Pago.find(:all, :conditions => ["credito_id = ?", credito])
-         pagosgrupals.each do |pago| pago.update_attributes!(:pagado => 1) end
-         pagosgrupalsindividuales.each do |pago| pago.update_attributes!(:pagado => 1) end
-         @extra = Extraordinario.find(:first, :conditions=> ["credito_id = ?", credito])
-         @pagoextra = Pagoextraordinario.create(:fecha => Time.now, :cantidad =>valor.to_f, :extraordinario_id => @extra.id)
-         #--- cambiamos el estatus del credito a pagado ---
-         Credito.find(credito).update_attributes!(:status => 1)
-         #--- Insertamos un registro para el control interno de las transacciones ----
-         @deposito = Fechavalor.create(:fecha => Time.now, :credito_id => credito, :datafile_id => @datafile.id, :sucursal => @info_hash["#{credito}"][:sucursal], :autorizacion => @info_hash["#{credito}"][:autorizacion], :codigo => @info_hash["#{credito}"][:codigo], :subcodigo => @info_hash["#{credito}"][:subcodigo], :ref_alfa => @info_hash["#{credito}"][:ref_alfa], :importe => valor, :st => "A", :tipo => "EXTRAORDINARIO" )
-         @credito = Credito.find(credito)
-         liberar_credito_grupal(@credito) if @credito.liquidado?
+       diferencia = valor - calculo.total_deuda
+       if diferencia >= 0
+              #---- alcanza para liquidar la deuda, por lo que aplicamos todo el pago del credito ----
+              pagosgrupals = Pagogrupal.find(:all, :conditions => ["credito_id = ?", credito])
+              pagosgrupalsindividuales = Pago.find(:all, :conditions => ["credito_id = ?", credito])
+              pagosgrupals.each do |pago| pago.update_attributes!(:pagado => 1) end
+              pagosgrupalsindividuales.each do |pago| pago.update_attributes!(:pagado => 1) end
+              @extra = Extraordinario.find(:first, :conditions=> ["credito_id = ?", credito])
+              @pagoextra = Pagoextraordinario.create(:fecha => Time.now, :cantidad =>valor.to_f, :extraordinario_id => @extra.id)
+              #--- cambiamos el estatus del credito a pagado ---
+              Credito.find(credito).update_attributes!(:status => 1)
+              #--- Insertamos un registro para el control interno de las transacciones ----
+              @deposito = Fechavalor.create(:fecha => Time.now, :credito_id => credito, :datafile_id => @datafile.id, :sucursal => @info_hash["#{credito}"][:sucursal], :autorizacion => @info_hash["#{credito}"][:autorizacion], :codigo => @info_hash["#{credito}"][:codigo], :subcodigo => @info_hash["#{credito}"][:subcodigo], :ref_alfa => @info_hash["#{credito}"][:ref_alfa], :importe => valor, :st => "A", :tipo => "EXTRAORDINARIO" )
+              liberar_credito_grupal(@credito) if @credito.liquidado?
+              @credito.update_attributes!(:fecha_liquidacion => Time.now) if @credito.fecha_liquidacion.nil?
+              #---- ya no debe el grupo, se abonara a saldo a favor ---
+              Excedente.create(:monto => diferencia, :credito_id => @credito.id, :fecha_deposito => Time.now) if diferencia > 0
        else
          #--- Se pagara parcialmente
          # Calculamos si todos sus pagos estan vencidos
