@@ -47,7 +47,7 @@
         </tr>
         <tr>
           <td class="hed">Nombre del grupo</td>
-          <td><%=@credito.grupo.nombre%></td>
+          <td><%=link_to "#{@credito.grupo.nombre}", :action => "show", :controller => "grupos", :id => @credito.grupo%></td>
         </tr>
         <tr>
           <td class="hed">Integrantes del grupo</td>

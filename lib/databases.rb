@@ -378,7 +378,7 @@ module Databases
               @extra = Extraordinario.find(:first, :conditions=> ["credito_id = ?", credito])
               @pagoextra = Pagoextraordinario.create(:fecha => Time.now, :cantidad =>valor.to_f, :extraordinario_id => @extra.id)
               #--- cambiamos el estatus del credito a pagado ---
-              Credito.find(credito).update_attributes!(:status => 1)
+              @credito.update_attributes!(:status => 1)
               #--- Insertamos un registro para el control interno de las transacciones ----
               @deposito = Fechavalor.create(:fecha => Time.now, :credito_id => credito, :datafile_id => @datafile.id, :sucursal => @info_hash["#{credito}"][:sucursal], :autorizacion => @info_hash["#{credito}"][:autorizacion], :codigo => @info_hash["#{credito}"][:codigo], :subcodigo => @info_hash["#{credito}"][:subcodigo], :ref_alfa => @info_hash["#{credito}"][:ref_alfa], :importe => valor, :st => "A", :tipo => "EXTRAORDINARIO" )
               liberar_credito_grupal(@credito) if @credito.liquidado?
