@@ -29,19 +29,8 @@
 </table>
 
 <br />
-<%if @datafile.fechavalors.size > 0%>
-  <%=button_to 'Ver registros no aplicados', :action => "download_err_fvalor_extras", :controller => "upload"%><br />
-<%end%>
-
-
-
-<%if @datafile.fechavalors.size > 0%>
-  
-<%else%>
-  <br /> <br />
-  <h2 style="color: red;"> Ningún registro cargado, verifique el número de referencia corresponda a un crédito</h2>
-
-<%end%>
-
+<br /> <br />
+<h2 style="color: red;"><%=button_to 'Ver registros no aplicados', :action => "download_na_fvalor_extras", :controller => "upload", :datafile => @datafile%></h2><br /><br />
+<h2 style="color: red;"><%=button_to 'Ver errores', :action => "download_err_fvalor_extras", :controller => "upload", :datafile => @datafile%></h2><br />
 
 <%=button_to 'Inicio', :action => "index", :controller => "home"%>
