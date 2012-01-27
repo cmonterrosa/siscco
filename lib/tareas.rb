@@ -1,6 +1,7 @@
 require 'date'
 class Vencimiento
   def initialize(credito=nil, fecha_calculo=nil, tablaexcedente=nil)
+      puts "inicializando objeto..."
       if fecha_calculo
          @fecha_calculo = fecha_calculo
       else
@@ -26,6 +27,7 @@ class Vencimiento
       @total_deuda = 0
       @total_deuda_individual = 0
       @pago_excedente = 0
+      puts("Grupo => #{credito.grupo.id}")
       #---- Valores dinámicos para iva y gastos de cobranza ---
       if credito.producto.iva
         @tasa_iva = (credito.producto.iva / 100.0)
@@ -37,7 +39,9 @@ class Vencimiento
       else
         @cuota_gastos_cobranza = 200
       end
-      @clientes = Clientegrupo.find(:all, :select => "id, fecha_fin, activo", :conditions => ["grupo_id = ? AND activo=1",credito.grupo.id.to_i])
+      
+      @clientes = Clientegrupo.find(:all, :select => "id, fecha_fin, activo", :conditions => ["grupo_id = ?",credito.grupo.id.to_i])
+      puts("Clientes => #{@clientes}")
       @numero_clientes = @clientes.size
       @excendente_deposito=0.0
       @periodos_sin_pagar = 0

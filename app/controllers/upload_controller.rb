@@ -57,8 +57,17 @@ class UploadController < ApplicationController
     end
     
      def download_err_fvalor_extras
-       send_file(RAILS_ROOT+"/tmp/" + "na_fecha_valor_extras",
+       if Datafile.find(params[:datafile])
+       send_file(RAILS_ROOT+"/tmp/" + Datafile.find(params[:datafile]).archivo_errores,
       :disposition => 'inline')
+       end
+    end
+
+      def download_na_fvalor_extras
+        if Datafile.find(params[:datafile])
+       send_file(RAILS_ROOT+"/tmp/" + Datafile.find(params[:datafile]).archivo_na,
+      :disposition => 'inline')
+         end
     end
 
 
@@ -155,8 +164,8 @@ class UploadController < ApplicationController
           #---- Verificamos si guarda correctamente ----
           if archivo
               #---- Validamos que el encabezado es correcto, por lo tanto empezamos a insertar los registros que hagan match con los creditos -----
-              confronta_fecha_valor_extras(archivo)
-              flash[:notice] = "Archivo #{@nombre_archivo} cargado correctamente"
+              @se_cargo, @registros_cargados, @archivo_nocargados = confronta_fecha_valor_extras(archivo)
+              flash[:notice] = "Archivo #{@nombre_archivo} cargado correctamente, el el archivo #{@archivo_nocargados}"
               redirect_to :action => "show_depositos_fecha_valor_extras", :datafile => archivo, :num_insertados=>@num_insertados
           else
               redirect_to :action => "index", :controller => "upload"
