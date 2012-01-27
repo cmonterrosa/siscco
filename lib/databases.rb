@@ -1,3 +1,5 @@
+
+
 module Databases
   #---- Validaciones para realizar operaciones con la BD ------
    #--- Verificamos que el usuario tenga acceso a eliminar registro -----
@@ -342,28 +344,43 @@ module Databases
     num_insertados = 0
     extras = 0
     nombre_archivo = archivo.nombre_archivo
-    #---- Limpiamos los archivos basura ----
-    File.delete("#{RAILS_ROOT}/tmp/err_fecha_valor_extras") if File.exists?("#{RAILS_ROOT}/tmp/err_fecha_valor_extras")
-    File.delete("#{RAILS_ROOT}/tmp/na_fecha_valor_extras") if File.exists?("#{RAILS_ROOT}/tmp/na_fecha_valor_extras")
     #--- Obtenemos el id del archivo cargado ---
     @datafile = archivo
     #---- Creamos el archivo para los na ---
-    @no_aplicados = File.new("#{RAILS_ROOT}/tmp/na_fecha_valor_extras", "w+")
+    @nombre_aleatorio = rand(2**256).to_s(36)[0..7]
+    @nombre_aleatorio_errores = rand(2**256).to_s(36)[0..7]
+    @no_aplicados = File.new("#{RAILS_ROOT}/tmp/#{@nombre_aleatorio}", "w+")
+    @datafile.update_attributes(:archivo_na => @nombre_aleatorio, :archivo_errores => @nombre_aleatorio_errores)
     #---- Creamos el archivo para los errores ---
-    @errores = File.new("#{RAILS_ROOT}/tmp/err_fecha_valor_extras", "w+")
+    @errores = File.new("#{RAILS_ROOT}/tmp/#{@nombre_aleatorio_errores}", "w+")
     @creditos_hash = Hash.new
+    @contador_creditos_normales = 0
     @info_hash = Hash.new
+    c=0
 
     #--- Primero verificamos si el cliente va a liquidar el credito -----
      File.open("#{RAILS_ROOT}/public/tmp/#{nombre_archivo}").each do |linea|
      fecha,sucursal,autorizacion,codigo,subcodigo,ref_alfa, importe = linea.split(",")
+     c+=1
      @credito = Credito.find(:first, :conditions => ["num_referencia = ? and tipo_aplicacion = 'EXTRAORDINARIO'", ref_alfa])
-          if @credito
+     @credito_normal = Credito.find(:first, :conditions => ["num_referencia = ? and tipo_aplicacion = 'NORMAL'", ref_alfa])
+          if @credito && @credito.grupo
             @creditos_hash["#{@credito.id}"] ||= 0
             @creditos_hash["#{@credito.id}"] += importe.to_f
             @info_hash["#{@credito.id}"] = {:sucursal => sucursal, :autorizacion => autorizacion, :codigo => codigo, :subcodigo => subcodigo, :ref_alfa => ref_alfa}
+          else
+            if @credito_normal
+               @no_aplicados.puts("=> No aplicado, porfavor cambie el tipo de aplicacion a extraordinario | " + linea)
+               @contador_creditos_normales+=1
+            else
+               @no_aplicados.puts("=> No se encontro credito o la información del credito con referencia #{ref_alfa} es inconsistente, vetifique |" + linea)
+            end
+           
           end
      end
+
+
+
      @creditos_hash.each do |credito, valor|
        @credito = Credito.find(credito)
        calculo = Vencimiento.new(@credito)
@@ -373,8 +390,11 @@ module Databases
               #---- alcanza para liquidar la deuda, por lo que aplicamos todo el pago del credito ----
               pagosgrupals = Pagogrupal.find(:all, :conditions => ["credito_id = ?", credito])
               pagosgrupalsindividuales = Pago.find(:all, :conditions => ["credito_id = ?", credito])
-              pagosgrupals.each do |pago| pago.update_attributes!(:pagado => 1) end
-              pagosgrupalsindividuales.each do |pago| pago.update_attributes!(:pagado => 1) end
+              pagosgrupals.each do |pago| pago.update_attributes!(:pagado => 1) end unless @credito.liquidado?
+              pagosgrupalsindividuales.each do |pago| pago.update_attributes!(:pagado => 1) end unless @credito.liquidado?
+              if Extraordinario.find(:first, :conditions=> ["credito_id = ?", credito]).nil?
+                inserta_credito_extraordinario(@credito)
+              end
               @extra = Extraordinario.find(:first, :conditions=> ["credito_id = ?", credito])
               @pagoextra = Pagoextraordinario.create(:fecha => Time.now, :cantidad =>valor.to_f, :extraordinario_id => @extra.id)
               #--- cambiamos el estatus del credito a pagado ---
@@ -385,6 +405,7 @@ module Databases
               @credito.update_attributes!(:fecha_liquidacion => Time.now) if @credito.fecha_liquidacion.nil?
               #---- ya no debe el grupo, se abonara a saldo a favor ---
               Excedente.create(:monto => diferencia, :credito_id => @credito.id, :fecha_deposito => Time.now) if diferencia > 0
+              a=20
        else
          #--- Se pagara parcialmente
          # Calculamos si todos sus pagos estan vencidos
@@ -431,16 +452,41 @@ module Databases
         @credito = Credito.find(credito)
         @deposito = Fechavalor.create(:fecha => Time.now, :credito_id => credito, :datafile_id => @datafile.id, :sucursal => @info_hash["#{credito}"][:sucursal], :autorizacion => @info_hash["#{credito}"][:autorizacion], :codigo => @info_hash["#{credito}"][:codigo], :subcodigo => @info_hash["#{credito}"][:subcodigo], :ref_alfa => @info_hash["#{credito}"][:ref_alfa], :importe => valor, :st => "A", :tipo => "EXTRAORDINARIO" )
         Pagoextraordinario.create(:fecha => Time.now, :cantidad => valor.to_f, :extraordinario_id => @extra.id)
-       end
+        a=10
+      end
+      
      end
-     num_insertados = @creditos_hash.size
-    return true, num_insertados
+    num_insertados = @creditos_hash.size
+    return true, num_insertados, @nombre_aleatorio
   rescue Exception => e
     @errores.puts(e.message)
-    return false, num_insertados
+    #return false, num_insertados, @nombre_aleatorio
   end
 end
 
+
+ def inserta_credito_extraordinario(credito)
+    if credito.tipo_interes == "SALDOS INSOLUTOS (SSI)"
+       @tasa_normal_mensual = round((((credito.producto.tasa_anualizada.to_f) / 360.0 ) * 30), 4)
+    else
+       @tasa_normal_mensual = credito.producto.tasa_mensual_flat.to_f
+    end
+    meses = @credito.producto.num_pagos / @credito.producto.periodo.pagos_mes
+    interes_total_vida_credito = @tasa_normal_mensual * meses
+    total_interes= Pagogrupal.sum(:interes_minimo, :conditions => ["credito_id= ?", @credito.id])
+
+
+    #total_interes = @credito.monto * (interes_total_vida_credito / 100.0)
+    total_recuperar = 100 + interes_total_vida_credito
+    @proporcion_capital = (100.0 / total_recuperar)
+    @proporcion_interes = (interes_total_vida_credito / total_recuperar)
+    Extraordinario.transaction do
+       Extraordinario.create(:credito_id=> @credito.id, :capital => @credito.monto,
+                             :interes => total_interes, :proporcion_capital => @proporcion_capital,
+                             :proporcion_interes => @proporcion_interes)
+    end
+
+end
 
 
 end
