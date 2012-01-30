@@ -849,4 +849,50 @@ EOS
       @archivo = params[:file]
       send_file "#{RAILS_ROOT}/public/data/#{@archivo}.txt", :type=>"application/txt"
    end
+
+   def reporte_general_grupos
+       creditos = Credito.find(:all, :select => "c.id, c.grupo_id, c.fecha_inicio, c.fecha_fin, c.linea_id, c.producto_id, c.monto, c.num_referencia, c.tipo_interes, p.num_pagos",
+         :joins => "c, grupos gr, productos p",
+         :conditions => ["c.producto_id=p.id AND c.grupo_id = gr.id AND c.grupo_id is not null"])
+
+
+
+       csv_string = FasterCSV.generate do |csv|
+       csv << ["REFERENCIA", "GRUPO", "FECHA_ENTREGA", "FECHA_VENCIMIENTO", "PROPUESTA", "CICLO", "MUNICIPIO", "LOCALIDAD", "PRESIDENTA", "SECRETARIA", "TESORERA", "MONTO", "SEMANAS", "RECUPERADO", "VENCIDO", "NUM_SOCIAS"]
+       creditos.each do |c|
+         clientes = Credito.find_by_sql("
+              select loc.localidad, mun.municipio, CONCAT(cl.paterno, ' ', cl.materno, ' ', cl.nombre) as nombre_completo, c.monto, jer.jerarquia  from creditos c
+              inner join
+                clientes_grupos cg on
+                c.grupo_id = cg.grupo_id
+              inner join
+                clientes cl on
+                cg.cliente_id = cl.id
+              inner join
+                miembros mi on
+                mi.cliente_id = cl.id
+              inner join
+                jerarquias jer on
+                mi.jerarquia_id=jer.id
+              inner join
+                localidads loc on
+                cl.localidad_id = loc.id
+              inner join
+                municipios mun on
+                loc.municipio_id=mun.id
+              where c.id = #{c.id} and jer.jerarquia in ('secretario', 'tesorero', 'presidente')
+              order by jer.id")
+        v= Vencimiento.new(c)
+        v.procesar
+        if clientes.size > 2
+         csv << [c.num_referencia, c.grupo.nombre, c.fecha_inicio, c.fecha_fin, c.linea.cuenta_cheques, c.producto.producto,  clientes[0]["municipio"], clientes[0]["localidad"],  clientes[0]["nombre_completo"], clientes[1]["nombre_completo"], clientes[2]["nombre_completo"], c.monto, c.num_pagos,v.total_recuperado,v.total_deuda, v.numero_clientes]
+        end
+      end
+     end
+        send_data csv_string, type => "text/plain",
+       :filename => "reporte_general_grupos_#{Time.now.strftime("%d-%m-%Y")}.csv",
+       :disposition => "attachment"
+     
+   end
+
 end
