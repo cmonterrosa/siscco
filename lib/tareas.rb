@@ -69,15 +69,18 @@ class Vencimiento
       #---- importes de las proporciones ---
       @importe = 0
       @capital_total = 0
+      #---- se calcula lo que ha pagado ---
+      @total_recuperado = 0
   end
 
-  attr_accessor :credito, :pago_diario, :dias_atraso, :moratorio, :gastos_cobranza, :capital_vencido, :cuota_diaria, :fecha_calculo, :intereses_devengados, :devengo_diario, :interes_vencido, :numero_clientes, :iva_moratorio, :iva_gastos_cobranza, :total_deuda, :proximo_pago_string, :liquidado, :tasa_iva, :cuota_gastos_cobranza, :proporcion_interes, :proporcion_capital, :pagos_vencidos, :total_deuda_individual, :capital_total, :pago_excedente
+  attr_accessor :credito, :pago_diario, :dias_atraso, :moratorio, :gastos_cobranza, :capital_vencido, :cuota_diaria, :fecha_calculo, :intereses_devengados, :devengo_diario, :interes_vencido, :numero_clientes, :iva_moratorio, :iva_gastos_cobranza, :total_deuda, :proximo_pago_string, :liquidado, :tasa_iva, :cuota_gastos_cobranza, :proporcion_interes, :proporcion_capital, :pagos_vencidos, :total_deuda_individual, :capital_total, :pago_excedente, :total_recuperado
   
 
   def procesar
      calcular_proporciones
      calcular_capital_total
      calcular_pagos_excedentes #-- si existen
+     calcular_total_recuperado
      # Validaremos si ya termino de pagar
      unless credito_pagado?
         calcular_vencimientos
@@ -372,6 +375,11 @@ end
 
   def calcular_capital_total
     @capital_total = Pagogrupal.sum(:capital_minimo, :conditions => ["credito_id = ? and pagado=0", @credito.id])
+  end
+
+  def calcular_total_recuperado
+     @total_recuperado = Pagogrupal.sum(:principal_recuperado, :conditions => ["credito_id = ? and pagado = 1 and principal_recuperado is not null", @credito.id])
+     @total_recuperado+=@pago_excedente if @pago_excedente > 0 && @total_recuperado > 0
   end
 
   def calcular_pagos_excedentes
