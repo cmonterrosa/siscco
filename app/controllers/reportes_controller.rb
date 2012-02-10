@@ -895,4 +895,30 @@ EOS
      
    end
 
+   def nxporclts
+     query="select '105', cl.identificador, cl.curp, cl.clave_ife, cl.paterno, cl.materno, cl.nombre, cl.fecha_nac,
+       cl.sexo, cl.telefono, cl.civil_id, ci.civil, cl.localidad_id, loc.localidad, loc.municipio_id, mu.municipio,
+       mu.estado_id, es.estado, cl.direccion, cl.num_exterior, cl.num_interior, cl.colonia,
+       cl.codigo_postal
+from clientes as cl
+inner join civils ci on cl.civil_id = ci.id
+inner join localidads loc on cl.localidad_id = loc.id
+inner join municipios mu on loc.municipio_id = mu.id
+inner join estados es on mu.estado_id = es.id"
+
+        csv_string = FasterCSV.generate do |csv|
+        csv << ["ORG_ID", "ACRED_ID", "CURP", "IFE", "PRIM_AP","SEGUNDO_AP", "NOMBRE", "FECHA_NAC", "SEXO",
+                           "TEL", "CVE_EDO_CIVIL", "EDO_RES", "MUNICIPIO", "LOCALIDAD", "CALLE", "NUMERO_EXTERIOR", "NUMERO_INTERIOR", "COLONIA",
+                           "CP"]
+        clientes = Cliente.find_by_sql(query)
+        clientes.each do |c|
+        csv << ["105", c.identificador, c.curp, c.clave_ife, c.paterno, c.materno, c.nombre, c.fecha_nac, c.sexo,
+              c.telefono, c.civil.civil, c.estado, c.municipio, c.localidad.localidad, c.direccion, c.num_exterior, c.num_interior, c.colonia,
+              c.codigo_postal]
+         end
+       end
+        send_data csv_string, type => "text/plain",
+       :filename => "reporte_gclientes_#{Time.now.strftime("%d-%m-%Y")}.csv",
+       :disposition => "attachment"
+    end
 end
