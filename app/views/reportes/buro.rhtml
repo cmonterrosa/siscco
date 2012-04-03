@@ -1,4 +1,5 @@
-<%%>
 
+<h2>Tiempo de procesamiento : <%=round(@minutos)%> minutos</h2>
+<br />
 
-<h3><%=link_to 'Descargar archivo', :action => "download_buro", :file => @nombre_archivo%></h3>
+<h3><%= button_to 'Descargar archivo', { :action => 'download_buro', :file => @nombre_archivo, :inicio => @inicio }, :confirm => 'Estas seguro?', :method => :post %></h3>
