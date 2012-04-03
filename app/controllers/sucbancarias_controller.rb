@@ -35,8 +35,15 @@ class SucbancariasController < ApplicationController
   end
 
   def destroy
-    Sucbancaria.find(params[:id]).destroy
-    redirect_to :action => 'list'
+#    Sucbancaria.find(params[:id]).destroy
+#    redirect_to :action => 'list'
+    begin
+      registro = Sucbancaria.find(:first, :conditions => ["id = ?", params[:id]])
+      registro.destroy
+    rescue ActiveRecord::StatementInvalid => error
+        flash[:notice] = "No se puede eliminar el registro #{registro.nombre}, existen relaciones con otras tablas"
+    end
+    redirect_to :action => "list"
   end
 
   def live_search

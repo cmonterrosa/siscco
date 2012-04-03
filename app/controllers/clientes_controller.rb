@@ -69,8 +69,17 @@ class ClientesController < ApplicationController
   end
 
   def destroy
-    Cliente.find(params[:id]).destroy
-    redirect_to :action => 'list'
+#    Cliente.find(params[:id]).destroy
+#    redirect_to :action => 'list'
+
+    begin
+      registro = Cliente.find(:first, :conditions => ["id = ?", params[:id]])
+      registro.destroy
+    rescue ActiveRecord::StatementInvalid => error
+        flash[:notice] = "No se puede eliminar el registro #{registro.nombre}, existen relaciones con otras tablas"
+    end
+    redirect_to :action => "list"
+
   end
   
   #--------------- Filtrado Ajax -----------------

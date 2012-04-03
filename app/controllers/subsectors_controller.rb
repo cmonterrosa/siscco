@@ -35,8 +35,15 @@ class SubsectorsController < ApplicationController
   end
 
   def destroy
-    Subsector.find(params[:id]).destroy
-    redirect_to :action => 'list'
+#    Subsector.find(params[:id]).destroy
+#    redirect_to :action => 'list'
+    begin
+      registro = Subsector.find(:first, :conditions => ["id = ?", params[:id]])
+      registro.destroy
+    rescue ActiveRecord::StatementInvalid => error
+        flash[:notice] = "No se puede eliminar el registro #{registro.nombre}, existen relaciones con otras tablas"
+    end
+    redirect_to :action => "list"
   end
                   #-- Ajax --
   def live_search

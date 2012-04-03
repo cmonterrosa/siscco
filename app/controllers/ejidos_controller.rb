@@ -38,8 +38,16 @@ class EjidosController < ApplicationController
   end
 
   def destroy
-    Ejido.find(params[:id]).destroy
-    redirect_to :action => 'list'
+#    Ejido.find(params[:id]).destroy
+#    redirect_to :action => 'list'
+    begin
+      registro = Ejido.find(:first, :conditions => ["id = ?", params[:id]])
+      registro.destroy
+    rescue ActiveRecord::StatementInvalid => error
+        flash[:notice] = "No se puede eliminar el registro #{registro.nombre}, existen relaciones con otras tablas"
+    end
+    redirect_to :action => "list"
+
   end
       #--- Funciones ajax para filtrado --
   def live_search

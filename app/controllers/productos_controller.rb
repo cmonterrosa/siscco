@@ -40,8 +40,15 @@ class ProductosController < ApplicationController
   end
 
   def destroy
-    Producto.find(params[:id]).destroy
-    redirect_to :action => 'list'
+#    Producto.find(params[:id]).destroy
+#    redirect_to :action => 'list'
+    begin
+      registro = Producto.find(:first, :conditions => ["id = ?", params[:id]])
+      registro.destroy
+    rescue ActiveRecord::StatementInvalid => error
+        flash[:notice] = "No se puede eliminar el registro #{registro.nombre}, existen relaciones con otras tablas"
+    end
+    redirect_to :action => "list"
   end
                   #-- Ajax --
   def live_search
