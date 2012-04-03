@@ -27,6 +27,7 @@ class Vencimiento
       @total_deuda = 0
       @total_deuda_individual = 0
       @pago_excedente = 0
+      @saldo_actual_individual = 0
       puts("Grupo => #{credito.grupo.id}")
       #---- Valores dinámicos para iva y gastos de cobranza ---
       if credito.producto.iva
@@ -73,7 +74,7 @@ class Vencimiento
       @total_recuperado = 0
   end
 
-  attr_accessor :credito, :pago_diario, :dias_atraso, :moratorio, :gastos_cobranza, :capital_vencido, :cuota_diaria, :fecha_calculo, :intereses_devengados, :devengo_diario, :interes_vencido, :numero_clientes, :iva_moratorio, :iva_gastos_cobranza, :total_deuda, :proximo_pago_string, :liquidado, :tasa_iva, :cuota_gastos_cobranza, :proporcion_interes, :proporcion_capital, :pagos_vencidos, :total_deuda_individual, :capital_total, :pago_excedente, :total_recuperado
+  attr_accessor :credito, :pago_diario, :dias_atraso, :moratorio, :gastos_cobranza, :capital_vencido, :cuota_diaria, :fecha_calculo, :intereses_devengados, :devengo_diario, :interes_vencido, :numero_clientes, :iva_moratorio, :iva_gastos_cobranza, :total_deuda, :proximo_pago_string, :liquidado, :tasa_iva, :cuota_gastos_cobranza, :proporcion_interes, :proporcion_capital, :pagos_vencidos, :total_deuda_individual, :capital_total, :pago_excedente, :total_recuperado, :saldo_actual_individual
   
 
   def procesar
@@ -81,6 +82,7 @@ class Vencimiento
      calcular_capital_total
      calcular_pagos_excedentes #-- si existen
      calcular_total_recuperado
+     calcular_saldo_actual_individual
      # Validaremos si ya termino de pagar
      unless credito_pagado?
         calcular_vencimientos
@@ -385,6 +387,14 @@ end
   def calcular_pagos_excedentes
     @pago_excedente = Excedente.sum(:monto, :conditions => ["credito_id = ?", @credito.id])
     @pago_excedente = 0 if @pago_excedente.nil?
+  end
+
+  def calcular_saldo_actual_individual
+    @capital_total = Pagogrupal.sum(:capital_minimo, :conditions => ["credito_id = ? and pagado=0", @credito.id])
+    @capital_total = 0 if @capital_total.nil?
+    @interes_total = Pagogrupal.sum(:interes_minimo, :conditions => ["credito_id = ? and pagado=0", @credito.id])
+    @interes_total = 0 if @interes_total.nil?
+    @saldo_actual_individual = ((@capital_total + @interes_total) / @numero_clientes)
   end
 
 
