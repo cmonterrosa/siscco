@@ -1,3 +1,8 @@
+Modificaciones 2 de abril de 2012
+
+=> creacion de restricciones fisicas en la BD
+
+
 Modificaciones 16 de febrero de 2011
 
 => Corregimos la carga de layouts, ya cargan todos y se almacenan en una tabla temporal pendientes de aplicar
