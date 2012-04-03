@@ -29,7 +29,7 @@ class Cliente < ActiveRecord::Base
 #------- Validaciones -----------
 #validates_uniqueness_of :rfc, :message => ", Ese cliente ya esta registrado."
 #validates_uniqueness_of :identificador, :message => ", Ese cliente ya esta registrado."
-validates_uniqueness_of :curp, :message => ", Ese cliente ya esta registrado."
+#validates_uniqueness_of :curp, :message => ", Ese cliente ya esta registrado."
 validates_length_of :rfc, :in => 10..13,  :message => ", Longitud incorrecta"
 validates_length_of :curp, :is => 18,  :message => ", Longitud incorrecta"
 #validates_associated :grupos, :message => "existen registros en otras tablas"
@@ -55,4 +55,16 @@ validates_length_of :curp, :is => 18,  :message => ", Longitud incorrecta"
     self.identificador = id.to_s.ljust(8, "0")
     self.save!
   end
+
+  def generar_id_faltantes
+    clientes = Cliente.find(:all, :conditions => ["identificador is NULL"])
+    clientes.each{|c|
+      id = Array.new(4) { (rand(122-97) + 97).chr }.join + (rand(10000)).to_s
+      while not (Cliente.find_by_identificador(id)).nil?
+        id = Array.new(4) { (rand(122-97) + 97).chr }.join + (rand(10000)).to_s
+      end
+      c.update_attributes!(:identificador => id.to_s.ljust(8, "0"))
+    }
+  end
+
 end
