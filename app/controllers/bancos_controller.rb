@@ -41,10 +41,17 @@ def index
   end
 
   def destroy
-    Banco.find(params[:id]).destroy
-    redirect_to :action => "list" 
+    begin
+      registro = Banco.find(:first, :conditions => ["id = ?", params[:id]])
+#      Banco.find(params[:id]).destroy
+      registro.destroy
+    rescue ActiveRecord::StatementInvalid => error
+#      if error.to_s.include?("foreign key constraint fails")
+        flash[:notice] = "No se puede eliminar el registro #{registro.nombre}, existen relaciones con otras tablas"
+#      end
+    end
+    redirect_to :action => "list"
   end
-
   #--- Funciones ajax para filtrado --
   def live_search
       @bancos = Banco.find(:all, :order => 'nombre')

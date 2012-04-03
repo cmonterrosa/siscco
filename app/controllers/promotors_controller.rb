@@ -1,5 +1,6 @@
 class PromotorsController < ApplicationController
-  require_role "administradores", :except =>[:list, :index, :show]
+#  require_role "administradores", :except =>[:list, :index, :show]
+  before_filter :login_required
   helper :send_doc
   include SendDocHelper
 
@@ -46,8 +47,15 @@ class PromotorsController < ApplicationController
   end
 
   def destroy
-    Promotor.find(params[:id]).destroy
-    redirect_to :action => 'list'
+#    Promotor.find(params[:id]).destroy
+#    redirect_to :action => 'list'
+    begin
+      registro = Promotor.find(:first, :conditions => ["id = ?", params[:id]])
+      registro.destroy
+    rescue ActiveRecord::StatementInvalid => error
+        flash[:notice] = "No se puede eliminar el registro #{registro.nombre}, existen relaciones con otras tablas"
+    end
+    redirect_to :action => "list"
   end
                    #-- Ajax --
   def live_search
