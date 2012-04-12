@@ -30,10 +30,12 @@ class Vencimiento
       @excendente_deposito=0.0
       @periodos_sin_pagar = 0
       @pagos_vencidos = nil
+      @proximo_pago_string = " "
+      @liquidado=false
  
   end
 
-  attr_accessor :credito, :pago_diario, :dias_atraso, :moratorio, :gastos_cobranza, :capital_vencido, :cuota_diaria, :fecha_calculo, :intereses_devengados, :devengo_diario, :interes_vencido, :numero_clientes, :iva_moratorio, :iva_gastos_cobranza, :total_deuda
+  attr_accessor :credito, :pago_diario, :dias_atraso, :moratorio, :gastos_cobranza, :capital_vencido, :cuota_diaria, :fecha_calculo, :intereses_devengados, :devengo_diario, :interes_vencido, :numero_clientes, :iva_moratorio, :iva_gastos_cobranza, :total_deuda, :proximo_pago_string, :liquidado
   
   def all
    #---- Vamos a contabilizar los dias de atraso ---
@@ -69,6 +71,22 @@ class Vencimiento
 
 
   def procesar
+     # Validaremos si ya termino de pagar
+     unless credito_pagado?
+        calcular_vencimientos
+     end
+     #impresiones en pantalla
+          puts "Dias de atraso => #{@dias_atraso}"
+          puts "Capital Vencido => #{@capital_vencido}"
+          puts "Intereses Vencidos => #{@interes_vencido}"
+          puts "Moratorio => #{@moratorio}"
+          puts "Gastos de Cobranza => #{@gastos_cobranza}"
+          puts "------- Total a pagar => #{@total_deuda}"
+  end
+
+
+
+  def calcular_vencimientos
      credito = @credito
      moratorio_diario = (@credito.producto.moratorio.to_f / 100.0) / 360.0
      tasa_diaria_moratoria = round((@credito.producto.moratorio.to_f / 100.0) / 360.0, 4)
@@ -81,7 +99,6 @@ class Vencimiento
      dias_transcurridos = (hoy - proximo_pago(credito).fecha_limite.yday).to_i
      if dias_transcurridos > 0
          @periodos_sin_pagar = periodos_transcurridos_sin_pagar = periodos_sin_pagar(credito,@fecha_calculo)
-        #todos_los_pagos = Pago.find(:all, :conditions => ["credito_id = ? and pagado = 0", credito.id], :order => "num_pago", :group => "num_pago")
          todos_los_pagos = Pagogrupal.find(:all, :conditions => ["credito_id = ? and pagado = 0", credito.id], :order=>"num_pago")
          @pagos_vencidos = todos_los_pagos[0..periodos_transcurridos_sin_pagar - 1]
          @pagos_vencidos.each{|pago|
@@ -94,14 +111,8 @@ class Vencimiento
          }
       
 
-      @moratorio = round(sum_moratorio * 0.84,2)
-      @iva_moratorio = round(sum_moratorio * 0.16 ,2)
-      #--- Vamos a multiplicarlo por el numero de clientes del grupo --
-      #@capital_vencido = round(@capital_vencido,2)
-      # @pago_diario = pago_minimo_informativo(credito) / credito.producto.periodo.dias.to_f
-          #moratorio_diario = ((credito.producto.moratorio / 100.0 ) * proximo_pago(credito).capital_minimo.to_f ) / credito.producto.periodo.dias.to_f
-       #   @devengo_diario = proximo_pago(credito).interes_minimo.to_f / credito.producto.periodo.dias.to_f
-          #@gastos_cobranza = 200.00 if dias_transcurridos > 8
+          @moratorio = round(sum_moratorio * 0.84,2)
+          @iva_moratorio = round(sum_moratorio * 0.16 ,2)
           @gastos_cobranza = ((dias_transcurridos / 8) * 200)* 0.84
           @iva_gastos_cobranza = ((dias_transcurridos / 8) * 200) * 0.16
           #---- Globales --
@@ -109,12 +120,6 @@ class Vencimiento
           @cuota_diaria = moratorio_diario + @pago_diario
           @intereses_devengados = @devengo_diario * dias_transcurridos.to_f
           @total_deuda=0
-          puts "Dias de atraso => #{dias_transcurridos}"
-          puts "Capital Vencido => #{@capital_vencido}"
-          puts "Intereses Vencidos => #{@interes_vencido}"
-          puts "Moratorio => #{@moratorio}"
-          puts "Gastos de Cobranza => #{@gastos_cobranza}"
-          puts "------- Total a pagar => #{@total_deuda}"
       end
 
     #--- si no tiene periodos pendientes y esta pagando en la fecha exacta -----
@@ -125,8 +130,9 @@ class Vencimiento
       @total_deuda = @capital_vencido + @interes_vencido + @iva_gastos_cobranza + @gastos_cobranza + @iva_moratorio + @moratorio
       dias_transcurridos = 0 if dias_transcurridos < 0
       @dias_atraso =dias_transcurridos
-  end
+      @proximo_pago_string = proximo_pago(credito).fecha_limite.to_s
 
+   end
 
 
  def aplicar_depositos(importe)
@@ -223,6 +229,18 @@ end
               Deposito.create(:importe => @excedente_deposito, :ref_alfa=>@credito.num_referencia, :ref_num=>@credito.num_referencia, :credito_id => @credito.id)
          end
      end
+ end
+
+ def credito_pagado?
+   globales = Pagogrupal.find(:all, :conditions => ["pagado = 0 and credito_id = ?", @credito])
+   detallados = Pago.find(:all, :conditions => ["pagado = 0 and credito_id = ?", @credito])
+   if detallados.empty? && globales.empty?
+     @proximo_pago_string = "Crédito liquidado"
+     @liquidado=true
+     return true
+   else
+     return false
+   end
  end
 
  

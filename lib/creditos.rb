@@ -225,7 +225,8 @@ module Creditos
     #@tasa_semanal =   ((@producto.intereses.to_f / 100.0 ) / 30.0) * 7
     @tasa_semanal = round((((@producto.tasa_anualizada.to_f) / 360.0 ) * 7) / 100.0, 4)
     case tipos_interes
-      when "Pagos iguales con decremento de interes e incremento de capital"
+      #when "Pagos iguales con decremento de interes e incremento de capital"
+       when "SALDOS INSOLUTOS (SSI)"
         @pago_semanal = round((@capital * (@tasa_semanal/(1-(1 + @tasa_semanal)**(@producto.num_pagos*-1)))),2)
         #@pago_semanal =  Integer(@pago_semanal * 100) / Float(100)
         clientes_activos_grupo(Grupo.find(credito.grupo_id)).each do |y|
@@ -274,7 +275,7 @@ module Creditos
                    saldo_inicial -= @capital_semanal
                end
             end
-      when "Pagos con tasa flat (calculo sobre el saldo global de credito)"
+      when "GLOBAL MENSUAL (FLAT)"
          @meses = @producto.num_pagos / 4
          @total_interes = @capital * (@producto.intereses.to_f / 100) * @meses
          @interes_semanal = @total_interes / @producto.num_pagos

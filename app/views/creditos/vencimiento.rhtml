@@ -64,7 +64,7 @@
       <table class="stats" cellspacing="0">
         <tr>
           <td class="hed">Fecha del proximo pago: </td>
-          <td> <%=proximo_pago(@credito).fecha_limite.strftime("%d de %B de %Y")%></td>
+          <td> <%=credito_vencimiento.proximo_pago_string%></td>
         </tr>
         <tr>
           <td class="hed">Días de atraso: </td>
