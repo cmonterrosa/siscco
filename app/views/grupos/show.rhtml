@@ -8,11 +8,40 @@
 
 <br/>
 <br />
-<h1>Integrantes</h1><br />
+
+<h1>Histórico de Integrantes</h1><br />
+
+<table>
+  <tr>
+    <td>Nombre</td>
+    <td>Fecha inicio</td>
+    <td>Fecha fin</td>
+    <td>Estatus</td>
+  </tr>
+
 
 <%@clientegrupos.each do |cliente|%>
-  <h3><%=link_to "#{cliente.cliente.nombre_completo}", :action => "show", :controller=>"clientes", :id=> cliente.cliente%></h3>
-  <%end%>
+  <tr>
+    <td><%=link_to "#{cliente.cliente.nombre_completo}", :action => "show", :controller=>"clientes", :id=> cliente.cliente%></td>
+    <td><%=cliente.fecha_inicio.strftime("%Y-%m-%d %H:%M:%S")%></td>
+     <%if cliente.fecha_fin%>
+        <td><%=cliente.fecha_fin.strftime("%Y-%m-%d %H:%M:%S")%></td>
+      <%else%>
+        <td></td>
+     <%end%>
+
+     <%if cliente.activo==1%>
+         <td>ACTIVO</td>
+     <%else%>
+          <td><FONT COLOR="0000FF">INACTIVO</td>
+     <%end%>
+</tr>
+<%end%>
+
+
+
+
+</table>
 
 <br />
 <%= link_to 'Regresar', :action => 'list' %>
