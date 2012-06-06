@@ -27,7 +27,7 @@ class GruposController < ApplicationController
 
   def show
     @grupo = Grupo.find(params[:id])
-    @clientegrupos = Clientegrupo.find(:all, :conditions => ["grupo_id = ? and activo = 1", @grupo.id])
+    @clientegrupos = Clientegrupo.find(:all, :conditions => ["grupo_id = ?", @grupo.id], :order => "activo")
   end
 
   def new
@@ -123,20 +123,27 @@ class GruposController < ApplicationController
 
     #-- Ajax --
   def live_search_clientes
-      @grupo = session["grupo_online"]
-#      @clientegrupos = Clientegrupo.find(:all, :select => "id, grupo_id, activo",  :conditions => ["grupo_id = ? and activo = 1", @grupo.id])
-#      @clientes = Cliente.find(:all, :conditions => "nombre like '%#{params[:searchtext]}%' or
-#                                                     paterno like '#{params[:searchtext]}%' or
-#                                                     materno like '#{params[:searchtext]}%' ")
-#      @clientegrupos.each do |cliente| @clientes.delete(cliente.cliente) end
+     if params[:searchtext].size > 3
+     @grupo = session["grupo_online"]
+     @clientes = Cliente.find_by_sql("select id, rfc, curp, paterno, materno, nombre from clientes where id not in (select c.id from clientes c,
+                 clientes_grupos cg where c.id=cg.cliente_id and cg.activo=1) and (nombre like '%#{params[:searchtext].strip}%' or paterno like '#{params[:searchtext].strip}%' or materno like '#{params[:searchtext].strip}%') order by paterno, materno, nombre")
+     return render(:partial => 'filtrocliente', :layout => false) if request.xhr?
+     else
+       render :text => "Teclee cuando menos 3 letras para iniciar la búsqueda por apellidos o nombre"
+     end
 
-   #   @clientes = Cliente.find_by_sql("select id, rfc, curp, paterno, materno, nombre from clientes where id not in (select c.id from clientes c, clientes_grupos cg where
-    #                       c.id=cg.cliente_id) and nombre like '%#{params[:searchtext].strip}%', order by paterno, materno, nombre")
-
-    @clientes = Cliente.find_by_sql("select id, rfc, curp, paterno, materno, nombre from clientes where id not in (select c.id from clientes c, clientes_grupos cg where c.id=cg.cliente_id) and (nombre like '%#{params[:searchtext].strip}%') ")
-
-
-    return render(:partial => 'filtrocliente', :layout => false) if request.xhr?
   end
-      #--- Funciones ajax para filtrado --
+
+
+  def live_search_curp
+      if params[:searchcurp].size > 2
+          @grupo = session["grupo_online"]
+          @clientes = Cliente.find_by_sql("select id, rfc, curp, paterno, materno, nombre from clientes where id not in (select c.id from clientes c, clientes_grupos cg where c.id=cg.cliente_id and activo=1) and (curp like '#{params[:searchcurp].strip}%') order by paterno, materno, nombre")
+          #@clientes = Cliente.find_by_sql("select id, rfc, curp, paterno, materno, nombre from clientes where id not in (select c.id from clientes c, clientes_grupos cg where c.id=cg.cliente_id) and (curp like '%#{params[:searchcurp].strip}%') ")
+          return render(:partial => 'filtrocliente', :layout => false) if request.xhr?
+      else
+          render :text => "Teclee cuando menos 2 letras para iniciar la búsqueda por curp"
+      end
+  end
+
 end
