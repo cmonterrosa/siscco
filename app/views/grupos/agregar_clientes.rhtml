@@ -36,8 +36,18 @@
                  :update => :search_hits,
                  :with  => :searchtext,
                  :url => { :action => :live_search_clientes }) %><br />
+<br />
 
-                 <%session["grupo_online"] = @grupo%>
+<label for="searchtext">Búsqueda por curp:</label>
+<%= text_field_tag :searchtextcurp %>
+<%= observe_field(:searchtextcurp,
+                 :frequency => 0.05,
+                 :update => :search_hits,
+                 :with  => :searchcurp,
+                 :url => { :action => :live_search_curp }) %><br />
+
+
+<%session["grupo_online"] = @grupo%>
 
 
   <br /><p>Resultado de Busqueda:</p>
