@@ -1,16 +1,45 @@
 <h1>Grupos</h1>
 <!--inicia ajax -->
-<label for="searchtext">Búsqueda por nombre:</label>
-  <%= text_field_tag :searchtext, '', :class => 'text' %>
-  <%= observe_field(:searchtext,
-                 :frequency => 0.25,
-                 :update => :search_hits,
-                 :with  => "searchtext",
-                 :url => { :action => :live_search }) %>
-<br /><br/><p>Resultados de la Busqueda:</p>
+<table>
+  <tr>
+    <td>
+      <label for="searchtext">Búsqueda por referencia:</label>
+        <%= text_field_tag :searchtext_referencia, '', :class => 'text' %>
+        <%= observe_field(:searchtext_referencia,
+                    :frequency => 0.15,
+                    :update => :search_hits,
+                    :with  => "searchtext_referencia",
+                    :url => { :action => :live_search_referencia }) %>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <label for="searchtext">Búsqueda por nombre:</label>
+        <%= text_field_tag :searchtext, '', :class => 'text' %>
+        <%= observe_field(:searchtext,
+                   :frequency => 0.25,
+                   :update => :search_hits,
+                   :with  => "searchtext",
+                   :url => { :action => :live_search }) %>
+    </td>
+  </tr>
+</table>
+
+
+
+
+<br /><br/><p>Resultados de la Busqueda: </p>
 <div id="scroll">
   <div id="search_hits">
     <table>
+      <tr>
+        <td>
+          <%=link_to "Mostrando solo los primeros 25 registros", :action => "list"%>
+        </td>
+        <td>
+          <%=link_to "Ver todos", :action => "list", :token => "all"%>
+        </td>
+      </tr>
       <tr>
       <% for column in Grupo.content_columns %>
         <th><%= column.human_name %></th>

@@ -12,7 +12,11 @@ class GruposController < ApplicationController
          :redirect_to => { :action => :list }
 
   def list
-    @grupos = Grupo.find(:all, :order => 'nombre')
+    if params[:token] == "all"
+        @grupos = Grupo.find(:all, :order => 'nombre')
+    else
+        @grupos = Grupo.find(:all, :order => 'nombre', :limit => 25)
+    end
   end
 
   def agregar_clientes
@@ -55,7 +59,12 @@ class GruposController < ApplicationController
     @grupo = Grupo.find(params[:id])
     @clientegrupos = Clientegrupo.find(:all, :conditions => ["grupo_id = ? ", @grupo.id])
     @clientegrupos.each do |cg| cg.destroy end  
-    @grupo.destroy 
+    begin
+      @grupo.destroy 
+    rescue
+      flash[:notice] = "No se pudo eliminar, tiene registros asociados"
+    end
+
     redirect_to :action => 'list'
   end
 
@@ -117,8 +126,21 @@ class GruposController < ApplicationController
 
   #-- Ajax --
   def live_search
+    if params[:searchtext].size > 4 && params[:searchtext] =~/\w+/
      @grupos = Grupo.find(:all, :conditions => ["nombre like ?", "%#{params[:searchtext]}%"])
      return render(:partial => 'filtrogrupo', :layout => false) if request.xhr?
+    else
+      render :text => "Tecle cuando menos 4 caracteres"
+    end
+  end
+
+  def live_search_referencia
+    if params[:searchtext_referencia].size > 4 && params[:searchtext_referencia] =~/\d+/
+      @grupos = Grupo.find(:all, :joins => ["g, creditos c"], :conditions => "g.id = c.grupo_id AND c.num_referencia like '#{params[:searchtext_referencia].strip}%'", :order => "g.nombre", :select => "g.*")
+      return render(:partial => 'filtrogrupo', :layout => false) if request.xhr?
+    else
+      render :text => "Tecle cuando menos 4 caracteres"
+    end
   end
 
     #-- Ajax --
