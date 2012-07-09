@@ -923,4 +923,24 @@ inner join estados es on mu.estado_id = es.id"
        :filename => "reporte_gclientes_#{Time.now.strftime("%d-%m-%Y")}.csv",
        :disposition => "attachment"
     end
+
+   def export_grupos_propuestas
+     csv=Hash.new
+     query="select (select count(id) from clientes_grupos where grupo_id = g.id)
+     as num_socias, c.num_referencia, g.nombre, l.gcnf as propuesta, c.fecha_captura from grupos g
+     inner join creditos c on g.id=c.grupo_id
+     inner join lineas l on c.linea_id=l.id order by g.nombre, l.gcnf"
+     csv_string = FasterCSV.generate do |csv|
+     csv << ["REFERENCIA", "NOMBRE_GRUPO", "CICLO_PROPUESTA", "NUM_SOCIAS", "FECHA_CAPTURA"]
+     end
+     #REFERENCIA, NOMBRE_GRUPO, CICLO_PROPUESTA, NUM_SOCIAS
+     grupos = Grupo.find_by_sql(query)
+     grupos.each do |g|
+       csv << [g.num_referencia, g.nombre, g.propuesta, g.num_socias, g.fecha_captura]
+     end
+     send_data csv_string, type => "text/plain",
+       :filename => "reporte_grupos_propuestas_#{Time.now.strftime("%d-%m-%Y")}.csv",
+       :disposition => "attachment"
+     
+   end
 end
