@@ -943,4 +943,22 @@ inner join estados es on mu.estado_id = es.id"
        :disposition => "attachment"
      
    end
+
+   def export_all_grupos
+   csv=Hash.new
+  query="select g.nombre, l.gcnf as propuesta, c.num_referencia from grupos g left outer join creditos c on g.id=c.grupo_id
+left outer join lineas l on c.linea_id=l.id order by g.nombre, l.gcnf"
+   csv_string = FasterCSV.generate do |csv|
+     csv << ["REFERENCIA", "NOMBRE_GRUPO", "CICLO_PROPUESTA"]
+     end
+     #REFERENCIA, NOMBRE_GRUPO, CICLO_PROPUESTA
+     grupos = Grupo.find_by_sql(query)
+     grupos.each do |g|
+       csv << [g.num_referencia, g.nombre, g.propuesta]
+     end
+     send_data csv_string, type => "text/plain",
+       :filename => "reporte_todos_grupos_#{Time.now.strftime("%d-%m-%Y")}.csv",
+       :disposition => "attachment"
+   end
+
 end
