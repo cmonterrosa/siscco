@@ -588,37 +588,42 @@ before_filter :login_required
 
 
          #---- TITULO -----
-        _pdf.move_pointer(35)
-        _pdf.text to_iso("<b>RECIBO DE ENTREGA DE FONDOS</b>"), :font_size => 14, :justification => :center
         _pdf.move_pointer(15)
+        _pdf.text to_iso("<b>RECIBO DE ENTREGA DE FONDOS</b>"), :font_size => 14, :justification => :center
+        _pdf.move_pointer(10)
 
         #---- ASUNTO -----
-        _pdf.move_pointer(30)
+        _pdf.move_pointer(15)
         _pdf.text to_iso("<b>RECIBO NUMERO: ________</b>"), :font_size => 10, :justification => :right
 
         #---- BUENO POR -----
-        _pdf.move_pointer(20)
+        _pdf.move_pointer(15)
         _pdf.text to_iso("<b>BUENO POR: $#{separar_miles(@credito.monto)} </b>"), :font_size => 12, :justification => :right
 
          #--- Cuerpo del texto ----
-        _pdf.move_pointer(25)
+        _pdf.move_pointer(20)
 
         leyenda=<<-EOS
-RECIBI LA CANTIDAD DE $#{separar_miles(@credito.monto)}, #{@credito.monto.to_words} QUE CORRESPONDE AL PRESTAMO DEL GRUPO SOLIDARIO #{@credito.grupo.nombre}, DE LA COMUNIDAD DE #{localidad_grupo(@credito.grupo)}, DEL MUNICIPIO DE #{municipio_grupo(@credito.grupo)}, DEL ESTADO DE CHIAPAS, PARA OPERAR EL CICLO _______________ DE ACUERDO A SU SOLICITUD DE PRESTAMO AUTORIZADO POR EL FOMMUR
+RECIBI LA CANTIDAD DE $#{separar_miles(@credito.monto)}, (#{(@credito.monto.to_words).upcase}) QUE CORRESPONDE AL PRESTAMO DEL GRUPO SOLIDARIO #{@credito.grupo.nombre}, DE LA COMUNIDAD DE #{localidad_grupo(@credito.grupo).strip}, DEL MUNICIPIO DE #{municipio_grupo(@credito.grupo).strip}, DEL ESTADO DE CHIAPAS, PARA OPERAR EL CICLO _______________ DE ACUERDO A SU SOLICITUD DE PRESTAMO AUTORIZADO POR EL FOMMUR
 EOS
         #---- Imprimos la leyenda 2 ---
         leyenda2 = leyenda.split($/).join(" ").squeeze(" ")
         _pdf.text to_iso(leyenda2), :justification => :full, :font_size => 12, :left => 10, :right => 12
-        _pdf.move_pointer(15)
+        _pdf.move_pointer(10)
 
         #---- Lugar y Fecha ----
         _pdf.text to_iso("TUXTLA GUTIERREZ, CHIAPAS A #{fecha_sistema.upcase}"), :font_size => 11, :justification => :right
 
         #--- Recibimos de conformidad ---
-        _pdf.move_pointer(55)
+        _pdf.move_pointer(35)
         _pdf.text to_iso("<b>RECIBIMOS DE CONFORMIDAD</b>"), :font_size => 10, :justification => :center
-        
 
+
+        #--- Grupo solidario ---
+        _pdf.move_pointer(15)
+        _pdf.text to_iso("<b>GRUPO SOLIDARIO:</b> #{@credito.grupo.nombre}"), :font_size => 10, :justificacion => :left
+        _pdf.move_pointer(5)
+        _pdf.text to_iso("<b>REFERENCIA:</b> #{@credito.num_referencia}"), :font_size => 10, :justificacion => :left
 
         #--- Presidente ---
         _pdf.move_pointer(55)
@@ -632,12 +637,23 @@ EOS
         _pdf.move_pointer(15)
         _pdf.text to_iso(@miembros["SECRETARIO"]), :font_size => 12, :justification => :left, :left => 20
 
-        # ---- Tesorero ----
-        _pdf.move_pointer(-14)
-        _pdf.text to_iso(@miembros["TESORERO"]), :font_size => 12, :justification => :right, :right => 55
+         # ---- Tesorero ----
+         _pdf.move_pointer(-14)
+         _pdf.text to_iso(@miembros["TESORERO"]), :font_size => 12, :justification => :right, :right => 55
 
+         #--- Promotor nombre ---
+         _pdf.move_pointer(30)
+         _pdf.text to_iso("<b>PROMOTOR</b>: #{Promotor.find(@credito.promotor_id).nombre_completo_desc}"), :font_size => 8, :justificacion => :center
 
-        send_data _pdf.render, :filename => "entrega_fondos_#{@credito.grupo.nombre.upcase}.pdf",
+         #--- Plazo semanas ---
+         _pdf.move_pointer(5)
+         _pdf.text to_iso("<b>PLAZO SEMANAS</b>: #{@credito.producto.num_pagos.to_s}"), :font_size => 8, :justificacion => :center
+
+         #--- Num socias ---
+         _pdf.move_pointer(5)
+         _pdf.text to_iso("<b>NÚMERO DE SOCIAS</b>: #{clientes_activos_grupo(@credito.grupo).size.to_s}"), :font_size => 8, :justificacion => :center
+        
+         send_data _pdf.render, :filename => "entrega_fondos_#{@credito.grupo.nombre.upcase}.pdf",
                                :type => "application/pdf"
 
    else
