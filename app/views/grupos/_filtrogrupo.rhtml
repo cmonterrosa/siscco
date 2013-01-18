@@ -1,17 +1,15 @@
 <div id="scroll">
 <table>
   <tr>
-  <% for column in Grupo.content_columns %>
-    <th><%= column.human_name %></th>
-  <% end %>
+    <th>Nombre</th>
+    <th>Propuesta</th>
     <th colspan="3">Acciones</th>
   </tr>
   
 <% for grupo in @grupos %>
   <tr>
-  <% for column in Grupo.content_columns %>
-    <td><%=h grupo.send(column.name) %></td>
-  <% end %>
+    <td><%=h grupo.nombre %></td>
+    <td><%=h grupo.identificador %></td>
     <td><%= button_to 'Detalles', :action => 'show', :id => grupo %></td>
     <td><%= button_to 'Clientes', :action => 'agregar_clientes', :id => grupo %></td>
     <td><%= button_to 'Editar', :action => 'edit', :id => grupo %></td>
