@@ -128,6 +128,7 @@ class CreditosController < ApplicationController
     @credito.producto = @producto
     @fecha_inicio = Date.strptime(@credito.fecha_inicio.to_s)
     @credito.tasa_interes = @producto.tasa_anualizada
+    @credito.num_referencia = params[:credito][:num_referencia] if params[:credito][:num_referencia]
     if params[:credito][:grupo_id].nil?
       @tipo = "INDIVIDUAL"
       #--- Los creditos individuales siempre son con recursos propios ------
@@ -284,7 +285,7 @@ class CreditosController < ApplicationController
   end
 
   def new_grupal
-     @grupos = Grupo.find(:all, :conditions => ["id NOT IN (select g.id from grupos g, creditos c where g.id = c.grupo_id AND status=0)"], :select => "id, nombre", :order =>"nombre")
+     @grupos = Grupo.find(:all, :conditions => ["id NOT IN (select g.id from grupos g, creditos c where g.id = c.grupo_id AND status=0)"], :select => "id, nombre, identificador", :order =>"nombre")
      #--- Variables
      @productos = Producto.find(:all, :order => "producto")
      @destinos = Destino.find(:all)
