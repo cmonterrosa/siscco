@@ -8,7 +8,7 @@ module Databases
         @c_concentradora = Linea.find(credito.linea).ctaliquidadora 
         return false unless @c_concentradora
         #----- Creamos el numero de referencia automaticamente --------
-          credito.num_referencia = genera_referencia_alfa(@c_concentradora.sucbancaria.num_sucursal, @c_concentradora.num_cta)
+          credito.num_referencia = genera_referencia_alfa(@c_concentradora.sucbancaria.num_sucursal, @c_concentradora.num_cta) unless credito.num_referencia
            if tipo == "GRUPAL"
              if credito.grupo.clientes.size >= 1 #-- aqui deberiamos de validar que sean 3
                  credito.monto_inicial = credito.monto unless credito.monto_inicial
