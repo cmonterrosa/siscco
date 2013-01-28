@@ -31,6 +31,35 @@ end
 class ReportesController < ApplicationController
 before_filter :login_required
 
+
+     def nuevo_pagare
+      #--- Llenamos los parametros -------
+       if params[:id] && Credito.find(params[:id])
+        @credito = Credito.find(params[:id])
+        #----- Parametros del credito -------
+        param=Hash.new {|k, v| k[v] = {:tipo=>"",:valor=>""}}
+        param["P_TOTAL_DEUDA"]={:tipo=>"String", :valor=>"$#{separar_miles(@credito.monto)} (#{@credito.monto.to_words})"}
+        param["P_CREDITO_ID"]={:tipo=>"String", :valor=>@credito.id}
+        param["P_TASA_ANUALIZADA"]={:tipo=>"String", :valor=>@credito.producto.tasa_anualizada}
+        param["P_FECHA_STRING"]={:tipo=>"String", :valor=>DateTime.now.strftime("%d de %B de %Y")}
+        param["P_PRESIDENTE"]={:tipo=>"String", :valor=>@credito.presidente.nombre_completo_desc}
+        param["P_TOTAL_PAGOS"]={:tipo=>"String", :valor=> @credito.producto.num_pagos.to_s}
+        param["P_TASA_MORATORIA_ANUAL"]={:tipo=>"String", :valor=> "141.2"}
+          if File.exists?("#{RAILS_ROOT}/app/reports/pagare.jasper")
+            send_doc_jdbc("pagare", "pagare",  param, output_type = 'pdf')
+          else
+            flash[:notice] = "No se encontro un credito válido"
+            redirect_to :action => "menu"
+          end
+        else
+         flash[:notice] = "No se pudo ejecutar el reporte"
+         redirect_to :action => "menu"
+        end
+     end
+
+
+
+
     def pagare
     #----- filtrado de registros unicos -----
     @credito = Credito.find(:first, :conditions => ["id = ?", params[:id]])
@@ -525,7 +554,7 @@ before_filter :login_required
 
         #--- Cuerpo del texto ----
         leyenda=<<-EOS
-          POR ESTE MEDIO NOS COMPROMETEMOS SOLIDARIAMENTE A PAGAR PUNTUALMENTE EL MICROFINANCIAMIENTO RECIBIDO DEL FOMMUR A TRAVEZ DE CRECIMIENTO SOLIDARIO PARA EL DESARROLLO ORGANIZADO S.A DE C.V. EN ABONOS SEMANALES DE $#{separar_miles(@pago_minimo)} , (#{@pago_minimo.to_words.upcase}) ASI MISMO NOS COMPROMETEMOS A AHORRAR EL IMPORTE MINIMO DE $30.00 (TREINTA PESOS 00/100 M.N) SEÑALADO EN NUESTRO REGLAMENTO INTERNO
+          POR ESTE MEDIO NOS COMPROMETEMOS SOLIDARIAMENTE A PAGAR PUNTUALMENTE EL MICROFINANCIAMIENTO RECIBIDO DEL FOMMUR A TRAVEZ DE CRECIMIENTO SOLIDARIO PARA EL DESARROLLO ORGANIZADO S.A DE C.V. EN ABONOS SEMANALES DE <b>$#{separar_miles(@pago_minimo)} , (#{@pago_minimo.to_words.upcase}) </b> ASI MISMO NOS COMPROMETEMOS A AHORRAR EL IMPORTE MINIMO DE <b>$30.00 (TREINTA PESOS 00/100 M.N)</b> SEÑALADO EN NUESTRO REGLAMENTO INTERNO
         EOS
         leyenda2 = leyenda.split($/).join(" ").squeeze(" ")
         _pdf.text to_iso(leyenda2), :justification => :full, :font_size => 12, :left => 10, :right => 12
@@ -536,11 +565,13 @@ before_filter :login_required
         _pdf.text to_iso("TUXTLA GUTIERREZ, CHIAPAS A #{fecha_sistema.upcase}"), :font_size => 11, :justification => :right
 
 
-        _pdf.move_pointer(55)
+        _pdf.move_pointer(30)
         _pdf.text to_iso("<b>GRUPO SOLIDARIO:</b> #{@credito.grupo.nombre.upcase}"), :font_size => 12, :justification => :center
+        _pdf.move_pointer(4)
+        _pdf.text to_iso("<b>REFERENCIA:</b> #{@credito.num_referencia}"), :font_size => 12, :justification => :center
 
         #--- Presidente ---
-        _pdf.move_pointer(70)
+        _pdf.move_pointer(60)
         _pdf.text to_iso("<b>PRESIDENTE</b>"), :font_size => 11, :justification => :center
         _pdf.move_pointer(15)
         _pdf.text to_iso(@miembros["PRESIDENTE"]), :font_size => 12, :justification => :center
@@ -554,6 +585,39 @@ before_filter :login_required
         # ---- Tesorero ----
         _pdf.move_pointer(-14)
         _pdf.text to_iso(@miembros["TESORERO"]), :font_size => 12, :justification => :right, :right => 50
+
+
+        #---- Pie de Pagina izquierda ---
+        #--- Promotor nombre ---
+         _pdf.move_pointer(40)
+         _pdf.text to_iso("<b>PROMOTOR</b>: #{Promotor.find(@credito.promotor_id).nombre_completo_desc}"), :font_size => 8, :justificacion => :left
+
+         #--- Plazo semanas ---
+         _pdf.move_pointer(4)
+         _pdf.text to_iso("<b>PLAZO SEMANAS</b>: #{@credito.producto.num_pagos.to_s}"), :font_size => 8, :justificacion => :left
+
+         #--- Num socias ---
+         _pdf.move_pointer(4)
+         _pdf.text to_iso("<b>NÚMERO DE SOCIAS</b>: #{clientes_activos_grupo(@credito.grupo).size.to_s}"), :font_size => 8, :justificacion => :left
+        
+        
+         #---- Fondeo ---
+         _pdf.move_pointer(-38)
+         _pdf.text to_iso("<b>FONDEO</b>: #{@credito.linea.fondeo.acronimo}"), :font_size => 8, :left => 220, :justificacion => :center
+
+         #--- Meses ---
+         _pdf.move_pointer(4)
+         _pdf.text to_iso("<b>MESES</b>: #{(@credito.producto.num_pagos.to_i / 4).to_s}"), :font_size => 8, :left => 220, :justificacion => :center
+
+         #--- Propuesta ---
+         _pdf.move_pointer(4)
+         _pdf.text to_iso("<b>PROPUESTA</b>: #{@credito.linea.gcnf}"), :left => 220, :font_size => 8, :justificacion => :center
+
+         #--- Tasa anualizada --
+        _pdf.move_pointer(4)
+         _pdf.text to_iso("<b>TASA ANUALIZADA</b>: #{@credito.producto.tasa_anualizada} %"), :left => 220, :font_size => 8, :justificacion => :center
+
+
 
 
         send_data _pdf.render, :filename => "carta_compromiso_#{@credito.grupo.nombre.upcase}.pdf",
