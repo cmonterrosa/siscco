@@ -24,7 +24,7 @@ font-weight:normal;color:#192BCF;letter-spacing:2pt;word-spacing:2pt;font-size:3
 <br></br>
     <a style="text-align: center"><%=button_to 'SALDO', :controller => "creditos", :action => "vencimiento", :id => @credito, :method => :post%></a>
 <br></br>
-    <a style="text-align: center"><%=button_to 'Pagare', :action => "pagare", :id => @credito, :method => :post%></a>
+    <a style="text-align: center"><%=button_to 'Pagare', :action => "nuevo_pagare", :id => @credito, :method => :post%></a>
 <br></br>
     <a style="text-align: center"><%=button_to 'Acta Constitutiva', :action => "acta", :id => @credito, :method => :post%></a>
 <br></br>
