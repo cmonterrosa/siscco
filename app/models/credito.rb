@@ -123,4 +123,10 @@ class Credito < ActiveRecord::Base
     end
   end
 
+
+  def presidente
+     jerarquia = Jerarquia.find_by_jerarquia("presidente")
+     return (Miembro.find(:first, :conditions => ["credito_id = ? AND jerarquia_id = ?", self.id, jerarquia.id])).cliente
+  end
+
    end
