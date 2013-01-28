@@ -25,6 +25,10 @@ class Cliente < ActiveRecord::Base
     "#{paterno} #{materno} #{nombre}"
   end
 
+  def nombre_completo_desc
+     "#{nombre} #{paterno} #{materno}"
+  end
+
 
 #------- Validaciones -----------
 #validates_uniqueness_of :rfc, :message => ", Ese cliente ya esta registrado."
