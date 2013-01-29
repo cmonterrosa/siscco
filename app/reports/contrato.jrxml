@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="contrato" language="groovy" pageWidth="612" pageHeight="792" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="299"/>
+	<style name="Crosstab Data Text" hAlign="Center"/>
+	<parameter name="P_NOMBRE_GRUPO" class="java.lang.String"/>
+	<parameter name="P_CREDITO_ID" class="java.lang.String"/>
+	<parameter name="P_NUM_PAGOS" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[select * from creditos where id=$P{P_CREDITO_ID}]]>
+	</queryString>
+	<field name="id" class="java.lang.Integer"/>
+	<field name="fecha_inicio" class="java.sql.Date"/>
+	<field name="fecha_fin" class="java.sql.Date"/>
+	<field name="num_referencia" class="java.lang.String"/>
+	<field name="monto" class="java.lang.Float"/>
+	<field name="tasa_interes" class="java.lang.Float"/>
+	<field name="interes_moratorio" class="java.lang.String"/>
+	<field name="identificador" class="java.lang.String"/>
+	<field name="tipo_interes" class="java.lang.String"/>
+	<field name="linea_id" class="java.lang.Integer"/>
+	<field name="cliente_id" class="java.lang.Integer"/>
+	<field name="promotor_id" class="java.lang.Integer"/>
+	<field name="destino_id" class="java.lang.Integer"/>
+	<field name="grupo_id" class="java.lang.Integer"/>
+	<field name="producto_id" class="java.lang.Integer"/>
+	<field name="status" class="java.lang.Integer"/>
+	<field name="fecha_captura" class="java.sql.Date"/>
+	<field name="tipo_aplicacion" class="java.lang.String"/>
+	<field name="monto_inicial" class="java.math.BigDecimal"/>
+	<field name="updated_at" class="java.sql.Timestamp"/>
+	<field name="created_at" class="java.sql.Timestamp"/>
+	<field name="fecha_liquidacion" class="java.sql.Timestamp"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="542" splitType="Stretch">
+			<staticText>
+				<reportElement x="318" y="0" width="229" height="20"/>
+				<textElement/>
+				<text><![CDATA[RECA: 3729-439-008452/01-13289-0811]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="31" y="35" width="516" height="20"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA["REFERENCIA DEL GRUPO: " +  $F{num_referencia}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="31" y="55" width="516" height="20"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA["NOMBRE DEL GRUPO: " +  $P{P_NOMBRE_GRUPO}]]></textFieldExpression>
+			</textField>
+			<rectangle>
+				<reportElement x="31" y="75" width="122" height="40"/>
+			</rectangle>
+			<textField>
+				<reportElement x="31" y="75" width="122" height="40"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA["CAT Costo Anual Total"]]></textFieldExpression>
+			</textField>
+			<rectangle>
+				<reportElement x="153" y="75" width="92" height="40"/>
+			</rectangle>
+			<textField>
+				<reportElement x="153" y="75" width="92" height="40"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA["TASA DE INTERES ANUAL"]]></textFieldExpression>
+			</textField>
+			<rectangle>
+				<reportElement x="245" y="75" width="63" height="40"/>
+			</rectangle>
+			<textField>
+				<reportElement x="245" y="75" width="63" height="40"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA["MONTO DEL CRÉDITO"]]></textFieldExpression>
+			</textField>
+			<rectangle>
+				<reportElement x="308" y="75" width="89" height="40"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="308" y="75" width="89" height="40"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[MONTO TOTAL A PAGAR]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="397" y="75" width="150" height="20"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="397" y="75" width="150" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[COMISIONES]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="397" y="95" width="150" height="20"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="397" y="95" width="150" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Montos y cláusulas]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="31" y="115" width="122" height="40"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="153" y="115" width="92" height="40"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="245" y="115" width="63" height="40"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="308" y="115" width="89" height="40"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="397" y="115" width="150" height="40"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="31" y="155" width="516" height="25"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="42" y="155" width="505" height="25"/>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<text><![CDATA[Método de cálculo de los intereses: Los intereses se calcularan cada periodo sobre el saldo insoluto decreciente del monto del préstamo.]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="31" y="180" width="516" height="29"/>
+			</rectangle>
+			<textField>
+				<reportElement x="42" y="180" width="505" height="29"/>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA["Plazo del crédito: "   + $P{P_NUM_PAGOS} +  " semanas \n" +
+"Sus pagos serán como sigue: "]]></textFieldExpression>
+			</textField>
+			<rectangle>
+				<reportElement x="197" y="209" width="185" height="60"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="31" y="209" width="166" height="60"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="382" y="209" width="165" height="60"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="31" y="269" width="516" height="72"/>
+			</rectangle>
+			<textField>
+				<reportElement x="42" y="282" width="95" height="20"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA["Autorización:"]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="126" y="282" width="421" height="20"/>
+				<textElement/>
+				<text><![CDATA[¿los datos personales pueden utilizarse para mercadeo?]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="72" y="298" width="14" height="14"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="72" y="317" width="14" height="14"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="93" y="300" width="10" height="12"/>
+				<textElement/>
+				<text><![CDATA[Sí]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="93" y="318" width="17" height="12"/>
+				<textElement/>
+				<text><![CDATA[No]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="31" y="341" width="516" height="116"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="42" y="341" width="495" height="116"/>
+				<textElement textAlignment="Justified">
+					<font size="9"/>
+				</textElement>
+				<text><![CDATA[Dudas, aclaraciones e inconformidades: El procedimiento de reclamaciones previsto en el artículo 23 de la ley para la transparencia y ordenamiento de los servicios financieros se describe en la clausula vigésima primera. Para seguir dicho procedimiento la reclamación respectiva deberá dirigirse a la unidad especializada de atención a usuarios localizada en la 13 av. Sur poniente no. 640, Barrio san francisco, Tuxtla Gutiérrez, Chiapas. LADA sin costo: 01-800 - 837 - 8047
+
+A este respecto, cabe mencionar que la Comisión Nacional para la Protección y Defensa de los Usuarios de Servicios Financieros pone a su disposición los siguientes medios de atención al público: teléfonos en el Distrito Federal 53 400 999 o LADA sin costo 01800 999 80 80, dirección en Internet www.condusef.gob.mx y correo electrónico opinión@condusef.gob.mx]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="35" splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="61" splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="125" splitType="Stretch"/>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="54" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>
