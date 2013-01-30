@@ -24,11 +24,13 @@ font-weight:normal;color:#192BCF;letter-spacing:2pt;word-spacing:2pt;font-size:3
 <br></br>
     <a style="text-align: center"><%=button_to 'SALDO', :controller => "creditos", :action => "vencimiento", :id => @credito, :method => :post%></a>
 <br></br>
-    <a style="text-align: center"><%=button_to 'Pagare', :action => "nuevo_pagare", :id => @credito, :method => :post%></a>
+    <a style="text-align: center"><%=button_to '(ACTUALIZADO) Pagare', :action => "nuevo_pagare", :id => @credito, :method => :post%></a>
 <br></br>
+    <a style="text-align: center"><%=button_to '(NUEVO) Lista mensual de socias', :action => "lista_mensual_socias", :id => @credito, :method => :post%></a>
+ <br/><br/>
     <a style="text-align: center"><%=button_to 'Acta Constitutiva', :action => "acta", :id => @credito, :method => :post%></a>
 <br></br>
-    <a style="text-align: center"><%=button_to 'Carta Compromiso', :action => "carta_compromiso", :id => @credito, :method => :post%></a>
+    <a style="text-align: center"><%=button_to '(ACTUALIZADO) Carta Compromiso', :action => "carta_compromiso", :id => @credito, :method => :post%></a>
 <br></br>
     <a style="text-align: center"><%=button_to 'Reglamento', :action => "pagare", :id => @credito, :method => :post%></a>
 <br></br>
