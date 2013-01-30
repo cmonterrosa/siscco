@@ -57,6 +57,42 @@ before_filter :login_required
         end
      end
 
+      def lista_mensual_socias
+      #--- Llenamos los parametros -------
+       if params[:id] && Credito.find(params[:id])
+        @credito = Credito.find(params[:id])
+        #----- Parametros del credito -------
+        param=Hash.new {|k, v| k[v] = {:tipo=>"",:valor=>""}}
+        param["P_MUNICIPIO"]={:tipo=>"String", :valor=>"#{@credito.grupo.clientegrupos[0].cliente.localidad.municipio.municipio}"}
+        param["P_COLONIA"]={:tipo=>"String", :valor=>"#{@credito.grupo.clientes[0].colonia}"}
+        param["P_GRUPO"]={:tipo=>"String", :valor=>"#{@credito.grupo.nombre}"}
+        param["P_BANCO"]={:tipo=>"String", :valor=>"#{@credito.linea.ctaliquidadora.sucbancaria.banco.nombre}"}
+        param["P_SUCURSAL"]={:tipo=>"String", :valor=>"#{@credito.linea.ctaliquidadora.sucbancaria.num_sucursal}"}
+        param["P_CUENTA"]={:tipo=>"String", :valor=>"#{@credito.linea.ctaliquidadora.num_cta}"}
+        param["P_REFERENCIA"]={:tipo=>"String", :valor=>"#{@credito.num_referencia}"}
+        param["P_PROMOTOR"]={:tipo=>"String", :valor=>"#{@credito.promotor.nombre_completo_desc}"}
+        interes = (@credito.tipo_interes == "GLOBAL MENSUAL (FLAT)") ? @credito.producto.tasa_mensual_flat : @credito.producto.interes
+        param["P_INTERES"]={:tipo=>"String", :valor=>"#{interes}"}
+        param["P_NUM_SOCIAS"]={:tipo=>"String", :valor=>"#{numero_clientes_grupo(@credito.grupo)}"}
+        param["P_PLAZO_SEMANAS"]={:tipo=>"String", :valor=>"#{@credito.producto.num_pagos.to_s}"}
+        param["P_FONDEO"]={:tipo=>"String", :valor=>@credito.linea.fondeo.acronimo}
+        param["P_MESES"]={:tipo=>"String", :valor=>(@credito.producto.num_pagos.to_i / 4).to_s}
+        param["P_PROPUESTA"]={:tipo=>"String", :valor=>(@credito.linea.gcnf).to_s}
+        param["P_TASA_ANUALIZADA"]={:tipo=>"String", :valor=>@credito.producto.tasa_anualizada}
+        param["P_GRUPO_ID"]={:tipo=>"String", :valor=>@credito.grupo.id}
+          if File.exists?("#{RAILS_ROOT}/app/reports/lista_socias.jasper")
+            send_doc_jdbc("lista_socias", "lista_socias",  param, output_type = 'pdf')
+          else
+            flash[:notice] = "No se encontro un credito válido"
+            redirect_to :action => "menu"
+          end
+        else
+         flash[:notice] = "No se pudo ejecutar el reporte"
+         redirect_to :action => "menu"
+        end
+     end
+
+
 
 
 
