@@ -18,7 +18,7 @@
 			<textField>
 				<reportElement x="36" y="52" width="516" height="20"/>
 				<textElement/>
-				<textFieldExpression class="java.lang.String"><![CDATA["NOMBRE DEL GRUPO: " +  $P{P_NOMBRE_GRUPO}]]></textFieldExpression>
+				<textFieldExpression><![CDATA["NOMBRE DEL GRUPO: " +  $P{P_NOMBRE_GRUPO}]]></textFieldExpression>
 			</textField>
 			<rectangle>
 				<reportElement x="202" y="205" width="185" height="60"/>
@@ -48,7 +48,7 @@
 				<textElement>
 					<font size="9"/>
 				</textElement>
-				<textFieldExpression class="java.lang.String"><![CDATA["Plazo del crédito: "   + $P{P_NUM_PAGOS} +  " semanas \n" +
+				<textFieldExpression><![CDATA["Plazo del crédito: "   + $P{P_NUM_PAGOS} +  " semanas \n" +
 "Sus pagos serán como sigue: "]]></textFieldExpression>
 			</textField>
 			<staticText>
@@ -87,7 +87,7 @@
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font isBold="true"/>
 				</textElement>
-				<textFieldExpression class="java.lang.String"><![CDATA["TASA DE INTERES ANUAL"]]></textFieldExpression>
+				<textFieldExpression><![CDATA["TASA DE INTERES ANUAL"]]></textFieldExpression>
 			</textField>
 			<rectangle>
 				<reportElement x="387" y="205" width="165" height="60"/>
@@ -97,14 +97,14 @@
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font isBold="true"/>
 				</textElement>
-				<textFieldExpression class="java.lang.String"><![CDATA["CAT Costo Anual Total"]]></textFieldExpression>
+				<textFieldExpression><![CDATA["CAT Costo Anual Total"]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="36" y="269" width="95" height="20"/>
 				<textElement>
 					<font isBold="true"/>
 				</textElement>
-				<textFieldExpression class="java.lang.String"><![CDATA["Autorización:"]]></textFieldExpression>
+				<textFieldExpression><![CDATA["Autorización:"]]></textFieldExpression>
 			</textField>
 			<rectangle>
 				<reportElement x="35" y="111" width="122" height="40"/>
@@ -112,10 +112,10 @@
 			<textField>
 				<reportElement x="36" y="32" width="516" height="20"/>
 				<textElement/>
-				<textFieldExpression class="java.lang.String"><![CDATA["REFERENCIA DEL GRUPO: " +  $F{num_referencia}]]></textFieldExpression>
+				<textFieldExpression><![CDATA["REFERENCIA DEL GRUPO: " +  $F{num_referencia}]]></textFieldExpression>
 			</textField>
 			<rectangle>
-				<reportElement x="35" y="176" width="516" height="29"/>
+				<reportElement x="36" y="176" width="515" height="29"/>
 			</rectangle>
 			<rectangle>
 				<reportElement x="249" y="71" width="63" height="40"/>
@@ -154,7 +154,7 @@
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font isBold="true"/>
 				</textElement>
-				<textFieldExpression class="java.lang.String"><![CDATA["MONTO DEL CRÉDITO"]]></textFieldExpression>
+				<textFieldExpression><![CDATA["MONTO DEL CRÉDITO"]]></textFieldExpression>
 			</textField>
 			<staticText>
 				<reportElement x="312" y="71" width="89" height="40"/>
@@ -166,6 +166,20 @@
 			<rectangle>
 				<reportElement x="77" y="288" width="14" height="14"/>
 			</rectangle>
+			<textField>
+				<reportElement x="157" y="72" width="92" height="40"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["TASA DE INTERES ANUAL"]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="401" y="72" width="150" height="19"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[COMISIONES]]></text>
+			</staticText>
 		</band>
 	</title>
 	<detail>
@@ -195,14 +209,14 @@ A este respecto, cabe mencionar que la Comisión Nacional para la Protección y 
 				<textElement>
 					<font size="9" isBold="true"/>
 				</textElement>
-				<textFieldExpression class="java.lang.String"><![CDATA["Estados de cuenta / Consulta de movimientos"]]></textFieldExpression>
+				<textFieldExpression><![CDATA["Estados de cuenta / Consulta de movimientos"]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="38" y="186" width="506" height="20"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="8" isBold="true"/>
 				</textElement>
-				<textFieldExpression class="java.lang.String"><![CDATA["Datos de inscripción en el registro de contratos de adhesión: RECA: 3729-439-008452/01-13289-0811"]]></textFieldExpression>
+				<textFieldExpression><![CDATA["Datos de inscripción en el registro de contratos de adhesión: RECA: 3729-439-008452/01-13289-0811"]]></textFieldExpression>
 			</textField>
 			<rectangle>
 				<reportElement x="39" y="148" width="10" height="12"/>
