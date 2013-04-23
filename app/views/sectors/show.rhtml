@@ -1,0 +1,10 @@
+<h1>Sectores</h1>
+<br />
+<% for column in Sector.content_columns %>
+<p>
+  <b><%= column.human_name %>:</b> <%=h @sector.send(column.name) %>
+</p>
+<% end %>
+<br />
+<%#= button_to 'Editar', :action => 'edit', :id => @sector %>
+<%= link_to 'Regresar', :action => 'list' %>

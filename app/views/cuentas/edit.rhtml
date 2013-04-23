@@ -1,0 +1,10 @@
+<h1>Editing cuenta</h1>
+
+<% form_tag :action => 'update', :id => @cuenta do %>
+  <%= render :partial => 'form' %>
+  <%= submit_tag 'Guardar' %>
+<% end %>
+
+<br />
+<%= link_to 'Mostrar', :action => 'show', :id => @cuenta %> |
+<%= link_to 'Atras', :action => 'list' %>

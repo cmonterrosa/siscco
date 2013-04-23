@@ -1,0 +1,18 @@
+<h1>Promotores</h1>
+<br />
+<% for column in Promotor.content_columns %>
+<p>
+  <b><%= column.human_name %>:</b> <%=h @promotor.send(column.name) %>
+</p>
+<% end %>
+<br />
+
+<%if @promotor.sucursal%>
+  <h2>Sucursal:</h2>
+  <h3><%=link_to "#{@promotor.sucursal.nombre}", :action => "show", :controller => "sucursals", :id => @promotor.sucursal%></h3>
+<%end%>
+<br />
+
+
+<%#= button_to 'Editar', :action => 'edit', :id => @promotor %>
+<%= link_to 'Regresar', :action => 'list' %>

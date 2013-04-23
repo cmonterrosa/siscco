@@ -1,0 +1,13 @@
+<h1>Subsector</h1>
+<br />
+<% for column in Subsector.content_columns %>
+<p>
+  <b><%= column.human_name %>:</b> <%=h @subsector.send(column.name) %>
+</p>
+<% end %>
+<p>
+  <b>Sector:</b> <%= @subsector.sector.sector  %>
+</p>
+<br />
+<%#= button_to 'Editar', :action => 'edit', :id => @subsector %>
+<%= link_to 'Regresar', :action => 'list' %>

@@ -1,0 +1,7 @@
+<h2>Histórico de créditos</h2>
+
+<% form_for :credito, @credito, :url => { :controller => "informacion", :action => "historia_cliente" } do |f| %>
+      Numero de credito: <%= f.text_field :id %><br>
+      RFC del cliente: <%= f.text_field :rfc %> <br>
+      <%= submit_tag 'Buscar' %>
+<% end -%>

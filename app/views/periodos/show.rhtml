@@ -1,0 +1,10 @@
+<h1>Periodos</h1>
+<br />
+<% for column in Periodo.content_columns %>
+<p>
+  <b><%= column.human_name %>:</b> <%=h @periodo.send(column.name) %>
+</p>
+<% end %>
+<br />
+<%#= button_to 'Editar', :action => 'edit', :id => @periodo %>
+<%= link_to 'Regresar', :action => 'list' %>

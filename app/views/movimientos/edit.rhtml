@@ -1,0 +1,9 @@
+<h1>Editing movimiento</h1>
+
+<% form_tag :action => 'update', :id => @movimiento do %>
+  <%= render :partial => 'form' %>
+  <%= submit_tag 'Edit' %>
+<% end %>
+
+<%= link_to 'Show', :action => 'show', :id => @movimiento %> |
+<%= link_to 'Back', :action => 'list' %>

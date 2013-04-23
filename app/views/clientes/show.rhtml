@@ -1,0 +1,67 @@
+<h1>Clientes</h1>
+<table>
+  <tr>
+    <td>
+      <table>
+        <tr><th>.: CLIENTE :.</th></tr>
+        <% for column in Cliente.content_columns %>
+        <tr>
+          <td><b><%= column.human_name %>:</b> <%=h @cliente.send(column.name) %></td>
+        </tr>
+        <% end %>
+        <tr>
+          <td><b>Pais:</b> <%=h @cliente.nacionalidad.pais %></td>
+        </tr>
+        <tr>
+          <td><b>Estado:</b> <%=h @cliente.localidad.municipio.estado.estado %></td>
+        </tr>
+        <tr>
+          <td><b>Municipio:</b> <%=h @cliente.localidad.municipio.municipio %></td>
+        </tr>
+        <tr>
+          <td><b>Localidad:</b> <%=h @cliente.localidad.localidad %></td>
+        </tr>
+        <!--    <tr>
+          <td class="center"><  button_to 'Editar', :action => 'editc', :controller => 'clientes', :id => @cliente %></td>
+        </tr>  -->
+      </table>
+    </td>
+    <td>
+      <table>
+        <tr><th>.: NEGOCIO :.</th></tr>
+        <% for column in Negocio.content_columns %>
+        <tr>
+          <td><b><%= column.human_name %>:</b> <%=h @negocio.send(column.name) %></td>
+        </tr>
+        <% end %>
+        <tr><td>&nbsp</td></tr>
+        <tr><td>&nbsp</td></tr>
+        <tr><td>&nbsp</td></tr>
+        <tr><td>&nbsp</td></tr>
+        <tr><td>&nbsp</td></tr>
+        <tr><td>&nbsp</td></tr>
+        <tr><td>&nbsp</td></tr>
+        <tr><td>&nbsp</td></tr>
+        <tr><td>&nbsp</td></tr>
+        <tr><td>&nbsp</td></tr>
+        <tr><td>&nbsp</td></tr>
+        <tr><td>&nbsp</td></tr>
+        <tr><td>&nbsp</td></tr>
+        <tr><td>&nbsp</td></tr>
+     <!--   <tr>
+          <td class="center">< button_to 'Editar', :action => 'edit', :controller => 'negocios', :id_negocio => @negocio %></td>
+        </tr>  -->
+      </table>
+    </td>
+  </tr>
+</table>
+
+<!--<=link_to "Histórico de grupos", { :action => "historial_grupos", :id => @cliente },
+  :popup => ['new_window','height=300,width=600']%>-->
+
+<table class="botones">
+  <tr class="botones">
+    <th class="botones"><%= link_to 'Regresar', :action => 'list' %></th>
+  </tr>
+</table>
+

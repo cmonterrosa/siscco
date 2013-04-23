@@ -1,0 +1,40 @@
+<% form_for :credito, @credito, :url => { :controller => "creditos", :action => "resultados" } do |f| %>
+      Numero de credito: <%= f.text_field :id %><br>
+      RFC del cliente: <%= f.text_field :rfc %> <br>
+      <%= submit_tag 'Buscar' %>
+<% end %>
+
+
+Resultados encontrados: <br>
+<%unless @creditos.nil?%>
+<table>
+  <tr>
+    <th>Nombre del cliente</th>
+    <th>Numero de credito</th>
+  </tr>
+
+  
+    <%@creditos.each do |credito|%>
+        <tr>
+        <td><%=link_to "#{credito.cliente.nombre_completo}", :controller => "movimientos", :action => "aplicar", :id => credito.id%><br></td>
+        <td><%=link_to "#{credito.id}", :controller => "movimientos", :action => "aplicar", :id => credito%><br></td>
+   </tr>
+  <%end%>
+
+</table>
+<%end%>
+
+
+<%unless @credito_unico.nil?%>
+<table>
+  <tr>
+    <th>Nombre del cliente</th>
+    <th>Numero de credito</th>
+  </tr>
+
+  <tr>
+    <td><%=link_to "#{@credito_unico.cliente.nombre_completo}", :controller => "movimientos", :action => "aplicar", :id => @credito_unico%><br></td>
+    <td><%=link_to "#{@credito_unico.id}", :controller => "movimientos", :action => "aplicar", :id => @credito_unico%><br></td>
+  </tr>
+</table>
+<%end%>

@@ -1,0 +1,27 @@
+<h1>Listing avals</h1>
+
+<table>
+  <tr>
+  <% for column in Aval.content_columns %>
+    <th><%= column.human_name %></th>
+  <% end %>
+  </tr>
+  
+<% for aval in @avals %>
+  <tr>
+  <% for column in Aval.content_columns %>
+    <td><%=h aval.send(column.name) %></td>
+  <% end %>
+    <td><%= link_to 'Detalles', :action => 'show', :id => aval %></td>
+    <td><%= link_to 'Editar', :action => 'edit', :id => aval %></td>
+    <td><%= link_to 'Eliminar', { :action => 'destroy', :id => aval }, :confirm => 'Estas seguro?', :method => :post %></td>
+  </tr>
+<% end %>
+</table>
+
+<%= link_to 'Pag Anterior', { :page => @aval_pages.current.previous } if @aval_pages.current.previous %>
+<%= link_to 'Pag Siguiente', { :page => @aval_pages.current.next } if @aval_pages.current.next %>
+
+<br />
+
+<%= link_to 'Nuevo', :action => 'new' %>

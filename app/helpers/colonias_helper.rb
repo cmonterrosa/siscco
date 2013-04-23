@@ -1,0 +1,2 @@
+module ColoniasHelper
+end

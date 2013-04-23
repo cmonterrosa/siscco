@@ -1,0 +1,27 @@
+
+<h2>Estado de cuenta</h2>
+<table>
+  <tr>
+    <th>Fondeo</th>
+    <th>Num de cuenta</th>
+    <th>Total Autorizado</th>
+    <th>Total Otorgado a creditos</th>
+    <th>Total transferido</th>
+    <th>Total Recibido</th>
+    <th>Total Final</th>
+  </tr>
+  <tr>
+    <td><%=@linea.fondeo.fuente%></td>
+    <td><%=@linea.cuenta_cheques%></td>
+    <td>$<%=separar_miles(@linea.autorizado)%></td>
+    <td>$<%=separar_miles(total_otorgado_creditos(@linea)).to_s%></td>
+    <td>$<%=separar_miles(total_transferido(@linea))%></td>
+    <td>$<%=separar_miles(total_recibido(@linea))%></td>
+    <td>$<%=separar_miles(linea_disponible(@linea))%></td>
+  </tr>
+</table>
+<table class="botones">
+  <tr class="botones">
+    <th class="botones"><%= link_to 'Regresar', :action => 'list' %></th>
+  </tr>
+</table>

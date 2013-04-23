@@ -1,0 +1,8 @@
+<h1>Alta de cuentas contables</h1>
+
+<% form_tag :action => 'create' do %>
+  <%= render :partial => 'form' %>
+  <%= submit_tag "Guardar" %>
+<% end %>
+
+<%= link_to 'Atras', :action => 'list' %>

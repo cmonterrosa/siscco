@@ -1,0 +1,52 @@
+<div>
+    <table>
+        <tr>
+          <th>Fecha Inicio</th>
+          <th>Referencia</th>
+          <th>Id</th>
+          <th>Grupo</th>
+          <th colspan="6">Acciones</th>
+        </tr>
+        <% if @creditos %>
+            <% for credito in @creditos%>
+              <tr>
+                <td><%=credito.fecha_inicio%></td>
+                <td><%=credito.num_referencia%></td>
+                <td><%=credito.identificador%></td>
+                <%if credito.grupo%>
+                  <td><%=credito.grupo.nombre%></td>
+                <%else%>
+                  <td> - </td>
+                <%end%>
+              <!--
+              <if credito.grupo_id.nil?%>
+                <td><= button_to 'Aplicar movimiento', :action => 'transaccion', :id => credito %></td>
+              <else%>
+                <td><= button_to 'Aplicar movimiento', :action => 'transaccion_grupal', :id => credito %></td>
+              <end%>
+              -->
+
+              <%if credito.activado?%>
+                <td><%= button_to 'Desactivar',  { :action => 'desactivar', :id => credito }, :confirm => '¿Esta seguro?', :method => :post %></td>
+              <%else%>
+                <td><%= button_to 'Activar',  { :action => 'activar', :id => credito }, :confirm => '¿Esta seguro?', :method => :post  %></td>
+              <%end%>
+
+                <!--
+                <td><=button_to 'Devengo Int.', :action => "show_devengos", :controller => "creditos", :id=> credito%></td>
+                -->
+                <td><%=button_to 'Calendario', :controller=>"creditos", :action => "calendario_pagos", :id => credito%></td>
+                <td><%=button_to 'SALDO', :action => "vencimiento", :controller => "creditos", :id=> credito%></td>
+                <td><%=button_to 'Depositos', :action => "show_depositos", :controller => "creditos", :id=> credito%></td>
+                <td><%=button_to 'Reportes', {:action => "menu", :controller=> "reportes", :id => credito}, :method => :post%></td>
+                <td><%= button_to 'Detalles', :action => 'show', :id => credito %></td>
+                <td><%= button_to 'Editar', :action => 'edit', :id => credito %></td>
+                <!--
+                <td><= button_to 'Eliminar', { :action => 'destroy', :id => credito }, :confirm => '¿Esta seguro?', :method => :post %></td>
+                -->
+               </tr>
+          <% end %>
+        <% end %>
+    </table>
+</div>
+

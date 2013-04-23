@@ -1,0 +1,32 @@
+<h2 style=" text-align: center;">Layout FOMMUR</h2>
+<br></br>
+<br></br>
+<h3 style=" text-align: center;">Layout Clientes</h3>
+<form id="clientes" action="plantilla_clientes">
+<table>
+  <tr>
+    <th>Fecha Inicio:</th>
+    <th>Fecha Fin:</th>
+    <th rowspan="2"><%=button_to 'Generar'%></th>
+  </tr>
+  <tr>
+    <td><%= date_select( 'fechac', 'fecha_inicio_c', :order => [:day, :month, :year], :class => 'text') %></td>
+    <td><%= date_select( 'fechac', 'fecha_fin_c', :order => [:day, :month, :year], :class => 'text') %></td>
+  </tr>
+</table>
+</form>
+<br></br>
+<h3 style=" text-align: center;">Layout Créditos</h3>
+<form id="creditos" action="plantilla_creditos">
+<table>
+  <tr>
+    <th>Fecha Inicio:</th>
+    <th>Fecha Fin:</th>
+    <th rowspan="2"><%=button_to 'Generar'%></th>
+  </tr>
+  <tr>
+    <td><%= date_select( 'fechacr', 'fecha_inicio_cr', :order => [:day, :month, :year], :class => 'text') %></td>
+    <td><%= date_select( 'fechacr', 'fecha_fin_cr', :order => [:day, :month, :year], :class => 'text') %></td
+  </tr>
+</table>
+</form>

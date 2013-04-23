@@ -1,0 +1,77 @@
+<!-- Aqui van los datos del cliente y del credito -->
+
+<table>
+  <tr><th>Cliente: <%=@credito.cliente.nombre_completo%></th></tr>
+  <tr><td>RFC: <%=@credito.cliente.rfc%></td></tr>
+   <tr><td>Oficial de Credito: <%=@credito.promotor.nombre_completo%></td></tr>
+  <tr><td>Número de credito: <%=@credito.id%></td></tr>
+  <tr><td>Monto inicial: <%="$%.2f" % @credito.monto.to_s%></td></tr>
+  <tr><td>Fecha de inicio: <%=@credito.fecha_inicio%></td></tr>
+  <tr><td>Tasa de interés: <%=@credito.tasa_interes.to_s + " %" %></td></tr>
+  <tr><td>Pago minimo: <%=pago_minimo(@credito)%></td></tr>
+  <tr><td>Número de pagos: <%=@credito.num_pagos%></td></tr>
+  <tr><td>Próximo Pago: <%=proximo_pago(@credito).fecha_limite%></td></tr>
+
+</table>
+
+<h3>Calendario de pagos</h3>
+<table>
+  <tr>
+    <th>Num de pago</th>
+    <th>Fecha Limite</th>
+    <th>Capital minimo</th>
+    <th>Interes minimo</th>
+        <th>Moratorio</th>
+    <th>Pagado</th>
+  </tr>
+  <%@credito.pagos.each do |pago|%>
+  <tr>
+     <td><%=pago.num_pago%></td>
+     <td><%=pago.fecha_limite%></td>
+     <td><%="$%.2f" % pago.capital_minimo unless pago.capital_minimo.nil?%></td>
+      <td><%="$%.2f" % pago.interes_minimo unless pago.interes_minimo.nil?%></td>
+      <td><%="$%.2f" % pago.moratorio unless pago.moratorio.nil?%></td>
+
+     <%if pago.pagado == 1%>
+        <td>SI</td>
+     <%else%>
+        <td>NO</td>
+     <%end%>
+
+  </tr>
+  <%end%>
+
+</table>
+
+
+
+<h3>Ingresar Pago</h3>
+
+<!-- Form para agregar un pago -->
+<% form_tag :action => 'abonar_individual', :credito=>@credito do -%>
+<%= error_messages_for 'pago' %>
+<p><label for="movimiento_capital">Capital</label><br/>
+<%= text_field 'pago', 'capital'  %></p>
+
+<p><label for="movimiento_capital">Interes</label><br/>
+<%= text_field 'pago', 'interes'  %></p>
+
+<p><label for="movimiento_fecha">Fecha</label><br/>
+<%= date_select 'pago', 'fecha'  %></p>
+
+<p><label for="movimiento_capital">Interes</label><br/>
+<%= text_field 'pago', 'interes'  %></p>
+
+
+<!--[eoform:movimiento]-->
+<%= submit_tag "Aplicar" %>
+<% end %>
+
+
+
+
+<h3>Total de abonos = <%= "$%.2f" % abonos(@credito).to_s%></h3>
+<h3>Total de intereses = <%="$%.2f" % cargos(@credito).to_s%></h3>
+<h3>Total adeudado = <%="$%.2f" % total(@credito).to_s%></h3><br>
+<%=image_tag "pdf.jpg", :size =>"15x15"%>
+<%=link_to 'Imprimir Estado de Cuenta', :action => "pdf", :controller =>"informacion", :id => @credito.id %>

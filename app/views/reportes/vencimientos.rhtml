@@ -1,0 +1,47 @@
+
+<h2 style="text-align: center;">CREDITOS VENCIDOS</h2>
+<hr></hr>
+<br></br>
+<div id="scroll">
+<%@creditos.each do |credito|%>
+      
+        <%credito_vencimiento = Vencimiento.new(credito)%>
+        <table class="stats">
+          <tr>
+            <td class="hed">Identificador:</td>
+            <td><%=credito.identificador%></td>
+          </tr>
+          <tr>
+            <td class="hed">Dias de Atraso:</td>
+            <td><%=credito_vencimiento.dias_atraso%></td>
+          </tr>
+          <tr>
+            <td class="hed">Interes Diario Devengado:</td>
+            <td><%=credito_vencimiento.devengo_diario%></td>
+          </tr>
+          <tr>
+            <td class="hed">Capital:</td>
+            <td><%=credito_vencimiento.capital_vencido%></td>
+          </tr>
+          <tr>
+            <td class="hed">Intereses Devengados:</td>
+            <td><%=credito_vencimiento.intereses_devengados%></td>
+          </tr>
+          <tr>
+            <td class="hed">Moratorio:</td>
+            <td><%=credito_vencimiento.moratorio%></td>
+          </tr>
+          <tr>
+            <td class="hed">Gastos de Cobranza:</td>
+            <td><%=credito_vencimiento.gastos_cobranza%></td>
+          </tr>
+          <tr>
+            <td class="hed">Total Vencido:</td>
+            <td></td>
+          </tr>
+    </table>
+<%end%>
+
+</div>
+
+

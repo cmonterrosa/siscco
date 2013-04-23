@@ -1,0 +1,36 @@
+<p>
+  <h1>Depósitos aplicados directamente a través de proporciones </h1><br />
+</p>
+<h2>Fecha de carga: <%=@datafile.fecha_hora_carga.strftime("%d/%m/%Y, %H:%M horas")%></h2><br />
+
+<table>
+  <tr>
+    <th>fecha</th>
+    <th>sucursal</th>
+    <th>autorizacion</th>
+    <th>cod</th>
+    <th>subcod</th>
+    <th>ref alfa</th>
+    <th>importe</th>
+    <th>&nbsp;</th>
+  </tr>
+ <%@datafile.fechavalors.each do |deposito|%>
+   <tr>
+     <td><%=deposito.fecha%></td>
+     <td><%=deposito.sucursal%></td>
+     <td><%=deposito.autorizacion%></td>
+     <td><%=deposito.codigo%></td>
+     <td><%=deposito.subcodigo%></td>
+     <td><%=deposito.ref_alfa%></td>
+     <td><%=deposito.importe%></td>
+     <td><%=button_to "Ver Saldo", :action => "vencimiento", :controller => "creditos", :id => Credito.find(:first, :conditions => ["num_referencia = ?", deposito.ref_alfa])%></td>
+   </tr>
+  <%end%>
+</table>
+
+<br />
+<br /> <br />
+<h2 style="color: red;"><%=button_to 'Ver registros no aplicados', :action => "download_na_fvalor_extras", :controller => "upload", :datafile => @datafile%></h2><br /><br />
+<h2 style="color: red;"><%=button_to 'Ver errores', :action => "download_err_fvalor_extras", :controller => "upload", :datafile => @datafile%></h2><br />
+
+<%=button_to 'Inicio', :action => "index", :controller => "home"%>

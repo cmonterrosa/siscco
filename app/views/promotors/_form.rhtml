@@ -1,0 +1,38 @@
+<%= error_messages_for 'promotor' %>
+
+<!--[form:promotor]-->
+<table>
+  <tr>
+    <th>Paterno:</th>
+    <th>Materno:</th>
+    <th>Nombre:</th>
+    <th>Dirección:</th>
+
+  </tr>
+  <tr>
+    <td><%= text_field 'promotor', 'paterno', :onkeypress => "return CharNum(event, 'letra');", :class => "text"  %></td>
+    <td><%= text_field 'promotor', 'materno', :onkeypress => "return CharNum(event, 'letra');", :class => "text"  %></td>
+    <td><%= text_field 'promotor', 'nombre', :onkeypress => "return CharNum(event, 'letra');", :class => "text"  %></td>
+    <td><%= text_field 'promotor', 'direccion', :class => "text"  %></td>
+  </tr>
+  <tr>
+    <th>Teléfono:</th>
+    <th>Celular:</th>
+    <th>Email:</th>
+    <th>Sucursal de la Empresa:</th>
+  </tr>
+  <tr>
+    <td><%= text_field 'promotor', 'telefono', :onkeypress => "return CharNum(event, 'numero');", :class => "text"  %></td>
+    <td><%= text_field 'promotor', 'celular', :onkeypress => "return CharNum(event, 'numero');", :class => "text"  %></td>
+    <td><%= text_field 'promotor', 'email', :class => 'text'  %></td>
+    <td><%= collection_select("promotor", "sucursal_id", @sucursales, :id, :nombre, {:prompt => ">>SUCURSAL"}, :class =>"text") %></td>
+  </tr>
+  <tr>
+    <th colspan="4">Observaciones:</th>
+  </tr>
+  <tr>
+      <th colspan="4"><%=text_field 'promotor', 'observaciones', :maxlength=> 80%></th>
+  </tr>
+</table>
+<!--[eoform:promotor]-->
+

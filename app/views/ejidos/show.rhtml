@@ -1,0 +1,16 @@
+<h1>Ejidos</h1>
+<br />
+<% for column in Ejido.content_columns %>
+<p>
+  <b><%= column.human_name %>:</b> <%=h @ejido.send(column.name) %>
+</p>
+<% end %>
+<p>
+  <b>Estado: </b> <%= @ejido.municipio.estado.estado %>
+</p>
+<p>
+  <b>Municipio: </b> <%= @ejido.municipio.municipio %>
+</p>
+<br/>
+<%#= button_to 'Editar', :action => 'edit', :id => @ejido %>
+<%= link_to 'Regresar', :action => 'list' %>

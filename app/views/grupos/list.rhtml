@@ -1,0 +1,56 @@
+<h1>Grupos</h1>
+<br />
+<div id="busqueda">
+  <label for="searchtext">Búsqueda por referencia de crédito:</label>
+  <%= text_field_tag :searchtext_referencia, '', :class => 'text' %>
+  <br /><br />
+  <label for="searchtext">Búsqueda por nombre de grupo:</label>
+  <%= text_field_tag :searchtext, '', :class => 'text' %>
+</div>
+<div id="botones">
+  <%= button_to 'Agregar Grupo', :action => 'new' %>
+</div>
+
+<%= observe_field(:searchtext_referencia,
+                  :frequency => 0.15,
+                  :update => :search_hits,
+                  :with  => "searchtext_referencia",
+                  :url => { :action => :live_search_referencia }) %>
+
+<%= observe_field(:searchtext,
+                  :frequency => 0.25,
+                  :update => :search_hits,
+                  :with  => "searchtext",
+                  :url => { :action => :live_search }) %>
+
+<div id="limpiar">&nbsp;</div>
+<div id="resultados">
+  Resultados de la Busqueda:
+</div>
+<div id="limpiar2">
+  <%=link_to "Mostrando solo los primeros 25 registros", :action => "list"%> &nbsp; | &nbsp; <%=link_to "Ver todos", :action => "list", :token => "all"%>
+</div>
+<br />
+<div id="scroll">
+  <div id="search_hits">
+    <table>
+      <tr>
+          <th>Nombre</th>
+          <th>Propuesta</th>
+          <th colspan="4">Acciones</th>
+      </tr>
+
+     <% for grupo in @grupos %>
+      <tr>
+        <td><%=h grupo.nombre %></td>
+        <td><%=h grupo.identificador %></td>
+        <td><%= button_to 'Detalles', :action => 'show', :id => grupo %></td>
+         <td><%= button_to 'Clientes', :action => 'agregar_clientes', :id => grupo %></td>
+        <td><%= button_to 'Editar', :action => 'edit', :id => grupo %></td>
+        <td><%= button_to 'Eliminar', { :action => 'destroy', :id => grupo }, :confirm => 'Estas seguro?', :method => :post %></td>
+      </tr>
+      <% end %>
+      
+    </table>
+  </div>
+</div>

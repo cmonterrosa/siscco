@@ -1,0 +1,18 @@
+<h1>Sucursales</h1>
+<br />
+<% for column in Sucursal.content_columns %>
+<p>
+  <b><%= column.human_name %>:</b> <%=h @sucursal.send(column.name) %>
+</p>
+<% end %>
+
+
+<%if @sucursal.municipio%>
+  <p>
+    <b>Municipio: </b> <%=@sucursal.municipio.municipio%>
+  </p>
+<%end%>
+
+
+<br />
+<%= link_to 'Regresar', :action => 'list' %>

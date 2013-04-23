@@ -1,0 +1,24 @@
+<h2>Depositos aplicados con fecha valor = <%=@sumatoria%></h2>
+
+<%if @transacciones_aplicadas.size > 0%>
+<table>
+  <%@transacciones_aplicadas.each do |transaccion|%>
+      <%transaccion.each do |row|%>
+        <tr>
+          <td>
+            <%=row.tipo_transaccion.descripcion%>
+          </td>
+          <td>
+            <%=row.monto%>
+          </td>
+          <td>
+            <%=row.fecha_hora_aplicacion.strftime("%Y-%m-%d")%>
+          </td>
+        </tr>
+      <%end%>
+  <%end%>
+</table>
+<%end%>
+
+
+<%=link_to 'Ver depósitos sin aplicar', :action => "fv_p_aplicar", :controller =>"creditos"%>

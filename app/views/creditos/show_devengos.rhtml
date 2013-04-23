@@ -1,0 +1,20 @@
+   <div id="scroll">
+     <div id="search_hits">
+      <table>
+        <tr>
+          <th>Fecha</th>
+          <th>Dia</th>
+          <th>Generacion de Obligacion</th>
+          <th>Vto. Amortizacion</th>
+        </tr>
+        <% for devengo in @devengos %>
+        <tr>
+          <td><%=devengo.fecha%></td>
+          <td><%=devengo.dia%></td>
+          <td><%=round(devengo.generacion_obligacion.to_f)%></td>
+          <td><%=devengo.vto_amortizacion%></td>
+        </tr>
+        <% end %>
+      </table>
+    </div>
+  </div>

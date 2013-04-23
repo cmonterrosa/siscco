@@ -1,0 +1,54 @@
+
+<h2>Datos del credito</h2>
+<br />
+<p>
+  <b>Grupo: </b> <%=@credito.grupo.nombre%>
+</p>
+<br />
+<p>
+  <b>Fecha de Inicio:</b> <%=@credito.fecha_inicio%>
+</p>
+<br />
+<p>
+  <b>Fecha Fin:</b> <%=@credito.fecha_fin%>
+</p>
+<br />
+<p>
+  <b>Referencia:</b> <%@credito.num_referencia%>
+</p>
+<br />
+<p>
+  <b>Monto:</b> $<%=separar_miles(@credito.monto)%>
+</p>
+<br />
+<p>
+  <b>tipo_interes:</b> <%=@credito.tipo_interes%>
+</p>
+<br />
+<p>
+  <b>Producto: <%=@credito.producto.producto%></b>
+</p>
+<br />
+
+  <%if @credito.tipo_interes == "SALDOS INSOLUTOS (SSI)"%>
+    <p>
+      <b>Tasa de Interes Normal:</b> <%=@credito.producto.tasa_anualizada%>
+    </p>
+    <br />
+    <p>
+      <b>Tasa de Interes Moratoria: <%=@credito.producto.moratorio_ssi%></b>
+    </p>
+    <br />
+  <%else%>
+    <p>
+      <b>Tasa de Interes Normal:</b> <%=@credito.producto.tasa_mensual_flat%>
+    </p><br />
+    <p>
+      <b>Tasa de Interes Moratoria:</b> <%=@credito.producto.moratorio_flat%></p>
+   <br />
+  <%end%>
+
+<br />
+<%= link_to 'Reportes', :action => 'menu', :controller => "reportes", :id => @credito %> |
+<%= link_to 'Editar', :action => 'edit', :id => @credito %> |
+<%= link_to 'Atras', :action => 'movimiento_credito' %>

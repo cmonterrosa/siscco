@@ -1,0 +1,24 @@
+<h1><b>Créditos del promotor: </b></h1>
+<h2><%=@promotor.nombre_completo%></h2>
+
+<div id="scroll">
+  <div id="search_hits">
+    <table>
+      <tr>
+        <th>Nombre del grupo:</th>
+        <th>Monto del credito:</th>
+        <th>Fecha inicio:</th>
+      </tr>
+
+      <% for credito in @promotor.creditos %>
+        <%if credito.grupo%>  
+             <tr>
+                 <td><%= credito.grupo.nombre%></td>
+                 <td><%= "$" + separar_miles(credito.monto.to_f) %></td>
+                 <td><%= credito.fecha_inicio %></td>
+             </tr>
+        <% end %>
+      <% end %>
+    </table>
+  </div>
+</div>

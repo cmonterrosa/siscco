@@ -1,0 +1,44 @@
+<h1>Sucursales de la Empresa</h1>
+<br />
+<div id="busqueda">
+  <label for="searchtext">Búsqueda por Sucursal:</label>
+  <%= text_field_tag :searchtext, '', :class => 'text' %>
+</div>
+<div id="botones">
+  <%= button_to 'Agregar Sucursal', :action => 'new' %>
+</div>
+  
+  <%= observe_field(:searchtext,
+                 :frequency => 0.25,
+                 :update => :search_hits,
+                 :with  => "searchtext",
+                 :url => { :action => :live_search }) %>
+
+<div id="limpiar">&nbsp;</div>
+<div id="resultados">
+  Resultados de la Busqueda:
+</div>
+<div id="limpiar2">&nbsp;</div>
+<div id="scroll">
+  <div id="search_hits">
+  <table>
+    <tr>
+    <% for column in Sucursal.content_columns %>
+      <th><%= column.human_name %></th>
+    <% end %>
+      <th colspan="3">Acciones</th>
+     </tr>
+
+    <% for sucursal in @sucursals %>
+    <tr>
+      <% for column in Sucursal.content_columns %>
+      <td><%=h sucursal.send(column.name) %></td>
+      <% end %>
+      <td><%= button_to 'Detalles', :action => 'show', :id => sucursal %></td>
+      <td><%= button_to 'Editar', :action => 'edit', :id => sucursal %></td>
+      <td><%= button_to 'Eliminar', { :action => 'destroy', :id => sucursal }, :confirm => 'Estas seguro?', :method => :post %></td>
+    </tr>
+    <% end %>
+  </table>
+  </div>
+</div>

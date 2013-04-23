@@ -1,0 +1,20 @@
+<div id="scroll">
+<table>
+  <tr>
+    <th>Nombre</th>
+    <th>Propuesta</th>
+    <th colspan="3">Acciones</th>
+  </tr>
+  
+<% for grupo in @grupos %>
+  <tr>
+    <td><%=h grupo.nombre %></td>
+    <td><%=h grupo.identificador %></td>
+    <td><%= button_to 'Detalles', :action => 'show', :id => grupo %></td>
+    <td><%= button_to 'Clientes', :action => 'agregar_clientes', :id => grupo %></td>
+    <td><%= button_to 'Editar', :action => 'edit', :id => grupo %></td>
+    <td><%= button_to 'Eliminar', { :action => 'destroy', :id => grupo }, :confirm => 'Estas seguro?', :method => :post %></td>
+  </tr>
+<% end %>
+</table>
+</div>

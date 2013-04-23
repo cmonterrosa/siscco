@@ -1,0 +1,34 @@
+<%= error_messages_for 'colonia' %>
+<!--[form:colonia]-->
+<table>
+  <tr>
+    <th>Colonia:</th>
+    <th>Clave Inegi:</th>
+    <th>Estado:</th>
+    <th>Municipio:</th>
+    <th>Ejido:</th>
+  </tr>
+  <tr>
+    <td><%= text_field 'colonia', 'colonia', :onkeypress => "return CharNum(event, 'letra');", :class => "text" %></td>
+    <td><%= text_field 'colonia', 'clave_inegi', :class => 'text'  %></td>
+    <td><%=  collection_select("", "estado_id", $estados, :id, :estado, :prompt => '>>Estado')    %></td>
+    <td><%=  select("", "municipio_id", ['>>Municipio'])    %></td>
+    <td><%=  collection_select("colonia", "ejido_id", $ejidos, :id, :ejido, :prompt => '>>Ejido')    %></td>
+  </tr>
+</table>
+
+<!--Funciones para ejecutar las acciones cuando cambia la seleccion -->
+
+      <%= observe_field '_estado_id',
+        :url => {:controller => 'combos',
+        :action => 'get_municipios'},
+        :update => '_municipio_id',
+        :with => '_estado_id' %>
+
+      <%= observe_field '_municipio_id',
+        :url => {:controller => 'combos',
+        :action => 'get_ejidos'},
+        :update => 'colonia_ejido_id',
+        :with => '_municipio_id' %>
+<!--[eoform:colonia]-->
+

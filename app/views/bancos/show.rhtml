@@ -1,0 +1,21 @@
+<h1>Bancos</h1><br />
+<% for column in Banco.content_columns %>
+<p>
+  <b><%= column.human_name %>:</b> <%=h @banco.send(column.name) %>
+</p>
+<% end %>
+
+<%unless @banco.sucbancarias.empty?%>
+<br />
+<p><b>Sucursales: </b></p>
+  <%@banco.sucbancarias.each do |sucursal|%>
+  <p><%=link_to "#{sucursal.nombre}", :action => "show", :controller => "sucbancarias", :id => sucursal%></p>
+  <%end%>
+
+<%end%>
+
+
+<br />
+
+<p><%= link_to 'Regresar', :action => 'list' %></p>
+

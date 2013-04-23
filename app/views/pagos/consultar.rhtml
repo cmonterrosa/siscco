@@ -1,0 +1,19 @@
+<h2>Pagos del día <%=@fecha.strftime("%d/%m/%Y")%> </h2>
+<table>
+  <tr>
+    <th>Grupo o Cliente</th>
+    <th>Fecha</th>
+    <th>Capital</th>
+    <th>Intereses</th>
+  </tr>
+
+  <%@pagos.each do |pago|%>
+    <tr>
+      <td><%=pago.credito.grupo.nombre%></td>
+      <td><%=pago.fecha%></td>
+      <td><%=pago.capital%></td>
+      <td><%=pago.interes%></td>
+    </tr>
+  <%end%>
+</table>
+<%=button_to 'IMPRIMIR REPORTE', :action => "reporte", :fecha=>@fecha%>

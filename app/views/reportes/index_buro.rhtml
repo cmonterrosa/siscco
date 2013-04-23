@@ -1,0 +1,21 @@
+<h2><%=link_to_remote "Generar formato (Esto puede tardar varios minutos)",
+   :url => { :action => "buro"},
+   :loading => "Element.show('spinner')",
+   :complete => "Element.hide('spinner')",
+   :update => { :success => "divbusqueda", :failure => "error" }%></h2>
+
+
+
+<br></br>
+
+<img alt="spinner" id="spinner" src="/images/loading_spinner.gif" style="display:none;" />
+
+<div id ="divbusqueda">
+</div>
+
+
+
+
+<div id ="error">
+  
+</div>

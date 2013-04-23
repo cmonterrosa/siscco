@@ -1,0 +1,34 @@
+<p>
+  <h1>Depositos cargados pendientes por aplicar</h1><br />
+</p>
+<h2>Fecha de carga: <%=@datafile.fecha_hora_carga.strftime("%d/%m/%Y, %H:%M horas")%></h2><br />
+<h2>Numero de Cliente: <%=@datafile.numero_cliente%></h2><br />
+<h2>Nombre del Cliente: <%=@datafile.nombre_cliente%></h2><br /><br />
+
+
+<table>
+  <tr>
+    <th>sucursal</th>
+    <th>autorizacion</th>
+    <th>cod</th>
+    <th>subcod</th>
+    <th>ref alfa</th>
+    <th>importe</th>
+  </tr>
+ <%@depositos_aplicados.each do |deposito|%>
+   <tr>
+     <td><%=deposito.sucursal%></td>
+     <td><%=deposito.autorizacion%></td>
+     <td><%=deposito.codigo%></td>
+     <td><%=deposito.subcodigo%></td>
+     <td><%=deposito.ref_alfa%></td>
+     <td><%=deposito.importe%></td>
+   </tr>
+  <%end%>
+</table>
+
+
+
+<%=button_to 'Regresar al Resumen', :action => "resultados", :datafile => @datafile%> <br />
+
+<%=button_to 'Inicio', :action => "index", :controller => "home"%>

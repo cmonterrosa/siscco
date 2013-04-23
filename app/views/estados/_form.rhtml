@@ -1,0 +1,13 @@
+<%= error_messages_for 'estado' %>
+
+<!--[form:estado]-->
+  <table style="text-align: center">
+  <tr>
+    <th>Nombre:</th>
+  </tr>
+  <tr>
+    <td><%= text_field 'estado', 'estado', :onkeypress => "return CharNum(event, 'letra');", :class => "text"  %></td>
+  </tr>
+</table>
+<!--[eoform:estado]-->
+

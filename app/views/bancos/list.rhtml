@@ -1,0 +1,41 @@
+<h1>Bancos</h1>
+
+<div id="busqueda" >
+  <label for="searchtext">Búsqueda por nombre:</label>
+  <%= text_field_tag :searchtext %>
+</div>
+<div id="botones" >
+  <%= button_to 'Agregar Banco', :action => 'new' %>
+</div>
+  <%= observe_field(:searchtext,
+                 :frequency => 0.25,
+                 :update => :search_hits,
+                 :with  => "searchtext",
+                 :url => { :action => :live_search }) %>
+<div id="limpiar">&nbsp;</div>
+<div id="resultados">
+  Resultado de Busqueda:
+</div>
+<div id="limpiar2">&nbsp;</div>
+<div id="scroll">
+  <div id="search_hits">
+      <table>
+        <tr>
+          <% for column in Banco.content_columns %>
+          <th><%= column.human_name %></th>
+          <% end %>
+          <th colspan="3">Acciones</th>
+        </tr>
+        <% for banco in @bancos %>
+        <tr>
+          <% for column in Banco.content_columns %>
+          <td><%=h banco.send(column.name) %></td>
+          <% end %>
+          <td><%= button_to 'Detalles', :action => 'show', :id => banco %></td>
+          <td><%= button_to 'Editar', :action => 'edit', :id => banco %></td>
+          <td><%= button_to 'Eliminar', { :action => 'destroy', :id => banco }, :confirm => 'Estas seguro?', :method => :post %></td>
+        </tr>
+        <% end %>
+      </table>
+    </div>
+</div>

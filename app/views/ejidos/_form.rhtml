@@ -1,0 +1,27 @@
+<%= error_messages_for 'ejido' %>
+
+<!--[form:ejido]-->
+<table>
+  <tr>
+    <th>Ejido:</th>
+    <th>Clave Inegi:</th>
+    <th>Estado:</th>
+    <th>Municipio:</th>
+  </tr>
+  <tr>
+    <td><%= text_field 'ejido', 'ejido', :onkeypress => "return CharNum(event, 'letra');", :class => "text"  %></td>
+    <td><%= text_field 'ejido', 'clave_inegi'  %></td>
+    <td><%= collection_select("", "estado_id", $estados, :id, :estado, :prompt => ">>Estado")    %></td>
+    <td><%= collection_select("ejido", "municipio_id", $municipios, :id, :municipio, :prompt =>">>Municipio")    %></td>
+  </tr>
+</table>
+
+<!--Funciones para ejecutar las acciones cuando cambia la seleccion -->
+
+      <%= observe_field '_estado_id',
+        :url => {:controller => 'combos',
+        :action => 'get_municipios'},
+        :update => 'ejido_municipio_id',
+        :with => '_estado_id' %>
+
+<!--[eoform:ejido]-->

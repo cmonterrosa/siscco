@@ -1,0 +1,10 @@
+<h1>Dias Festivos</h1>
+<br />
+<% for column in Festivo.content_columns %>
+<p>
+  <b><%= column.human_name %>:</b> <%=h @festivo.send(column.name) %>
+</p>
+<% end %>
+<br />
+<%#= button_to 'Editar', :action => 'edit', :id => @festivo %>
+<%= link_to 'Regresar', :action => 'list' %>

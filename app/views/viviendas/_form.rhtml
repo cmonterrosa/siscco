@@ -1,0 +1,13 @@
+<%= error_messages_for 'vivienda' %>
+
+<!--[form:vivienda]-->
+<table>
+  <tr>
+    <th>Tipo Vivienda:</th>
+  </tr>
+  <tr>
+    <td><%= text_field 'vivienda', 'tipo_vivienda', :onkeypress => "return CharNum(event, 'letra');", :class => "text"  %></td>
+  </tr>
+</table>
+<!--[eoform:vivienda]-->
+

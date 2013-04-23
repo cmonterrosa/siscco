@@ -1,0 +1,13 @@
+<h1>Municipios</h1>
+<br />
+<% for column in Municipio.content_columns %>
+<p>
+  <b><%= column.human_name %>:</b> <%=h @municipio.send(column.name) %>
+</p>
+<% end %>
+<p>
+  <b>Estado:</b> <%= @municipio.estado.estado %>
+</p>
+<br />
+<%#= button_to 'Editar', :action => 'edit', :id => @municipio %>
+<%= link_to 'Regresar', :action => 'list' %>

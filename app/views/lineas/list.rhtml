@@ -1,0 +1,57 @@
+<h1>Lineas</h1>
+<br />
+<div id="busqueda">
+  <label for="searchtext">Búsqueda por nombre:</label>
+  <%= text_field_tag :searchtext, '', :class => 'text' %>
+</div>
+<div id="botones">
+  <%= button_to 'Agregar Linea', :action => 'new' %>
+</div>
+<%= observe_field(:searchtext,
+                  :frequency => 0.25,
+                  :update => :search_hits,
+                  :with  => "searchtext",
+                  :url => { :action => :live_search }) %>
+
+<div id="limpiar">&nbsp;</div>
+<div id="resultados">
+  Resultados de la Busqueda:
+</div>
+<div id="limpiar2">&nbsp;</div>
+<div id="scroll">
+  <div id="search_hits">
+    <table>
+      <tr>
+        <th>Fondeo</th>
+      <% for column in Linea.content_columns %>
+        <th><%= column.human_name %></th>
+      <% end %>
+
+        <th>Disponible</th>
+
+        <th colspan="5">Acciones</th>
+      </tr>
+  
+      <% for linea in @lineas %>
+      <tr>
+        <%if linea.fondeo%>
+          <td><%= linea.fondeo.fuente %> </td>
+        <%end%>
+        <% for column in Linea.content_columns %>
+        <td><%=h linea.send(column.name) %></td>
+        <% end %>
+        
+        <td><%= linea_disponible(linea) %></td>
+       
+        <td><%= button_to 'Detalles', :action => 'show', :id => linea %></td>
+        <td><%= button_to 'Editar', :action => 'edit', :id => linea %></td>
+        <!--
+        <td><= button_to 'Eliminar', { :action => 'destroy', :id => linea }, :confirm => 'Estas suguro?', :method => :post %></td>
+        -->
+        <td><%= button_to 'Transferir Fondos',  :action => 'transferir_fondos', :id => linea %></td>
+         <td><%=button_to 'Estado de Cuenta',  :action => 'consultar', :id => linea %></td>
+      </tr>
+      <% end %>
+    </table>
+  </div>
+</div>

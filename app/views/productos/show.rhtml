@@ -1,0 +1,15 @@
+<h1>Productos</h1>
+<% for column in Producto.content_columns %>
+<br />
+<p>
+  <b><%= column.human_name %>:</b> <%=h @producto.send(column.name) %>
+</p>
+<% end %>
+<br />
+<p>
+  <b>Periodo:</b> <%=h @producto.periodo.nombre %>
+</p>
+
+<br />
+
+<%= link_to 'Regresar', :action => 'list' %>

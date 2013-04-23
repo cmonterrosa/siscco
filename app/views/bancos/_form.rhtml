@@ -1,0 +1,13 @@
+<%= error_messages_for 'banco' %>
+
+<!--[form:banco]-->
+<table>
+  <tr>
+    <th>Nombre:</th>
+  </tr>
+  <tr>
+    <td><%= text_field 'banco', 'nombre', :onkeypress => "return CharNum(event, 'letra');", :class => "text"  %></td>
+  </tr>
+</table>
+<!--[eoform:banco]-->
+

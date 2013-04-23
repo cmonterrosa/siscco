@@ -1,0 +1,2 @@
+module PolizasHelper
+end

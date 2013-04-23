@@ -1,0 +1,35 @@
+<h1>Creditos</h1>
+
+<table>
+  <tr>
+  <% for column in Credito.content_columns %>
+    <th><%= column.human_name %></th>
+  <% end %>
+  </tr>
+  
+<% for credito in @creditos %>
+  <tr>
+  <% for column in Credito.content_columns %>
+    <td><%=h credito.send(column.name) %></td>
+  <% end %>
+    <td><%= link_to 'Mostrar', :action => 'show', :id => credito %></td>
+    <td><%= link_to 'Editar', :action => 'edit', :id => credito %></td>
+  <!--
+    <td><= link_to 'Elmininar', { :action => 'destroy', :id => credito }, :confirm => 'Are you sure?', :method => :post %></td>
+  -->
+  </tr>
+<% end %>
+</table>
+
+<%#= link_to 'Anterior', { :page => @credito_pages.current.previous } if @credito_pages.current.previous %>
+<%#= link_to 'Siguiente', { :page => @credito_pages.current.next } if @credito_pages.current.next %>
+
+<br />
+
+<%= button_to 'Nuevo Credito Individual', :action => 'new_individual' %>
+<br />
+<%= button_to 'Nuevo Credito Grupal', :action => 'new_grupal' %>
+
+
+
+

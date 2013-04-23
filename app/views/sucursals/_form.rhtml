@@ -1,0 +1,55 @@
+<%= error_messages_for 'sucursal' %>
+
+<!--[form:sucursal]-->
+<table>
+  <tr>
+    <th>Nombre</th>
+    <th>Gerente</th>
+    <th>Telefono</th>
+    <th>Direccion</th>
+  </tr>
+  <tr>
+    <td><%= text_field 'sucursal', 'nombre', :onkeypress => "return CharNum(event, 'letra');", :class => "text"  %></td>
+    <td><%= text_field 'sucursal', 'gerente', :onkeypress => "return CharNum(event, 'letra');", :class => "text"  %></td>
+    <td><%= text_field 'sucursal', 'telefono', :onkeypress => "return CharNum(event, 'numero');", :class => "text"  %></td>
+    <td><%= text_field 'sucursal', 'direccion', :class => 'text'  %></td>
+  </tr>
+  <tr>
+    <th>Codigo postal</th>
+    <th>Estado</th>
+    <th>Municipio</th>
+  </tr>
+  <tr>
+    <td><%= text_field 'sucursal', 'codigo_postal', :onkeypress => "return CharNum(event, 'numero');", :class => "text"  %></td>
+    <td><%= collection_select('', 'estado_id', $estados, :id, :estado, {:prompt => ">> Estado"}, :class => "text") %></td>
+    <td><%= select('sucursal', 'municipio_id', [">> Municipio"], :class => "text") %></td>
+    <!--
+    <td><= select('', 'ejido_id', [">> Ejido"]) %></td>
+    -->
+    </tr>
+</table>
+<!-- Combo para conseguir la colonia donde vive -->
+<!--Funciones para ejecutar las acciones cuando cambia la seleccion -->
+
+      <%= observe_field '_estado_id',
+        :url => {:controller => 'combos',
+        :action => 'get_municipios'},
+        :update => 'sucursal_municipio_id',
+        :with => '_estado_id' %>
+
+<!--
+
+      <= observe_field '_municipio_id',
+        :url => {:controller => 'combos',
+        :action => 'get_ejidos'},
+        :update => '_ejido_id',
+        :with => '_municipio_id' %>
+
+      <= observe_field '_ejido_id',
+        :url => {:controller => 'combos',
+        :action => 'get_colonias'},
+        :update => 'sucursal_colonia_id',
+        :with => '_ejido_id' %>
+
+-->
+<!--[eoform:sucursal]-->

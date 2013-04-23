@@ -1,0 +1,14 @@
+<h1>Nuevo Crédito Grupal</h1>
+
+<% form_tag :action => 'create' do %>
+  <%= render :partial => 'formgrupal' %>
+  
+<table  class="botones">
+    <tr class="botones">
+      <th class="botones"><%= link_to 'Regresar', :controller => 'home', :action => 'index' %></th>
+      <th class="botones">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+      <th class="botones"><%= submit_tag "Agregar", :onclick => "return comprobar();"%></th>
+    </tr>
+  </table>
+<% end %>
+

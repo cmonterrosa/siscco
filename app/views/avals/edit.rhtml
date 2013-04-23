@@ -1,0 +1,9 @@
+<h1>Editing aval</h1>
+
+<% form_tag :action => 'update', :id => @aval do %>
+  <%= render :partial => 'form' %>
+  <%= submit_tag 'Edit' %>
+<% end %>
+
+<%= link_to 'Mostrar', :action => 'show', :id => @aval %> |
+<%= link_to 'Regresar', :action => 'list' %>

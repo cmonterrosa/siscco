@@ -1,0 +1,15 @@
+<h1>Cuentas Liquidadoras</h1>
+<br />
+<% for column in Ctaliquidadora.content_columns %>
+<p>
+  <b><%= column.human_name %>:</b> <%=h @ctaliquidadora.send(column.name) %>
+</p>
+<% end %>
+
+<%if @ctaliquidadora.sucbancaria%>
+    <p><b>Banco / Sucursal: </b><%= @ctaliquidadora.sucbancaria.descripcion%></p>
+<%end%>
+
+<br />
+<%#= button_to 'Editar', :action => 'edit', :id => @sector %>
+<%= link_to 'Regresar', :action => 'list' %>

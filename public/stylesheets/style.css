@@ -1,0 +1,402 @@
+*{
+margin:0px;
+padding:0px;
+}
+img{border:0px;}
+html{
+width:100%;
+height:100%;
+background:url(/images/mac/bg.jpg) top center no-repeat;
+}
+body{
+width:100%;
+height:100%
+}
+#site{
+width:988px;
+margin:0 auto;
+}
+#site2{
+width:600px;
+margin:0 auto;
+}
+#header{
+padding:40px 0 0 0;
+width:988px;
+overflow:hidden;
+position:relative
+}
+#header2{
+padding:40px 0 0 0;
+width:600px;
+overflow:hidden;
+position:relative
+}
+.logo{
+width:100px;
+margin:0 0 0 40px;
+margin:0 0 0 42px;
+float:left;
+}
+#menu{
+background:url(/images/mac/menu_bg.jpg) top left no-repeat;
+width:988px;
+height:46px;
+float:left;
+/* float:none;*/
+margin:40px 0 0 0;
+/* margin:40px 0 0 3px;*/
+padding:2px 0 0 4px;
+}
+#menu ul{
+background:url(/images/mac/end_menu.gif) top right no-repeat;
+overflow:hidden;
+float:left;
+padding:0 3px 0 0;
+}
+#menu li{
+display:inline;
+list-style-type:none;
+}
+#menu a{
+display:block;
+float:left;
+}
+.but1{background:url(/images/mac/but1.jpg) top left no-repeat;}
+.but2{background:url(/images/mac/but2.jpg) top left no-repeat;}
+.but3{background:url(/images/mac/but3.jpg) top left no-repeat;}
+.but4{background:url(/images/mac/but4.jpg) top left no-repeat;}
+.but5{background:url(/images/mac/but5.jpg) top left no-repeat;}
+.but6{background:url(/images/mac/but6.jpg) top left no-repeat;}
+.but7{background:url(/images/mac/but7.jpg) top left no-repeat;}
+
+#menu a:hover, .active{
+background-position:bottom left
+}
+#meta{
+position:absolute;
+top:83px;
+right:51px;
+/*right:47px;*/
+}
+#meta li{
+display:inline;
+list-style-type:none;
+}
+#meta a{
+display:block;
+float:left;
+
+}
+.meta1{background:url(/images/mac/meta1.png) top left no-repeat;}
+.meta2{background:url(/images/mac/meta2.png) top left no-repeat;}
+.meta3{background:url(/images/mac/meta3.png) top left no-repeat;}
+#meta a:hover{
+background-position: bottom left
+}
+#menu label{
+background:url(/images/mac/search_bg.gif) no-repeat;
+position:absolute;
+top:135px;
+right: 10px;
+width: 200px;
+height: 14px;
+padding:2px 10px;
+font-family:Helvetica, Arial, "Franklin Gothic Medium", sans-serif;
+font-size:11px;
+}
+#content{
+width:988px;
+background:url(/images/mac/content_bg.jpg) top left no-repeat;
+overflow:hidden;
+/* margin:0 0 0 3px;*/
+padding:0 0 28px 0;
+}
+#content2{
+width:600px;
+background:url(/images/mac/content_bg.jpg) top left no-repeat;
+overflow:hidden;
+/* margin:0 0 0 3px;*/
+padding:0 0 28px 0;
+}
+#main{
+width:659px;
+float:left;
+overflow:hidden;
+padding:13px 5px 0 19px;
+}
+#maincompleto{
+background:url(/images/cresolido_marca.png) top left repeat;
+width:900px;
+float:left;
+margin-left: 30px;
+/*overflow:hidden;*/
+padding:13px 5px 0 19px;
+font-family:Helvetica, "Franklin Gothic Medium", sans-serif;
+font-size:11px;
+}
+.current{
+background:url(/images/mac/current_bg.jpg) top left no-repeat;
+width:459px;
+overflow:hidden;
+font-family:Helvetica, Arial, "Franklin Gothic Medium", sans-serif;
+font-size:12px;
+color:#DBE0E8;
+padding:0 0 25px 0;
+}
+.current p{
+display:block;
+float:left;
+width:520px;
+padding:62px 0 0 15px;
+}
+.current_link{
+display:block;
+float:left;
+margin:15px 0 0 5px;
+}
+.post{
+width:659px;
+height:363px;
+float:left;
+background:url(/images/mac/post_bg.gif) top left no-repeat;
+/*background-size: 100%;*/
+padding:15px 28px 0 25px;
+margin:0 15px 11px 0;
+}
+
+.post2{
+/*width:800px;*/
+/*height:460px;*/
+/*float:left;*/
+/*background:url(/images/cresolido_marca.png) top left repeat;*/
+/*background-size: 100%;*/
+padding:15px 28px 10px 25px;
+margin:0 15px 11px 0;
+}
+
+.post h1{
+	font-family:Helvetica, Arial, "Franklin Gothic Medium", sans-serif;
+	font-size:22px;
+	color:#0893EF	
+}
+
+.post h2{
+	font-family:Helvetica, Arial, "Franklin Gothic Medium", sans-serif;
+	font-size:19px;
+	color:#0893EF	
+}
+
+.post h3{
+	font-family:Helvetica, Arial, "Franklin Gothic Medium", sans-serif;
+	font-size:16px;
+	color:#0893EF	
+}
+
+
+.post span{
+font-family:Helvetica, Arial, "Franklin Gothic Medium", sans-serif;
+font-size:14px;
+color:#0893EF
+}
+.post h5{
+font-family:Helvetica, Arial, "Franklin Gothic Medium", sans-serif;
+font-size:20px;
+color:#3E3E3E;
+padding:8px 0 10px 0;
+}
+.post p{
+font-family:Helvetica, Arial, "Franklin Gothic Medium", sans-serif;
+font-size:14px;
+color:#6D7072;
+display:block;
+margin:13px 0;
+}
+.more{
+display:block;
+margin:0 0 0 80px;
+}
+#sidebar{
+width:277px;
+margin: 0 10px 0 10px;
+float: left;
+}
+.block{
+/*background:url(/images/mac/line.gif) top left no-repeat;*/
+float:right;
+margin:0 0 0 10px;
+}
+.news{
+/*background:url(/images/mac/block_end.gif) bottom left no-repeat;*/
+width:472px;
+float:left;
+font-family:Helvetica, "Franklin Gothic Medium", sans-serif;
+font-size:16px;
+color:purple;
+}
+.news div{
+/*background:url(/images/mac/news_bg.png) top left no-repeat;*/
+width:430px;
+padding:20px 6px 15px 28px;
+float:left;
+}
+.news p{
+padding:0 18px 18px 0;
+margin: 26px 0 0 80px
+}
+.letra {
+    font-family:Helvetica, "Franklin Gothic Medium", sans-serif;
+    font-size:20px;
+    color:#ff0000;
+    text-align: center;
+}
+#sidebar .more{
+margin:0 0 0 60px;
+}
+.sponsors{
+margin:0 0 20px 0;
+}
+.sponsors a{
+display:block;
+margin:11px 0 0 13px;
+}
+.popular{
+margin:17px 0 0 15px;
+}
+.popular li{
+list-style-type:none;
+/*background:url(/images/mac/bullet.gif) left 3px no-repeat;*/
+padding:0 0 0 25px;
+line-height:23px;
+height:23px;
+}
+.popular a{
+font-family:Helvetica, Arial, "Franklin Gothic Medium", sans-serif;
+font-size:12px;
+color:#6D7072;
+text-decoration:underline
+}
+.popular a:visited{text-decoration:underline}
+.popular a:hover{text-decoration:none}
+#footer{
+width:100%;
+border-top:1px solid #D0D1D2;
+padding:15px 0 70px 0;
+font-family:Helvetica, Arial, "Franklin Gothic Medium", sans-serif;
+font-size:12px;
+color:#6D7072;
+}
+#footer span{
+float:left;
+}
+#footer div{
+width:988px;
+margin:0 auto;
+padding:0 0 0 15px;
+}
+#footer a{
+color:#0893EF;
+text-decoration:underline
+}
+#footer a:visited{text-decoration:underline}
+#footer a:hover{text-decoration:none}
+#footer .bft{text-decoration:none}
+#footer .bft:visited{text-decoration:none}
+#footer .bft:hover{text-decoration:underline}
+#navigation{
+display:block;
+float:right
+}
+#navigation li{
+display:inline;
+list-style-type:none;
+}
+#navigation a{
+margin:0 10px;
+}
+#footer #navigation .rss{
+color:#ED2CE2;
+text-decoration:none
+}
+.inner_copy{
+border:0;
+color:#fff;
+float:right;
+width:0.09%!important;
+margin:-100px;
+overflow:hidden;
+line-height:0px;
+padding:0px;
+font-size:11px
+}
+
+#scroll{
+overflow: auto;
+width:100%;
+height: 350px;
+text-align: center;
+}
+
+.text{
+    font-size:10px;
+    text-transform:uppercase;
+}
+.no_require{
+    font-size:10px;
+    text-transform:uppercase;
+}
+
+/*estilo para textbox grandes */
+
+.form-login  {
+	width: 205px;
+	padding: 10px 4px 6px 3px;
+	border: 2px solid #0d2c52;
+	/*background-color:#1e4f8a;*/
+        /*background-color:#F87000;*/
+
+	font-size: 16px;
+	/*color: #ebebeb;*/
+        color: #6D596E;
+}
+.message_s {
+    text-align: center;
+    font-family: Verdana, Geneva, Arial, Helvetica, sans-serif ;
+    font-weight: normal;
+    font-size: 14px;
+    color: #192BCF;
+    border: 0px;
+    border-collapse: collapse;
+    border-spacing: 0px;
+}
+.message_err {
+    text-align: center;
+    font-family: Verdana, Geneva, Arial, Helvetica, sans-serif ;
+    font-weight: normal;
+    font-size: 14px;
+    color: #ff0000;
+    border: 0px;
+    border-collapse: collapse;
+    border-spacing: 0px;
+}
+#busqueda{
+    float:left;
+    width:400px;
+}
+#botones{
+    float:left;
+    width:200px;
+}
+#resultados{
+    float:left;
+    width:200px;
+}
+#limpiar{
+    clear:both;
+    height: 30px;
+}
+#limpiar2{
+    clear:both;
+    text-align: center;
+    height: 5px;
+}

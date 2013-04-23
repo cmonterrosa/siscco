@@ -1,0 +1,10 @@
+<h1>Estados</h1>
+<br />
+<% for column in Estado.content_columns %>
+<p>
+  <b><%= column.human_name %>:</b> <%=h @estado.send(column.name) %>
+</p>
+<% end %>
+<br />
+<%#= button_to 'Editar', :action => 'edit', :id => @estado %>
+<%= link_to 'Regresar', :action => 'list' %>

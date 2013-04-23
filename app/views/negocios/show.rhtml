@@ -1,0 +1,10 @@
+<h1>Negocios</h1>
+<br />
+<% for column in Negocio.content_columns %>
+<p>
+  <b><%= column.human_name %>:</b> <%=h @negocio.send(column.name) %>
+</p>
+<% end %>
+<br />
+<%#= button_to 'Editar', :action => 'edit', :id => @negocio %>
+<%= link_to 'Regresar', :action => 'list' %>

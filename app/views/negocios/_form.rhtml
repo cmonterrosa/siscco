@@ -1,0 +1,27 @@
+<%= error_messages_for 'negocio' %>
+
+<!--[form:negocio]-->
+<table>
+    <tr>
+     <th>Nombre:</th>
+     <th>Puesto:</th>
+     <th>Dirección:</th>
+     <th>Teléfono:</th>
+   </tr>
+   <tr>
+     <td><%= text_field 'negocio', 'nombre', :onkeypress => "return CharNum(event, 'letra');"  %></td>
+     <td><%= text_field 'negocio', 'puesto', :onkeypress => "return CharNum(event, 'letra');"  %></td>
+     <td><%= text_field 'negocio', 'direccion'  %></td>
+     <td><%= text_field 'negocio', 'telefono', :onkeypress => "return CharNum(event, 'numero');"  %></td>
+   </tr>
+   <tr>
+     <th>Num Empleados:</th>
+     <th>Giro:</th>
+   </tr>
+   <tr>
+     <td><%= text_field 'negocio', 'num_empleados', :onkeypress => "return CharNum(event, 'numero');"  %></td>
+     <td><%= collection_select('negocio', 'giro_id', Giro.find(:all,:order => 'giro'), :id, :giro, :prompt => '>>Giro')  %></td>
+   </tr>
+</table>
+
+<!--[eoform:negocio]-->

@@ -1,0 +1,56 @@
+<h1>Promotores</h1>
+<br />
+<div id="busqueda">
+  <label for="searchtext">Búsqueda por nombre y/o apellidos:</label>
+  <%= text_field_tag :searchtext, '', :class => 'text' %>
+</div>
+<div id="botones">
+  <%= button_to 'Agregar Promotor', :action => 'new' %>
+</div>
+  <%= observe_field(:searchtext,
+                 :frequency => 0.25,
+                 :update => :search_hits,
+                 :with  => "searchtext",
+                 :url => { :action => :live_search }) %>
+
+<div id="limpiar">&nbsp;</div>
+<div id="resultados">
+  Resultados de la Busqueda:
+</div>
+<div id="limpiar2">&nbsp;</div>
+<div id="scroll">
+  <div id="search_hits">
+    <table>
+      <tr>
+        <th>Nombre:</th>
+        <th>Dirección:</th>
+        <th>Teléfono:</th>
+        <th>Celular:</th>
+        <th colspan="4">Acciones</th>
+      </tr>
+  
+      <% for promotor in @promotors %>
+      <tr>
+        <td><%= promotor.nombre_completo %></td>
+        <td><%= promotor.direccion %></td>
+        <td><%= promotor.telefono %></td>
+        <td><%= promotor.celular %></td>
+        <%unless promotor.creditos.empty?%>
+          <td><%= button_to 'Creditos', :action => 'show_creditos', :id => promotor %></td>
+        <%else%>
+          <td></td>
+        <%end%>
+        <td><%= button_to 'Detalles', :action => 'show', :id => promotor %></td>
+        <td><%= button_to 'Editar', :action => 'edit', :id => promotor %></td>
+        <td><%= button_to 'Eiminar', { :action => 'destroy', :id => promotor }, :confirm => 'Esta seguro?', :method => :post %></td>
+      </tr>
+      <% end %>
+    </table>
+  </div>
+</div>
+
+<table  class="botones">
+  <tr class="botones">
+    <th class="botones"><h4></h4></th>
+  </tr>
+</table>

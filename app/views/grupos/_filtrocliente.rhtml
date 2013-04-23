@@ -1,0 +1,25 @@
+<%= error_messages_for 'cliente' %>
+<div id="scroll">
+       
+      <table>
+        <tr>
+          <th>Nombre:</th>
+          <th>CURP:</th>
+        <th colspan="5">Acciones</th>
+        </tr>
+
+        <% for cliente in @clientes %>
+        <tr>
+          <td><%= cliente.nombre_completo %></td>
+          <td><%= cliente.curp %></td>
+          <td><%= button_to 'Detalles', :controller => "clientes", :action => 'show', :id => cliente %></td>
+           <td><%= button_to 'Agregar', {:action => 'agregar', :controller => "grupos", :id => cliente, :grupo => @grupo}, :method => :post %></td>
+          <td><%=link_to "Histórico de grupos", { :controller => "clientes", :action => "historial_grupos", :id => cliente},
+                                                  :popup => ['height=300,width=600,left=300,top=300,scrollbars=no']%></td>
+          <!--<td><= button_to 'Editar', :action => 'edit', :controller => "clientes",  :id => cliente %></td>
+          <td><= button_to 'Eliminar', { :controller => "clientes", :action => 'destroy', :id => cliente }, :confirm => 'Se eliminarán también los negocios vinculados al cliente?', :method => :post %></td>-->
+        </tr>
+        <% end %>
+      </table>
+
+  </div>

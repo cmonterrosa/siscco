@@ -1,0 +1,39 @@
+Credito: <%=@credito.id%>
+
+<% form_tag :action => 'create', :credito=>@credito do -%>
+<%= error_messages_for 'movimiento' %>
+
+<!--[form:movimiento]-->
+
+
+<p><label for="movimiento_tipo">Tipo</label><br/>
+ <%=  select("movimiento", "tipo", @tipos)%>
+</p>
+
+
+<p><label for="movimiento_capital">Capital</label><br/>
+<%= text_field 'movimiento', 'capital'  %></p>
+
+<p><label for="movimiento_fecha">Fecha</label><br/>
+<%= date_select 'movimiento', 'fecha'  %></p>
+
+<p><label for="movimiento_interes">Interes</label><br/>
+<%= text_field 'movimiento', 'interes'  %></p>
+
+
+<p><label for="movimiento_concepto">Concepto</label><br/>
+<%= text_field 'movimiento', 'concepto'  %></p>
+<!--[eoform:movimiento]-->
+
+
+
+  <%= submit_tag "Create" %>
+<% end %>
+
+<%= link_to 'Volver', :action => 'transaccion', :controller=>"creditos" %>
+
+
+
+
+
+

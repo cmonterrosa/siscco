@@ -1,0 +1,21 @@
+<div id="scroll">
+<table>
+  <tr>
+  <% for column in Sucursal.content_columns %>
+    <th><%= column.human_name %></th>
+  <% end %>
+    <th colspan="3">Acciones</th>
+  </tr>
+
+<% for sucursal in @sucursals %>
+  <tr>
+  <% for column in Sucursal.content_columns %>
+    <td><%=h sucursal.send(column.name) %></td>
+  <% end %>
+    <td><%= button_to 'Detalles', :action => 'show', :id => sucursal %></td>
+    <td><%= button_to 'Editar', :action => 'edit', :id => sucursal %></td>
+    <td><%= button_to 'Eliminar', { :action => 'destroy', :id => sucursal }, :confirm => 'Estas seguro?', :method => :post %></td>
+  </tr>
+<% end %>
+</table>
+</div>

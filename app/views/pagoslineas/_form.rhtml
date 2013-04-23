@@ -1,0 +1,26 @@
+<%= error_messages_for 'pagoslinea' %>
+
+<!--[form:pagoslinea]-->
+<br />
+<h3>Fuentes de Fondeo:<br/>
+<%= collection_select("", "fondeo_id", @fondeos, :id, :fuente, :prompt => '>> Fondeo')%></h3>
+<br/>
+<h3>Linea de Fondeo<br/>
+<%= collection_select("", "cuenta_cheques", @lineas, :id, :cuenta_cheques)%></h3>
+<br />
+<h3><label for="pagoslinea_fecha">Fecha:</label><br/>
+<%= date_select 'pagoslinea', 'fecha'  %></h3>
+<br />
+<h3><label for="pagoslinea_monto">Monto:</label><br/>
+<%= text_field 'pagoslinea', 'monto', :onkeypress => "return CharNum(event, 'numero');", :class => "text"  %></h3>
+<br />
+<h3><label for="pagoslinea_observaciones">Observaciones:</label><br/>
+<%= text_area 'pagoslinea', 'observaciones', :onkeypress => "return CharNum(event, 'letra');", :class => "text"  %></h3>
+
+<!--[eoform:pagoslinea]-->
+<br />
+<%= observe_field '_fondeo_id',
+    :url => {:controller => 'combos',
+    :action => 'get_lineas'},
+    :update => '_cuenta_cheques',
+    :with => '_fondeo_id' %>

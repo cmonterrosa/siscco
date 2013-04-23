@@ -1,0 +1,15 @@
+<%= error_messages_for 'grupo' %>
+
+<!--[form:grupo]-->
+<table>
+  <tr>
+    <th>Nombre:</th>
+    <th>Propuesta:</th>
+  </tr>
+  <tr>
+    <td><%= text_field 'grupo', 'nombre', :onkeypress => "return CharNum(event, 'letra');", :class => "text"  %></td>
+    <td><%= text_field 'grupo', 'identificador'%></td>
+  </tr>
+</table>
+<!--[eoform:grupo]-->
+

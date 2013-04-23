@@ -1,0 +1,46 @@
+<style type="text/css">
+.tituloreferencia
+{
+font-weight:normal;color:#CF4421;letter-spacing:1pt;word-spacing:2pt;font-size:36px;text-align:center;font-family:tahoma, verdana, arial, sans-serif;line-height:1;
+}
+
+.tituloreportes
+{
+font-weight:normal;color:#192BCF;letter-spacing:2pt;word-spacing:2pt;font-size:32px;text-align:center;font-family:impact, sans-serif;line-height:1;
+}
+</style>
+
+<p class="tituloreferencia">REFERENCIA: <%=h @credito.num_referencia%></p><br /><br />
+    <a style="text-align: center"><%=button_to 'Modificar/Agregar Referencia Bancaria', :controller => "creditos", :action => "modificar_referencia", :id => @credito, :method => :post%></a>
+<br></br>
+
+
+<hr></hr>
+
+<p class="tituloreportes">Reportes</p>
+
+<br></br>
+    <a style="text-align: center"><%=button_to 'Recibo de Entrega de Fondos', :action => "recibo_entrega_fondos", :controller => "reportes", :id => @credito%></a>
+<br></br>
+    <a style="text-align: center"><%=button_to 'SALDO', :controller => "creditos", :action => "vencimiento", :id => @credito, :method => :post%></a>
+<br></br>
+    <a style="text-align: center"><%=button_to '(ACTUALIZADO) Pagare', :action => "nuevo_pagare", :id => @credito, :method => :post%></a>
+<br></br>
+    <a style="text-align: center"><%=button_to '(NUEVO) Lista mensual de socias', :action => "lista_mensual_socias", :id => @credito, :method => :post%></a>
+ <br/><br/>
+    <a style="text-align: center"><%=button_to 'Acta Constitutiva', :action => "acta", :id => @credito, :method => :post%></a>
+<br></br>
+    <a style="text-align: center"><%=button_to '(ACTUALIZADO) Carta Compromiso', :action => "carta_compromiso", :id => @credito, :method => :post%></a>
+<br></br>
+    <a style="text-align: center"><%=button_to 'Reglamento', :action => "pagare", :id => @credito, :method => :post%></a>
+<br></br>
+    <a style="text-align: center;">
+      <% form_tag :action => 'tarjeta_pagos', :id =>@credito do%>
+        <%= collection_select("cliente", "id", clientes_activos_grupo(@credito.grupo), :id, :nombre_completo, {:prompt => '>>CLIENTE'}, :class => 'text') %>
+        <%= submit_tag "Tarjeton de Pagos"%>
+      <%end%>
+    </a>
+<br></br>
+<hr></hr>
+<br></br>
+    <a style="text-align: center"><%=button_to 'Nuevo Credito Grupal', :controller => "creditos", :action => "new_grupal"%></a>

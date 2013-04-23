@@ -1,0 +1,77 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>Sistema de Créditos</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+
+  <%= stylesheet_link_tag "style"%>
+  <%= stylesheet_link_tag "miestilo"%>
+  
+  <%= javascript_include_tag 'prototype' %>
+  <%= javascript_include_tag 'mm_menu' %>
+  <%= javascript_include_tag :defaults %>
+
+</head>
+
+<body>
+  <script language="JavaScript1.2">mmLoadMenus();</script>
+    <div id="site">
+	<div id="header">
+            <a href="#" class="logo"><img src="/images/mac/titulo.png" alt="setalpm" width="300px" height="43px" /></a>
+            <div id="menu">
+              <ul>
+                <li><a href="/home/index" class="but1"><img src="/images/mac/spacer.gif" alt="" width="106" height="42" /></a></li>
+                <li><a href="" class="but2" ><img src="/images/mac/spacer.gif" alt="" name="catalogos" width="118" height="42" id="catalogos" onMouseOver="MM_showMenu(window.menu_catalogo,0,42,null,'catalogos')" onMouseOut="MM_startTimeout();" /></a></li>
+                <li><a href="" class="but3"><img src="/images/mac/spacer.gif" alt="" name="operacion" width="106" height="42" id="operacion" onMouseOver="MM_showMenu(window.menu_operacion,0,42,null,'operacion')" onMouseOut="MM_startTimeout();" /></a></li>
+                <li><a href="" class="but4"><img src="/images/mac/spacer.gif" alt="" name="reportes" width="99" height="42" id="reportes" onMouseOver="MM_showMenu(window.menu_reporte,0,42,null,'reportes')" onMouseOut="MM_startTimeout();" /></a></li>
+                <li><a href="" class="but5"><img src="/images/mac/spacer.gif" alt="" name="administracion" width="154" height="42" id="administracion" onMouseOver="MM_showMenu(window.menu_administracion,0,42,null,'administracion')" onMouseOut="MM_startTimeout();" /></a></li>
+                <li><a href="/logout" class="but7"><img src="/images/mac/spacer.gif" alt="" width="129" height="42" /></a></li>
+            </ul>
+            <label>Conectado como: <%= session[:user].login %></label>
+            </div>
+          <ul id="meta">
+            <li><a href="#" class="meta1"><img src="/images/mac/spacer.gif" alt="" width="37" height="39" /></a></li>
+            <li><a href="#" class="meta2"><img src="/images/mac/spacer.gif" alt="" width="37" height="39" /></a></li>
+            <li><a href="#" class="meta3"><img src="/images/mac/spacer.gif" alt="" width="37" height="39" /></a></li>
+          </ul>
+	</div>
+	<div id="content">
+            <div id="maincompleto">
+              <p class="message_s"><%= flash[:notice] %></p>
+              <%#*<div class="inner_copy"><a href="http://www.bestfreetemplates.org/">free templates</a><a href="http://www.bannermoz.com/">banner templates</a></div>%>
+		<div class="post2">
+                  <%=yield%>
+                </div>
+            </div>
+	<%#*<div id="sidebar">%>
+             <%#*<div class="block">%>
+                <%#*<div class="news">%>
+                    <%# unless session['user']%>
+                    <%#*<!-- formulario para inicio de sesion -->%>
+                      <%# form_tag :action => 'login', :controller=>"account" do -%>
+                    <%#*<div title="Account login">%>
+                      <%#*<h2 align="center">REGISTRO</h2><br>%>
+                      <%# if @message %>
+                      <%#*<div id="message"><%= @message ></div><br>%>
+                      <%# end %>
+                      <%#*<label for="user_login">Usuario:</label><br/>%>
+                      <%#*<input type="text" name="user_login" id="user_login" size="25" value=""/><br/>%>
+                      <%#*<label for="user_password">Contraseña:</label><br/>%>
+                      <%#*<input type="password" name="user_password" id="user_password" size="25"/><br/>%>
+                      <%#*<input type="submit" name="login" value="Entrar" class="primary" />%>
+                    <%#*</div>%>
+                      <%# end -%>
+                    <%#end%>
+                <%#*</div>%>
+            <%#*</div>%>
+	<%#*</div><!-- end sidebar-->%>
+        </div><!-- end content -->
+    </div><!-- end site -->
+    <div id="footer">
+      <div>
+	<span>Copyright &copy; Derechos Reservados </span>
+      </div>
+    </div>
+</body>
+</html>

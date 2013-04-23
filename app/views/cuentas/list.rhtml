@@ -1,0 +1,27 @@
+<h1>Cuentas Contables</h1>
+
+<table>
+  <tr>
+  <% for column in Cuenta.content_columns %>
+    <th><%= column.human_name %></th>
+  <% end %>
+  </tr>
+  
+<% for cuenta in @cuentas %>
+  <tr>
+  <% for column in Cuenta.content_columns %>
+    <td><%=h cuenta.send(column.name) %></td>
+  <% end %>
+    <td><%= button_to 'Mostrar', :action => 'show', :id => cuenta %></td>
+    <td><%= button_to 'Editar', :action => 'edit', :id => cuenta %></td>
+    <td><%= button_to 'Eliminar', { :action => 'destroy', :id => cuenta }, :confirm => '¿Esta seguro?', :method => :post %></td>
+  </tr>
+<% end %>
+</table>
+
+<%= link_to 'Anterior', { :page => @cuenta_pages.current.previous } if @cuenta_pages.current.previous %>
+<%= link_to 'Siguiente', { :page => @cuenta_pages.current.next } if @cuenta_pages.current.next %>
+
+<br />
+
+<%= button_to 'Nueva Cuenta', :action => 'new' %>

@@ -1,0 +1,15 @@
+<%= error_messages_for 'festivo' %>
+
+<!--[form:festivo]-->
+<table>
+  <tr>
+    <th>Fecha:</th>
+    <th>Descripción:</th>
+  </tr>
+  <tr>
+    <td><%= date_select 'festivo', 'fecha', :class => 'text' %></td>
+    <td><%= text_field 'festivo', 'descripcion', :class => 'text'  %></td>
+  </tr>
+</table>
+<!--[eoform:festivo]-->
+

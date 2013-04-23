@@ -1,0 +1,41 @@
+<h1>Histórico de Archivos Cargados</h1>
+<br />
+<div id="scroll">
+      <table>
+        <tr>
+          <th>Fecha archivo:</th>
+          <th>Fecha carga en servidor:</th>
+          <th>Num. Cliente</th>
+          <th>Nombre Cliente</th>
+          <th>Sucursal</th>
+          <th>cuenta</th>
+          <th>Nombre cuenta</th>
+          <th>Moneda</th>
+          <th>Movimientos</th>
+          <th>Aplicados</th>
+        </tr>
+
+        <% for file in @datafiles %>
+        <tr>
+          <%if file.fecha_hora_archivo%> 
+           <td><%= file.fecha_hora_archivo.strftime("%Y-%m-%d %H:%M:%S")  %></td>
+          <%else%>
+           <td> -- </td> 
+          <%end%> 
+          <td><%= file.fecha_hora_carga.strftime("%Y-%m-%d %H:%M:%S") %></td>
+          <td><%=file.numero_cliente%></td>
+          <td><%=file.nombre_cliente%></td>
+          <td><%=file.sucursal%></td>
+          <td><%= file.cuenta %></td>
+          <td><%=file.nombre_cuenta%></td>
+          <td><%=file.moneda%></td>
+          <td><%=file.num_movimientos%></td>
+          <td> - </td>
+          <td></td>
+        </tr>
+        <% end %>
+      </table>
+ </div>
+
+
+

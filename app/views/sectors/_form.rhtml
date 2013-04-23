@@ -1,0 +1,13 @@
+<%= error_messages_for 'sector' %>
+
+<!--[form:sector]-->
+<table>
+  <tr>
+    <th>Sector:</th>
+  </tr>
+  <tr>
+    <td><%= text_field 'sector', 'sector', :onkeypress => "return CharNum(event, 'letra');", :class => "text"  %></td>
+  </tr>
+</table>
+<!--[eoform:sector]-->
+

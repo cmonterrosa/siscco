@@ -1,0 +1,16 @@
+<%= error_messages_for 'municipio' %>
+<!--[form:municipio]-->
+<table>
+  <tr>
+    <th>Municipio:</th>
+    <th>Clave Inegi:</th>
+    <th>Estado:</th>
+  </tr>
+  <tr>
+    <td><%= text_field 'municipio', 'municipio', :onkeypress => "return CharNum(event, 'letra');", :class => "text"  %></td>
+    <td><%= text_field 'municipio', 'clave_inegi'  %></td>
+    <td><%= collection_select("municipio", "estado_id", $estados, :id, :estado, :prompt => ">>Estado") %></td>
+  </tr>
+</table>
+<!--[eoform:municipio]-->
+

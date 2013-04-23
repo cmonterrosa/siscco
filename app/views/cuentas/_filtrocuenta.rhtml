@@ -1,0 +1,21 @@
+<div id="scroll">
+<table>
+  <tr>
+  <% for column in Cuenta.content_columns %>
+    <th><%= column.human_name %></th>
+  <% end %>
+    <th colspan="3">Acciones</th>
+  </tr>
+  
+<% for cuenta in @cuentas %>
+  <tr>
+  <% for column in Cuenta.content_columns %>
+    <td><%=h cuenta.send(column.name) %></td>
+  <% end %>
+    <td><%= button_to 'Detalles', :action => 'show', :id => cuenta %></td>
+    <td><%= button_to 'Editar', :action => 'edit', :id => cuenta %></td>
+    <td><%= button_to 'Eliminar', { :action => 'destroy', :id => cuenta }, :confirm => 'Estas seguro?', :method => :post %></td>
+  </tr>
+<% end %>
+</table>
+</div>

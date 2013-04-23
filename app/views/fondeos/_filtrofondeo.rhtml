@@ -1,0 +1,24 @@
+<%= error_messages_for 'fondeo' %>
+<div id="scroll">
+<table>
+  <tr>
+  <% for column in Fondeo.content_columns %>
+    <th><%= column.human_name %></th>
+  <% end %>
+    <th colspan="3">Acciones</th>
+  </tr>
+  
+<% for fondeo in @fondeos %>
+  <tr>
+  <% for column in Fondeo.content_columns %>
+    <td><%=h fondeo.send(column.name) %></td>
+  <% end %>
+    <td><%= button_to 'Detalles', :action => 'show', :id => fondeo %></td>
+    <td><%= button_to 'Editar', :action => 'edit', :id => fondeo %></td>
+    <!--
+    <td><= button_to 'Eliminar', { :action => 'destroy', :id => fondeo }, :confirm => 'Estas seguro?', :method => :post %></td>
+  -->
+    </tr>
+<% end %>
+</table>
+</div>

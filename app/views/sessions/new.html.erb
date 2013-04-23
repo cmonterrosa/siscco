@@ -1,0 +1,32 @@
+<%#*<h1>Log In</h1>%>
+<br />
+<% form_tag session_path do -%>
+<div title="Entrada" style="font-size: 18px; text-align: center">
+
+  <h2>Inicio de Sesión</h2><br />
+
+  <label for="user_login">Usuario:</label><br />
+  <input class="form-login" type="text" name="login" id="login" size="25" value="" style="border-color: green;"/><br /><br />
+  <!--
+  <p><%#= label_tag 'login' %>
+    <%#= text_field_tag 'login', @login %></p>
+  -->
+
+  <label for="user_password">Contraseña:</label><br />
+  <input class="form-login" type="password" name="password" id="password" size="25" value="" style="border-color: green;"/><br /><br /><br />
+  <!--
+  <p><%#= label_tag 'password' %>
+    <%#= password_field_tag 'password', nil %></p>
+  -->
+
+  <!-- Uncomment this if you want this functionality
+  <p><%#= label_tag 'remember_me', 'Remember me' %>
+    <%#= check_box_tag 'remember_me', '1', @remember_me %></p>
+  -->
+
+  <%#*<p><%= submit_tag 'Log in' ></p>%>
+  <%= image_submit_tag ('entrar_boton.png') %>
+  <%#*<input title="inicio de sesión" alt="inicio de sesión" type="image"  src="/images/entrar_boton.png"/>%>
+
+</div>
+<% end -%>
