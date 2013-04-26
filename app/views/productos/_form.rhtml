@@ -44,7 +44,7 @@
   </tr>
   <tr>
     <td><%= text_field 'producto', 'ahorro', :onkeypress => "return CharNum(event, 'numero');", :class => 'text'  %></td>
-    <td><%= collection_select('producto', 'periodo_id', $periodos, :id, :nombre, {:prompt => '>>Periodo'}, :class => 'text')  %></td>
+    <td><%= collection_select('producto', 'periodo_id', @periodos, :id, :nombre, {:prompt => '>>Periodo'}, :class => 'text')  %></td>
     <td><%= select('producto','num_pagos', $semanas, {:prompt => '>>Num pagos'}, :class => 'text') %></td>
   </tr>
 

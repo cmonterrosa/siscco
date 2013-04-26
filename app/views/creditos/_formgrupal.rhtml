@@ -47,20 +47,29 @@
   </tr>
 </table>
 <table>
+
   <tr>
     <td colspan="3" style=" text-align: center">.:: DATOS GRUPO ::. <%= %></td>
   </tr>
+
   <tr>
     <th>Presidente:</th>
-    <th>Secretario:</th>
-    <th>Tesorero:</th>
+   <td><%=collection_select("miembro","presidente", @clientes, :id, :nombre_completo, {:prompt => '>>PRESIDENTE'}, :class => 'text')%></td>
   </tr>
+
   <tr>
-    <td><%=collection_select("miembro","presidente", @clientes, :id, :nombre_completo, {:prompt => '>>PRESIDENTE'}, :class => 'text')%></td>
+    <th>Secretario:</th>
     <td><%=collection_select("miembro","secretario", @clientes, :id, :nombre_completo, {:prompt => '>>SECRETARIO'}, :class => 'text')%></td>
+  </tr>
+
+    <tr>
+    <th>Tesorero:</th>
     <td><%=collection_select("miembro","tesorero", @clientes, :id, :nombre_completo, {:prompt => '>>TESORERO'}, :class => 'text' )%></td>
   </tr>
 </table>
+
+
+
 
 <!--[eoform:credito]-->
 <%= observe_field '_fondeo_id',
