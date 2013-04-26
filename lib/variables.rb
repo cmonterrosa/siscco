@@ -28,11 +28,5 @@
   Date::ABBR_MONTHNAMES = [nil] + %w(ene Feb Mar Abr May Jun Jul Ago Sep Oct Nov Dic)
   Date::ABBR_DAYNAMES = %w(Dom Lun Mar Mie Jue Vie Sab)
 
-  #------ Configuracion -----
-#  $conf ||= Configuracion.find(:first, :conditions => "activo = 1")
-#  CIUDAD_EMPRESA = $conf.ciudad
-#  NOMBRE_EMPRESA = $conf.nombre_empresa
-#  DIRECCION_EMPRESA = $conf.direccion
-#  TELEFONO_EMPRESA = $conf.telefono
-#  SUCURSAL = "SOCAMA CENTRO FRAYLESCA A.C"
+ 
 end

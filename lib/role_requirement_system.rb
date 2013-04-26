@@ -2,9 +2,6 @@
 # Include this in ApplicationController to activate RoleRequirement
 #
 # See RoleSecurityClassMethods for some methods it provides.
-
-
-
 module RoleRequirementSystem
   def self.included(klass)
     klass.send :class_inheritable_array, :role_requirements
@@ -112,18 +109,18 @@ module RoleRequirementSystem
     end
     
     def render_optional_error_file(status)
-      render :text => "You don't have access here.", :status => status
+      flash[:notice] = "Acceso no autorizado"
+      redirect_back_or_default('/')
     end
-
-    #--- Vamos a comentar estas lineas porque tenemos otro metodo llamado igual en login_system ----
-#    def access_denied
-#      if logged_in?
-#        render_optional_error_file(401)
-#        return false
-#      else
-#        super
-#      end
-#    end
+    
+    def access_denied
+      if logged_in?
+        render_optional_error_file(401)
+        return false
+      else
+        super
+      end
+    end
     
     def check_roles       
       return access_denied unless self.class.user_authorized_for?(current_user, params, binding)

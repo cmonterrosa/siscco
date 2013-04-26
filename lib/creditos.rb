@@ -449,7 +449,7 @@ module Creditos
 
 
          def todos_clientes_singrupo_join
-            return Cliente.find_by_sql("select id, curp, paterno, materno, nombre from clientes where id not in (select cliente_id from clientes_grupos where activo=1) order by paterno, materno, nombre")
+            return Cliente.find_by_sql("select id, curp, paterno, materno, nombre from clientes where id not in (select cliente_id from clientes_grupos where activo=1) order by paterno, materno, nombre LIMIT 1000")
          end
 
          def grupo_activo_cliente(cliente)
