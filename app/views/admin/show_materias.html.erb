@@ -1,0 +1,23 @@
+<h2>Materias</h2><br />
+<!-- contenido -->
+<div id="divlista">
+    <table width="55%" border="0" cellspacing="0" cellpadding="0" class="sample" style="BORDER-RIGHT: #cccccc 1px solid; BORDER-TOP: #cccccc 1px solid; BORDER-LEFT: #cccccc 1px solid; BORDER-BOTTOM: #cccccc 1px solid">
+    <tr class="d0">
+       <td style="vertical-align: middle;">NP</td>
+       <td style="vertical-align: middle;">Descripción</td>
+    </tr>
+    <%@materias.each do |materia|%>
+    <tr class="d1">
+     <td style="vertical-align: middle;"><%=materia.id%></td>
+     <td style="vertical-align: middle;"><%=link_to "#{materia.descripcion}", {:action => "members_by_materia", :id => materia}, :class => 'boton'  -%></td>
+    </tr>
+    <%end%>
+  </table>
+</div>
+
+
+
+
+
+
+<%= link_to image_tag("botones/regresar_menu_ant.png", :border =>0) , :controller => "admin", :action => "index"%><br />

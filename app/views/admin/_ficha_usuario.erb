@@ -1,0 +1,45 @@
+<div id="scroll">
+      <table class="sample" width="70%" border="0" cellspacing="2" cellpadding="0" style="BORDER-RIGHT: #cccccc 1px solid; BORDER-TOP: #cccccc 1px solid; BORDER-LEFT: #cccccc 1px solid; BORDER-BOTTOM: #cccccc 1px solid">
+                <tr align="center" class="d0">
+                  <td width="30%" bgcolor="#E8E8E8">USUARIO</td>
+                  <td width="50%" bgcolor="#E8E8E8">NOMBRE COMPLETO</td>
+                   <td width="50%" bgcolor="#E8E8E8">PERFILES</td>
+                  <td width="20%" bgcolor="#E8E8E8" colspan="2">ACCIONES</td>
+                </tr>
+            <!-- Registros -->
+            <%clase = 0%>
+            <% for usuario in @users %>
+            
+                <tr class="<%=(usuario.activo) ?  "d#{invert_class(clase)}" : "d99"%>">
+                      <td align="center">
+                          <%=usuario.login%>
+                      </td>
+                      <td align="center">
+                        <%=usuario.nombre_completo%>
+                      </td>
+
+                      <%perfiles=[]%>
+                      <%usuario.roles.each do |role|%>
+                      <%perfiles << role.descripcion%>
+                      <%end%>
+
+                      <td align="center">
+                        <%=perfiles.join(", ")%>
+                      </td>
+
+                      <td align="center">
+                        <%= (usuario.activo) ?  (link_to 'Bloquear usuario', { :action => "change_user_estatus", :controller => "admin", :id => usuario, :t => @token}, {:title => "Bloquear usuario", :class => 'boton'}, :confirm => '¿Esta seguro?', :method => :post)  : (link_to 'Reactivar usuario', { :action => "change_user_estatus", :controller => "admin", :id => usuario, :t => @token}, {:title => "Reactivar usuario", :class => 'boton'}, :confirm => '¿Esta seguro?', :method => :post) %>
+                      </td>
+
+                      <td align="center">
+                         <%= link_to 'Cambiar de Adscripción', { :action => "change_user_area", :controller => "admin", :id => usuario}, {:title => "Cambiar de adscripción", :class => 'boton'}, :confirm => '¿Esta seguro?', :method => :post %>
+                      </td>
+
+                       <%clase = invert_class(clase)%>
+                  </tr>
+
+                 
+
+              <%end%>
+       </table>
+</div><br /><br /><br />

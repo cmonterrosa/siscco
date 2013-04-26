@@ -1,0 +1,39 @@
+<div id="divlista">
+  <table class="sample" width="50%" border="0" cellspacing="2" cellpadding="0" style="BORDER-RIGHT: #cccccc 1px solid; BORDER-TOP: #cccccc 1px solid; BORDER-LEFT: #cccccc 1px solid; BORDER-BOTTOM: #cccccc 1px solid">
+         <tr align="center" class="d0">
+           <td bgcolor="#E8E8E8">Estatus</td>
+         </tr>
+           <!-- Registros -->
+          <% form_tag :action => 'update_role_estatus', :id =>@role do -%>
+                <% for estatu in Estatu.find(:all) %>
+                    <tr align="center" class="d1">
+                        <td bgcolor="#f3f3f3" align="left">
+                            <%= check_box_tag "estatu[role_ids][]", estatu.id, @role.estatus.include?(estatu) %>
+                            <%= estatu.descripcion %>
+                        </td>
+                    </tr>
+                <%end%>
+
+                 <!-- boton final -->
+           <tr align="center" class="d0">
+               <th class="boton"><%= submit_tag "Actualizar", :onclick => "return comprobar();" %></th>
+           </tr>
+          <%end%>
+       
+   </table>
+</div>
+
+<img alt="spinner" id="spinner" src="/images/loading_spinner.gif" style="display:none;" />
+  <%= observe_field :role_id,
+        :on => "change",
+        :before => "Element.show('spinner')",
+        :success => "Element.hide('spinner')",
+        :url => {:controller => 'admin',
+        :action => 'filtro_role'},
+        :update => 'divlista',
+        :with => :role_id %>
+
+
+
+
+

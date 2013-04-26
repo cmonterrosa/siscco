@@ -1,0 +1,43 @@
+<h3><%=link_to 'Materias', {:action => "show_materias"}, :class => 'boton'%>  >>  <%=link_to "#{@materia.descripcion}", {:action => "members_by_materia", :id => @materia}, :class => 'boton'%></h3>
+
+
+<div id="scroll">
+      <table class="sample" width="70%" border="0" cellspacing="2" cellpadding="0" style="BORDER-RIGHT: #cccccc 1px solid; BORDER-TOP: #cccccc 1px solid; BORDER-LEFT: #cccccc 1px solid; BORDER-BOTTOM: #cccccc 1px solid">
+                <tr align="center" class="d0">
+                  <td width="30%" bgcolor="#E8E8E8">ESPECIALISTA</td>
+                  <td width="20%" bgcolor="#E8E8E8" colspan="1">ACCIÓN</td>
+                </tr>
+            <!-- Registros -->
+
+            <% for usuario in @materia.users %>
+               <tr align="center" class="d1">
+                  <td  bgcolor="#f3f3f3">
+                     <%=usuario.nombre_completo%>
+                  </td>
+                  <td  bgcolor="#f3f3f3">
+                      <%= button_to 'Quitar', { :action => 'delete_user_materia', :controller => "admin", :id => usuario, :materia => @materia}, :confirm => '¿Esta seguro?', :method => :post %>
+                  </td>
+                </tr>
+              <%end%>
+       </table>
+</div><br /><br /><br />
+
+
+<div id="scroll">
+<% form_tag :action => 'add_user_materia', :materia =>@materia do -%>
+<table class="sample" width="50%" border="0" cellspacing="2" cellpadding="0" style="BORDER-RIGHT: #cccccc 1px solid; BORDER-TOP: #cccccc 1px solid; BORDER-LEFT: #cccccc 1px solid; BORDER-BOTTOM: #cccccc 1px solid">
+      <tr style="background-color:gray; color:white">
+          <th colspan="2">
+              Agregar Especialista
+          </th>
+      </tr>
+
+      <tr class="d1">
+          <th><%= collection_select("user", "user_id", @especialistas, :id, :nombre_completo, :prompt => '>> Seleccione especialista')    %></th>
+          <th class="boton"><%= submit_tag "Agregar", :onclick => "return comprobar();" %></th>
+      </tr>
+</table>
+<% end %>
+</div>
+
+<br /><%= link_to image_tag("botones/regresar_menu_ant.png", :border =>0) , :controller => "admin", :action => "show_materias"%><br />

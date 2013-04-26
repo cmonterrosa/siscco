@@ -1,0 +1,26 @@
+<h1>Campos Parametrizados</h1>
+
+<% form_for :configuracion, @configuracion, :url => { :action => "save"} do |f| %>
+  <%@configuracion.each do |row|%>
+    <%=f.label row.llave%><br />
+    <%=text_field("#{row.llave}", "#{row.llave}", :value => "#{row.valor}")%><br />
+  <%end%><br />
+
+    <table>
+        <tr>
+          <td>
+            <input title="inicio de sesion" alt=" Guardar y regresar a la sección anterior " type="image"  src="/images/botones/btn_guardar.png" width="150" height="40" style="margin-left:90px;"/>
+          </td>
+          <td>
+           <%= link_to image_tag("botones/regresar_menu_ant.png", :border =>0) , :controller => "administracions", :action => "index"%><br />
+          </td>
+        </tr>
+    </table>
+
+<%end%>
+
+
+
+<br />
+<%=button_to 'Nuevo campo personalizado', :action => "new", :controller=> "administracions"%>
+

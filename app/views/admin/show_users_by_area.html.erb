@@ -1,0 +1,26 @@
+<!-- Listado de áreas -->
+<div id="divlista">
+    <table width="55%" border="0" cellspacing="0" cellpadding="0" class="sample" style="BORDER-RIGHT: #cccccc 1px solid; BORDER-TOP: #cccccc 1px solid; BORDER-LEFT: #cccccc 1px solid; BORDER-BOTTOM: #cccccc 1px solid">
+    <tr class="d0">
+      <td align="center">Áreas</td>
+    </tr>
+    <%@areas.each do |area|%>
+    <tr class="d1">
+     <td align="center">
+       <%=link_to_remote "#{area.descripcion}", :update => "divusuarios",
+          :url => { :action => "update_list_usuarios", :id => area.id },
+          :before => "Element.show('spinner')",
+          :complete => "Element.hide('spinner')"%>
+     </td>
+    </tr>
+    <%end%>
+  </table>
+</div><br />
+
+<!-- spinner -->
+<img alt="spinner" id="spinner" src="/images/loading_spinner.gif" style="display:none;" /><br />
+
+<!-- contenido -->
+<div id ="divusuarios">
+</div>
+

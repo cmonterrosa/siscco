@@ -1,0 +1,104 @@
+<!-- Validate Plugin -->
+<%=javascript_include_tag "jquery.validate.min.js"%>
+
+<script type="text/javascript">
+ $j(document).ready(function(){
+
+ $j.validator.addMethod('regexp', function(value, element, param) {
+        return this.optional(element) || value.match(param);
+    },
+    'El formato es inválido, debe de ser folio/anio');
+
+ $j('#contact-form').validate(
+ {
+  rules: {
+    name: {
+      minlength: 2,
+      /*required: true,*/
+      regexp: /^\d{1,4}\/20\d{2}$/i
+    },
+    email: {
+      required: true,
+      email: true
+    },
+    subject: {
+      minlength: 2,
+      required: true
+    },
+    message: {
+      minlength: 2,
+      required: true
+    }
+   },
+
+    messages: {
+    /*'name': 'Debe ingresar el folio',*/
+    'email': 'Debe ingresar el apellido',
+    'numero_identidad': { required: 'Debe ingresar el número de documento de identidad', number: 'Debe ingresar un número' },
+    'email': { required: 'Debe ingresar un correo electrónico', email: 'Debe ingresar el correo electrónico con el formato correcto. Por ejemplo: u@localhost.com' },
+    'tipo_identidad': 'Debe ingresar el número de documento',
+    'deportes[]': 'Debe seleccionar mínimo un deporte'},
+
+  highlight: function(label) {
+    $j(label).closest('.control-group').addClass('error');
+  },
+  success: function(label) {
+    label
+      .text('OK!').addClass('valid')
+      .closest('.control-group').addClass('success');
+  }
+ });
+}); // end document.ready
+
+</script>
+
+<style media="screen" type="text/css">
+label.valid {
+  width: 24px;
+  height: 24px;
+  /*background: url(assets/img/valid.png) center center no-repeat;*/
+  display: inline-block;
+  text-indent: -9999px;
+}
+label.error {
+  font-weight: bold;
+  color: red;
+  padding: 2px 8px;
+  margin-top: 2px;
+}
+</style>
+
+
+<form action="" id="contact-form" class="form-horizontal">
+<fieldset>
+  <legend>Nueva área</legend>
+    <div class="control-group">
+      <label class="control-label" for="name"><sup>(*)</sup>Your Name</label>
+      <div class="controls">
+        <input type="text" class="input-xlarge" name="name" id="name" />
+      </div>
+    </div>
+    <div class="control-group">
+      <label class="control-label" for="email"><sup>(*)</sup> Email Address</label>
+      <div class="controls">
+        <input type="text" class="input-xlarge" name="email" id="email" />
+      </div>
+    </div>
+    <div class="control-group">
+      <label class="control-label" for="subject">Subject</label>
+      <div class="controls">
+        <input type="text" class="input-xlarge" name="subject" id="subject" />
+      </div>
+    </div>
+    <div class="control-group">
+      <label class="control-label" for="message">Your Message</label>
+      <div class="controls">
+        <textarea class="input-xlarge" name="message" id="message" rows="3"></textarea>
+      </div>
+    </div>
+    <div class="form-actions">
+      <button type="submit" class="btn btn-primary btn-large">Submit</button>
+      <button type="reset" class="btn">Cancel</button>
+    </div>
+  </fieldset>
+</form>

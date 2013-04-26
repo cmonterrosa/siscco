@@ -1,0 +1,21 @@
+<h1><%=link_to "Listado de Perfiles", :action => "show_roles" %> | <%=link_to "Listado de usuarios", :action => "show_users"%></h1><br />
+
+<!-- contenido -->
+<div id="divlista">
+    <table width="55%" border="0" cellspacing="0" cellpadding="0" class="sample" style="BORDER-RIGHT: #cccccc 1px solid; BORDER-TOP: #cccccc 1px solid; BORDER-LEFT: #cccccc 1px solid; BORDER-BOTTOM: #cccccc 1px solid">
+    <tr class="d0">
+       <td style="vertical-align: middle;">NP</td>
+       <td style="vertical-align: middle;">Descripción</td>
+    </tr>
+    <%@roles.each do |role|%>
+    <tr class="d1">
+     <td style="vertical-align: middle;"><%=role.id%></td>
+     <td style="vertical-align: middle;"><%=link_to "#{role.descripcion}", {:action => "members_by_role", :id => role}, :class => 'boton'  -%></td>
+    </tr>
+    <%end%>
+  </table>
+</div>
+
+
+<br /><%=link_to "Crear usuario", {:action => "new_from_admin", :controller => "users", :id => @token}, :class => 'boton'  -%>
+<br /><br /><%= link_to image_tag("botones/regresar_menu_ant.png", :border =>0) , :controller => "admin", :action => "index"%><br />

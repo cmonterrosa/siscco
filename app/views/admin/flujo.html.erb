@@ -1,0 +1,88 @@
+<h3>Flujo de datos</h3>
+
+<div id="scroll">
+      <table class="sample" width="70%" border="0" cellspacing="2" cellpadding="0" style="BORDER-RIGHT: #cccccc 1px solid; BORDER-TOP: #cccccc 1px solid; BORDER-LEFT: #cccccc 1px solid; BORDER-BOTTOM: #cccccc 1px solid">
+                <tr align="center" class="d0">
+                  <td width="25%" bgcolor="#E8E8E8">Acción</td>
+                  <td width="25%" bgcolor="#E8E8E8">Estatus anterior</td>
+                  <td width="25%" bgcolor="#E8E8E8">Estatus siguiente</td>
+                  <td width="25%" bgcolor="#E8E8E8">Perfil</td>
+                </tr>
+            <!-- Registros -->
+              <% for flujo in @flujos %>
+               <tr align="center" class="d1">
+                  <td  bgcolor="#f3f3f3">
+                      <%=flujo.descripcion%>
+                  </td>
+                  <td  bgcolor="#f3f3f3">
+                      <%=Estatu.find(flujo.old_status_id).descripcion%>
+                  </td>
+                  <td  bgcolor="#f3f3f3">
+                      <%=Estatu.find(flujo.new_status_id).descripcion%>
+                  </td>
+                  <td  bgcolor="#f3f3f3">
+                      <%=flujo.role.descripcion%>
+                  </td>
+
+                  <td  bgcolor="#f3f3f3">
+                      <%=link_to "Eliminar", {:action => "delete_flujo", :id => flujo}, :confirm => "¿Esta seguro que desea eliminarlo?", :method => :delete, :class => 'boton'%>
+                  </td>
+                  
+
+
+                </tr>
+              <%end%>
+       </table>
+</div><br /><br /><br />
+
+
+<div id="scroll">
+<% form_tag :action => 'add_flujo', :role =>@role do -%>
+<table class="sample" width="50%" border="0" cellspacing="2" cellpadding="0" style="BORDER-RIGHT: #cccccc 1px solid; BORDER-TOP: #cccccc 1px solid; BORDER-LEFT: #cccccc 1px solid; BORDER-BOTTOM: #cccccc 1px solid">
+      <tr style="background-color:gray; color:white">
+          <th colspan="2">
+              Estatus inicial
+          </th>
+          <td>
+            <%= collection_select("flujo", "old_status_id", @estatus, :id, :descripcion, :prompt => '>> Seleccione usuario')%>
+          </td>
+      </tr>
+
+        <tr style="background-color:gray; color:white">
+          <th colspan="2">
+              Estatus siguiente
+          </th>
+          <td>
+            <%= collection_select("flujo", "new_status_id", @estatus, :id, :descripcion, :prompt => '>> Seleccione usuario')%>
+          </td>
+      </tr>
+      <tr style="background-color:gray; color:white">
+          <th colspan="2">
+              Perfil
+          </th>
+          <td>
+            <%= collection_select("flujo", "role_id", @users, :id, :descripcion, :prompt => '>> Seleccione usuario')%>
+          </td>
+      </tr>
+
+      <!-- descripcion -->
+      <tr style="background-color:gray; color:white">
+          <th colspan="2">
+              Acción
+          </th>
+          <td>
+            <%= text_field "flujo", "descripcion", :required => true%>
+          </td>
+      </tr>
+
+      <tr>
+        <th>
+          <th class="boton"><%= submit_tag "Agregar", :onclick => "return comprobar();" %></th>
+        </th>
+      </tr>
+  </table>
+<% end %>
+</div>
+
+
+<br /><%= link_to image_tag("botones/regresar_menu_ant.png", :border =>0) , :controller => "admin", :action => "index"%><br />
