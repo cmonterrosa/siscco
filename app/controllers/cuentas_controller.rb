@@ -11,7 +11,8 @@ class CuentasController < ApplicationController
          :redirect_to => { :action => :list }
 
   def list
-    @cuenta_pages, @cuentas = paginate :cuentas, :per_page => 10
+    @cuentas = Cuenta.find :all
+   #@cuenta_pages, @cuentas = paginate :cuentas, :per_page => 10
   end
 
   def show

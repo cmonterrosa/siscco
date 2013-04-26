@@ -288,10 +288,10 @@ class CreditosController < ApplicationController
      #--- Variables
      @productos = Producto.find(:all, :order => "producto")
      @destinos = Destino.find(:all)
-     @promotores = Promotor.find(:all, :order => "nombre")
+     @promotores = Promotor.find(:all, :order => "paterno, materno, nombre")
      @fondeos = Fondeo.find(:all, :order => "fuente")
      @lineas = Linea.find(:all)
-     @clientes = Cliente.find(:all, :select => "id, paterno, materno, nombre", :order => "paterno, materno")
+     @clientes = Cliente.find(:all, :select => "id, paterno, materno, nombre", :order => "paterno, materno LIMIT 10")
   end
 
   def activacion

@@ -1,14 +1,19 @@
 class BancosController < ApplicationController
-  before_filter :login_required
+ #before_filter :login_required
+ require_role :admin
 
-def index
+
+
+
+
+  def index
     list
     render :action => 'list'
   end
 
   # GETs should be safe (see http://www.w3.org/2001/tag/doc/whenToUseGet.html)
-  verify :method => :post, :only => [ :destroy, :create, :update ],
-         :redirect_to => { :action => :list }
+#  verify :method => :post, :only => [ :destroy, :create, :update ],
+#         :redirect_to => { :action => :list }
 
   def list
     @bancos = Banco.find(:all, :order => 'nombre')
@@ -23,7 +28,8 @@ def index
   end
 
   def create
-   inserta_registro(Banco.new(params[:banco]), 'Registro creado satisfactoriamente.')
+    a=10
+    inserta_registro(Banco.new(params[:banco]), 'Registro creado satisfactoriamente.')
   end
 
   def edit
@@ -52,5 +58,9 @@ def index
       @bancos = Banco.find(:all, :conditions => ["nombre like ?", "%#{params[:searchtext]}%"])
       return render(:partial => 'filtronombre', :layout => false) if request.xhr?
   end
+
+
+
+
 
 end
