@@ -16,6 +16,7 @@ class CreateDatafiles < ActiveRecord::Migration
       t.column :nombre_archivo, :string
       t.column :moneda, :string, :limit => 50
       t.column :num_movimientos, :integer
+      t.column :cksum, :string
    end
   end
 

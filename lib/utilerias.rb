@@ -1,4 +1,5 @@
 require 'date'
+require 'digest'
 
 module Utilerias
 
@@ -98,6 +99,41 @@ module Utilerias
         return true
    end
 
+  def valida_layout(upload)
+    name =  upload["file"].original_filename
+    directory = "public/tmp"
+    path = File.join(directory, name)
+    linea = 1
+    fecha_gral = nil
+    File.open(path, "wb") { |f| f.write(upload['file'].read) }
+    cksum = Digest::SHA2.hexdigest(File.read(path))
+    @datafile = Datafile.find(:first, :conditions => ["cksum = ?", cksum])
+    a=0
+    if @datafile
+      return @mensaje = {:descripcion => "Archivo ha sido cargado... ", :numero => "Fecha de carga: #{@datafile.fecha_hora_carga}", :linea => " Fecha del archivo: #{@datafile.fecha_hora_archivo}"}
+    else
+      File.open(path, "r").each_line do |line|
+#      upload['file'].read.each_line do |line|
+        fecha, sucursal, autorizacion, codigo, subcodigo, ref_alfa, importe, coma = line.split(",")
+        fecha_gral ||= fecha
+        if (line.match(/^[0-9]{2}\/[0-9]{2}\/[0-9]{2}\,[0-9]{1,4},[0-9]*,[0-9]{2},[0-9]{2},[0-9]{10},[0-9]*.[0-9]{2},$/) and codigo == '15' and fecha_gral == fecha)
+          linea+=1
+        else
+          if codigo != '15'
+            linea+=1
+          else
+            return @mensaje = {:descripcion => "Error al leer linea Num.", :numero => "#{linea}:", :linea => line}
+          end
+        end
+      end
+      @dia, @mes, @anio = fecha_gral.split('/')
+      @data = Datafile.new(:nombre_archivo => name)
+      @data.fecha_hora_archivo = DateTime.now(@anio.to_i, @mes.to_i, @dia.to_i).strftime("%y-%m-%d")
+      @data.cksum = cksum
+      @data.save
+      return false
+    end
+  end
 
 
 

@@ -71,6 +71,28 @@ class Datafile < ActiveRecord::Base
   end
 
 
+#  def self.save_file_txt(upload)
+#    name =  upload["file"].original_filename
+#    directory = "public/tmp"
+#    # ---  Creamos el Path ----
+#    path = File.join(directory, name)
+#    # ---- Escribimos el archivo  -----
+#    File.open(path, "wb") { |f| f.write(upload['file'].read) }
+#    @data = Datafile.new(:nombre_archivo => name)
+#    #---- Primero vamos a verificar si el encabezado es correcto y no se repite ------
+#    if encabezado_valido?(name) && @data
+#       if inserta_metadatos(name, @data)
+#          return @data
+#          #---- Aqui vamos a insertar los pagos -----
+#       else
+#          File.delete("#{RAILS_ROOT}/public/tmp/#{name}") if File.exists?("#{RAILS_ROOT}/public/tmp/#{name}")
+#          return false
+#       end
+#    else
+#      File.delete("#{RAILS_ROOT}/public/tmp/#{name}") if File.exists?("#{RAILS_ROOT}/public/tmp/#{name}")
+#      return false
+#    end
+#  end
   def self.save_file_txt(upload)
     name =  upload["file"].original_filename
     directory = "public/tmp"
@@ -78,20 +100,9 @@ class Datafile < ActiveRecord::Base
     path = File.join(directory, name)
     # ---- Escribimos el archivo  -----
     File.open(path, "wb") { |f| f.write(upload['file'].read) }
-    @data = Datafile.new(:nombre_archivo => name)
-    #---- Primero vamos a verificar si el encabezado es correcto y no se repite ------
-    if encabezado_valido?(name) && @data
-       if inserta_metadatos(name, @data)
-          return @data
-          #---- Aqui vamos a insertar los pagos -----
-       else
-          File.delete("#{RAILS_ROOT}/public/tmp/#{name}") if File.exists?("#{RAILS_ROOT}/public/tmp/#{name}")
-          return false
-       end
-    else
-      File.delete("#{RAILS_ROOT}/public/tmp/#{name}") if File.exists?("#{RAILS_ROOT}/public/tmp/#{name}")
-      return false
-    end
+      @data = Datafile.new(:nombre_archivo => name)
+      @data.fecha_hora_archivo = DateTime.now(@anio.to_i, @mes.to_i, @dia.to_i, @hora.to_i, @minutos.to_i).strftime("%Y-%m-%d %H:%M:%S")
+      @data.save
   end
 
 

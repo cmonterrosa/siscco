@@ -6,16 +6,19 @@ class UploadController < ApplicationController
   end
 
 
-    def upload
-    #-- Validamos que el nombre del archivo no exista y sea con extension .txt
-     case request.method
+  def upload
+    case request.method
       when :post
-      @nombre_archivo = params[:datafile]["file"].original_filename
-      if @nombre_archivo =~ /txt|TXT$/
-          post = Datafile.save_file_txt(params[:datafile])
+      if (@message = valida_layout(params[:datafile]))
+        flash[:notice] = "#{@message.descripcion} #{@message.numero} #{@message.linea}"
+        render :action => "index", :controller => "upload"
+      else
+        @nombre_archivo = params[:datafile]["file"].original_filename
+        if @nombre_archivo =~ /txt|TXT$/
+#          post = Datafile.save_file_txt(params[:datafile])
           #---- Verificamos si guarda correctamente ----
           @post = Datafile.find(:first, :conditions => ["nombre_archivo = ?", @nombre_archivo])
-          if (post) && (@post)
+          if @post
               #---- Validamos que el encabezado es correcto, por lo tanto empezamos a insertar los registros que hagan match con los creditos -----
              @st, @num_insertados = confronta(post)
              flash[:notice] = "Archivo #{@nombre_archivo} cargado correctamente"
@@ -25,12 +28,13 @@ class UploadController < ApplicationController
               flash[:notice] = "Archivo #{@nombre_archivo} ya existe o no contiene la estructura correcta, Verifique"
           end
           
-      else
+        else
           flash[:notice] = "La extension del archivo debe de ser txt, verifique"
           render :action => "index", :controller => "upload"
+        end
       end
-     end
     end
+  end
     
     
     def resultados

@@ -216,14 +216,14 @@ module Databases
         @errores = File.new("#{RAILS_ROOT}/tmp/errores_#{nombre_archivo}", "w+")
         #-- Abrimos el archivo ---
         File.open("#{RAILS_ROOT}/public/tmp/#{nombre_archivo}").each do |linea|
-          if num_linea >= 6
-              sucursal, autorizacion, codigo, subcodigo, ref_numerica, ref_alfa, importe = linea.split("|")
-              m, u = importe.split(",")
-              unless u.nil?
-                total = (m + u).to_f
-              else
-                total = m.to_f
-              end
+#          if num_linea >= 6
+              fecha, sucursal, autorizacion, codigo, subcodigo, ref_alfa, importe, coma = linea.split(",")
+#              m, u = importe.split(",")
+#              unless u.nil?
+#                total = (m + u).to_f
+#              else
+#                total = m.to_f
+#              end
               
               
 
@@ -232,7 +232,7 @@ module Databases
               if @credito
                   
                   #--- Insertamos el registro correspondiente al pago ---
-                  @deposito = Deposito.new(:credito_id => @credito.id, :datafile_id => datafile.id, :sucursal => sucursal, :autorizacion => autorizacion, :codigo => codigo, :subcodigo => subcodigo, :ref_num => ref_numerica, :ref_alfa => ref_alfa, :importe => total.to_f)
+                  @deposito = Deposito.new(:credito_id => @credito.id, :datafile_id => datafile.id, :sucursal => sucursal, :autorizacion => autorizacion, :codigo => codigo, :subcodigo => subcodigo, :ref_num => fecha, :ref_alfa => ref_alfa, :importe => importe.to_f)
                   unless @deposito.save
                     @no_aplicados.puts(linea)
                   end
@@ -281,8 +281,8 @@ module Databases
                       num_linea+=1
                       next
                end
-           end
-           num_linea+=1
+#           end
+#           num_linea+=1
         end
         return true, num_insertados
       rescue Exception => e
