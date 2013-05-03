@@ -9,8 +9,8 @@ class UploadController < ApplicationController
   def upload
     case request.method
       when :post
-      if (@message = valida_layout(params[:datafile]))
-        flash[:notice] = "#{@message.descripcion} #{@message.numero} #{@message.linea}"
+      if (valida_layout(params[:datafile]))
+        flash[:notice] = "#{@mensaje[:descripcion]} #{@mensaje[:numero]} #{@mensaje[:linea]}"
         render :action => "index", :controller => "upload"
       else
         @nombre_archivo = params[:datafile]["file"].original_filename
@@ -20,7 +20,7 @@ class UploadController < ApplicationController
           @post = Datafile.find(:first, :conditions => ["nombre_archivo = ?", @nombre_archivo])
           if @post
               #---- Validamos que el encabezado es correcto, por lo tanto empezamos a insertar los registros que hagan match con los creditos -----
-             @st, @num_insertados = confronta(post)
+             @st, @num_insertados = confronta(@post)
              flash[:notice] = "Archivo #{@nombre_archivo} cargado correctamente"
              redirect_to :action => "resultados", :datafile => @post, :num_insertados=>@num_insertados
           else

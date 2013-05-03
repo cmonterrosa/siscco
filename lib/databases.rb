@@ -202,94 +202,51 @@ module Databases
 
 
   def confronta(datafile)
-      begin
-        datafile = Datafile.find(datafile)
-        nombre_archivo = datafile.nombre_archivo
-        num_linea = 1
-        num_insertados = 0
-        #---- Limpiamos los archivos basura ----
-        File.delete("#{RAILS_ROOT}/tmp/err_#{nombre_archivo}") if File.exists?("#{RAILS_ROOT}/tmp/err_#{nombre_archivo}")
-        File.delete("#{RAILS_ROOT}/tmp/na_#{nombre_archivo}") if File.exists?("#{RAILS_ROOT}/tmp/na_#{nombre_archivo}")
-        #---- Creamos el archivo para los na ---
-        @no_aplicados = File.new("#{RAILS_ROOT}/tmp/noaplicados_#{nombre_archivo}", "w+")
-        #---- Creamos el archivo para los errores ---
-        @errores = File.new("#{RAILS_ROOT}/tmp/errores_#{nombre_archivo}", "w+")
-        #-- Abrimos el archivo ---
-        File.open("#{RAILS_ROOT}/public/tmp/#{nombre_archivo}").each do |linea|
-#          if num_linea >= 6
-              fecha, sucursal, autorizacion, codigo, subcodigo, ref_alfa, importe, coma = linea.split(",")
-#              m, u = importe.split(",")
-#              unless u.nil?
-#                total = (m + u).to_f
-#              else
-#                total = m.to_f
-#              end
-              
-              
-
-              #--- Aqui vamos a hacer el match -----
-              @credito = Credito.find(:first, :conditions => ["num_referencia = ?", ref_alfa])
-              if @credito
-                  
-                  #--- Insertamos el registro correspondiente al pago ---
-                  @deposito = Deposito.new(:credito_id => @credito.id, :datafile_id => datafile.id, :sucursal => sucursal, :autorizacion => autorizacion, :codigo => codigo, :subcodigo => subcodigo, :ref_num => fecha, :ref_alfa => ref_alfa, :importe => importe.to_f)
-                  unless @deposito.save
-                    @no_aplicados.puts(linea)
-                  end
-                    num_insertados+=1
-                    num_linea+=1
-                    #Aqui mandaremos a llamar la funcion que nos devuelve cuando debe el cliente
-
-
-
-                    next
-                  #-- Aplicar el pago en el siguiente Orden ----
-                  #IVA POR COMISIONES COBRADAS
-                  #COMISIONES COBRADAS
-                  #IVA POR INTERESES MORATORIOS
-                  #INTERESES MORATORIOS
-                  #IVA POR INTERESES NORMALES
-                  #INTERESES NORMALES
-                  #CAPITAL
-                  #--- Iniciamos variables ---
-                  @iva_gastos_cobranza = @gastos_cobranza = @iva_moratorio = @moratorio = @interes = 0
-                  #--- Identificamos cual es el ultimo pago ---
-#                  @proximo_pago = proximo_pago(@credito)
-                  #--- si llegamos a pagar el capital le pones la bandera de pagado ---
-#                  @vencimiento = Vencimiento.new(@credito)
-#                  @vencimiento.procesar
-                  #---- Empezamos a calcular ---
-#                  if total > round((@vencimiento.gastos_cobranza * (0.16))) #--- Iva comisiones(gastos de cobranza)
-#                     @iva_gastos_cobranza = round((@vencimiento.gastos_cobranza * (0.16)))
-#                     total-=@iva_gastos_cobranza
-#                     if total > round((@vencimiento.gastos_cobranza * (0.84))) # ---- comisiones(gastos de cobranza)
-#                        @gastos_cobranza = round((@vencimiento.gastos_cobranza * (0.84)))
-#                        total-=@gastos_cobranza
-#                        if total > round(@vencimiento.moratorio * (0.16)) #--- Iva moratorio
-#                           #--- aun no metemos el registro
-#
-#
-#                           num_linea+=1
-#                           next
-#                        end
-#                     end
-#                  end
-
-               else
-                #--- Lo insertamos en lo no procesados un archivo de texto ----
-                      @no_aplicados.puts(linea)
-                      num_linea+=1
-                      next
-               end
-#           end
-#           num_linea+=1
+    begin
+      datafile = Datafile.find(datafile)
+      nombre_archivo = datafile.nombre_archivo
+      num_linea = 1
+      num_insertados = 0
+      #---- Limpiamos los archivos basura ----
+#      File.delete("#{RAILS_ROOT}/tmp/err_#{nombre_archivo}") if File.exists?("#{RAILS_ROOT}/tmp/err_#{nombre_archivo}")
+#      File.delete("#{RAILS_ROOT}/tmp/na_#{nombre_archivo}") if File.exists?("#{RAILS_ROOT}/tmp/na_#{nombre_archivo}")
+      #---- Creamos el archivo para los na ---
+      @no_aplicados = File.new("#{RAILS_ROOT}/tmp/noaplicados_#{nombre_archivo}", "w+")
+      #---- Creamos el archivo para los errores ---
+      @errores = File.new("#{RAILS_ROOT}/tmp/errores_#{nombre_archivo}", "w+")
+      #-- Abrimos el archivo ---
+      File.open("#{RAILS_ROOT}/public/tmp/#{nombre_archivo}").each do |linea|
+        fecha, sucursal, autorizacion, codigo, subcodigo, ref_alfa, importe, coma = linea.split(",")
+        if codigo == '15'
+          #--- Aqui vamos a hacer el match -----
+          @credito = Credito.find(:first, :conditions => ["num_referencia = ?", ref_alfa])
+          if @credito
+            #--- Insertamos el registro correspondiente al pago ---
+            @deposito = Deposito.new(:credito_id => @credito.id, :datafile_id => datafile.id, :sucursal => sucursal, :autorizacion => autorizacion, :codigo => codigo, :subcodigo => subcodigo, :ref_num => fecha, :ref_alfa => ref_alfa, :importe => importe.to_f)
+            unless @deposito.save
+              @no_aplicados.puts(linea)
+            end
+            num_insertados+=1
+            num_linea+=1
+            next
+            #--- Iniciamos variables ---
+            @iva_gastos_cobranza = @gastos_cobranza = @iva_moratorio = @moratorio = @interes = 0
+          else
+            #--- Lo insertamos en lo no procesados un archivo de texto ----
+            @no_aplicados.puts(linea)
+            num_linea+=1
+            next
+          end
+        else
+          num_linea+=1
         end
-        return true, num_insertados
-      rescue Exception => e
-        @errores.puts(e.message)
-        return false, num_insertados
       end
+      return true, num_insertados
+    rescue Exception => e
+      @errores.puts(e.message)
+      return false, num_insertados
     end
+  end
 
 #----- Fecha valor ----
      def confronta_fecha_valor(archivo)

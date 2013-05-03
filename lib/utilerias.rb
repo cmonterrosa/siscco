@@ -108,7 +108,6 @@ module Utilerias
     File.open(path, "wb") { |f| f.write(upload['file'].read) }
     cksum = Digest::SHA2.hexdigest(File.read(path))
     @datafile = Datafile.find(:first, :conditions => ["cksum = ?", cksum])
-    a=0
     if @datafile
       return @mensaje = {:descripcion => "Archivo ha sido cargado... ", :numero => "Fecha de carga: #{@datafile.fecha_hora_carga}", :linea => " Fecha del archivo: #{@datafile.fecha_hora_archivo}"}
     else
@@ -128,7 +127,7 @@ module Utilerias
       end
       @dia, @mes, @anio = fecha_gral.split('/')
       @data = Datafile.new(:nombre_archivo => name)
-      @data.fecha_hora_archivo = DateTime.now(@anio.to_i, @mes.to_i, @dia.to_i).strftime("%y-%m-%d")
+      @data.fecha_hora_archivo = DateTime.new(@anio.to_i, @mes.to_i, @dia.to_i).strftime("%y-%m-%d")
       @data.cksum = cksum
       @data.save
       return false
