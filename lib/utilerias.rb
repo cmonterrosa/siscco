@@ -3,11 +3,9 @@ require 'digest'
 
 module Utilerias
 
-
   def fecha_sistema
     return "#{Time.now.day} de #{Date::MONTHNAMES[Time.now.month]} de #{Time.now.year}"
   end
-
 
   def separar_miles(n)
     n.to_s =~ /([^\.]*)(\..*)?/
@@ -17,7 +15,6 @@ module Utilerias
     int.reverse + dec.ljust(2,'0')
   end
 
-
   def round(float, num_of_decimal_places=1)
       exponent = num_of_decimal_places + 2
       @float = float*(10**exponent)
@@ -25,13 +22,11 @@ module Utilerias
       @float = @float / (10.0**exponent)
   end
 
-
   def tiene_permiso?(rol, controlador)
     @controlador = Controller.find(controlador)
     @registro = Systable.find(:first, :conditions => ["rol_id = ? and controller_id = ? ", Rol.find(rol).id, @controlador.id])
     return ( @registro.nil? ) ? false : true
   end
-
 
   def procesar_archivo_texto(name)
       num = clave = 0
@@ -45,9 +40,7 @@ module Utilerias
       end
   end
 
-
   #-------- Funciones para la manipulacion del layout (archivo de texto) ----
-
   def encabezado_valido?(filename)
       num = clave = 0
       num_linea = 1
@@ -64,10 +57,7 @@ module Utilerias
       return true
    end
 
-
-
-
-    def inserta_metadatos(name, datafile)
+  def inserta_metadatos(name, datafile)
       num_linea = 1
       File.open("#{RAILS_ROOT}/public/tmp/#{name}").each do |linea|
         if num_linea == 1
@@ -109,7 +99,8 @@ module Utilerias
     cksum = Digest::SHA2.hexdigest(File.read(path))
     @datafile = Datafile.find(:first, :conditions => ["cksum = ?", cksum])
     if @datafile
-      return @mensaje = {:descripcion => "Archivo ha sido cargado... ", :numero => "Fecha de carga: #{@datafile.fecha_hora_carga}", :linea => " Fecha del archivo: #{@datafile.fecha_hora_archivo}"}
+#      return @mensaje = {:descripcion => "Archivo ya ha sido cargado... ", :numero => "Fecha de carga: #{@datafile.fecha_hora_carga}", :linea => " Fecha del archivo: #{@datafile.fecha_hora_archivo}"}
+      return @mensaje = {:descripcion => "El archivo #{name} ya ha sido cargado...    ", :numero => "Fecha de carga: ", :linea => " #{@datafile.fecha_hora_carga}"}
     else
       File.open(path, "r").each_line do |line|
 #      upload['file'].read.each_line do |line|
@@ -121,7 +112,7 @@ module Utilerias
           if codigo != '15'
             linea+=1
           else
-            return @mensaje = {:descripcion => "Error al leer linea Num.", :numero => "#{linea}:", :linea => line}
+            return @mensaje = {:descripcion => "Error al leer archivo #{name}, linea Num.", :numero => "#{linea}:  ", :linea => line}
           end
         end
       end
@@ -134,72 +125,63 @@ module Utilerias
     end
   end
 
-
-
-
-
-
   def tiene_permiso_accion?(rol, controlador,accion)
       @controlador = Controller.find(controlador)
       @registro = Systable.find(:first, :conditions => ["rol_id = ? and controller_id = ? and #{accion.upcase} = 1", Rol.find(rol).id, @controlador.id])
       return ( @registro.nil? ) ? false : true
   end
 
-
-    def asigna_permisos(rol, controllers=nil, permisos_insertar=nil, permisos_actualizar=nil, permisos_eliminar=nil)
-      rol = Rol.find(rol)
-      if controllers
-        controllers.each do |controller|
+  def asigna_permisos(rol, controllers=nil, permisos_insertar=nil, permisos_actualizar=nil, permisos_eliminar=nil)
+    rol = Rol.find(rol)
+    if controllers
+      controllers.each do |controller|
         #---- Validamos si ya lo tiene ----
-          unless Systable.find(:first, :conditions =>["controller_id = ? and rol_id = ?", controller, rol.id ])
-               Systable.create(:controller_id => controller, :rol_id => rol.id)
-          end
-         end
-      else
-          return false
+        unless Systable.find(:first, :conditions =>["controller_id = ? and rol_id = ?", controller, rol.id ])
+          Systable.create(:controller_id => controller, :rol_id => rol.id)
+        end
       end
-      #---- Insertamos los permisos de insertar ----
-          if permisos_insertar
-             permisos_insertar.each do |controller|
+    else
+      return false
+    end
+    #---- Insertamos los permisos de insertar ----
+    if permisos_insertar
+      permisos_insertar.each do |controller|
+      #---- Validamos si ya lo tiene ----
+        unless (x = Systable.find(:first, :conditions =>["controller_id = ? and rol_id = ?", controller, rol.id ])).nil?
+          x.insertar= 1
+          x.save!
+        end
+      end
+    end
+    #---- Insertamos los permisos de actualizar ----
+    if permisos_actualizar
+      permisos_actualizar.each do |controller|
         #---- Validamos si ya lo tiene ----
-               unless (x = Systable.find(:first, :conditions =>["controller_id = ? and rol_id = ?", controller, rol.id ])).nil?
-                  x.insertar= 1
-                  x.save!
-               end
-             end
-          end
-       #---- Insertamos los permisos de actualizar ----
-        if permisos_actualizar
-           permisos_actualizar.each do |controller|
-           #---- Validamos si ya lo tiene ----
-            unless (x= Systable.find(:first, :conditions =>["controller_id = ? and rol_id = ?", controller, rol.id ])).nil?
-                x.actualizar= 1
-                x.save!
-            end
-          end
+        unless (x= Systable.find(:first, :conditions =>["controller_id = ? and rol_id = ?", controller, rol.id ])).nil?
+          x.actualizar= 1
+          x.save!
         end
-        #---- Insertamos los permisos de eliminar ----
-        if permisos_eliminar
-           permisos_eliminar.each do |controller|
-          #---- Validamos si ya lo tiene ----
-            unless (x= Systable.find(:first, :conditions =>["controller_id = ? and rol_id = ?", controller, rol.id ])).nil?
-                x.eliminar= 1
-                x.save!
-            end
+      end
+    end
+    #---- Insertamos los permisos de eliminar ----
+    if permisos_eliminar
+      permisos_eliminar.each do |controller|
+        #---- Validamos si ya lo tiene ----
+        unless (x= Systable.find(:first, :conditions =>["controller_id = ? and rol_id = ?", controller, rol.id ])).nil?
+          x.eliminar= 1
+          x.save!
         end
-        end
-     return true
-   end
-   
-
-
+      end
+    end
+    return true
+  end
+  
   #--- Conversion de ISO a UTF-8 para los reportes ---
   def to_iso(texto)
-      c = Iconv.new('ISO-8859-15//IGNORE//TRANSLIT', 'UTF-8')
-      iso = c.iconv(texto)
-      return iso
+    c = Iconv.new('ISO-8859-15//IGNORE//TRANSLIT', 'UTF-8')
+    iso = c.iconv(texto)
+    return iso
   end
-
 
   def valida_referencia_alfa(num)
     if num.size < 29
@@ -230,12 +212,10 @@ module Utilerias
 
     ponderador = sumatoria%97
     dd = 99 - ponderador
-  return num + dd.to_s
-end
+    return num + dd.to_s
+  end
 
-
-
-    def genera_referencia_alfa(sucursal, cuenta)
+  def genera_referencia_alfa(sucursal, cuenta)
     if sucursal.to_s.size == 4 && cuenta.to_s.size == 7
       @configuracion = Configuracion.find(:first, :conditions => "activo = 1")
       @configuracion.ultima_referencia += 1
@@ -277,13 +257,12 @@ end
       
 end
 
-
    #--- combo de semanas, maximo 52 ----
   @semanas = []
   (1..52).each do |x| @semanas << x end
   $semanas = @semanas
 
-    def dias_mes(numero_mes)
+  def dias_mes(numero_mes)
       return (Date.new(Time.now.year,12,31)<<(12-numero_mes)).day.to_i
     end
 

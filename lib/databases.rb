@@ -1,9 +1,7 @@
-
-
 module Databases
   #---- Validaciones para realizar operaciones con la BD ------
-   #--- Verificamos que el usuario tenga acceso a eliminar registro -----
-      def inserta_credito(credito, tipo)
+  #--- Verificamos que el usuario tenga acceso a eliminar registro -----
+  def inserta_credito(credito, tipo)
         begin
         @c_concentradora = Linea.find(credito.linea).ctaliquidadora 
         return false unless @c_concentradora
@@ -43,8 +41,7 @@ module Databases
         end
       end
 
-#--- Funciones de insercion de registros ------
-
+  #--- Funciones de insercion de registros ------
   def inserta_registro(registro, mensaje)
     begin
       registro.save!
@@ -56,9 +53,8 @@ module Databases
     end
   end
 
-
   #----- esta funcion inserta y guarda un log por cada operacion -----
-    def inserta_registro_log(registro, mensaje)
+  def inserta_registro_log(registro, mensaje)
     begin
       if registro.save!
         #--- Guardamos el log ---
@@ -74,8 +70,6 @@ module Databases
         redirect_to :action => 'new', :controller => "#{params[:controller]}"
       end
     end
-
-
 
   def inserta_cliente(cliente, negocio, mensaje)
     begin
@@ -102,8 +96,6 @@ module Databases
   end
 
   #------ Funciones de actualizacion de registros ------
-
-
   def actualiza_registro(registro, parametros)
     begin
       #registro.fecha_hora = Time.now
@@ -117,9 +109,8 @@ module Databases
     end
   end
 
-
-    #----- esta funcion inserta y guarda un log por cada operacion -----
-    def actualiza_registro_log(registro, parametros)
+  #----- esta funcion inserta y guarda un log por cada operacion -----
+  def actualiza_registro_log(registro, parametros)
     begin
       if registro.update_attributes(parametros)
         #--- Guardamos el log ---
@@ -136,10 +127,7 @@ module Databases
       end
     end
 
-
-
-
- def actualiza_cliente(cliente, parametros_cliente, negocio, parametros_negocio)
+  def actualiza_cliente(cliente, parametros_cliente, negocio, parametros_negocio)
     begin
 #      @grupo_viejo = Clientegrupo.find(:first, :conditions => ["cliente_id = ? and activo = 1",cliente.id])
       cliente.update_attributes!(parametros_cliente)
@@ -153,11 +141,7 @@ module Databases
     end
   end
 
- 
-
-
-#---------- Funciones de eliminacion de registros------
-
+  #---------- Funciones de eliminacion de registros------
   def eliminar_registro(registro, rol)
     #------Verifica que se pueda eliminar el registro -----
    #if Systable.find(:first, :conditions=>["rol_id = ? and eliminar=1 and controller=?", rol, params[:controller]])
@@ -199,7 +183,6 @@ module Databases
         redirect_to :action => 'edit', :controller => params[:controller], :id=> registro
      end
     end
-
 
   def confronta(datafile)
     begin
@@ -248,12 +231,12 @@ module Databases
     end
   end
 
-#----- Fecha valor ----
-     def confronta_fecha_valor(archivo)
-      begin
-        num_linea = 1
-        num_insertados = 0
-        nombre_archivo = archivo.nombre_archivo
+  #----- Fecha valor ----
+  def confronta_fecha_valor(archivo)
+    begin
+      num_linea = 1
+      num_insertados = 0
+      nombre_archivo = archivo.nombre_archivo
         #---- Limpiamos los archivos basura ----
         File.delete("#{RAILS_ROOT}/tmp/err_fecha_valor_#{nombre_archivo}") if File.exists?("#{RAILS_ROOT}/tmp/err_fecha_valor_#{nombre_archivo}")
         File.delete("#{RAILS_ROOT}/tmp/na_fecha_valor_#{nombre_archivo}") if File.exists?("#{RAILS_ROOT}/tmp/na_fecha_valor_#{nombre_archivo}")
@@ -293,9 +276,8 @@ module Databases
       end
     end
 
-
   #---- Fecha valor para extras ---
- def confronta_fecha_valor_extras(archivo)
+  def confronta_fecha_valor_extras(archivo)
   begin
     num_linea = 1
     num_insertados = 0
@@ -421,8 +403,7 @@ module Databases
   end
 end
 
-
- def inserta_credito_extraordinario(credito)
+  def inserta_credito_extraordinario(credito)
     if credito.tipo_interes == "SALDOS INSOLUTOS (SSI)"
        @tasa_normal_mensual = round((((credito.producto.tasa_anualizada.to_f) / 360.0 ) * 30), 4)
     else
@@ -444,6 +425,5 @@ end
     end
 
 end
-
 
 end

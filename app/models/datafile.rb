@@ -8,13 +8,11 @@ class Datafile < ActiveRecord::Base
 
   def initialize(params = nil)
     super
-      self.fecha_hora_carga = Time.now unless self.fecha_hora_carga
+      self.fecha_hora_carga = Time.now() unless self.fecha_hora_carga
       self.nombre_cliente = "Fecha Valor" unless  self.nombre_cliente 
   end
 
-
-
-    def self.save_file_csv(upload)
+  def self.save_file_csv(upload)
     name =  upload["file"].original_filename
     directory = "public/tmp"
     # ---  Creamos el Path ----
@@ -70,29 +68,6 @@ class Datafile < ActiveRecord::Base
                                 :cuenta => @cuenta, :num_movimientos => @num_movimientos)
   end
 
-
-#  def self.save_file_txt(upload)
-#    name =  upload["file"].original_filename
-#    directory = "public/tmp"
-#    # ---  Creamos el Path ----
-#    path = File.join(directory, name)
-#    # ---- Escribimos el archivo  -----
-#    File.open(path, "wb") { |f| f.write(upload['file'].read) }
-#    @data = Datafile.new(:nombre_archivo => name)
-#    #---- Primero vamos a verificar si el encabezado es correcto y no se repite ------
-#    if encabezado_valido?(name) && @data
-#       if inserta_metadatos(name, @data)
-#          return @data
-#          #---- Aqui vamos a insertar los pagos -----
-#       else
-#          File.delete("#{RAILS_ROOT}/public/tmp/#{name}") if File.exists?("#{RAILS_ROOT}/public/tmp/#{name}")
-#          return false
-#       end
-#    else
-#      File.delete("#{RAILS_ROOT}/public/tmp/#{name}") if File.exists?("#{RAILS_ROOT}/public/tmp/#{name}")
-#      return false
-#    end
-#  end
   def self.save_file_txt(upload)
     name =  upload["file"].original_filename
     directory = "public/tmp"
@@ -105,16 +80,15 @@ class Datafile < ActiveRecord::Base
       @data.save
   end
 
-
-
-#--- Lee archivo csv para fecha valor ----
-def self.save_file_csv_fecha_valor(upload)
-  name =  upload["file"].original_filename
+  #--- Lee archivo csv para fecha valor ----
+  def self.save_file_csv_fecha_valor(upload)
+    name =  upload["file"].original_filename
     directory = "public/tmp"
     # ---  Creamos el Path ----
     path = File.join(directory, name)
     # ---- Escribimos el archivo  -----
     File.open(path, "wb") { |f| f.write(upload['file'].read) }
     return @data = Datafile.create(:nombre_archivo => name)
-end
+  end
+  
 end #-- Termina clase
