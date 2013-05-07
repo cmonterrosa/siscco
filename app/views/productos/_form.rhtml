@@ -4,9 +4,13 @@
 <table>
   <tr>
     <th>Descripción:</th>
+    <th>&nbsp;</th>
+    <th>&nbsp;</th>
   </tr>
   <tr>
     <td><%= text_field 'producto', 'producto', :onkeypress => "return CharNum(event, 'letra');", :class => 'text'  %></td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
   </tr>
   <!-- flat -->
   <tr>
@@ -16,10 +20,12 @@
   <tr>
     <th>Interes Normales (Tasa Mensual del 1 al 200%)</th>
     <th>Intereses Moratorios (Tasa Mensual del 1 al 200%)</th>
+    <th>&nbsp;</th>
   </tr>
   <tr>
     <td><%= text_field 'producto', 'tasa_mensual_flat', :onkeypress => "return CharNum(event, 'numero');", :class => 'text'  %></td>
     <td><%= text_field 'producto', 'moratorio_flat', :onkeypress => "return CharNum(event, 'numero');", :class => 'text'  %></td>
+    <td>&nbsp;</td>
   </tr>
 
   
@@ -31,10 +37,12 @@
   <tr>
     <th>Interes Normales (Tasa anualizada del 1 al 200%)</th>
     <th>Intereses Moratorios (Tasa anualizada del 1 al 200%) </th>
+    <th>&nbsp;</th>
   </tr>
   <tr>
     <td><%= text_field 'producto', 'tasa_anualizada', :onkeypress => "return CharNum(event, 'numero');", :class => 'text'  %></td>
     <td><%= text_field 'producto', 'moratorio_ssi', :onkeypress => "return CharNum(event, 'numero');", :class => 'text'  %></td>
+    <td>&nbsp;</td>
   </tr>
 <!-- Datos generales -->
   <tr>
@@ -53,10 +61,12 @@
    <tr>
     <th>IVA: (1-100%)</th>
     <th>Gastos de Cobranza: $(1-1000)</th>
+    <th>Gastos Judiciales</th>
    </tr>
   <tr>
     <td><%= text_field 'producto', 'iva', :onkeypress => "return CharNum(event, 'numero');", :class => 'text'  %></td>
     <td><%= text_field 'producto', 'gastos_cobranza', :onkeypress => "return CharNum(event, 'numero');", :class => 'text'  %></td>
+    <td><%= text_field 'producto', 'gastos_judiciales', :onkeypress => "return CharNum(event, 'numero');", :class => 'text'  %></td>
   </tr>
 </table>
 <!--[eoform:producto]-->
