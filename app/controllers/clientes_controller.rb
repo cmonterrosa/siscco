@@ -154,7 +154,7 @@ class ClientesController < ApplicationController
     if @cliente
       @mensaje = "El CURP Ya existe"
     else
-      if params[:value].strip =~/[A-Z][A-Z][A-Z][A-Z][0-9][0-9][0-9][0-9][0-9][0-9][H,M][A-Z][A-Z][A-Z][A-Z][A-Z][0-9][0-9]/
+      if params[:value].strip =~/^[A-Z]{4}\d{6}[A-Z]{6}[A-Z|\d]{2}$/
          @mensaje = "Curp Correcto"
          @curp_correcta = true
       else
