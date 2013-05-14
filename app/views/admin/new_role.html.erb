@@ -1,0 +1,28 @@
+<h1>Nuevo Perfil</h1>
+
+<% form_tag :action => 'save_role' do %>
+
+<%= error_messages_for 'banco' %>
+
+<!--[form:banco]-->
+<table>
+  <tr>
+    <th>Nombre:</th>
+  </tr>
+  <tr>
+    <td><%= text_field 'role', 'name', :onkeypress => "return CharNum(event, 'letra');"%></td>
+  </tr>
+</table>
+<!--[eoform:banco]-->
+
+
+
+
+<table  class="botones">
+  <tr class="botones">
+    <th class="botones"><%= link_to 'Regresar', :action => 'list' %></th>
+    <th class="botones">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+    <th class="botones"><%= submit_tag "Capturar", :onclick => "return comprobar();" %></th>
+  </tr>
+</table>
+<% end %>

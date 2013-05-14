@@ -9,6 +9,21 @@ class AdminController < ApplicationController
 
   end
 
+  def new_role
+    @role = Role.new
+  end
+
+  def save_role
+    @role = Role.new(params[:role])
+    if @role.save
+      flash[:notice] = "Perfil creado correctamente"
+      redirect_to :action => "show_roles"
+    else
+      flash[:notice] = "No se pudo guardar, verifique"
+      render :action => "new_role"
+    end
+  end
+
   #--- administracion de roles y estatus por visualizar
   def roles_estatus
     @role = Role.find(1)
@@ -180,10 +195,11 @@ class AdminController < ApplicationController
  end
 
  def edit_user
-   unless validate_token(params[:t]) && @user = User.find(params[:id])
-    flash[:notice] = "No se pudo encontrar usuario"
-    redirect_to :action => "index"
-   end
+   @user = User.find(params[:id])
+   #unless validate_token(params[:t]) && @user = User.find(params[:id])
+    #flash[:notice] = "No se pudo encontrar usuario"
+    #redirect_to :action => "index"
+   #end
  end
 
  def save_user

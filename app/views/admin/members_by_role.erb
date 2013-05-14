@@ -15,7 +15,7 @@
                       <%=usuario.login%>
                   </td>
                   <td  bgcolor="#f3f3f3">
-                     <%=usuario.nombre_completo%>
+                     <%=usuario.name%>
                   </td>
                   <td  bgcolor="#f3f3f3">
                       <%= button_to 'Quitar', { :action => 'delete_user', :controller => "admin", :id => usuario, :role => @role}, :confirm => '¿Esta seguro?', :method => :post %>
@@ -36,7 +36,7 @@
       </tr>
 
       <tr class="d1">
-          <th><%= collection_select("user", "user_id", @users, :id, :nombre_completo, :prompt => '>> Seleccione usuario')    %></th>
+          <th><%= collection_select("user", "user_id", @users, :id, :name, :prompt => '>> Seleccione usuario')    %></th>
           <th class="boton"><%= submit_tag "Agregar", :onclick => "return comprobar();" %></th>
       </tr>
 </table>

@@ -1,3 +1,5 @@
+<h1><%=link_to "Listado de Perfiles", :action => "show_roles" %> | <%=link_to "Listado de usuarios", :action => "show_users"%></h1><br />
+
 <h2>Listado de usuarios</h2><br />
 <!-- contenido -->
 <div id="divlista">
@@ -11,10 +13,10 @@
     <%@usuarios.each do |user|%>
     <tr class="d1">
       <td style="vertical-align: middle;"><%=h(user.login)%></td>
-      <td style="vertical-align: middle;"><%=h(user.nombre_completo)%></td>
+      <td style="vertical-align: middle;"><%=h(user.name)%></td>
       <td style="vertical-align: middle;"><%=h(user.email)%></td>
-      <td style="vertical-align: middle;"><%=link_to "Editar", {:action => "edit_user", :controller => "admin", :id => user, :t => generate_token}, :class => 'boton'%></td>
-       <td style="vertical-align: middle;"><%=link_to "Estatus", {:action => "situacion_user", :controller => "admin", :id => user, :t => generate_token}, :class => 'boton'%></td>
+      <td style="vertical-align: middle;"><%=link_to "Editar", {:action => "edit_user", :controller => "admin", :id => user}, :class => 'boton'%></td>
+       <td style="vertical-align: middle;"><%=link_to "Estatus", {:action => "situacion_user", :controller => "admin", :id => user}, :class => 'boton'%></td>
      </tr>
     <%end%>
   </table>
@@ -22,4 +24,3 @@
 
 
 <br /><%=link_to "Crear usuario", {:action => "new_from_admin", :controller => "users", :id => @token}, :class => 'boton'  -%>
-<br /><br /><%= link_to image_tag("botones/regresar_menu_ant.png", :border =>0) , :controller => "admin", :action => "index"%><br />

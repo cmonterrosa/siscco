@@ -1,5 +1,6 @@
 require 'digest/sha1'
 
+
 class User < ActiveRecord::Base
   
   
@@ -43,7 +44,12 @@ class User < ActiveRecord::Base
   # HACK HACK HACK -- how to do attr_accessible from here?
   # prevents a user from submitting a crafted form that bypasses activation
   # anything else you want your user to change should be added here.
-  attr_accessible :login, :email, :name, :password, :password_confirmation, :activated_at
+  attr_accessible :login, :email, :name, :password, :password_confirmation, :activated_at, :nombre_completo
+
+  
+  def nombre_completo
+    "#{self.name}"
+  end
 
 
   # Activates the user in the database.

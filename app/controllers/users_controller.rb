@@ -37,4 +37,28 @@ class UsersController < ApplicationController
       redirect_back_or_default('/')
     end
   end
+
+  def new_from_admin
+    @token = params[:id]
+    if validate_token(@token)
+       @user = User.new
+    else
+      redirect_to :controller=> "admin"
+    end
+  end
+
+  # create user from admin role not need activation
+  def save
+    @user = User.new(params[:user])
+    @user.activated_at = Time.now
+    success = @user && @user.save
+    if success && @user.errors.empty?
+      flash[:notice] = "Usuario creado correctamente"
+      redirect_to :action => "show_roles", :controller => "admin"
+    else
+      flash[:notice]  = "No se puedo crear usuario, verifique los datos"
+      render :action => 'new_from_admin'
+    end
+  end
+
 end

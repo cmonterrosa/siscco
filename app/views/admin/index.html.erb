@@ -1,6 +1,6 @@
 <table width="65%" border="0" cellspacing="0">
   <tr align="center">
-    <td align="left" width="65%"><%=image_tag("admin/barra_admon.png", :border => 0, :alt => "Admin")%></td>
+    <th>Menú de Administración</th>
   </tr>
 </table>
 <br />
@@ -8,56 +8,28 @@
 <table width="50%" border="0" cellspacing="0" cellpadding="0">
   <tr align="center">
        <td>
-         <a href="/admin/show_users_by_area" title="Administración de Áreas y Usuarios">
-          <img src="/images/iconos/perfiles2.png" width="128" height="128" alt="administración de áreas" />
+         <a href="/admin/show_roles" title="Administración de Perfiles y Usuarios">
+          <img src="/images/usuarios.png" width="128" height="128" alt="administración de perfiles y usuarios" />
          </a>
        </td>
 
+       <!--
        <td>
          <a href="/admin/show_roles" title="Administración de Perfiles y Usuarios">
           <img src="/images/iconos/control_usuarios.png" width="128" height="128" alt="administración de usuarios" />
          </a>
        </td>
-       <td>
-         <a href="/admin/roles_estatus" title="Visualización de estatus por perfil">
-          <img src="/images/iconos/roles_estatus.png" width="128" height="128" alt="estatus por perfil" />
-         </a>
-       </td>
+       -->
   </tr>
   <tr align="center">
     <td class="menu">Áreas y Usuarios</td>
+    <!--
     <td class="menu">Perfiles y Usuarios</td>
-    <td class="menu">Perfiles y Estatus</td>
+    -->
   </tr>
   <tr>
     <th>&nbsp;</th>
     <th>&nbsp;</th>
   </tr>
-  <tr align="center">
-        <td>
-         <a href="/admin/show_materias" title="Administración de especialistas y materias">
-           <img src="/images/iconos/materias2.png" width="128" height="128" alt="Asignación de especialistas y Materias" />
-         </a>
-        </td>
 
-         <td>
-         <a href="/admin/show_horarios_sesiones" title="Administración de horarios de sesiones">
-           <img src="/images/iconos/horarios2.png" width="128" height="128" alt="Administración de horarios" />
-         </a>
-        </td>
-
-        <td>
-         <a href="/admin/flujo" title="Flujo de estados de trámites">
-           <img src="/images/iconos/flujo2.png" width="128" height="128" alt="Asignación de estados y roles permitidos" />
-         </a>
-        </td>
-  </tr>
-
-  <tr>
-    <td class="menu" align="center">Especialistas y Materias</td>
-    <td class="menu" align="center">Horarios de sesiones</td>
-    <td class="menu" align="center">Flujo</td>
-  </tr>
 </table>
-
-<br /><%= link_to image_tag("botones/regresar_menu_ant.png", :border =>0) , :controller => "home", :action => "index"%><br />
