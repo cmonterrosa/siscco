@@ -235,7 +235,7 @@ function mmLoadMenus() {
 
 // Menú de Administración
   window.menu_administracion = new Menu("root",150,20,"Geneva, Arial, Helvetica, sans-serif",14,"#000000","#FFFFFF","#999999","#6699CC","left","middle",3,0,1000,-5,7,true,true,true,0,false,true);
-  menu_administracion.addMenuItem("Usuarios","location='/administracion/usuarios'");
+  menu_administracion.addMenuItem("Usuarios","location='/admin'");
   menu_administracion.addMenuItem("Referencia","location='/administracion/configuracion'");
   menu_administracion.addMenuItem("Cambiar&nbsp;password","location='/administracion/change_password'");
   menu_administracion.fontWeight="bold";
