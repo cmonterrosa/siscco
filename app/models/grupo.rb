@@ -19,4 +19,25 @@ class Grupo < ActiveRecord::Base
     "#{self.identificador} | #{self.nombre}"
   end
 
+
+  def liberar_clientes_con_registros_pago
+    #----- Marcamos credito como pagado para liberarlo -----
+    @credito = Credito.find_by_grupo_id(self.id)
+    if @credito
+      @credito.update_attributes!(:status => 1)
+      #------- Actualizamos credito ----
+      @cg = Clientegrupo.find(:all, :conditions => ["grupo_id = ?", self.id])
+      @cg.each do |row|
+      row.update_attributes!(:activo => false, :fecha_fin => Time.now)
+      Clientegrupo.create(:cliente_id => row.cliente_id, :grupo_id => row.grupo_id, :activo => true, :fecha_inicio => Time.now )
+      puts "=> Actualizado correctamente"
+    end
+    else
+      puts "Registro no encontrado"
+    end
+    
+  end
+
+
+
 end

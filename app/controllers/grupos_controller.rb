@@ -168,4 +168,27 @@ class GruposController < ApplicationController
       end
   end
 
+  ######## LIBERA MASIVAMENTE GRUPOS DE UNA LISTA DE NUMEROS DE REFERENCIA ###########
+  def liberar_grupos_lista_referencias
+    if File.exists?("#{RAILS_ROOT}/public/referencias.csv")
+        contador=0
+        contador_na=0
+        errores = []
+        File.open("#{RAILS_ROOT}/public/referencias.csv").each do |linea|
+          referencia = linea.strip
+          @credito = Credito.find_by_num_referencia(referencia)
+          if @credito
+              if @credito.grupo
+                @credito.grupo.liberar_clientes_con_registros_pago
+                contador+=1
+              end
+          else
+            contador_na+=1
+            errores << referencia
+          end
+        end
+    end
+    render :text => "#{errores} | Aplicados: #{contador} | No aplicados: #{contador_na}"
+  end
+
 end
