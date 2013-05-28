@@ -340,6 +340,9 @@ end
  end
 
  def credito_pagado?
+   if @credito.status == 1
+     return true
+   end
    globales = Pagogrupal.find(:all, :conditions => ["pagado = 0 and credito_id = ?", @credito])
    detallados = Pago.find(:all, :conditions => ["pagado = 0 and credito_id = ?", @credito])
    if globales.empty?
