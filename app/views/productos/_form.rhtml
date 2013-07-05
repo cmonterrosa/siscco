@@ -12,6 +12,29 @@
     <td>&nbsp;</td>
     <td>&nbsp;</td>
   </tr>
+
+    <!-- saldos globales -->
+  <tr>
+    <th colspan="3" style=" background-color: gray; font-style: italic">Saldos Globales</th>
+  </tr>
+
+  <tr>
+    <th>Tasa mensual SSG (0 -100) %</th>
+    <th>Tasa comision por apertura</th>
+    <th>Tasa anualizada moratoria</th>
+    <th>&nbsp;</th>
+  </tr>
+  <tr>
+    <td><%= text_field 'producto', 'tasa_mensual_ssg', :onkeypress => "return CharNum(event, 'numero');", :class => 'text'  %></td>
+    <td><%= text_field 'producto', 'tasa_comision_apertura', :onkeypress => "return CharNum(event, 'numero');", :class => 'text'  %></td>
+    <td><%= text_field 'producto', 'tasa_anualizada_moratoria', :onkeypress => "return CharNum(event, 'numero');", :class => 'text'  %></td>
+    <td>&nbsp;</td>
+  </tr>
+
+
+
+
+
   <!-- flat -->
   <tr>
     <th colspan="3" style=" background-color: gray; font-style: italic">Tasa FLAT</th>
@@ -36,7 +59,7 @@
 
   <tr>
     <th>Interes Normales (Tasa anualizada del 1 al 200%)</th>
-    <th>Intereses Moratorios (Tasa anualizada del 1 al 200%) </th>
+    <th>Intereses Moratorios SSI (Tasa anualizada del 1 al 200%) </th>
     <th>&nbsp;</th>
   </tr>
   <tr>

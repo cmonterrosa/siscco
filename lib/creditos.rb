@@ -212,6 +212,7 @@ module Creditos
     end
 
   def inserta_pagos_grupales_por_tipo(credito, arreglo_pagos, tipos_interes)
+    @credito = Credito.find(credito)
     @producto = Producto.find(credito.producto_id)
     @capital = (credito.monto.to_f / credito.grupo.clientes.size.to_f)
     @capital_semanal = @capital / @producto.num_pagos
@@ -264,6 +265,83 @@ module Creditos
                    saldo_inicial -= @capital_semanal
                end
             end
+          ############## NUEVA OPCION DE SALDOS GLOBALES ################
+         when "SALDOS GLOBALES"
+              
+
+              ### ACTUALIZAMOS VALORES GLOBALES DEL CREDITO ############
+              @capital = @credito.monto
+              saldo_inicial = @capital
+              contador=1
+              @meses = @credito.producto.num_pagos / 4
+              @pagos_semanales = @credito.producto.num_pagos
+              @pago_semanal_sin_iva = ((((@credito.producto.tasa_mensual_ssg / 100) * @meses) * @capital) + @capital) / @pagos_semanales
+              @pago_capital_semanal = (@capital / @pagos_semanales )
+              @pago_interes_semanal = @pago_semanal_sin_iva - @pago_capital_semanal
+              @iva_semanal = @pago_interes_semanal * (@credito.producto.iva / 100)
+              @pago_total_semanal = @pago_capital_semanal + @pago_interes_semanal + @iva_semanal
+              @interes_global =  @pago_interes_semanal * @pagos_semanales
+              @iva_global = @iva_semanal * @pagos_semanales
+              @credito.interes_global = @interes_global if @interes_global
+              @credito.iva_global = @iva_global if @iva_global
+              #--- Hacemos una iteracion por todos los miembros del grupo y dividimos el total del credito ---
+              @capital = (credito.monto.to_f / credito.grupo.clientes.size.to_f)
+              @capital_semanal = @capital / @producto.num_pagos
+
+
+               #### Creamos registros padres #######
+               arreglo_pagos.each do |x|
+                    Pagogrupal.create(:fecha_limite => x,
+                          :capital_minimo => @pago_capital_semanal,
+                          :interes_minimo => @pago_interes_semanal,
+                          :pagado => false,
+                          :credito_id => @credito.id,
+                          :saldo_inicial => saldo_inicial,
+                          :saldo_final => saldo_inicial - @capital_semanal,
+                          :principal_recuperado => @capital_semanal,
+                          :num_pago => contador,
+                          :iva => @iva_semanal)
+                          saldo_inicial -= @capital_semanal
+               end
+
+
+
+              ############### CREAMOS REGISTROS INDIVIDUALES ###############
+              clientes_activos_grupo(Grupo.find(credito.grupo_id)).each do |y|
+              contador=1
+              saldo_inicial = @capital
+              @total_capital = @capital
+              @meses = @credito.producto.num_pagos / 4
+              @pagos_semanales = @credito.producto.num_pagos
+              #PAGO SEMANAL SIN INVA     (((tasa_mensual_ssg * meses) * monto) + monto) / pagos_semanales
+              @pago_semanal_sin_iva = ((((@credito.producto.tasa_mensual_ssg / 100) * @meses) * @capital) + @capital) / @pagos_semanales
+              @pago_capital_semanal = (@capital / @pagos_semanales )
+              @pago_interes_semanal = @pago_semanal_sin_iva - @pago_capital_semanal
+              @iva_semanal = @pago_interes_semanal * (@credito.producto.iva / 100)
+              @pago_total_semanal = @pago_capital_semanal + @pago_interes_semanal + @iva_semanal
+
+               ####### CREAMOS REGISTROS INDIVIDUALES ######
+              arreglo_pagos.each do |x|
+                   Pago.create(:num_pago => contador,
+                             :credito_id => credito.id,
+                             :fecha_limite => x,
+                             :cliente_id => y.id.to_i,
+                             :capital_minimo => @pago_capital_semanal,
+                             :iva => @iva_semanal,
+                             :principal_recuperado => @capital_semanal,
+                             :interes_minimo => @pago_interes_semanal,
+                             :saldo_inicial => saldo_inicial,
+                             :saldo_final => saldo_inicial - @capital_semanal,
+                             :pagado => 0,
+                             :descripcion => tipos_interes)
+                   contador+=1
+                   saldo_inicial -= @capital_semanal
+               end
+             ## UPDATE CREDITO INFO
+             @credito.save
+          end
+
+
       when "GLOBAL MENSUAL (FLAT)"
          @tasa_semanal = (((@producto.tasa_mensual_flat.to_f) / 30.0 ) * 7) / 100.0
          @interes_semanal = @capital * @tasa_semanal
@@ -291,20 +369,26 @@ module Creditos
 
   def update_pagos_grupales(credito)
   @pagos = Pago.find(:all, :conditions => ["credito_id = ?", credito.id], :group=>"num_pago")
-  @numclientes = Pago.count("distinct cliente_id", :conditions=>["credito_id = ?", credito.id])
+  @numclientes ||= Pago.count("distinct cliente_id", :conditions=>["credito_id = ?", credito.id])
   unless @pagos.empty?
      @pagos.each do |pago|
+             iva = (pago.iva) ? (pago.iva * @numclientes) : 0
              Pagogrupal.create(:fecha_limite => pago.fecha_limite,
-                         :capital_minimo => pago.capital_minimo.to_f * @numclientes,
-                         :interes_minimo => pago.interes_minimo.to_f * @numclientes,
+                         :capital_minimo => pago.capital_minimo * @numclientes,
+                         :interes_minimo => pago.interes_minimo * @numclientes,
                          :pagado => pago.pagado,
                          :credito_id => pago.credito_id,
                          :saldo_inicial => pago.saldo_inicial.to_f * @numclientes,
                          :saldo_final => pago.saldo_final.to_f * @numclientes,
                          :principal_recuperado => pago.principal_recuperado.to_f * @numclientes,
-                         :num_pago => pago.num_pago)
+                         :num_pago => pago.num_pago,
+                         :iva => iva)
        end
     end
+  end
+
+  def load_inicial_information()
+    
   end
 
   def linea_disponible(linea)

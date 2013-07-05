@@ -15,7 +15,7 @@
   $civiles ||= Civil.find(:all)
   $escolaridades ||= Escolaridad.find(:all)
   $viviendas ||= Vivienda.find(:all)
-  $tipos_interes ||= ["SALDOS INSOLUTOS (SSI)", "GLOBAL MENSUAL (FLAT)"]
+  $tipos_interes ||= ["SALDOS INSOLUTOS (SSI)", "GLOBAL MENSUAL (FLAT)", "SALDOS GLOBALES"]
   $cuentas = Cuenta.find(:all)
   $rol ||= RolHogar.find(:all)
   $destino ||= Destino.find(:all)

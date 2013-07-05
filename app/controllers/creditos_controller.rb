@@ -151,7 +151,7 @@ class CreditosController < ApplicationController
                 else
                     
                     inserta_pagos_grupales_por_tipo(@credito, calcula_pagos(@fecha_inicio.year, @fecha_inicio.month, @fecha_inicio.day, @producto.num_pagos, @producto.periodo), @credito.tipo_interes)
-                       update_pagos_grupales(@credito) #--- Actualizamos la tabla pagosgrupals
+                       #update_pagos_grupales(@credito) #--- Actualizamos la tabla pagosgrupals
                        unless Cuenta.find(:all).empty? #--- Si existe alguna cuenta
                           inserta_poliza(params[:credito][:monto], Cuenta.find(:first), "ABONO")
                        end
@@ -419,4 +419,9 @@ class CreditosController < ApplicationController
     #--- muestra los pendientes por aplicar---
     @pendientes = Fechavalor.find(:all, :select => "ref_alfa, importe, fecha_hora, autorizacion, credito_id", :conditions => "ST='A' and tipo = 'EXTRAORDINARIO'")
   end
+
+  def pagar_ventanilla
+    
+  end
+
 end

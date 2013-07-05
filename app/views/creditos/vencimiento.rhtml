@@ -6,11 +6,13 @@
 <%credito_vencimiento.procesar%> <br />
 <%sumatoria=0%>
 
-<table class="contenido" width="90%" border="0">
+<table class="contenido" width="95%" border="0">
   <tr>
-    <td class="cont" width="45%">Datos Informativos</td>
-    <td class="cont" width="10%">&nbsp;</td>
-    <td class="cont"width="45%">Saldo</td>
+    <td class="cont" width="30%">Datos Informativos</td>
+    <td class="cont" width="5%">&nbsp;</td>
+    <td class="cont"width="30%">Saldo</td>
+     <td class="cont" width="5%">&nbsp;</td>
+    <td class="cont"width="30%">Datos iniciales</td>
   </tr>
   <tr>
     <td class="cont">
@@ -198,12 +200,100 @@
 
 
      <%end%>
-
-  
-
-
-
     </td>
+
+     <td>
+      &nbsp;
+    </td>
+
+    <!-- datos iniciales del credito -->
+    <td>
+      <table class="stats" cellspacing="0">
+            <tr>
+              <td class="hed">Tasa mensual SSG: </td>
+              <td> <%=@credito.producto.tasa_mensual_ssg%></td>
+            </tr>
+            <tr>
+              <td class="hed">Tasa mensual SSI: </td>
+              <td> <%=@credito.producto.intereses%></td>
+            </tr>
+            <tr>
+              <td class="hed">Tasa anualizada SSI: </td>
+              <td> <%=@credito.producto.tasa_anualizada%></td>
+            </tr>
+
+            <tr>
+              <td class="hed">Tasa anualizada moratorio: </td>
+              <td> <%=@credito.producto.moratorio_ssi%></td>
+            </tr>
+
+            <tr>
+              <td class="hed">CAT: </td>
+              <td> <%=@credito.cat%></td>
+            </tr>
+            <tr>
+              <td class="hed">Crédito: </td>
+              <td> <%=@credito.monto%></td>
+            </tr>
+
+            <tr>
+              <td class="hed">Interes total: </td>
+              <td> <%=@credito.interes_global%></td>
+            </tr>
+
+             <tr>
+              <td class="hed">Iva global: </td>
+              <td> <%=@credito.iva_global%></td>
+            </tr>
+
+             <tr>
+              <td class="hed">Total deuda: </td>
+              <%@credito.interes_global = 0 unless @credito.interes_global%>
+              <%@credito.iva_global = 0 unless @credito.iva_global%>
+              <td> <%=@credito.monto + @credito.interes_global + @credito.iva_global%></td>
+            </tr>
+      </table>
+      
+    </td>
+
+  <!-- Espacios -->
+  <table>
+    <tr>
+      <th>&nbsp;</th>
+    </tr>
+    <tr>
+      <th>&nbsp;</th>
+    </tr>
+  </table>
+
+
+<!-- tabla de pagos -->
+<table class="stats" cellspacing="0">
+  <tr>
+    <td class="hed" width="30%" colspan="5" align="center">AMORTIZACIONES</td>
+  </tr>
+  <tr>
+     <td class="hed" width="15%">Capital</td>
+     <td class="hed" width="15%">Interes</td>
+     <td class="hed" width="15%">Iva</td>
+     <td class="hed" width="15%">Total</td>
+     <td class="hed" width="15%">Fecha de pago</td>
+  </tr>
+    <%@credito.lista_pagos.each do |pago|%>
+    <tr>
+      <td class="cont" width="15%"><%=pago.capital_minimo%></td>
+      <td class="cont" width="15%"><%=pago.interes_minimo%></td>
+      <td class="cont" width="15%"><%=pago.iva%></td>
+      <td class="cont" width="15%"><%=(pago.capital_minimo + pago.interes_minimo + pago.iva)%></td>
+      <td class="cont" width="40%"><%=pago.fecha_limite.strftime("%d de %B de %Y")%></td>
+    </tr>
+    <%end%>
+</table>
+
+
+
+
+
   </tr>
 </table>
 <a style="text-align: center;"><%=button_to 'Regresar', :action => "movimiento_credito", :controller => "creditos"%></a>
