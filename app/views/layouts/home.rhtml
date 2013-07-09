@@ -1,0 +1,233 @@
+<!DOCTYPE  html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=windows-1252" />
+    <title>Sistema de Créditos</title>
+
+    <!-- CSS -->
+    <%= stylesheet_link_tag "style"%>
+    <%= stylesheet_link_tag "reset"%>
+    <%= stylesheet_link_tag "style_css3"%>
+    <%#= stylesheet_link_tag "style_form"%>
+    <%= stylesheet_link_tag "style2"%>
+    <%= stylesheet_link_tag "social_icons"%>
+    <!-- ENDS CSS -->
+
+    <!-- JS -->
+    <%= javascript_include_tag 'prototype' %>
+    <%= javascript_include_tag :defaults %>
+    <%= javascript_include_tag 'jquery_min' %>
+    <%= javascript_include_tag 'custom' %>
+    <%= javascript_include_tag 'slider' %>
+    <%= javascript_include_tag 'slides_min_jquery' %>
+    <%= javascript_include_tag 'quicksand' %>
+
+    <!-- superfish -->
+    <%= stylesheet_link_tag "superfish"%>
+    <%= javascript_include_tag 'hoverIntent' %>
+    <%= javascript_include_tag 'superfish' %>
+    <%= javascript_include_tag 'supersubs' %>
+    <!-- ENDS superfish -->
+
+    <!-- poshytip -->
+    <%= stylesheet_link_tag "tip_twitter"%>
+    <%= stylesheet_link_tag "tip_yellowsimple"%>
+    <%= javascript_include_tag 'jquery_poshytip_min' %>
+    <!-- ENDS poshytip -->
+
+    <!-- Tweet -->
+    <%= stylesheet_link_tag "jquery_tweet"%>
+    <%= javascript_include_tag 'jquery_tweet' %>
+    <!-- ENDS Tweet -->
+
+    <!-- prettyPhoto -->
+    <%= stylesheet_link_tag "prettyPhoto"%>
+    <%= javascript_include_tag 'jquery_prettyPhoto' %>
+    <!-- ENDS prettyPhoto -->
+
+    <script type="text/javascript">jQuery.noConflict();</script>
+  </head>
+  <body>
+    <!-- Dynamic Background -->
+    <div id="headerimgs">
+      <div id="headerimg1" class="headerimg"></div>
+      <div id="headerimg2" class="headerimg"></div>
+    </div>
+    <!-- ENDS Dynamic Background -->
+
+    <!-- background nav -->
+    <div id="headernav">
+      <div id="back" class="btn"></div>
+      <div id="next" class="btn"></div>
+    </div>
+    <!-- ENDS background nav -->
+
+    <div id="top-gap"></div>
+
+    <!-- wrapper -->
+    <div class="wrapper">
+      <a href="/"><img  id="logo" src="/images/logo.png" alt="SISCCO" /></a>
+      <!-- nav bar holder -->
+        <div id="nav-bar-holder">
+          <!-- Navigation -->
+          <ul id="nav" class="sf-menu">
+            <li class="current-menu-item"><a href="/">&nbsp;<img  id="home" src="/images/home3.png" alt="Inicio" />&nbsp;</a></li>
+            <li><a href="#">CATALOGOS</a>
+              <ul>
+                <li><a href="/bancos">::&nbsp;Bancos</a></li>
+                <li><a href="/cuentas">::&nbsp;Cuentas&nbsp;Contables</a>
+                  <ul>
+                    <li><a href="/ctaliquidadoras">::&nbsp;Cuentas&nbsp;Liquidadoras</a></li>
+                    <li><a href="/ctaconcentradoras">::&nbsp;Cuentas&nbsp;Concentradoras</a></li>
+                  </ul>
+                </li>
+                <li><a href="/clientes">::&nbsp;Clientes</a></li>
+                <li><a href="/festivos">::&nbsp;Festivos</a></li>
+                <li><a href="/fondeos">::&nbsp;Fondeos</a></li>
+                <li><a href="/grupos">::&nbsp;Grupos</a></li>
+                <li><a href="/lineas">::&nbsp;Líneas</a></li>
+                <li><a href="/productos">::&nbsp;Productos</a></li>
+                <li><a href="/promotors">::&nbsp;Promotores</a></li>
+                <li><a href="/sucbancarias">::&nbsp;Suc. Bancarias</a></li>
+                <li><a href="/sucursals">::&nbsp;Ventanillas</a></li>
+              </ul>
+            </li>
+            <li><a href="#">OPERACIONES</a>
+              <ul>
+		<li><a href="/creditos/movimiento_credito">::&nbsp;Creditos</a></li>
+		<li><a href="/creditos/new_grupal">::&nbsp;Alta&nbsp;Crédito&nbsp;Grupal</a></li>
+                <li><a href="/creditos/new_individual">::&nbsp;Alta&nbsp;Crédito&nbsp;Individual</a></li>
+                <li><a href="/upload">::&nbsp;Cargar&nbsp;Layout</a></li>
+                <li><a href="/creditos/p_aplicar">::&nbsp;Depositos</a></li>
+                <li><a href="/upload/historico">::&nbsp;Históricos&nbsp;de&nbsp;Cargas</a></li>
+              </ul>
+            </li>
+            <li><a href="#">REPORTES</a>
+              <ul>
+                <li><a href="/pagos/index">::&nbsp;Pagos&nbsp;del&nbsp;Día</a></li>
+                <li><a href="/clientes/estado_cuenta">::&nbsp;Estado&nbsp;de&nbsp;Cuenta&nbsp;del&nbsp;Cliente</a></li>
+                <li><a href="/grupos/estado_cuenta">::&nbsp;Estado&nbsp;de&nbsp;Cuenta&nbsp;del&nbsp;Grupo</a></li>
+                <li><a href="/lineas/estado_cuenta">::&nbsp;Estado&nbsp;de&nbsp;Cuenta&nbsp;Línea&nbsp;de&nbsp;Fondeo</a></li>
+                <li><a href="/reportes/hoja_calculo">::&nbsp;Exportación&nbsp;de&nbsp;Créditos</a></li>
+                <li><a href="/reportes/layout_fommur">::&nbsp;Layout&nbsp;FOMMUR</a></li>
+                <li><a href="/reportes/index_buro">::&nbsp;Layout&nbsp;BURO</a></li>
+                <li><a href="/reportes/reporte_general_grupos">::&nbsp;General&nbsp;de&nbsp;Grupos</a></li>
+              </ul>
+            </li>
+            <li><a href="/admin">ADMINISTRACIÓN</a>
+              <ul>
+                <li><a href="/admin/show_users">::&nbsp;Usuarios</a></li>
+                <li><a href="/administracion/configuracion">::&nbsp;Referencia</a></li>
+                <li><a href="/administracion/change_password">::&nbsp;Cambiar&nbsp;Contraseña</a></li>
+              </ul>
+            </li>
+          </ul>
+          <!-- ENDS Navigation -->
+
+          <!-- Social -->
+          <ul class="social">
+            <!--<li><a href="http://www.facebook.com" class="poshytip  facebook" title="Become a fan"></a></li>
+            <li><a href="http://www.twitter.com" class="poshytip  twitter" title="Follow my tweets"></a></li>-->
+            <li>&nbsp;</li>
+            <li>&nbsp;</li>
+            <li><a href="/logout" class="poshytip  dribbble" onclick="visibleLogin('login');" title="Cerrar Sesión"></a></li>
+          </ul>
+          <!-- ENDS Social -->
+
+        </div>
+	<!-- ENDS nav bar holder -->
+
+	<!-- content wrap -->
+	<div id="content-wrap">
+
+          <!-- Page wrap -->
+	  <div id="page-wrap">
+
+            <!-- Front slider -->
+	    <div id="front-slides">
+              <div id="front-slides-cover"></div>
+
+              <!-- Headline -->
+              <div id="headline"><h6></h6></div>
+              <!-- ENDS Headline -->
+
+            </div>
+            <!-- ENDS Front slider -->
+
+            <!-- Featured -->
+            <div class="featured-title">
+              <div class="ribbon"><span>I n i c i o</span></div>
+            </div>
+
+            <ul class="featured-posts" style="text-align: center; color: #CF4421;">
+              <%= flash[:notice] %>
+            </ul>
+
+            <div class="clear"></div>
+            <!-- ENDS Featured -->
+
+          </div>
+	  <!-- ENDS Page wrap -->
+
+        </div>
+	<!-- ENDS content wrap -->
+
+    </div>
+    <!-- ENDS Wrapper -->
+
+    <!-- FOOTER -->
+    <div id="footer">
+      <div class="footer-wrapper">
+
+        <!-- footer-cols -->
+        <ul id="footer-cols">
+          <li>
+            <img  id="home" src="/images/cresolido_marca.png" alt="" />
+          </li>
+          <li>
+            <h6>CRESOLIDO, S. A. DE C. V. SOFOM E. N. R.</h6>
+            <p>Crecimiento Solidario para el Desarrollo Organizado<br />
+               S. A. DE C. V SOFOM E. N. R.<br />
+               R. F. C. CSD100309597<br />
+            </p>
+          </li>
+          <li>
+            <h6>&nbsp;</h6>
+            <p>Tel. 961 66 3 81 10, Perm. Rel. Ext. 4401225<br />
+               13 Ave. Sur Poniente No. 640, Barrio San Francisco, Col. Centro<br />
+               Tuxtla Gutiérrez, Chiapas
+            </p>
+          </li>
+          <%#*<li>%>
+            <%#*<div id="tweets" class="footer-col tweet">%>
+              <%#*<h6>Twitter widget</h6>%>
+	    <%#*</div>%>
+          <%#*</li>%>
+	</ul>
+	<!-- ENDS footer-cols -->
+
+	<div id="footer-glare"></div>
+      </div>
+    </div>
+    <!-- ENDS FOOTER -->
+
+    <!-- footer-bottom -->
+    <div id="footer-bottom">
+      <div class="bottom-wrapper">
+        <div id="bottom-left">
+          &copy; 2011 Ansimuz.  <a href="http://themeforest.net/user/Ansimuz?ref=ansimuz">View portfolio</a>
+	</div>
+	<%#*<div id="bottom-right">%>
+          <%#*<ul id="footer-nav">%>
+            <%#*<li><a href="index.html">Home</a></li>%>
+            <%#*<li><a href="gallery.html">Gallery</a></li>%>
+            <%#*<li><a href="page.html">Pages</a></li>%>
+            <%#*<li><a href="page.html">Contact</a></li>%>
+          <%#*</ul>%>
+        <%#*</div>%>
+      </div>
+    </div>
+    <!-- ENDS footer-bottom -->
+
+  </body>
+</html>

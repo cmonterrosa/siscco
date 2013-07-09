@@ -1,80 +1,237 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
-"http://www.w3.org/TR/html4/loose.dtd">
-<html>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-<title>Sistema de Créditos</title>
-<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <meta http-equiv="Content-Type" content="text/html; charset=windows-1252" />
+  <title>Sistema de Créditos</title>
 
-  <%= stylesheet_link_tag "style"%>
-  <%= stylesheet_link_tag "miestilo"%>
-  
-  <%= javascript_include_tag 'prototype' %>
-  <%= javascript_include_tag 'mm_menu' %>
-  <%= javascript_include_tag :defaults %>
+    <!-- CSS -->
+    <%= stylesheet_link_tag "style"%>
+    <%= stylesheet_link_tag "reset"%>
+    <%= stylesheet_link_tag "style_css3"%>
+    <%#= stylesheet_link_tag "style_form"%>
+    <%= stylesheet_link_tag "style2"%>
+    <%= stylesheet_link_tag "social_icons"%>
+    <!-- ENDS CSS -->
 
-</head>
+    <!-- JS -->
+    <%= javascript_include_tag 'prototype' %>
+    <%= javascript_include_tag :defaults %>
+    <%= javascript_include_tag 'jquery_min' %>
+    <%= javascript_include_tag 'custom' %>
+    <%= javascript_include_tag 'slider' %>
+    <%= javascript_include_tag 'slides_min_jquery' %>
+    <%= javascript_include_tag 'quicksand' %>
 
-<body>
-  <script language="JavaScript1.2">mmLoadMenus();</script>
-    <div id="site">
-	<div id="header">
-            <a href="#" class="logo"><img src="/images/mac/titulo.png" alt="setalpm" width="300px" height="43px" /></a>
-            <div id="menu">
+    <!-- superfish -->
+    <%= stylesheet_link_tag "superfish"%>
+    <%= javascript_include_tag 'hoverIntent' %>
+    <%= javascript_include_tag 'superfish' %>
+    <%= javascript_include_tag 'supersubs' %>
+    <!-- ENDS superfish -->
+
+    <!-- poshytip -->
+    <%= stylesheet_link_tag "tip_twitter"%>
+    <%= stylesheet_link_tag "tip_yellowsimple"%>
+    <%= javascript_include_tag 'jquery_poshytip_min' %>
+    <!-- ENDS poshytip -->
+
+    <!-- Tweet -->
+    <%= stylesheet_link_tag "jquery_tweet"%>
+    <%= javascript_include_tag 'jquery_tweet'%>
+    <!-- ENDS Tweet -->
+
+    <!-- prettyPhoto -->
+    <%= stylesheet_link_tag "prettyPhoto"%>
+    <%= javascript_include_tag 'jquery_prettyPhoto'%>
+    <!-- ENDS prettyPhoto -->
+
+    <script type="text/javascript">jQuery.noConflict();</script>
+    
+  </head>
+  <body>
+    <!-- Dynamic Background -->
+    <div id="headerimgs">
+      <div id="headerimg1" class="headerimg"></div>
+      <div id="headerimg2" class="headerimg"></div>
+    </div>
+    <!-- ENDS Dynamic Background -->
+
+    <!-- background nav -->
+    <div id="headernav">
+      <div id="back" class="btn"></div>
+      <div id="next" class="btn"></div>
+    </div>
+    <!-- ENDS background nav -->
+
+    <div id="top-gap"></div>
+
+    <!-- wrapper -->
+    <div class="wrapper">
+      <a href="/"><img  id="logo" src="/images/logo.png" alt="Kroft" /></a>
+      <!-- nav bar holder -->
+        <div id="nav-bar-holder">
+          <!-- Navigation -->
+          <ul id="nav" class="sf-menu">
+            <li class="current-menu-item"><a href="/">&nbsp;<img  id="home" src="/images/home3.png" alt="Inicio" />&nbsp;</a></li>
+            <li><a href="#">CATALOGOS</a>
               <ul>
-                <li><a href="/home/index" class="but1"><img src="/images/mac/spacer.gif" alt="" width="106" height="42" /></a></li>
-                <li><a href="" class="but2" ><img src="/images/mac/spacer.gif" alt="" name="catalogos" width="118" height="42" id="catalogos" onMouseOver="MM_showMenu(window.menu_catalogo,0,42,null,'catalogos')" onMouseOut="MM_startTimeout();" /></a></li>
-                <li><a href="" class="but3"><img src="/images/mac/spacer.gif" alt="" name="operacion" width="106" height="42" id="operacion" onMouseOver="MM_showMenu(window.menu_operacion,0,42,null,'operacion')" onMouseOut="MM_startTimeout();" /></a></li>
-                <li><a href="" class="but4"><img src="/images/mac/spacer.gif" alt="" name="reportes" width="99" height="42" id="reportes" onMouseOver="MM_showMenu(window.menu_reporte,0,42,null,'reportes')" onMouseOut="MM_startTimeout();" /></a></li>
-                <li><a href="" class="but5"><img src="/images/mac/spacer.gif" alt="" name="administracion" width="154" height="42" id="administracion" onMouseOver="MM_showMenu(window.menu_administracion,0,42,null,'administracion')" onMouseOut="MM_startTimeout();" /></a></li>
-                <li><a href="/logout" class="but7"><img src="/images/mac/spacer.gif" alt="" width="129" height="42" /></a></li>
-            </ul>
-              
-              <%if logged_in?%>
-                <label>Conectado como: <%=current_user.login%></label>
-              <%end%>
-            </div>
-          <ul id="meta">
-            <li><a href="#" class="meta1"><img src="/images/mac/spacer.gif" alt="" width="37" height="39" /></a></li>
-            <li><a href="#" class="meta2"><img src="/images/mac/spacer.gif" alt="" width="37" height="39" /></a></li>
-            <li><a href="#" class="meta3"><img src="/images/mac/spacer.gif" alt="" width="37" height="39" /></a></li>
+                <li><a href="/bancos">::&nbsp;Bancos</a></li>
+                <li><a href="/cuentas">::&nbsp;Cuentas&nbsp;Contables</a>
+                  <ul>
+                    <li><a href="/ctaliquidadoras">::&nbsp;Cuentas&nbsp;Liquidadoras</a></li>
+                    <li><a href="/ctaconcentradoras">::&nbsp;Cuentas&nbsp;Concentradoras</a></li>
+                  </ul>
+                </li>
+                <li><a href="/clientes">::&nbsp;Clientes</a></li>
+                <li><a href="/festivos">::&nbsp;Festivos</a></li>
+                <li><a href="/fondeos">::&nbsp;Fondeos</a></li>
+                <li><a href="/grupos">::&nbsp;Grupos</a></li>
+                <li><a href="/lineas">::&nbsp;Líneas</a></li>
+                <li><a href="/productos">::&nbsp;Productos</a></li>
+                <li><a href="/promotors">::&nbsp;Promotores</a></li>
+                <li><a href="/sucbancarias">::&nbsp;Suc. Bancarias</a></li>
+                <li><a href="/sucursals">::&nbsp;Ventanillas</a></li>
+              </ul>
+            </li>
+            <li><a href="#">OPERACIONES</a>
+              <ul>
+		<li><a href="/creditos/movimiento_credito">::&nbsp;Creditos</a></li>
+		<li><a href="/creditos/new_grupal">::&nbsp;Alta&nbsp;Crédito&nbsp;Grupal</a></li>
+                <li><a href="/creditos/new_individual">::&nbsp;Alta&nbsp;Crédito&nbsp;Individual</a></li>
+                <li><a href="/upload">::&nbsp;Cargar&nbsp;Layout</a></li>
+                <li><a href="/creditos/p_aplicar">::&nbsp;Depositos</a></li>
+                <li><a href="/upload/historico">::&nbsp;Históricos&nbsp;de&nbsp;Cargas</a></li>
+              </ul>
+            </li>
+            <li><a href="#">REPORTES</a>
+              <ul>
+                <li><a href="/pagos/index">::&nbsp;Pagos&nbsp;del&nbsp;Día</a></li>
+                <li><a href="/clientes/estado_cuenta">::&nbsp;Estado&nbsp;de&nbsp;Cuenta&nbsp;del&nbsp;Cliente</a></li>
+                <li><a href="/grupos/estado_cuenta">::&nbsp;Estado&nbsp;de&nbsp;Cuenta&nbsp;del&nbsp;Grupo</a></li>
+                <li><a href="/lineas/estado_cuenta">::&nbsp;Estado&nbsp;de&nbsp;Cuenta&nbsp;Línea&nbsp;de&nbsp;Fondeo</a></li>
+                <li><a href="/reportes/hoja_calculo">::&nbsp;Exportación&nbsp;de&nbsp;Créditos</a></li>
+                <li><a href="/reportes/layout_fommur">::&nbsp;Layout&nbsp;FOMMUR</a></li>
+                <li><a href="/reportes/index_buro">::&nbsp;Layout&nbsp;BURO</a></li>
+                <li><a href="/reportes/reporte_general_grupos">::&nbsp;General&nbsp;de&nbsp;Grupos</a></li>
+              </ul>
+            </li>
+            <li><a href="/admin">ADMINISTRACIÓN</a>
+              <ul>
+                <li><a href="/admin/show_users">::&nbsp;Usuarios</a></li>
+                <li><a href="/administracion/configuracion">::&nbsp;Referencia</a></li>
+                <li><a href="/administracion/change_password">::&nbsp;Cambiar&nbsp;Contraseña</a></li>
+              </ul>
+            </li>
           </ul>
-	</div>
-	<div id="content">
-            <div id="maincompleto">
-              <p class="message_s"><%= flash[:notice] %></p>
-              <%#*<div class="inner_copy"><a href="http://www.bestfreetemplates.org/">free templates</a><a href="http://www.bannermoz.com/">banner templates</a></div>%>
-		<div class="post2">
-                  <%=yield%>
-                </div>
+          <!-- ENDS Navigation -->
+
+          <!-- Social -->
+          <ul class="social">
+            <!--<li><a href="http://www.facebook.com" class="poshytip  facebook" title="Become a fan"></a></li>
+            <li><a href="http://www.twitter.com" class="poshytip  twitter" title="Follow my tweets"></a></li>-->
+            <li>&nbsp;</li>
+            <li>&nbsp;</li>
+            <li><a href="/logout" class="poshytip  dribbble" onclick="visibleLogin('login');" title="Cerrar Sesión"></a></li>
+          </ul>
+          <!-- ENDS Social -->
+
+        </div>
+	<!-- ENDS nav bar holder -->
+
+	<!-- content wrap -->
+	<div id="content-wrap">
+          
+          <!-- Page wrap -->
+	  <div id="page-wrap">
+            
+            <!-- Front slider -->
+	    <div id="front-slides">
+              <div id="front-slides-cover"></div>
+
+              <!-- Headline -->
+              <div id="headline"><h6></h6></div>
+              <!-- ENDS Headline -->
+              
             </div>
-	<%#*<div id="sidebar">%>
-             <%#*<div class="block">%>
-                <%#*<div class="news">%>
-                    <%# unless session['user']%>
-                    <%#*<!-- formulario para inicio de sesion -->%>
-                      <%# form_tag :action => 'login', :controller=>"account" do -%>
-                    <%#*<div title="Account login">%>
-                      <%#*<h2 align="center">REGISTRO</h2><br>%>
-                      <%# if @message %>
-                      <%#*<div id="message"><%= @message ></div><br>%>
-                      <%# end %>
-                      <%#*<label for="user_login">Usuario:</label><br/>%>
-                      <%#*<input type="text" name="user_login" id="user_login" size="25" value=""/><br/>%>
-                      <%#*<label for="user_password">Contraseña:</label><br/>%>
-                      <%#*<input type="password" name="user_password" id="user_password" size="25"/><br/>%>
-                      <%#*<input type="submit" name="login" value="Entrar" class="primary" />%>
-                    <%#*</div>%>
-                      <%# end -%>
-                    <%#end%>
-                <%#*</div>%>
+            <!-- ENDS Front slider -->
+
+            <!-- Featured -->
+            <%#*<div class="featured-title">%>
+              <%#*<div class="ribbon"><span>I n i c i o</span></div>%>
             <%#*</div>%>
-	<%#*</div><!-- end sidebar-->%>
-        </div><!-- end content -->
-    </div><!-- end site -->
+
+            <%#*<ul class="featured-posts">%>
+              <%#=yield%>
+            <%#*</ul>%>
+
+            <%=yield%>
+
+            <div class="clear"></div>
+            <!-- ENDS Featured -->
+            
+          </div>
+	  <!-- ENDS Page wrap -->
+
+        </div>
+	<!-- ENDS content wrap -->
+
+    </div>
+    <!-- ENDS Wrapper -->
+
+    <!-- FOOTER -->
     <div id="footer">
-      <div>
-	<span>Copyright &copy; Derechos Reservados </span>
+      <div class="footer-wrapper">
+
+        <!-- footer-cols -->
+        <ul id="footer-cols">
+          <li>
+            <img  id="home" src="/images/cresolido_marca.png" alt="" />
+          </li>
+          <li>
+            <h6>CRESOLIDO, S. A. DE C. V. SOFOM E. N. R.</h6>
+            <p>Crecimiento Solidario para el Desarrollo Organizado<br />
+               S. A. DE C. V SOFOM E. N. R.<br />
+               R. F. C. CSD100309597<br />
+            </p>
+          </li>
+          <li>
+            <h6>&nbsp;</h6>
+            <p>Tel. 961 66 3 81 10, Perm. Rel. Ext. 4401225<br />
+               13 Ave. Sur Poniente No. 640, Barrio San Francisco, Col. Centro<br />
+               Tuxtla Gutiérrez, Chiapas
+            </p>
+          </li>
+          <%#*<li>%>
+            <%#*<div id="tweets" class="footer-col tweet">%>
+              <%#*<h6>Twitter widget</h6>%>
+	    <%#*</div>%>
+          <%#*</li>%>
+	</ul>
+	<!-- ENDS footer-cols -->
+
+	<div id="footer-glare"></div>
       </div>
     </div>
-</body>
+    <!-- ENDS FOOTER -->
+
+    <!-- footer-bottom -->
+    <div id="footer-bottom">
+      <div class="bottom-wrapper">
+        <div id="bottom-left">
+          Copyright &copy; Derechos Reservados
+	</div>
+	<%#*<div id="bottom-right">%>
+          <%#*<ul id="footer-nav">%>
+            <%#*<li><a href="index.html">Home</a></li>%>
+            <%#*<li><a href="gallery.html">Gallery</a></li>%>
+            <%#*<li><a href="page.html">Pages</a></li>%>
+            <%#*<li><a href="page.html">Contact</a></li>%>
+          <%#*</ul>%>
+        <%#*</div>%>
+      </div>
+    </div>
+    <!-- ENDS footer-bottom -->
+
+  </body>
 </html>
+<%#*<script type="text/javascript">jQuery.noConflict();</script>%>

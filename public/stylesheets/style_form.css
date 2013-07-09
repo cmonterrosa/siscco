@@ -1,0 +1,129 @@
+/*@font-face {
+    font-family: 'CandaraRegular';
+    src: url('../fonts/candara-webfont.eot');
+    src: url('../fonts/candara-webfont.eot?#iefix') format('embedded-opentype'),
+         url('../fonts/candara-webfont.woff') format('woff'),
+         url('../fonts/candara-webfont.ttf') format('truetype'),
+         url('../fonts/candara-webfont.svg#CandaraRegular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}*/
+body{
+	background:url(/images/background.png) repeat #ccc;
+	font-family:'CandaraRegular';
+}
+input{
+	border:0;
+	outline:0;
+	text-align:center;
+	color:#999999;
+	margin-bottom:10px;
+}
+#box{
+	background:url(/images/shape.png) no-repeat center;
+	margin:0 auto 0 auto;
+	width:360px;
+	height:264px;
+}
+.elements{
+	width:222px;
+	margin:0 auto;
+	padding:10px 0;
+}
+.avatar{
+	background:url(/images/avatar.gif) no-repeat center;
+	height:65px;
+	margin-bottom:15px;
+}
+.username{
+	background:url(/images/usermamefield.gif) no-repeat top;
+	width:222px;
+	height:32px;
+}
+.username:focus{
+	background:url(/images/usermamefield.gif) no-repeat bottom;
+	color:#333333;
+}
+.password{
+	background:url(/images/passwordfield.gif) no-repeat top;
+	width:222px;
+	height:32px;
+	text-align:center;
+}
+.password:focus{
+	background:url(/images/passwordfield.gif) no-repeat bottom;
+	color:#333333;
+}
+.forget{
+	font-size:12px;
+	margin-bottom:20px;
+        color: orangered;
+        width: 300px;
+}
+.forget a{
+	color:#999999;
+	text-decoration:none;
+}
+.checkbox {
+    display: block;
+    width: 40px;
+    height: 15px;
+    overflow: hidden;
+    border-radius: 5px;
+	float:left;
+	margin:5px 0 0 0;5
+}	
+input[type=checkbox] {
+    display: none;
+}
+input[type=checkbox] + label {
+    text-indent: -9999px;
+    display: block;
+    width: 40px;
+    height: 15px;
+    line-height: 15px;
+    background: transparent url(/images/checkboxfield.png) no-repeat;
+    -webkit-transition: background-position 0.3s ease-in-out;
+    -moz-transition: background-position 0.3s ease-in-out;
+}
+input[type=checkbox]:checked + label {
+    -webkit-transition: background-position 0.3s ease-in-out;
+    -moz-transition: background-position 0.3s ease-in-out;
+    background-position:-26px;
+}
+.remember{
+	font-size:12px;
+	color:#999999;
+	margin:5px;
+	float:left;
+}
+.clr{
+	clear:both;
+}
+.submit{
+	float:right;
+	background:#cccccc;
+	width:60px;
+	height:23px;
+	border-radius:5px;
+	border-bottom:2px solid #bcbcbc;
+	cursor:pointer;
+	color:#fff;
+}
+.submit:hover{
+	text-shadow:0 1px rgba(0,0,0,0.1);
+}
+.submit:active{
+	text-shadow:0 -1px rgba(0,0,0,0.2);
+}
+.signup{
+	text-align:center;
+	font-size:12px;
+	color:#999;
+	margin:5px 0 0 0;
+}
+.signup a{
+	color:#72985a;
+	text-decoration:none;
+}
