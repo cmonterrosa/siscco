@@ -39,7 +39,7 @@ class GruposController < ApplicationController
 
   def newgrupo
     @grupo = Grupo.new
-    render :layout=>"index_1"
+    render :layout=>"historico"
   end
 
   def create

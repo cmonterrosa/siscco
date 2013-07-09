@@ -8,6 +8,11 @@ class UploadController < ApplicationController
   def upload
     case request.method
       when :post
+      if (params[:datafile].nil?)
+        flash[:notice] = "Seleccione un archivo para cargar"
+        render :action => "index", :controller => "upload"
+      else
+
       if (valida_layout(params[:datafile]))
         flash[:notice] = "#{@mensaje[:descripcion]} #{@mensaje[:numero]} #{@mensaje[:linea]}"
         render :action => "index", :controller => "upload"
@@ -30,6 +35,7 @@ class UploadController < ApplicationController
           flash[:notice] = "La extension del archivo debe de ser txt, verifique"
           render :action => "index", :controller => "upload"
         end
+      end
       end
     end
   end
