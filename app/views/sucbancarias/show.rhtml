@@ -1,17 +1,35 @@
-<h1>Sucursales Bancarias</h1>
-<br />
-<% for column in Sucbancaria.content_columns %>
-<p>
-  <b><%= column.human_name %>:</b> <%=h @sucbancaria.send(column.name) %>
-</p>
-<% end %>
+<div class="page-title">
+  <h1>SUCURSALES BANCARIAS</h1>
+  <span>
+    <a href="/sucbancarias/new"><img  id="agregar" src="/images/agregar.gif" title="Agregar Bancos" alt="Agregar Bancos" /></a>
+  </span>
+</div>
 
-<!-- Banco --->
-<%if @sucbancaria.banco%>
-<p>
-  <b>Banco: </b><%=@sucbancaria.banco.nombre%>
-</p>
-<%end%>
+<table width="100%" border="0" cellspacing="1">
+  <tr>
+    <td>
+      <table class="tabla" width="100%">
+        <tr class="subtitulo">
+          <td width="1%" class="bloque">&nbsp;</td>
+          <td colspan="2" bgcolor="#E8E8E8">DATOS SUCURSAL BANCARIA</td>
+        </tr>
+        <% for column in Sucbancaria.content_columns %>
+        <tr>
+          <td>&nbsp;</td>
+          <td width="19%" class="titulot"><%= column.human_name %></td>
+          <td width="80%"class="subtitulot" > <%=h @sucbancaria.send(column.name) %> </td>
+        </tr>
+        <% end %>
+        <%if @sucbancaria.banco%>
+        <tr>
+          <td>&nbsp;</td>
+          <td class="titulot">Banco:</td>
+          <td class="subtitulot"><%=@sucbancaria.banco.nombre%></td>
+        </tr>
+        <%end%>
+      </table>
+    </td>
+  </tr>
+</table>
 <br />
-<%#= button_to 'Editar', :action => 'edit', :id => @sector %>
-<%= link_to 'Regresar', :action => 'list' %>
+<%= link_to image_tag("/images/regresar.gif"), {:action => "list"},  :class => "button" %>

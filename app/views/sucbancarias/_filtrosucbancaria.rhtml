@@ -1,21 +1,34 @@
 <div id="scroll">
-<table>
-  <tr>
-  <% for column in Sucbancaria.content_columns %>
-    <th><%= column.human_name %></th>
-  <% end %>
-    <th colspan="3">Acciones</th>
-  </tr>
-
-<% for sucbancaria in @sucbancarias %>
-  <tr>
-  <% for column in Sucbancaria.content_columns %>
-    <td><%=h sucbancaria.send(column.name) %></td>
-  <% end %>
-    <td><%= button_to 'Detalles', :action => 'show', :id => sucbancaria %></td>
-    <td><%= button_to 'Editar', :action => 'edit', :id => sucbancaria %></td>
-    <td><%= button_to 'Eliminar', { :action => 'destroy', :id => sucbancaria }, :confirm => 'Estas seguro?', :method => :post %></td>
-  </tr>
-<% end %>
-</table>
+  <div id ="search_hits">
+    <table class="resultado" align="center">
+      <tr class="titulot"  bgcolor="#E8E8E8">
+        <% for column in Sucbancaria.content_columns %>
+        <th><%= column.human_name %></th>
+        <% end %>
+        <th colspan="3">Acciones</th>
+      </tr>
+      <% for sucbancaria in @sucbancarias %>
+      <tr>
+        <% for column in Sucbancaria.content_columns %>
+        <td><%=h sucbancaria.send(column.name) %></td>
+        <% end %>
+        <td>
+          <img src="/images/space.png" alt="" title="" border="0" />
+          <%= link_to image_tag("/images/detail.png"), {:action => "show", :id => sucbancaria}, {:title => "Detalles"}%>
+          <img src="/images/space.png" alt="" title="" border="0" />
+        </td>
+        <td>
+          <img src="/images/space.png" alt="" title="" border="0" />
+          <%= link_to image_tag("/images/edit.png"), {:action => "edit", :id => sucbancaria}, {:title => "Editar"}%>
+          <img src="/images/space.png" alt="" title="" border="0" />
+        </td>
+        <td>
+          <img src="/images/space.png" alt="" title="" border="0" />
+          <%= link_to image_tag("/images/delete.png"), { :action => 'destroy', :id => sucbancaria }, :confirm => 'Estas seguro?', :title => "Eliminar", :method => :post%>
+          <img src="/images/space.png" alt="" title="" border="0" />
+        </td>
+      </tr>
+      <% end %>
+    </table>
+  </div>
 </div>

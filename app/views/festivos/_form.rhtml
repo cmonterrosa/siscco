@@ -1,15 +1,27 @@
 <%= error_messages_for 'festivo' %>
 
 <!--[form:festivo]-->
-<table>
-  <tr>
-    <th>Fecha:</th>
-    <th>Descripción:</th>
-  </tr>
-  <tr>
-    <td><%= date_select 'festivo', 'fecha', :class => 'text' %></td>
-    <td><%= text_field 'festivo', 'descripcion', :class => 'text'  %></td>
+<table width="100%" border="0" cellspacing="1" >
+  <tr align="center" >
+    <td>
+      <table class="tabla">
+        <tr class="subtitulo">
+          <td class="bloque">&nbsp;</td>
+          <td colspan="2" bgcolor="#E8E8E8">DATOS DIA FESTIVO</td>
+        </tr>
+        <tr class="pregunta">
+          <td>&nbsp;</td>
+          <td>Fecha:</td>
+          <td>Descripción:</td>
+        </tr>
+        <tr>
+          <td>&nbsp;</td>
+          <td><%= date_select 'festivo', 'fecha', :class => 'text' %></td>
+          <td><%= text_field 'festivo', 'descripcion', :class => 'text'  %></td>
+        </tr>
+      </table>
+    </td>
   </tr>
 </table>
 <!--[eoform:festivo]-->
-
+<br/>

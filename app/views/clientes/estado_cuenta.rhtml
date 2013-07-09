@@ -1,13 +1,27 @@
-<h2>Historial del Cliente:</h2>
-
-<!-- Form para agregar buscar pagos por dia -->
-<% form_tag :action => 'consultar' do -%>
 <%= error_messages_for 'cliente' %>
-<br />
-<h3>RFC:<br/>
-<%=text_field 'cliente', 'rfc', :class => "text"%></h3>
-<br />
-<!--[eoform:movimiento]-->
-<%= submit_tag "Buscar" %>
-<% end %>
 
+<div class="page-title">
+  <h1>CLIENTES</h1>
+  <span>Historial del Cliente</span>
+</div>
+
+<table width="100%" border="0" cellspacing="1">
+  <tr>
+    <td>
+      <table class="tabla" width="100%" border="0">
+        <tr class="subtitulo">
+          <td width="1%" class="bloque">&nbsp;</td>
+          <td width="99%" colspan="3" bgcolor="#E8E8E8">BUSQUEDA POR</td>
+        </tr>
+        <% form_tag :action => 'consultar' do -%>
+        <tr class="titulot">
+          <td>&nbsp;</td>
+          <td width="5%">RFC</td>
+          <td width="20%"><%=text_field 'cliente', 'rfc', :class => "text"%></td>
+          <td><%= image_submit_tag "/images/search.png" %></td>
+        </tr>
+        <% end %>
+      </table>
+    </td>
+  </tr>
+</table>

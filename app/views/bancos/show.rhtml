@@ -1,21 +1,39 @@
-<h1>Bancos</h1><br />
-<% for column in Banco.content_columns %>
-<p>
-  <b><%= column.human_name %>:</b> <%=h @banco.send(column.name) %>
-</p>
-<% end %>
+<div class="page-title">
+  <h1>BANCOS</h1>
+  <span>
+    <a href="/bancos/new"><img  id="agregar" src="/images/agregar.gif" alt="Agregar" /></a>
+  </span>
+</div>
 
-<%unless @banco.sucbancarias.empty?%>
+<table width="100%" border="0" cellspacing="1">
+  <tr>
+    <td>
+      <table class="tabla" border="0" width="100%" >
+        <tr class="subtitulo">
+          <td width="1%" class="bloque">&nbsp;</td>
+          <td colspan="2" bgcolor="#E8E8E8">DATOS BANCO</td>
+        </tr>
+        <% for column in Banco.content_columns %>
+        <tr>
+          <td>&nbsp;</td>
+          <td width="10%" class="titulot"><%= column.human_name %>: </td>
+          <td width="89%"class="subtitulot" > <%=h @banco.send(column.name) %></td>
+        </tr>
+        <% end %>
+        <%unless @banco.sucbancarias.empty?%>
+        <tr>
+          <td>&nbsp;</td>
+          <td class="titulot">Sucursales:</td>
+          <td class="subtitulot">
+            <%@banco.sucbancarias.each do |sucursal|%>
+              <%=link_to "#{sucursal.nombre}", :action => "show", :controller => "sucbancarias", :id => sucursal%>
+            <%end%>
+          </td>
+        </tr>
+        <%end%>
+      </table>
+    </td>
+  </tr>
+</table>
 <br />
-<p><b>Sucursales: </b></p>
-  <%@banco.sucbancarias.each do |sucursal|%>
-  <p><%=link_to "#{sucursal.nombre}", :action => "show", :controller => "sucbancarias", :id => sucursal%></p>
-  <%end%>
-
-<%end%>
-
-
-<br />
-
-<p><%= link_to 'Regresar', :action => 'list' %></p>
-
+<%= link_to image_tag("/images/regresar.gif"), {:action => "list"},  :class => "button" %>

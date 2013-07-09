@@ -1,11 +1,27 @@
-<h2>Selecciona la fecha:</h2>
-<!-- Form para agregar buscar pagos por dia -->
-<% form_tag :action => 'consultar' do -%>
 <%= error_messages_for 'pago' %>
-<br />
-<h3>Fecha:<br />
-<%= date_select 'pago', 'fecha'  %></h3>
-<br />
-<!--[eoform:]-->
-<%= submit_tag "Aplicar" %>
-<% end %>
+
+<div class="page-title">
+  <h1>PAGOS</h1>
+  <span>Pagos del Día</span>
+</div>
+
+<table align="center" width="100%" border="0" cellspacing="1">
+  <tr>
+    <td>
+      <table class="tabla" width="100%" border="0">
+        <tr class="subtitulo">
+          <td width="1%" class="bloque">&nbsp;</td>
+          <td width="99%" colspan="3" bgcolor="#E8E8E8">SELECCIONA UNA FECHA</td>
+        </tr>
+        <% form_tag :action => 'consultar' do -%>
+        <tr>
+          <td>&nbsp;</td>
+          <td width="10%" class="titulot">Fecha</td>
+          <td width="28%"><%= date_select 'pago', 'fecha_limite'  %></td>
+          <td><%= image_submit_tag "/images/search.png" %></td>
+        </tr>
+        <%end%>
+      </table>
+    </td>
+  </tr>
+</table>

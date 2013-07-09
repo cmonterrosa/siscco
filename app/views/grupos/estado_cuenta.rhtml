@@ -1,12 +1,29 @@
-<h2>Historial del Grupo:</h2>
-
-<!-- Form para agregar buscar pagos por dia -->
-<% form_tag :action => 'consultar' do -%>
 <%= error_messages_for 'grupo' %>
-<br />
-<h3>Nombre del Grupo:<br/>
-<%= collection_select("grupo", "id", Grupo.find(:all), :id, :nombre) %></h3>
-<br />
-<!--[eoform:movimiento]-->
-<%= submit_tag "Buscar" %>
-<% end %>
+
+<div class="page-title">
+  <h1>GRUPOS</h1>
+  <span>Historial del Grupo</span>
+</div>
+
+<table width="100%" border="0" cellspacing="1">
+  <tr>
+    <td>
+      <table class="tabla" width="100%" border="0">
+        <tr class="subtitulo">
+          <td width="1%" class="bloque">&nbsp;</td>
+          <td width="99%" colspan="3" bgcolor="#E8E8E8">BUSQUEDA POR</td>
+        </tr>
+        <% form_tag :action => 'consultar' do -%>
+        <tr class="titulot">
+          <td>&nbsp;</td>
+          <td width="17%">NOMBRE DEL GRUPO</td>
+          <td width="15%"><%= collection_select("grupo", "id", Grupo.find(:all), :id, :nombre) %></td>
+          <td><%= image_submit_tag "/images/search.png" %></td>
+        </tr>
+        <% end %>
+      </table>
+    </td>
+  </tr>
+</table>
+
+

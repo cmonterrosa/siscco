@@ -1,44 +1,75 @@
-<h1>Sucursales de la Empresa</h1>
-<br />
-<div id="busqueda">
-  <label for="searchtext">Búsqueda por Sucursal:</label>
-  <%= text_field_tag :searchtext, '', :class => 'text' %>
+<div class="page-title">
+  <h1>VENTANILLAS</h1>
+  <span>
+    <a href="/sucursals/new"><img  id="agregar" src="/images/agregar.gif" alt="Agregar" /></a>
+  </span>
+  <span style="color: #CF4421; font-size: 12px;" >&nbsp;<%= flash[:notice] %></span>
 </div>
-<div id="botones">
-  <%= button_to 'Agregar Sucursal', :action => 'new' %>
-</div>
-  
-  <%= observe_field(:searchtext,
-                 :frequency => 0.25,
+
+<table width="100%" border="0" cellspacing="1">
+  <tr>
+    <td>
+      <table class="tabla" width="100%">
+        <tr class="subtitulo">
+          <td width="1%" class="bloque">&nbsp;</td>
+          <td colspan="2" bgcolor="#E8E8E8">BUSQUEDA</td>
+        </tr>
+        <tr class="pregunta">
+          <td>&nbsp;</td>
+          <td width="15%">POR NOMBRE:</td>
+          <td width="84%"><%= text_field_tag :searchtext, '', :class => 'text' %></td>
+        </tr>
+        <tr class="subtitulo">
+          <td class="bloque">&nbsp;</td>
+          <td colspan="2" bgcolor="#E8E8E8">RESULTADO DE LA BUSQUEDA:</td>
+        </tr>
+        <tr>
+          <td>&nbsp;</td>
+          <td colspan="2">
+            <div id="scroll">
+              <div id ="search_hits">
+                    <table class="resultado" align="center">
+                      <tr class="titulot"  bgcolor="#E8E8E8">
+                        <% for column in Sucursal.content_columns %>
+                        <td><%= column.human_name %></td>
+                        <% end %>
+                        <td colspan="3">Acciones</td>
+                      </tr>
+
+                      <% for sucursal in @sucursals %>
+                      <tr class="subtitulot">
+                        <% for column in Sucursal.content_columns %>
+                        <td><%=h sucursal.send(column.name) %></td>
+                        <% end %>
+                        <td>
+                          <img src="/images/space.png" alt="" title="" border="0" />
+                          <%= link_to image_tag("/images/detail.png"), {:action => "show", :id => sucursal}, {:title => "Detalles"}%>
+                          <img src="/images/space.png" alt="" title="" border="0" />
+                        </td>
+                        <td>
+                          <img src="/images/space.png" alt="" title="" border="0" />
+                          <%= link_to image_tag("/images/edit.png"), {:action => "edit", :id => sucursal}, {:title => "Editar"}%>
+                          <img src="/images/space.png" alt="" title="" border="0" />
+                        </td>
+                        <td>
+                          <img src="/images/space.png" alt="" title="" border="0" />
+                          <%= link_to image_tag("/images/delete.png"), { :action => 'destroy', :id => sucursal }, :confirm => 'Estas seguro?', :title => "Eliminar", :method => :post%>
+                          <img src="/images/space.png" alt="" title="" border="0" />
+                        </td>
+                      </tr>
+                      <% end %>
+                    </table>
+              </div>
+            </div>
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+
+<%= observe_field(:searchtext,
+                 :frequency => 0.05,
                  :update => :search_hits,
                  :with  => "searchtext",
                  :url => { :action => :live_search }) %>
-
-<div id="limpiar">&nbsp;</div>
-<div id="resultados">
-  Resultados de la Busqueda:
-</div>
-<div id="limpiar2">&nbsp;</div>
-<div id="scroll">
-  <div id="search_hits">
-  <table>
-    <tr>
-    <% for column in Sucursal.content_columns %>
-      <th><%= column.human_name %></th>
-    <% end %>
-      <th colspan="3">Acciones</th>
-     </tr>
-
-    <% for sucursal in @sucursals %>
-    <tr>
-      <% for column in Sucursal.content_columns %>
-      <td><%=h sucursal.send(column.name) %></td>
-      <% end %>
-      <td><%= button_to 'Detalles', :action => 'show', :id => sucursal %></td>
-      <td><%= button_to 'Editar', :action => 'edit', :id => sucursal %></td>
-      <td><%= button_to 'Eliminar', { :action => 'destroy', :id => sucursal }, :confirm => 'Estas seguro?', :method => :post %></td>
-    </tr>
-    <% end %>
-  </table>
-  </div>
-</div>

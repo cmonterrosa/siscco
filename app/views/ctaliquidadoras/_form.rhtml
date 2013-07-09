@@ -1,17 +1,27 @@
 <%= error_messages_for 'ctaliquidadora' %>
 
-<!--[form:sector]-->
-<table>
-  <tr>
-    <th>Num. Cuenta: (7 Digitos)</th>
-    <th>Cta. Contable:</th>
-    <th>Banco / Sucursal:</th>
-  </tr>
-  <tr>
-    <td><%= text_field 'ctaliquidadora', 'num_cta',  :onkeypress => "return CharNum(event, 'numero');", :class => "text"  %></td>
-    <td><%= collection_select("ctaliquidadora", "cuenta_id", @cuentas, :id, :sNombre, {:prompt => "CUENTA"}, :class => 'text') %></td>
-    <td><%= collection_select("ctaliquidadora", "sucbancaria_id", @sucbancarias, :id, :descripcion, {:prompt => "BANCOS"}, :class => 'text') %></td>
+<table width="100%" border="0" cellspacing="1" >
+  <tr align="center" >
+    <td>
+      <table class="tabla">
+        <tr class="subtitulo">
+          <td class="bloque">&nbsp;</td>
+          <td colspan="3" bgcolor="#E8E8E8">DATOS CUENTA LIQUIDADORA</td>
+        </tr>
+        <tr class="pregunta">
+          <td>&nbsp;</td>
+          <td>Num. Cuenta: (7 Digitos)</td>
+          <td>Cta. Contable</td>
+          <td>Banco / Sucursal:</td>
+        </tr>
+        <tr>
+          <td>&nbsp;</td>
+          <td><%= text_field 'ctaliquidadora', 'num_cta',  :onkeypress => "return CharNum(event, 'numero');", :class => "text"  %></td>
+          <td><%= collection_select("ctaliquidadora", "cuenta_id", @cuentas, :id, :sNombre, {:prompt => "CUENTA"}) %></td>
+          <td><%= collection_select("ctaliquidadora", "sucbancaria_id", @sucbancarias, :id, :descripcion, {:prompt => "BANCOS"}) %></td>
+        </tr>
+      </table>
+    </td>
   </tr>
 </table>
-<!--[eoform:sector]-->
-
+<br />

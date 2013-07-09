@@ -1,86 +1,139 @@
-<h4> <%=link_to 'Grupos', :action => "list", :controller=>"grupos"%> >> <%=link_to "#{@grupo.nombre}", :action=>"show", :controller=>"grupos", :id=>@grupo%></h4>
-<br />
-   <%unless @clientegrupos.empty?%>
-  <br /><h2>Clientes Actuales:</h2>
-      <div id="scroll">
-       <%#*<div id="search_hits2">%>
-      <table>
+<div class="page-title">
+  <h1>GRUPOS</h1>
+  <span>Agregar Clientes...</span>
+</div>
+
+<table width="100%" border="0" cellspacing="1">
+  <tr class="titulot">
+    <td><%=link_to 'Grupos', :action => "list", :controller=>"grupos"%> >> <%=link_to "#{@grupo.nombre}", :action=>"show", :controller=>"grupos", :id=>@grupo%></td>
+  </tr>
+  <tr>
+    <td>
+      <%unless @clientegrupos.empty?%>
+      <table class="tabla" width="100%">
+        <tr class="subtitulo">
+          <td width="1%" class="bloque">&nbsp;</td>
+          <td width="99%" bgcolor="#E8E8E8">CLIENTES ACTUALES:</td>
+        </tr>
         <tr>
-          <th>Nombre:</th>
-          <th>CURP:</th>
-        <th colspan="3">Acciones</th>
+          <td>&nbsp;</td>
+          <td width="100%" colspan="2" >
+            <table class="resultado" align="center">
+              <tr class="titulot"  bgcolor="#E8E8E8" align="center" >
+                <td>Nombre</td>
+                <td>CURP</td>
+                <td colspan="3">Acciones</td>
+              </tr>
+              <% for cliente in @clientegrupos %>
+              <tr class="subtitulot">
+                <td><%= cliente.cliente.nombre_completo %></td>
+                <td><%= cliente.cliente.curp %></td>
+                <td>
+                  <img src="/images/space.png" alt="" title="" border="0" />
+                  <%= link_to image_tag("/images/detail.png"), {:controller => "clientes", :action => 'show', :id => cliente.cliente }, {:title => "Detalles"}%>
+                  <img src="/images/space.png" alt="" title="" border="0" />
+                </td>
+                <td>
+                  <img src="/images/space.png" alt="" title="" border="0" />
+                  <%= link_to image_tag("/images/rm_group.png"), {:action => 'quitar', :controller => "grupos", :id => cliente.cliente, :grupo => @grupo}, {:title => "Quitar del grupo"}, :confirm => "¿Desea quitarlo?", :method => :post%>
+                  <img src="/images/space.png" alt="" title="" border="0" />
+                </td>
+                <td>
+                  <img src="/images/space.png" alt="" title="" border="0" />
+                  <%=link_to "Histórico de grupos", { :controller => "clientes", :action => "historial_grupos", :id => cliente.cliente},
+                                                      :popup => ['height=300,width=920,left=300,top=300,scrollbars=no']%>
+                  <img src="/images/space.png" alt="" title="" border="0" />
+                </td>
+              </tr>
+              <% end %>
+            </table>
+          </td>
+        </tr>
+      </table>
+      <%end%>
+      <br />
+      <table class="tabla" width="100%">
+        <tr class="subtitulo">
+          <td width="1%" class="bloque">&nbsp;</td>
+          <td colspan="4" bgcolor="#E8E8E8">CLIENTES:</td>
+        </tr>
+        <tr class="subtitulo">
+          <td colspan="5" bgcolor="#E8E8E8"><img src="/images/space.png" alt="" title="" border="0" />BUSQUEDA POR:</td>
+        </tr>
+        <tr class="pregunta">
+          <td>&nbsp;</td>
+          <td width="15%">NOMBRE:</td>
+          <td width="20%"><%= text_field_tag :searchtext, '', :class => 'text' %></td>
+          <td width="54%">&nbsp;</td>
+          <td width="10%">&nbsp;</td>
+          </tr>
+        <tr class="pregunta">
+          <td>&nbsp;</td>
+          <td>CURP:</td>
+          <td><%= text_field_tag :searchtextcurp, '', :class => 'text' %></td>
+          <td>&nbsp;</td>
+          <td>&nbsp;</td>
+        </tr>
+        <tr class="subtitulo">
+          <td colspan="4" bgcolor="#E8E8E8"><img src="/images/space.png" alt="" title="" border="0" />RESULTADO DE LA BUSQUEDA:</td>
+          <td bgcolor="#E8E8E8"><%= link_to image_tag("/images/actualizar.png"), {:action => "agregar_clientes", :controller=>"grupos", :id=>@grupo}%></td>
         </tr>
 
-        <% for cliente in @clientegrupos %>
+        <%session["grupo_online"] = @grupo%>
+
         <tr>
-          <td><%= cliente.cliente.nombre_completo %></td>
-          <td><%= cliente.cliente.curp %></td>
-          <td><%= button_to 'Detalles', :controller => "clientes", :action => 'show', :id => cliente.cliente %></td>
-           <td><%= button_to 'Quitar', {:action => 'quitar', :controller => "grupos", :id => cliente.cliente, :grupo => @grupo}, :confirm => "¿Desea quitarlo?", :method => :post %></td>
-          <td><%=link_to "Histórico de grupos", { :controller => "clientes", :action => "historial_grupos", :id => cliente.cliente},
-                                                  :popup => ['height=300,width=600,left=300,top=300,scrollbars=no']%></td>
-          <!-- <td><= button_to 'Editar', :action => 'edit', :controller => "clientes",  :id => cliente.cliente %></td>
-          <td><= button_to 'Eliminar', { :controller => "clientes", :action => 'destroy', :id => cliente.cliente }, :confirm => 'Se eliminarán también los negocios vinculados al cliente?', :method => :post %></td>-->
+          <td>&nbsp;</td>
+          <td colspan="4"><div id="resultados"></div>
+            <div id="scroll">
+              <div id ="search_hits">
+                <table class="resultado" align="center">
+                  <tr class="titulot"  bgcolor="#E8E8E8">
+                    <td>Nombre</td>
+                    <td>CURP</td>
+                    <td colspan="3">Acciones</td>
+                  </tr>
+                  <% for cliente in @clientes %>
+                  <tr class="subtitulot">
+                    <td><%= cliente.nombre_completo %></td>
+                    <td><%= cliente.curp %></td>
+                    <td>
+                      <img src="/images/space.png" alt="" title="" border="0" />
+                      <%= link_to image_tag("/images/detail.png"), {:controller => "clientes", :action => 'show', :id => cliente }, {:title => "Detalles"}%>
+                      <img src="/images/space.png" alt="" title="" border="0" />
+                    </td>
+                    <td>
+                      <img src="/images/space.png" alt="" title="" border="0" />
+                      <%= link_to image_tag("/images/add_group.png"), {:controller =>"grupos", :action => 'agregar', :id => cliente, :grupo => @grupo}, {:title => "Agregar al grupo"}%>
+                      <img src="/images/space.png" alt="" title="" border="0" />
+                    </td>
+                    <td>
+                      <img src="/images/space.png" alt="" title="" border="0" />
+                      <%=link_to "Histórico de grupos", { :controller => "clientes", :action => "historial_grupos", :id => cliente},
+                                                          :popup => ['height=300,width=920,left=300,top=300,scrollbars=no']%>
+                      <img src="/images/space.png" alt="" title="" border="0" />
+                    </td>
+                  </tr>
+                  <% end %>
+                </table>
+              </div>
+            </div>
+          </td>
         </tr>
-        <% end %>
       </table>
-    </div>
-  <%#*</div>%>
-<%end%>
-<!--inicia ajax -->
-<h2>Clientes:</h2>
-<label for="searchtext">Búsqueda por nombre:</label>
-<%= text_field_tag :searchtext %>
+    </td>
+  </tr>
+</table>
+<br />
+<%= link_to image_tag("/images/regresar.gif"), {:action => "list"},  :class => "button" %>
+
 <%= observe_field(:searchtext,
                  :frequency => 0.10,
                  :update => :search_hits,
                  :with  => :searchtext,
-                 :url => { :action => :live_search_clientes }) %><br />
-<br />
+                 :url => { :action => :live_search_clientes }) %>
 
-<label for="searchtext">Búsqueda por curp:</label>
-<%= text_field_tag :searchtextcurp %>
 <%= observe_field(:searchtextcurp,
                  :frequency => 0.10,
                  :update => :search_hits,
                  :with  => :searchcurp,
-                 :url => { :action => :live_search_curp }) %><br />
-
-
-<%session["grupo_online"] = @grupo%>
-
-
-  <br /><p>Resultado de Busqueda:</p>
-
-    <div id="scroll">
-       <div id="search_hits">
-      <table>
-        <tr>
-          <th>Nombre:</th>
-          <th>CURP:</th>
-          <th colspan="3">Acciones</th>
-        </tr>
-
-        <% for cliente in @clientes %>
-        <tr>
-          <td><%= cliente.nombre_completo %></td>
-          <td><%= cliente.curp %></td>
-          <td><%= button_to 'Detalles', :controller => "clientes", :action => 'show', :id => cliente %></td>
-          <td><%= button_to 'Agregar', :controller =>"grupos", :action => 'agregar', :id => cliente, :grupo => @grupo %></td>
-          <td><%=link_to "Histórico de grupos", { :controller => "clientes", :action => "historial_grupos", :id => cliente},
-                                                  :popup => ['height=300,width=600,left=300,top=300,scrollbars=no']%></td>
-          <!--<td><= button_to 'Editar', :controller => "clientes", :action => 'edit', :id => cliente %></td>
-          <td><= button_to 'Eliminar', { :controller =>"clientes", :action => 'destroy', :id => cliente }, :confirm => 'Se eliminarán también los negocios vinculados al cliente?', :method => :post %></td>-->
-        </tr>
-        <% end %>
-      </table>
-    </div>
-  </div>
-
-  <%=button_to 'Actualizar', :action => "agregar_clientes", :controller=>"grupos", :id=>@grupo%>
-
-<!--<table  class="botones">
-  <tr class="botones">
-    <th class="botones"><h4><= button_to 'Agregar Clientes', :controller => 'clientes', :action => 'new' %></h4></th>
-  </tr>
-</table>-->
+                 :url => { :action => :live_search_curp }) %>

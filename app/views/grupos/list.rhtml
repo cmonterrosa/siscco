@@ -1,15 +1,87 @@
-<h1>Grupos</h1>
-<br />
-<div id="busqueda">
-  <label for="searchtext">Búsqueda por referencia de crédito:</label>
-  <%= text_field_tag :searchtext_referencia, '', :class => 'text' %>
-  <br /><br />
-  <label for="searchtext">Búsqueda por nombre de grupo:</label>
-  <%= text_field_tag :searchtext, '', :class => 'text' %>
+<div class="page-title">
+  <h1>GRUPOS</h1>
+  <span>
+    <a href="/grupos/new"><img  id="agregar" src="/images/agregar.gif" title="Agregar Grupos" alt="Agregar Grupos" /></a>
+  </span>
+  <span style="color: #CF4421; font-size: 12px;" >&nbsp;<%= flash[:notice] %></span>
 </div>
-<div id="botones">
-  <%= button_to 'Agregar Grupo', :action => 'new' %>
-</div>
+
+<table width="100%" border="0" cellspacing="1">
+  <tr>
+    <td>
+      <table class="tabla" width="100%">
+        <tr class="subtitulo">
+          <td width="1%" class="bloque">&nbsp;</td>
+          <td colspan="3" bgcolor="#E8E8E8">BUSQUEDA</td>
+        </tr>
+        <tr class="pregunta">
+          <td>&nbsp;</td>
+          <td width="25%">POR REFERENCIA DE CRÉDITO:</td>
+          <td width="74%"><%= text_field_tag :searchtext_referencia, '', :class => 'text' %></td>
+          <td>&nbsp;</td>
+        </tr>
+        <tr class="pregunta">
+          <td>&nbsp;</td>
+          <td>POR NOMBRE:</td>
+          <td><%= text_field_tag :searchtext, '', :class => 'text' %></td>
+          <td>&nbsp;</td>
+        </tr>
+        <tr class="pregunta">
+          <td>&nbsp;</td>
+          <td colspan="3">
+            <%=link_to "Mostrando solo los primeros 25 registros", :action => "list"%> &nbsp; | &nbsp; <%=link_to "Ver todos", :action => "list", :token => "all"%>
+          </td>
+        </tr>
+        <tr class="subtitulo">
+          <td class="bloque">&nbsp;</td>
+          <td colspan="3" bgcolor="#E8E8E8">RESULTADO DE LA BUSQUEDA:</td>
+        </tr>
+        <tr>
+          <td>&nbsp;</td>
+          <td colspan="3"><div id="resultados"></div>
+            <div id="scroll">
+              <div id ="search_hits">
+                <table class="resultado" align="center">
+                  <tr class="titulot"  bgcolor="#E8E8E8">
+                    <th>Nombre</th>
+                    <th>Propuesta</th>
+                    <th colspan="4">Acciones</th>
+                  </tr>
+                  <% for grupo in @grupos %>
+                  <tr class="subtitulot">
+                    <td><%=h grupo.nombre %></td>
+                    <td><%=h grupo.identificador %></td>
+                    <td>
+                      <img src="/images/space.png" alt="" title="" border="0" />
+                      <%= link_to image_tag("/images/add_client.png"), {:action => "agregar_clientes", :id => grupo}, {:title => "Agregar Clientes"}%>
+                      <img src="/images/space.png" alt="" title="" border="0" />
+                    </td>
+                    <td>
+                      <img src="/images/space.png" alt="" title="" border="0" />
+                      <%= link_to image_tag("/images/detail.png"), {:action => "show", :id => grupo}, {:title => "Detalles"}%>
+                      <img src="/images/space.png" alt="" title="" border="0" />
+                    </td>
+                    <td>
+                      <img src="/images/space.png" alt="" title="" border="0" />
+                      <%= link_to image_tag("/images/edit.png"), {:action => "edit", :id => grupo}, {:title => "Editar"}%>
+                      <img src="/images/space.png" alt="" title="" border="0" />
+                    </td>
+                    <td>
+                      <img src="/images/space.png" alt="" title="" border="0" />
+                      <%= link_to image_tag("/images/delete.png"), { :action => 'destroy', :id => grupo }, :confirm => 'Estas seguro?', :title => "Eliminar", :method => :post%>
+                      <img src="/images/space.png" alt="" title="" border="0" />
+                    </td>
+                  </tr>
+                  <% end %>
+                </table>
+              </div>
+            </div>
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
 
 <%= observe_field(:searchtext_referencia,
                   :frequency => 0.15,
@@ -22,35 +94,3 @@
                   :update => :search_hits,
                   :with  => "searchtext",
                   :url => { :action => :live_search }) %>
-
-<div id="limpiar">&nbsp;</div>
-<div id="resultados">
-  Resultados de la Busqueda:
-</div>
-<div id="limpiar2">
-  <%=link_to "Mostrando solo los primeros 25 registros", :action => "list"%> &nbsp; | &nbsp; <%=link_to "Ver todos", :action => "list", :token => "all"%>
-</div>
-<br />
-<div id="scroll">
-  <div id="search_hits">
-    <table>
-      <tr>
-          <th>Nombre</th>
-          <th>Propuesta</th>
-          <th colspan="4">Acciones</th>
-      </tr>
-
-     <% for grupo in @grupos %>
-      <tr>
-        <td><%=h grupo.nombre %></td>
-        <td><%=h grupo.identificador %></td>
-        <td><%= button_to 'Detalles', :action => 'show', :id => grupo %></td>
-         <td><%= button_to 'Clientes', :action => 'agregar_clientes', :id => grupo %></td>
-        <td><%= button_to 'Editar', :action => 'edit', :id => grupo %></td>
-        <td><%= button_to 'Eliminar', { :action => 'destroy', :id => grupo }, :confirm => 'Estas seguro?', :method => :post %></td>
-      </tr>
-      <% end %>
-      
-    </table>
-  </div>
-</div>

@@ -1,19 +1,31 @@
 <%= error_messages_for 'fondeo' %>
 
 <!--[form:fondeo]-->
-<table>
+<table width="100%" border="0" cellspacing="1" >
   <tr>
-    <th>Acrónimo:</th>
-    <th>Nombre de la Fuente:</th>
-    <th>Dirección:</th>
-    <th>Teléfono:</th>
-  </tr>
-  <tr>
-    <td><%= text_field 'fondeo', 'acronimo', :class => "text" %></td>
-    <td><%= text_field 'fondeo', 'fuente', :class => "text" %></td>
-    <td><%= text_field 'fondeo', 'domicilio', :class => "no_require" %></td>
-    <td><%= text_field 'fondeo', 'telefono', :onkeypress => "return CharNum(event, 'numero');", :class => "no_require" %></td>
+    <td align="center" >
+      <table class="tabla">
+        <tr class="subtitulo">
+          <td class="bloque">&nbsp;</td>
+          <td colspan="5" bgcolor="#E8E8E8">DATOS FONDEO</td>
+        </tr>
+        <tr class="pregunta">
+          <td>&nbsp;</td>
+          <td>Acrónimo:</td>
+          <td>Nombre de la Fuente:</td>
+          <td>Dirección:</td>
+          <td>Teléfono:</td>
+        </tr>
+        <tr>
+          <td>&nbsp;</td>
+          <td><%= text_field 'fondeo', 'acronimo', :class => "text" %></td>
+          <td><%= text_field 'fondeo', 'fuente', :class => "text" %></td>
+          <td><%= text_field 'fondeo', 'domicilio', :class => "text" %></td>
+          <td><%= text_field 'fondeo', 'telefono', :onkeypress => "return CharNum(event, 'numero');", :class => "no_require" %></td>
+        </tr>
+      </table>
+    </td>
   </tr>
 </table>
 <!--[eoform:fondeo]-->
-
+<br />

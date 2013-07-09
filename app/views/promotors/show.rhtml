@@ -1,18 +1,35 @@
-<h1>Promotores</h1>
-<br />
-<% for column in Promotor.content_columns %>
-<p>
-  <b><%= column.human_name %>:</b> <%=h @promotor.send(column.name) %>
-</p>
-<% end %>
-<br />
+<div class="page-title">
+  <h1>PROMOTORES</h1>
+  <span>
+    <a href="/promotors/new"><img  id="agregar" src="/images/agregar.gif" title="Agregar Bancos" alt="Agregar Bancos" /></a>
+  </span>
+</div>
 
-<%if @promotor.sucursal%>
-  <h2>Sucursal:</h2>
-  <h3><%=link_to "#{@promotor.sucursal.nombre}", :action => "show", :controller => "sucursals", :id => @promotor.sucursal%></h3>
-<%end%>
+<table width="100%" border="0" cellspacing="1">
+  <tr>
+    <td>
+      <table class="tabla" width="100%">
+        <tr class="subtitulo">
+          <td width="1%" class="bloque">&nbsp;</td>
+          <td colspan="2" bgcolor="#E8E8E8">DATOS PROMOTOR</td>
+        </tr>
+        <% for column in Promotor.content_columns %>
+        <tr>
+          <td>&nbsp;</td>
+          <td width="19%" class="titulot"><%= column.human_name %></td>
+          <td width="80%"class="subtitulot" > <%=h @promotor.send(column.name) %></td>
+        </tr>
+        <% end %>
+        <%if @promotor.sucursal%>
+        <tr>
+          <td>&nbsp;</td>
+          <td class="titulot">Sucursal:</td>
+          <td class="subtitulot"><%=link_to "#{@promotor.sucursal.nombre}", :action => "show", :controller => "sucursals", :id => @promotor.sucursal%></td>
+        </tr>
+        <%end%>
+      </table>
+    </td>
+  </tr>
+</table>
 <br />
-
-
-<%#= button_to 'Editar', :action => 'edit', :id => @promotor %>
-<%= link_to 'Regresar', :action => 'list' %>
+<%= link_to image_tag("/images/regresar.gif"), {:action => "list"},  :class => "button" %>

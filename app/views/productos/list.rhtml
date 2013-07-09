@@ -1,43 +1,83 @@
-<h1>Productos / Condiciones de Crédito</h1>
-<br />
-<div id="busqueda">
-  <label for="searchtext">Búsqueda por nombre:</label>
-  <%= text_field_tag :searchtext, '', :class =>'text' %>
+<div class="page-title">
+  <h1>PRODUCTOS / CONDICIONES DE CRÉDITO</h1>
+  <span>
+    <a href="/productos/new"><img  id="agregar" src="/images/agregar.gif" title="Agregar Bancos" alt="Agregar Bancos" /></a>
+  </span>
+  <span style="color: #CF4421; font-size: 12px;" >&nbsp;<%= flash[:notice] %></span>
 </div>
-<div id="botones">
-  <%= button_to 'Agregar Productos', :action => 'new' %>
-</div>
-<%= observe_field(:searchtext,
-                  :frequency => 0.25,
-                  :update => :search_hits,
-                  :with  => "searchtext",
-                  :url => { :action => :live_search }) %>
 
-<div id="limpiar">&nbsp;</div>
-<div id="resultados">
-  Resultados de la Busqueda:
-</div>
-<div id="limpiar2">&nbsp;</div>
-<div id="scroll">
-  <div id="search_hits">
-    <table>
-      <tr>
-      <% for column in Producto.content_columns %>
-        <th><%= column.human_name %></th>
-      <% end %>
-        <th colspan="3">Acciones</th>
-      </tr>
-  
-      <% for producto in @productos %>
-      <tr>
-        <% for column in Producto.content_columns %>
-        <td><%=h producto.send(column.name) %></td>
-        <% end %>
-        <td><%= button_to 'Detalles', :action => 'show', :id => producto %></td>
-        <td><%= button_to 'Editar', :action => 'edit', :id => producto %></td>
-        <td><%= button_to 'Eliminar', { :action => 'destroy', :id => producto }, :confirm => 'Estas seguro?', :method => :post %></td>
-      </tr>
-      <% end %>
-    </table>
-  </div>
-</div>
+<table width="100%" border="0" cellspacing="1">
+  <tr>
+    <td>
+      <table class="tabla" width="100%">
+        <tr class="subtitulo">
+          <td width="1%" class="bloque">&nbsp;</td>
+          <td width="99%" colspan="2" bgcolor="#E8E8E8">BUSQUEDA</td>
+        </tr>
+        <tr class="pregunta">
+          <td>&nbsp;</td>
+          <td width="15%">POR NOMBRE:</td>
+          <td width="84%"><%= text_field_tag :searchtext, '', :class => 'text' %></td>
+        </tr>
+        <tr class="subtitulo">
+          <td class="bloque">&nbsp;</td>
+          <td colspan="2" bgcolor="#E8E8E8">RESULTADO DE LA BUSQUEDA:</td>
+        </tr>
+        <tr>
+          <td>&nbsp;</td>
+          <td colspan="2">
+            <div id="scroll">
+              <div id ="search_hits">
+                    <table class="resultado" align="center">
+                      <tr class="titulot"  bgcolor="#E8E8E8">
+                        <td>PRODUCTO</td>
+                        <td>INTERESES</td>
+                        <td>MORATORIO SSI</td>
+                        <td>NUM PAGOS</td>
+                        <td>TASA ANUAL</td>
+                        <td>MORATORIO FLAT</td>
+                        <td>TASA MENSUAL FLAT</td>
+                        <td colspan="3">Acciones</td>
+                      </tr>
+
+                      <% for producto in @productos %>
+                      <tr class="subtitulot">
+                        <td><%=  producto.producto %></td>
+                        <td><%=  producto.intereses %></td>
+                        <td><%=  producto.moratorio_ssi %></td>
+                        <td><%=  producto.num_pagos %></td>
+                        <td><%=  producto.tasa_anualizada %></td>
+                        <td><%=  producto.moratorio_flat %></td>
+                        <td><%=  producto.tasa_mensual_flat %></td>
+                        <td>
+                          <img src="/images/space.png" alt="" title="" border="0" />
+                          <%= link_to image_tag("/images/detail.png"), {:action => "show", :id => producto}, {:title => "Detalles"}%>
+                          <img src="/images/space.png" alt="" title="" border="0" />
+                        </td>
+                        <td>
+                          <img src="/images/space.png" alt="" title="" border="0" />
+                          <%= link_to image_tag("/images/edit.png"), {:action => "edit", :id => producto}, {:title => "Editar"}%>
+                          <img src="/images/space.png" alt="" title="" border="0" />
+                        </td>
+                        <td>
+                          <img src="/images/space.png" alt="" title="" border="0" />
+                          <%= link_to image_tag("/images/delete.png"), { :action => 'destroy', :id => producto }, :confirm => 'Estas seguro?', :title => "Eliminar", :method => :post%>
+                          <img src="/images/space.png" alt="" title="" border="0" />
+                        </td>
+                      </tr>
+                      <% end %>
+                    </table>
+              </div>
+            </div>
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+
+<%= observe_field(:searchtext,
+                 :frequency => 0.05,
+                 :update => :search_hits,
+                 :with  => "searchtext",
+                 :url => { :action => :live_search }) %>

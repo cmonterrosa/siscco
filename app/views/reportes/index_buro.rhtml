@@ -1,21 +1,23 @@
-<h2><%=link_to_remote "Generar formato (Esto puede tardar varios minutos)",
-   :url => { :action => "buro"},
-   :loading => "Element.show('spinner')",
-   :complete => "Element.hide('spinner')",
-   :update => { :success => "divbusqueda", :failure => "error" }%></h2>
+<div class="page-title">
+  <h1>LAYOUT BURO</h1>
+  <span>
+    (Esto puede tardar varios minutos)
+  </span>
+</div>
 
-
-
-<br></br>
+<ul class="featured-posts" style="text-align: center" >
+  
+    <%=link_to_remote "GENERAR FORMATO",
+                      :url => { :action => "buro"},
+                      :loading => "Element.show('spinner')",
+                      :complete => "Element.hide('spinner')",
+                      :update => { :success => "divbusqueda", :failure => "error" }%>
+  
+</ul>
 
 <img alt="spinner" id="spinner" src="/images/loading_spinner.gif" style="display:none;" />
 
 <div id ="divbusqueda">
 </div>
-
-
-
-
 <div id ="error">
-  
 </div>

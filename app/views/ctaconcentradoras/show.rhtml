@@ -1,15 +1,35 @@
-<h1>Cuentas Concentradoras</h1>
-<br />
-<% for column in Ctaconcentradora.content_columns %>
-<p>
-  <b><%= column.human_name %>:</b> <%=h @ctaconcentradora.send(column.name) %>
-</p>
-<% end %>
+<div class="page-title">
+  <h1>CUENTAS CONCENTRADORAS</h1>
+  <span>
+    <a href="/ctaconcentradoras/new"><img  id="agregar" src="/images/agregar.gif" alt="Agregar Bancos" /></a>
+  </span>
+</div>
 
-<%if @ctaconcentradora.sucbancaria%>
-    <p><b>Banco / Sucursal: </b><%= @ctaconcentradora.sucbancaria.descripcion%></p>
-<%end%>
-
+<table width="100%" border="0" cellspacing="1">
+  <tr>
+    <td>
+      <table class="tabla" width="100%">
+        <tr class="subtitulo">
+          <td width="1%" class="bloque">&nbsp;</td>
+          <td colspan="2" bgcolor="#E8E8E8">DATOS CUENTA CONCENTRADORA</td>
+        </tr>
+        <% for column in Ctaconcentradora.content_columns %>
+        <tr>
+          <td>&nbsp;</td>
+          <td width="20%" class="titulot"><%= column.human_name %>: </td>
+          <td width="79%"class="subtitulot" > <%=h @ctaconcentradora.send(column.name) %></td>
+        </tr>
+        <% end %>
+        <%if @ctaconcentradora.sucbancaria%>
+        <tr>
+          <td>&nbsp;</td>
+          <td class="titulot">Banco / Sucursal</td>
+          <td class="subtitulot"><%= @ctaconcentradora.sucbancaria.descripcion%></td>
+        </tr>
+        <%end%>
+      </table>
+    </td>
+  </tr>
+</table>
 <br />
-<%#= button_to 'Editar', :action => 'edit', :id => @sector %>
-<%= link_to 'Regresar', :action => 'list' %>
+<%= link_to image_tag("/images/regresar.gif"), {:action => "list"},  :class => "button" %>

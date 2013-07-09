@@ -1,21 +1,44 @@
+<%= error_messages_for 'producto' %>
+
 <div id="scroll">
-<table>
-  <tr>
-  <% for column in Producto.content_columns %>
-    <th><%= column.human_name %></th>
-  <% end %>
-    <th colspan="3">Acciones</th>
-  </tr>
-  
-<% for producto in @productos %>
-  <tr>
-  <% for column in Producto.content_columns %>
-    <td><%=h producto.send(column.name) %></td>
-  <% end %>
-    <td><%= button_to 'Detalles', :action => 'show', :id => producto %></td>
-    <td><%= button_to 'Editar', :action => 'edit', :id => producto %></td>
-    <td><%= button_to 'Eliminar', { :action => 'destroy', :id => producto }, :confirm => 'Estas seguro?', :method => :post %></td>
-  </tr>
-<% end %>
-</table>
+  <div id ="search_hits">
+    <table class="resultado" align="center">
+      <tr class="titulot"  bgcolor="#E8E8E8">
+        <td>PRODUCTO</td>
+        <td>INTERESES</td>
+        <td>MORATORIO SSI</td>
+        <td>NUM PAGOS</td>
+        <td>TASA ANUAL</td>
+        <td>MORATORIO FLAT</td>
+        <td>TASA MENSUAL FLAT</td>
+        <td colspan="3">Acciones</td>
+      </tr>
+      <% for producto in @productos %>
+      <tr class="subtitulot">
+        <td><%=  producto.producto %></td>
+        <td><%=  producto.intereses %></td>
+        <td><%=  producto.moratorio_ssi %></td>
+        <td><%=  producto.num_pagos %></td>
+        <td><%=  producto.tasa_anualizada %></td>
+        <td><%=  producto.moratorio_flat %></td>
+        <td><%=  producto.tasa_mensual_flat %></td>
+        <td>
+          <img src="/images/space.png" alt="" title="" border="0" />
+          <%= link_to image_tag("/images/detail.png"), {:action => "show", :id => producto}, {:title => "Detalles"}%>
+          <img src="/images/space.png" alt="" title="" border="0" />
+        </td>
+        <td>
+          <img src="/images/space.png" alt="" title="" border="0" />
+          <%= link_to image_tag("/images/edit.png"), {:action => "edit", :id => producto}, {:title => "Editar"}%>
+          <img src="/images/space.png" alt="" title="" border="0" />
+        </td>
+        <td>
+          <img src="/images/space.png" alt="" title="" border="0" />
+          <%= link_to image_tag("/images/delete.png"), { :action => 'destroy', :id => producto }, :confirm => 'Estas seguro?', :title => "Eliminar", :method => :post%>
+          <img src="/images/space.png" alt="" title="" border="0" />
+        </td>
+      </tr>
+      <% end %>
+    </table>
+  </div>
 </div>

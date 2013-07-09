@@ -1,22 +1,41 @@
-<h1>Líneas</h1>
-<br />
-<% for column in Linea.content_columns %>
-<p>
-  <b><%= column.human_name %>:</b> <%=h @linea.send(column.name) %>
-</p>
-<% end %>
+<div class="page-title">
+  <h1>LINEAS DE FONDEO</h1>
+  <span>
+    <a href="/lineas/new"><img  id="agregar" src="/images/agregar.gif" title="Agregar Bancos" alt="Agregar Bancos" /></a>
+  </span>
+</div>
 
-<%if @linea.ctaconcentradora%>
-<p>
-  <b>Banco / Sucursal / Cta. Concentradora: </b> <%=@linea.ctaconcentradora.descripcion%>
-</p>
-<%end%>
-<%if @linea.ctaliquidadora%>
-<p>
-  <b>Banco / Sucursal / Cta. Liquidadora: </b> <%=@linea.ctaliquidadora.descripcion%>
-</p>
-<%end%>
-
+<table width="100%" border="0" cellspacing="1">
+  <tr>
+    <td>
+      <table class="tabla" width="100%">
+        <tr class="subtitulo">
+          <td width="1%" class="bloque">&nbsp;</td>
+          <td colspan="2" bgcolor="#E8E8E8">DATOS LINEA</td>
+        </tr>
+        <% for column in Linea.content_columns %>
+        <tr>
+          <td>&nbsp;</td>
+          <td width="15%" class="titulot"><%= column.human_name %>: </td>
+          <td width="84%"class="subtitulot" > <%=h @linea.send(column.name) %></td>
+        </tr>
+        <% end %>
+        <%if @linea.ctaconcentradora%>
+        <tr>
+          <td>&nbsp;</td>
+          <td class="titulot">Banco / Sucursal / Cta. Concentradora: </td>
+          <td class="subtitulot"><%=@linea.ctaconcentradora.descripcion%></td>
+        </tr>
+        <%end%>
+        <%if @linea.ctaliquidadora%>
+        <tr>
+          <td class="titulot">Banco / Sucursal / Cta. Liquidadora:</td>
+          <td class="subtitulot"><%=@linea.ctaliquidadora.descripcion%></td>
+        </tr>
+        <%end%>
+      </table>
+    </td>
+  </tr>
+</table>
 <br />
-<%#= button_to 'Editar', :action => 'edit', :id => @linea %>
-<%= link_to 'Regresar', :action => 'list' %>
+<%= link_to image_tag("/images/regresar.gif"), {:action => "list"},  :class => "button" %>

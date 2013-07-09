@@ -1,10 +1,14 @@
-<h1>Carga de Layouts Bancario</h1>
+<div class="page-title">
+  <h1>LAYOUT BANCARIO</h1>
+  <span style="color: #CF4421; font-size: 12px;" >&nbsp;<%= flash[:notice] %></span>
+</div>
 
-<br />
-
-<% form_for :uploadform, :url => { :action => 'upload'}, :html => {:multipart => true} do%>
-  <%= file_field(:datafile, :file)%><br /> <br />
-  <%= submit_tag 'Cargar' %>
-<% end %>
-
-
+<table align="center">
+  <% form_for :uploadform, :url => { :action => 'upload'}, :html => {:multipart => true} do%>
+  <tr>
+    <td><%= file_field(:datafile, :file)%></td>
+    <td>&nbsp;</td>
+    <td><%= image_submit_tag "/images/cargar.png" %></td>
+  </tr>
+  <% end %>
+</table>

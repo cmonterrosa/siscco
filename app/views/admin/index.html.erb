@@ -1,35 +1,26 @@
-<table width="65%" border="0" cellspacing="0">
-  <tr align="center">
-    <th>Menú de Administración</th>
-  </tr>
-</table>
-<br />
+<div class="page-title">
+  <h1>ADMINISTRACIÓN</h1>
+  <span style="color: #CF4421; font-size: 12px;" >&nbsp;<%= flash[:notice] %></span>
+</div>
 
-<table width="50%" border="0" cellspacing="0" cellpadding="0">
-  <tr align="center">
-       <td>
-         <a href="/admin/show_roles" title="Administración de Perfiles y Usuarios">
-          <img src="/images/usuarios.png" width="128" height="128" alt="administración de perfiles y usuarios" />
-         </a>
-       </td>
-
-       <!--
-       <td>
-         <a href="/admin/show_roles" title="Administración de Perfiles y Usuarios">
-          <img src="/images/iconos/control_usuarios.png" width="128" height="128" alt="administración de usuarios" />
-         </a>
-       </td>
-       -->
-  </tr>
-  <tr align="center">
-    <td class="menu">Áreas y Usuarios</td>
-    <!--
-    <td class="menu">Perfiles y Usuarios</td>
-    -->
-  </tr>
+<table width="100%" border="0" cellspacing="1">
   <tr>
-    <th>&nbsp;</th>
-    <th>&nbsp;</th>
+    <td>
+      <table class="tablas" align="center" border="0">
+        <tr>
+          <td>
+            <a href="/admin/show_users" title="Usuarios">
+              <img src="/images/users.png" alt="Usuarios"/>
+            </a>
+          </td>
+          <td width="30%">&nbsp;</td>
+          <td>
+            <a href="/admin/show_roles" title="Perfiles">
+              <img src="/images/perfiles.png" alt="Perfiles"/>
+            </a>
+          </td>
+        </tr>
+      </table>
+    </td>
   </tr>
-
 </table>

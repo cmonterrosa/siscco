@@ -1,8 +1,28 @@
-<% for column in Cuenta.content_columns %>
-<p>
-  <b><%= column.human_name %>:</b> <%=h @cuenta.send(column.name) %>
-</p>
-<% end %>
+<div class="page-title">
+  <h1>CUENTAS CONTABLES</h1>
+  <span>
+    <a href="/cuentas/new"><img  id="agregar" src="/images/agregar.gif" alt="Agregar Bancos" /></a>
+  </span>
+</div>
 
-<%= link_to 'Editar', :action => 'edit', :id => @cuenta %> |
-<%= link_to 'Atras', :action => 'list' %>
+<table width="100%" border="0" cellspacing="1">
+  <tr>
+    <td>
+      <table class="tabla" width="100%">
+        <tr class="subtitulo">
+          <td width="1%" class="bloque">&nbsp;</td>
+          <td colspan="2" bgcolor="#E8E8E8">DATOS CUENTA CONTABLE</td>
+        </tr>
+        <% for column in Cuenta.content_columns %>
+        <tr>
+          <td>&nbsp;</td>
+          <td width="10%" class="titulot"><%= column.human_name %>: </td>
+          <td width="89%"class="subtitulot" > <%=h @cuenta.send(column.name) %></td>
+        </tr>
+        <% end %>
+      </table>
+    </td>
+  </tr>
+</table>
+<br />
+<%= link_to image_tag("/images/regresar.gif"), {:action => "list"},  :class => "button" %>

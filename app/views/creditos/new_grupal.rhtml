@@ -1,14 +1,17 @@
-<h1>Nuevo Crédito Grupal</h1>
+<div class="page-title">
+  <h1>CRÉDITO GRUPAL</h1>
+  <span>Alta</span>
+</div>
 
 <% form_tag :action => 'create' do %>
   <%= render :partial => 'formgrupal' %>
-  
-<table  class="botones">
-    <tr class="botones">
-      <th class="botones"><%= link_to 'Regresar', :controller => 'home', :action => 'index' %></th>
-      <th class="botones">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
-      <th class="botones"><%= submit_tag "Agregar", :onclick => "return comprobar();"%></th>
-    </tr>
-  </table>
+<table align="center">
+  <tr>
+    <td><%= image_submit_tag "/images/guardar.gif", :onclick => "return comprobar();", :class=> "button" %></td>
+    <td>&nbsp;o&nbsp;</td>
+    <td> <%= link_to image_tag("/images/cancelar.gif"), {:action => "movimiento_credito"}, :class=> "button"%></td>
+  </tr>
+</table>
 <% end %>
+
 

@@ -1,18 +1,34 @@
-<h2>Estado de cuenta de Lineas de Fodeo:</h2>
-<!-- Form para agregar buscar pagos por dia -->
-<br />
-<% form_tag :action => 'consultar' do -%>
 <%= error_messages_for 'linea' %>
+<div class="page-title">
+  <h1>LINEAS DE FONDEO</h1>
+  <span>Estado de Cuenta</span>
+</div>
 
-<h3>Fuentes de Fondeo:<br/>
-<%= collection_select("", "fondeo_id", @fondeos, :id, :fuente)%></h3>
-<br/>
-<h3>Linea de Fondeo<br/>
-<%= collection_select("linea", "cuenta_cheques", @lineas, :id, :cuenta_cheques)%></h3>
-<!--[eoform:]-->
-<br />
-<%= submit_tag "Buscar" %>
-<% end %>
+
+<table width="100%" border="0" cellspacing="1">
+  <tr>
+    <td>
+      <table width="60%" border="0" align="center">
+        <% form_tag :action => 'consultar' do -%>
+        <tr class="titulot">
+          <td width="17%">FUENTES DE FONDEO</td>
+          <td>&nbsp;</td>
+          <td width="17%">LINEA DE FONDEO</td>
+          <td>&nbsp;</td>
+          <td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td><%= collection_select("", "fondeo_id", @fondeos, :id, :fuente)%></td>
+          <td width="2%">&nbsp;</td>
+          <td><%= collection_select("linea", "cuenta_cheques", @lineas, :id, :cuenta_cheques)%></td>
+          <td width="2%">&nbsp;</td>
+          <td class="titulot"><%= image_submit_tag "/images/search.png" %></td>
+        </tr>
+        <% end %>
+      </table>
+    </td>
+  </tr>
+</table>
 
 <%= observe_field '_fondeo_id',
     :url => {:controller => 'combos',

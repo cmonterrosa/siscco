@@ -1,17 +1,30 @@
 <%= error_messages_for 'sucbancaria' %>
 
-<!--[form:sector]-->
-<table>
-  <tr>
-    <th>Num Sucursal (4 Digitos)</th>
-    <th>Nombre Sucursal:</th>
-    <th>Banco:</th>
-  </tr>
-  <tr>
-    <td><%= text_field 'sucbancaria', 'num_sucursal',  :onkeypress => "return CharNum(event, 'numero');", :class => "text"  %></td>
-    <td><%= text_field 'sucbancaria', 'nombre', :class => "text"  %></td>
-    <td><%= collection_select("sucbancaria", "banco_id", Banco.find(:all), :id, :nombre, {:prompt => "BANCOS"}, :class => 'text') %></td>
+<!--[form:sucbancaria]-->
+<table width="100%" border="0" cellspacing="1" >
+  <tr align="center" >
+    <td>
+      <table class="tabla">
+        <tr class="subtitulo">
+          <td class="bloque">&nbsp;</td>
+          <td colspan="3" bgcolor="#E8E8E8">DATOS SUCURSAL BANCARIA</td>
+        </tr>
+        <tr class="pregunta">
+          <td>&nbsp;</td>
+           <td>Num Sucursal (4 Digitos)</td>
+           <td>Nombre Sucursal:</td>
+           <td>Banco:</td>
+        </tr>
+        <tr>
+          <td>&nbsp;</td>
+          <td><%= text_field 'sucbancaria', 'num_sucursal',  :onkeypress => "return CharNum(event, 'numero');", :class => "text"  %></td>
+          <td><%= text_field 'sucbancaria', 'nombre', :class => "text"  %></td>
+          <td><%= collection_select("sucbancaria", "banco_id", Banco.find(:all), :id, :nombre, {:prompt => "BANCOS"}) %></td>
+        </tr>
+      </table>
+    </td>
   </tr>
 </table>
-<!--[eoform:sector]-->
+<br />
+<!--[eoform:sucbancaria]-->
 

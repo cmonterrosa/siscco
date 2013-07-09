@@ -1,11 +1,39 @@
-<!--inicia ajax -->
-<h2>Búsqueda por:</h2><br />
+<div class="page-title">
+  <h1>CRÉDITOS</h1>
+  <span>Movimietos de Créditos</span>
+</div>
 
-<h3><label for="searchtext"></label><br />
-<%= select('', 'opcion', ['GRUPO', 'NUM. CREDITO', 'REFERENCIA', 'RFC', 'LINEA'], {:prompt => '>>Opción'}, :class => 'text' ) %>
-<%= text_field '', 'opcionc', :class => 'text' %></h3>
-<br />
-
+<table width="100%" border="0" cellspacing="1">
+  <tr>
+    <td>
+      <table class="tabla" width="100%">
+        <tr class="subtitulo">
+          <td width="1%" class="bloque">&nbsp;</td>
+          <td width="99%" colspan="2" bgcolor="#E8E8E8">BUSQUEDA POR:</td>
+        </tr>
+        <tr class="pregunta">
+          <td>&nbsp;</td>
+          <td width="15%"><%= select('', 'opcion', ['GRUPO', 'NUM. CREDITO', 'REFERENCIA', 'RFC', 'LINEA'], {:prompt => '>>OPCIÓN'}) %></td>
+          <td><%= text_field '', 'opcionc', :class => 'text' %></td>
+        </tr>
+        <tr class="subtitulo">
+          <td class="bloque">&nbsp;</td>
+          <td colspan="3" bgcolor="#E8E8E8">RESULTADO DE LA BUSQUEDA:</td>
+        </tr>
+        <tr>
+          <td>&nbsp;</td>
+          <td colspan="2">
+            <div id="scroll">
+              <div id ="search_hits">
+                    
+              </div>
+            </div>
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
 <br />
 <%= observe_field(:_opcionc,
                  :frequency => 0.25,
@@ -17,7 +45,3 @@
                  :frequency => 0.25,
                  :with  => :_opcion,
                  :url => { :action => :opcionc }) %>
-<p>Resultados:</p>
-<div id="search_hits" style=" width: 900px"></div>
-
-<!-- termina ajax -->

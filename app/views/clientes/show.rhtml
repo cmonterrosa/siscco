@@ -1,67 +1,68 @@
-<h1>Clientes</h1>
-<table>
+<div class="page-title">
+  <h1>CLIENTES</h1>
+  <span>
+    <a href="/clientes/new"><img  id="agregar" src="/images/agregar.gif" alt="Agregar Bancos" /></a>
+  </span>
+</div>
+
+<table width="100%" border="0" cellspacing="1" >
   <tr>
-    <td>
-      <table>
-        <tr><th>.: CLIENTE :.</th></tr>
-        <% for column in Cliente.content_columns %>
-        <tr>
+    <td width="45%">
+      <table width="100%" border="0" cellspacing="1" class="tabla">
+        <tr class="subtitulo">
+          <td class="bloque">&nbsp;</td>
+          <td colspan="4" bgcolor="#E8E8E8">DATOS CLIENTE</td>
+        </tr>
+        <%a=1%>
+        <tr class="pregunta">
+          <td>&nbsp;</td>
+          <% for column in Cliente.content_columns %>
           <td><b><%= column.human_name %>:</b> <%=h @cliente.send(column.name) %></td>
+          <%if a==4%>
+          </tr>
+          <tr class="pregunta">
+            <td>&nbsp;</td>
+          <%a=1%>
+          <%else
+            a+=1
+          end%>
+          <% end %>
         </tr>
-        <% end %>
-        <tr>
+        <tr class="pregunta">
+          <td>&nbsp;</td>
           <td><b>Pais:</b> <%=h @cliente.nacionalidad.pais %></td>
-        </tr>
-        <tr>
           <td><b>Estado:</b> <%=h @cliente.localidad.municipio.estado.estado %></td>
-        </tr>
-        <tr>
           <td><b>Municipio:</b> <%=h @cliente.localidad.municipio.municipio %></td>
-        </tr>
-        <tr>
           <td><b>Localidad:</b> <%=h @cliente.localidad.localidad %></td>
         </tr>
-        <!--    <tr>
-          <td class="center"><  button_to 'Editar', :action => 'editc', :controller => 'clientes', :id => @cliente %></td>
-        </tr>  -->
       </table>
     </td>
+  </tr>
+  <tr>
     <td>
-      <table>
-        <tr><th>.: NEGOCIO :.</th></tr>
-        <% for column in Negocio.content_columns %>
-        <tr>
-          <td><b><%= column.human_name %>:</b> <%=h @negocio.send(column.name) %></td>
+      <table width="100%" border="0" cellspacing="1" class="tabla">
+        <tr class="subtitulo">
+          <td class="bloque">&nbsp;</td>
+          <td colspan="4" bgcolor="#E8E8E8">DATOS NEGOCIO</td>
         </tr>
-        <% end %>
-        <tr><td>&nbsp</td></tr>
-        <tr><td>&nbsp</td></tr>
-        <tr><td>&nbsp</td></tr>
-        <tr><td>&nbsp</td></tr>
-        <tr><td>&nbsp</td></tr>
-        <tr><td>&nbsp</td></tr>
-        <tr><td>&nbsp</td></tr>
-        <tr><td>&nbsp</td></tr>
-        <tr><td>&nbsp</td></tr>
-        <tr><td>&nbsp</td></tr>
-        <tr><td>&nbsp</td></tr>
-        <tr><td>&nbsp</td></tr>
-        <tr><td>&nbsp</td></tr>
-        <tr><td>&nbsp</td></tr>
-     <!--   <tr>
-          <td class="center">< button_to 'Editar', :action => 'edit', :controller => 'negocios', :id_negocio => @negocio %></td>
-        </tr>  -->
+        <%a=1%>
+        <tr class="pregunta">
+          <td>&nbsp;</td>
+          <% for column in Negocio.content_columns %>
+          <td><b><%= column.human_name %>:</b> <%=h @negocio.send(column.name) %></td>
+          <%if a==4%>
+          </tr>
+          <tr class="pregunta">
+            <td>&nbsp;</td>
+          <%a=1%>
+          <%else
+            a+=1
+          end%>
+          <% end %>
+        </tr>
       </table>
     </td>
   </tr>
 </table>
-
-<!--<=link_to "Histórico de grupos", { :action => "historial_grupos", :id => @cliente },
-  :popup => ['new_window','height=300,width=600']%>-->
-
-<table class="botones">
-  <tr class="botones">
-    <th class="botones"><%= link_to 'Regresar', :action => 'list' %></th>
-  </tr>
-</table>
-
+<br />
+<%= link_to image_tag("/images/regresar.gif"), {:action => "list"},  :class => "button" %>

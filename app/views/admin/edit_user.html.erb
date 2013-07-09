@@ -1,84 +1,81 @@
 <% @user.password = @user.password_confirmation = nil %>
 <%= error_messages_for :user %>
 
-<% form_for :user, @user, :url => { :action => "save_user", :id => @user.id } do |f| -%>
-  <table width="100%" border="0" align="center" cellpadding="2" cellspacing="1">
-    <tr bgcolor="#CCCCCC" class="titulo">
-      <td colspan="3" align="center" >EDITAR USUARIO</td>
-    </tr>
-    <tr align="center">
-      <td align="center">
-        <table width="100%" border="0" cellpadding="2" cellspacing="1" style="BORDER-RIGHT: #cccccc 1px solid; BORDER-TOP: #cccccc 1px solid; BORDER-LEFT: #cccccc 1px solid; BORDER-BOTTOM: #cccccc 1px solid;">
-        <tr bgcolor="#E8E8E8" class="subtitulo">
-          <td align="center" colspan="4">DATOS GENERALES</td>
-        </tr>
-        <tr align=" justify" class="pregunta">
-          <td align="center">Login</td>
-          <td align="center">Nombre</td>
-        </tr>
-        <tr>
-          <td align="center"><%= f.text_field :login, :disabled => true%> <div id="mensaje"></div></td>
-          <td align="center"><%= f.text_field :name,  :required => true%></td>
-        </tr>
-      </table></td>
-    </tr>
-    <!-- segunda barra inferior -->
-      <tr align="center">
-      <td align="center">
-        <table width="100%" border="0" cellpadding="2" cellspacing="1" style="BORDER-RIGHT: #cccccc 1px solid; BORDER-TOP: #cccccc 1px solid; BORDER-LEFT: #cccccc 1px solid; BORDER-BOTTOM: #cccccc 1px solid;">
-        <tr bgcolor="#E8E8E8" class="subtitulo">
-          <td align="center" colspan="4" ></td>
-        </tr>
-        <tr align=" justify" class="pregunta">
-          <td align="center">Correo electrónico</td>
-          <td align="center">Domicilio Particular</td>
-          <td align="center">Teléfono Celular</td>
-        </tr>
-        <tr>
-          <td align="center"><%=f.text_field :email, :required => true%></td>
-          <td align="center"><%= f.text_field :direccion%></td>
-          <td align="center"><%= f.text_field :tel_celular%></td>
-        </tr>
-      </table></td>
-     </tr>
-     <!-- barra inferior -->
-       <tr align="center">
-      <td align="center">
-        <table width="100%" border="0" cellpadding="2" cellspacing="1" style="BORDER-RIGHT: #cccccc 1px solid; BORDER-TOP: #cccccc 1px solid; BORDER-LEFT: #cccccc 1px solid; BORDER-BOTTOM: #cccccc 1px solid;">
-        <tr bgcolor="#E8E8E8" class="subtitulo">
-          <td align="center" colspan="4" >&nbsp;</td>
-        </tr>
-        <tr align=" justify" class="pregunta">
-          <td align="center">Contraseña</td>
-          <td align="center">Confirmación de la contraseña</td>
-       </tr>
-        <tr>
-          <td align="center"><%= f.password_field :password %></td>
-          <td align="center"><%= f.password_field :password_confirmation %></td>
-        </tr>
-      </table></td>
-     </tr>
+<div class="page-title">
+  <h1>ADMINISTRACIÓN</h1>
+  <span>Editar Usuarios</span>
+  <span style="color: #CF4421; font-size: 12px;" >&nbsp;<%= flash[:notice] %></span>
+</div>
 
-    <!-- espacio -->
-    <tr>
-      <td colspan="3"><hr /></td>
-    </tr>
-    <!-- FOOTER -->
-    <tr>
-      <td align="right">
-        <table>
-          <tr>
-            <td>
-              <input title="guardar y regresar" alt=" Guardar y regresar a la sección anterior " type="image"  src="/images/save.png" width="100" height="40" style="margin-left:90px;"/>
-            </td>
-            <td>
-              <%= link_to image_tag("cancel.png", :width => "100", :height=>"40", :border =>0, :style => "margin-left:90px;" ) ,  :controller => "admin"-%>
-            </td>
-          </tr>
-        </table>
-      </td>
-    </tr>
-  </table>
+<% form_for :user, @user, :url => { :action => "save_user", :id => @user.id } do |f| -%>
+<table width="100%" border="0" cellspacing="1" >
+  <tr>
+    <td>
+      <table class="tabla">
+        <tr class="subtitulo">
+          <td width="1%" class="bloque">&nbsp;</td>
+          <td width="99%"colspan="3" bgcolor="#E8E8E8">DATOS GENERALES</td>
+        </tr>
+        <tr class="pregunta">
+          <td>&nbsp;</td>
+          <td>Login</td>
+          <td>&nbsp;</td>
+          <td>Nombre</td>
+        </tr>
+        <tr>
+          <td>&nbsp;</td>
+          <td><%= f.text_field :login, :disabled => true%> <div id="mensaje"></div></td>
+          <td>&nbsp;</td>
+          <td><%= f.text_field :name,  :required => true%></td>
+        </tr>
+        <tr>
+          <td colspan="4" bgcolor="#E8E8E8"></td>
+        </tr>
+        <tr class="pregunta">
+          <td>&nbsp;</td>
+          <td>Correo electrónico</td>
+          <td>Domicilio Particular</td>
+          <td>Teléfono Celular</td>
+        </tr>
+        <tr>
+          <td>&nbsp;</td>
+          <td><%=f.text_field :email, :required => true%></td>
+          <td><%= f.text_field :direccion%></td>
+          <td><%= f.text_field :tel_celular%></td>
+        </tr>
+        <tr>
+          <td colspan="4" bgcolor="#E8E8E8"></td>
+        </tr>
+        <tr class="pregunta">
+          <td>&nbsp;</td>
+          <td>Contraseña</td>
+          <td>&nbsp;</td>
+          <td>Confirmación de la contraseña</td>
+        </tr>
+        <tr>
+          <td>&nbsp;</td>
+          <td><%= f.password_field :password %></td>
+          <td>&nbsp;</td>
+          <td><%= f.password_field :password_confirmation %></td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+  <tr>
+    <td>&nbsp;</td>
+  </tr>
+  <tr>
+    <td>
+      <table align="center">
+        <tr>
+          <td><%= image_submit_tag "/images/guardar.gif", :onclick => "return comprobar();", :class=> "button" %></td>
+          <td>&nbsp;o&nbsp;</td>
+          <td><%= link_to image_tag("/images/cancelar.gif"), {:controller => "admin"}, :class=> "button"%></td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
 <% end %>
 
 

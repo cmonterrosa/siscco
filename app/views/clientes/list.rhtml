@@ -1,14 +1,82 @@
-<h1>Clientes</h1><br />
-<br />
-<div id="busqueda">
-  <label for="searchtext">Búsqueda por nombre:</label>
-  <%= text_field_tag :searchtext, '', :class => 'text' %><br /><br />
-  <label for="searchtext">Búsqueda por CURP:</label>
-  <%= text_field_tag :searchtextcurp, '', :class => 'text' %>
+<div class="page-title">
+  <h1>CLIENTES</h1>
+  <span>
+    <a href="/clientes/new"><img  id="agregar" src="/images/agregar.gif" alt="Agregar Bancos" /></a>
+  </span>
+  <span style="color: #CF4421; font-size: 12px;" >&nbsp;<%= flash[:notice] %></span>
 </div>
-<div id="botones">
-  <%= button_to 'Agregar Clientes', :action => 'new' %>
-</div>
+
+<table width="100%" border="0" cellspacing="1">
+  <tr>
+    <td>
+      <table class="tabla" width="100%">
+        <tr class="subtitulo">
+          <td width="1%" class="bloque">&nbsp;</td>
+          <td colspan="3" bgcolor="#E8E8E8">BUSQUEDA POR:</td>
+        </tr>
+        <tr class="pregunta">
+          <td>&nbsp;</td>
+          <td width="15%">NOMBRE:</td>
+          <td width="84%"><%= text_field_tag :searchtext, '', :class => 'text' %></td>
+          <td>&nbsp;</td>
+        </tr>
+        <tr class="pregunta">
+          <td>&nbsp;</td>
+          <td>CURP:</td>
+          <td><%= text_field_tag :searchtextcurp, '', :class => 'text' %></td>
+          <td>&nbsp;</td>
+        </tr>
+        <tr class="subtitulo">
+          <td class="bloque">&nbsp;</td>
+          <td colspan="3" bgcolor="#E8E8E8">RESULTADO DE LA BUSQUEDA:</td>
+        </tr>
+        <tr>
+          <td>&nbsp;</td>
+          <td colspan="3"><div id="resultados"></div>
+            <div id="scroll">
+              <div id ="search_hits">
+                <%if @clientes.size > 0%>
+                <table class="resultado" align="center">
+                      <tr class="titulot"  bgcolor="#E8E8E8">
+                        <td>Nombre:</td>
+                        <td>CURP:</td>
+                        <td>Id:</td>
+                        <td colspan="4">Acciones</td>
+                      </tr>
+
+                      <% for cliente in @clientes %>
+                      <tr class="subtitulot">
+                        <td><%= cliente.nombre_completo %></td>
+                        <td><%= cliente.curp %></td>
+                        <td><%= cliente.identificador %></td>
+                        <td>
+                          <img src="/images/space.png" alt="" title="" border="0" />
+                          <%= link_to image_tag("/images/detail.png"), {:action => "show", :id => cliente}, {:title => "Detalles"}%>
+                          <img src="/images/space.png" alt="" title="" border="0" />
+                        </td>
+                        <td>
+                          <img src="/images/space.png" alt="" title="" border="0" />
+                          <%=link_to "Histórico de grupos", { :controller => "clientes", :action => "historial_grupos", :id => cliente},
+                                                  :popup => ['height=300,width=920,left=300,top=300,scrollbars=no']%>
+                          <img src="/images/space.png" alt="" title="" border="0" />
+                        </td>
+                        <td>
+                          <img src="/images/space.png" alt="" title="" border="0" />
+                          <%= link_to image_tag("/images/edit.png"), {:action => "edit", :id => cliente}, {:title => "Editar"}%>
+                          <img src="/images/space.png" alt="" title="" border="0" />
+                        </td>
+                      </tr>
+                      <% end %>
+                    </table>
+                <%end%>
+              </div>
+            </div>
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
  
 <%= observe_field(:searchtext,
                  :frequency => 0.05,
@@ -21,35 +89,3 @@
                  :update => :search_hits,
                  :with  => "curp",
                  :url => { :action => :live_search_curp }) %>
-
-<div id="limpiar">&nbsp;</div>
-<div id="resultados">
-  Resultado de Busqueda:
-</div>
-<div id="limpiar2">&nbsp;</div>
-<div id="scroll">
-  <div id ="search_hits">
-      <table>
-        <%if @clientes.size > 0%>
-        <tr>
-          <th>Nombre:</th>
-          <th>CURP:</th>
-          <th>Id:</th>
-          <th colspan="4">Acciones</th>
-        </tr>
-
-        <% for cliente in @clientes %>
-        <tr>
-          <td><%= cliente.nombre_completo %></td>
-          <td><%= cliente.curp %></td>
-          <td><%= cliente.identificador %></td>
-          <td><%= button_to 'Detalles', :action => 'show', :id => cliente %></td>
-          <td><%=link_to "Histórico de grupos", { :controller => "clientes", :action => "historial_grupos", :id => cliente}, 
-                                                  :popup => ['height=300,width=600,left=300,top=300,scrollbars=no']%></td>
-          <td><%= button_to 'Editar', :action => 'edit', :id => cliente %></td>
-         </tr>
-        <% end %>
-        <%end%>
-      </table>
-  </div>
-</div>

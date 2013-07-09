@@ -1,21 +1,36 @@
+<%= error_messages_for 'festivo' %>
+
 <div id="scroll">
-<table>
-  <tr>
-  <% for column in Festivo.content_columns %>
-    <th><%= column.human_name %></th>
-  <% end %>
-    <th colspan="3">Acciones</th>
-  </tr>
-  
-<% for festivo in @festivos %>
-  <tr>
-  <% for column in Festivo.content_columns %>
-    <td><%=h festivo.send(column.name) %></td>
-  <% end %>
-    <td><%= button_to 'Detalles', :action => 'show', :id => festivo %></td>
-    <td><%= button_to 'Editar', :action => 'edit', :id => festivo %></td>
-    <td><%= button_to 'Eliminar', { :action => 'destroy', :id => festivo }, :confirm => 'Estas seguro?', :method => :post %></td>
-  </tr>
-<% end %>
-</table>
+  <div id ="search_hits">
+    <table class="resultado" align="center">
+      <tr class="titulot"  bgcolor="#E8E8E8">
+        <% for column in Festivo.content_columns %>
+        <td><%= column.human_name %></td>
+        <% end %>
+        <td colspan="3">Acciones</td>
+      </tr>
+      <% for festivo in @festivos %>
+      <tr class="subtitulot">
+        <% for column in Festivo.content_columns %>
+        <td><%=h festivo.send(column.name) %></td>
+        <% end %>
+        <td>
+          <img src="/images/space.png" alt="" title="" border="0" />
+          <%= link_to image_tag("/images/detail.png"), {:action => "show", :id => festivo}%>
+          <img src="/images/space.png" alt="" title="" border="0" />
+        </td>
+        <td>
+          <img src="/images/space.png" alt="" title="" border="0" />
+          <%= link_to image_tag("/images/edit.png"), {:action => "edit", :id => festivo}%>
+          <img src="/images/space.png" alt="" title="" border="0" />
+        </td>
+        <td>
+          <img src="/images/space.png" alt="" title="" border="0" />
+          <%= link_to image_tag("/images/delete.png"), { :action => 'destroy', :id => festivo }, :confirm => 'Estas seguro?', :title => "Eliminar", :method => :post%>
+          <img src="/images/space.png" alt="" title="" border="0" />
+        </td>
+      </tr>
+      <% end %>
+    </table>
+  </div>
 </div>

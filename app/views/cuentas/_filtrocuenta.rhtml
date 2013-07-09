@@ -14,7 +14,7 @@
   <% end %>
     <td><%= button_to 'Detalles', :action => 'show', :id => cuenta %></td>
     <td><%= button_to 'Editar', :action => 'edit', :id => cuenta %></td>
-    <td><%= button_to 'Eliminar', { :action => 'destroy', :id => cuenta }, :confirm => 'Estas seguro?', :method => :post %></td>
+    <td><%= button_to 'Eliminar', { :action => 'destroy', :id => cuenta }, :confirm => 'Estas seguro?', :title => "Eliminar", :method => :post %></td>
   </tr>
 <% end %>
 </table>

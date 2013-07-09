@@ -1,67 +1,61 @@
-<%if @pendientes.size > 0%>
-  <h2>Depósitos pendientes de aplicar</h2>
-  <table>
-    <tr>
-      <td>
-        Referencia
-      </td>
-      <td>
-        Importe
-      </td>
-      <td>
-       Fecha-hora
-      </td>
-      <td>
-        Autorizacion
-      </td>
-      <td>
-        Grupo
-      </td>
-      
-      <td>
-        Total vencido
-      </td>
-      
-    </tr>
-    <%@pendientes.each do |p|%>
-       <%credito = Credito.find(p.credito_id)%>
-      <tr>
-        <td>
-          <%=credito.id%>
-        </td>
+<div class="page-title">
+  <h1>CRÉDITOS</h1>
+  <span>Depósitos Pendientes de Aplicar</span>
+</div>
 
-        <td>
-          <%=p.ref_alfa%>
-        </td>
-        <td>
-           $<%=separar_miles(p.importe)%>
-        </td>
-        <td>
-          <%=p.fecha_hora.strftime("%Y-%m-%d %H:%M:%S")%>
-        </td>
-        <td>
-           <%=p.autorizacion%>
-        </td>
-        <td>
-          <%if credito.grupo%>
-             <%=credito.grupo.nombre%>
-          <%end%>
-        </td>
-        <td>
-          <%if credito.grupo%>
-            <%v = Vencimiento.new(credito)%>
-            <%v.procesar%>
-            <%=link_to "$#{separar_miles(round(v.total_deuda,0))}", :action => "vencimiento", :controller => "creditos", :id => credito%>
-          <%end%>
-        </td>
-        
-      </tr>
-    <%end%>
-  </table>
-  <br />
-<%=button_to 'Aplicar Depósitos', :action => "aplicar_depositos", :controller => "creditos", :id=>@datafile-%>&nbsp;<%=button_to 'Cargar nuevo layout', :action => "index", :controller => "upload"%>
-<%else%>
-  <h2>No existen registros por aplicar</h2><br />
-  <%=button_to 'Regresar', :action => "index", :controller => "home"%>
-<%end%>
-
+<table width="100%" border="0" cellspacing="1">
+  <%if @pendientes.size > 0%>
+  <tr align="center">
+    <td>
+      <table class="resultado" align="center">
+        <tr class="titulot"  bgcolor="#E8E8E8">
+          <td>&nbsp;</td>
+          <td>Referencia</td>
+          <td>Importe</td>
+          <td>Fecha-hora</td>
+          <td>Autorizacion</td>
+          <td>Grupo</td>
+          <td>Total vencido</td>
+        </tr>
+        <%@pendientes.each do |p|%>
+        <%credito = Credito.find(p.credito_id)%>
+        <tr class="subtitulot">
+          <td><%=credito.id%></td>
+          <td><%=p.ref_alfa%></td>
+          <td>$<%=separar_miles(p.importe)%></td>
+          <td><%=p.fecha_hora.strftime("%Y-%m-%d %H:%M:%S")%></td>
+          <td><%=p.autorizacion%></td>
+          <td>
+            <%if credito.grupo%>
+              <%=credito.grupo.nombre%>
+            <%end%>
+          </td>
+          <td>
+            <%if credito.grupo%>
+              <%v = Vencimiento.new(credito)%>
+              <%v.procesar%>
+              <%=link_to "$#{separar_miles(round(v.total_deuda,0))}", :action => "vencimiento", :controller => "creditos", :id => credito%>
+            <%end%>
+          </td>
+        </tr>
+        <%end%>
+      </table>
+    </td>
+  </tr>
+  <tr>
+    <td><%=button_to 'Aplicar Depósitos', :action => "aplicar_depositos", :controller => "creditos", :id=>@datafile-%>&nbsp;<%=button_to 'Cargar nuevo layout', :action => "index", :controller => "upload"%></td>
+  </tr>
+  <%else%>
+  <tr>
+    <td class="notice">No existen registros por aplicar</td>
+  </tr>
+  <tr>
+    <td>&nbsp;</td>
+  </tr>
+  <tr>
+    <td>
+      <%#= link_to image_tag("/images/regresar.gif"), {:action => "index", :controller => "home"},  :class => "button" %>
+    </td>
+  </tr>
+  <%end%>
+</table>

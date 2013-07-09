@@ -1,28 +1,48 @@
+<%= error_messages_for 'promotor' %>
+
 <div id="scroll">
-<table>
-  <tr>
-    <th>Nombre:</th>
-    <th>Dirección:</th>
-    <th>Teléfono:</th>
-    <th>Celular:</th>
-    <th colspan="3">Acciones</th>
-  </tr>
-  
-<% for promotor in @promotors %>
-  <tr>
-    <td><%= promotor.nombre_completo %></td>
-    <td><%= promotor.direccion %></td>
-    <td><%= promotor.telefono %></td>
-    <td><%= promotor.celular %></td>
-    <%unless promotor.creditos.empty?%>
-      <td><%= button_to 'Creditos', :action => 'show_creditos', :id => promotor %></td>
-    <%else%>
-      <td></td>
-    <%end%>
-    <td><%= button_to 'Detalles', :action => 'show', :id => promotor %></td>
-    <td><%= button_to 'Editar', :action => 'edit', :id => promotor %></td>
-    <td><%= button_to 'Eliminar', { :action => 'destroy', :id => promotor }, :confirm => 'Estas seguro?', :method => :post %></td>
-  </tr>
-<% end %>
-</table>
+  <div id ="search_hits">
+    <table class="resultado" align="center">
+      <tr class="titulot"  bgcolor="#E8E8E8">
+        <td>Nombre</td>
+        <td>Dirección</td>
+        <td>Teléfono</td>
+        <td>Celular</td>
+        <th colspan="4">Acciones</th>
+      </tr>
+
+      <% for promotor in @promotors %>
+      <tr class="subtitulot">
+        <td><%= promotor.nombre_completo %></td>
+        <td><%= promotor.direccion %></td>
+        <td><%= promotor.telefono %></td>
+        <td><%= promotor.celular %></td>
+        <%unless promotor.creditos.empty?%>
+        <td>
+          <img src="/images/space.png" alt="" title="" border="0" />
+          <%= link_to image_tag("/images/credit.png"), {:action => 'show_creditos', :id => promotor}, {:title => "Creditos"}%>
+          <img src="/images/space.png" alt="" title="" border="0" />
+        </td>
+        <%else%>
+        <td>&nbsp;</td>
+        <%end%>
+        <td>
+          <img src="/images/space.png" alt="" title="" border="0" />
+          <%= link_to image_tag("/images/detail.png"), {:action => "show", :id => promotor}, {:title => "Detalles"}%>
+          <img src="/images/space.png" alt="" title="" border="0" />
+        </td>
+        <td>
+          <img src="/images/space.png" alt="" title="" border="0" />
+          <%= link_to image_tag("/images/edit.png"), {:action => "edit", :id => promotor}, {:title => "Editar"}%>
+          <img src="/images/space.png" alt="" title="" border="0" />
+        </td>
+        <td>
+          <img src="/images/space.png" alt="" title="" border="0" />
+          <%= link_to image_tag("/images/delete.png"), { :action => 'destroy', :id => promotor }, :confirm => 'Estas seguro?', :title => "Eliminar", :method => :post%>
+          <img src="/images/space.png" alt="" title="" border="0" />
+        </td>
+      </tr>
+      <% end %>
+    </table>
+  </div>
 </div>

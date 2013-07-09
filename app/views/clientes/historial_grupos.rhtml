@@ -1,21 +1,48 @@
-<div id="maincompleto">
-    <div class="post2">
-      <h1 style="text-decoration:underline">HISTÓRICO DE GRUPOS</h1><br />
-        <h2>Cliente: <%=@cliente.nombre_completo%></h2><br />
-
-        <%@grupos.each do |grupo|%>
-
-            <h3 style=" text-transform:  capitalize" >Grupo: <%=grupo.grupo.nombre%></h3>
-            <h3>Fecha Inicio: <%=grupo.fecha_inicio.strftime("%d/%m/%Y") if grupo.fecha_inicio%></h3>
-            <h3>Fecha fin: <%=grupo.fecha_fin.strftime("%d/%m/%Y") if grupo.fecha_fin%> </h3>
-
-            <%if grupo.activo==0%>
-                <h3>Estatus: INACTIVO</h3><br />
-            <%else%>
-                <h3 style="text-decoration:underline">Estatus: ACTIVO</h3><br />
+<table width="100%" border="0" cellspacing="1" >
+  <tr>
+    <td class="titulo">HISTÓRICO DE GRUPOS</td>
+  </tr>
+  <tr>
+    <td><hr style=" text-align: center;"></hr></td>
+  </tr>
+  <tr>
+    <td>
+      <table class="tabla" width="100%">
+        <tr class="subtitulo">
+          <td width="1%" class="bloque">&nbsp;</td>
+          <td width="99%" colspan="3" bgcolor="#E8E8E8">CLIENTE: <%=@cliente.nombre_completo%></td>
+        </tr>
+        <tr>
+          <td colspan="4">
+            <%@grupos.each do |grupo|%>
+            <table class="tabla" width="100%">
+              <tr class="titulot">
+                <td colspan="2" bgcolor="#E8E8E8">GRUPO: <%=grupo.grupo.nombre%></td>
+              </tr>
+              <tr class="pregunta">
+                <td width="5%">&nbsp;</td>
+                <td>Fecha Inicio: <%=grupo.fecha_inicio.strftime("%d/%m/%Y") if grupo.fecha_inicio%></td>
+              </tr>
+              <tr class="pregunta">
+                <td>&nbsp;</td>
+                <td>Fecha fin: <%=grupo.fecha_fin.strftime("%d/%m/%Y") if grupo.fecha_fin%></td>
+              </tr>
+              <%if grupo.activo==0%>
+              <tr class="pregunta">
+                <td>&nbsp;</td>
+                <td>Estatus: INACTIVO</td>
+              </tr>
+              <%else%>
+              <tr class="pregunta">
+                <td>&nbsp;</td>
+                <td>Estatus: ACTIVO</td>
+              </tr>
+              <%end%>
+            </table>
             <%end%>
-
-        <%end%>
-
-     </div>
-</div>
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>

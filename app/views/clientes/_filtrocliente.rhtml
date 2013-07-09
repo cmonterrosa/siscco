@@ -1,24 +1,36 @@
 <%= error_messages_for 'cliente' %>
 <div id="scroll">
-      <table>
-        <tr>
-          <th>Nombre:</th>
-          <th>CURP:</th>
-          <th>Id:</th>
-          <th colspan="4">Acciones</th>
-        </tr>
-
-        <% for cliente in @clientes %>
-        <tr>
-          <td><%= cliente.nombre_completo %></td>
-          <td><%= cliente.curp %></td>
-          <td><%= cliente.identificador %></td>
-
-          <td><%= button_to 'Detalles', :action => 'show', :id => cliente %></td>
-          <td><%=link_to "Histórico de grupos", { :controller => "clientes", :action => "historial_grupos", :id => cliente},
-                                                  :popup => ['height=300,width=600,left=300,top=300,scrollbars=no']%></td>
-          <td><%= button_to 'Editar', :action => 'edit', :id => cliente %></td>
-         </tr>
-        <% end %>
-      </table>
+  <div id ="search_hits">
+    <table class="resultado" align="center">
+      <tr class="titulot"  bgcolor="#E8E8E8">
+        <td>Nombre:</td>
+        <td>CURP:</td>
+        <td>Id:</td>
+        <td colspan="4">Acciones</td>
+      </tr>
+      <% for cliente in @clientes %>
+      <tr class="subtitulot">
+        <td><%= cliente.nombre_completo %></td>
+        <td><%= cliente.curp %></td>
+        <td><%= cliente.identificador %></td>
+          <td>
+            <img src="/images/space.png" alt="" title="" border="0" />
+            <%= link_to image_tag("/images/detail.png"), {:action => "show", :id => cliente}, {:title => "Detalles"}%>
+            <img src="/images/space.png" alt="" title="" border="0" />
+          </td>
+          <td>
+            <img src="/images/space.png" alt="" title="" border="0" />
+            <%=link_to "Histórico de grupos", { :controller => "clientes", :action => "historial_grupos", :id => cliente},
+                                                  :popup => ['height=300,width=920,left=300,top=300,scrollbars=no']%>
+            <img src="/images/space.png" alt="" title="" border="0" />
+          </td>
+          <td>
+            <img src="/images/space.png" alt="" title="" border="0" />
+            <%= link_to image_tag("/images/edit.png"), {:action => "edit", :id => cliente}, {:title => "Editar"}%>
+            <img src="/images/space.png" alt="" title="" border="0" />
+          </td>
+      </tr>
+      <% end %>
+    </table>
+  </div>
 </div>

@@ -1,12 +1,15 @@
-<h1>Alta Producto / Condiciones de Crédito</h1>
+<div class="page-title">
+  <h1>PRODUCTOS / CONDICIONES DE CRÉDITO</h1>
+  <span>Alta</span>
+</div>
 
 <% form_tag :action => 'create' do %>
   <%= render :partial => 'form' %>
-<table  class="botones">
-  <tr class="botones">
-    <th class="botones"><%= link_to 'Regresar', :action => 'list' %></th>
-    <th class="botones">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
-    <th class="botones"><%= submit_tag "Agregar", :onclick => "return comprobar();" %></th>
+<table align="center">
+  <tr>
+    <td><%= image_submit_tag "/images/guardar.gif", :onclick => "return comprobar();", :class=> "button" %></td>
+    <td>&nbsp;o&nbsp;</td>
+    <td> <%= link_to image_tag("/images/cancelar.gif"), {:action => "list"}, :class=> "button"%></td>
   </tr>
 </table>
 <% end %>

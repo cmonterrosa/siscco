@@ -1,10 +1,15 @@
-<h1>Editing cuenta</h1>
+<div class="page-title">
+  <h1>CUENTAS CONTABLES</h1>
+  <span>Editar... </span>
+</div>
 
 <% form_tag :action => 'update', :id => @cuenta do %>
   <%= render :partial => 'form' %>
-  <%= submit_tag 'Guardar' %>
+<table align="center">
+  <tr>
+    <td><%= image_submit_tag "/images/guardar.gif", :onclick => "return comprobar();", :class=> "button" %></td>
+    <td>&nbsp;o&nbsp;</td>
+    <td> <%= link_to image_tag("/images/cancelar.gif"), {:action => "list"}, :class=> "button"%></td>
+  </tr>
+</table>
 <% end %>
-
-<br />
-<%= link_to 'Mostrar', :action => 'show', :id => @cuenta %> |
-<%= link_to 'Atras', :action => 'list' %>

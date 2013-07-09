@@ -1,13 +1,25 @@
 <%= error_messages_for 'banco' %>
 
 <!--[form:banco]-->
-<table>
+<table width="100%" border="0" cellspacing="0" >
   <tr>
-    <th>Nombre:</th>
-  </tr>
-  <tr>
-    <td><%= text_field 'banco', 'nombre', :onkeypress => "return CharNum(event, 'letra');", :class => "text"  %></td>
+    <td>
+      <table  align="center" class="tabla" border="0">
+        <tr class="subtitulo">
+          <td width="1%" class="bloque">&nbsp;</td>
+          <td bgcolor="#E8E8E8">DATOS BANCO</td>
+        </tr>
+        <tr class="pregunta">
+          <td>&nbsp;</td>
+          <td>Nombre</td>
+        </tr>
+        <tr>
+          <td>&nbsp;</td>
+          <td><%= text_field 'banco', 'nombre', :onkeypress => "return CharNum(event, 'letra');", :class => "text"  %></td>
+        </tr>
+      </table>
+    </td>
   </tr>
 </table>
 <!--[eoform:banco]-->
-
+<br/>
