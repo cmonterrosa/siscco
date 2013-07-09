@@ -129,4 +129,8 @@ class Credito < ActiveRecord::Base
      return (Miembro.find(:first, :conditions => ["credito_id = ? AND jerarquia_id = ?", self.id, jerarquia.id])).cliente
   end
 
+  def lista_pagos
+    return Pagogrupal.find(:all, :conditions => ["credito_id = ?", self.id])
+  end
+
    end

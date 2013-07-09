@@ -376,7 +376,8 @@ end
   end
 
   def calcular_capital_total
-    @capital_total = Pagogrupal.sum(:capital_minimo, :conditions => ["credito_id = ? and pagado=0", @credito.id])
+    @capital_total = @credito.monto
+    #@capital_total =  (Pagogrupal.find(:first, :conditions => ["credito_id = ? and pagado = 1", @credito.id])) ? Pagogrupal.sum(:capital_minimo, :conditions => ["credito_id = ? and pagado=0", @credito.id]) : @credito.monto
   end
 
   def calcular_total_recuperado
@@ -390,8 +391,8 @@ end
   end
 
   def calcular_saldo_actual_individual
-    @capital_total = Pagogrupal.sum(:capital_minimo, :conditions => ["credito_id = ? and pagado=0", @credito.id])
-    @capital_total = 0 if @capital_total.nil?
+    @capital_total ||= Pagogrupal.sum(:capital_minimo, :conditions => ["credito_id = ? and pagado=0", @credito.id])
+    @capital_total ||= 0 if @capital_total.nil?
     @interes_total = Pagogrupal.sum(:interes_minimo, :conditions => ["credito_id = ? and pagado=0", @credito.id])
     @interes_total = 0 if @interes_total.nil?
     @saldo_actual_individual = ((@capital_total + @interes_total) / @numero_clientes)
