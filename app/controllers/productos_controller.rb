@@ -47,7 +47,7 @@ class ProductosController < ApplicationController
       registro = Producto.find(:first, :conditions => ["id = ?", params[:id]])
       registro.destroy
     rescue ActiveRecord::StatementInvalid => error
-        flash[:notice] = "No se puede eliminar el registro #{registro.nombre}, existen relaciones con otras tablas"
+        flash[:notice] = "No se puede eliminar el registro, existen relaciones con otras tablas"
     end
     redirect_to :action => "list"
   end
