@@ -1,5 +1,5 @@
 
-<h2 style=" text-align: center;">Vencimiento del Crédito al día <%=Time.now.strftime("%d/%m/%Y")%></h2>
+<h2 style=" text-align: center;">Estado de cuenta ( <%=Time.now.strftime("%d/%m/%Y")%>)</h2>
 
 <!-- Realizamos el calculo -->
 <%credito_vencimiento = Vencimiento.new(@credito)%>
@@ -233,24 +233,24 @@
             </tr>
             <tr>
               <td class="hed">Crédito: </td>
-              <td> <%=@credito.monto%></td>
+              <td> <%=separar_miles(@credito.monto)%></td>
             </tr>
 
             <tr>
               <td class="hed">Interes total: </td>
-              <td> <%=@credito.interes_global%></td>
+              <td> <%=separar_miles(@credito.interes_global)%></td>
             </tr>
 
              <tr>
               <td class="hed">Iva global: </td>
-              <td> <%=@credito.iva_global%></td>
+              <td> <%=separar_miles(@credito.iva_global)%></td>
             </tr>
 
              <tr>
               <td class="hed">Total deuda: </td>
               <%@credito.interes_global = 0 unless @credito.interes_global%>
               <%@credito.iva_global = 0 unless @credito.iva_global%>
-              <td> <%=@credito.monto + @credito.interes_global + @credito.iva_global%></td>
+              <td> <%=separar_miles(@credito.monto + @credito.interes_global + @credito.iva_global)%></td>
             </tr>
       </table>
       
@@ -270,23 +270,27 @@
 <!-- tabla de pagos -->
 <table class="stats" cellspacing="0">
   <tr>
-    <td class="hed" width="30%" colspan="5" align="center">AMORTIZACIONES</td>
+    <td class="hed" colspan="6" align="center">AMORTIZACIONES</td>
   </tr>
   <tr>
-     <td class="hed" width="15%">Capital</td>
-     <td class="hed" width="15%">Interes</td>
-     <td class="hed" width="15%">Iva</td>
-     <td class="hed" width="15%">Total</td>
-     <td class="hed" width="15%">Fecha de pago</td>
+    <td class="hed" width="5%" align="center">NP</td>
+     <td class="hed" width="15%" align="center">Capital</td>
+     <td class="hed" width="15%" align="center">Interes</td>
+     <td class="hed" width="10%" align="center">Iva</td>
+     <td class="hed" width="15%" align="center">Total</td>
+     <td class="hed" width="15%" align="center">Fecha de pago</td>
   </tr>
+  <%contador=1%>
     <%@credito.lista_pagos.each do |pago|%>
     <tr>
-      <td class="cont" width="15%"><%=pago.capital_minimo%></td>
-      <td class="cont" width="15%"><%=pago.interes_minimo%></td>
-      <td class="cont" width="15%"><%=pago.iva%></td>
+      <td class="cont" width="5%"><%=contador%></td>
+      <td class="cont" width="15%"><%=separar_miles(pago.capital_minimo)%></td>
+      <td class="cont" width="15%"><%=separar_miles(pago.interes_minimo)%></td>
+      <td class="cont" width="10%"><%=separar_miles(pago.iva)%></td>
       <td class="cont" width="15%"><%=(pago.capital_minimo + pago.interes_minimo + pago.iva)%></td>
       <td class="cont" width="40%"><%=pago.fecha_limite.strftime("%d de %B de %Y")%></td>
     </tr>
+    <%contador+=1%>
     <%end%>
 </table>
 
