@@ -424,4 +424,8 @@ class CreditosController < ApplicationController
     
   end
 
+  def new_individual_under_construction
+    
+  end
+
 end
