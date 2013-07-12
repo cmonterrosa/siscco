@@ -29,8 +29,8 @@
               <tr class="pregunta">
                 <td>&nbsp;</td>
                 <td>Tasa mensual SSG (0 -100) %</td>
-                <td>Tasa comision por apertura</td>
-                <td>Tasa anualizada moratoria</td>
+                <td>Tasa comision por apertura (0-200) %</td>
+                <td>Tasa anualizada moratoria (0-200) %</td>
               </tr>
               <tr>
                 <td>&nbsp;</td>
@@ -43,6 +43,7 @@
         </tr>
 
         <!-- Tasa FLAT -->
+        <!--
         <tr>
           <td colspan="4">
             <table width="100%" class="tabla">
@@ -58,13 +59,14 @@
               </tr>
               <tr>
                 <td>&nbsp;</td>
-                <td><%= text_field 'producto', 'tasa_mensual_flat', :onkeypress => "return CharNum(event, 'numero');", :class => 'text'  %></td>
-                <td><%= text_field 'producto', 'moratorio_flat', :onkeypress => "return CharNum(event, 'numero');", :class => 'text'  %></td>
+                <td><= text_field 'producto', 'tasa_mensual_flat', :onkeypress => "return CharNum(event, 'numero');", :class => 'text'  %></td>
+                <td><= text_field 'producto', 'moratorio_flat', :onkeypress => "return CharNum(event, 'numero');", :class => 'text'  %></td>
                 <td>&nbsp;</td>
               </tr>
             </table>
           </td>
         </tr>
+        -->
 
         <!-- Tasa SSI -->
         <tr>
