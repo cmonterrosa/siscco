@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="pagare" pageWidth="612" pageHeight="792" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="42"/>
+	<property name="ireport.y" value="114"/>
+	<parameter name="P_TOTAL_DEUDA" class="java.lang.String"/>
+	<parameter name="P_CREDITO_ID" class="java.lang.String"/>
+	<parameter name="P_TASA_ANUALIZADA" class="java.lang.String"/>
+	<parameter name="P_FECHA_STRING" class="java.lang.String"/>
+	<parameter name="P_PRESIDENTE" class="java.lang.String"/>
+	<parameter name="P_TOTAL_PAGOS" class="java.lang.String"/>
+	<parameter name="P_TASA_MORATORIA_ANUAL" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[select * from pagogrupals where credito_id=$P{P_CREDITO_ID}]]>
+	</queryString>
+	<field name="id" class="java.lang.Integer"/>
+	<field name="fecha_limite" class="java.sql.Date"/>
+	<field name="capital_minimo" class="java.math.BigDecimal"/>
+	<field name="interes_minimo" class="java.math.BigDecimal"/>
+	<field name="pagado" class="java.lang.Integer"/>
+	<field name="credito_id" class="java.lang.Integer"/>
+	<field name="num_pago" class="java.lang.Integer"/>
+	<field name="saldo_inicial" class="java.lang.Float"/>
+	<field name="saldo_final" class="java.lang.Float"/>
+	<field name="principal_recuperado" class="java.math.BigDecimal"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="133" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="8" width="572" height="20"/>
+				<textElement textAlignment="Center">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[PAGARÉ]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="2" y="33" width="570" height="41"/>
+				<textElement textAlignment="Justified">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA["Por este pagaré me obligo a pagar incondicionalmente a la orden de Crecimiento Solidario para el Desarrollo Organizado S.A de C.V. Sociedad Financiera de Objeto Múltiple, Entidad No Regulada, la cantidad de " + $P{P_TOTAL_DEUDA} + "  en sus oficinas ubicadas en Av. 13 sur poniente número 640 en la ciudad de Tuxtla Gutiérrez, Chiapas. C.P. 29066 o en cualquier Ciudad o lugar en que se me requiera el día y forma en que se precisan tanto en la tabla de amortizaciones como en el quinto párrafo de este título de crédito."]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="2" y="74" width="570" height="11"/>
+				<textElement textAlignment="Left">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[VALOR RECIBIDO A MI ENTERA SATISFACCIÓN ENTREGADO Y RECIBIDO]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="0" y="85" width="572" height="41"/>
+				<textElement textAlignment="Justified">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA["El importe de este pagaré causará intereses ordinarios a razón del " +  $P{P_TASA_ANUALIZADA} + "% anual a partir de la fecha de suscripción y hasta el día de su vencimiento más IVA de intereses. \n" + "La cantidad antes señalada será pagada en " + $P{P_TOTAL_PAGOS} + " amortizaciones consecutivas, precisamente en las fechas y por los montos establecidos en la tabla de amortizaciones siguiente."]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="464" y="0" width="108" height="20"/>
+				<textElement>
+					<font size="7" isBold="true"/>
+				</textElement>
+				<text><![CDATA[RECA: 3729-439-008452]]></text>
+			</staticText>
+		</band>
+	</title>
+	<columnHeader>
+		<band height="20" splitType="Stretch">
+			<rectangle>
+				<reportElement x="79" y="0" width="385" height="20"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="79" y="0" width="110" height="20"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="189" y="0" width="155" height="20"/>
+			</rectangle>
+			<staticText>
+				<reportElement mode="Transparent" x="79" y="0" width="110" height="20"/>
+				<textElement textAlignment="Center">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Amortizaciones]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="344" y="0" width="120" height="20"/>
+				<textElement textAlignment="Center">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Fecha de pago]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="195" y="0" width="149" height="20"/>
+				<textElement textAlignment="Center">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Monto de la amortización]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="10" splitType="Stretch">
+			<textField>
+				<reportElement x="189" y="0" width="155" height="10"/>
+				<textElement textAlignment="Center">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA["$" + $F{capital_minimo}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="344" y="0" width="120" height="10"/>
+				<textElement textAlignment="Center">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression class="java.util.Date"><![CDATA[$F{fecha_limite}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="102" y="0" width="87" height="10"/>
+				<textElement textAlignment="Center">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression class="java.lang.Integer"><![CDATA[$V{COLUMN_COUNT}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<summary>
+		<band height="216" splitType="Stretch">
+			<textField>
+				<reportElement x="2" y="11" width="570" height="68"/>
+				<textElement textAlignment="Justified">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA["El suscriptor y a falta de estar el (los) aval(es) se compromete(n) a realizar el pago de las amortizaciones mediante el depósito en cualquiera de las siguientes cuentas bancarias número: 596203 de la sucursal 7000 de la institución bancaria Banco Nacional de México, S.A. de C.V. Institución de Banca Múltiple a nombre de Crecimiento Solidario para el Desarrollo Organizado S.A. de C.V., Sociedad Financiera de Objeto Múltiple, Entidad No Regulada o en aquellas sucursales de esta última en la que cuenta con el servicio de caja receptora de pagos. En caso de que por circunstancias extraordinarias las instituciones de Crédito señaladas se negaran a recibir el pago en las fechas correspondientes, el suscriptor se obliga a realizar el pago en el domicilio ubicado en: Av. 13 sur poniente número 640 en la ciudad de Tuxtla Gutiérrez, Chiapas, C.P. 29066"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="2" y="79" width="570" height="59"/>
+				<textElement textAlignment="Justified">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA["El suscriptor y el (los) aval(es) reconocen y aceptan que la falta de pago oportuno de una o más de sus amortizaciones pactadas y que conforme a este pagaré deben realizar, generará el vencimiento anticipado de los pagos que falten por efectuar, siendo exigible por Crecimiento Solidario Para el Desarrollo Organizado S.A. de C.V. Sociedad Financiera de Objeto Múltiple, Entidad no Regulada, el pago inmediato de todas las amortizaciones no pagadas, más intereses moratorios a razón de una tasa del " + $P{P_TASA_MORATORIA_ANUAL} + "% anual, calculado diariamente sobre el capital devengado y no pagado conforme a la tabla de amortización inserta en el cuerpo del presente título de crédito, aplicable desde el día siguiente en que incurrió en mora y hasta que efectúe el pago total del adeudo."]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="138" width="572" height="20"/>
+				<textElement textAlignment="Justified">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA["Lugar y fecha de suscripción: Tuxtla Gutiérrez, Chiapas a " + $P{P_FECHA_STRING} + "."]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="2" y="162" width="570" height="12"/>
+				<textElement textAlignment="Center">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[EL SUSCRIPTOR]]></text>
+			</staticText>
+			<line>
+				<reportElement x="208" y="191" width="165" height="1"/>
+			</line>
+			<textField>
+				<reportElement x="208" y="196" width="166" height="20"/>
+				<textElement textAlignment="Center">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{P_PRESIDENTE} + "."]]></textFieldExpression>
+			</textField>
+		</band>
+	</summary>
+</jasperReport>
