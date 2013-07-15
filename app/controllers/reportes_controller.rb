@@ -35,10 +35,11 @@ before_filter :login_required
      def nuevo_pagare
       #--- Llenamos los parametros -------
        if params[:id] && Credito.find(params[:id])
-        @credito = Credito.find(params[:id])
+        @credito = Credito.find(:first, :conditions => ["id = ?", params[:id]])
+        @credito ||= Credito.find(params[:id])
         #----- Parametros del credito -------
         param=Hash.new {|k, v| k[v] = {:tipo=>"",:valor=>""}}
-        param["P_TOTAL_DEUDA"]={:tipo=>"String", :valor=>"$#{separar_miles(@credito.monto)} (#{@credito.monto.to_words})"}
+        param["P_TOTAL_DEUDA"]={:tipo=>"String", :valor=>"\$#{separar_miles(@credito.monto)} (#{@credito.monto.to_words})"}
         param["P_CREDITO_ID"]={:tipo=>"String", :valor=>@credito.id}
         param["P_TASA_ANUALIZADA"]={:tipo=>"String", :valor=>@credito.producto.tasa_anualizada}
         param["P_FECHA_STRING"]={:tipo=>"String", :valor=>DateTime.now.strftime("%d de %B de %Y")}
@@ -71,7 +72,8 @@ before_filter :login_required
         param["P_CUENTA"]={:tipo=>"String", :valor=>"#{@credito.linea.ctaliquidadora.num_cta}"}
         param["P_REFERENCIA"]={:tipo=>"String", :valor=>"#{@credito.num_referencia}"}
         param["P_PROMOTOR"]={:tipo=>"String", :valor=>"#{@credito.promotor.nombre_completo_desc}"}
-        interes = (@credito.tipo_interes == "GLOBAL MENSUAL (FLAT)") ? @credito.producto.tasa_mensual_flat : @credito.producto.interes
+        #interes = (@credito.tipo_interes == "GLOBAL MENSUAL (FLAT)") ? @credito.producto.tasa_mensual_flat : @credito.producto.interes
+        interes = (@credito.producto.tasa_mensual_ssg) ? (@credito.producto.tasa_mensual_ssg) : "5.81"
         param["P_INTERES"]={:tipo=>"String", :valor=>"#{interes}"}
         param["P_NUM_SOCIAS"]={:tipo=>"String", :valor=>"#{numero_clientes_grupo(@credito.grupo)}"}
         param["P_PLAZO_SEMANAS"]={:tipo=>"String", :valor=>"#{@credito.producto.num_pagos.to_s}"}
@@ -579,7 +581,7 @@ before_filter :login_required
 
           #--- logos -----
         _pdf.move_pointer(-90)
-        i0 = _pdf.image "#{RAILS_ROOT}/public/images/cresolido_logo.png", :resize => 0.95, :justification=>:center
+        i0 = _pdf.image "#{RAILS_ROOT}/public/images/cresolido_logo.jpg", :resize => 0.95, :justification=>:center
 
 
          #---- TITULO -----
@@ -684,7 +686,7 @@ before_filter :login_required
 
         #--- logos -----
         _pdf.move_pointer(-90)
-        i0 = _pdf.image "#{RAILS_ROOT}/public/images/cresolido_logo.png", :resize => 0.95, :justification=>:center
+        i0 = _pdf.image "#{RAILS_ROOT}/public/images/cresolido_logo.jpg", :resize => 0.95, :justification=>:center
 
 
          #---- TITULO -----
