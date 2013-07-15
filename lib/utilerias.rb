@@ -12,8 +12,13 @@ module Utilerias
     int, dec = $1.reverse, $2 ? $2 : ""
     while int.gsub!(/(,|\.|^)(\d{3})(\d)/, '\1\2,\3')
     end
-    int.reverse + dec.ljust(2,'0')
+    #int.reverse + dec.ljust(2,'0')
+    return clean_string((int.reverse).to_s + dec.ljust(2,'0'))
   end
+
+   def clean_string(string)
+    (string) ? (return string.to_s.gsub(/\$/, '\$').gsub(/\"/, '\"')) : (return "")
+   end
 
   def round(float, num_of_decimal_places=1)
       exponent = num_of_decimal_places + 2
