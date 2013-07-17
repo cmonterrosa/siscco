@@ -1,0 +1,27 @@
+<br /><br />
+<h1>LISTADO DE PERSONAS EN LISTA NEGRA</h1>
+
+<table class="stats" cellspacing="0">
+  <tr>
+    <th class="cont">Nombre completo</th>
+    <th class="cont">Curp</th>
+    <th class="cont">Tipo</th>
+    <th class="cont">&nbsp;</th>
+  </tr>
+
+<% @lista_negras.each do |lista_negra| %>
+  <tr>
+    <td><%=h lista_negra.nombre_completo %></td>
+    <td><%=h lista_negra.curp %></td>
+    <td><%=h lista_negra.tipo %></td>
+    <td><%=h lista_negra.observaciones %></td>
+    <td><%= link_to 'Detalles', lista_negra %></td>
+    <td><%= link_to 'Editar', edit_lista_negra_path(lista_negra) %></td>
+    <td><%= link_to 'Eliminar', lista_negra, :confirm => '¿Está seguro?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= button_to 'Nuevo registro', new_lista_negra_path %>
