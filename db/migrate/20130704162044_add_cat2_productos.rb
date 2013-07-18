@@ -1,17 +1,17 @@
 class AddCat2Productos < ActiveRecord::Migration
   def self.up
     #### Modificacion en productos #############
-    add_column :productos, :cat, :decimal, :precision => 15, :scale => 2
-    add_column :productos, :tasa_mensual_ssg, :decimal, :precision => 15, :scale => 2
-    add_column :productos, :tasa_comision_apertura, :decimal, :precision => 15, :scale => 2
-    add_column :productos, :iva_comision_apertura, :decimal, :precision => 15, :scale => 2
-    add_column :productos, :tasa_anualizada_moratoria, :decimal, :precision => 15, :scale => 2
+    add_column :productos, :cat, :decimal, :precision => 15, :scale => 5
+    add_column :productos, :tasa_mensual_ssg, :decimal, :precision => 15, :scale => 5
+    add_column :productos, :tasa_comision_apertura, :decimal, :precision => 15, :scale => 5
+    add_column :productos, :iva_comision_apertura, :decimal, :precision => 15, :scale => 5
+    add_column :productos, :tasa_anualizada_moratoria, :decimal, :precision => 15, :scale => 5
 
     ###### Agregamos la columnas para historico en el credito #######
-    add_column :creditos, :cat, :decimal, :precision => 15, :scale => 2
-    add_column :creditos, :cat_comision_apertura, :decimal, :precision => 15, :scale => 2
-    add_column :creditos, :interes_global, :decimal, :precision => 15, :scale => 2
-    add_column :creditos, :iva_global, :decimal, :precision => 15, :scale => 2
+    add_column :creditos, :cat, :decimal, :precision => 15, :scale => 5
+    add_column :creditos, :cat_comision_apertura, :decimal, :precision => 15, :scale => 5
+    add_column :creditos, :interes_global, :decimal, :precision => 15, :scale => 5
+    add_column :creditos, :iva_global, :decimal, :precision => 15, :scale => 5
   end
 
   def self.down

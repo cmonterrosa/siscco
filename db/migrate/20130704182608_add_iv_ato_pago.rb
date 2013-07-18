@@ -1,8 +1,8 @@
 class AddIvAtoPago < ActiveRecord::Migration
   def self.up
       #### Modificacion en pagos #############
-      add_column :pagos, :iva, :decimal, :precision => 15, :scale => 2
-      add_column :pagogrupals, :iva, :decimal, :precision => 15, :scale => 2
+      add_column :pagos, :iva, :decimal, :precision => 15, :scale => 5
+      add_column :pagogrupals, :iva, :decimal, :precision => 15, :scale => 5
   end
 
   def self.down
