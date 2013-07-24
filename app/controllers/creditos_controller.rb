@@ -128,23 +128,17 @@ class CreditosController < ApplicationController
     @fecha_inicio = Date.strptime(@credito.fecha_inicio.to_s)
     @credito.tasa_interes = @producto.tasa_anualizada
     @credito.num_referencia = params[:credito][:num_referencia] if params[:credito][:num_referencia]
-    if params[:credito][:grupo_id].nil?
-      @tipo = "INDIVIDUAL"
-      #--- Los creditos individuales siempre son con recursos propios ------
-      @credito.linea = Linea.find(:first, :conditions => ["cuenta_cheques = ?", "RECURSOS PROPIOS"])
-    else
-      @tipo = "GRUPAL"
-      @credito.grupo = Grupo.find(params[:credito][:grupo_id])
-    end
+    @tipo = (params[:credito][:grupo_id].nil?) ? "INDIVIDUAL" : "GRUPAL"
+    @credito.linea = Linea.find(:first, :conditions => ["cuenta_cheques = ?", "RECURSOS PROPIOS"]) if @tipo == "INDIVIDUAL"
+    @credito.grupo = Grupo.find(params[:credito][:grupo_id]) if @tipo == "GRUPAL"
     @n_pagos = Producto.find(:first, :conditions => ["id = ?", params[:credito][:producto_id]])
     @credito.fecha_fin = ultimo_pago(@fecha_inicio.year, @fecha_inicio.month, @fecha_inicio.day, @n_pagos.num_pagos, @producto.periodo)
+    
+    ################## VALIDACIONES ###############################
     #--- Validamos si la linea de fondeo tiene disponible ----
     if linea_disponible(Linea.find(params[:credito][:linea_id])).to_f >=  params[:credito][:monto].to_f || @tipo == "INDIVIDUAL"
           if inserta_credito(@credito, @tipo)
-          #--- Insertamos el registro de los pagos que debe de realizar -----
-           #inserta_pagos(@credito, calcula_pagos(@fecha_inicio.year, @fecha_inicio.month, @fecha_inicio.day, params[:credito][:num_pagos], Periodo.find(params[:credito][:periodo_id])))
-               #---- Validamos si es individual o grupal ----
-               inserta_miembros(params[:miembro], @credito) if params[:miembro]
+             inserta_miembros(params[:miembro], @credito) if params[:miembro] && @tipo == "GRUPAL"
                 if params[:credito][:grupo_id].nil?
                 #--- Es individual -----
                    inserta_pagos_individuales(@credito, calcula_pagos(@fecha_inicio.year, @fecha_inicio.month, @fecha_inicio.day, @producto.num_pagos, @producto.periodo))
@@ -171,6 +165,15 @@ class CreditosController < ApplicationController
       flash[:notice] = "La linea no cuenta con fondos disponibles"
       redirect_to :action => "index", :controller => 'home'
     end
+  end
+
+  
+  def create_individual
+
+  end
+
+  def create_grupal
+
   end
 
   def edit
