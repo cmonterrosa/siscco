@@ -28,7 +28,6 @@ class Vencimiento
       @total_deuda_individual = 0
       @pago_excedente = 0
       @saldo_actual_individual = 0
-      puts("Grupo => #{credito.grupo.id}")
       #---- Valores dinámicos para iva y gastos de cobranza ---
       if credito.producto.iva
         @tasa_iva = (credito.producto.iva / 100.0)
@@ -40,10 +39,19 @@ class Vencimiento
       else
         @cuota_gastos_cobranza = 200
       end
-      
-      @clientes = Clientegrupo.find(:all, :select => "id, fecha_fin, activo", :conditions => ["grupo_id = ?",credito.grupo.id.to_i])
-      puts("Clientes => #{@clientes}")
-      @numero_clientes = @clientes.size
+
+      if @credito.grupo_id
+        @clientes = Clientegrupo.find(:all, :select => "id, fecha_fin, activo", :conditions => ["grupo_id = ?",credito.grupo.id.to_i])
+        puts("Clientes => #{@clientes}")
+        @numero_clientes = @clientes.size
+      else
+        @clientes = Cliente.find(@credito.cliente_id)
+        puts("Cliente => #{@cliente}")
+        @numero_clientes = 1
+      end
+
+
+
       @excendente_deposito=0.0
       @periodos_sin_pagar = 0
       @pagos_vencidos = nil
@@ -64,6 +72,7 @@ class Vencimiento
         end
         @tasa_normal_mensual = @credito.producto.tasa_mensual_flat.to_f
       end
+      @tasa_moratoria_mensual ||= ((@credito.producto.tasa_anualizada_moratoria.to_f / 360.0) * 30) / 100.0
       #---- Proporciones ---
       @proporcion_capital = 0
       @proporcion_interes = 0

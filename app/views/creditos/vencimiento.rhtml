@@ -40,20 +40,22 @@
           <td><%=@credito.fecha_inicio%></td>
         </tr>
          <tr>
-          <td class="hed">Fecha último pago: </td>
+          <td class="hed">Fecha último/próximo pago: </td>
           <td><%=@credito.ultimo_pago.to_s%></td>
         </tr>
         <tr>
           <td class="hed">Numero de pagos: </td>
           <td><%=@credito.producto.num_pagos%></td>
         </tr>
+        <%if @credito.grupo%>
+          <tr>
+            <td class="hed">Nombre del grupo</td>
+            <td><%=link_to "#{@credito.grupo.nombre}", :action => "show", :controller => "grupos", :id => @credito.grupo%></td>
+          </tr>
+        <%end%>
         <tr>
-          <td class="hed">Nombre del grupo</td>
-          <td><%=link_to "#{@credito.grupo.nombre}", :action => "show", :controller => "grupos", :id => @credito.grupo%></td>
-        </tr>
-        <tr>
-          <td class="hed">Integrantes del grupo</td>
-          <td><%=credito_vencimiento.numero_clientes.to_i%></td>
+          <td class="hed">Integrantes del grupo / Cliente</td>
+          <td><%=h (@credito.grupo) ? credito_vencimiento.numero_clientes.to_i : Cliente.find(@credito.cliente_id).nombre_completo%></td>
         </tr>
         <!-- IVA-->
         <tr>
@@ -112,6 +114,11 @@
         <tr>
           <td class="hed">Tipo de interes</td>
           <td><%=@credito.tipo_interes%></td>
+        </tr>
+
+         <tr>
+          <td class="hed">Tipo de crédito</td>
+          <td><%=h (@credito.grupo) ? "GRUPAL" : "INDIVIDUAL"%></td>
         </tr>
       </table>
     </td>
@@ -237,12 +244,12 @@
             </tr>
 
             <tr>
-              <td class="hed">Interes total: </td>
+              <td class="hed">Interés total: </td>
               <td> <%=separar_miles(@credito.interes_global)%></td>
             </tr>
 
              <tr>
-              <td class="hed">Iva global: </td>
+              <td class="hed">IVA global: </td>
               <td> <%=separar_miles(@credito.iva_global)%></td>
             </tr>
 

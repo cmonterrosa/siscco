@@ -124,8 +124,7 @@ class CreditosController < ApplicationController
 
    def create_nuevo_algoritmo
     @credito = Credito.new(params[:credito])
-    @producto = Producto.find(params[:credito][:producto_id])
-    @credito.producto = @producto
+    @credito.producto = @producto = Producto.find(params[:credito][:producto_id])
     @fecha_inicio = Date.strptime(@credito.fecha_inicio.to_s)
     @credito.tasa_interes = @producto.tasa_anualizada
     @credito.num_referencia = params[:credito][:num_referencia] if params[:credito][:num_referencia]
@@ -134,48 +133,18 @@ class CreditosController < ApplicationController
     @credito.grupo = Grupo.find(params[:credito][:grupo_id]) if @tipo == "GRUPAL"
     @n_pagos = Producto.find(:first, :conditions => ["id = ?", params[:credito][:producto_id]])
     @credito.fecha_fin = ultimo_pago(@fecha_inicio.year, @fecha_inicio.month, @fecha_inicio.day, @n_pagos.num_pagos, @producto.periodo)
-
-    if @tipo == "INDIVIDUAL"
-     @credito.create("")
-     @credito.inserta_pagos(arreglo_pagos, tipos_interes,tipo_credito)
-       
-    end
-
-
-    ################## VALIDACIONES ###############################
-    #--- Validamos si la linea de fondeo tiene disponible ----
-    if linea_disponible(Linea.find(params[:credito][:linea_id])).to_f >=  params[:credito][:monto].to_f || @tipo == "INDIVIDUAL"
-          if inserta_credito(@credito, @tipo)
-             inserta_miembros(params[:miembro], @credito) if params[:miembro] && @tipo == "GRUPAL"
-                if params[:credito][:grupo_id].nil?
-                #--- Es individual -----
-                   inserta_pagos_individuales(@credito, calcula_pagos(@fecha_inicio.year, @fecha_inicio.month, @fecha_inicio.day, @producto.num_pagos, @producto.periodo))
-                else
-
-                    inserta_pagos_grupales_por_tipo(@credito, calcula_pagos(@fecha_inicio.year, @fecha_inicio.month, @fecha_inicio.day, @producto.num_pagos, @producto.periodo), @credito.tipo_interes)
-                       #update_pagos_grupales(@credito) #--- Actualizamos la tabla pagosgrupals
-                       unless Cuenta.find(:all).empty? #--- Si existe alguna cuenta
-                          inserta_poliza(params[:credito][:monto], Cuenta.find(:first), "ABONO")
-                       end
-                       inserta_credito_extraordinario(@credito) if params[:credito][:tipo_aplicacion]=="EXTRAORDINARIO" #----------- Si el tipo de aplicacion es extraordinaria -------
-
-                end
-                calcula_devengo_intereses(@credito)
-
-           flash[:notice]="El crédito #{@credito.id} ha sido capturado"
-           redirect_to :action => 'menu', :controller => "reportes", :id => @credito
-
-          else
-                flash[:notice]="El crédito no pudo ser grabado, verifique que el grupo tenga al menos dos clientes asociados"
-                redirect_to :action => 'list'
-          end
+    inserta_credito(@credito, @tipo)
+    arreglo_pagos = calcula_pagos(@fecha_inicio.year, @fecha_inicio.month, @fecha_inicio.day, @producto.num_pagos, @producto.periodo)
+    flash[:notice] = (@credito.inserta_pagos(arreglo_pagos, @credito.tipo_interes, @tipo)) ? "Credito guardado correctamente" : "No se pudo guardar, verifique"
+    if @credito.inserta_pagos(arreglo_pagos, @credito.tipo_interes, @tipo)
+      flash[:notice]="El crédito #{@credito.id} ha sido capturado"
+      redirect_to :action => 'menu', :controller => "reportes", :id => @credito
     else
-      flash[:notice] = "La linea no cuenta con fondos disponibles"
-      redirect_to :action => "index", :controller => 'home'
+       @credito.destroy
+       flash[:notice] = "Crédito no guardado"
+       redirect_to :controller => "home"
     end
   end
-
-
 
 
 

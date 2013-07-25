@@ -388,11 +388,9 @@ module Creditos
     end
   end
 
-  def load_inicial_information()
-    
-  end
+  
 
-  def linea_disponible(linea)
+   def linea_disponible(linea)
     if linea.creditos.empty?
            return linea.autorizado.to_f + total_recibido(linea) - total_transferido(linea)
         else
