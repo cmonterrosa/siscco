@@ -57,7 +57,6 @@ class Vencimiento
       @pagos_vencidos = nil
       @proximo_pago_string = " "
       @liquidado=false
-      @tasa_moratoria_mensual= 0
       if credito.tipo_interes == "SALDOS INSOLUTOS (SSI)"
         if @credito.producto.moratorio_ssi
            @tasa_moratoria_mensual = ((@credito.producto.moratorio_ssi.to_f / 100.0) / 12.0)
@@ -67,12 +66,13 @@ class Vencimiento
         end
         @tasa_normal_mensual = round((((@credito.producto.tasa_anualizada.to_f) / 360.0 ) * 30), 4)
       else
-        if @credito.producto.moratorio_flat
+        if credito.tipo_interes == "GLOBAL MENSUAL (FLAT)" && @credito.producto.moratorio_flat
            @tasa_moratoria_mensual = (@credito.producto.moratorio_flat.to_f / 100.0)
         end
         @tasa_normal_mensual = @credito.producto.tasa_mensual_flat.to_f
       end
-      @tasa_moratoria_mensual ||= ((@credito.producto.tasa_anualizada_moratoria.to_f / 360.0) * 30) / 100.0
+      @tasa_moratoria_mensual ||= (((@credito.producto.tasa_anualizada_moratoria.to_f / 100.0) / 360.0) * 30)
+      @tasa_moratoria_mensual ||= 0
       #---- Proporciones ---
       @proporcion_capital = 0
       @proporcion_interes = 0
@@ -369,7 +369,8 @@ end
     anio_fecha = fecha.year
     yday_fecha = fecha.yday
     if anio_hoy == anio_fecha
-      return yday_hoy - yday_fecha
+       valor = yday_hoy - yday_fecha
+      (valor > 0)?  valor : 0
     else
       return (yday_hoy + 365 * (hoy.year - fecha.year)) - yday_fecha
     end
