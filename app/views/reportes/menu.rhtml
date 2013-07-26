@@ -24,7 +24,10 @@ font-weight:normal;color:#192BCF;letter-spacing:2pt;word-spacing:2pt;font-size:3
 <br></br>
     <a style="text-align: center"><%=button_to 'SALDO', :controller => "creditos", :action => "vencimiento", :id => @credito, :method => :post%></a>
 <br></br>
-    <a style="text-align: center"><%=button_to '(ACTUALIZADO) Pagare', :action => "nuevo_pagare", :id => @credito, :method => :post%></a>
+    <a style="text-align: center"><%=button_to '(ACTUALIZADO) Pagare', :controller => "reportes", :action => "nuevo_pagare", :id => @credito, :method => "put"%></a>
+
+    
+
 <br></br>
     <a style="text-align: center"><%=button_to '(NUEVO) Lista mensual de socias', :action => "lista_mensual_socias", :id => @credito, :method => :post%></a>
  <br/><br/>
@@ -35,9 +38,13 @@ font-weight:normal;color:#192BCF;letter-spacing:2pt;word-spacing:2pt;font-size:3
     <a style="text-align: center"><%=button_to 'Reglamento', :action => "pagare", :id => @credito, :method => :post%></a>
 <br></br>
     <a style="text-align: center;">
+      <%if @credito.grupo%>
       <% form_tag :action => 'tarjeta_pagos', :id =>@credito do%>
-        <%= collection_select("cliente", "id", clientes_activos_grupo(@credito.grupo), :id, :nombre_completo, {:prompt => '>>CLIENTE'}, :class => 'text') %>
-        <%= submit_tag "Tarjeton de Pagos"%>
+          <%= collection_select("cliente", "id", clientes_activos_grupo(@credito.grupo), :id, :nombre_completo, {:prompt => '>>CLIENTE'}, :class => 'text') %>
+          <%= submit_tag "Tarjeton de Pagos"%>
+      <%end%>
+      <%else%>
+          <a style="text-align: center"><%=button_to 'Tarjeton de pagos', :action => "tarjeta_pagos", :id => @credito, :method => :post%></a>
       <%end%>
     </a>
 <br></br>

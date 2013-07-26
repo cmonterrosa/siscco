@@ -10,7 +10,7 @@
   <tr>
     <td class="cont" width="30%">Datos Informativos</td>
     <td class="cont" width="5%">&nbsp;</td>
-    <td class="cont"width="30%">Saldo</td>
+    <td class="cont"width="30%">Saldo Actual o Vencido</td>
      <td class="cont" width="5%">&nbsp;</td>
     <td class="cont"width="30%">Datos iniciales</td>
   </tr>
@@ -146,6 +146,12 @@
               <td>$ <%=separar_miles(credito_vencimiento.interes_vencido)%></td>
               <%sumatoria+=credito_vencimiento.interes_vencido.to_f%>
             </tr>
+
+            <tr>
+              <td class="hed">IVA Vencido:</td>
+              <td>$ <%=separar_miles(credito_vencimiento.iva_vencido)%></td>
+                    <%sumatoria+=credito_vencimiento.iva_vencido.to_f%>
+            </tr>
             <tr>
               <td class="hed">Intereses Moratorios</td>
               <td>$ <%=separar_miles(credito_vencimiento.moratorio)%></td>
@@ -236,7 +242,7 @@
 
             <tr>
               <td class="hed">CAT: </td>
-              <td> <%=@credito.cat%></td>
+              <td> <%=credito_vencimiento.cat%> % </td>
             </tr>
             <tr>
               <td class="hed">Crédito: </td>
