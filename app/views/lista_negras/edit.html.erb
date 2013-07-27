@@ -1,41 +1,75 @@
-<br /><br />
-<h1>Editar Registro</h1>
+<div class="page-title">
+  <h1>LISTA NEGRA</h1>
+  <span>Editar Registro</span>
+</div>
 
+<!--[form:lista_negra]-->
 <% form_for(@lista_negra) do |f| %>
   <%= f.error_messages %>
-
-  <p>
-    <%= f.label :paterno %><br />
-    <%= f.text_field :paterno %>
-  </p>
-  <p>
-    <%= f.label :materno %><br />
-    <%= f.text_field :materno %>
-  </p>
-  <p>
-    <%= f.label :nombre %><br />
-    <%= f.text_field :nombre %>
-  </p>
-  <p>
-    <%= f.label :curp %><br />
-    <%= f.text_field :curp %>
-  </p>
-  <p>
-    <%= f.label :rfc %><br />
-    <%= f.text_field :rfc %>
-  </p>
-  <p>
-    <%= f.label :tipo %><br />
-    <%= f.text_field :tipo %>
-  </p>
-  <p>
-    <%= f.label :observaciones %><br />
-    <%= f.text_field :observaciones %>
-  </p>
-  <p>
-    <%= f.submit 'Actualizar' %>
-  </p>
-<% end %>
-
-<%= link_to 'Show', @lista_negra %> |
-<%= link_to 'Back', lista_negras_path %>
+<table width="100%" border="0" cellspacing="1" >
+  <tr align="center" >
+    <td>
+      <table class="tabla">
+        <tr class="subtitulo">
+          <td class="bloque">&nbsp;</td>
+          <td colspan="4" bgcolor="#E8E8E8">DATOS PERSONA</td>
+        </tr>
+        <tr class="pregunta">
+          <td>&nbsp;</td>
+          <td>Paterno:</td>
+          <td>Materno:</td>
+          <td>Nombre:</td>
+          <td>Genero:</td>
+        </tr>
+        <tr>
+          <td>&nbsp;</td>
+          <td><%= f.text_field :paterno, :onkeypress => "return CharNum(event, 'letra');", :class => "text"  %></td>
+          <td><%= f.text_field :materno, :onkeypress => "return CharNum(event, 'letra');", :class => "text"  %></td>
+          <td><%= f.text_field :nombre, :onkeypress => "return CharNum(event, 'letra');", :class => "text"  %></td>
+          <td><%= f.select(:genero, ["MASCULINO","FEMENINO"], {:prompt => ":: GENERO"})%></td>
+        </tr>
+        <tr class="pregunta">
+          <td>&nbsp;</td>
+          <td>CURP:</td>
+          <td>RFC:</td>
+          <td>Tipo de Persona:</td>
+          <td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td>&nbsp;</td>
+          <td><%= f.text_field :curp, :class => "text"  %></td>
+          <td><%= f.text_field :rfc, :class => "text" %></td>
+          <td><%= f.text_field :tipo, :onkeypress => "return CharNum(event, 'letra');", :class => "text"  %></td>
+          <td>&nbsp;</td>
+        </tr>
+        <tr class="pregunta">
+          <td>&nbsp;</td>
+          <td colspan="4">Observaciones Generales:</td>
+        </tr>
+        <tr>
+          <td>&nbsp;</td>
+          <td rowspan="2" colspan="4"><%= f.text_area :observaciones, :size => "90x3", :class => "text" %></td>
+        </tr>
+        <tr>
+          <td>&nbsp;</td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+  <tr>
+    <td>&nbsp;</td>
+  </tr>
+  <tr>
+    <td>
+      <table align="center">
+        <tr>
+          <td><%= image_submit_tag "/images/guardar.gif", :onclick => "return comprobar();", :class=> "button" %></td>
+          <td>&nbsp;o&nbsp;</td>
+          <td> <%= link_to image_tag("/images/cancelar.gif"), lista_negras_path, :class=> "button"%></td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<%end%>
+<!--[eoform:lista_negra]-->

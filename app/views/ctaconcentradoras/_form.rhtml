@@ -17,8 +17,8 @@
         <tr>
           <td>&nbsp;</td>
           <td><%= text_field 'ctaconcentradora', 'num_cta',  :onkeypress => "return CharNum(event, 'numero');", :class => "text"  %></td>
-          <td><%= collection_select("ctaconcentradora", "cuenta_id", @cuentas, :id, :sNombre, {:prompt => "CUENTA"}) %></td>
-          <td><%= collection_select("ctaconcentradora", "sucbancaria_id", @sucbancarias, :id, :descripcion, {:prompt => "BANCOS"}) %></td>
+          <td><%= collection_select("ctaconcentradora", "cuenta_id", @cuentas, :id, :sNombre, {:prompt => "CUENTA"}, :class => "text") %></td>
+          <td><%= collection_select("ctaconcentradora", "sucbancaria_id", @sucbancarias, :id, :descripcion, {:prompt => "BANCOS"}, :class => "text") %></td>
         </tr>
       </table>
     </td>

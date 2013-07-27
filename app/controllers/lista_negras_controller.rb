@@ -45,7 +45,7 @@ class ListaNegrasController < ApplicationController
 
     respond_to do |format|
       if @lista_negra.save
-        format.html { redirect_to(@lista_negra, :notice => 'ListaNegra was successfully created.') }
+        format.html { redirect_to(@lista_negra, :notice => 'El registro fue agregado a la Lista Negra.') }
         format.xml  { render :xml => @lista_negra, :status => :created, :location => @lista_negra }
       else
         format.html { render :action => "new" }
@@ -61,7 +61,7 @@ class ListaNegrasController < ApplicationController
 
     respond_to do |format|
       if @lista_negra.update_attributes(params[:lista_negra])
-        format.html { redirect_to(@lista_negra, :notice => 'ListaNegra was successfully updated.') }
+        format.html { redirect_to(@lista_negra, :notice => 'El registro fue actualizado.') }
         format.xml  { head :ok }
       else
         format.html { render :action => "edit" }
@@ -81,4 +81,12 @@ class ListaNegrasController < ApplicationController
       format.xml  { head :ok }
     end
   end
+
+  def live_search
+      @lista_negra = ListaNegra.find(:all, :conditions => "nombre like '%#{params[:searchtext]}%' or
+                                                           paterno like '%#{params[:searchtext]}%' or
+                                                           materno like '%#{params[:searchtext]}%'")
+      return render(:partial => 'filtrolista', :layout => false) if request.xhr?
+  end
+  
 end

@@ -1,0 +1,36 @@
+<div id="scroll">
+  <div id ="search_hits">
+    <table class="resultado" align="center">
+      <tr class="titulot"  bgcolor="#E8E8E8">
+        <td>Nombre Completo</td>
+        <td>CURP</td>
+        <td>Tipo</td>
+        <td width="30%">Observaciones</td>
+        <td colspan="3">Acciones</td>
+      </tr>
+      <% @lista_negra.each do |lista_negra| %>
+      <tr>
+        <td><%=h lista_negra.nombre_completo %></td>
+        <td><%=h lista_negra.curp %></td>
+        <td><%=h lista_negra.tipo %></td>
+        <td width="30%"><%=h lista_negra.observaciones %></td>
+        <td>
+          <img src="/images/space.png" alt="" title="" border="0" />
+          <%= link_to image_tag("/images/detail.png"), lista_negra, {:title => "Detalles"}%>
+          <img src="/images/space.png" alt="" title="" border="0" />
+        </td>
+        <td>
+          <img src="/images/space.png" alt="" title="" border="0" />
+          <%= link_to image_tag("/images/edit.png"), edit_lista_negra_path(lista_negra), {:title => "Editar"}%>
+          <img src="/images/space.png" alt="" title="" border="0" />
+        </td>
+        <td>
+          <img src="/images/space.png" alt="" title="" border="0" />
+          <%= link_to image_tag("/images/delete.png"), lista_negra, :confirm => 'Estas seguro?', :title => "Eliminar", :method => :post%>
+          <img src="/images/space.png" alt="" title="" border="0" />
+        </td>
+      </tr>
+      <% end %>
+    </table>
+  </div>
+</div>

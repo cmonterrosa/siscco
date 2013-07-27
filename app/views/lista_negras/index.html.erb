@@ -1,27 +1,76 @@
-<br /><br />
-<h1>LISTADO DE PERSONAS EN LISTA NEGRA</h1>
+<div class="page-title">
+  <h1>LISTA NEGRA</h1>
+  <span>Listado de Personas</span>
+  <span>
+    <a href='<%="#{new_lista_negra_path}"%>'><img  id="agregar" src="/images/agregar.gif" title="Agregar" alt="Agregar" /></a>
+  </span>
+  <span style="color: #CF4421; font-size: 12px;" >&nbsp;<%= flash[:notice] %></span>
+</div>
 
-<table class="stats" cellspacing="0">
+<table width="100%" border="0" cellspacing="1">
   <tr>
-    <th class="cont">Nombre completo</th>
-    <th class="cont">Curp</th>
-    <th class="cont">Tipo</th>
-    <th class="cont">&nbsp;</th>
+    <td>
+      <table class="tabla" width="100%">
+        <tr class="subtitulo">
+          <td width="1%" class="bloque">&nbsp;</td>
+          <td colspan="2" bgcolor="#E8E8E8">BUSQUEDA</td>
+        </tr>
+        <tr class="pregunta">
+          <td width="1%">&nbsp;</td>
+          <td width="15%">POR NOMBRE:</td>
+          <td width="84%"><%= text_field_tag :searchtext, '', :class => 'text' %></td>
+        </tr>
+        <tr class="subtitulo">
+          <td width="1%" class="bloque">&nbsp;</td>
+          <td colspan="2" bgcolor="#E8E8E8">RESULTADO DE LA BUSQUEDA:</td>
+        </tr>
+        <tr>
+          <td colspan="3">
+            <div id="scroll">
+              <div id ="search_hits">
+                    <table class="resultado" align="center">
+                      <tr class="titulot"  bgcolor="#E8E8E8">
+                        <td>Nombre Completo</td>
+                        <td>CURP</td>
+                        <td>Tipo</td>
+                        <td width="30%">Observaciones</td>
+                        <td colspan="3">Acciones</td>
+                      </tr>
+                      <% @lista_negras.each do |lista_negra| %>
+                      <tr>
+                        <td><%=h lista_negra.nombre_completo %></td>
+                        <td><%=h lista_negra.curp %></td>
+                        <td><%=h lista_negra.tipo %></td>
+                        <td width="30%"><%=h lista_negra.observaciones %></td>
+                        <td>
+                          <img src="/images/space.png" alt="" title="" border="0" />
+                          <%= link_to image_tag("/images/detail.png"), lista_negra, {:title => "Detalles"}%>
+                          <img src="/images/space.png" alt="" title="" border="0" />
+                        </td>
+                        <td>
+                          <img src="/images/space.png" alt="" title="" border="0" />
+                          <%= link_to image_tag("/images/edit.png"), edit_lista_negra_path(lista_negra), {:title => "Editar"}%>
+                          <img src="/images/space.png" alt="" title="" border="0" />
+                        </td>
+                        <td>
+                          <img src="/images/space.png" alt="" title="" border="0" />
+                          <%= link_to image_tag("/images/delete.png"), lista_negra, :confirm => 'Estas seguro?', :title => "Eliminar", :method => :post%>
+                          <img src="/images/space.png" alt="" title="" border="0" />
+                        </td>
+                      </tr>
+                      <% end %>
+                    </table>
+              </div>
+            </div>
+          </td>
+        </tr>
+      </table>
+    </td>
   </tr>
-
-<% @lista_negras.each do |lista_negra| %>
-  <tr>
-    <td><%=h lista_negra.nombre_completo %></td>
-    <td><%=h lista_negra.curp %></td>
-    <td><%=h lista_negra.tipo %></td>
-    <td><%=h lista_negra.observaciones %></td>
-    <td><%= link_to 'Detalles', lista_negra %></td>
-    <td><%= link_to 'Editar', edit_lista_negra_path(lista_negra) %></td>
-    <td><%= link_to 'Eliminar', lista_negra, :confirm => '¿Está seguro?', :method => :delete %></td>
-  </tr>
-<% end %>
 </table>
 
-<br />
-
-<%= button_to 'Nuevo registro', new_lista_negra_path %>
+<%= observe_field(:searchtext,
+                 :frequency => 0.05,
+                 :update => :search_hits,
+                 :with  => "searchtext",
+                 :url => { :action => :live_search }) %>
