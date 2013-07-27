@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 72) do
+ActiveRecord::Schema.define(:version => 20130704182608) do
 
   create_table "actividads", :force => true do |t|
     t.string "clave_inegi"
@@ -80,6 +80,7 @@ ActiveRecord::Schema.define(:version => 72) do
     t.datetime "fecha_fin"
   end
 
+  add_index "clientes_grupos", ["activo"], :name => "index_clientes_grupos_on_activo"
   add_index "clientes_grupos", ["cliente_id"], :name => "index_clientes_grupos_on_cliente_id"
   add_index "clientes_grupos", ["grupo_id"], :name => "index_clientes_grupos_on_grupo_id"
 
@@ -126,10 +127,14 @@ ActiveRecord::Schema.define(:version => 72) do
     t.integer  "producto_id"
     t.integer  "status"
     t.string   "tipo_aplicacion"
-    t.decimal  "monto_inicial",     :precision => 15, :scale => 10
+    t.decimal  "monto_inicial",         :precision => 15, :scale => 10
     t.datetime "updated_at"
     t.datetime "created_at"
     t.datetime "fecha_liquidacion"
+    t.decimal  "cat",                   :precision => 15, :scale => 2
+    t.decimal  "cat_comision_apertura", :precision => 15, :scale => 2
+    t.decimal  "interes_global",        :precision => 15, :scale => 2
+    t.decimal  "iva_global",            :precision => 15, :scale => 2
   end
 
   add_index "creditos", ["cliente_id"], :name => "clientes_credito"
@@ -178,6 +183,7 @@ ActiveRecord::Schema.define(:version => 72) do
     t.integer  "num_movimientos"
     t.string   "archivo_na"
     t.string   "archivo_errores"
+    t.string   "cksum"
   end
 
   create_table "depositos", :force => true do |t|
@@ -407,6 +413,7 @@ ActiveRecord::Schema.define(:version => 72) do
     t.float   "saldo_inicial"
     t.float   "saldo_final"
     t.decimal "principal_recuperado", :precision => 15, :scale => 2
+    t.decimal "iva",                  :precision => 15, :scale => 2
   end
 
   add_index "pagogrupals", ["credito_id"], :name => "creditos_pagogrupal"
@@ -426,6 +433,7 @@ ActiveRecord::Schema.define(:version => 72) do
     t.decimal "saldo_final",          :precision => 15, :scale => 2
     t.decimal "principal_recuperado", :precision => 15, :scale => 2
     t.integer "deposito_id"
+    t.decimal "iva",                  :precision => 15, :scale => 2
   end
 
   add_index "pagos", ["cliente_id"], :name => "clientes_pago"
@@ -461,17 +469,23 @@ ActiveRecord::Schema.define(:version => 72) do
   add_index "polizas", ["cuenta_id"], :name => "cuentas_poliza"
 
   create_table "productos", :force => true do |t|
-    t.string  "producto",          :limit => 100
+    t.string  "producto",                  :limit => 100
     t.float   "intereses"
     t.float   "moratorio_ssi"
     t.float   "ahorro"
     t.integer "num_pagos"
-    t.string  "tasa_anualizada",   :limit => 10
+    t.string  "tasa_anualizada",           :limit => 10
     t.integer "periodo_id"
     t.float   "moratorio_flat"
     t.float   "tasa_mensual_flat"
-    t.decimal "iva",                              :precision => 8, :scale => 2
-    t.decimal "gastos_cobranza",                  :precision => 8, :scale => 2
+    t.decimal "iva",                                      :precision => 8,  :scale => 2
+    t.decimal "gastos_cobranza",                          :precision => 8,  :scale => 2
+    t.decimal "gastos_judiciales",                        :precision => 8,  :scale => 2
+    t.decimal "cat",                                      :precision => 15, :scale => 2
+    t.decimal "tasa_mensual_ssg",                         :precision => 15, :scale => 2
+    t.decimal "tasa_comision_apertura",                   :precision => 15, :scale => 2
+    t.decimal "iva_comision_apertura",                    :precision => 15, :scale => 2
+    t.decimal "tasa_anualizada_moratoria",                :precision => 15, :scale => 2
   end
 
   add_index "productos", ["periodo_id"], :name => "periodos_producto"
@@ -508,6 +522,19 @@ ActiveRecord::Schema.define(:version => 72) do
     t.string "rol"
     t.string "alias"
   end
+
+  create_table "roles", :force => true do |t|
+    t.string "name"
+    t.string "descripcion", :limit => 40
+  end
+
+  create_table "roles_users", :id => false, :force => true do |t|
+    t.integer "role_id"
+    t.integer "user_id"
+  end
+
+  add_index "roles_users", ["role_id"], :name => "index_roles_users_on_role_id"
+  add_index "roles_users", ["user_id"], :name => "index_roles_users_on_user_id"
 
   create_table "sectors", :force => true do |t|
     t.string "sector"
@@ -588,6 +615,11 @@ ActiveRecord::Schema.define(:version => 72) do
     t.datetime "remember_token_expires_at"
     t.string   "activation_code",           :limit => 40
     t.datetime "activated_at"
+    t.string   "paterno",                   :limit => 40
+    t.string   "materno",                   :limit => 40
+    t.string   "nombre",                    :limit => 60
+    t.string   "direccion",                 :limit => 120
+    t.string   "tel_celular",               :limit => 10
   end
 
   add_index "users", ["login"], :name => "index_users_on_login", :unique => true

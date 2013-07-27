@@ -1,0 +1,18 @@
+<%#= error_messages_for :user %>
+
+<div class="page-title">
+  <h1>ADMINISTRACIÓN</h1>
+  <span>Usuarios </span>
+  <span> Alta</span>
+</div>
+
+<% form_tag :action => 'save' do %>
+  <%= render :partial => 'form' %>
+<table align="center">
+  <tr>
+    <td><%= image_submit_tag "/images/guardar.gif", :class=> "button" %></td>
+    <td>&nbsp;o&nbsp;</td>
+    <td> <%= link_to image_tag("/images/cancelar.gif"), {:controller => "admin", :action => "show_users"}, :class=> "button"%></td>
+  </tr>
+</table>
+<% end %>

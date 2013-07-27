@@ -32,7 +32,9 @@ function comprobar()
         }
         else {
             document.forms[0].elements[a].style.backgroundColor="white";
+            if(document.forms[0].elements[a].name != 'user[login]'){
             document.forms[0].elements[a].value = document.forms[0].elements[a].value.toUpperCase();
+            }
         }
     }
     if(vacio) {
@@ -51,6 +53,33 @@ function comprobar()
     }
 }
 // fin de funcion comprobar campos vacios
+
+// Funcion change_password
+function comprobarChange()
+{
+    missinginfo = "";
+    var vacio=false;
+    numero=document.forms[0].elements.length;
+    for(a=0;a<numero;a++) {
+        if(document.forms[0].elements[a].value=="") {
+            document.forms[0].elements[a].style.backgroundColor="#ff9999";
+            missinginfo += "\n     - "+document.forms[0].elements[a].name;
+            vacio=true;
+        }
+        else {
+            document.forms[0].elements[a].style.backgroundColor="white";
+        }
+    }
+    if(vacio) {
+        alert("Por favor, rellene los campos:"+'\n'+missinginfo);
+        return false;
+    }
+    else {
+        document.forms[0].submit();
+        return true;
+    }
+}
+
 
 // Valida CURP
 function valida_curp(){

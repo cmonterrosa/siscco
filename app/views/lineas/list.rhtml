@@ -12,28 +12,28 @@
       <table class="tabla" width="100%">
         <tr class="subtitulo">
           <td width="1%" class="bloque">&nbsp;</td>
-          <td colspan="3" bgcolor="#E8E8E8">BUSQUEDA POR:</td>
+          <td width="99%" colspan="2" bgcolor="#E8E8E8">BUSQUEDA POR:</td>
         </tr>
         <tr class="pregunta">
-          <td>&nbsp;</td>
+          <td width="1%">&nbsp;</td>
           <td width="15%">NOMBRE:</td>
-          <td width="84%"colspan="2"><%= text_field_tag :searchtext, '', :class => 'text' %></td>
+          <td width="84%"><%= text_field_tag :searchtext, '', :class => 'text' %></td>
         </tr>
         <tr class="subtitulo">
-          <td class="bloque">&nbsp;</td>
-          <td colspan="3" bgcolor="#E8E8E8">RESULTADO DE LA BUSQUEDA:</td>
+          <td  width="1%" class="bloque">&nbsp;</td>
+          <td colspan="2" bgcolor="#E8E8E8">RESULTADO DE LA BUSQUEDA:</td>
         </tr>
         <tr>
-          <td>&nbsp;</td>
-          <td colspan="3"><div id="resultados"></div>
+          <td colspan="3">
             <div id="scroll">
               <div id ="search_hits">
                     <table class="resultado" align="center">
                       <tr class="titulot"  bgcolor="#E8E8E8">
+                        <td>Fondeo</td>
                         <% for column in Linea.content_columns %>
                         <td><%= column.human_name %></td>
                         <% end %>
-                        <th>Disponible</th>
+                        <td>Disponible</td>
                         <td colspan="4">Acciones</td>
                       </tr>
 
@@ -45,6 +45,7 @@
                         <% for column in Linea.content_columns %>
                         <td><%=h linea.send(column.name) %></td>
                         <% end %>
+                        <td><%= linea_disponible(linea) %></td>
                         <td>
                           <img src="/images/space.png" alt="" title="" border="0" />
                           <%= link_to image_tag("/images/detail.png"), {:action => "show", :id => linea}, {:title => "Detalles"}%>

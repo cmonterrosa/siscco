@@ -2,9 +2,6 @@ class AdminController < ApplicationController
   before_filter :login_required
   #require_role [:admin], :except => [:index]
   
-  
-
-
   def index
 
   end
@@ -154,16 +151,16 @@ class AdminController < ApplicationController
      render :layout => false
  end
 
- def change_horario_estatus
-   if validate_token(params[:t]) && @horario= Horario.find(params[:id])
-     @mensaje = @horario.activo ? "Horario bloqueado" : "Horario desbloqueado"
-     (@horario.activo) ? @horario.update_attributes!(:activo => false) : @horario.update_attributes!(:activo => true)
-     flash[:notice] = @mensaje
-   else
-     flash[:notice] = "No se pudo bloquear horario, verifique"
-   end
-   redirect_to :action => "show_horarios_sesiones"
- end
+# def change_horario_estatus
+#   if validate_token(params[:t]) && @horario= Horario.find(params[:id])
+#     @mensaje = @horario.activo ? "Horario bloqueado" : "Horario desbloqueado"
+#     (@horario.activo) ? @horario.update_attributes!(:activo => false) : @horario.update_attributes!(:activo => true)
+#     flash[:notice] = @mensaje
+#   else
+#     flash[:notice] = "No se pudo bloquear horario, verifique"
+#   end
+#   redirect_to :action => "show_horarios_sesiones"
+# end
 
  def change_user_estatus
    if validate_token(params[:t]) && @user = User.find(params[:id])
@@ -188,25 +185,21 @@ class AdminController < ApplicationController
    redirect_to :action => "show_users_by_area"
  end
 
- def show_horarios_sesiones
-   @salas = Sala.find(:all, :order=> "descripcion")
-   @horarios = Horario.find(:all, :order => "hora,minutos")
-   @token= generate_token
- end
+# def show_horarios_sesiones
+#   @salas = Sala.find(:all, :order=> "descripcion")
+#   @horarios = Horario.find(:all, :order => "hora,minutos")
+#   @token= generate_token
+# end
 
  def edit_user
    @user = User.find(params[:id])
-   #unless validate_token(params[:t]) && @user = User.find(params[:id])
-    #flash[:notice] = "No se pudo encontrar usuario"
-    #redirect_to :action => "index"
-   #end
  end
 
  def save_user
     @user = User.find(params[:id])
     @user.update_attributes(params[:user])
     @user.activated_at ||= Time.now
-    @user.activo=true
+#    @user.activo=true
     success = @user && @user.save
     if success && @user.errors.empty?
       flash[:notice] = "Tus datos se actualizaron correctamente"
@@ -217,11 +210,35 @@ class AdminController < ApplicationController
     end
  end
 
- def situacion_user
-   unless validate_token(params[:t]) && @user = User.find(params[:id])
-    flash[:notice] = "No se pudo encontrar usuario"
-    redirect_to :action => "index"
-   end
- end
+# def situacion_user
+##   unless validate_token(params[:t]) && @user = User.find(params[:id])
+#   unless @user = User.find(params[:id])
+#    flash[:notice] = "No se pudo encontrar usuario"
+#    redirect_to :action => "index"
+#   end
+# end
 
+# def change_password
+#   @user = User.find(session[:user].id)
+#   if params[:user]
+#    @user = User.find(session[:user].id)
+#
+#    if(params[:user][:password] != params[:user][:password_confirmation])
+#      flash[:notice]  = "Las contraseñas no coinciden"
+#      render :action => 'change_password'
+#    else
+#      @user.update_attributes(params[:user])
+#      success = @user && @user.save
+#      if success && @user.errors.empty?
+#        flash[:notice] = "La contraseña ha sido actualizada"
+#        redirect_to :action => "change_password"
+#      else
+#        flash[:notice]  = "No se pudo actualizar la contraseña"
+#        render :action => 'change_password'
+#      end
+#    end
+#
+#   end
+# end
+ 
 end

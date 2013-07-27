@@ -1,30 +1,39 @@
 <div class="page-title">
   <h1>ADMINISTRACIÓN</h1>
   <span>Usuarios</span>
+  <span><%= link_to image_tag("/images/user_add.png"), {:action => "new_user", :controller => "users", :id => @token}, {:title => "Agregar"}%></span>
+<span style="color: #CF4421; font-size: 12px;" >&nbsp;<%= flash[:notice] %></span>
 </div>
 
-<h3><%=link_to "Listado de Perfiles", :action => "show_roles" %> | <%=link_to "Listado de usuarios", :action => "show_users"%></h3><br />
+<table class="resultado" align="center">
+  <tr class="titulot"  bgcolor="#E8E8E8">
+    <td>Login</td>
+    <td>Nombre</td>
+    <td>Correo electrónico</td>
+    <td colspan="3">Acciones</td>
+  </tr>
 
-<!-- contenido -->
-<div id="divlista">
-    <table width="85%" border="0" cellspacing="0" cellpadding="0" class="sample" style="BORDER-RIGHT: #cccccc 1px solid; BORDER-TOP: #cccccc 1px solid; BORDER-LEFT: #cccccc 1px solid; BORDER-BOTTOM: #cccccc 1px solid">
-    <tr class="d0">
-       <td style="vertical-align: middle;">Login</td>
-       <td style="vertical-align: middle;">Nombre</td>
-       <td style="vertical-align: middle;">Correo electrónico</td>
-       <td style="vertical-align: middle;" colspan="3">Acciones</td>
-    </tr>
-    <%@usuarios.each do |user|%>
-    <tr class="d1">
-      <td style="vertical-align: middle;"><%=h(user.login)%></td>
-      <td style="vertical-align: middle;"><%=h(user.name)%></td>
-      <td style="vertical-align: middle;"><%=h(user.email)%></td>
-      <td style="vertical-align: middle;"><%=link_to "Editar", {:action => "edit_user", :controller => "admin", :id => user}, :class => 'boton'%></td>
-       <td style="vertical-align: middle;"><%=link_to "Estatus", {:action => "situacion_user", :controller => "admin", :id => user}, :class => 'boton'%></td>
-     </tr>
-    <%end%>
-  </table>
-</div>
+  <%@usuarios.each do |user|%>
+  <tr class="subtitulot">
+    <td><%=h(user.login)%></td>
+    <td><%=h(user.name)%></td>
+    <td><%=h(user.email)%></td>
+    <td>
+      <img src="/images/space.png" alt="" title="" border="0" />
+      <%= link_to image_tag("/images/user_edit.png"), {:action => "edit", :controller => "users", :id => user}, {:title => "Editar"}%>
+      <img src="/images/space.png" alt="" title="" border="0" />
+    </td>
+    <td>
+      <img src="/images/space.png" alt="" title="" border="0" />
+      <%= link_to image_tag("/images/detail.png"), {:action => "show", :controller => "users", :id => user}, {:title => "Detalles"}%>
+      <img src="/images/space.png" alt="" title="" border="0" />
+    </td>
+ </tr>
+ <% end %>
+</table>
 
+<br />
 
-<br /><%=link_to "Crear usuario", {:action => "new_from_admin", :controller => "users", :id => @token}, :class => 'boton'  -%>
+<%#=link_to "Crear usuario", {:action => "new_from_admin", :controller => "users", :id => @token}, :class => 'boton'  -%>
+
+<%= link_to image_tag("/images/regresar.gif"), {:action => "index", :controller => 'admin'},  :class => "button" %>

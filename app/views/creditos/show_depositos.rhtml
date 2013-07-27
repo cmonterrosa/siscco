@@ -1,24 +1,35 @@
-<h1>Depositos del Credito</h1>
+<div class="page-title">
+  <h1>CRÉDITOS</h1>
+  <span>Depositos del Crédito</span>
+  <span style="color: #CF4421; font-size: 12px;" >&nbsp;<%= flash[:notice] %></span>
+</div>
 
-<table>
-  <tr>
-    <th>sucursal</th>
-    <th>autorizacion</th>
-    <th>cod</th>
-    <th>subcod</th>
-    <th>ref alfa</th>
-    <th>importe</th>
-    <th>Estatus</th>
+<table class="resultado" align="center">
+  <tr class="titulot"  bgcolor="#E8E8E8">
+    <td>Sucursal</td>
+    <td>Autorizacion</td>
+    <td>Código</td>
+    <td>Subcódido</td>
+    <td>Fef. Alfanúmerica</td>
+    <td>Importe</td>
+    <td>Estatus</td>
   </tr>
- <%@depositos_aplicados.each do |deposito|%>
-   <tr>
-     <td><%=deposito.sucursal%></td>
-     <td><%=deposito.autorizacion%></td>
-     <td><%=deposito.codigo%></td>
-     <td><%=deposito.subcodigo%></td>
-     <td><%=deposito.ref_alfa%></td>
-     <td>$<%=separar_miles(deposito.importe)%></td>
-     <td><%= (deposito.st == 'A')? "APLICADO" : "NO APLICADO" %></td>
-   </tr>
-  <%end%>
+  <%@depositos_aplicados.each do |deposito|%>
+  <tr class="subtitulot">
+    <td><%=deposito.sucursal%></td>
+    <td><%=deposito.autorizacion%></td>
+    <td><%=deposito.codigo%></td>
+    <td><%=deposito.subcodigo%></td>
+    <td><%=deposito.ref_alfa%></td>
+    <td>$<%=separar_miles(deposito.importe)%></td>
+    <td><%= (deposito.st == 'A')? "APLICADO" : "NO APLICADO" %></td>
+  </tr>
+  <% end %>
+</table>
+
+<br />
+<table align="center">
+  <tr>
+    <td><%= link_to image_tag("/images/regresar2.gif"), {:action => "movimiento_credito"},  :class => "button" %></td>
+  </tr>
 </table>

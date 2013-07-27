@@ -3,6 +3,7 @@
   <span>
     <a href="/lineas/new"><img  id="agregar" src="/images/agregar.gif" title="Agregar Bancos" alt="Agregar Bancos" /></a>
   </span>
+  <span style="color: #CF4421; font-size: 12px;" >&nbsp;<%= flash[:notice] %></span>
 </div>
 
 <table width="100%" border="0" cellspacing="1">
@@ -11,7 +12,7 @@
       <table class="tabla" width="100%">
         <tr class="subtitulo">
           <td width="1%" class="bloque">&nbsp;</td>
-          <td colspan="2" bgcolor="#E8E8E8">DATOS LINEA</td>
+          <td width="99%" colspan="2" bgcolor="#E8E8E8">DATOS LINEA</td>
         </tr>
         <% for column in Linea.content_columns %>
         <tr>
@@ -29,6 +30,7 @@
         <%end%>
         <%if @linea.ctaliquidadora%>
         <tr>
+          <td>&nbsp;</td>
           <td class="titulot">Banco / Sucursal / Cta. Liquidadora:</td>
           <td class="subtitulot"><%=@linea.ctaliquidadora.descripcion%></td>
         </tr>

@@ -175,14 +175,33 @@ class CreditosController < ApplicationController
 
   def edit
     @credito = Credito.find(params[:id])
-    #--- Variables
-     @destinos = Destino.find(:all)
-     @promotores = Promotor.find(:all, :order => "nombre")
-     @fondeos = Fondeo.find(:all, :order => "fuente")
-     @lineas = Linea.find(:all)
-     @productos = Producto.find(:all, :order => "producto")
-     @grupos = todos_grupos_conclientes
-     @clientes = Cliente.find(:all, :select => "id, paterno, materno, nombre")
+    @destinos = Destino.find(:all)
+    @promotores = Promotor.find(:all, :order => "nombre")
+    @fondeos = Fondeo.find(:all, :order => 'acronimo')
+    @fondeo = Fondeo.find_by_sql("select fo.id, fo.acronimo from fondeos fo
+                                   left join lineas li on li.fondeo_id = fo.id
+                                   left join creditos cr on cr.linea_id = li.id
+                                   where cr.id = #{@credito.id}")
+    @lineas = Linea.find(:all)
+    @productos = Producto.find(:all, :order => "producto")
+    @grupos = todos_grupos_conclientes
+
+    @clientes = Cliente.find_by_sql("select c.id, c.nombre, c.paterno, c.materno, jr.jerarquia from clientes c
+                                     inner join clientes_grupos cg on cg.cliente_id = c.id
+                                     inner join grupos gr on gr.id = cg.grupo_id
+                                     inner join creditos cr on cr.grupo_id = gr.id
+                                     left join miembros mr on mr.cliente_id = c.id
+                                     left join jerarquias jr on mr.jerarquia_id = jr.id
+                                     where cr.id = #{@credito.id}")
+#     @cliente = Cliente.find_by_sql("select c.id, c.nombre, c.paterno, c.materno, jr.jerarquia from clientes c
+#                                      inner join miembros mr on mr.cliente_id = c.id
+#                                      inner join creditos cr on cr.id = mr.credito_id
+#                                      inner join jerarquias jr on mr.jerarquia_id = jr.id
+#                                      where cr.id = #{@credito.id}##")
+    @s_fondeo = fselected(@fondeo)
+    @s_presidente = selected(@clientes, 'presidente')
+    @s_secretario = selected(@clientes, 'secretario')
+    @s_tesorero = selected(@clientes, 'tesorero')
   end
 
   def update

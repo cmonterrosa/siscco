@@ -1,54 +1,96 @@
+<div class="page-title">
+  <h1>CRÉDITOS</h1>
+  <span>Detalles</span>
+  <span style="color: #CF4421; font-size: 12px;" >&nbsp;<%= flash[:notice] %></span>
+</div>
 
-<h2>Datos del credito</h2>
-<br />
-<p>
-  <b>Grupo: </b> <%=@credito.grupo.nombre%>
-</p>
-<br />
-<p>
-  <b>Fecha de Inicio:</b> <%=@credito.fecha_inicio%>
-</p>
-<br />
-<p>
-  <b>Fecha Fin:</b> <%=@credito.fecha_fin%>
-</p>
-<br />
-<p>
-  <b>Referencia:</b> <%@credito.num_referencia%>
-</p>
-<br />
-<p>
-  <b>Monto:</b> $<%=separar_miles(@credito.monto)%>
-</p>
-<br />
-<p>
-  <b>tipo_interes:</b> <%=@credito.tipo_interes%>
-</p>
-<br />
-<p>
-  <b>Producto: <%=@credito.producto.producto%></b>
-</p>
+<table width="100%" border="0" cellspacing="1">
+  <tr>
+    <td>
+      <table class="tabla" width="100%">
+        <tr class="subtitulo">
+          <td width="1%" class="bloque">&nbsp;</td>
+          <td width="99%" colspan="2" bgcolor="#E8E8E8">DATOS DE CREDITO</td>
+        </tr>
+        <tr>
+          <td>&nbsp;</td>
+          <td width="24%" class="titulot">Grupo</td>
+          <td width="75%" class="subtitulot"><%=@credito.grupo.nombre%></td>
+        </tr>
+        <tr>
+          <td>&nbsp;</td>
+          <td class="titulot">Fecha inicio</td>
+          <td class="subtitulot"><%=@credito.fecha_inicio%></td>
+        </tr>
+        <tr>
+          <td>&nbsp;</td>
+          <td class="titulot">Fecha fin</td>
+          <td class="subtitulot"><%=@credito.fecha_fin%></td>
+        </tr>
+        <tr>
+          <td>&nbsp;</td>
+          <td class="titulot">Referencia</td>
+          <td class="subtitulot"><%=@credito.num_referencia%></td>
+        </tr>
+        <tr>
+          <td>&nbsp;</td>
+          <td class="titulot">Monto</td>
+          <td class="subtitulot">$<%=separar_miles(@credito.monto)%></td>
+        </tr>
+        <tr>
+          <td>&nbsp;</td>
+          <td class="titulot">Tipo de Interes</td>
+          <td class="subtitulot"><%=@credito.tipo_interes%></td>
+        </tr>
+        <tr>
+          <td>&nbsp;</td>
+          <td class="titulot">Producto</td>
+          <td class="subtitulot"><%=@credito.producto.producto%></td>
+        </tr>
+        <tr>
+          <td>&nbsp;</td>
+          <td class="titulot">Fondeo / Linea</td>
+          <td class="subtitulot"><%=@credito.linea.fondeo.acronimo%> / <%=@credito.linea.cuenta_cheques%></td>
+        </tr>
+        <%if @credito.tipo_interes == "SALDOS INSOLUTOS (SSI)"%>
+        <tr>
+          <td>&nbsp;</td>
+          <td class="titulot">Tasa de Interes Normal</td>
+          <td class="subtitulot"><%=@credito.producto.tasa_anualizada%></td>
+        </tr>
+        <tr>
+          <td>&nbsp;</td>
+          <td class="titulot">Tasa de Interes Moratoria</td>
+          <td class="subtitulot"><%=@credito.producto.moratorio_ssi%></td>
+        </tr>
+        <%else%>
+        <tr>
+          <td>&nbsp;</td>
+          <td class="titulot">Tasa de Interes Normal</td>
+          <td class="subtitulot"><%=@credito.producto.tasa_mensual_flat%></td>
+        </tr>
+        <tr>
+          <td>&nbsp;</td>
+          <td class="titulot">Tasa de Interes Moratoria</td>
+          <td class="subtitulot"><%=@credito.producto.moratorio_flat%></td>
+        </tr>
+        <%end%>
+      </table>
+    </td>
+  </tr>
+</table>
 <br />
 
-  <%if @credito.tipo_interes == "SALDOS INSOLUTOS (SSI)"%>
-    <p>
-      <b>Tasa de Interes Normal:</b> <%=@credito.producto.tasa_anualizada%>
-    </p>
-    <br />
-    <p>
-      <b>Tasa de Interes Moratoria: <%=@credito.producto.moratorio_ssi%></b>
-    </p>
-    <br />
-  <%else%>
-    <p>
-      <b>Tasa de Interes Normal:</b> <%=@credito.producto.tasa_mensual_flat%>
-    </p><br />
-    <p>
-      <b>Tasa de Interes Moratoria:</b> <%=@credito.producto.moratorio_flat%></p>
-   <br />
-  <%end%>
+<table align="center">
+  <tr>
+    <td><%= link_to image_tag("/images/regresar2.gif"), {:action => "movimiento_credito"},  :class => "button" %></td>
+    <td>&nbsp;o&nbsp;</td>
+    <td><%= link_to image_tag("/images/editar.gif"), {:action => 'edit', :id => @credito},  :class => "button" %></td>
+    <td>&nbsp;o&nbsp;</td>
+    <td><%= link_to image_tag("/images/reportes.gif"), {:action => 'menu', :controller => "reportes", :id => @credito},  :class => "button" %></td>
+  </tr>
+</table>
 
-<br />
-<%= link_to 'Reportes', :action => 'menu', :controller => "reportes", :id => @credito %> |
-<%= link_to 'Editar', :action => 'edit', :id => @credito %> |
-<%= link_to 'Atras', :action => 'movimiento_credito' %>
+<%#= link_to 'Reportes', :action => 'menu', :controller => "reportes", :id => @credito %> 
+<%#= link_to 'Editar', :action => 'edit', :id => @credito %> 
+<%#= link_to 'Atras', :action => 'movimiento_credito' %>

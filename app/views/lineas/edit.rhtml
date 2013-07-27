@@ -3,7 +3,7 @@
   <span>Editar...</span>
 </div>
 
-<% form_tag :action => 'update' do %>
+<% form_tag :action => 'update', :id => @linea do %>
   <%= render :partial => 'form' %>
 <table align="center">
   <tr>

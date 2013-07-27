@@ -1,17 +1,20 @@
-<h1>Editar credito</h1>
+<div class="page-title">
+  <h1>CRÉDITO</h1>
+  <span>Editar... </span>
+</div>
 
 <% form_tag :action => 'update', :id => @credito do %>
   <%= render :partial => 'formgrupal' %>
-  <table>
+  <%#*<table>%>
+    <%#*<tr>%>
+      <%#*<th>Referencia Bancaria</th>%>
+      <%#*<th><%=text_field 'credito', 'num_referencia'></th></tr>%>
+  <%#*</table>%>
+  <table align="center">
     <tr>
-      <th>Referencia Bancaria</th>
-      <th><%=text_field 'credito', 'num_referencia'%></th></tr>
+      <td><%= image_submit_tag "/images/guardar.gif", :onclick => "return comprobar();", :class=> "button" %></td>
+      <td>&nbsp;o&nbsp;</td>
+      <td> <%= link_to image_tag("/images/cancelar.gif"), {:action => "movimiento_credito"}, :class=> "button"%></td>
+    </tr>
   </table>
-<table class="botones">
-  <tr class="botones">
-    <th class="botones"><%= link_to 'Regresar', :action => 'movimiento_credito' %></th>
-    <th class="botones">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
-    <th class="botones"><%= submit_tag 'Guardar', :onclick => "return comprobar();" %></th>
-  </tr>
-</table>
 <% end %>

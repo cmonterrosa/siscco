@@ -1,303 +1,269 @@
-
-<h2 style=" text-align: center;">Estado de cuenta ( <%=Time.now.strftime("%d/%m/%Y")%>)</h2>
+<div class="page-title">
+  <h1>ESTADO DE CUENTA </h1>
+  <span>(<%=Time.now.strftime("%d/%m/%Y")%>)</span>
+</div>
 
 <!-- Realizamos el calculo -->
 <%credito_vencimiento = Vencimiento.new(@credito)%>
-<%credito_vencimiento.procesar%> <br />
+<%credito_vencimiento.procesar%>
 <%sumatoria=0%>
 
-<table class="contenido" width="95%" border="0">
+<table width="100%" border="0" cellspacing="1" >
   <tr>
-    <td class="cont" width="30%">Datos Informativos</td>
-    <td class="cont" width="5%">&nbsp;</td>
-    <td class="cont"width="30%">Saldo</td>
-     <td class="cont" width="5%">&nbsp;</td>
-    <td class="cont"width="30%">Datos iniciales</td>
-  </tr>
-  <tr>
-    <td class="cont">
-      <table class="stats" cellspacing="0">
-        <tr>
-          <td class="hed">Referencia: </td>
-          <td><%=@credito.num_referencia%></td>
+    <td>
+      <table width="100%" border="0" cellspacing="1" class="tabla">
+        <tr class="subtitulo">
+          <td width="1%" class="bloque">&nbsp;</td>
+          <td width="99%" colspan="5" bgcolor="#E8E8E8">DATOS INFORMATIVOS</td>
         </tr>
         <tr>
-          <td class="hed">Identificador: </td>
-          <td><%=@credito.identificador%></td>
+          <td>&nbsp;</td>
+          <td class="titulot" >Referencia: </td>
+          <td class="subtitulot"><%=@credito.num_referencia%></td>
+          <td>&nbsp;</td>
+          <td class="titulot">IVA: </td>
+          <td class="subtitulot"><%=credito_vencimiento.tasa_iva%> %</td>
         </tr>
         <tr>
-          <td class="hed">Monto inicial: </td>
-          <td>$<%=separar_miles(@credito.monto)%></td>
-        </tr>
-
-        <tr>
-          <td class="hed">Capital total restante: </td>
-          <td>$<%=separar_miles(credito_vencimiento.capital_total)%></td>
-        </tr>
-        
-         <tr>
-          <td class="hed">Fecha de entrega: </td>
-          <td><%=@credito.fecha_inicio%></td>
-        </tr>
-         <tr>
-          <td class="hed">Fecha último pago: </td>
-          <td><%=@credito.ultimo_pago.to_s%></td>
+          <td>&nbsp;</td>
+          <td class="titulot">Identificador: </td>
+          <td class="subtitulot"><%=@credito.identificador%></td>
+          <td>&nbsp;</td>
+          <td class="titulot">Cuota de Gastos de Cobranza: </td>
+          <td class="subtitulot">$<%=credito_vencimiento.cuota_gastos_cobranza%></td>
         </tr>
         <tr>
-          <td class="hed">Numero de pagos: </td>
-          <td><%=@credito.producto.num_pagos%></td>
+          <td>&nbsp;</td>
+          <td class="titulot">Monto inicial: </td>
+          <td class="subtitulot">$<%=separar_miles(@credito.monto)%></td>
+          <td>&nbsp;</td>
+          <td class="titulot">Proporción de Capital: </td>
+          <td class="subtitulot"><%=credito_vencimiento.proporcion_capital%></td>
         </tr>
         <tr>
-          <td class="hed">Nombre del grupo</td>
-          <td><%=link_to "#{@credito.grupo.nombre}", :action => "show", :controller => "grupos", :id => @credito.grupo%></td>
+          <td>&nbsp;</td>
+          <td class="titulot">Capital total restante: </td>
+          <td class="subtitulot">$<%=separar_miles(credito_vencimiento.capital_total)%></td>
+          <td>&nbsp;</td>
+          <td class="titulot">Proporcion de Interés: </td>
+          <td class="subtitulot"><%=credito_vencimiento.proporcion_interes%></td>
         </tr>
         <tr>
-          <td class="hed">Integrantes del grupo</td>
-          <td><%=credito_vencimiento.numero_clientes.to_i%></td>
-        </tr>
-        <!-- IVA-->
-        <tr>
-          <td class="hed">IVA</td>
-          <td><%=credito_vencimiento.tasa_iva%> %</td>
-        </tr>
-         <!-- Gastos de Cobranza -->
-        <tr>
-          <td class="hed">Cuota de Gastos de Cobranza</td>
-          <td>$<%=credito_vencimiento.cuota_gastos_cobranza%></td>
-        </tr>
-         <!-- Proporcion Capital -->
-        <tr>
-          <td class="hed">Proporción de Capital</td>
-          <td><%=credito_vencimiento.proporcion_capital%></td>
-        </tr>
-
-         <!--Proporcion de Interes -->
-        <tr>
-          <td class="hed">Proporcion de Interés</td>
-          <td><%=credito_vencimiento.proporcion_interes%></td>
-        </tr>
-        
-
-        <%if @credito.tipo_interes == "SALDOS INSOLUTOS (SSI)"%>
-          <tr>
-            <td class="hed">Tasa de interes anual</td>
-            <td><%=separar_miles(@credito.producto.tasa_anualizada)%> %</td>
-          </tr>
-          <tr>
-            <td class="hed">Tasa de interes mensual</td>
-            <td><%=separar_miles(round((((@credito.producto.tasa_anualizada.to_f) / 360.0 ) * 30),2) / 1.0)%> %</td>
-          </tr>
-          <tr>
-            <td class="hed">Tasa de interes semanal</td>
-            <td><%=separar_miles(round((((@credito.producto.tasa_anualizada.to_f) / 360.0 ) * 7),2) / 1.0)%> %</td>
-          </tr>
-        <%else%>
-          <tr>
-            <td class="hed">Tasa de interes mensual</td>
-            <td><%=separar_miles(round((@credito.producto.tasa_mensual_flat.to_f),2) / 1.0)%> %</td>
-          </tr>
-          <tr>
-            <td class="hed">Tasa de interes semanal</td>
-            <td><%=separar_miles(round((((@credito.producto.tasa_mensual_flat.to_f) / 30.0 ) * 7),2) / 1.0)%> %</td>
-          </tr>
-       <%end%>
-        <tr>
-          <td class="hed">Tasa de interes moratoria</td>
-          <td><%=@credito.tasa_moratoria%> %</td>
+          <td>&nbsp;</td>
+          <td class="titulot">Capital total restante: </td>
+          <td class="subtitulot">$<%=separar_miles(credito_vencimiento.capital_total)%></td>
+          <%if @credito.tipo_interes == "SALDOS INSOLUTOS (SSI)"%>
+          <td>&nbsp;</td>
+          <td class="titulot">Tasa de interes anual: </td>
+          <td class="subtitulot"><%=separar_miles(@credito.producto.tasa_anualizada)%> %</td>
+          <%else%>
+          <td>&nbsp;</td>
+          <td class="titulot">Tasa de interes mensual: </td>
+          <td class="subtitulot"><%=separar_miles(round((@credito.producto.tasa_mensual_flat.to_f),2) / 1.0)%> %</td>
+          <%end%>
         </tr>
         <tr>
-          <td class="hed">Producto</td>
-          <td><%=@credito.producto.producto%></td>
+          <td>&nbsp;</td>
+          <td class="titulot">Fecha de entrega: </td>
+          <td class="subtitulot"><%=@credito.fecha_inicio%></td>
+          <%if @credito.tipo_interes == "SALDOS INSOLUTOS (SSI)"%>
+          <td>&nbsp;</td>
+          <td class="titulot">Tasa de interes mensual: </td>
+          <td class="subtitulot"><%=separar_miles(round((((@credito.producto.tasa_anualizada.to_f) / 360.0 ) * 30),2) / 1.0)%> %</td>
+          <%else%>
+          <td>&nbsp;</td>
+          <td class="titulot">Tasa de interes semanal: </td>
+          <td class="subtitulot"><%=separar_miles(round((((@credito.producto.tasa_mensual_flat.to_f) / 30.0 ) * 7),2) / 1.0)%> %</td>
+          <%end%>
         </tr>
         <tr>
-          <td class="hed">Tipo de interes</td>
-          <td><%=@credito.tipo_interes%></td>
+          <td>&nbsp;</td>
+          <td class="titulot">Fecha último pago: </td>
+          <td class="subtitulot"><%=@credito.ultimo_pago.to_s%></td>
+          <%if @credito.tipo_interes == "SALDOS INSOLUTOS (SSI)"%>
+          <td>&nbsp;</td>
+          <td class="titulot">Tasa de interes semanal: </td>
+          <td class="subtitulot"><%=separar_miles(round((((@credito.producto.tasa_anualizada.to_f) / 360.0 ) * 7),2) / 1.0)%> %</td>
+          <%else%>
+          <td>&nbsp;</td>
+          <td>&nbsp;</td>
+          <td>&nbsp;</td>
+          <%end%>
+        </tr>
+        <tr>
+          <td>&nbsp;</td>
+          <td class="titulot">Numero de pagos: </td>
+          <td class="subtitulot"><%=@credito.producto.num_pagos%></td>
+          <td>&nbsp;</td>
+          <td class="titulot">Tasa de interes moratoria: </td>
+          <td class="subtitulot"><%=@credito.tasa_moratoria%> %</td>
+        </tr>
+        <tr>
+          <td>&nbsp;</td>
+          <td class="titulot">Nombre del grupo: </td>
+          <td class="subtitulot"><%=link_to "#{@credito.grupo.nombre}", :action => "show", :controller => "grupos", :id => @credito.grupo%></td>
+          <td>&nbsp;</td>
+          <td class="titulot">Producto: </td>
+          <td class="subtitulot"><%=@credito.producto.producto%></td>
+        </tr>
+        <tr>
+          <td>&nbsp;</td>
+          <td class="titulot">Integrantes del grupo: </td>
+          <td class="subtitulot"><%=credito_vencimiento.numero_clientes.to_i%></td>
+          <td>&nbsp;</td>
+          <td class="titulot">Tipo de interes: </td>
+          <td class="subtitulot"><%=@credito.tipo_interes%></td>
         </tr>
       </table>
     </td>
+  </tr>
+  <tr>
     <td>
-      &nbsp;
-    </td>
-    <td>
-        <%if @credito.tipo_aplicacion == "NORMAL" || @credito.tipo_aplicacion == "EXTRAORDINARIO" %>
-          <table class="stats" cellspacing="0">
-            <tr>
-              <td class="hed">Fecha del proximo pago: </td>
-              <td> <%=credito_vencimiento.proximo_pago_string%></td>
-            </tr>
-            <tr>
-              <td class="hed">Días de atraso: </td>
-              <td> <%=credito_vencimiento.dias_atraso%></td>
-            </tr>
-            <tr>
-              <td class="hed">Capital Vencido: </td>
-              <td>$ <%=separar_miles(credito_vencimiento.capital_vencido)%></td>
+      <%if @credito.tipo_aplicacion == "NORMAL" || @credito.tipo_aplicacion == "EXTRAORDINARIO" %>
+      <table width="100%" border="0" cellspacing="1" class="tabla">
+        <tr class="subtitulo">
+          <td width="1%" class="bloque">&nbsp;</td>
+          <td width="99%" colspan="5" bgcolor="#E8E8E8">SALDOS</td>
+        </tr>
+        <tr>
+          <td>&nbsp;</td>
+          <td class="titulot">Fecha del proximo pago: </td>
+          <td class="subtitulot"><%=credito_vencimiento.proximo_pago_string%></td>
+          <td>&nbsp;</td>
+          <td class="titulot">Días de atraso: </td>
+          <td class="subtitulot"><%=credito_vencimiento.dias_atraso%></td>
+        </tr>
+        <tr>
+          <td>&nbsp;</td>
+          <td class="titulot">Capital Vencido: </td>
+          <td class="subtitulot">$ <%=separar_miles(credito_vencimiento.capital_vencido)%></td>
               <%sumatoria+=credito_vencimiento.capital_vencido.to_f%>
-            </tr>
-            <tr>
-              <td class="hed">Intereses Vencidos:</td>
-              <td>$ <%=separar_miles(credito_vencimiento.interes_vencido)%></td>
+          <td>&nbsp;</td>
+          <td class="titulot">Intereses Vencidos:</td>
+          <td class="subtitulot">$<%=separar_miles(credito_vencimiento.interes_vencido)%></td>
               <%sumatoria+=credito_vencimiento.interes_vencido.to_f%>
-            </tr>
-            <tr>
-              <td class="hed">Intereses Moratorios</td>
-              <td>$ <%=separar_miles(credito_vencimiento.moratorio)%></td>
+        </tr>
+        <tr>
+          <td>&nbsp;</td>
+          <td class="titulot">Intereses Moratorios</td>
+          <td class="subtitulot">$ <%=separar_miles(credito_vencimiento.moratorio)%></td>
               <%sumatoria+=credito_vencimiento.moratorio.to_f%>
-            </tr>
-            <tr>
-              <td class="hed">Iva intereses moratorios</td>
-              <td>$ <%=separar_miles(credito_vencimiento.iva_moratorio)%></td>
+          <td>&nbsp;</td>
+          <td class="titulot">Iva intereses moratorios</td>
+          <td class="subtitulot">$ <%=separar_miles(credito_vencimiento.iva_moratorio)%></td>
               <%sumatoria+=credito_vencimiento.iva_moratorio.to_f%>
-            </tr>
-            <tr>
-              <td class="hed">Gastos de Cobranza</td>
-              <td>$ <%=separar_miles(credito_vencimiento.gastos_cobranza.to_f)%></td>
+        </tr>
+        <tr>
+          <td>&nbsp;</td>
+          <td class="titulot">Gastos de Cobranza</td>
+          <td class="subtitulot">$ <%=separar_miles(credito_vencimiento.gastos_cobranza.to_f)%></td>
               <%sumatoria+=credito_vencimiento.gastos_cobranza.to_f%>
-            </tr>
-            <tr>
-              <td class="hed">Iva gastos de cobranza</td>
-              <td>$ <%=separar_miles(credito_vencimiento.iva_gastos_cobranza.to_f)%></td>
+          <td>&nbsp;</td>
+          <td class="titulot">Iva gastos de cobranza</td>
+          <td class="subtitulot">$ <%=separar_miles(credito_vencimiento.iva_gastos_cobranza.to_f)%></td>
               <%sumatoria+=credito_vencimiento.iva_gastos_cobranza.to_f%>
-            </tr>
-
-            <%if credito_vencimiento.pago_excedente > 0%>
-              <tr>
-                <td class="hed">Saldo a favor:</td>
-              <td>$ <%=separar_miles(round(credito_vencimiento.pago_excedente))%></td>
-            </tr>
-            <%else%>
-              <tr>
-                <td class="hed">Total</td>
-                <td>$ <%=separar_miles(round(credito_vencimiento.total_deuda))%></td>
-              </tr>
-            <%end%>
+        </tr>
+        <%if credito_vencimiento.pago_excedente > 0%>
+        <tr>
+          <td>&nbsp;</td>
+          <td class="titulot">Saldo a favor:</td>
+          <td class="subtitulot">$ <%=separar_miles(round(credito_vencimiento.pago_excedente))%></td>
+          <td colspan="3" >&nbsp;</td>
+        </tr>
+        <%else%>
+        <tr>
+          <td>&nbsp;</td>
+          <td class="titulot">Total</td>
+          <td class="subtitulot">$ <%=separar_miles(round(credito_vencimiento.total_deuda))%></td>
+          <td colspan="3" >&nbsp;</td>
+        </tr>
+        <%end%>
       </table>
-
-      <%else%>
-         <!--
-          <@extraordinario = Extraordinario.find(:first, :conditions => ["credito_id = ?", @credito.id])%>
-          <table class="stats" cellspacing="0">
-           <tr>
-             <td class="hed" colspan="2">Tipo de Crédito Extraordinario</td>
-           </tr>
-           <tr>
-              <td class="hed">Capital : </td>
-              <td>$<=@extraordinario.capital%></td>
-              <sumatoria+=@extraordinario.capital%>
-            </tr>
-            <tr>
-              <td class="hed">Intereses:</td>
-              <td>$ <=@extraordinario.interes%></td>
-               <sumatoria+=@extraordinario.interes%>
-            </tr>
-            <tr>
-              <td class="hed">Total</td>
-              <td>$ <=sumatoria%></td>
-            </tr>
-           </table>
-          -->
-
-
-
-     <%end%>
+      <%end%>
     </td>
-
-     <td>
-      &nbsp;
-    </td>
-
-    <!-- datos iniciales del credito -->
+  </tr>
+  <tr>
     <td>
-      <table class="stats" cellspacing="0">
-            <tr>
-              <td class="hed">Tasa mensual SSG: </td>
-              <td> <%=@credito.producto.tasa_mensual_ssg%></td>
-            </tr>
-            <tr>
-              <td class="hed">Tasa mensual SSI: </td>
-              <td> <%=@credito.producto.intereses%></td>
-            </tr>
-            <tr>
-              <td class="hed">Tasa anualizada SSI: </td>
-              <td> <%=@credito.producto.tasa_anualizada%></td>
-            </tr>
-
-            <tr>
-              <td class="hed">Tasa anualizada moratorio: </td>
-              <td> <%=@credito.producto.moratorio_ssi%></td>
-            </tr>
-
-            <tr>
-              <td class="hed">CAT: </td>
-              <td> <%=@credito.cat%></td>
-            </tr>
-            <tr>
-              <td class="hed">Crédito: </td>
-              <td> <%=separar_miles(@credito.monto)%></td>
-            </tr>
-
-            <tr>
-              <td class="hed">Interes total: </td>
-              <td> <%=separar_miles(@credito.interes_global)%></td>
-            </tr>
-
-             <tr>
-              <td class="hed">Iva global: </td>
-              <td> <%=separar_miles(@credito.iva_global)%></td>
-            </tr>
-
-             <tr>
-              <td class="hed">Total deuda: </td>
-              <%@credito.interes_global = 0 unless @credito.interes_global%>
-              <%@credito.iva_global = 0 unless @credito.iva_global%>
-              <td> <%=separar_miles(@credito.monto + @credito.interes_global + @credito.iva_global)%></td>
-            </tr>
+      <table width="100%" border="0" cellspacing="1" class="tabla">
+        <tr class="subtitulo">
+          <td width="1%" class="bloque">&nbsp;</td>
+          <td width="99%" colspan="5" bgcolor="#E8E8E8">DATOS INICIALES</td>
+        </tr>
+        <tr>
+          <td>&nbsp;</td>
+          <td class="titulot">Tasa mensual SSG: </td>
+          <td class="subtitulot"><%=@credito.producto.tasa_mensual_ssg%></td>
+          <td>&nbsp;</td>
+          <td class="titulot">Tasa mensual SSI: </td>
+          <td class="subtitulot"><%=@credito.producto.intereses%></td>
+        </tr>
+        <tr>
+          <td>&nbsp;</td>
+          <td class="titulot">Tasa anualizada SSI: </td>
+          <td class="subtitulot"><%=@credito.producto.tasa_anualizada%></td>
+          <td>&nbsp;</td>
+          <td class="titulot">Tasa anualizada moratorio: </td>
+          <td class="subtitulot"><%=@credito.producto.moratorio_ssi%></td>
+        </tr>
+        <tr>
+          <td>&nbsp;</td>
+          <td class="titulot">CAT: </td>
+          <td class="subtitulot"><%=@credito.cat%></td>
+          <td>&nbsp;</td>
+          <td class="titulot">Crédito: </td>
+          <td class="subtitulot"><%=separar_miles(@credito.monto)%></td>
+        </tr>
+        <tr>
+          <td>&nbsp;</td>
+          <td class="titulot">Interes total: </td>
+          <td class="subtitulot"><%=separar_miles(@credito.interes_global)%></td>
+          <td>&nbsp;</td>
+          <td class="titulot">Iva global: </td>
+          <td class="subtitulot"><%=separar_miles(@credito.iva_global)%></td>
+        </tr>
+        <tr>
+          <td>&nbsp;</td>
+          <td class="titulot">Total deuda: </td>
+            <%@credito.interes_global = 0 unless @credito.interes_global%>
+            <%@credito.iva_global = 0 unless @credito.iva_global%>
+          <td class="subtitulot"><%=separar_miles(@credito.monto + @credito.interes_global + @credito.iva_global)%></td>
+          <td colspan="3" >&nbsp;</td>
+        </tr>
       </table>
-      
     </td>
-
-  <!-- Espacios -->
-  <table>
-    <tr>
-      <th>&nbsp;</th>
-    </tr>
-    <tr>
-      <th>&nbsp;</th>
-    </tr>
-  </table>
-
-
-<!-- tabla de pagos -->
-<table class="stats" cellspacing="0">
-  <tr>
-    <td class="hed" colspan="6" align="center">AMORTIZACIONES</td>
   </tr>
   <tr>
-    <td class="hed" width="5%" align="center">NP</td>
-     <td class="hed" width="15%" align="center">Capital</td>
-     <td class="hed" width="15%" align="center">Interes</td>
-     <td class="hed" width="10%" align="center">Iva</td>
-     <td class="hed" width="15%" align="center">Total</td>
-     <td class="hed" width="15%" align="center">Fecha de pago</td>
+    <td>
+      <table width="100%" border="0" cellspacing="1" class="tabla">
+        <tr class="subtitulo">
+          <td width="1%" class="bloque">&nbsp;</td>
+          <td width="99%" colspan="6" bgcolor="#E8E8E8">AMORTIZACIONES</td>
+        </tr>
+        <tr class="titulot">
+          <td>&nbsp;</td>
+          <td>NP</td>
+          <td>Capital</td>
+          <td>Interes</td>
+          <td>Iva</td>
+          <td>Total</td>
+          <td>Fecha de pago</td>
+        </tr>
+        <%contador=1%>
+        <%@credito.lista_pagos.each do |pago|%>
+        <tr class="subtitulot">
+          <td>&nbsp;</td>
+          <td><%=contador%></td>
+          <td><%=separar_miles(pago.capital_minimo)%></td>
+          <td><%=separar_miles(pago.interes_minimo)%></td>
+          <td><%=separar_miles(pago.iva)%></td>
+          <td><%=(pago.capital_minimo + pago.interes_minimo + pago.iva)%></td>
+          <td><%=pago.fecha_limite.strftime("%d de %B de %Y")%></td>
+        </tr>
+        <%contador+=1%>
+        <%end%>
+      </table>
+    </td>
   </tr>
-  <%contador=1%>
-    <%@credito.lista_pagos.each do |pago|%>
-    <tr>
-      <td class="cont" width="5%"><%=contador%></td>
-      <td class="cont" width="15%"><%=separar_miles(pago.capital_minimo)%></td>
-      <td class="cont" width="15%"><%=separar_miles(pago.interes_minimo)%></td>
-      <td class="cont" width="10%"><%=separar_miles(pago.iva)%></td>
-      <td class="cont" width="15%"><%=(pago.capital_minimo + pago.interes_minimo + pago.iva)%></td>
-      <td class="cont" width="40%"><%=pago.fecha_limite.strftime("%d de %B de %Y")%></td>
-    </tr>
-    <%contador+=1%>
-    <%end%>
 </table>
-
-
-
-
-
-  </tr>
-</table>
-<a style="text-align: center;"><%=button_to 'Regresar', :action => "movimiento_credito", :controller => "creditos"%></a>
+<br />
+<%= link_to image_tag("/images/regresar.gif"), {:action => "movimiento_credito", :controller => "creditos"},  :class => "button" %>

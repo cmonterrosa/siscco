@@ -29,5 +29,26 @@
   Date::ABBR_MONTHNAMES = [nil] + %w(ene Feb Mar Abr May Jun Jul Ago Sep Oct Nov Dic)
   Date::ABBR_DAYNAMES = %w(Dom Lun Mar Mie Jue Vie Sab)
 
- 
+
+  def selected(relacion, miembro)
+    relacion.each do |r|
+      if r.jerarquia == miembro
+        @selected = r.id
+        return @selected
+      else
+        @selected=""
+      end
+    end
+    return @selected
+  end
+
+  def fselected(relacion)
+    if relacion
+      @selected=relacion[0].id
+    else
+      @selected=""
+    end
+    return @selected
+  end
+
 end

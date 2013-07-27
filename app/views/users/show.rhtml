@@ -1,0 +1,57 @@
+<%= error_messages_for :user %>
+
+<div class="page-title">
+  <h1>ADMINISTRACIÓN</h1>
+  <span>Usuarios </span>
+<span style="color: #CF4421; font-size: 12px;" >&nbsp;<%= flash[:notice] %></span>
+</div>
+
+<table width="100%" border="0" cellspacing="1">
+  <tr>
+    <td>
+      <table class="tabla" width="100%">
+        <tr class="subtitulo">
+          <td width="1%" class="bloque">&nbsp;</td>
+          <td colspan="2" bgcolor="#E8E8E8">DATOS USUARIO</td>
+        </tr>
+        <tr>
+          <td>&nbsp;</td>
+          <td width="15%" class="titulot">Login</td>
+          <td width="84%"class="subtitulot" ><%=@user.login%></td>
+        </tr>
+        <tr>
+          <td>&nbsp;</td>
+          <td class="titulot">Nombre</td>
+          <td class="subtitulot" ><%=@user.name%></td>
+        </tr>
+        <tr>
+          <td>&nbsp;</td>
+          <td class="titulot">Paterno</td>
+          <td class="subtitulot" ><%=@user.paterno%></td>
+        </tr>
+        <tr>
+          <td>&nbsp;</td>
+          <td class="titulot">Email</td>
+          <td class="subtitulot" ><%=@user.email%></td>
+        </tr>
+        <tr>
+          <td>&nbsp;</td>
+          <td class="titulot">Dirección</td>
+          <td class="subtitulot" ><%=@user.direccion%></td>
+        </tr>
+        <tr>
+          <td>&nbsp;</td>
+          <td class="titulot">Tel. Celular</td>
+          <td class="subtitulot" ><%=@user.tel_celular%></td>
+        </tr>
+        <tr>
+          <td>&nbsp;</td>
+          <td class="titulot">Fecha de Creación</td>
+          <td class="subtitulot" ><%=@user.activated_at%></td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<br />
+<%= link_to image_tag("/images/regresar.gif"), {:controller => 'admin', :action => "show_users"},  :class => "button" %>

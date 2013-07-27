@@ -1,4 +1,4 @@
-<table class="resultado" align="center">
+<table width="100%" class="resultado" align="center" border="0">
   <tr class="titulot"  bgcolor="#E8E8E8">
     <td>Fecha Inicio</td>
     <td>Referencia</td>
@@ -6,46 +6,22 @@
     <td>Grupo</td>
     <td colspan="7">Acciones</td>
   </tr>
-  <%#*<tr>%>
-    <%#*<td rowspan="2" >Fecha qweqweqwe</td>%>
-    <%#*<td rowspan="2" >Fecha qweqweqwe</td>%>
-    <%#*<td rowspan="2" >Fecha qweqweqwe</td>%>
-    <%#*<td rowspan="2" >Fecha asdasdasd</td>%>
-    <%#*<td><%= button_to 'Desactivar',  { :action => 'desactivar'}, :confirm => '¿Esta seguro?', :method => :post, :class => "button" ></td>%>
-    <%#*<td><%= button_to 'Calendario', {:controller=>"creditos", :action => "calendario_pagos"}, :class => "button" ></td>%>
-    <%#*<td><%= button_to 'SALDO', {:action => "vencimiento", :controller => "creditos"}, :class => "button" ></td>%>
-    <%#*<td><%= button_to 'Depositos', {:action => "show_depositos", :controller => "creditos"}, :class => "button" ></td>%>
-  <%#*</tr>%>
-  <%#*<tr>%>
-    <%#*<td><%= button_to 'Reportes', {:action => "menu", :controller=> "reportes"}, :method => :post, :class => "button" ></td>%>
-    <%#*<td><%= button_to 'Detalles', {:action => 'show'}, :class => "button"></td>%>
-    <%#*<td><%= button_to 'Editar', {:action => 'edit'}, :class => "button"></td>%>
-    <%#*<td>&nbsp;</td>%>
-  <%#*</tr>%>
   <% if @creditos %>
-    <% for credito in @creditos%>
-    <tr class="subtitulot">
-      <td rowspan="2"><%=credito.fecha_inicio%></td>
-      <td rowspan="2"><%=credito.num_referencia%></td>
-      <td rowspan="2"><%=credito.identificador%></td>
-      <%if credito.grupo%>
-      <td rowspan="2"><%=credito.grupo.nombre%></td>
-      <%else%>
-      <td rowspan="2"> - </td>
-      <%end%>
-    </tr>
-              <!--
-              <if credito.grupo_id.nil?%>
-                <td><= button_to 'Aplicar movimiento', :action => 'transaccion', :id => credito %></td>
-              <else%>
-                <td><= button_to 'Aplicar movimiento', :action => 'transaccion_grupal', :id => credito %></td>
-              <end%>
-              -->
+   <% for credito in @creditos%>
     <tr>
-      <%if credito.activado?%>
-      <td><%= button_to 'Desactivar',  { :action => 'desactivar', :id => credito }, :confirm => '¿Esta seguro?', :method => :post %></td>
+      <td class="subtitulot" rowspan="2"><%=credito.fecha_inicio%></td>
+      <td class="subtitulot" rowspan="2"><%=credito.num_referencia%></td>
+      <td class="subtitulot" rowspan="2"><%=credito.identificador%></td>
+      <%if credito.grupo%>
+      <td class="subtitulot" rowspan="2"><%=credito.grupo.nombre%></td>
       <%else%>
-      <td><%= button_to 'Activar',  { :action => 'activar', :id => credito }, :confirm => '¿Esta seguro?', :method => :post  %></td>
+      <td class="subtitulot" rowspan="2"> - </td>
+      <%end%>
+
+      <%if credito.activado?%>
+      <td width="9%"><%= button_to 'Desactivar',  { :action => 'desactivar', :id => credito }, :confirm => '¿Esta seguro?', :method => :post %></td>
+      <%else%>
+      <td width="9%"><%= button_to 'Activar',  { :action => 'activar', :id => credito }, :confirm => '¿Esta seguro?', :method => :post  %></td>
       <%end%>
 
                 <!--
@@ -57,9 +33,8 @@
     </tr>
     <tr>
       <td><%=button_to 'Reportes', {:action => "menu", :controller=> "reportes", :id => credito}, :method => :post%></td>
-      <td><%= button_to 'Detalles', :action => 'show', :id => credito %></td>
-      <td><%= button_to 'Editar', :action => 'edit', :id => credito %></td>
-      <td>&nbsp;</td>
+      <td width="10%"><%= button_to 'Detalles', :action => 'show', :id => credito %></td>
+      <td width="12%" colspan="2"><%= button_to 'Editar', :action => 'edit', :id => credito %></td>
     </tr>            <!--
                 <td><= button_to 'Eliminar', { :action => 'destroy', :id => credito }, :confirm => '¿Esta seguro?', :method => :post %></td>
                 -->

@@ -1,0 +1,64 @@
+<%= error_messages_for 'user' %>
+<% @user.password = @user.password_confirmation = nil %>
+
+<table width="100%" border="0" cellspacing="1" >
+  <% if flash[:notice] %>
+  <tr>
+    <td align="center" ><span style="color: #CF4421; font-size: 12px;" >&nbsp;<%= flash[:notice] %></span></td>
+  </tr>
+  <% end %>
+  <tr>
+    <td align="center" >
+      <table class="tabla" width="100%" border="0">
+        <tr class="subtitulo">
+          <td width="1%" class="bloque">&nbsp;</td>
+          <td width="99%" colspan="3" bgcolor="#E8E8E8">DATOS USUARIO</td>
+        </tr>
+        <tr>
+          <td>&nbsp;</td>
+          <td colspan="3" class="pregunta">Login: &nbsp; <span style="color: #252525; font-size: 13px;" ><%= @user.login.downcase %></span></td>
+        </tr>
+        <tr class="pregunta">
+          <td>&nbsp;</td>
+          <td width="33%">Nombre</td>
+          <td width="33%">Apellido Paterno</td>
+          <td width="33%">Apellido Materno</td>
+        </tr>
+        <tr>
+          <td>&nbsp;</td>
+          <td><%= text_field 'user', 'name', :class => "no_require"%></td>
+          <td><%= text_field 'user', 'paterno', :class => "no_require"%></td>
+          <td><%= text_field 'user', 'materno', :class => "no_require"%></td>
+        </tr>
+        <tr class="pregunta">
+          <td>&nbsp;</td>
+          <td>Email</td>
+          <td>Domicilio</td>
+          <td>Tel. Celular</td>
+        </tr>
+        <tr>
+          <td>&nbsp;</td>
+          <td><%= text_field 'user', 'email'%></td>
+          <td><%= text_field 'user', 'direccion', :class => "no_require"%></td>
+          <td><%= text_field 'user', 'tel_celular', :onkeypress => "return CharNum(event, 'numero');", :class => "no_require"%></td>
+        </tr>
+        <tr>
+          <td colspan="4" bgcolor="#E8E8E8"></td>
+        </tr>
+        <tr class="pregunta">
+          <td>&nbsp;</td>
+          <td>Contraseña</td>
+          <td>Confirmar Contraseña</td>
+          <td>&nbsp;</td>
+       </tr>
+        <tr>
+          <td>&nbsp;</td>
+          <td><%= password_field 'user', 'password'%></td>
+          <td><%= password_field 'user', 'password_confirmation'%></td>
+          <td>&nbsp;</td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<br />

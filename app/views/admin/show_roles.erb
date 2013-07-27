@@ -1,8 +1,8 @@
 <div class="page-title">
   <h1>ADMINISTRACIÓN</h1>
-  <span>Usuarios</span>
+  <span>Perfiles</span>
+  <span style="color: #CF4421; font-size: 12px;" >&nbsp;<%= flash[:notice] %></span>
 </div>
-
 
 <h4><%=link_to "Listado de Perfiles", :action => "show_roles" %> | <%=link_to "Listado de usuarios", :action => "show_users"%></h4><br />
 
@@ -23,3 +23,5 @@
 </div>
 
 <br /><%=link_to "Crear Perfil", {:action => "new_role", :controller => "admin", :id => @token}, :class => 'boton'  -%>
+
+<%= link_to image_tag("/images/regresar.gif"), {:action => "index", :controller => 'admin'},  :class => "button" %>

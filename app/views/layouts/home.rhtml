@@ -117,8 +117,9 @@
             <li><a href="/admin">ADMINISTRACIÓN</a>
               <ul>
                 <li><a href="/admin/show_users">::&nbsp;Usuarios</a></li>
-                <li><a href="/administracion/configuracion">::&nbsp;Referencia</a></li>
-                <li><a href="/administracion/change_password">::&nbsp;Cambiar&nbsp;Contraseña</a></li>
+                <li><a href="/admin/show_roles">::&nbsp;Perfiles</a></li>
+                <li><a href="/admin/configuracion">::&nbsp;Referencia</a></li>
+                <li><a href="/change_password">::&nbsp;Cambiar&nbsp;Contraseña</a></li>
               </ul>
             </li>
           </ul>
@@ -156,13 +157,22 @@
 
             <!-- Featured -->
             <div class="featured-title">
-              <div class="ribbon"><span>I n i c i o</span></div>
+              <div class="ribbon">
+                <span>I n i c i o</span>
+              </div>
+              <br />
+              <span>&nbsp;</span>
             </div>
 
             <ul class="featured-posts" style="text-align: center; color: #CF4421;">
               <%= flash[:notice] %>
             </ul>
 
+            <div class="page-title-session">
+              <span>Conectado como:&nbsp;</span>
+              <span style="color: #252525; font-size: 14px; font-family:  Verdana, Arial;" ><%=session[:user].login%></span>
+            </div>
+            
             <div class="clear"></div>
             <!-- ENDS Featured -->
 
