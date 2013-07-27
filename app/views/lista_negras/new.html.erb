@@ -1,0 +1,40 @@
+<br /><br />
+<h1>AGREGAR PERSONA A LISTA NEGRA</h1>
+
+<% form_for(@lista_negra) do |f| %>
+  <%= f.error_messages %>
+
+  <p>
+    <%= f.label "Apellido Paterno" %><br />
+    <%= f.text_field :paterno %>
+  </p>
+  <p>
+    <%= f.label "Apellido materno" %><br />
+    <%= f.text_field :materno %>
+  </p>
+  <p>
+    <%= f.label "Nombre(s)"%><br />
+    <%= f.text_field :nombre %>
+  </p>
+  <p>
+    <%= f.label "CURP"%><br />
+    <%= f.text_field :curp %>
+  </p>
+  <p>
+    <%= f.label "RFC" %><br />
+    <%= f.text_field :rfc %>
+  </p>
+  <p>
+    <%= f.label "Tipo de persona" %><br />
+    <%= f.text_field :tipo %>
+  </p>
+  <p>
+    <%= f.label "Observaciones generales" %><br />
+    <%= f.text_area :observaciones %>
+  </p>
+  <p>
+    <%= f.submit 'Guardar' %>
+  </p>
+<% end %>
+
+<%= link_to 'Atrás', lista_negras_path %>

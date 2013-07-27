@@ -48,6 +48,12 @@
           <td class="titulot">Proporcion de Interés: </td>
           <td class="subtitulot"><%=credito_vencimiento.proporcion_interes%></td>
         </tr>
+        <%if @credito.grupo%>
+          <tr>
+            <td class="hed">Nombre del grupo</td>
+            <td><%=link_to "#{@credito.grupo.nombre}", :action => "show", :controller => "grupos", :id => @credito.grupo%></td>
+          </tr>
+        <%end%>
         <tr>
           <td>&nbsp;</td>
           <td class="titulot">Capital total restante: </td>

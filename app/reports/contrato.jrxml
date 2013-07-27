@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="contrato" language="groovy" pageWidth="612" pageHeight="792" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<style name="Crosstab Data Text" hAlign="Center"/>
+	<parameter name="P_NOMBRE_GRUPO" class="java.lang.String"/>
+	<parameter name="P_CREDITO_ID" class="java.lang.String"/>
+	<parameter name="P_NUM_PAGOS" class="java.lang.String"/>
+	<parameter name="P_PRESIDENTA_GRUPO" class="java.lang.String"/>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["/home/cmonterrosa/NetBeansProjects/siscco/app/reports/"]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[select * from creditos where id=$P{P_CREDITO_ID}]]>
+	</queryString>
+	<field name="id" class="java.lang.Integer"/>
+	<field name="fecha_inicio" class="java.sql.Date"/>
+	<field name="fecha_fin" class="java.sql.Date"/>
+	<field name="num_referencia" class="java.lang.String"/>
+	<field name="monto" class="java.lang.Float"/>
+	<field name="tasa_interes" class="java.lang.Float"/>
+	<field name="interes_moratorio" class="java.lang.String"/>
+	<field name="identificador" class="java.lang.String"/>
+	<field name="tipo_interes" class="java.lang.String"/>
+	<field name="linea_id" class="java.lang.Integer"/>
+	<field name="cliente_id" class="java.lang.Integer"/>
+	<field name="promotor_id" class="java.lang.Integer"/>
+	<field name="destino_id" class="java.lang.Integer"/>
+	<field name="grupo_id" class="java.lang.Integer"/>
+	<field name="producto_id" class="java.lang.Integer"/>
+	<field name="status" class="java.lang.Integer"/>
+	<field name="fecha_captura" class="java.sql.Date"/>
+	<field name="tipo_aplicacion" class="java.lang.String"/>
+	<field name="monto_inicial" class="java.math.BigDecimal"/>
+	<field name="updated_at" class="java.sql.Timestamp"/>
+	<field name="created_at" class="java.sql.Timestamp"/>
+	<field name="fecha_liquidacion" class="java.sql.Timestamp"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<detail>
+		<band height="100" splitType="Stretch">
+			<subreport>
+				<reportElement x="0" y="19" width="572" height="61"/>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression class="java.lang.String"><![CDATA[$P{SUBREPORT_DIR} + "contrato_subreporte1.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+		<band height="50"/>
+	</detail>
+</jasperReport>

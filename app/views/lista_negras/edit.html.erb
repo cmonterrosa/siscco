@@ -1,0 +1,41 @@
+<br /><br />
+<h1>Editar Registro</h1>
+
+<% form_for(@lista_negra) do |f| %>
+  <%= f.error_messages %>
+
+  <p>
+    <%= f.label :paterno %><br />
+    <%= f.text_field :paterno %>
+  </p>
+  <p>
+    <%= f.label :materno %><br />
+    <%= f.text_field :materno %>
+  </p>
+  <p>
+    <%= f.label :nombre %><br />
+    <%= f.text_field :nombre %>
+  </p>
+  <p>
+    <%= f.label :curp %><br />
+    <%= f.text_field :curp %>
+  </p>
+  <p>
+    <%= f.label :rfc %><br />
+    <%= f.text_field :rfc %>
+  </p>
+  <p>
+    <%= f.label :tipo %><br />
+    <%= f.text_field :tipo %>
+  </p>
+  <p>
+    <%= f.label :observaciones %><br />
+    <%= f.text_field :observaciones %>
+  </p>
+  <p>
+    <%= f.submit 'Actualizar' %>
+  </p>
+<% end %>
+
+<%= link_to 'Show', @lista_negra %> |
+<%= link_to 'Back', lista_negras_path %>

@@ -28,14 +28,12 @@
               </tr>
               <tr class="pregunta">
                 <td>&nbsp;</td>
-                <td>Tasa mensual SSG (0 -100) %</td>
-                <td>Tasa comision por apertura (0-200) %</td>
-                <td>Tasa anualizada moratoria (0-200) %</td>
+                <td>Tasa mensual SSG (1 -100) %</td>
+                <td>Tasa anualizada moratoria (1 -200) %</td>
               </tr>
               <tr>
                 <td>&nbsp;</td>
                 <td><%= text_field 'producto', 'tasa_mensual_ssg', :onkeypress => "return CharNum(event, 'numero');", :class => 'text'  %></td>
-                <td><%= text_field 'producto', 'tasa_comision_apertura', :onkeypress => "return CharNum(event, 'numero');", :class => 'text'  %></td>
                 <td><%= text_field 'producto', 'tasa_anualizada_moratoria', :onkeypress => "return CharNum(event, 'numero');", :class => 'text'  %></td>
               </tr>
             </table>
@@ -91,19 +89,60 @@
             </table>
           </td>
         </tr>
-        
-        <!-- Datos generales -->
-        <tr class="pregunta">
-          <td>&nbsp;</td>
-          <td>Ahorro:</td>
-          <td>Periodo:</td>
-          <td>Num. de Pagos:</td>
-        </tr>
+
+
+       <!-- COMISIONES -->
         <tr>
-          <td>&nbsp;</td>
-          <td><%= text_field 'producto', 'ahorro', :onkeypress => "return CharNum(event, 'numero');", :class => 'text'  %></td>
-          <td><%= collection_select('producto', 'periodo_id', @periodos, :id, :nombre, {:prompt => ':: PERIODO'})  %></td>
-          <td><%= select('producto','num_pagos', $semanas, {:prompt => ':: NUM. PAGOS'}) %></td>
+          <td colspan="4">
+            <table width="100%" class="tabla">
+              <tr>
+                <td width="1%" bgcolor="#bcbcbc">&nbsp;</td>
+                <td width="99%" colspan="3" bgcolor="#E8E8E8">COMISIÓN POR APERTURA (SE APLICA ÚNICAMENRE PARA CREDITOS INDIVIDUALES)</td>
+              </tr>
+              <tr class="pregunta">
+                <td>&nbsp;</td>
+                <td>Tasa de comisión por apertura (1-100) %</td>
+                <td>Tasa de IVA de comisión por apertura (1-100)%</td>
+                <td>&nbsp;</td>
+              </tr>
+              <tr>
+                <td>&nbsp;</td>
+                <%@producto.tasa_comision_apertura ||= "2.1552"  %>
+                <%@producto.iva_comision_apertura ||= "16"  %>
+                <td><%= text_field 'producto', 'tasa_comision_apertura', :onkeypress => "return CharNum(event, 'numero');", :class => 'text'%></td>
+                <td><%= text_field 'producto', 'iva_comision_apertura', :onkeypress => "return CharNum(event, 'numero');", :class => 'text'%></td>
+                <td>&nbsp;</td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+
+
+       <!-- AMORTIZACIONES -->
+        <tr>
+          <td colspan="4">
+            <table width="100%" class="tabla">
+              <tr>
+                <td width="1%" bgcolor="#bcbcbc">&nbsp;</td>
+                <td width="99%" colspan="3" bgcolor="#E8E8E8">DETALLE DE AMORTIZACIONES</td>
+              </tr>
+              <tr class="pregunta">
+                <td>&nbsp;</td>
+                <td>Ahorro:</td>
+                <td>Periodo:</td>
+                <td>Número de Pagos:</td>
+                <td>&nbsp;</td>
+              </tr>
+              <tr>
+                <td>&nbsp;</td>
+                <%@producto.ahorro ||= "200"  %>
+                <td><%= text_field 'producto', 'ahorro', :onkeypress => "return CharNum(event, 'numero');", :class => 'text' %></td>
+                <td><%= collection_select('producto', 'periodo_id', @periodos, :id, :nombre, {:prompt => ':: PERIODO'})  %></td>
+                <td><%= select('producto','num_pagos', $semanas, {:prompt => ':: NUM. PAGOS'}) %></td>
+                <td>&nbsp;</td>
+              </tr>
+            </table>
+          </td>
         </tr>
 
         <!-- IVA y Gastos de Cobranza -->
@@ -115,8 +154,9 @@
         </tr>
         <tr>
           <td>&nbsp;</td>
-          <td><%= text_field 'producto', 'iva', :onkeypress => "return CharNum(event, 'numero');", :class => 'text'  %></td>
-          <td><%= text_field 'producto', 'gastos_cobranza', :onkeypress => "return CharNum(event, 'numero');", :class => 'text'  %></td>
+          <%@producto.iva ||= "16"  %>
+          <td><%= text_field 'producto', 'iva', :onkeypress => "return CharNum(event, 'numero');", :class => 'text'%></td>
+          <td><%= text_field 'producto', 'gastos_cobranza', :onkeypress => "return CharNum(event, 'numero');", :class => 'text'%></td>
           <td><%= text_field 'producto', 'gastos_judiciales', :onkeypress => "return CharNum(event, 'numero');", :class => 'text'  %></td>
         </tr>
       </table>

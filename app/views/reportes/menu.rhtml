@@ -26,7 +26,8 @@
     <td colspan="4" bgcolor="#E8E8E8"></td>
   </tr>
   <tr align="center">
-    <td colspan="4"><% form_tag :action => 'tarjeta_pagos', :id =>@credito do%>
+    <td colspan="4">
+      <% form_tag :action => 'tarjeta_pagos', :id =>@credito do%>
         <%= collection_select("cliente", "id", clientes_activos_grupo(@credito.grupo), :id, :nombre_completo, {:prompt => '>>CLIENTE'}, :class => 'text') %>
         <%= submit_tag "Tarjeton de Pagos"%>
       <%end%>

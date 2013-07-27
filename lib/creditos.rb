@@ -60,8 +60,9 @@ module Creditos
 
   #--- Esta funcion la mandamos a llamar del reporte -----
   def pago_minimo_informativo(credito)
-     pago = Pago.find(:first, :conditions => ["credito_id = ?", credito.id])
-     return pago.capital_minimo.to_f + pago.interes_minimo.to_f
+     #pago = Pago.find(:first, :conditions => ["credito_id = ?", credito.id])
+     pago = Pagogrupal.find(:first, :conditions => ["credito_id = ?", credito.id])
+     return pago.capital_minimo.to_f + pago.interes_minimo.to_f + pago.iva.to_f
   end
 
   def total_adeudado_por_persona(credito)
@@ -297,8 +298,8 @@ module Creditos
                           :pagado => false,
                           :credito_id => @credito.id,
                           :saldo_inicial => saldo_inicial,
-                          :saldo_final => saldo_inicial - @capital_semanal,
-                          :principal_recuperado => @capital_semanal,
+                          :saldo_final => saldo_inicial - @pago_capital_semanal,
+                          :principal_recuperado => @pago_capital_semanal,
                           :num_pago => contador,
                           :iva => @iva_semanal)
                           saldo_inicial -= @capital_semanal
@@ -387,11 +388,9 @@ module Creditos
     end
   end
 
-  def load_inicial_information()
-    
-  end
+  
 
-  def linea_disponible(linea)
+   def linea_disponible(linea)
     if linea.creditos.empty?
            return linea.autorizado.to_f + total_recibido(linea) - total_transferido(linea)
         else

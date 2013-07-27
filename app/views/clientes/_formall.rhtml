@@ -12,9 +12,7 @@
         <tr class="pregunta">
           <td>&nbsp;</td>
           <td>CURP</td>
-          <td>Primer Apellido</td>
-          <td>Segundo Apellido</td>
-          <td>Nombre(s)</td>
+          <td>Sexo</td>
         </tr>
         <tr>
           <td>&nbsp;</td>
@@ -24,27 +22,46 @@
                                        :with => "cliente_curp", :update => { :success => "mensaje", :failure => "error" }}%>
               <div id="mensaje"></div>
           </td>
-          <td><%= text_field 'cliente', 'paterno', :onkeypress => "return CharNum(event, 'letra');", :class => "text" %></td>
-          <td><%= text_field 'cliente', 'materno', :onkeypress => "return CharNum(event, 'letra');", :class => "text"  %></td>
-          <td><%= text_field 'cliente', 'nombre', :onkeypress => "return CharNum(event, 'letra');", :class => "text"  %></td>
+           <td><%= select("cliente", "sexo", ['MASCULINO', 'FEMENINO'], {:prompt => '>>SEXO'})  %></td>
         </tr>
+         
+          <!-- NOMBRE DEL CLIENTE -->
+          <tr class="pregunta">
+            <td>&nbsp;</td>
+            <td>Primer Apellido</td>
+            <td>Segundo Apellido</td>
+            <td>Nombre(s)</td>
+          </tr>
+          <tr>
+            <td>&nbsp;</td>
+            <td><%= text_field 'cliente', 'paterno', :onkeypress => "return CharNum(event, 'letra');", :class => "text" %></td>
+            <td><%= text_field 'cliente', 'materno', :onkeypress => "return CharNum(event, 'letra');", :class => "text"  %></td>
+            <td><%= text_field 'cliente', 'nombre', :onkeypress => "return CharNum(event, 'letra');", :class => "text"  %>
+                <!-- validacion de nombre -->
+                <%= link_to_remote image_tag('check.png', :size => "16x14", :id => "check"),
+                                      {:url => { :controller => "clientes", :action => "verify_nombre"},
+                                      :with=>"Form.serializeElements($('cliente_paterno', 'cliente_materno', 'cliente_nombre'))", :update => { :success => "mensajenombre", :failure => "error" }}%>
+                <div id="mensajenombre"></div>
+            </td>
+          </tr>
+
+        
         <tr class="pregunta">
           <td>&nbsp;</td>
           <td>Fecha de Nac</td>
           <td>RFC</td>
           <td>Clave IFE</td>
-          <td>Sexo</td>
+          
         </tr>
         <tr>
           <td>&nbsp;</td>
           <td><%= date_select( 'cliente', 'fecha_nac', :order => [:day, :month, :year], :start_year => 1925, :end_year => Time.now.year, :class => 'text'  )%></td>
           <td><%= text_field 'cliente', 'rfc', :onkeyup => "return longitud(this,13);", :class => "text"  %></td>
           <td><%= text_field 'cliente', 'clave_ife', :onkeyup => "return longitud(this,18);", :class => 'text'  %></td>
-          <td><%= select("cliente", "sexo", ['MASCULINO', 'FEMENINO'], {:prompt => '>>SEXO'})  %></td>
         </tr>
         <tr class="pregunta">
           <td>&nbsp;</td>
-          <td>Direccion</td>
+          <td>Dirección</td>
           <td>Num. Exterior</td>
           <td>Num. Interior</td>
           <td>Cod. Postal</td>
@@ -58,42 +75,62 @@
         </tr>
         <tr class="pregunta">
           <td>&nbsp;</td>
-          <td>Tipo Persona</td>
-          <td>Folio RFC</td>
-          <td>Telefono</td>
-          <td>Email</td>
+        
+          <td>Teléfono</td>
         </tr>
         <tr>
           <td>&nbsp;</td>
-          <td><%= select("cliente", "tipo_persona", ["FISICA", "MORAL", "FISICA CON ACTIVIDAD EMPRESARIAL"], {:prompt => '>>TIPO DE PERSONA'}, :onchange => "habilita_des();") %></td>
-          <td><%= text_field 'cliente', 'folio_rfc', :class => "text", :disabled => true, :value => "0"%></td>
           <td><%= text_field 'cliente', 'telefono', :onkeypress => "return CharNum(event, 'numero');", :class => "text"  %></td>
-          <td><%= text_field 'cliente', 'email', :class => 'no_require'  %></td>
         </tr>
+
+        <!-- TIPO DE PERSONA -->
         <tr class="pregunta">
           <td>&nbsp;</td>
-          <td>Estado Civil</td>
-          <td>Escolaridad</td>
-          <td>Tipo Vivienda</td>
-          <td>Estado</td>
+          <td colspan="2">Tipo Persona</td>
+            <td>Folio RFC</td>
         </tr>
         <tr>
           <td>&nbsp;</td>
+          <td colspan="2"><%= select("cliente", "tipo_persona", ["FISICA", "MORAL", "FISICA CON ACTIVIDAD EMPRESARIAL"], {:prompt => '>>TIPO DE PERSONA'}, :onchange => "habilita_des();") %></td>
+           <td><%= text_field 'cliente', 'folio_rfc', :class => "text", :disabled => true, :value => "0"%></td>
+        </tr>
+
+        <!-- CORREO ELECTRONICO -->
+        <tr class="pregunta">
+          <td>&nbsp;</td>
+          <td>Correo</td>
+          <td>Estado civil</td>
+          <td>Escolaridad</td>
+        </tr>
+        <tr>
+          <td>&nbsp;</td>
+          <td><%= text_field 'cliente', 'email', :class => 'no_require'  %></td>
           <td><%= collection_select("cliente", "civil_id", Civil.all, :id, :civil, {:prompt => '>>ESTADO CIVIL'}) %></td>
           <td><%= collection_select("cliente", "escolaridad_id", Escolaridad.all, :id, :escolaridad, {:prompt => '>>ESCOLARIDAD'}) %></td>
-          <td><%= collection_select("cliente", "vivienda_id", Vivienda.all, :id, :tipo_vivienda, {:prompt => '>>VIVIENDA'}) %></td>
-          <td><%= collection_select("", "estado_id", Estado.all, :id, :estado, {:prompt => '>>ESTADO'})  %></td>
         </tr>
+
         <tr class="pregunta">
           <td>&nbsp;</td>
+          <td>Tipo Vivienda</td>
+          <td>Estado</td>
           <td>Municipio</td>
-          <td colspan="2">Localidad</td>
+        </tr>
+
+        <tr>
+          <td>&nbsp;</td>
+          <td><%= collection_select("cliente", "vivienda_id", Vivienda.all, :id, :tipo_vivienda, {:prompt => '>>VIVIENDA'}) %></td>
+          <td><%= collection_select("", "estado_id", Estado.all, :id, :estado, {:prompt => '>>ESTADO'})  %></td>
+          <td><%= collection_select("", "municipio_id", Municipio.all, :id, :municipio, {:prompt => '>>MUNICIPIO'})  %></td>
+        </tr>
+        
+        <tr class="pregunta">
+          <td>&nbsp;</td>
+          <td>Localidad</td>
           <td>Colonia</td>
         </tr>
         <tr>
           <td>&nbsp;</td>
-          <td><%= collection_select("", "municipio_id", Municipio.all, :id, :municipio, {:prompt => '>>MUNICIPIO'})  %></td>
-          <td colspan="2"><%=  collection_select("cliente", "localidad_id", Localidad.find(:all, :limit => "10"), :id, :localidad, {:prompt => '>>LOCALIDAD'})%></td>
+          <td><%=  collection_select("cliente", "localidad_id", Localidad.find(:all, :limit => "10"), :id, :localidad, {:prompt => '>>LOCALIDAD'})%></td>
           <td><%= text_field 'cliente', 'colonia', :onkeypress => "return CharNum(event, 'letra');", :class => "text"  %></td>
         </tr>
         <tr class="pregunta">
@@ -126,25 +163,36 @@
           <td>Negocio</td>
           <td>Puesto</td>
           <td>Ubicación</td>
-          <td>Teléfono</td>
         </tr>
         <tr>
           <td>&nbsp;</td>
           <td><%= text_field 'negocio', 'nombre', :onkeypress => "return CharNum(event, 'letra');", :class => "text"  %></td>
           <td><%= text_field 'negocio', 'puesto', :onkeypress => "return CharNum(event, 'letra');", :class => "text"  %></td>
           <td><%= collection_select('negocio', 'ubicacion_negocio_id', UbicacionNegocio.all, :id, :ubicacion, {:prompt => '>>UBICACION'})  %></td>
-          <td><%= text_field 'negocio', 'telefono', :onkeypress => "return CharNum(event, 'numero');", :class => "text", :size => 25  %></td>
+         
         </tr>
+        <!-- DIRECCION -->
         <tr class="pregunta">
           <td>&nbsp;</td>
           <td>Dirección</td>
-          <td colspan="3">Actividad</td>
+          <td>Teléfono</td>
         </tr>
         <tr>
           <td>&nbsp;</td>
           <td><%= text_field 'negocio', 'direccion', :class => 'text'  %></td>
-          <td colspan="3"><%= collection_select('negocio', 'actividad_id', Actividad.find(:all,:order => 'actividad'), :id, :actividad, {:prompt => '>>ACTIVIDAD'})  %></td>
+          <td><%= text_field 'negocio', 'telefono', :onkeypress => "return CharNum(event, 'numero');", :class => "text", :size => 25  %></td>
         </tr>
+
+        <!-- ACTIVIDAD -->
+        <tr class="pregunta">
+          <td>&nbsp;</td>
+           <td colspan="4">Actividad</td>
+        </tr>
+        <tr>
+          <td>&nbsp;</td>
+          <td colspan="4"><%= collection_select('negocio', 'actividad_id', Actividad.find(:all,:order => 'actividad'), :id, :actividad, {:prompt => '>>ACTIVIDAD'})  %></td>
+        </tr>
+
         <tr class="pregunta">
           <td>&nbsp;</td>
           <td>Num Empleados</td>
@@ -182,6 +230,13 @@
     :update => :search_hits,
     :with  => "folio_rfc",
     :url => { :action => :muestra_folio }) %>
+
+<%= observe_form('datos', :update => "contenido",
+                          :loading => "Element.show('spinner')",
+                          :complete => "Element.hide('spinner')",
+                          :url => {:action => :get_contenido})%>
+
+
 
 <!--[eoform:cliente]-->
 <br/>

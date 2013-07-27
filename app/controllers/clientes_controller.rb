@@ -148,19 +148,38 @@ class ClientesController < ApplicationController
       render :xml => Cliente.find(:all).to_xml
   end
 
+#  def verify_curp
+#    @cliente = Cliente.find_by_curp(params[:value].strip)
+#    @curp_correcta = false
+#    if @cliente
+#      @mensaje = "El CURP Ya existe"
+#    else
+#      if params[:value].strip =~/^[A-Z]{4}\d{6}[A-Z]{6}[A-Z|\d]{2}$/
+#         @mensaje = "Curp Correcto"
+#         @curp_correcta = true
+#      else
+#         @mensaje = "El formato de la Curp es incorrecto"
+#      end
+#    end
+#      render :layout => false
+#  end
+#
   def verify_curp
-    @cliente = Cliente.find_by_curp(params[:value].strip)
-    @curp_correcta = false
-    if @cliente
-      @mensaje = "El CURP Ya existe"
-    else
-      if params[:value].strip =~/^[A-Z]{4}\d{6}[A-Z]{6}[A-Z|\d]{2}$/
-         @mensaje = "Curp Correcto"
-         @curp_correcta = true
-      else
-         @mensaje = "El formato de la Curp es incorrecto"
-      end
-    end
-      render :layout => false
+    @lista_negra = ListaNegra.find_by_curp(params[:value].strip)
+    @cliente_existente =  Cliente.find_by_curp(params[:value].strip)
+    @mensaje = (@lista_negra) ? "Cliente se encuentra en lista negra" : nil
+    @mensaje ||= (@cliente_existente) ? "Cliente ya existe" : nil
+    @mensaje ||= (!@mensaje && params[:value].strip =~/^[A-Z]{4}\d{6}[A-Z]{6}[A-Z|\d]{2}$/ ) ? "CURP correcta" : nil
+    (@mensaje) ? (@curp_correcta = true) : (@curp_correcta = false)
+    (!@mensaje) ? (@mensaje = "formato incorrecto") : nil
+    render :layout => false
+  end
+
+  def verify_nombre
+    @paterno, @materno, @nombre = params[:cliente][:paterno], params[:cliente][:materno], params[:cliente][:nombre]
+    @lista_negra = ListaNegra.find(:all, :conditions => ["paterno = ? AND materno= ? AND nombre = ?", @paterno, @materno, @nombre])
+    @mensajenombre = (!@lista_negra.empty?) ? "Cliente podría estar en lista negra" : nil
+    (!@mensajenombre) ? (@mensajenombre = "cliente validado correctamente") : nil
+    render :layout => false
   end
 end

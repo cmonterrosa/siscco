@@ -1,12 +1,12 @@
 <a style="text-align: center;"><h1>Nuevo Crédito Individual</h1></a>
 
-<% form_tag :action => 'under_construction' do %>
+<% form_tag :action => 'create_nuevo_algoritmo' do %>
   <%= render :partial => 'formindividual' %>
   <table  class="botones">
     <tr class="botones">
       <th class="botones"><%= link_to 'Regresar', :controller => 'home', :action => 'index' %></th>
       <th class="botones">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
-      <th class="botones"><%= submit_tag "Agregar", :onclick => "return comprobar();" %></th>
+      <th class="botones"><%= submit_tag "Guardar", :onclick => "return comprobar();" %></th>
     </tr>
   </table>
 <% end %>

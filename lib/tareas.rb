@@ -16,6 +16,7 @@ class Vencimiento
       @gastos_cobranza = 0
       @capital_vencido = 0
       @interes_vencido = 0
+      @iva_vencido = 0
       @cuota_diaria = 0
       @pago_diario = 0
       @moratorio = 0
@@ -28,42 +29,40 @@ class Vencimiento
       @total_deuda_individual = 0
       @pago_excedente = 0
       @saldo_actual_individual = 0
-      puts("Grupo => #{credito.grupo.id}")
+      @dias_por_periodo = (@credito.producto.periodo) ? @credito.producto.periodo.dias : 0
       #---- Valores dinámicos para iva y gastos de cobranza ---
-      if credito.producto.iva
-        @tasa_iva = (credito.producto.iva / 100.0)
+      @tasa_iva = (credito.producto.iva) ? (credito.producto.iva / 100.0) : 0.16
+      @cuota_gastos_cobranza = ( credito.producto.gastos_cobranza) ? credito.producto.gastos_cobranza.to_f : 200
+      if @credito.grupo_id
+        @clientes = Clientegrupo.find(:all, :select => "id, fecha_fin, activo", :conditions => ["grupo_id = ?",credito.grupo.id.to_i])
+        puts("Clientes => #{@clientes}")
+        @numero_clientes = @clientes.size
       else
-        @tasa_iva = 0.16
+        @clientes = Cliente.find(@credito.cliente_id)
+        puts("Cliente => #{@cliente}")
+        @numero_clientes = 1
       end
-      if credito.producto.gastos_cobranza
-        @cuota_gastos_cobranza = credito.producto.gastos_cobranza.to_f
-      else
-        @cuota_gastos_cobranza = 200
-      end
-      
-      @clientes = Clientegrupo.find(:all, :select => "id, fecha_fin, activo", :conditions => ["grupo_id = ?",credito.grupo.id.to_i])
-      puts("Clientes => #{@clientes}")
-      @numero_clientes = @clientes.size
+
       @excendente_deposito=0.0
       @periodos_sin_pagar = 0
       @pagos_vencidos = nil
       @proximo_pago_string = " "
       @liquidado=false
-      @tasa_moratoria_mensual= 0
       if credito.tipo_interes == "SALDOS INSOLUTOS (SSI)"
         if @credito.producto.moratorio_ssi
            @tasa_moratoria_mensual = ((@credito.producto.moratorio_ssi.to_f / 100.0) / 12.0)
-           
         else
            @tasa_moratoria_mensual = (((@credito.producto.tasa_anualizada.to_f * 2.0) / 100.0) / 12.0)
         end
         @tasa_normal_mensual = round((((@credito.producto.tasa_anualizada.to_f) / 360.0 ) * 30), 4)
       else
-        if @credito.producto.moratorio_flat
+        if credito.tipo_interes == "GLOBAL MENSUAL (FLAT)" && @credito.producto.moratorio_flat
            @tasa_moratoria_mensual = (@credito.producto.moratorio_flat.to_f / 100.0)
         end
         @tasa_normal_mensual = @credito.producto.tasa_mensual_flat.to_f
       end
+      @tasa_moratoria_mensual ||= (((@credito.producto.tasa_anualizada_moratoria.to_f / 100.0) / 360.0) * 30)
+      @tasa_moratoria_mensual ||= 0
       #---- Proporciones ---
       @proporcion_capital = 0
       @proporcion_interes = 0
@@ -72,9 +71,18 @@ class Vencimiento
       @capital_total = 0
       #---- se calcula lo que ha pagado ---
       @total_recuperado = 0
+
+      ### CAT #######
+      if @credito.producto.tasa_anualizada
+         tasa_anualizada = @credito.producto.tasa_anualizada.to_f / 100.0
+         pagos_semanales = @credito.producto.num_pagos.to_i
+         @cat = round(((1+(tasa_anualizada/(pagos_semanales*(52/pagos_semanales))))**(pagos_semanales*(52/pagos_semanales))-1)*100.0)
+      end
+      @cat ||= 0
+
   end
 
-  attr_accessor :credito, :pago_diario, :dias_atraso, :moratorio, :gastos_cobranza, :capital_vencido, :cuota_diaria, :fecha_calculo, :intereses_devengados, :devengo_diario, :interes_vencido, :numero_clientes, :iva_moratorio, :iva_gastos_cobranza, :total_deuda, :proximo_pago_string, :liquidado, :tasa_iva, :cuota_gastos_cobranza, :proporcion_interes, :proporcion_capital, :pagos_vencidos, :total_deuda_individual, :capital_total, :pago_excedente, :total_recuperado, :saldo_actual_individual
+  attr_accessor :credito, :pago_diario, :dias_atraso, :moratorio, :gastos_cobranza, :capital_vencido, :cuota_diaria, :fecha_calculo, :intereses_devengados, :devengo_diario, :interes_vencido, :numero_clientes, :iva_moratorio, :iva_gastos_cobranza, :total_deuda, :proximo_pago_string, :liquidado, :tasa_iva, :cuota_gastos_cobranza, :proporcion_interes, :proporcion_capital, :pagos_vencidos, :total_deuda_individual, :capital_total, :pago_excedente, :total_recuperado, :saldo_actual_individual, :cat, :iva_vencido
   
 
   def procesar
@@ -188,11 +196,14 @@ class Vencimiento
          @pagos_vencidos.each{|pago|
          @capital_vencido+=pago.principal_recuperado.to_f #-- sumamos capital vencido
          @interes_vencido += (pago.interes_minimo.to_f)
-          sum_moratorio += (pago.principal_recuperado.to_f * @tasa_moratoria_mensual / 30.0) * dias_por_cobrar(@fecha_calculo, pago.fecha_limite)
+         @iva_vencido += (pago.iva)
+          #sum_moratorio += (pago.principal_recuperado.to_f * @tasa_moratoria_semanal / 0.30) * dias_por_cobrar(@fecha_calculo, pago.fecha_limite)
           periodos_vencidos+=1
          }
-          @moratorio = round(sum_moratorio / (1+@tasa_iva))
-          @iva_moratorio = round(sum_moratorio  - @moratorio)
+
+          @moratorio = round((dias_transcurridos) * (@tasa_moratoria_mensual / 30.0) * @capital_vencido)
+          @iva_moratorio = round(@moratorio * 0.16)
+
           #--- Gastos de cobranza ---
           @gastos_cobranza = round(((periodos_vencidos - 1) * (@cuota_gastos_cobranza) ) / (1+@tasa_iva))
           @iva_gastos_cobranza = round((((periodos_vencidos -1) * (@cuota_gastos_cobranza)) - @gastos_cobranza))
@@ -207,7 +218,7 @@ class Vencimiento
           @capital_vencido = proximo_pago(credito).principal_recuperado.to_f
           @interes_vencido = (proximo_pago(credito).interes_minimo.to_f)
       end
-      @total_deuda = @capital_vencido + @interes_vencido + @iva_gastos_cobranza + @gastos_cobranza + @iva_moratorio + @moratorio
+      @total_deuda = @capital_vencido + @interes_vencido + @iva_gastos_cobranza + @gastos_cobranza + @iva_moratorio + @moratorio + @iva_vencido
       @total_deuda_individual = @total_deuda / @numero_clientes
       dias_transcurridos = 0 if dias_transcurridos < 0
       @dias_atraso =dias_transcurridos
@@ -360,7 +371,8 @@ end
     anio_fecha = fecha.year
     yday_fecha = fecha.yday
     if anio_hoy == anio_fecha
-      return yday_hoy - yday_fecha
+       valor = yday_hoy - yday_fecha
+      (valor > 0)?  valor : 0
     else
       return (yday_hoy + 365 * (hoy.year - fecha.year)) - yday_fecha
     end

@@ -3,14 +3,15 @@ module Databases
   #--- Verificamos que el usuario tenga acceso a eliminar registro -----
   def inserta_credito(credito, tipo)
         begin
-        @c_concentradora = Linea.find(credito.linea).ctaliquidadora 
-        return false unless @c_concentradora
-        #----- Creamos el numero de referencia automaticamente --------
-          credito.num_referencia = genera_referencia_alfa(@c_concentradora.sucbancaria.num_sucursal, @c_concentradora.num_cta) unless credito.num_referencia
-           if tipo == "GRUPAL"
+          if Linea.find(credito.linea)
+            @c_concentradora = Linea.find(credito.linea).ctaliquidadora
+            credito.num_referencia = genera_referencia_alfa(@c_concentradora.sucbancaria.num_sucursal, @c_concentradora.num_cta) unless credito.num_referencia
+          end
+
+          if tipo == "GRUPAL"
              if credito.grupo.clientes.size >= 1 #-- aqui deberiamos de validar que sean 3
                  credito.monto_inicial = credito.monto unless credito.monto_inicial
-                 if credito.save!
+                 if credito.save
                     # asignamos la tasa moratoria
                     credito.update_attributes!(:interes_moratorio => credito.tasa_moratoria)
                     #--- Guardamos el log ---
@@ -28,7 +29,7 @@ module Databases
              end
           else
             #--- Es individual ----
-            if credito.save!
+            if credito.save
                Log.create(:operacion => "INSERTAR",
                     :clase => credito.class.to_s,
                     :objeto_id => credito.id.to_i,
@@ -39,7 +40,7 @@ module Databases
       rescue ActiveRecord::RecordInvalid => invalid
           return false
         end
-      end
+  end
 
   #--- Funciones de insercion de registros ------
   def inserta_registro(registro, mensaje)
