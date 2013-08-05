@@ -1,7 +1,10 @@
 class ListaNegrasController < ApplicationController
+  before_filter :login_required
+  
   # GET /lista_negras
   # GET /lista_negras.xml
   require_role "admin", :for => "destroy"
+
   def index
     @lista_negras = ListaNegra.all
 
@@ -88,5 +91,15 @@ class ListaNegrasController < ApplicationController
                                                            materno like '%#{params[:searchtext]}%'")
       return render(:partial => 'filtrolista', :layout => false) if request.xhr?
   end
-  
+
+  def match
+    @clientes = []
+    @clientes_ln = ListaNegra.find(:all, :select =>"id, curp, nombre, paterno, materno")
+    @clientes_ln.each do |ln|
+      if(@cl = Cliente.find_by_curp(ln.curp))
+        @clientes << @cl
+      end
+    end
+    flash[:notice] = "No existen Clientes en Lista Negra" if @clientes.empty?
+  end
 end

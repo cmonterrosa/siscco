@@ -7,6 +7,7 @@ ActionController::Routing::Routes.draw do |map|
   map.register '/register', :controller => 'users', :action => 'create'
   map.signup '/signup', :controller => 'users', :action => 'new'
   map.home '/home', :controller => 'home'
+  map.match '/match', :controller => 'lista_negras', :action => 'match'
   map.change_password '/change_password', :controller => 'users', :action => 'change_password'
   map.resources :users , :controller => 'users', :collection => {:change_password_update => :put}
 #  map.activate '/activate/:activation_code', :controller => 'users', :action => 'activate', :activation_code => nil
