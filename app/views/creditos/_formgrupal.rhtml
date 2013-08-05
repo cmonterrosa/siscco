@@ -22,7 +22,7 @@
           <td><%= text_field 'credito', 'monto', :onkeypress => "return CharNum(event, 'numero');", :size => 15, :class => "text" %></td>
           <td><%=collection_select("credito", "grupo_id", @grupos, :id, :full_description, {:prompt => '>>GRUPO'}, :class => "text")%>&nbsp;
               <%= link_to link_to image_tag("/images/mas.png"), {:controller => 'grupos', :action => 'newgrupo'}, :style => 'font-size:14px;font-weight:bold;', :popup => ['new_window_name', 'height=300,width=920']%>&nbsp;&nbsp;</td>
-          <td><%= date_select 'credito', 'fecha_inicio', :order => [:day, :month, :year], :class => "text"%></td>
+          <td><%= date_select 'credito', 'fecha_inicio', {:order => [:day, :month, :year]}, {:class => "text"} %></td>
         </tr>
         <tr class="pregunta">
           <td>&nbsp;</td>

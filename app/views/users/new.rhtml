@@ -1,19 +1,46 @@
-<h1>Sign up as a new user</h1>
-<% @user.password = @user.password_confirmation = nil %>
+<div class="page-title">
+  <h1>USUARIO</h1>
+  <span>Crear Usuario Administrador</span>
+</div>
 
 <%= error_messages_for :user %>
 <% form_for :user, :url => users_path do |f| -%>
-<p><%= f.label :login %><br/>
-<%= f.text_field :login %></p>
-
-<p><%= f.label :email %><br/>
-<%= f.text_field :email %></p>
-
-<p><%= f.label :password %><br/>
-<%= f.password_field :password %></p>
-
-<p><%= f.label :password_confirmation, 'Confirm Password' %><br/>
-<%= f.password_field :password_confirmation %></p>
-
-<p><%= submit_tag 'Sign up' %></p>
+<table class="tabla" width="60%" align="center">
+  <tr class="subtitulo">
+    <td width="1%" class="bloque">&nbsp;</td>
+    <td width="99%" colspan="3" bgcolor="#E8E8E8">DATOS USUARIO PRINCIPAL</td>
+  </tr>
+  <tr class="pregunta">
+    <td>&nbsp;</td>
+    <td>Login:</td>
+    <td width="10%">&nbsp;</td>
+    <td>Email</td>
+  </tr>
+  <tr>
+    <td>&nbsp;</td>
+    <td><%= f.text_field :login %></td>
+    <td width="10%">&nbsp;</td>
+    <td><%= f.password_field :email %></td>
+  </tr>
+  <tr class="pregunta">
+    <td>&nbsp;</td>
+    <td>Contraseña:</td>
+    <td width="10%">&nbsp;</td>
+    <td>Confirmar Contraseña:</td>
+  </tr>
+  <tr>
+    <td>&nbsp;</td>
+    <td><%= f.password_field :password %></td>
+    <td>&nbsp;</td>
+    <td><%= f.password_field :password_confirmation %></td>
+  </tr>
+</table>
+<br />
+<table align="center">
+  <tr>
+    <td><%= image_submit_tag "/images/guardar.gif", :class=> "button" %></td>
+    <td>&nbsp;o&nbsp;</td>
+    <td> <%= link_to image_tag("/images/cancelar.gif"), {:controller => "home"}, :class=> "button"%></td>
+  </tr>
+</table>
 <% end -%>

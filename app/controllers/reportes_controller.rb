@@ -32,7 +32,7 @@ class ReportesController < ApplicationController
 before_filter :login_required
 
 
-     def nuevo_pagare
+    def nuevo_pagare
       #--- Llenamos los parametros -------
        if params[:id] && Credito.find(params[:id])
         @credito = Credito.find(:first, :conditions => ["id = ?", params[:id]])
@@ -58,7 +58,7 @@ before_filter :login_required
         end
      end
 
-      def lista_mensual_socias
+    def lista_mensual_socias
       #--- Llenamos los parametros -------
        if params[:id] && Credito.find(params[:id])
         @credito = Credito.find(params[:id])
@@ -93,10 +93,6 @@ before_filter :login_required
          redirect_to :action => "menu"
         end
      end
-
-
-
-
 
     def pagare
     #----- filtrado de registros unicos -----
@@ -789,7 +785,7 @@ EOS
            :disposition => 'attachment'
   end
   
-  def plantilla_clientes
+    def plantilla_clientes
     f_inicio = params[:fechac]["fecha_inicio_c(1i)"]+"-"+params[:fechac]["fecha_inicio_c(2i)"]+"-"+params[:fechac]["fecha_inicio_c(3i)"]
      f_fin = params[:fechac]["fecha_fin_c(1i)"]+"-"+params[:fechac]["fecha_fin_c(2i)"]+"-"+params[:fechac]["fecha_fin_c(3i)"]
 
@@ -856,7 +852,7 @@ EOS
                             :disposition => 'attachment'
     end
 
-   def plantilla_creditos
+    def plantilla_creditos
      f_inicio = params[:fechacr]["fecha_inicio_cr(1i)"]+"-"+params[:fechacr]["fecha_inicio_cr(2i)"]+"-"+params[:fechacr]["fecha_inicio_cr(3i)"]
      f_fin = params[:fechacr]["fecha_fin_cr(1i)"]+"-"+params[:fechacr]["fecha_fin_cr(2i)"]+"-"+params[:fechacr]["fecha_fin_cr(3i)"]
      creditos = Credito.find(:all, 
@@ -943,13 +939,11 @@ EOS
 
    end
 
-   
    #---- Buro de crédito
    #--- calculamos
    def index_buro
      
    end
-
 
    #--- Mostramos URL ----
    def buro
@@ -1020,11 +1014,11 @@ EOS
        cl.sexo, cl.telefono, cl.civil_id, ci.civil, cl.localidad_id, loc.localidad, loc.municipio_id, mu.municipio,
        mu.estado_id, es.estado, cl.direccion, cl.num_exterior, cl.num_interior, cl.colonia,
        cl.codigo_postal
-from clientes as cl
-inner join civils ci on cl.civil_id = ci.id
-inner join localidads loc on cl.localidad_id = loc.id
-inner join municipios mu on loc.municipio_id = mu.id
-inner join estados es on mu.estado_id = es.id"
+       from clientes as cl
+       inner join civils ci on cl.civil_id = ci.id
+       inner join localidads loc on cl.localidad_id = loc.id
+       inner join municipios mu on loc.municipio_id = mu.id
+       inner join estados es on mu.estado_id = es.id"
 
         csv_string = FasterCSV.generate do |csv|
         csv << ["ORG_ID", "ACRED_ID", "CURP", "IFE", "PRIM_AP","SEGUNDO_AP", "NOMBRE", "FECHA_NAC", "SEXO",
@@ -1063,10 +1057,10 @@ inner join estados es on mu.estado_id = es.id"
    end
 
    def export_all_grupos
-   csv=Hash.new
-  query="select g.nombre, l.gcnf as propuesta, c.num_referencia from grupos g left outer join creditos c on g.id=c.grupo_id
+    csv=Hash.new
+    query="select g.nombre, l.gcnf as propuesta, c.num_referencia from grupos g left outer join creditos c on g.id=c.grupo_id
 left outer join lineas l on c.linea_id=l.id order by g.nombre, l.gcnf"
-   csv_string = FasterCSV.generate do |csv|
+    csv_string = FasterCSV.generate do |csv|
      csv << ["REFERENCIA", "NOMBRE_GRUPO", "CICLO_PROPUESTA"]
      end
      #REFERENCIA, NOMBRE_GRUPO, CICLO_PROPUESTA

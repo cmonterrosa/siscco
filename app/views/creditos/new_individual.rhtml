@@ -1,13 +1,16 @@
-<a style="text-align: center;"><h1>Nuevo Crédito Individual</h1></a>
+<div class="page-title">
+  <h1>CRÉDITO INDIVIDUAL</h1>
+  <span>Alta</span>
+</div>
 
 <% form_tag :action => 'create_nuevo_algoritmo' do %>
   <%= render :partial => 'formindividual' %>
-  <table  class="botones">
-    <tr class="botones">
-      <th class="botones"><%= link_to 'Regresar', :controller => 'home', :action => 'index' %></th>
-      <th class="botones">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
-      <th class="botones"><%= submit_tag "Guardar", :onclick => "return comprobar();" %></th>
-    </tr>
-  </table>
+<table align="center">
+  <tr>
+    <td><%= image_submit_tag "/images/guardar.gif", :onclick => "return comprobar();", :class=> "button" %></td>
+    <td>&nbsp;o&nbsp;</td>
+    <td> <%= link_to image_tag("/images/cancelar.gif"), {:controller => 'home'}, :class=> "button"%></td>
+  </tr>
+</table>
 <% end %>
 
