@@ -24,10 +24,10 @@
   $nacionalidades ||= Nacionalidad.find_by_sql("select * from nacionalidads")
 
   #----------- Cambio de idioma de las fechas --------------------
-  Date::MONTHNAMES = [nil] + %w(Enero Febrero Marzo Abril Mayo Junio Julio Agosto Septiembre Octubre Noviembre Diciembre)
-  Date::DAYNAMES = %w(Domingo Lunes Martes Miercoles Jueves Viernes Sábado)
-  Date::ABBR_MONTHNAMES = [nil] + %w(ene Feb Mar Abr May Jun Jul Ago Sep Oct Nov Dic)
-  Date::ABBR_DAYNAMES = %w(Dom Lun Mar Mie Jue Vie Sab)
+  #Date::MONTHNAMES = [nil] + %w(Enero Febrero Marzo Abril Mayo Junio Julio Agosto Septiembre Octubre Noviembre Diciembre)
+  #Date::DAYNAMES = %w(Domingo Lunes Martes Miercoles Jueves Viernes Sábado)
+  #Date::ABBR_MONTHNAMES = [nil] + %w(ene Feb Mar Abr May Jun Jul Ago Sep Oct Nov Dic)
+  #Date::ABBR_DAYNAMES = %w(Dom Lun Mar Mie Jue Vie Sab)
 
 
   def selected(relacion, miembro)
