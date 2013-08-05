@@ -117,13 +117,13 @@
             <li><a href="/admin">PLD</a>
               <ul>
                 <li><a href="/lista_negras">::&nbsp;Lista&nbsp;Negra</a></li>
+                <li><a href="/match">::&nbsp;Verificar&nbsp;Clientes</a></li>
               </ul>
             </li>
             <li><a href="/admin">ADMINISTRACIÓN</a>
               <ul>
                 <li><a href="/admin/show_users">::&nbsp;Usuarios</a></li>
                 <li><a href="/admin/show_roles">::&nbsp;Perfiles</a></li>
-                <li><a href="/admin/configuracion">::&nbsp;Referencia</a></li>
                 <li><a href="/change_password">::&nbsp;Cambiar&nbsp;Contraseña</a></li>
               </ul>
             </li>
@@ -175,7 +175,7 @@
 
             <div class="page-title-session">
               <span>Conectado como:&nbsp;</span>
-              <span style="color: #252525; font-size: 14px; font-family:  Verdana, Arial;" ><%=session[:user].login%></span>
+              <span style="color: #252525; font-size: 14px; font-family:  Verdana, Arial;" ><%=session[:user].login if session[:user]%></span>
             </div>
             
             <div class="clear"></div>
