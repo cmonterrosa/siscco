@@ -130,7 +130,7 @@ class Credito < ActiveRecord::Base
   end
 
   def lista_pagos
-    return Pagogrupal.find(:all, :conditions => ["credito_id = ?", self.id])
+    return Pagogrupal.find(:all, :conditions => ["credito_id = ?", self.id], :group => "num_pago")
   end
 
 
@@ -201,6 +201,7 @@ class Credito < ActiveRecord::Base
                               :num_pago => contador,
                               :iva => @iva_semanal)
                               saldo_inicial -= @capital_semanal
+                              contador+=1
                     end
 
                     clientes_activos_grupo(Grupo.find(credito.grupo_id)).each do |y|

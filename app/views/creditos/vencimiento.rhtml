@@ -149,13 +149,26 @@
           <td class="subtitulot">$<%=separar_miles(credito_vencimiento.interes_vencido)%></td>
               <%sumatoria+=credito_vencimiento.interes_vencido.to_f%>
         </tr>
+
+       <!-- Factor moratorio --> 
         <tr>
           <td>&nbsp;</td>
-          <td class="titulot">Intereses Moratorios</td>
+          <td class="titulot">Factor diario moratorio: </td>
+          <td class="subtitulot">$ <%=round((credito_vencimiento.factor_diario_moratorio), 2)%></td>
+          <td>&nbsp;</td>
+          <td class="titulot">&nbsp;</td>
+          <td class="subtitulot">&nbsp;</td>
+        </tr>
+
+
+
+        <tr>
+          <td>&nbsp;</td>
+          <td class="titulot">Importe Moratorio</td>
           <td class="subtitulot">$ <%=separar_miles(credito_vencimiento.moratorio)%></td>
               <%sumatoria+=credito_vencimiento.moratorio.to_f%>
           <td>&nbsp;</td>
-          <td class="titulot">Iva intereses moratorios</td>
+          <td class="titulot">Iva importe moratorios</td>
           <td class="subtitulot">$ <%=separar_miles(credito_vencimiento.iva_moratorio)%></td>
               <%sumatoria+=credito_vencimiento.iva_moratorio.to_f%>
         </tr>
@@ -214,7 +227,7 @@
         <tr>
           <td>&nbsp;</td>
           <td class="titulot">CAT: </td>
-          <td class="subtitulot"><%=@credito.cat%></td>
+          <td class="subtitulot"><%=credito_vencimiento.cat%></td>
           <td>&nbsp;</td>
           <td class="titulot">Crédito: </td>
           <td class="subtitulot"><%=separar_miles(@credito.monto)%></td>

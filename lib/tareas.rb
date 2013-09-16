@@ -60,6 +60,7 @@ class Vencimiento
            @tasa_moratoria_mensual = (@credito.producto.moratorio_flat.to_f / 100.0)
         end
         @tasa_normal_mensual = @credito.producto.tasa_mensual_flat.to_f
+        @tasa_moratoria_diaria = @credito.producto.tasa_anualizada_moratoria.to_f / 360.0
       end
       @tasa_moratoria_mensual ||= (((@credito.producto.tasa_anualizada_moratoria.to_f / 100.0) / 360.0) * 30)
       @tasa_moratoria_mensual ||= 0
@@ -72,6 +73,12 @@ class Vencimiento
       #---- se calcula lo que ha pagado ---
       @total_recuperado = 0
 
+      #### Moratorios ####
+      @factor_diario_moratorio = (@tasa_moratoria_diaria / 100.0) * Pagogrupal.find(:first, :conditions => ["credito_id = ?", credito]).principal_recuperado.to_f
+      @moratorio = 0
+      @dias_moratorios = 0 
+      @iva_moratorio = 0
+
       ### CAT #######
       if @credito.producto.tasa_anualizada
          tasa_anualizada = @credito.producto.tasa_anualizada.to_f / 100.0
@@ -82,9 +89,8 @@ class Vencimiento
 
   end
 
-  attr_accessor :credito, :pago_diario, :dias_atraso, :moratorio, :gastos_cobranza, :capital_vencido, :cuota_diaria, :fecha_calculo, :intereses_devengados, :devengo_diario, :interes_vencido, :numero_clientes, :iva_moratorio, :iva_gastos_cobranza, :total_deuda, :proximo_pago_string, :liquidado, :tasa_iva, :cuota_gastos_cobranza, :proporcion_interes, :proporcion_capital, :pagos_vencidos, :total_deuda_individual, :capital_total, :pago_excedente, :total_recuperado, :saldo_actual_individual, :cat, :iva_vencido
+  attr_accessor :tasa_moratoria_diaria , :factor_diario_moratorio, :credito, :pago_diario, :dias_atraso, :moratorio, :gastos_cobranza, :capital_vencido, :cuota_diaria, :fecha_calculo, :intereses_devengados, :devengo_diario, :interes_vencido, :numero_clientes, :iva_moratorio, :iva_gastos_cobranza, :total_deuda, :proximo_pago_string, :liquidado, :tasa_iva, :cuota_gastos_cobranza, :proporcion_interes, :proporcion_capital, :pagos_vencidos, :total_deuda_individual, :capital_total, :pago_excedente, :total_recuperado, :saldo_actual_individual, :cat, :iva_vencido
   
-
   def procesar
      calcular_proporciones
      calcular_capital_total
@@ -193,16 +199,34 @@ class Vencimiento
          todos_los_pagos = Pagogrupal.find(:all, :conditions => ["credito_id = ? and pagado = 0", credito.id], :order=>"num_pago")
          @pagos_vencidos = todos_los_pagos[0..periodos_transcurridos_sin_pagar - 1]
          periodos_vencidos=0
+         @dias_moratorios ||= dias_transcurridos
          @pagos_vencidos.each{|pago|
          @capital_vencido+=pago.principal_recuperado.to_f #-- sumamos capital vencido
          @interes_vencido += (pago.interes_minimo.to_f)
          @iva_vencido += (pago.iva)
           #sum_moratorio += (pago.principal_recuperado.to_f * @tasa_moratoria_semanal / 0.30) * dias_por_cobrar(@fecha_calculo, pago.fecha_limite)
           periodos_vencidos+=1
-         }
+          
+          ##### MORATORIOS ######
+          #@moratorio = round((dias_transcurridos) * (@tasa_moratoria_mensual / 30.0) * @capital_vencido)
+          
+         anio_pago = pago.fecha_limite.year
+         if anio_pago < anio_calculo
+            # el proximo pago es del aaños anteriores, es decir esta vencido
+             dias = ((365 * (anio_calculo - anio_pago)) - pago.fecha_limite.yday + hoy).to_i
+          else
+            #--- son del mismo año --
+             dias = (hoy - pago.fecha_limite.yday).to_i
+          end
 
-          @moratorio = round((dias_transcurridos) * (@tasa_moratoria_mensual / 30.0) * @capital_vencido)
-          @iva_moratorio = round(@moratorio * 0.16)
+          @moratorio += (@factor_diario_moratorio  * (dias))
+          @iva_moratorio += ((@factor_diario_moratorio  * (dias)) * 0.16)
+         }
+          #@dias_moratorios ||= @dias_transcurridos
+          #@moratorio = round((dias_transcurridos) * (@tasa_moratoria_mensual / 30.0) * @capital_vencido)
+          #@moratorio = @tasa_moratoria_diaria * pago.capital_vencido *@ dias_transcurridos 
+          #@dias_moratorios-= @dias_moratorios - 7 
+          #@iva_moratorio = round(@moratorio * 0.16)
 
           #--- Gastos de cobranza ---
           @gastos_cobranza = round(((periodos_vencidos - 1) * (@cuota_gastos_cobranza) ) / (1+@tasa_iva))
