@@ -12,9 +12,10 @@
   <tr>
     <td>
       <table width="100%" border="0" cellspacing="1" class="tabla">
-        <tr class="subtitulo">
+        <tr class="subtitulo" bgcolor="#E8E8E8">
           <td width="1%" class="bloque">&nbsp;</td>
-          <td width="99%" colspan="5" bgcolor="#E8E8E8">DATOS INFORMATIVOS</td>
+          <td colspan="3" >DATOS INFORMATIVOS</td>
+          <td colspan="2" >Estado: &nbsp; <%=@credito.estado if @credito.estado %></td>
         </tr>
         <tr>
           <td>&nbsp;</td>
@@ -50,8 +51,10 @@
         </tr>
         <%if @credito.grupo%>
           <tr>
-            <td class="hed">Nombre del grupo</td>
-            <td><%=link_to "#{@credito.grupo.nombre}", :action => "show", :controller => "grupos", :id => @credito.grupo%></td>
+            <td>&nbsp;</td>
+            <td class="titulot">Nombre del grupo</td>
+            <td class="subtitulot"><%=link_to "#{@credito.grupo.nombre}", :action => "show", :controller => "grupos", :id => @credito.grupo%></td>
+            <td colspan="3" >&nbsp;</td>
           </tr>
         <%end%>
         <tr>
@@ -137,7 +140,7 @@
           <td class="subtitulot"><%=credito_vencimiento.proximo_pago_string%></td>
           <td>&nbsp;</td>
           <td class="titulot">Días de atraso: </td>
-          <td class="subtitulot"><%=credito_vencimiento.dias_atraso%></td>
+          <td class="subtitulot"><%=credito_vencimiento.dias_atraso if (Credito.find(@credito.id).status == 0)%></td>
         </tr>
         <tr>
           <td>&nbsp;</td>
@@ -275,7 +278,7 @@
           <td><%=separar_miles(pago.capital_minimo)%></td>
           <td><%=separar_miles(pago.interes_minimo)%></td>
           <td><%=separar_miles(pago.iva)%></td>
-          <td><%=(pago.capital_minimo + pago.interes_minimo + pago.iva)%></td>
+          <td><%=(pago.capital_minimo + pago.interes_minimo + pago.iva.to_f)%></td>
           <td><%=pago.fecha_limite.strftime("%d de %B de %Y")%></td>
         </tr>
         <%contador+=1%>

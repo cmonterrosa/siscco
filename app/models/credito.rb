@@ -343,8 +343,37 @@ class Credito < ActiveRecord::Base
     end
 end
 
+  def load_values
+    begin
+      count_e = 0
+      count_ne = 0
+      @notfound = File.new("#{RAILS_ROOT}/tmp/notfound.txt", "w+")
+      @found = File.new("#{RAILS_ROOT}/tmp/found.txt", "w+")
+      File.open("#{RAILS_ROOT}/db/migrate/catalogos/base_valores.csv").each { |line|
+        referencia, estado = line.split("|")
+        if(@credito = Credito.find(:first, :conditions => ["num_referencia = ?", referencia.strip]))
+          if(estado.strip == 'TERMINO')
+            @credito.estado = estado
+            @credito.status = 1
+          else
+            @credito.estado = estado
+          end
+          puts "Encontrado: #{line}"
+          @found.puts(line)
+          @credito.save!
+          count_e+=1
+        else
+          count_ne+=1
+          puts "No encontrado: #{line}"
+          @notfound.puts(line)
+        end
+      }
+      puts "Encontrados: #{count_e}"
+      puts "No Encontrados: #{count_ne}"
 
+    rescue ActiveRecord::RecordInvalid => invalid
+      puts invalid
+    end
+  end
 
-
-
- end
+end
