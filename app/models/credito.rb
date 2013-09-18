@@ -353,10 +353,10 @@ end
         referencia, estado = line.split("|")
         if(@credito = Credito.find(:first, :conditions => ["num_referencia = ?", referencia.strip]))
           if(estado.strip == 'TERMINO')
-            @credito.estado = estado
+            @credito.estado = estado.strip
             @credito.status = 1
           else
-            @credito.estado = estado
+            @credito.estado = estado.strip
           end
           puts "Encontrado: #{line}"
           @found.puts(line)

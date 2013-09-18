@@ -15,7 +15,11 @@
         <tr class="subtitulo" bgcolor="#E8E8E8">
           <td width="1%" class="bloque">&nbsp;</td>
           <td colspan="3" >DATOS INFORMATIVOS</td>
-          <td colspan="2" >Estado: &nbsp; <%=@credito.estado if @credito.estado %></td>
+          <%if @credito.estado.strip == 'TERMINO'%>
+            <td colspan="2" style="color: green;" >Estado: &nbsp; <%=@credito.estado if @credito.estado %></td>
+          <%else%>
+            <td colspan="2" style="color: orangered;" >Estado: &nbsp; <%=@credito.estado if @credito.estado %></td>
+          <%end%>
         </tr>
         <tr>
           <td>&nbsp;</td>
@@ -126,9 +130,9 @@
       </table>
     </td>
   </tr>
+  <%if @credito.tipo_aplicacion == "NORMAL" || @credito.tipo_aplicacion == "EXTRAORDINARIO" and @credito.status == 0%>
   <tr>
     <td>
-      <%if @credito.tipo_aplicacion == "NORMAL" || @credito.tipo_aplicacion == "EXTRAORDINARIO" %>
       <table width="100%" border="0" cellspacing="1" class="tabla">
         <tr class="subtitulo">
           <td width="1%" class="bloque">&nbsp;</td>
@@ -140,7 +144,7 @@
           <td class="subtitulot"><%=credito_vencimiento.proximo_pago_string%></td>
           <td>&nbsp;</td>
           <td class="titulot">Días de atraso: </td>
-          <td class="subtitulot"><%=credito_vencimiento.dias_atraso if (Credito.find(@credito.id).status == 0)%></td>
+          <td class="subtitulot"><%=credito_vencimiento.dias_atraso%></td>
         </tr>
         <tr>
           <td>&nbsp;</td>
@@ -162,8 +166,6 @@
           <td class="titulot">&nbsp;</td>
           <td class="subtitulot">&nbsp;</td>
         </tr>
-
-
 
         <tr>
           <td>&nbsp;</td>
@@ -201,9 +203,9 @@
         </tr>
         <%end%>
       </table>
-      <%end%>
     </td>
   </tr>
+  <%end%>
   <tr>
     <td>
       <table width="100%" border="0" cellspacing="1" class="tabla">

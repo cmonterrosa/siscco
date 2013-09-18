@@ -203,7 +203,7 @@ class Vencimiento
          @pagos_vencidos.each{|pago|
          @capital_vencido+=pago.principal_recuperado.to_f #-- sumamos capital vencido
          @interes_vencido += (pago.interes_minimo.to_f)
-         @iva_vencido += (pago.iva)
+         @iva_vencido += (pago.iva.to_f)
           #sum_moratorio += (pago.principal_recuperado.to_f * @tasa_moratoria_semanal / 0.30) * dias_por_cobrar(@fecha_calculo, pago.fecha_limite)
           periodos_vencidos+=1
           
