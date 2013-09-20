@@ -15,10 +15,12 @@
         <tr class="subtitulo" bgcolor="#E8E8E8">
           <td width="1%" class="bloque">&nbsp;</td>
           <td colspan="3" >DATOS INFORMATIVOS</td>
-          <%if @credito.estado.strip == 'TERMINO'%>
-            <td colspan="2" style="color: green;" >Estado: &nbsp; <%=@credito.estado if @credito.estado %></td>
-          <%else%>
-            <td colspan="2" style="color: orangered;" >Estado: &nbsp; <%=@credito.estado if @credito.estado %></td>
+          <%if @credito.estado%>
+            <%if @credito.estado.strip == 'TERMINO'%>
+              <td colspan="2" style="color: green;" >Estado: &nbsp; <%=@credito.estado if @credito.estado %></td>
+            <%else%>
+              <td colspan="2" style="color: orangered;" >Estado: &nbsp; <%=@credito.estado if @credito.estado %></td>
+            <%end%>
           <%end%>
         </tr>
         <tr>

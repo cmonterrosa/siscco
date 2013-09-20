@@ -187,7 +187,8 @@ class Credito < ActiveRecord::Base
                   #--- Hacemos una iteracion por todos los miembros del grupo y dividimos el total del credito ---
                   @capital = (credito.monto.to_f / credito.grupo.clientes.size.to_f)
                   @capital_semanal = @capital / @producto.num_pagos
-
+          
+           
                   #### Creamos registros padres #######
                   arreglo_pagos.each do |x|
                        Pagogrupal.create(:fecha_limite => x,
@@ -200,7 +201,9 @@ class Credito < ActiveRecord::Base
                               :principal_recuperado => @pago_capital_semanal,
                               :num_pago => contador,
                               :iva => @iva_semanal)
-                              saldo_inicial -= @capital_semanal
+                              saldo_inicial -= @pago_capital_semanal
+                              saldo_inicial = (saldo_inicial < 0) ? 0 : saldo_inicial
+
                               contador+=1
                     end
 

@@ -135,7 +135,7 @@ class CreditosController < ApplicationController
     @credito.fecha_fin = ultimo_pago(@fecha_inicio.year, @fecha_inicio.month, @fecha_inicio.day, @n_pagos.num_pagos, @producto.periodo)
     inserta_credito(@credito, @tipo)
     arreglo_pagos = calcula_pagos(@fecha_inicio.year, @fecha_inicio.month, @fecha_inicio.day, @producto.num_pagos, @producto.periodo)
-    flash[:notice] = (@credito.inserta_pagos(arreglo_pagos, @credito.tipo_interes, @tipo)) ? "Credito guardado correctamente" : "No se pudo guardar, verifique"
+    #flash[:notice] = (@credito.inserta_pagos(arreglo_pagos, @credito.tipo_interes, @tipo)) ? "Credito guardado correctamente" : "No se pudo guardar, verifique"
     if @credito.inserta_pagos(arreglo_pagos, @credito.tipo_interes, @tipo)
       flash[:notice]="El crédito #{@credito.id} ha sido capturado"
       redirect_to :action => 'menu', :controller => "reportes", :id => @credito
