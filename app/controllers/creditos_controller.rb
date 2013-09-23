@@ -16,6 +16,10 @@ class CreditosController < ApplicationController
   end
 
   def vencimiento
+    if request.get?
+      @credito = Credito.find(params[:id])
+      render :layout => 'saldo_pdf'
+    end
     @credito = Credito.find(params[:id])
   end
 
@@ -476,5 +480,4 @@ class CreditosController < ApplicationController
   def new_individual_under_construction
     
   end
-
 end

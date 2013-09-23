@@ -1,0 +1,27 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=windows-1252" />
+  <title>Sistema de Créditos</title>
+
+    <!-- CSS -->
+    <%= stylesheet_link_tag "style", :media => 'all'%>
+    <%= stylesheet_link_tag "style_css3", :media => 'all'%>
+    <%= stylesheet_link_tag "style2", :media => 'all'%>
+    <!-- ENDS CSS -->
+
+    <!-- JS -->
+    <%= javascript_include_tag 'prototype', :media => 'all' %>
+    <%= javascript_include_tag :defaults, :media => 'all' %>
+    
+  </head>
+  <body>
+    <table align="center">
+      <tr>
+        <td>
+          <%=yield%>
+        </td>
+      </tr>
+    </table>
+  </body>
+</html>

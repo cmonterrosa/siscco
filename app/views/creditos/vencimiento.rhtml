@@ -1,6 +1,13 @@
 <div class="page-title">
   <h1>ESTADO DE CUENTA </h1>
-  <span>(<%=Time.now.strftime("%d/%m/%Y")%>)</span>
+  <%unless request.get?%>
+    <span><%= l(Time.now.to_date, :format => :personalize)%></span>
+    <span>&nbsp;</span>
+    <span><a href="/creditos/vencimiento/<%=@credito.id%>.pdf" title="Imprimir" ><img src="/images/print.png" alt="Imprimir" width="58px" height="45px" /></a></span>
+  <%else%>
+    <span>&nbsp;</span>
+    <span style="font-size: 12px;">Fecha de Impresi&oacute;n:</span> <span style="font-size: 12px; font-weight: bold;" ><%= l(Time.now.to_date, :format => :personalize)%>.</span>
+  <%end%>
 </div>
 
 <!-- Realizamos el calculo -->
@@ -44,7 +51,7 @@
           <td class="titulot">Monto inicial: </td>
           <td class="subtitulot">$<%=separar_miles(@credito.monto)%></td>
           <td>&nbsp;</td>
-          <td class="titulot">Proporción de Capital: </td>
+          <td class="titulot">Proporci&oacute;n de Capital: </td>
           <td class="subtitulot"><%=credito_vencimiento.proporcion_capital%></td>
         </tr>
         <tr>
@@ -52,7 +59,7 @@
           <td class="titulot">Capital total restante: </td>
           <td class="subtitulot">$<%=separar_miles(credito_vencimiento.capital_total)%></td>
           <td>&nbsp;</td>
-          <td class="titulot">Proporcion de Interés: </td>
+          <td class="titulot">Proporci&oacute;n de Inter&eacute;s: </td>
           <td class="subtitulot"><%=credito_vencimiento.proporcion_interes%></td>
         </tr>
         <%if @credito.grupo%>
@@ -73,7 +80,7 @@
           <td class="subtitulot"><%=separar_miles(@credito.producto.tasa_anualizada)%> %</td>
           <%else%>
           <td>&nbsp;</td>
-          <td class="titulot">Tasa de interes mensual: </td>
+          <td class="titulot">Tasa de inter&eacute;s mensual: </td>
           <td class="subtitulot"><%=separar_miles(round((@credito.producto.tasa_mensual_flat.to_f),2) / 1.0)%> %</td>
           <%end%>
         </tr>
@@ -83,21 +90,21 @@
           <td class="subtitulot"><%=@credito.fecha_inicio%></td>
           <%if @credito.tipo_interes == "SALDOS INSOLUTOS (SSI)"%>
           <td>&nbsp;</td>
-          <td class="titulot">Tasa de interes mensual: </td>
+          <td class="titulot">Tasa de inter&eacute;s mensual: </td>
           <td class="subtitulot"><%=separar_miles(round((((@credito.producto.tasa_anualizada.to_f) / 360.0 ) * 30),2) / 1.0)%> %</td>
           <%else%>
           <td>&nbsp;</td>
-          <td class="titulot">Tasa de interes semanal: </td>
+          <td class="titulot">Tasa de inter&eacute;s semanal: </td>
           <td class="subtitulot"><%=separar_miles(round((((@credito.producto.tasa_mensual_flat.to_f) / 30.0 ) * 7),2) / 1.0)%> %</td>
           <%end%>
         </tr>
         <tr>
           <td>&nbsp;</td>
-          <td class="titulot">Fecha último pago: </td>
+          <td class="titulot">Fecha &uacute;ltimo pago: </td>
           <td class="subtitulot"><%=@credito.ultimo_pago.to_s%></td>
           <%if @credito.tipo_interes == "SALDOS INSOLUTOS (SSI)"%>
           <td>&nbsp;</td>
-          <td class="titulot">Tasa de interes semanal: </td>
+          <td class="titulot">Tasa de inter&eacute;s semanal: </td>
           <td class="subtitulot"><%=separar_miles(round((((@credito.producto.tasa_anualizada.to_f) / 360.0 ) * 7),2) / 1.0)%> %</td>
           <%else%>
           <td>&nbsp;</td>
@@ -107,10 +114,10 @@
         </tr>
         <tr>
           <td>&nbsp;</td>
-          <td class="titulot">Numero de pagos: </td>
+          <td class="titulot">N&uacute;mero de pagos: </td>
           <td class="subtitulot"><%=@credito.producto.num_pagos%></td>
           <td>&nbsp;</td>
-          <td class="titulot">Tasa de interes moratoria: </td>
+          <td class="titulot">Tasa de inter&eacute;s moratoria: </td>
           <td class="subtitulot"><%=@credito.tasa_moratoria%> %</td>
         </tr>
         <tr>
@@ -126,7 +133,7 @@
           <td class="titulot">Integrantes del grupo: </td>
           <td class="subtitulot"><%=credito_vencimiento.numero_clientes.to_i%></td>
           <td>&nbsp;</td>
-          <td class="titulot">Tipo de interes: </td>
+          <td class="titulot">Tipo de inter&eacute;s: </td>
           <td class="subtitulot"><%=@credito.tipo_interes%></td>
         </tr>
       </table>
@@ -142,10 +149,10 @@
         </tr>
         <tr>
           <td>&nbsp;</td>
-          <td class="titulot">Fecha del proximo pago: </td>
+          <td class="titulot">Fecha del pr&oacute;ximo pago: </td>
           <td class="subtitulot"><%=credito_vencimiento.proximo_pago_string%></td>
           <td>&nbsp;</td>
-          <td class="titulot">Días de atraso: </td>
+          <td class="titulot">D&iacute;as de atraso: </td>
           <td class="subtitulot"><%=credito_vencimiento.dias_atraso%></td>
         </tr>
         <tr>
@@ -154,7 +161,7 @@
           <td class="subtitulot">$ <%=separar_miles(credito_vencimiento.capital_vencido)%></td>
               <%sumatoria+=credito_vencimiento.capital_vencido.to_f%>
           <td>&nbsp;</td>
-          <td class="titulot">Intereses Vencidos:</td>
+          <td class="titulot">Interes&eacute;s Vencidos:</td>
           <td class="subtitulot">$<%=separar_miles(credito_vencimiento.interes_vencido)%></td>
               <%sumatoria+=credito_vencimiento.interes_vencido.to_f%>
         </tr>
@@ -241,7 +248,7 @@
         </tr>
         <tr>
           <td>&nbsp;</td>
-          <td class="titulot">Interes total: </td>
+          <td class="titulot">Inter&eacute;s total: </td>
           <td class="subtitulot"><%=separar_miles(@credito.interes_global)%></td>
           <td>&nbsp;</td>
           <td class="titulot">Iva global: </td>
@@ -269,7 +276,7 @@
           <td>&nbsp;</td>
           <td>NP</td>
           <td>Capital</td>
-          <td>Interes</td>
+          <td>Inter&eacute;s</td>
           <td>Iva</td>
           <td>Total</td>
           <td>Fecha de pago</td>
@@ -283,7 +290,7 @@
           <td><%=separar_miles(pago.interes_minimo)%></td>
           <td><%=separar_miles(pago.iva)%></td>
           <td><%=(pago.capital_minimo + pago.interes_minimo + pago.iva.to_f)%></td>
-          <td><%=pago.fecha_limite.strftime("%d de %B de %Y")%></td>
+          <td><%= l(pago.fecha_limite, :format => :personalize) %></td>
         </tr>
         <%contador+=1%>
         <%end%>
@@ -292,4 +299,6 @@
   </tr>
 </table>
 <br />
+<%unless request.get?%>
 <%= link_to image_tag("/images/regresar.gif"), {:action => "movimiento_credito", :controller => "creditos"},  :class => "button" %>
+<%end%>
