@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130704182608) do
+ActiveRecord::Schema.define(:version => 20130725161159) do
 
   create_table "actividads", :force => true do |t|
     t.string "clave_inegi"
@@ -135,6 +135,26 @@ ActiveRecord::Schema.define(:version => 20130704182608) do
     t.decimal  "cat_comision_apertura", :precision => 15, :scale => 2
     t.decimal  "interes_global",        :precision => 15, :scale => 2
     t.decimal  "iva_global",            :precision => 15, :scale => 2
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
+=======
+    t.integer  "user_id"
+    t.boolean  "cancel"
+>>>>>>> Stashed changes
+=======
+    t.integer  "user_id"
+    t.boolean  "cancel"
+>>>>>>> Stashed changes
+=======
+    t.integer  "user_id"
+    t.boolean  "cancel"
+>>>>>>> Stashed changes
+=======
+    t.integer  "user_id"
+    t.boolean  "cancel"
+>>>>>>> Stashed changes
   end
 
   add_index "creditos", ["cliente_id"], :name => "clientes_credito"
@@ -326,6 +346,19 @@ ActiveRecord::Schema.define(:version => 20130704182608) do
   add_index "lineas", ["ctaconcentradora_id"], :name => "ctaconcentradoras_linea"
   add_index "lineas", ["ctaliquidadora_id"], :name => "ctaliquidadoras_linea"
   add_index "lineas", ["fondeo_id"], :name => "fondeos_linea"
+
+  create_table "lista_negras", :force => true do |t|
+    t.string   "paterno",       :limit => 40
+    t.string   "materno",       :limit => 40
+    t.string   "nombre",        :limit => 60
+    t.string   "curp",          :limit => 18
+    t.string   "rfc",           :limit => 13
+    t.string   "tipo",          :limit => 80
+    t.string   "observaciones"
+    t.boolean  "activo"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "localidads", :force => true do |t|
     t.string  "loc_id"
