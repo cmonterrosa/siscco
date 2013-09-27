@@ -60,7 +60,7 @@ class Vencimiento
            @tasa_moratoria_mensual = (@credito.producto.moratorio_flat.to_f / 100.0)
         end
         @tasa_normal_mensual = @credito.producto.tasa_mensual_flat.to_f
-        @tasa_moratoria_diaria = @credito.producto.tasa_anualizada_moratoria.to_f / 360.0
+        @tasa_moratoria_diaria = @credito.producto.moratorio_ssi.to_f / 360.0
       end
       @tasa_moratoria_mensual ||= (((@credito.producto.tasa_anualizada_moratoria.to_f / 100.0) / 360.0) * 30)
       @tasa_moratoria_mensual ||= 0
@@ -83,7 +83,7 @@ class Vencimiento
       if @credito.producto.tasa_anualizada
          tasa_anualizada = @credito.producto.tasa_anualizada.to_f / 100.0
          pagos_semanales = @credito.producto.num_pagos.to_i
-         @cat = round(((1+(tasa_anualizada/(pagos_semanales*(52/pagos_semanales))))**(pagos_semanales*(52/pagos_semanales))-1)*100.0)
+         @cat = ((1+(tasa_anualizada/(pagos_semanales*(52/pagos_semanales))))**(pagos_semanales*(52/pagos_semanales))-1)*100.0
       end
       @cat ||= 0
 

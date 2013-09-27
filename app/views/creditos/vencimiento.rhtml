@@ -169,11 +169,15 @@
        <!-- Factor moratorio --> 
         <tr>
           <td>&nbsp;</td>
-          <td class="titulot">Factor diario moratorio: </td>
-          <td class="subtitulot">$ <%=round((credito_vencimiento.factor_diario_moratorio), 2)%></td>
+          <td class="titulot">Tasa Moratoria Diaria: </td>
+          <!--
+          <td class="subtitulot"><=round((credito_vencimiento.factor_diario_moratorio), 3)%></td>
+          -->
+              <td class="subtitulot"><%=round((credito_vencimiento.tasa_moratoria_diaria), 3)%></td>
+
           <td>&nbsp;</td>
-          <td class="titulot">&nbsp;</td>
-          <td class="subtitulot">&nbsp;</td>
+          <td class="titulot">Importe Moratorio Diario</td>
+          <td class="subtitulot">$ <%=separar_miles(credito_vencimiento.factor_diario_moratorio)%></td>
         </tr>
 
         <tr>
@@ -241,7 +245,7 @@
         <tr>
           <td>&nbsp;</td>
           <td class="titulot">CAT: </td>
-          <td class="subtitulot"><%=credito_vencimiento.cat%></td>
+          <td class="subtitulot"><%=credito_vencimiento.cat%> %</td>
           <td>&nbsp;</td>
           <td class="titulot">Crédito: </td>
           <td class="subtitulot"><%=separar_miles(@credito.monto)%></td>
