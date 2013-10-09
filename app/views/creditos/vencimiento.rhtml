@@ -180,16 +180,37 @@
           <td class="subtitulot">$ <%=separar_miles(credito_vencimiento.factor_diario_moratorio)%></td>
         </tr>
 
+      <!-- inicializamos suma de moratorio -->
+       <%sum_moratorio=0%>
+
         <tr>
           <td>&nbsp;</td>
           <td class="titulot">Importe Moratorio</td>
           <td class="subtitulot">$ <%=separar_miles(credito_vencimiento.moratorio)%></td>
               <%sumatoria+=credito_vencimiento.moratorio.to_f%>
+              <%sum_moratorio=credito_vencimiento.moratorio.to_f%>
+
           <td>&nbsp;</td>
           <td class="titulot">Iva importe moratorios</td>
           <td class="subtitulot">$ <%=separar_miles(credito_vencimiento.iva_moratorio)%></td>
               <%sumatoria+=credito_vencimiento.iva_moratorio.to_f%>
+              <%sum_moratorio+=credito_vencimiento.iva_moratorio.to_f%>
+
         </tr>
+
+        <!-- Total moratorio -->
+        <tr>
+          <td>&nbsp;</td>
+          <td class="titulot">Total Moratorio</td>
+          <td class="subtitulot">$ <%=separar_miles(sum_moratorio)%></td>
+          <td>&nbsp;</td>
+          <td>&nbsp;</td>
+          <td>&nbsp;</td>
+        </tr>
+
+
+
+
         <tr>
           <td>&nbsp;</td>
           <td class="titulot">Gastos de Cobranza</td>
