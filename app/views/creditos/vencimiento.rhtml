@@ -290,6 +290,9 @@
       </table>
     </td>
   </tr>
+
+
+
   <tr>
     <td>
       <table width="100%" border="0" cellspacing="1" class="tabla">
@@ -307,18 +310,34 @@
           <td>Fecha de pago</td>
         </tr>
         <%contador=1%>
+        <%contador_capital=0%>
+        <%contador_interes=0%>
+        <%contador_iva=0%>
+        <%contador_total=0%>
         <%@credito.lista_pagos.each do |pago|%>
         <tr class="subtitulot">
           <td>&nbsp;</td>
           <td><%=contador%></td>
-          <td><%=separar_miles(pago.capital_minimo)%></td>
-          <td><%=separar_miles(pago.interes_minimo)%></td>
-          <td><%=separar_miles(pago.iva)%></td>
-          <td><%=(pago.capital_minimo + pago.interes_minimo + pago.iva.to_f)%></td>
+          <td><%=separar_miles(pago.capital_minimo)%></td><%contador_capital+=pago.capital_minimo%>
+          <td><%=separar_miles(pago.interes_minimo)%></td><%contador_interes+=pago.interes_minimo%>
+          <td><%=separar_miles(pago.iva)%></td><%contador_iva+=pago.iva%>
+          <td><%=(pago.capital_minimo + pago.interes_minimo + pago.iva.to_f)%></td><%contador_total+=(pago.capital_minimo + pago.interes_minimo + pago.iva.to_f)%>
           <td><%= l(pago.fecha_limite, :format => :personalize) %></td>
         </tr>
         <%contador+=1%>
         <%end%>
+
+        <!-- Sumatorias globales -->
+        <tr class="subtitulot">
+          <td>&nbsp;</td>
+          <td><b>TOTALES</b></td>
+          <td><b>$<%=separar_miles(contador_capital)%></b></td>
+          <td><b>$<%=separar_miles(contador_interes)%></b></td>
+          <td><b>$<%=separar_miles(contador_iva)%></b></td>
+          <td><b>$<%=separar_miles(contador_total)%></b></td>
+          <td>&nbsp;</td>
+        </tr>
+
       </table>
     </td>
   </tr>
